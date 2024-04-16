@@ -17,10 +17,14 @@ pdftools::pdf_text(pdf = "tmp.pdf")
 
 ```{r}
 knox_returnA_jan <- pdf_text("0470100ReturnA01-2024.pdf")
+knox_returnA_feb <- pdf_text("0470100ReturnA02-2024.pdf")
+knox_returnA_mar <- pdf_text("0470100ReturnA03-2024.pdf")
 ```
 check the column names
 ```{r}
 head(knox_returnA_jan)
+head(knox_returnA_feb)
+head(knox_returnA_mar)
 ```
 
 how many elements did this create?
@@ -29,17 +33,18 @@ length(knox_returnA_jan)
 ```
 
 ```{r}
-knox_cols <- knox_returnA_jan[1]
-knox_cols <- strsplit(knox_cols, "\n")
-knox_cols <- knox_cols[[1]]
+knox_returnA <- knox_returnA_jan[1]
+knox_returnA <- strsplit(knox_returnA, "\n")
+knox_returnA <- knox_returnA[[1]]
 ```
+
 what does this look like?
 ```{r}
-head(knox_cols)
+head(knox_returnA)
 ```
 ditch the white space
 ```{r}
-knox_ws <- trimws(knox_cols)
+knox_ws <- trimws(knox_returnA)
 
 ```
 let's get rid of the extra text
@@ -84,7 +89,7 @@ knox_cleaner <-sub("(Except Motor Vehicle Theft)", "", knox_cleaner)
 knox_cleaner <-sub("a. Autos", "", knox_cleaner)
 knox_cleaner <-sub("b. Trucks and Buses", "", knox_cleaner)
 knox_cleaner <-sub("c. Other Vehicles", "", knox_cleaner)
-knox_cleaner <- sub("\\(\\)","",knox_cleaner)'
+knox_cleaner <- sub("\\(\\)","",knox_cleaner)
 ```
 after getting rid of the language, time to paste together elements
 ```{r}

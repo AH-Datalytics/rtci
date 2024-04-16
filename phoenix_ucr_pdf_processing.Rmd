@@ -1,0 +1,142 @@
+---
+title: "phoenix_ucr_pdf_processing"
+output: pdf_document
+date: "2024-04-16"
+---
+```{r}
+#install.packages("pdftools")
+library(pdftools)
+library(tidyverse)
+library(stringr)
+```
+
+pdf(file = "tmp.pdf")
+plot(1, main = "mytext")
+dev.off()
+pdftools::pdf_text(pdf = "tmp.pdf")
+
+```{r}
+phx_2022 <- pdf_text("2022_AZ_Phoenix_UCRIndexCount.pdf")
+phx_2023 <- pdf_text("2023_AZ_Phoenix_UCRIndexCount.pdf")
+```
+check the column names
+```{r}
+head(phx_2022)
+#head(phx_2023)
+```
+
+how many elements did this create?
+```{r}
+length(phx_2022)
+#length(phx_2023)
+
+```
+
+```{r}
+phx_ucr22 <- phx_2022[1]
+phx_ucr22 <- strsplit(phx_ucr22, "\n")
+phx_ucr22 <- phx_ucr22[[1]]
+
+#phx_ucr23 <- phx_2023[1]
+#phx_ucr23 <- strsplit(phx_ucr23, "\n")
+#phx_ucr23 <- phx_ucr23[[1]]
+
+```
+
+what does this look like?
+```{r}
+head(phx_ucr22)
+```
+ditch the white space
+```{r}
+phx_ws <- trimws(phx_ucr22)
+
+```
+let's get rid of the extra text
+```{r}
+phx_cleaner <- phx_ws[grep("Criminal Homicide", phx_ws):
+                                   grep("Total Property Crimes", phx_ws)]
+```
+
+check it out
+```{r}
+phx_cleaner_still <- str_split_fixed(phx_cleaner, " {2,}",18)
+phx_cleaner_still
+```
+make it a table
+```{r}
+phx_table <- data.frame(phx_cleaner_still)
+#crime type; jan; feb; mar; q1; apr; may; jun; q2; jul; aug; sep; q3; oct; nov; dec; q4; ytd
+```
+
+
+larceny parsed funny - let's investigate
+```{r}
+larceny_elements <- phx_cleaner[19]
+larceny_elements <- str_squish(larceny_elements)
+larceny_clean <- str_split_fixed(larceny_elements, " {1,}",20)
+larceny_clean
+```
+
+
+
+add some column names
+```{r}
+names(phx_table) <- c("crime_type",
+                                                  "jan",
+                                                  "feb",
+                                                  "mar", 
+                                                  "q1",
+                                                  "apr",
+                                                  "may",
+                                                  "jun",
+                                                  "q2",
+                                                  "jul", 
+                                                  "aug",
+                                                  "sep",
+                                                  "q3",
+                                                  "oct",
+                                                  "nov",
+                                                  "dec", 
+                                                  "q4",
+                                                  "ytd"
+                      )
+```
+let's see it now
+```{r}
+phx_table
+```
+get rid of old rows & unnecessary columns
+```{r}
+
+phx_table_subset <- phx_table[c(1,4,7,12,15,19,20,24),c(1:4,6:8,10:12, 14:16) ]
+```
+turn the crime type variable into a factor and recode
+```{r}
+#convert to factor first
+phx_table_subset$crime_type <- as.character(phx_table_subset$crime_type)
+
+#try again...
+phx_table_subset$crime_type <- recode(phx_table_subset$crime_type, 
+                                "1. CRIMINAL HOMICIDE" = "HOMICIDE",
+                                "2. RAPE TOTAL" = "RAPE",
+                                "3. ROBBERY TOTAL"= "ROBBERY",
+                                "4. ASSAULT TOTAL"= "ASSAULT",
+                                "BURGLARY" = "BURGLARY",
+                                "6. LARCENY - THEFT TOTAL" = "LARCENY",
+                                "7. MOTOR VEHICLE THEFT TOTAL" = "MVT"
+                                                                                  )
+```
+write it out!
+```{r}
+write.csv(phx_table_subset, "phx_ucr22.csv")
+#write.csv(phx_table_subset, "phx_ucr23.csv")
+
+```
+
+
+
+
+#notes
+#Online version
+#pdftools::pdf_text(pdf = "http://arxiv.org/pdf/1403.2805.pdf")

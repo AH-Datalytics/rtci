@@ -1,0 +1,114 @@
+---
+title: "phoenix_ucr_pdf_processing"
+output: pdf_document
+date: "2024-04-16"
+---
+```{r}
+#install.packages("pdftools")
+library(pdftools)
+library(tidyverse)
+library(stringr)
+```
+
+pdf(file = "tmp.pdf")
+plot(1, main = "mytext")
+dev.off()
+pdftools::pdf_text(pdf = "tmp.pdf")
+
+##drive location
+##"C:\OneDrive\OneDrive - ahdatalytics.com\Clients\Real Time Crime Index\Open Source Data\Arizona\State UCR"
+
+these are monthly files so let's read them all in using a list command
+```{r}
+az_ucr_list_monthly <- list.files(path="C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Arizona\\State UCR")
+
+
+setwd("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Arizona\\State UCR")
+ldf <- list() # creates a list
+listcsv <- dir(pattern = "*.csv") # creates the list of all the csv files in the directory
+for (k in 1:length(listcsv)){
+ ldf[[k]] <- read.csv(listcsv[k])
+}
+str(ldf[[1]]) 
+```
+
+```{r}
+head(ldf[1])
+```
+time period list
+```{r}
+time_period <- c("jan_22","feb_22","mar_22","apr_22",
+                        "may_22", "jun_22","jul_22","aug_22",
+                        "sep_22", "oct_22", "nov_22", "dec_22",
+                        "jan_23","feb_23","mar_23","apr_23",
+                        "may_23", "jun_23","jul_23","aug_23",
+                        "sep_23", "oct_23", "nov_23", "dec_23",
+                        "jan_24", "feb_24")
+```
+add time periods to dataframes before binding
+```{r}
+list_rename = ldf
+names(list_rename) = c("jan_22","feb_22","mar_22","apr_22",
+                        "may_22", "jun_22","jul_22","aug_22",
+                        "sep_22", "oct_22", "nov_22", "dec_22",
+                        "jan_23","feb_23","mar_23","apr_23",
+                        "may_23", "jun_23","jul_23","aug_23",
+                        "sep_23", "oct_23", "nov_23", "dec_23",
+                        "jan_24", "feb_24")
+list_rename
+```
+drop the first 5 rows
+```{r}
+ldf1 <- lapply(list_rename, tail, -6)
+```
+rename each column for all dataframes in list
+```{r}
+col_names <-  c("Agency Name","Murder",	"Rape",	"Robbery",
+"Agg Assault",	"Burglary",	"Larceny",	"MVT",	"Arson")
+
+
+ldf2 <- lapply(ldf1, setNames, col_names)
+
+ldf2[2]
+```
+convert number fields to numeric
+```{r}
+ldf2 <- 
+```
+
+
+
+add a column the designates the time period
+```{r}
+ldf2 <- Map(cbind, ldf, new_clumn = names(ldf))
+ldf2
+```
+fill in empty cells with 0
+```{r}
+
+```
+convert columns to number format
+```{r}
+
+```
+what does this look like?
+```{r}
+head(ldf[1])
+```
+row bind the list together
+```{r}
+
+```
+write it out!
+```{r}
+write.csv(phx_table_subset, "phx_ucr22.csv")
+#write.csv(phx_table_subset, "phx_ucr23.csv")
+
+```
+
+
+
+
+#notes
+#Online version
+#pdftools::pdf_text(pdf = "http://arxiv.org/pdf/1403.2805.pdf")

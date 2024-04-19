@@ -1,0 +1,169 @@
+---
+title: "nevada ucr processing"
+output: pdf_document
+date: "2024-04-19"
+---
+```{r}
+#install.packages("pdftools")
+library(pdftools)
+library(tidyverse)
+library(stringr)
+```
+
+pdf(file = "tmp.pdf")
+plot(1, main = "mytext")
+dev.off()
+pdftools::pdf_text(pdf = "tmp.pdf")
+
+##drive location
+##"C:\OneDrive\OneDrive - ahdatalytics.com\Clients\Real Time Crime Index\Open Source Data\Arizona\State UCR"
+
+these are monthly files so let's read them all in using a list command
+```{r}
+az_ucr_list_monthly <- list.files(path="C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Nevada\\State UCR")
+
+
+setwd("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Nevada\\State UCR")
+ldf <- list() # creates a list
+listcsv <- dir(pattern = "*.csv") # creates the list of all the csv files in the directory
+for (k in 1:length(listcsv)){
+ ldf[[k]] <- read.csv(listcsv[k])
+}
+str(ldf[[1]]) 
+```
+what does the top look like
+```{r}
+head(ldf[1])
+```
+time period list
+```{r}
+time_period <- c("jan_22","feb_22","mar_22","apr_22",
+                        "may_22", "jun_22","jul_22","aug_22",
+                        "sep_22", "oct_22", "nov_22", "dec_22",
+                        "jan_23","feb_23","mar_23","apr_23",
+                        "may_23", "jun_23","jul_23","aug_23",
+                        "sep_23", "oct_23", "nov_23", "dec_23",
+                        "jan_24", "feb_24")
+```
+add time periods to dataframes before binding
+```{r}
+list_rename = ldf
+names(list_rename) = c("jan_22","feb_22","mar_22","apr_22",
+                        "may_22", "jun_22","jul_22","aug_22",
+                        "sep_22", "oct_22", "nov_22", "dec_22",
+                        "jan_23","feb_23","mar_23","apr_23",
+                        "may_23", "jun_23","jul_23","aug_23",
+                        "sep_23", "oct_23", "nov_23", "dec_23",
+                        "jan_24", "feb_24")
+```
+drop first rows and column row
+```{r}
+remove_rows_and_columns <- function(df) {
+  df <- df[-c(1:6, ncol(df)), ]
+  return(df)
+}
+
+# Apply the function to each dataframe in the list
+list_of_dataframes_trimmed <- lapply(list_rename, remove_rows_and_columns)
+
+# Print first dataframe in list to see
+print(list_of_dataframes_trimmed[1])
+#make a new vector
+ldf1 <- list_of_dataframes_trimmed
+```
+
+rename columns
+#Murder and Nonnegligent Homicide	Forcible Rape	Robbery	Aggravated Assault	Burglary	Larceny - Theft	Motor Vehicle Theft	Arson
+```{r}
+col_names <- c("Agency Name", 
+              "Murder and Nonnegligent Homicide",	
+              "Forcible Rape",	
+              "Robbery",	
+              "Aggravated Assault",	
+              "Burglary",	
+              "Larceny - Theft",	
+              "Motor Vehicle Theft",	
+              "Arson"
+
+)
+
+ldf2 <- lapply(ldf1, setNames, col_names)
+
+```
+fill in empty cells with 0
+```{r}
+#simple function to apply to all dataframes in list
+replace_empty_with_zero <- function(df) {
+  df[df == ""] <- "0"
+  df
+}
+
+# Apply the function to each data frame in the list
+ldf3 <- lapply(ldf2, replace_empty_with_zero)
+
+#convert these fields to numeric
+convert_to_numeric <- function(df) {
+  df[, -1] <- lapply(df[, -1], as.numeric)
+  return(df)
+}
+
+# Apply the function to each dataframe in the list
+ldf3_num <- lapply(ldf3, convert_to_numeric)
+
+# Print the modified list of data frames
+print(ldf3[1])
+
+```
+
+
+rename each column for all dataframes in list
+```{r}
+#list of column names
+final_col_names <-  c("Agency Name","Murder",	"Rape",	"Robbery",
+"Agg Assault",	"Burglary",	"Larceny",	"MVT",	"Arson")
+
+#apply column names
+ldf4 <- lapply(ldf3, setNames, final_col_names)
+
+ldf4[1]
+```
+add a column the designates the time period
+```{r}
+list_of_dataframes <- ldf4
+
+# Function to add a column with the name of the data frame
+add_column_with_dataframe_name <- function(df) {
+  df$name_column <- names(list_of_dataframes)[match(deparse(substitute(df)), names(list_of_dataframes))]
+  df
+}
+
+# Apply the function to each data frame in the list
+list_of_dataframes_with_column <- lapply(names(list_of_dataframes), function(df_name) {
+  df <- list_of_dataframes[[df_name]]
+  df$name_column <- df_name
+  df
+})
+ldf5 <- list_of_dataframes_with_column
+```
+row bind the list together
+```{r}
+combined_df <- do.call(rbind, list_of_dataframes_with_column)
+
+```
+write it out- still needs to be transformed
+```{r}
+write.csv(combined_df, "nv_state_ucr_all.csv")
+
+
+```
+we need to get rid of agencies that are not cities/part of our list
+```{r}
+
+```
+
+
+
+
+#notes
+#Online version
+#pdftools::pdf_text(pdf = "http://arxiv.org/pdf/1403.2805.pdf")

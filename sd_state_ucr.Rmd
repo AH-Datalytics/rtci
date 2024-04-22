@@ -1,0 +1,322 @@
+---
+title: "south dakota ucr processing"
+output: pdf_document
+date: "2024-04-18"
+---
+```{r}
+#install.packages("lubridate")
+library(lubridate)
+library(tidyverse)
+library(stringr)
+```
+yearly, incident level files
+```{r}
+setwd("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\South Dakota\\State UCR")
+
+df <- read.csv("2022_SD_NIBRSPartOneRaw.csv")
+```
+what does the top look like
+```{r}
+head(df)
+```
+
+create separate month and year categories
+```{r}
+# Convert date string to Date object
+df$date_obj <- mdy(df$Incident.Date)
+
+# Extract month and year
+df$month <- month(df$date_obj)
+df$year <- year(df$date_obj)
+df
+```
+create a new table that aggregates by agency + month + year + UCR.Offense.Code
+```{r}
+# Aggregate records based on four columns and create a new table with counts
+aggregated_counts <- df %>%
+  group_by(Agency.Name, UCR.Offense.Code, month, year) %>%
+  summarise(count = n())
+```
+let's get the crimes as columns
+```{r}
+values <- c("count")
+# Create series of columns based on the values of the 'Category' column
+df_wide <- aggregated_counts %>%
+  pivot_wider(names_from = UCR.Offense.Code, values_from = values)
+
+# Print the resulting dataframe
+print(df_wide)
+```
+what are the unique values in the UCR code column?
+```{r}
+table(df$UCR.Offense.Code)
+```
+sum column values to get SRS figures from NIBRS
+From NIBRS OFFENSE CODES MANUAL 2011
+```{r}
+#murder 09A - Murder & Nonnegligent Manslaughter
+
+#rape - 11A - Forcible Rape
+
+#agg assault - 13A - Aggravated Assault
+
+#robbery - 120 - Robbery
+
+#burglary - 220 - Burglary/Breaking & Entering
+
+#Larceny/Theft Offenses to sum
+#Pocket-picking Property,  Purse-snatching Property,  Shoplifting Property,  Theft From Building Property,  Theft From Coin-Operated Machine or Device Property,  Theft From Motor Vehicle Property,  Theft of Motor Vehicle Parts or Accessories Property,All Other Larceny Property
+
+columns_to_larc <- c("Pocket-picking",	"Purse-snatching",	"Shoplifting",	"Theft From Building",	"Theft From Coin Operated Machine or Device",	"Theft From Motor Vehicle",	"Theft of Motor Vehicle Parts/Accessories",	"All Other Larceny")
+
+df$Larceny <- rowSums(df[columns_to_larc])
+
+#mvt - 240 - Motor Vehicle Theft
+
+#arson -200 - Arson
+```
+
+
+
+
+
+
+
+
+
+
+
+drop extra tables
+```{r}
+keep_first_53_columns <- function(df) {
+  df <- df[, 1:53, drop = FALSE]
+  return(df)
+}
+
+# Apply the function to each dataframe in the list
+ldf_col_trim <- lapply(ldf, keep_first_53_columns)
+
+```
+time period list
+```{r}
+time_period <- c("jan_22","feb_22","mar_22","apr_22",
+                        "may_22", "jun_22","jul_22","aug_22",
+                        "sep_22", "oct_22", "nov_22", "dec_22",
+                        "jan_23","feb_23","mar_23","apr_23",
+                        "may_23", "jun_23","jul_23","aug_23",
+                        "sep_23", "oct_23", "nov_23", "dec_23",
+                        "jan_24")
+```
+add time periods to dataframes before binding
+```{r}
+list_rename = ldf_col_trim
+names(list_rename) = c("jan_22","feb_22","mar_22","apr_22",
+                        "may_22", "jun_22","jul_22","aug_22",
+                        "sep_22", "oct_22", "nov_22", "dec_22",
+                        "jan_23","feb_23","mar_23","apr_23",
+                        "may_23", "jun_23","jul_23","aug_23",
+                        "sep_23", "oct_23", "nov_23", "dec_23",
+                        "jan_24")
+```
+drop first rows and column row
+```{r}
+remove_rows_and_columns <- function(df) {
+  df <- df[-c(1:6, ncol(df)), ]
+  return(df)
+}
+
+# Apply the function to each dataframe in the list
+list_of_dataframes_trimmed <- lapply(list_rename, remove_rows_and_columns)
+
+# Print first dataframe in list to see
+print(list_of_dataframes_trimmed[1])
+#make a new vector
+ldf1 <- list_of_dataframes_trimmed
+```
+
+rename columns
+```{r}
+col_names <- c("Offense Type", 
+               "Murder and Nonnegligent Manslaughter",	
+               "Negligent Manslaughter",	
+               "Justifiable Homicide",	
+               "Kidnapping/Abduction",	
+               "Rape",	
+               "Sodomy",	
+               "Sexual Assault With An Object",	
+               "Fondling",
+               "Incest",	
+               "Statutory Rape",	
+               "Aggravated Assault",	
+               "Simple Assault",	
+               "Intimidation",	
+               "Human Trafficking, Commercial Sex Acts",	
+               "Human Trafficking, Involuntary Servitude",	
+               "Arson",	
+               "Bribery",	
+               "Burglary/Breaking & Entering",	
+               "Counterfeiting/Forgery",	
+               "Destruction/Damage/Vandalism of Property",	
+               "Embezzlement",
+               "Extortion/Blackmail",	
+               "False Pretenses/Swindle/Confidence Game",	
+               "Credit Card/Automated Teller Machine Fraud",
+               "Impersonation",	
+               "Welfare Fraud",	
+               "Wire Fraud",	
+               "Identity Theft",	
+               "Hacking/Computer Invasion",	
+               "Robbery",	
+               "Pocket-picking",	
+               "Purse-snatching",	
+               "Shoplifting",	
+               "Theft From Building",	
+               "Theft From Coin Operated Machine or Device",	
+               "Theft From Motor Vehicle",	
+               "Theft of Motor Vehicle Parts/Accessories",	
+               "All Other Larceny",	
+               "Motor Vehicle Theft",	
+               "Stolen Property Offenses",	
+               "Drug/Narcotic Violations",
+               "Drug Equipment Violations",	
+               "Betting/Wagering",	
+               "Operating/Promoting/Assisting Gambling",
+               "Gambling Equipment Violations",	
+               "Sports Tampering",	
+               "Pornography/Obscene Material",
+               "Prostitution",	
+               "Assisting or Promoting Prostitution",	
+               "Purchasing Prostitution",	 
+               "Weapon Law Violations",	
+               "Animal Cruelty"
+)
+
+ldf2 <- lapply(ldf1, setNames, col_names)
+
+```
+fill in empty cells with 0
+```{r}
+#simple function to apply to all dataframes in list
+replace_empty_with_zero <- function(df) {
+  df[df == ""] <- "0"
+  df
+}
+
+# Apply the function to each data frame in the list
+ldf3 <- lapply(ldf2, replace_empty_with_zero)
+
+#convert these fields to numeric
+convert_to_numeric <- function(df) {
+  df[, -1] <- lapply(df[, -1], as.numeric)
+  return(df)
+}
+
+# Apply the function to each dataframe in the list
+ldf3_num <- lapply(ldf3, convert_to_numeric)
+
+# Print the modified list of data frames
+print(ldf3[1])
+
+```
+create larceny total column - now that fields are numeric
+```{r}
+#Larceny/Theft Offenses to sum
+#Pocket-picking Property,  Purse-snatching Property,  Shoplifting Property,  Theft From Building Property,  Theft From Coin-Operated Machine or Device Property,  Theft From Motor Vehicle Property,  Theft of Motor Vehicle Parts or Accessories Property,All Other Larceny Property
+
+columns_to_sum <- c("Pocket-picking",	"Purse-snatching",	"Shoplifting",	"Theft From Building",	"Theft From Coin Operated Machine or Device",	"Theft From Motor Vehicle",	"Theft of Motor Vehicle Parts/Accessories",	"All Other Larceny")
+
+# Function to create a new column that is the sum of specified columns
+sum_columns <- function(df) {
+  df$Larceny <- rowSums(df[columns_to_sum])
+  return(df)
+}
+
+# Apply the function to each dataframe in the list
+ldf3_wlarceny <- lapply(ldf3_num, sum_columns)
+```
+rename
+
+
+drop unnecessary columns
+```{r}
+#we need...
+columns_to_keep <- c("Offense Type", 
+                 "Murder and Nonnegligent Manslaughter",
+                 "Rape", "Robbery", "Aggravated Assault", 
+                 "Burglary/Breaking & Entering",
+                 "Larceny", "Motor Vehicle Theft",
+                 "Arson" )
+
+# Function to keep specified columns from a dataframe
+keep_columns <- function(df) {
+  df_subset <- subset(df, select = columns_to_keep)
+  return(df_subset)
+}
+
+# Apply the function to each dataframe in the list
+list_of_dataframes_modified <- lapply(ldf3_wlarceny, keep_columns)
+```
+rename each column for all dataframes in list
+```{r}
+#list of column names
+final_col_names <-  c("Agency Name","Murder",	"Rape",	"Robbery",
+"Agg Assault",	"Burglary",	"Larceny",	"MVT",	"Arson")
+
+#apply column names
+ldf4 <- lapply(list_of_dataframes_modified, setNames, final_col_names)
+
+ldf4[1]
+```
+add a column the designates the time period
+```{r}
+list_of_dataframes <- ldf4
+
+# Function to add a column with the name of the data frame
+add_column_with_dataframe_name <- function(df) {
+  df$name_column <- names(list_of_dataframes)[match(deparse(substitute(df)), names(list_of_dataframes))]
+  df
+}
+
+# Apply the function to each data frame in the list
+list_of_dataframes_with_column <- lapply(names(list_of_dataframes), function(df_name) {
+  df <- list_of_dataframes[[df_name]]
+  df$name_column <- df_name
+  df
+})
+ldf5 <- list_of_dataframes_with_column
+```
+drop last two rows (empty cell followed by automated text cell)
+```{r}
+row_index_to_remove <- c(20,21)  # Remove the third row
+
+# Function to remove row based on index number
+remove_row_by_index <- function(df) {
+  df_trimmed <- df[-row_index_to_remove, ]
+  return(df_trimmed)
+}
+
+# Apply the function to each dataframe in the list
+ldf6 <- lapply(ldf5, remove_row_by_index)
+
+```
+
+
+
+row bind the list together
+```{r}
+combined_df <- do.call(rbind, list_of_dataframes_with_column)
+
+```
+write it out!
+```{r}
+write.csv(phx_table_subset, "az_state_ucr_2022.csv")
+
+
+```
+
+
+
+
+#notes
+#Online version
+#pdftools::pdf_text(pdf = "http://arxiv.org/pdf/1403.2805.pdf")

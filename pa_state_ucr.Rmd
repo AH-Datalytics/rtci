@@ -1,0 +1,193 @@
+---
+title: "pennsylvania ucr processing"
+output: pdf_document
+date: "2024-05-01"
+---
+```{r}
+#install.packages("lubridate")
+library(lubridate)
+library(tidyverse)
+library(stringr)
+```
+yearly, incident level files
+```{r}
+setwd("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Pennsylvania\\State UCR")
+ldf <- list() # creates a list
+listcsv <- dir(pattern = "*.csv") # creates the list of all the csv files in the directory
+for (k in 1:length(listcsv)){
+ ldf[[k]] <- read.csv(listcsv[k])
+}
+str(ldf[[1]]) 
+```
+what does the top look like
+```{r}
+head(ldf)
+```
+create separate month and year categories
+```{r}
+# Function to process each dataframe
+process_dataframe <- function(ldf) {
+  # Assuming the date column is named 'Date' and is in a recognizable date format
+  ldf$month <- month(mdy(ldf$Incident.Date), label = TRUE, abbr = TRUE)  # Extracts month and uses abbreviation
+  ldf$year <- year(mdy(ldf$Incident.Date))  # Extracts year
+  
+  return(ldf)
+}
+
+# Apply the function to each dataframe in the list
+ldf2 <- lapply(ldf, process_dataframe)
+
+ldf2[1]
+```
+create a new table that aggregates by agency + month + year + UCR.Offense.Code
+```{r}
+# Define the function to aggregate counts
+aggregate_counts <- function(ldf) {
+  # Ensure the data is grouped and summarised correctly
+  aggregated_data <- ldf %>%
+    group_by(Agency.Name, UCR.Offense.Code, month, year) %>%
+    summarise(count = n(), .groups = 'drop')  # Drop grouping for easier use later
+  
+  # Return the aggregated data
+  return(aggregated_data)
+}
+
+
+monthly_counts <- lapply(ldf2, aggregate_counts)
+
+```
+
+let's get the crimes as columns
+```{r}
+#create a function that will transform all df's in the list to wide
+transform_to_wide <- function(df) {
+  # Pivot the dataframe to a wider format
+  df_wide <- df %>%
+    pivot_wider(names_from = UCR.Offense.Code, values_from = count)
+
+  return(df_wide)
+}
+
+#apply function to list
+ldf_wide <- lapply(monthly_counts, transform_to_wide)
+# Print the resulting dataframe
+print(ldf_wide)
+```
+remove records with NA in the year column - convert NA counts to 0
+```{r}
+#function to do both
+clean_df <- function(df) {
+  # Filter out rows where 'year' column has NA values
+  clean_data <- df %>%
+    filter(!is.na(year))
+  
+  # Convert all columns (except the first one) to numeric and replace NA with 0
+  clean_data1 <- clean_data %>%
+    mutate(across(.cols = -1, ~ as.numeric(replace(., is.na(.), 0))))
+  
+  return(clean_data1)
+}
+
+#apply function to dataframes in list
+ldf3 <- lapply(ldf_wide, clean_df)
+print(ldf3)
+
+```
+sum column values to get SRS figures from NIBRS
+From NIBRS OFFENSE CODES MANUAL 2011
+```{r}
+#murder 09A - Murder & Nonnegligent Manslaughter
+
+#rape - 11A - Forcible Rape
+
+#agg assault - 13A - Aggravated Assault
+
+#robbery - 120 - Robbery
+
+#burglary - 220 - Burglary/Breaking & Entering
+
+#Larceny/Theft Offenses to sum
+#Pocket-picking Property,  Purse-snatching Property,  Shoplifting Property,  Theft From Building Property,  Theft From Coin-Operated Machine or Device Property,  Theft From Motor Vehicle Property,  Theft of Motor Vehicle Parts or Accessories Property,All Other Larceny Property
+
+process_larceny <- function(df) {
+  # Define the columns related to larceny
+  columns_to_larc <- c(
+    "Pocket-picking", "Purse-snatching", "Shoplifting", "Theft From Building",
+    "Theft From Coin-Operated Machine or Device", "Theft From Motor Vehicle",
+    "Theft From Motor Vehicle Parts/Accessories", "All Other Larceny"
+  )
+  
+  # Check if all specified columns exist in the dataframe
+  missing_cols <- setdiff(columns_to_larc, names(df))
+  if (length(missing_cols) > 0) {
+    warning("The following columns are missing in the dataframe and will be excluded from the sum: ", paste(missing_cols, collapse=", "))
+    columns_to_larc <- setdiff(columns_to_larc, missing_cols)
+  }
+  
+  # Calculate the sum of the specified columns if any exist
+  if (length(columns_to_larc) > 0) {
+    df$Larceny <- rowSums(df[, columns_to_larc], na.rm = TRUE)
+  } else {
+    df$Larceny <- 0  # Set Larceny to 0 if no columns are available for summing
+  }
+  
+  return(df)
+}
+
+#mvt - 240 - Motor Vehicle Theft
+
+#arson -200 - Arson
+
+ldf3_larc <- lapply(ldf3, process_larceny)
+print(ldf3_larc)
+```
+drop unnecessary columns
+```{r}
+# Define the function to clean and rename dataframe columns
+clean_and_rename <- function(df) {
+  # Columns to keep
+  columns_to_keep <- c("Agency.Name", "Murder and Nonnegligent Manslaughter",
+                       "Rape", "Robbery", "Aggravated Assault", "Burglary/Breaking and Entering",
+                       "Larceny", "Motor Vehicle Theft", "Arson", "month", "year")
+
+  # New column names
+  final_col_names <- c("Agency Name","Murder", "Rape", "Robbery",
+                       "Agg Assault", "Burglary", "Larceny", "MVT", "Arson", "month", "year")
+
+  # Subset the dataframe
+  df <- df[, columns_to_keep, drop = FALSE]  # Ensure it returns a dataframe even if only one column
+
+  # Rename the columns
+  names(df) <- final_col_names
+
+  return(df)
+}
+```
+rename each column for all dataframes in list
+```{r}
+# Apply the processing function to each dataframe in the list
+ldf4 <- lapply(ldf3_larc, clean_and_rename)
+
+# Example to print the head of the first cleaned and renamed dataframe
+head(ldf4[[1]])
+```
+
+
+row bind the list together
+```{r}
+combined_df <- do.call(rbind, ldf4)
+
+```
+write it out!
+```{r}
+write.csv(phx_table_subset, "az_state_ucr_2022.csv")
+
+
+```
+
+
+
+
+#notes
+#Online version
+#pdftools::pdf_text(pdf = "http://arxiv.org/pdf/1403.2805.pdf")

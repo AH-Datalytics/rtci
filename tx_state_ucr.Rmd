@@ -2,52 +2,50 @@
 title: "texas ucr processing"
 output: pdf_document
 date: "2024-04-19"
+updated: "2024-05-03"
 ---
 ```{r}
-#install.packages("openxlsx")
-library(openxlsx)
+library(readxl)
 library(tidyverse)
 library(stringr)
 ```
 these are monthly files so let's read them all in using a list command
 ```{r}
-setwd("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Texas\\State UCR")
+folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Texas\\State UCR"
 
-excel_files <- list.files(pattern = "\\.xlsx$")
+# List all Excel files in the directory
+file_list <- list.files(path = folder_path, pattern = "\\.xlsx$", full.names = TRUE)
 
-# Initialize an empty list to store the data frames
-excel_data <- list()
-
-# Iterate over each Excel file
-for (file in excel_files) {
-  # Read only the first sheet of the Excel file
-  excel_data[[file]] <- read.xlsx(file, sheet = 1)
+# Function to process each file
+process_file <- function(file_path) {
+  # Read the first sheet from the Excel file
+  df <- read_excel(file_path, sheet = 1)
+  
+  # Extract the year-month from the file name
+  file_name <- basename(file_path)
+  year_month <- sub("_.*", "", file_name)  # Remove everything after the underscore
+  
+  # Extract year and month separately
+  year <- substr(year_month, 1, 4)
+  month <- substr(year_month, 6, 7)
+  
+  # Create new columns for year and month
+  df$Year <- as.integer(year)
+  df$Month <- as.integer(month)
+  
+  # Optionally, set names or other metadata
+  df_name <- paste("data", year, month, sep = "_")
+  assign(df_name, df, envir = .GlobalEnv)
+  
+  return(df)
 }
+
+# Apply the function to each file and store the results in a list
+dataframes <- as.list(lapply(file_list, process_file))
 ```
 what does the top look like
 ```{r}
-head(excel_data[1])
-```
-time period list
-```{r}
-time_period <- c("jan_22","feb_22","mar_22","apr_22",
-                        "may_22", "jun_22","jul_22","aug_22",
-                        "sep_22", "oct_22", "nov_22", "dec_22",
-                        "jan_23","feb_23","mar_23","apr_23",
-                        "may_23", "jun_23","jul_23","aug_23",
-                        "sep_23", "oct_23", "nov_23", "dec_23",
-                        "jan_24", "feb_24")
-```
-add time periods to dataframes before binding
-```{r}
-list_rename = excel_data
-names(list_rename) = c("jan_22","feb_22","mar_22","apr_22",
-                        "may_22", "jun_22","jul_22","aug_22",
-                        "sep_22", "oct_22", "nov_22", "dec_22",
-                        "jan_23","feb_23","mar_23","apr_23",
-                        "may_23", "jun_23","jul_23","aug_23",
-                        "sep_23", "oct_23", "nov_23", "dec_23",
-                        "jan_24", "feb_24")
+head(dataframes[1])
 ```
 drop first rows and column row
 ```{r}
@@ -57,18 +55,17 @@ remove_rows_and_columns <- function(df) {
 }
 
 # Apply the function to each dataframe in the list
-list_of_dataframes_trimmed <- lapply(list_rename, remove_rows_and_columns)
+list_of_dataframes_trimmed <- lapply(dataframes, remove_rows_and_columns)
 
 # Print first dataframe in list to see
 print(list_of_dataframes_trimmed[1])
 #make a new vector
 ldf1 <- list_of_dataframes_trimmed
 ```
-
 rename columns
 #ORI Number	AgencyName	Murder	Rape	Robbery	Assault	Burglary	Larceny	Auto Theft	Arson	Human Trafficking	Total	Population	Months
-
 ```{r}
+#list of column names
 col_names <- c("ORI Number", "Agency Name", 
               "Murder",	
               "Rape",	
@@ -81,12 +78,12 @@ col_names <- c("ORI Number", "Agency Name",
               "Human Trafficking",
               "Total",
               "Population",
-              "Months"
+              "Months",
+              "Year",
+              "Month"
               )
 
-#list of column names
-
-
+#apply the function
 ldf2 <- lapply(ldf1, setNames, col_names)
 ldf2[1]
 ```
@@ -105,61 +102,24 @@ remove_columns_and_apply <- function(df_list, column_names) {
 
 # Apply the function to the list of data frames
 modified_dataframes <- remove_columns_and_apply(ldf2, columns_to_remove)
-
-```
-
-
-
-
-rename each column for all dataframes in list and remove unnecessary
-```{r}
-
-
-
-ldf3 <- lapply(ldf2, setNames, final_col_names)
-
-#remove unnecessary columns
-ldf4 <- lapply(ldf3, select(final_col_names))
-
-ldf4[1]
-```
-add a column the designates the time period
-```{r}
-list_of_dataframes <- ldf4
-
-# Function to add a column with the name of the data frame
-add_column_with_dataframe_name <- function(df) {
-  df$name_column <- names(list_of_dataframes)[match(deparse(substitute(df)), names(list_of_dataframes))]
-  df
-}
-
-# Apply the function to each data frame in the list
-list_of_dataframes_with_column <- lapply(names(list_of_dataframes), function(df_name) {
-  df <- list_of_dataframes[[df_name]]
-  df$name_column <- df_name
-  df
-})
-ldf5 <- list_of_dataframes_with_column
 ```
 row bind the list together
 ```{r}
-combined_df <- do.call(rbind, list_of_dataframes_with_column)
+combined_df <- do.call(rbind, modified_dataframes)
 
+```
+agency = character; count fields = numeric; month/ year = numeric 1-12; 2022-2024
+```{r}
+# Directly specify conversions without altering first column initially
+df <- combined_df %>%
+  mutate(`Agency Name` = as.character(`Agency Name`), # Ensure first column remains character
+         across(-`Agency Name`, as.numeric)) # Convert all other columns to numeric
+
+# Check the structure of the dataframe to confirm types
+str(df)
 ```
 write it out- still needs to be transformed
 ```{r}
-write.csv(combined_df, "nv_state_ucr_all.csv")
-
-
-```
-we need to get rid of agencies that are not cities/part of our list
-```{r}
-
+write.csv(combined_df, "tx_state_ucr_all.csv")
 ```
 
-
-
-
-#notes
-#Online version
-#pdftools::pdf_text(pdf = "http://arxiv.org/pdf/1403.2805.pdf")

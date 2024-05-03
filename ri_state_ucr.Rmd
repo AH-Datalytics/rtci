@@ -2,6 +2,7 @@
 title: "rhode island ucr processing"
 output: pdf_document
 date: "2024-05-01"
+updated: "2024-05-03"
 ---
 ```{r}
 library(lubridate)
@@ -77,7 +78,7 @@ transform_to_wide <- function(df) {
 #apply function to list
 ldf_wide <- lapply(monthly_counts, transform_to_wide)
 # Print the resulting dataframe
-print(ldf_wide)
+print(ldf_wide[1])
 ```
 remove records with NA in the year column - convert NA counts to 0 - also converts month field to numeric representation
 jan ==1, feb ==2, etc.
@@ -97,7 +98,7 @@ clean_df <- function(df) {
 
 #apply function to dataframes in list
 ldf3 <- lapply(ldf_wide, clean_df)
-print(ldf3)
+print(ldf3[1])
 
 ```
 sum column values to get SRS figures from NIBRS
@@ -106,6 +107,28 @@ From NIBRS OFFENSE CODES MANUAL 2011
 #murder 09A - Murder & Nonnegligent Manslaughter
 
 #rape - 11A - Forcible Rape
+process_rape <- function(df) {
+  # Define the columns related to larceny
+  columns_ra <- c(
+    "11A", "Rape"
+  )
+  
+  # Check if all specified columns exist in the dataframe
+  missing_cols <- setdiff(columns_ra, names(df))
+  if (length(missing_cols) > 0) {
+    warning("The following columns are missing in the dataframe and will be excluded from the sum: ", paste(missing_cols, collapse=", "))
+    columns_ra <- setdiff(columns_ra, missing_cols)
+  }
+  
+  # Calculate the sum of the specified columns if any exist
+  if (length(columns_ra) > 0) {
+    df$Rape_tot <- rowSums(df[, columns_ra], na.rm = TRUE)
+  } else {
+    df$Rape_tot <- 0  # Set Rape to 0 if no columns are available for summing
+  }
+  
+  return(df)
+}
 
 #agg assault - 13A - Aggravated Assault
 
@@ -113,15 +136,20 @@ From NIBRS OFFENSE CODES MANUAL 2011
 
 #burglary - 220 - Burglary/Breaking & Entering
 
-#Larceny/Theft Offenses to sum
+#Larceny/Theft Offenses to sum - 23H
 #Pocket-picking Property,  Purse-snatching Property,  Shoplifting Property,  Theft From Building Property,  Theft From Coin-Operated Machine or Device Property,  Theft From Motor Vehicle Property,  Theft of Motor Vehicle Parts or Accessories Property,All Other Larceny Property
+
+#Pocket-picking, Theft From Coin-Operated Machine not found - but no big
+############ALSO Add 23H/23C column
+
+
 
 process_larceny <- function(df) {
   # Define the columns related to larceny
   columns_to_larc <- c(
     "Pocket-picking", "Purse-snatching", "Shoplifting", "Theft From Building",
     "Theft From Coin-Operated Machine or Device", "Theft From Motor Vehicle",
-    "Theft From Motor Vehicle Parts/Accessories", "All Other Larceny"
+    "Theft From Motor Vehicle Parts/Accessories", "All Other Larceny", "23H", "23C"
   )
   
   # Check if all specified columns exist in the dataframe
@@ -142,60 +170,201 @@ process_larceny <- function(df) {
 }
 
 #mvt - 240 - Motor Vehicle Theft
-
-#arson -200 - Arson
-
-ldf3_larc <- lapply(ldf3, process_larceny)
-print(ldf3_larc)
-```
-drop unnecessary columns
-```{r}
- # Columns to keep
-  columns_to_keep <- c("Agency Name", "Murder and Nonnegligent Manslaughter",
-                       "Rape", "Robbery", "Aggravated Assault", "Burglary/Breaking and Entering",
-                       "Larceny", "Motor Vehicle Theft", "Arson", "Month", "Year")
-
-  # New column names
-  final_col_names <- c("Agency Name","Murder", "Rape", "Robbery",
-                       "Agg Assault", "Burglary", "Larceny", "MVT", "Arson", "Month", "Year")
-
-# Define the function to clean and rename dataframe columns
-clean_and_rename <- function(df) {
-
-  # Subset the dataframe
-  df <- df[, columns_to_keep, drop = FALSE]  # Ensure it returns a dataframe even if only one column
-
-  # Rename the columns
-  names(df) <- final_col_names
-
+process_mvt <- function(df) {
+  # Define the columns related to larceny
+  columns_to_mvt <- c(
+    "240", "Motor Vehicle Theft"
+  )
+  
+  # Check if all specified columns exist in the dataframe
+  missing_cols <- setdiff(columns_to_mvt, names(df))
+  if (length(missing_cols) > 0) {
+    warning("The following columns are missing in the dataframe and will be excluded from the sum: ", paste(missing_cols, collapse=", "))
+    columns_to_mvt <- setdiff(columns_to_mvt, missing_cols)
+  }
+  
+  # Calculate the sum of the specified columns if any exist
+  if (length(columns_to_mvt) > 0) {
+    df$Mvt_tot <- rowSums(df[, columns_to_mvt], na.rm = TRUE)
+  } else {
+    df$Mvt_tot <- 0  # Set mvt to 0 if no columns are available for summing
+  }
+  
   return(df)
 }
+########################
+########################
+#arson -200 - Arson
+process_arson <- function(df) {
+  # Define the columns related to larceny
+  columns_to_arson <- c(
+    "200", "Arson"
+  )
+  
+  # Check if all specified columns exist in the dataframe
+  missing_cols <- setdiff(columns_to_arson, names(df))
+  if (length(missing_cols) > 0) {
+    warning("The following columns are missing in the dataframe and will be excluded from the sum: ", paste(missing_cols, collapse=", "))
+    columns_to_arson <- setdiff(columns_to_arson, missing_cols)
+  }
+  
+  # Calculate the sum of the specified columns if any exist
+  if (length(columns_to_arson) > 0) {
+    df$Arson_tot <- rowSums(df[, columns_to_arson], na.rm = TRUE)
+  } else {
+    df$Arson_tot <- 0  # Set Larceny to 0 if no columns are available for summing
+  }
+  
+  return(df)
+}
+
+#apply function and print out the first dataframe
+ldf3_rape <- lapply(ldf3, process_rape)
 ```
-rename each column for all dataframes in list
+separate functions? fix arson first
 ```{r}
-# Apply the processing function to each dataframe in the list
-ldf4 <- lapply(ldf3_larc, clean_and_rename)
+ldf3_arson <- lapply(ldf3_rape, process_arson)
+```
+mvt next
+```{r}
+ldf3_mvt <- lapply(ldf3_arson, process_mvt)
 
-# Example to print the head of the first cleaned and renamed dataframe
-head(ldf4[[1]])
+```
+larceny last
+```{r}
+ldf3_larc <- lapply(ldf3_mvt, process_larceny)
+print(ldf3_larc[1])
 ```
 
+issues with murder not found in one of the dataframes
+```{r}
+# Function to extract and compare column names
+compare_column_names <- function(list_df) {
+  # Extract column names from each dataframe in the list
+  col_names_list <- lapply(ldf3_larc, names)
+  
+  # Find unique and common column names
+  all_names <- unique(unlist(col_names_list))
+  common_names <- Reduce(intersect, col_names_list)
+  
+  # Determine unique columns for each dataframe
+  unique_cols <- lapply(col_names_list, setdiff, common_names)
+  
+  # Print or return results
+  list(all_column_names = all_names,
+       common_column_names = common_names,
+       unique_column_names_per_df = unique_cols)
+}
 
+# Apply the function and capture the results
+column_differences <- compare_column_names(ldf3_larc)
+
+# Print the results
+print(column_differences)
+```
+clearly not every data frame has the same columns as some agencies didn't report or didn't report a certain index crime?
+
+
+
+
+drop unnecessary columns
+```{r}
+###another attempt
+# List of required column names
+required_columns <- c("Agency Name", "Murder and Nonnegligent Manslaughter",
+                       "Rape_tot", "Robbery", "Aggravated Assault", "Burglary/Breaking and Entering",
+                       "Larceny", "Mvt_tot", "Arson_tot", "Month", "Year")
+
+# Function to check and add missing columns, then select required columns
+adjust_dataframes <- function(df, required_columns) {
+  # Check for missing columns and add them if they are missing
+  missing_columns <- setdiff(required_columns, names(df))
+  if (length(missing_columns) > 0) {
+    for (col in missing_columns) {
+      df[[col]] <- NA  # Add missing columns with NA values
+    }
+  }
+  
+  # Select only the required columns (ensures correct order as well)
+  df <- df[, required_columns, drop = FALSE]
+  
+  return(df)
+}
+
+# Apply the function to each dataframe in the list
+adjusted_list_df <- lapply(ldf3_larc, adjust_dataframes, required_columns = required_columns)
+
+# Print the results to verify the adjustment
+print(adjusted_list_df)
+```
 row bind the list together
 ```{r}
-combined_df <- do.call(rbind, ldf4)
+combined_df <- do.call(rbind, adjusted_list_df)
+# New column names
+  final_col_names <- c("Agency Name","Murder", "Rape", "Robbery",
+                       "Agg Assault", "Burglary", "Larceny", "MVT", "Arson", "Month", "Year")
+  # Rename the columns
+  names(combined_df) <- final_col_names
+```
 
+
+
+
+create a dataframe that is every combination of agency + year + month - then merge the combined_df back - do we want to keep the na's? or do we want to write a code that it was un-reported for that time period?
+
+```{r}
+# Using expand.grid to generate all combinations of unique values from three columns
+all_combinations <- expand.grid(
+  'Agency Name' = unique(combined_df$`Agency Name`),
+  Year = unique(combined_df$Year),
+  Month = unique(combined_df$Month)
+)
+```
+join the combined df to this base dataset - now we know if data is missing for certain agencies for certain months - rather than just calculating the counts based on whether an agency reported a crime in that time period
+```{r}
+# Join the data frames
+joined_df <- merge(all_combinations, combined_df, by = c("Agency Name", "Year", "Month"), all.x = TRUE)
+
+# View the result
+print(joined_df)
+```
+are all time periods and agencies accounted for? should have an equal number of each in terms of records
+```{r}
+# Counting frequency of each value in Column1
+freq_Column1 <- table(joined_df$`Agency Name`)
+print("Frequency of Column1:")
+print(freq_Column1)
+
+# Counting frequency of each value in Column2
+freq_Column2 <- table(joined_df$Year)
+print("Frequency of Column2:")
+print(freq_Column2)
+
+# Counting frequency of each value in Column3
+freq_Column3 <- table(joined_df$Month)
+print("Frequency of Column3:")
+print(freq_Column3)
+
+
+
+####we are all set. consistent number of records for each unique value in column now.
+```
+did we create some NA's?
+```{r}
+colSums(is.na(joined_df
+            ))
+```
+change NA to NR
+```{r}
+# Replace NA in all columns except 'AgencyName', 'Year', and 'Month' with "NR"
+final_df <- joined_df %>%
+  mutate_if(!names(.) %in% c("Agency Name", "Year", "Month"), ~ifelse(is.na(.), "NR", .))
+
+# View the modified DataFrame
+print(final_df)
 ```
 write it out!
 ```{r}
-write.csv(combined_df, "or_state_Jan22_Present.csv")
-
-
+write.csv(combined_df, "ri_state_Jan22_Present.csv")
 ```
 
-
-
-
-#notes
-#Online version
-#pdftools::pdf_text(pdf = "http://arxiv.org/pdf/1403.2805.pdf")

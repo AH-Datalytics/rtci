@@ -363,6 +363,17 @@ final_df <- joined_df %>%
 # View the modified DataFrame
 print(final_df)
 ```
+reorder columns and done
+```{r}
+# Specified order for the columns
+column_order <- c("Agency Name", "Murder", "Rape", "Robbery", 
+                  "Agg Assault", "Burglary", "Larceny", "MVT", "Arson",
+                  "Year", "Month")
+
+# Reorder columns based on the specified order
+final_df <- final_df[, column_order]
+```
+
 write it out!
 ```{r}
 write.csv(combined_df, "ri_state_Jan22_Present.csv")

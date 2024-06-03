@@ -12,6 +12,7 @@ library(stringr)
 these are monthly files so let's read them all in using a list command
 ```{r}
 # Set the path to the directory containing the CSV files
+cwd()
 folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Ohio\\State UCR"
 
 # List all CSV files in the directory

@@ -1,0 +1,38 @@
+---
+title: "ohio ucr processing"
+output: pdf_document
+date: "2024-06-03"
+updated: 
+---
+```{r}
+library(lubridate)
+library(tidyverse)
+library(stringr)
+```
+these are monthly files so let's read them all in using a list command
+```{r}
+# Set the path to the directory containing the CSV files
+folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Ohio\\State UCR"
+
+# List all CSV files in the directory
+file_list <- list.files(path = folder_path, pattern = "\\.csv$", full.names = TRUE)
+
+# Function to read and process each file
+process_file <- function(file_name) {
+  # Read the CSV file
+  df <- read_csv(file_name, show_col_types = FALSE)
+  
+  # Assuming the date column is named 'Date'
+  # Convert to date format if not already and ensure the date format matches your data
+  df$`Incident Date` <- as.Date(df$`Incident Date`, format = "%m/%d/%Y")  # Adjust format as needed
+  
+  # Create month and year columns
+  df$Month <- month(df$`Incident Date`, label = TRUE, abbr = TRUE)  # Returns abbreviated month name
+  df$Year <- year(df$`Incident Date`)
+  
+  return(df)
+}
+
+# Apply the function to each file and store results in a list of data frames
+ldf <- lapply(file_list, process_file)
+```

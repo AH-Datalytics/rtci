@@ -1,0 +1,310 @@
+---
+title: "massachussets ucr processing"
+output: pdf_document
+date: "2024-06-17"
+---
+
+load libraries
+```{r}
+library(tidyverse)
+library(readr)
+library(lubridate)
+library(readxl)
+
+data_dir <- ("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Massachusetts\\State UCR")
+
+# List all Excel files in the directory
+file_list <- list.files(path = data_dir, pattern = "\\.xlsx$", full.names = TRUE)
+
+# Function to read and process each file
+process_file <- function(file_name) {
+  # Read the first sheet from the Excel file
+  df <- read_excel(file_name, sheet = 2)
+  
+  return(df)
+}
+
+# Apply the function to each file and store results in a list of data frames
+ldf <- lapply(file_list, process_file)
+```
+take a look and make notes on edits
+```{r}
+head(ldf[1])
+```
+trim the first four rows; 
+we need column 1 + every 8 columns first one being 1 + 2:8, etc. 
+```{r}
+# Function to check if a string conforms to "%b %Y"
+is_valid_date <- function(date_string) {
+  !is.na(parse_date_time(date_string, orders = "%b %Y"))
+}
+
+# Function to process each DataFrame
+process_dataframe <- function(df) {
+  # Assuming the first row contains the headers
+  header <- df[1, ]
+  df <- df[-(1:4), ]  # Remove the first 4 rows along with the header row
+
+  # Initialize a list to store the resulting dataframes
+  result_dfs <- list()
+  
+  # Loop through columns in steps of 8 after the first column
+  for (i in 2:ncol(df)) {
+    if (i + 7 <= ncol(df)) {
+      # Extract the date from the header of the ith column
+      date <- as.character(header[i])
+      if (is_valid_date(date)) {
+        # Create a DataFrame combining the first column with the next 8 columns
+        new_df <- df[, c(1, i:(i+7)), drop = FALSE]
+        # Add the date as a new column with the extracted date repeated
+        new_df$date <- rep(date, nrow(new_df))
+        
+        # Name the DataFrame based on the extracted date and store in the list
+        result_dfs[[gsub("[^[:alnum:]]", "_", date)]] <- new_df
+      }
+    } else {
+      break
+    }
+  }
+  
+  return(result_dfs)
+}
+
+# Applying the function to each dataframe in the list and storing results
+processed_lists <- lapply(ldf, process_dataframe)
+
+# Combining all dataframes into a single list
+final_result <- do.call(c, processed_lists)
+
+# The final_result list now contains all the processed parts, named according to the dates
+head(final_result[1])
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+now we need to fix the columns without losing the data the names contain
+```{r}
+# Mapping for month abbreviations to numbers
+month_map <- setNames(1:12, month.abb)
+
+#apply
+
+# Assume list_of_dfs is defined as before or loaded
+# Define the transformation function including Year and Month parsing
+reshape_data <- function(df) {
+  df %>%
+    pivot_longer(
+      cols = -c(Agency, Offense),  # Adjust this based on your dataframe columns
+      names_to = "year_month",
+      values_to = "value"
+    ) %>%
+    mutate(
+      Year = as.numeric(str_sub(year_month, 1, 2)) + 2000,  # Extract and convert Year
+      Month = month_map[str_sub(year_month, 4, 6)],  # Map the Month abbreviation to a number
+      value = replace_na(value, 0),
+      year_month = NULL  # Optionally remove the original year_month column
+    )
+}
+
+# Apply the transformation function to each dataframe in the list
+ldf1 <- lapply(ldf, reshape_data)
+
+# Optionally, print the first processed dataframe to verify the results
+print(ldf1[[1]])
+```
+reshape wide based on offense field
+```{r}
+# Function to reshape a single dataframe from long to wide format
+reshape_wide_based_on_offense <- function(df) {
+  df %>%
+    pivot_wider(
+      names_from = Offense,  # Use the Offense column to create new columns
+      values_from = value,   # Fill these new columns with values from the Value column
+      values_fill = list(Value = "NR")  # Fill missing values with 0
+    )
+}
+
+# Apply the function to each dataframe in the list
+ldf2 <- lapply(ldf1, reshape_wide_based_on_offense)
+
+# Optionally, print the first processed dataframe to verify the results
+print(ldf2[[1]])
+```
+create new columns and order them
+Murder and Nonnegligent Manslaughter, Forcible Rape, Aggravated Assault, Arson, Burglary/Breaking & Entering, Theft From Motor Vehicle
+Purse-snatching + Shoplifting + Theft from Building + Theft From Coin Operated Machine or Device + Theft From Motor Vehicle + Theft of Motor Vehicle Parts/Accessories + All Other Larceny
+```{r}
+
+
+#Larceny/Theft Offenses to sum - 23H
+#Pocket-picking Property,  Purse-snatching Property,  Shoplifting Property,  Theft From Building Property,  Theft From Coin-Operated Machine or Device Property,  Theft From Motor Vehicle Property,  Theft of Motor Vehicle Parts or Accessories Property,All Other Larceny Property
+
+#Pocket-picking, Theft From Coin-Operated Machine not found - but no big
+############ALSO Add 23H/23C column
+
+
+
+process_larceny <- function(df) {
+  # Define the columns related to larceny
+  columns_to_larc <- c(
+    "Pocket-picking", "Purse-snatching", "Shoplifting", "Theft From Building",
+    "Theft From Coin Operated Machine or Device", "Theft From Motor Vehicle",
+    "Theft From Motor Vehicle Parts/Accessories", "All Other Larceny"
+  )
+  
+  # Check if all specified columns exist in the dataframe
+  missing_cols <- setdiff(columns_to_larc, names(df))
+  if (length(missing_cols) > 0) {
+    warning("The following columns are missing in the dataframe and will be excluded from the sum: ", paste(missing_cols, collapse=", "))
+    columns_to_larc <- setdiff(columns_to_larc, missing_cols)
+  }
+  
+  # Calculate the sum of the specified columns if any exist
+  if (length(columns_to_larc) > 0) {
+    df$Larceny <- rowSums(df[, columns_to_larc], na.rm = TRUE)
+  } else {
+    df$Larceny <- 0  # Set Larceny to 0 if no columns are available for summing
+  }
+  
+  return(df)
+}
+```
+larceny process - only one to do
+```{r}
+ldf1_larc <- lapply(ldf2, process_larceny)
+print(ldf1_larc[1])
+```
+drop unnecessary columns
+create new columns and order them
+Murder and Nonnegligent Manslaughter, Forcible Rape, Aggravated Assault, Arson, Burglary/Breaking & Entering, Theft From Motor Vehicle
+Purse-snatching + Shoplifting + Theft from Building + Theft From Coin Operated Machine or Device + Theft From Motor Vehicle + Theft of Motor Vehicle Parts/Accessories + All Other Larceny
+```{r}
+# List of required column names
+required_columns <- c("Agency", "Murder and Nonnegligent Manslaughter",
+                       "Forcible Rape", "Robbery", "Aggravated Assault", "Burglary/Breaking & Entering",
+                       "Larceny", "Motor Vehicle Theft",
+                      "Arson", "Month", "Year")
+
+# Function to check and add missing columns, then select required columns
+adjust_dataframes <- function(df, required_columns) {
+  # Check for missing columns and add them if they are missing
+  missing_columns <- setdiff(required_columns, names(df))
+  if (length(missing_columns) > 0) {
+    for (col in missing_columns) {
+      df[[col]] <- NA  # Add missing columns with NA values
+    }
+  }
+  
+  # Select only the required columns (ensures correct order as well)
+  df <- df[, required_columns, drop = FALSE]
+  
+  return(df)
+}
+
+# Apply the function to each dataframe in the list
+adjusted_list_df <- lapply(ldf1_larc, adjust_dataframes, required_columns = required_columns)
+
+# Print the results to verify the adjustment
+print(adjusted_list_df)
+```
+row bind the list together
+```{r}
+combined_df <- do.call(rbind, adjusted_list_df)
+```
+new column names
+```{r}
+# New column names
+  final_col_names <- c("Agency Name","Murder", "Rape", "Robbery",
+                       "Agg Assault", "Burglary", "Larceny", "MVT", "Arson", "Month", "Year")
+  # Rename the columns
+  names(combined_df) <- final_col_names
+```
+make the base dataset to join back to that accounts for non-reporting months
+```{r}
+# Using expand.grid to generate all combinations of unique values from three columns
+all_combinations <- expand.grid(
+  'Agency Name' = unique(combined_df$`Agency Name`),
+  Year = unique(combined_df$Year),
+  Month = unique(combined_df$Month)
+)
+```
+join the combined df to this base dataset - now we know if data is missing for certain agencies for certain months - rather than just calculating the counts based on whether an agency reported a crime in that time period
+```{r}
+# Join the data frames
+joined_df <- merge(all_combinations, combined_df, by = c("Agency Name", "Year", "Month"), all.x = TRUE)
+
+# View the result
+print(joined_df)
+```
+are all time periods and agencies accounted for? should have an equal number of each in terms of records
+```{r}
+# Counting frequency of each value in Column1
+freq_Column1 <- table(joined_df$`Agency Name`)
+print("Frequency of Column1:")
+print(freq_Column1)
+
+# Counting frequency of each value in Column2
+freq_Column2 <- table(joined_df$Year)
+print("Frequency of Column2:")
+print(freq_Column2)
+
+# Counting frequency of each value in Column3
+freq_Column3 <- table(joined_df$Month)
+print("Frequency of Column3:")
+print(freq_Column3)
+####we are all set. consistent number of records for each unique value in column now.
+```
+did we create some NA's?
+```{r}
+colSums(is.na(joined_df
+            ))
+```
+change NA to NR
+```{r}
+# Replace NA in all columns except 'AgencyName', 'Year', and 'Month' with "NR"
+final_df <- joined_df %>%
+  mutate_if(!names(.) %in% c("Agency Name", "Year", "Month"), ~ifelse(is.na(.), "NR", .))
+
+# View the modified DataFrame
+print(final_df)
+```
+reorder columns and done
+```{r}
+# Specified order for the columns
+column_order <- c("Agency Name", "Murder", "Rape", "Robbery", 
+                  "Agg Assault", "Burglary", "Larceny", "MVT", "Arson",
+                  "Year", "Month")
+
+# Reorder columns based on the specified order
+final_df <- final_df[, column_order]
+```
+write it out!
+```{r}
+# Specify the folder path
+folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Virginia\\Formatted Data"
+
+# Create the full file path
+file_path <- file.path(folder_path, "va_jan23_present.csv")
+
+# Write the data frame to a .csv file
+write.csv(final_df, file = file_path, row.names = FALSE)
+```

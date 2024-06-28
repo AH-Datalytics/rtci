@@ -108,7 +108,7 @@ library(lubridate)
 library(DT)  # For datatable rendering
 
 # Assuming data is already loaded and transformed
-data <- final_data  # Ensure 'final_data' is properly loaded with appropriate columns
+data <- read_csv("../data/final_data.csv")  # Ensure 'final_data' is properly loaded with appropriate columns
 data$Date <- as.Date(paste0(data$Year, "-", data$Month, "-01"), format = "%Y-%m-%d")
 data$Month <- floor_date(data$Date, "month")
 
@@ -190,7 +190,7 @@ library(lubridate)
 library(DT)  # For datatable rendering
 
 # Assuming data is already loaded and transformed
-data <- final_data  # Ensure 'final_data' is properly loaded with appropriate columns
+data <- read_csv("../data/final_data.csv")  # Ensure 'final_data' is properly loaded with appropriate columns
 data$Date <- as.Date(paste0(data$Year, "-", data$Month, "-01"), format = "%Y-%m-%d")
 data$Month <- floor_date(data$Date, "month")
 
@@ -281,7 +281,7 @@ library(lubridate)
 library(DT)  # For rendering interactive data tables
 
 # Assuming data is already loaded and transformed
-data <- final_data
+data <- read_csv("../data/final_data.csv")
 data$Date <- as.Date(paste0(data$Year, "-", data$Month, "-01"), format = "%Y-%m-%d")
 data$Month <- floor_date(data$Date, "month")
 
@@ -412,7 +412,7 @@ library(lubridate)
 library(DT)  # For rendering interactive data tables
 
 # Assuming data is already loaded and transformed
-data <- final_data
+data <- read_csv("../data/final_data.csv")
 data$Date <- as.Date(paste0(data$Year, "-", data$Month, "-01"), format = "%Y-%m-%d")
 data$Month <- floor_date(data$Date, "month")
 data$Year <- year(data$Date)
@@ -563,7 +563,7 @@ library(dplyr)
 library(lubridate)
 
 # Assuming data is already loaded and transformed
-data <- final_data
+data <- read_csv("../data/final_data.csv")
 data$Date <- as.Date(paste0(data$Year, "-", data$Month, "-01"), format = "%Y-%m-%d")
 data$Month <- floor_date(data$Date, "month")
 
@@ -642,7 +642,7 @@ library(lubridate)
 library(DT)  # For rendering interactive data tables
 
 # Assuming data is already loaded and transformed
-data <- final_data
+data <- read_csv("../data/final_data.csv")
 data$Date <- as.Date(paste0(data$Year, "-", data$Month, "-01"), format = "%Y-%m-%d")
 data$Month <- floor_date(data$Date, "month")
 
@@ -867,7 +867,7 @@ library(DT)  # For rendering interactive data tables
 library(RColorBrewer)  # For generating color palettes
 
 # Assuming data is already loaded and transformed
-data <- final_data
+data <- read_csv("../data/final_data.csv")
 data$Date <- as.Date(paste0(data$Year, "-", data$Month, "-01"), format = "%Y-%m-%d")
 data$Month <- floor_date(data$Date, "month")
 
@@ -1136,7 +1136,7 @@ library(DT)  # For rendering interactive data tables
 library(RColorBrewer)  # For generating color palettes
 
 # Assuming data is already loaded and transformed
-data <- final_data
+data <- read_csv("../data/final_data.csv")
 data$Date <- as.Date(paste0(data$Year, "-", data$Month, "-01"), format = "%Y-%m-%d")
 data$Month <- floor_date(data$Date, "month")
 

@@ -14,7 +14,7 @@ library(plotly)
 library(lubridate)
 
 # Assuming the data loading and transformation code remains the same
-data <- final_data
+data <- "data/final_data.csv"
 data$Date <- as.Date(paste0(data$year,"-",data$Month, "-01"), format = "%Y-%m-%d")
 
 

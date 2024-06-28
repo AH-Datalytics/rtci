@@ -1139,7 +1139,7 @@ shinyApp(ui = ui, server = server)
 
 ```
 
-new experimental
+new experimental -- Oscar working on publishing this version to shinyapps.io
 ```{r}
 library(shiny)
 library(ggplot2)
@@ -1149,6 +1149,7 @@ library(lubridate)
 library(DT)  # For rendering interactive data tables
 library(RColorBrewer)  # For generating color palettes
 library(tidyverse)
+library(rsconnect) # install package if needed
 
 # Assuming data is already loaded and transformed
 data <- read_csv("../data/final_data.csv")

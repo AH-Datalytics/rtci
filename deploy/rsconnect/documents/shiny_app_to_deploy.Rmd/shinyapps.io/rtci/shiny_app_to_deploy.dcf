@@ -5,6 +5,6 @@ account: rtci
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 12250165
-bundleId: 8801923
+bundleId: 8802084
 url: https://rtci.shinyapps.io/shiny_app_to_deploy/
 version: 1

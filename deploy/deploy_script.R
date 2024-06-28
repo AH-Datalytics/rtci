@@ -7,6 +7,6 @@ rsconnect::setAccountInfo(name='rtci',
                           secret='cRljIbmZ+PjFXS2NyDSAtNgSIXefE2wLHZHouq8p')
 
 # Deploy the RMarkdown file
-rsconnect::deployApp(appDir = '~/Development/rtci/scripts/',
-                     appFiles = c('shiny_app_to_deploy.Rmd', '../data/final_data.csv'),
+rsconnect::deployApp(appDir = '.',
+                     appFiles = c('shiny_app_to_deploy.Rmd', 'final_data_copy.csv'),
                      appPrimaryDoc = 'shiny_app_to_deploy.Rmd')

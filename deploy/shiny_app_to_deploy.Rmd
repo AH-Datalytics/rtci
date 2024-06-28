@@ -1,4 +1,9 @@
-```{r}
+---
+title: "RTCI Project Shiny App"
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
 library(shiny)
 library(ggplot2)
 library(dplyr)
@@ -10,7 +15,7 @@ library(tidyverse)
 library(rsconnect) # install package if needed
 
 # Assuming data is already loaded and transformed
-data <- read_csv("../data/final_data.csv")
+data <- read_csv("final_data_copy.csv")
 data$Date <- as.Date(paste0(data$Year, "-", data$Month, "-01"), format = "%Y-%m-%d")
 data$Month <- floor_date(data$Date, "month")
 
@@ -278,7 +283,7 @@ server <- function(input, output, session) {
   )
 }
 
-# Run the application
+# # Run the application
 shinyApp(ui = ui, server = server)
 ```
 

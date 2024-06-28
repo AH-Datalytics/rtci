@@ -1139,7 +1139,7 @@ shinyApp(ui = ui, server = server)
 
 ```
 
-new experimental -- Oscar working on publishing this version to shinyapps.io
+new experimental -- Oscar working on publishing this version to shinyapps.io, created "shiny_app_to_deploy.Rmd" file and then deploy_script.R to serve it
 ```{r}
 library(shiny)
 library(ggplot2)
@@ -1423,7 +1423,6 @@ server <- function(input, output, session) {
 # Run the application
 shinyApp(ui = ui, server = server)
 
-# Add code to turn this into .io link to share with Online Optimism
 ```
 
 

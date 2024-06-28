@@ -3,9 +3,10 @@ title: "virginia ucr processing"
 output: pdf_document
 date: "2024-05-03"
 updated: "2024-05-08"
-
+updated: "2024-06-07"
 ---
 
+load libraries
 ```{r}
 library(tidyverse)
 library(readr)
@@ -22,8 +23,15 @@ read_and_name_df <- function(file_path) {
   read_csv(file_path, show_col_types = FALSE)
 }
 
+#apply the function
+ldf <- lapply(file_path, read_and_name_df)
+```
+now we need to fix the columns without losing the data the names contain
+```{r}
 # Mapping for month abbreviations to numbers
 month_map <- setNames(1:12, month.abb)
+
+#apply
 
 # Assume list_of_dfs is defined as before or loaded
 # Define the transformation function including Year and Month parsing
@@ -43,11 +51,10 @@ reshape_data <- function(df) {
 }
 
 # Apply the transformation function to each dataframe in the list
-ldf <- lapply(list_of_dfs, reshape_data)
+ldf1 <- lapply(ldf, reshape_data)
 
 # Optionally, print the first processed dataframe to verify the results
-print(ldf[[1]])
-
+print(ldf1[[1]])
 ```
 reshape wide based on offense field
 ```{r}
@@ -62,12 +69,11 @@ reshape_wide_based_on_offense <- function(df) {
 }
 
 # Apply the function to each dataframe in the list
-ldf1 <- lapply(ldf, reshape_wide_based_on_offense)
+ldf2 <- lapply(ldf1, reshape_wide_based_on_offense)
 
 # Optionally, print the first processed dataframe to verify the results
-print(ldf1[[1]])
+print(ldf2[[1]])
 ```
-
 create new columns and order them
 Murder and Nonnegligent Manslaughter, Forcible Rape, Aggravated Assault, Arson, Burglary/Breaking & Entering, Theft From Motor Vehicle
 Purse-snatching + Shoplifting + Theft from Building + Theft From Coin Operated Machine or Device + Theft From Motor Vehicle + Theft of Motor Vehicle Parts/Accessories + All Other Larceny
@@ -109,10 +115,9 @@ process_larceny <- function(df) {
 ```
 larceny process - only one to do
 ```{r}
-ldf1_larc <- lapply(ldf1, process_larceny)
+ldf1_larc <- lapply(ldf2, process_larceny)
 print(ldf1_larc[1])
 ```
-
 drop unnecessary columns
 create new columns and order them
 Murder and Nonnegligent Manslaughter, Forcible Rape, Aggravated Assault, Arson, Burglary/Breaking & Entering, Theft From Motor Vehicle
@@ -150,7 +155,7 @@ row bind the list together
 ```{r}
 combined_df <- do.call(rbind, adjusted_list_df)
 ```
-
+new column names
 ```{r}
 # New column names
   final_col_names <- c("Agency Name","Murder", "Rape", "Robbery",
@@ -158,10 +163,6 @@ combined_df <- do.call(rbind, adjusted_list_df)
   # Rename the columns
   names(combined_df) <- final_col_names
 ```
-
-
-
-
 make the base dataset to join back to that accounts for non-reporting months
 ```{r}
 # Using expand.grid to generate all combinations of unique values from three columns
@@ -171,8 +172,6 @@ all_combinations <- expand.grid(
   Month = unique(combined_df$Month)
 )
 ```
-d
-
 join the combined df to this base dataset - now we know if data is missing for certain agencies for certain months - rather than just calculating the counts based on whether an agency reported a crime in that time period
 ```{r}
 # Join the data frames
@@ -197,9 +196,6 @@ print(freq_Column2)
 freq_Column3 <- table(joined_df$Month)
 print("Frequency of Column3:")
 print(freq_Column3)
-
-
-
 ####we are all set. consistent number of records for each unique value in column now.
 ```
 did we create some NA's?
@@ -207,9 +203,6 @@ did we create some NA's?
 colSums(is.na(joined_df
             ))
 ```
-
-
-
 change NA to NR
 ```{r}
 # Replace NA in all columns except 'AgencyName', 'Year', and 'Month' with "NR"
@@ -229,8 +222,14 @@ column_order <- c("Agency Name", "Murder", "Rape", "Robbery",
 # Reorder columns based on the specified order
 final_df <- final_df[, column_order]
 ```
-
 write it out!
 ```{r}
-write.csv(combined_df, "va_state_Jan23_Present.csv")
+# Specify the folder path
+folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Virginia\\Formatted Data"
+
+# Create the full file path
+file_path <- file.path(folder_path, "va_jan23_present.csv")
+
+# Write the data frame to a .csv file
+write.csv(final_df, file = file_path, row.names = FALSE)
 ```

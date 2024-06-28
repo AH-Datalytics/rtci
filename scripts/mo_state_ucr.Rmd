@@ -2,76 +2,81 @@
 title: "missouri ucr processing"
 output: pdf_document
 date: "2024-04-19"
+updated: "2024-06-10"
 ---
+load libraries
 ```{r}
-#install.packages("pdftools")
-library(pdftools)
 library(tidyverse)
 library(stringr)
 ```
-
-pdf(file = "tmp.pdf")
-plot(1, main = "mytext")
-dev.off()
-pdftools::pdf_text(pdf = "tmp.pdf")
-
-##drive location
-##"C:\OneDrive\OneDrive - ahdatalytics.com\Clients\Real Time Crime Index\Open Source Data\Arizona\State UCR"
-
-these are monthly files so let's read them all in using a list command
+directory location
 ```{r}
-az_ucr_list_monthly <- list.files(path="C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Missouri\\State UCR")
+data_dir <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Missouri\\State UCR"
+```
+read everything in, extract the month/year and do the initial processing
+```{r}
+# List all CSV files in the directory
+file_paths <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
 
-
-setwd("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Missouri\\State UCR")
-ldf <- list() # creates a list
-listcsv <- dir(pattern = "*.csv") # creates the list of all the csv files in the directory
-for (k in 1:length(listcsv)){
- ldf[[k]] <- read.csv(listcsv[k])
+# Debug: Check if any files are listed
+if (length(file_paths) == 0) {
+  stop("No CSV files found in the specified directory.")
+} else {
+  message("Processing ", length(file_paths), " files.")
 }
-str(ldf[[1]]) 
+
+# Function to read a CSV and extract date parts
+process_csv <- function(file_path) {
+  # Debug: Check the file path
+  message("Reading file: ", file_path)
+  
+  # Attempt to read the CSV file
+  tryCatch({
+    df <- read_csv(file_path, show_col_types = FALSE)
+  }, error = function(e) {
+    warning("Failed to read: ", file_path, " Error: ", e$message)
+    return(NULL)  # Return NULL if the file cannot be read
+  })
+
+  # Extract the first 7 characters from the filename (assumes 'YYYY-MM' format)
+  filename <- basename(file_path)
+  date_part <- substr(filename, 1, 7)
+
+  # Parse year and month from the date_part
+  year <- as.integer(substr(date_part, 1, 4))
+  month <- as.integer(substr(date_part, 6, 7))
+
+  # Add year and month as columns
+  if (!is.na(year) && !is.na(month)) {
+    df <- df %>%
+      mutate(Year = year, Month = month)
+  } else {
+    warning("Date parsing failed for: ", filename)
+  }
+
+  return(df)
+}
+
+# Apply the function to each file path and store dataframes in a list
+ldf <- setNames(lapply(file_paths, process_csv), basename(file_paths))
 ```
 what does the top look like
 ```{r}
 head(ldf[1])
 ```
-time period list
-```{r}
-time_period <- c("jan_22","feb_22","mar_22","apr_22",
-                        "may_22", "jun_22","jul_22","aug_22",
-                        "sep_22", "oct_22", "nov_22", "dec_22",
-                        "jan_23","feb_23","mar_23","apr_23",
-                        "may_23", "jun_23","jul_23","aug_23",
-                        "sep_23", "oct_23", "nov_23", "dec_23",
-                        "jan_24", "feb_24")
-```
-add time periods to dataframes before binding
-```{r}
-list_rename = ldf
-names(list_rename) = c("jan_22","feb_22","mar_22","apr_22",
-                        "may_22", "jun_22","jul_22","aug_22",
-                        "sep_22", "oct_22", "nov_22", "dec_22",
-                        "jan_23","feb_23","mar_23","apr_23",
-                        "may_23", "jun_23","jul_23","aug_23",
-                        "sep_23", "oct_23", "nov_23", "dec_23",
-                        "jan_24", "feb_24")
-```
 drop first rows and column row
 ```{r}
-remove_rows_and_columns <- function(df) {
+remove_rows <- function(df) {
   df <- df[-c(1:6, ncol(df)), ]
   return(df)
 }
 
 # Apply the function to each dataframe in the list
-list_of_dataframes_trimmed <- lapply(list_rename, remove_rows_and_columns)
+ldf1 <- lapply(ldf, remove_rows)
 
 # Print first dataframe in list to see
-print(list_of_dataframes_trimmed[1])
-#make a new vector
-ldf1 <- list_of_dataframes_trimmed
+print(ldf1[1])
 ```
-
 rename columns
 ```{r}
 col_names <- c("Agency Name", 
@@ -82,47 +87,47 @@ col_names <- c("Agency Name",
               "Burglary",	
               "Larceny - Theft",	
               "Motor Vehicle Theft",	
-              "Arson"
+              "Arson",
+              "Year",
+              "Month"
 
 )
 
 ldf2 <- lapply(ldf1, setNames, col_names)
-
 ```
-fill in empty cells with 0
+take a look
 ```{r}
-#simple function to apply to all dataframes in list
-replace_empty_with_zero <- function(df) {
-  df[df == ""] <- "0"
-  df
-}
+print(ldf2[1])
+```
 
-# Apply the function to each data frame in the list
-ldf3 <- lapply(ldf2, replace_empty_with_zero)
-
-#convert these fields to numeric
-convert_to_numeric <- function(df) {
-  df[, -1] <- lapply(df[, -1], as.numeric)
+convert columns to numeric, replace NA's with 0's
+```{r}
+convert_and_replace <- function(df) {
+  # Process each column except the first
+  for (i in 2:ncol(df)) {
+    # Convert the column to numeric
+    df[[i]] <- as.numeric(df[[i]])
+    # Replace NAs with 0
+    df[[i]][is.na(df[[i]])] <- 0
+  }
   return(df)
 }
 
-# Apply the function to each dataframe in the list
-ldf3_num <- lapply(ldf3, convert_to_numeric)
+ldf3 <- lapply(ldf2, convert_and_replace)
 
-# Print the modified list of data frames
-print(ldf3[1])
-
+head(ldf3[1])
 ```
 
 drop unnecessary columns
 ```{r}
 columns_to_keep <- c("Agency Name", 
-               "Criminal Homicide", "Forcible Rape Total", 
-               "Robbery Total", 
-               "Assault Total", 
-               "Burglary Total", 
-               "Larceny - Theft Total", 
-               "Motor Vehicle Theft Total", "Arson")
+               "Murder and Nonnegligent Homicide", "Forcible Rape", 
+               "Robbery", 
+               "Aggravated Assault", 
+               "Burglary", 
+               "Larceny - Theft", 
+               "Motor Vehicle Theft", "Arson",
+               "Year", "Month")
 
 # Function to keep specified columns from a dataframe
 keep_columns <- function(df) {
@@ -131,7 +136,9 @@ keep_columns <- function(df) {
 }
 
 # Apply the function to each dataframe in the list
-list_of_dataframes_modified <- lapply(ldf3, keep_columns)
+ldf4 <- lapply(ldf3, keep_columns)
+
+ldf4[1]
 ```
 
 
@@ -139,50 +146,39 @@ rename each column for all dataframes in list
 ```{r}
 #list of column names
 final_col_names <-  c("Agency Name","Murder",	"Rape",	"Robbery",
-"Agg Assault",	"Burglary",	"Larceny",	"MVT",	"Arson")
+"Agg Assault",	"Burglary",	"Larceny",	"MVT",	"Arson", "Year", "Month")
 
 #apply column names
-ldf4 <- lapply(ldf3, setNames, final_col_names)
+ldf5 <- lapply(ldf4, setNames, final_col_names)
 
-ldf4[1]
+ldf5[1]
 ```
-add a column the designates the time period
-```{r}
-list_of_dataframes <- ldf4
 
-# Function to add a column with the name of the data frame
-add_column_with_dataframe_name <- function(df) {
-  df$name_column <- names(list_of_dataframes)[match(deparse(substitute(df)), names(list_of_dataframes))]
-  df
-}
-
-# Apply the function to each data frame in the list
-list_of_dataframes_with_column <- lapply(names(list_of_dataframes), function(df_name) {
-  df <- list_of_dataframes[[df_name]]
-  df$name_column <- df_name
-  df
-})
-ldf5 <- list_of_dataframes_with_column
-```
 row bind the list together
 ```{r}
-combined_df <- do.call(rbind, list_of_dataframes_with_column)
-
+combined_df <- do.call(rbind, ldf5)
 ```
-write it out- still needs to be transformed
+reorder columns and done
 ```{r}
-write.csv(combined_df, "mo_state_ucr_all.csv")
+# Specified order for the columns
+column_order <- c("Agency Name", "Murder", "Rape", "Robbery", 
+                  "Agg Assault", "Burglary", "Larceny", "MVT", "Arson",
+                   "Month", "Year")
 
-
+# Reorder columns based on the specified order
+final_df <- combined_df[, column_order]
 ```
-we need to get rid of agencies that are not cities/part of our list
+write it out!
 ```{r}
+# Specify the folder path
+folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Missouri\\Formatted Data"
 
+# Create the full file path
+file_path <- file.path(folder_path, "mo_jan22_present.csv")
+
+# Write the data frame to a .csv file
+write.csv(final_df, file = file_path, row.names = FALSE)
 ```
 
 
 
-
-#notes
-#Online version
-#pdftools::pdf_text(pdf = "http://arxiv.org/pdf/1403.2805.pdf")

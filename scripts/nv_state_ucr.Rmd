@@ -2,60 +2,73 @@
 title: "nevada ucr processing"
 output: pdf_document
 date: "2024-04-19"
+updated: "2024-06-10"
 ---
 ```{r}
-#install.packages("pdftools")
-library(pdftools)
 library(tidyverse)
 library(stringr)
 ```
-
-pdf(file = "tmp.pdf")
-plot(1, main = "mytext")
-dev.off()
-pdftools::pdf_text(pdf = "tmp.pdf")
-
-##drive location
-##"C:\OneDrive\OneDrive - ahdatalytics.com\Clients\Real Time Crime Index\Open Source Data\Arizona\State UCR"
-
-these are monthly files so let's read them all in using a list command
+directory location
 ```{r}
-az_ucr_list_monthly <- list.files(path="C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Nevada\\State UCR")
+data_dir <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Nevada\\State UCR"
+```
+read everything in, extract the month/year and do the initial processing
+```{r}
+# List all CSV files in the directory
+file_paths <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
 
-
-setwd("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Nevada\\State UCR")
-ldf <- list() # creates a list
-listcsv <- dir(pattern = "*.csv") # creates the list of all the csv files in the directory
-for (k in 1:length(listcsv)){
- ldf[[k]] <- read.csv(listcsv[k])
+# Debug: Check if any files are listed
+if (length(file_paths) == 0) {
+  stop("No CSV files found in the specified directory.")
+} else {
+  message("Processing ", length(file_paths), " files.")
 }
-str(ldf[[1]]) 
+
+# Function to read a CSV and extract date parts
+process_csv <- function(file_path) {
+  # Debug: Check the file path
+  message("Reading file: ", file_path)
+  
+  # Attempt to read the CSV file
+  tryCatch({
+    df <- read_csv(file_path, show_col_types = FALSE)
+  }, error = function(e) {
+    warning("Failed to read: ", file_path, " Error: ", e$message)
+    return(NULL)  # Return NULL if the file cannot be read
+  })
+
+  # Extract the first 7 characters from the filename (assumes 'YYYY-MM' format)
+  filename <- basename(file_path)
+  date_part <- substr(filename, 1, 7)
+
+  # Parse year and month from the date_part
+  year <- as.integer(substr(date_part, 1, 4))
+  month <- as.integer(substr(date_part, 6, 7))
+
+  # Add year and month as columns
+  if (!is.na(year) && !is.na(month)) {
+    df <- df %>%
+      mutate(Year = year, Month = month)
+  } else {
+    warning("Date parsing failed for: ", filename)
+  }
+
+  return(df)
+}
+
+# Apply the function to each file path and store dataframes in a list
+ldf <- setNames(lapply(file_paths, process_csv), basename(file_paths))
 ```
 what does the top look like
 ```{r}
 head(ldf[1])
 ```
-time period list
-```{r}
-time_period <- c("jan_22","feb_22","mar_22","apr_22",
-                        "may_22", "jun_22","jul_22","aug_22",
-                        "sep_22", "oct_22", "nov_22", "dec_22",
-                        "jan_23","feb_23","mar_23","apr_23",
-                        "may_23", "jun_23","jul_23","aug_23",
-                        "sep_23", "oct_23", "nov_23", "dec_23",
-                        "jan_24", "feb_24")
-```
-add time periods to dataframes before binding
-```{r}
-list_rename = ldf
-names(list_rename) = c("jan_22","feb_22","mar_22","apr_22",
-                        "may_22", "jun_22","jul_22","aug_22",
-                        "sep_22", "oct_22", "nov_22", "dec_22",
-                        "jan_23","feb_23","mar_23","apr_23",
-                        "may_23", "jun_23","jul_23","aug_23",
-                        "sep_23", "oct_23", "nov_23", "dec_23",
-                        "jan_24", "feb_24")
-```
+
+
+
+
+
+
 drop first rows and column row
 ```{r}
 remove_rows_and_columns <- function(df) {

@@ -106,6 +106,8 @@ library(dplyr)
 library(plotly)
 library(lubridate)
 library(DT)  # For datatable rendering
+library(tidyverse)
+
 
 # Assuming data is already loaded and transformed
 data <- read_csv("../data/final_data.csv")  # Ensure 'final_data' is properly loaded with appropriate columns
@@ -188,6 +190,8 @@ library(dplyr)
 library(plotly)
 library(lubridate)
 library(DT)  # For datatable rendering
+library(tidyverse)
+
 
 # Assuming data is already loaded and transformed
 data <- read_csv("../data/final_data.csv")  # Ensure 'final_data' is properly loaded with appropriate columns
@@ -279,6 +283,8 @@ library(dplyr)
 library(plotly)
 library(lubridate)
 library(DT)  # For rendering interactive data tables
+library(tidyverse)
+
 
 # Assuming data is already loaded and transformed
 data <- read_csv("../data/final_data.csv")
@@ -410,6 +416,8 @@ library(dplyr)
 library(plotly)
 library(lubridate)
 library(DT)  # For rendering interactive data tables
+library(tidyverse)
+
 
 # Assuming data is already loaded and transformed
 data <- read_csv("../data/final_data.csv")
@@ -561,6 +569,8 @@ library(shiny)
 library(plotly)
 library(dplyr)
 library(lubridate)
+library(tidyverse)
+
 
 # Assuming data is already loaded and transformed
 data <- read_csv("../data/final_data.csv")
@@ -640,6 +650,8 @@ library(dplyr)
 library(plotly)
 library(lubridate)
 library(DT)  # For rendering interactive data tables
+library(tidyverse)
+
 
 # Assuming data is already loaded and transformed
 data <- read_csv("../data/final_data.csv")
@@ -865,6 +877,8 @@ library(plotly)
 library(lubridate)
 library(DT)  # For rendering interactive data tables
 library(RColorBrewer)  # For generating color palettes
+library(tidyverse)
+
 
 # Assuming data is already loaded and transformed
 data <- read_csv("../data/final_data.csv")
@@ -1134,6 +1148,7 @@ library(plotly)
 library(lubridate)
 library(DT)  # For rendering interactive data tables
 library(RColorBrewer)  # For generating color palettes
+library(tidyverse)
 
 # Assuming data is already loaded and transformed
 data <- read_csv("../data/final_data.csv")

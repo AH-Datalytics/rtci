@@ -201,58 +201,30 @@ Murder and Nonnegligent Manslaughter, Forcible Rape, Aggravated Assault, Arson, 
 Purse-snatching + Shoplifting + Theft from Building + Theft From Coin Operated Machine or Device + Theft From Motor Vehicle + Theft of Motor Vehicle Parts/Accessories + All Other Larceny
 ```{r}
 # List of required column names
-required_columns <- c("Agency", "Murder and Nonnegligent Manslaughter",
-                       "Forcible Rape", "Robbery", "Aggravated Assault", "Burglary/Breaking & Entering",
-                       "Larceny", "Motor Vehicle Theft",
+required_columns <- c("Agency.Name", "Criminal Homicide",
+                       "Forcible Rape Total", "Robbery Total", "Aggravated Assault Total", "Burglary Total",
+                       "Larceny - Theft Total", "Motor Vehicle Theft Total",
                       "Arson", "Month", "Year")
 
-# Function to check and add missing columns, then select required columns
-adjust_dataframes <- function(df, required_columns) {
-  # Check for missing columns and add them if they are missing
-  missing_columns <- setdiff(required_columns, names(df))
-  if (length(missing_columns) > 0) {
-    for (col in missing_columns) {
-      df[[col]] <- NA  # Add missing columns with NA values
-    }
-  }
-  
-  # Select only the required columns (ensures correct order as well)
-  df <- df[, required_columns, drop = FALSE]
-  
-  return(df)
-}
-
-# Apply the function to each dataframe in the list
-adjusted_list_df <- lapply(ldf1_larc, adjust_dataframes, required_columns = required_columns)
-
-# Print the results to verify the adjustment
-print(adjusted_list_df)
-```
-row bind the list together
-```{r}
-combined_df <- do.call(rbind, adjusted_list_df)
-```
-new column names
-```{r}
 # New column names
-  final_col_names <- c("Agency Name","Murder", "Rape", "Robbery",
+  final_col_names <- c("Agency Name", "Murder", "Rape", "Robbery",
                        "Agg Assault", "Burglary", "Larceny", "MVT", "Arson", "Month", "Year")
   # Rename the columns
-  names(combined_df) <- final_col_names
+  names(cdf1) <- final_col_names
 ```
 make the base dataset to join back to that accounts for non-reporting months
 ```{r}
 # Using expand.grid to generate all combinations of unique values from three columns
 all_combinations <- expand.grid(
-  'Agency Name' = unique(combined_df$`Agency Name`),
-  Year = unique(combined_df$Year),
-  Month = unique(combined_df$Month)
+  'Agency Name' = unique(cdf1$`Agency Name`),
+  Year = unique(cdf1$Year),
+  Month = unique(cdf1$Month)
 )
 ```
 join the combined df to this base dataset - now we know if data is missing for certain agencies for certain months - rather than just calculating the counts based on whether an agency reported a crime in that time period
 ```{r}
 # Join the data frames
-joined_df <- merge(all_combinations, combined_df, by = c("Agency Name", "Year", "Month"), all.x = TRUE)
+joined_df <- merge(all_combinations, cdf1, by = c("Agency Name", "Year", "Month"), all.x = TRUE)
 
 # View the result
 print(joined_df)
@@ -277,8 +249,7 @@ print(freq_Column3)
 ```
 did we create some NA's?
 ```{r}
-colSums(is.na(joined_df
-            ))
+colSums(is.na(joined_df))
 ```
 change NA to NR
 ```{r}
@@ -302,10 +273,10 @@ final_df <- final_df[, column_order]
 write it out!
 ```{r}
 # Specify the folder path
-folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Virginia\\Formatted Data"
+folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Massachusetts\\Formatted Data"
 
 # Create the full file path
-file_path <- file.path(folder_path, "va_jan23_present.csv")
+file_path <- file.path(folder_path, "ma_jan23_present.csv")
 
 # Write the data frame to a .csv file
 write.csv(final_df, file = file_path, row.names = FALSE)

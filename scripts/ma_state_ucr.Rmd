@@ -120,90 +120,81 @@ process_dataframe1 <- function(df) {
 processed_lists1 <- lapply(ldf1, process_dataframe1)
 
 # Combine the results into a single list
-final_result1 <- do.call(c, processed_lists1)
+ldf2<- do.call(c, processed_lists1)
 
 # Display the first dataframe in the new list for verification
-head(final_result1[[1]])
+head(ldf2[[1]])
 ```
-
+remove the erroneous rows from each dataframe, create the date column,
+and row combine now that they all have the same column names
 ```{r}
 # Function to process a single dataframe
-process_dataframe <- function(df) {
+process_dataframe2 <- function(df) {
+  # Create a new vector "colnames1" and store the values of row 4
+  colnames1 <- as.character(df[4, ])
+  
   # Remove rows 1, 2, 3, and 5
   df <- df[-c(1, 2, 3, 5), ]
   
   # Reset row numbers
   rownames(df) <- NULL
   
-  # Create a new column called `date` based on the value of the second column
-  df$date <- parse_date_time(df[[2]], orders = "%b %Y")
+  # Create a new column named "Date" where every value is the same as the name of column 2
+  df$Date <- colnames(df)[2]
+  
+  # Set the new column names as the values in vector colnames1
+  colnames(df) <- colnames1
+  
+  # Change the name of column 1 to "Agency.Name"
+  colnames(df)[1] <- "Agency.Name"
   
   return(df)
 }
 
 # Apply the function to each dataframe in the list
-processed_dfs <- lapply(ldf1, process_dataframe)
+ldf3<- lapply(ldf2, process_dataframe2)
 
 # Combine all dataframes into a single dataframe
-combined_df <- bind_rows(processed_dfs)
+combined_df <- bind_rows(ldf3)
 
 # Display the combined dataframe
 head(combined_df)
-
 ```
-
-
-
-
-
-
-
-
-
-create new columns and order them
-Murder and Nonnegligent Manslaughter, Forcible Rape, Aggravated Assault, Arson, Burglary/Breaking & Entering, Theft From Motor Vehicle
-Purse-snatching + Shoplifting + Theft from Building + Theft From Coin Operated Machine or Device + Theft From Motor Vehicle + Theft of Motor Vehicle Parts/Accessories + All Other Larceny
+further formatting
 ```{r}
-
-
-#Larceny/Theft Offenses to sum - 23H
-#Pocket-picking Property,  Purse-snatching Property,  Shoplifting Property,  Theft From Building Property,  Theft From Coin-Operated Machine or Device Property,  Theft From Motor Vehicle Property,  Theft of Motor Vehicle Parts or Accessories Property,All Other Larceny Property
-
-#Pocket-picking, Theft From Coin-Operated Machine not found - but no big
-############ALSO Add 23H/23C column
-
-
-
-process_larceny <- function(df) {
-  # Define the columns related to larceny
-  columns_to_larc <- c(
-    "Pocket-picking", "Purse-snatching", "Shoplifting", "Theft From Building",
-    "Theft From Coin Operated Machine or Device", "Theft From Motor Vehicle",
-    "Theft From Motor Vehicle Parts/Accessories", "All Other Larceny"
-  )
+# Process the dataframe
+df_formatting <- function(df) {
+  # Rename column 10 to "Date"
+  colnames(df)[10] <- "Date"
   
-  # Check if all specified columns exist in the dataframe
-  missing_cols <- setdiff(columns_to_larc, names(df))
-  if (length(missing_cols) > 0) {
-    warning("The following columns are missing in the dataframe and will be excluded from the sum: ", paste(missing_cols, collapse=", "))
-    columns_to_larc <- setdiff(columns_to_larc, missing_cols)
-  }
+  # Format "Date" column as date
+  df$Date <- parse_date_time(df$Date, orders = "%Y-%m-%d", quiet = TRUE)
   
-  # Calculate the sum of the specified columns if any exist
-  if (length(columns_to_larc) > 0) {
-    df$Larceny <- rowSums(df[, columns_to_larc], na.rm = TRUE)
-  } else {
-    df$Larceny <- 0  # Set Larceny to 0 if no columns are available for summing
-  }
+  # Remove rows with the value "Summary Offense" in column "Agency.Name"
+  df <- df %>% filter(`Agency.Name` != "Summary Offense")
+  
+  # Convert NA's to 0's for columns 2:9 and format as numeric
+  df[2:9] <- df[2:9] %>% mutate_all(~replace(., is.na(.), 0)) %>% mutate_all(as.numeric)
+  
+  # Create "Year" column based on "Date" column
+  df$Year <- year(df$Date)
+  
+  # Create numeric "Month" column based on "Date" column
+  df$Month <- month(df$Date)
+  
+  # Drop the "Date" column
+  df <- df %>% select(-Date)
   
   return(df)
 }
+
+# Apply the function to the dataframe
+cdf1 <- df_formatting(combined_df)
+# Display the processed dataframe
+head(cdf1)
+
 ```
-larceny process - only one to do
-```{r}
-ldf1_larc <- lapply(ldf2, process_larceny)
-print(ldf1_larc[1])
-```
+
 drop unnecessary columns
 create new columns and order them
 Murder and Nonnegligent Manslaughter, Forcible Rape, Aggravated Assault, Arson, Burglary/Breaking & Entering, Theft From Motor Vehicle

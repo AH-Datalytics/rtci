@@ -34,121 +34,132 @@ head(ldf[1])
 trim the first four rows; 
 we need column 1 + every 8 columns first one being 1 + 2:8, etc. 
 ```{r}
-# Function to check if a string conforms to "%b %Y"
-is_valid_date <- function(date_string) {
-  !is.na(parse_date_time(date_string, orders = "%b %Y"))
+library(lubridate)
+library(dplyr)
+library(readxl)
+
+# Function to process a single dataframe
+process_dataframe <- function(df) {
+  # Find the row with "Summary Date" in the first column
+  summary_date_row <- which(df[[1]] == "Summary Date")
+  
+  # Set the column names with the values found in the "Summary Date" row
+  new_colnames <- as.character(df[summary_date_row, ])
+  colnames(df) <- new_colnames
+  
+  # Function to check if a string conforms to "%b %Y"
+  is_valid_date <- function(date_string) {
+    !is.na(parse_date_time(date_string, orders = "%b %Y"))
+  }
+  
+  # Start with column 2
+  for (i in 2:ncol(df)) {
+    if (is_valid_date(df[summary_date_row, i])) {
+      # If the value conforms to date format, format it as a date
+      colnames(df)[i] <- as.character(parse_date_time(df[summary_date_row, i], orders = "%b %Y"))
+    } else {
+      # If the value does not conform to date format, assign the column name of the preceding column
+      colnames(df)[i] <- colnames(df)[i - 1]
+    }
+  }
+  
+  # Remove the "Summary Date" row
+  df <- df[-summary_date_row, ]
+  
+  return(df)
 }
 
-# Function to process each DataFrame
-process_dataframe <- function(df) {
-  # Assuming the first row contains the headers
-  header <- df[1, ]
-  df <- df[-(1:4), ]  # Remove the first 4 rows along with the header row
+# Apply the process_dataframe function to each dataframe in the list
+ldf1 <- lapply(ldf, process_dataframe)
 
+# Display the modified dataframes
+lapply(ldf1, head)
+
+```
+let's see how we did....nailed it!
+```{r}
+# Function to get column names of each dataframe in the list
+get_column_names <- function(df) {
+  colnames(df)
+}
+
+# Apply the function to each dataframe in the list
+column_names_list <- lapply(ldf1, get_column_names)
+
+# Print the column names for each dataframe
+print(column_names_list)
+##column names now associate the count/crime type with a time frame that 
+##can be attributed to an agency. all good.
+```
+create separate dataframes for each observed month
+```{r}
+# Function to process a single dataframe
+process_dataframe1 <- function(df) {
   # Initialize a list to store the resulting dataframes
   result_dfs <- list()
   
-  # Loop through columns in steps of 8 after the first column
-  for (i in 2:ncol(df)) {
-    if (i + 7 <= ncol(df)) {
-      # Extract the date from the header of the ith column
-      date <- as.character(header[i])
-      if (is_valid_date(date)) {
-        # Create a DataFrame combining the first column with the next 8 columns
-        new_df <- df[, c(1, i:(i+7)), drop = FALSE]
-        # Add the date as a new column with the extracted date repeated
-        new_df$date <- rep(date, nrow(new_df))
-        
-        # Name the DataFrame based on the extracted date and store in the list
-        result_dfs[[gsub("[^[:alnum:]]", "_", date)]] <- new_df
-      }
-    } else {
-      break
-    }
+  # Get the unique column names except the first column
+  unique_colnames <- unique(colnames(df)[-1])
+  
+  # Loop through each unique column name
+  for (colname in unique_colnames) {
+    # Find indices of the columns with the same name
+    same_name_indices <- which(colnames(df) == colname)
+    
+    # Create a new dataframe with column 1 and all columns with the same name
+    new_df <- df[, c(1, same_name_indices)]
+    
+    # Add the new dataframe to the result list
+    result_dfs[[colname]] <- new_df
   }
   
   return(result_dfs)
 }
 
-# Applying the function to each dataframe in the list and storing results
-processed_lists <- lapply(ldf, process_dataframe)
+# Apply the function to each dataframe in the list
+processed_lists1 <- lapply(ldf1, process_dataframe1)
 
-# Combining all dataframes into a single list
-final_result <- do.call(c, processed_lists)
+# Combine the results into a single list
+final_result1 <- do.call(c, processed_lists1)
 
-# The final_result list now contains all the processed parts, named according to the dates
-head(final_result[1])
+# Display the first dataframe in the new list for verification
+head(final_result1[[1]])
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-now we need to fix the columns without losing the data the names contain
 ```{r}
-# Mapping for month abbreviations to numbers
-month_map <- setNames(1:12, month.abb)
-
-#apply
-
-# Assume list_of_dfs is defined as before or loaded
-# Define the transformation function including Year and Month parsing
-reshape_data <- function(df) {
-  df %>%
-    pivot_longer(
-      cols = -c(Agency, Offense),  # Adjust this based on your dataframe columns
-      names_to = "year_month",
-      values_to = "value"
-    ) %>%
-    mutate(
-      Year = as.numeric(str_sub(year_month, 1, 2)) + 2000,  # Extract and convert Year
-      Month = month_map[str_sub(year_month, 4, 6)],  # Map the Month abbreviation to a number
-      value = replace_na(value, 0),
-      year_month = NULL  # Optionally remove the original year_month column
-    )
-}
-
-# Apply the transformation function to each dataframe in the list
-ldf1 <- lapply(ldf, reshape_data)
-
-# Optionally, print the first processed dataframe to verify the results
-print(ldf1[[1]])
-```
-reshape wide based on offense field
-```{r}
-# Function to reshape a single dataframe from long to wide format
-reshape_wide_based_on_offense <- function(df) {
-  df %>%
-    pivot_wider(
-      names_from = Offense,  # Use the Offense column to create new columns
-      values_from = value,   # Fill these new columns with values from the Value column
-      values_fill = list(Value = "NR")  # Fill missing values with 0
-    )
+# Function to process a single dataframe
+process_dataframe <- function(df) {
+  # Remove rows 1, 2, 3, and 5
+  df <- df[-c(1, 2, 3, 5), ]
+  
+  # Reset row numbers
+  rownames(df) <- NULL
+  
+  # Create a new column called `date` based on the value of the second column
+  df$date <- parse_date_time(df[[2]], orders = "%b %Y")
+  
+  return(df)
 }
 
 # Apply the function to each dataframe in the list
-ldf2 <- lapply(ldf1, reshape_wide_based_on_offense)
+processed_dfs <- lapply(ldf1, process_dataframe)
 
-# Optionally, print the first processed dataframe to verify the results
-print(ldf2[[1]])
+# Combine all dataframes into a single dataframe
+combined_df <- bind_rows(processed_dfs)
+
+# Display the combined dataframe
+head(combined_df)
+
 ```
+
+
+
+
+
+
+
+
+
 create new columns and order them
 Murder and Nonnegligent Manslaughter, Forcible Rape, Aggravated Assault, Arson, Burglary/Breaking & Entering, Theft From Motor Vehicle
 Purse-snatching + Shoplifting + Theft from Building + Theft From Coin Operated Machine or Device + Theft From Motor Vehicle + Theft of Motor Vehicle Parts/Accessories + All Other Larceny

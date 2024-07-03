@@ -1,3 +1,4 @@
+# Library Imports -----------------------------------------------------------------------------
 library(shiny)
 library(ggplot2)
 library(dplyr)
@@ -7,6 +8,10 @@ library(DT)  # For rendering interactive data tables
 library(RColorBrewer)  # For generating color palettes
 library(tidyverse)
 library(rsconnect) # install package if needed
+library(here)
+
+
+# Data Loading and Transformation -------------------------------------------------------------
 
 # Assuming data is already loaded and transformed
 data <- read_csv("final_data_web_app.csv")
@@ -17,6 +22,11 @@ data$Month <- floor_date(data$Date, "month")
 default_crime_type <- "Murder"
 default_agency <- sort(unique(data$`Agency Name`))[1]
 default_years <- unique(data$Year)
+
+
+
+
+# Helper Functions ----------------------------------------------------------------------------
 
 # Helper function to format crime type label
 format_crime_type_label <- function(crime_types) {
@@ -38,6 +48,10 @@ add_shaded_background <- function(plot, data) {
               aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax),
               fill = "grey90", alpha = 0.5, inherit.aes = FALSE)
 }
+
+
+
+# UI Definition -------------------------------------------------------------------------------
 
 # Shiny UI
 ui <- fluidPage(
@@ -120,6 +134,12 @@ ui <- fluidPage(
         downloadButton("downloadPlot", "Download Graph"))
   )
 )
+
+
+
+
+
+# Server Definition ---------------------------------------------------------------------------
 
 # Shiny Server
 server <- function(input, output, session) {
@@ -277,6 +297,9 @@ server <- function(input, output, session) {
   )
 }
 
-# # Run the application
+
+
+# Run the application ---------------------------------------------------------------------
+
 shinyApp(ui = ui, server = server)
 

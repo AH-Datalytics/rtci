@@ -87,20 +87,25 @@ process_dataframe2 <- function(df) {
   #change the names of column 10 and 11 to Year and Month
   colnames(df)[10] <- "Year"
   colnames(df)[11] <- "Month"
+
+  ## Find the row with "Summary Offense by Index" in the first column
+  sum_row_remove <- which(df[[1]] == "Summary Offense by Index")
+
+  ##remove 
+  df <- df[-sum_row_remove, ]
   
   return(df)
 }
 
 # Apply the function to each dataframe in the list
-ldf2<- lapply(ldf2, process_dataframe2)
+ldf1<- lapply(ldf, process_dataframe2)
 
 # Combine all dataframes into a single dataframe
-combined_df <- bind_rows(ldf2)
+combined_df <- bind_rows(ldf1)
 
 # Display the combined dataframe
 head(combined_df)
 ```
-
 rename columns
 #Murder and Nonnegligent Homicide	Forcible Rape	Robbery	Aggravated Assault	Burglary	Larceny - Theft	Motor Vehicle Theft	Arson
 ```{r}

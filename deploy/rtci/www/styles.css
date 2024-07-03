@@ -19,9 +19,13 @@ body {
 }
 
 .main-panel { 
-  width: 100%; 
-  background-color: #00333a;  /* Teal background color for main panel */
+  width: 100%;
+  height: calc(100vh - 10%); /* Teal background color for main panel */
+  background-color: #00333a;  
+  flex: 1; /* Allow main panel to grow and shrink */
+  overflow: hidden; /* Prevent scrolling */
 }
+
 
 .well { 
   padding: 10px; 
@@ -35,8 +39,14 @@ h2.title {
   font-family: 'Roboto Condensed', sans-serif; 
 }
 
-select, .btn, .well {
+select, .btn, .well, .form-control {
   font-family: 'Roboto Condensed', sans-serif;
+  background-color: #004953;  /* Darker teal for dropdowns and buttons */
+  color: #ffffff;  /* White text color for dropdowns and buttons */
+}
+
+select:focus, .btn:focus, .well:focus, .main-panel:focus, .form-control:focus {
+  background-color: #005c6e;  /* Slightly lighter teal for focused elements */
 }
 
 .dataTables_wrapper, .dataTables_info, .paginate_button {
@@ -53,10 +63,6 @@ select, .btn, .well {
   color: #ffffff;
 }
 
-#crimePlot {
-  background-color: #00333a;
-}
-
 .center-div {
   width: 100%;
   text-align: center;
@@ -65,24 +71,36 @@ select, .btn, .well {
 
 .full-width-div {
   width: 100%;
+  display: flex;
+  justify-content: center; /* Center the contents horizontally */
+  align-items: center; /* Center the contents vertically */
+  text-align: center;
+  gap: 10px; /* Add some space between elements */
+  flex-wrap: nowrap; /* Prevent wrapping of elements */
 }
 
 .action-button {
   padding-top: 10px;
-  text-align: left;
+  text-align: left; /* Left align the button */
 }
 
 .select-wrapper {
   display: inline-block;
-  width: 20%;
-  position: relative;
+  min-width: 150px; /* Minimum width to maintain readability */
   border-bottom: 1px solid #ffffff;
+}
+
+.full-width-div span, .full-width-div select {
+  font-size: 18px; /* Increase the font size */
 }
 
 .text-right {
   text-align: right;
 }
 
+.dataTables_wrapper {
+  font-family: 'Roboto Condensed', sans-serif;
+}
 
 .dataTables_wrapper .dataTables_info {
   color: #ffffff; /* Text color for DataTables info */
@@ -119,3 +137,22 @@ select, .btn, .well {
   color: #ffffff; /* Text color for table header */
 }
 
+.filter-button-container {
+  text-align: left;
+  margin-top: 10px;
+}
+
+.filter-button-container .btn {
+  font-size: 18px; /* Same font size for button */
+}
+
+@media screen and (max-width: 768px) {
+  .full-width-div {
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  }
+
+  .select-wrapper {
+    width: 100%; /* Make each select box take full width on smaller screens */
+    margin-bottom: 10px; /* Add some spacing between rows */
+  }
+}

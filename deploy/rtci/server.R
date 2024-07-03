@@ -59,6 +59,8 @@ server <- function(input, output, session) {
     ), callback = JS("table.draw();"))
   })
   
+  # server.R
+  
   # Toggle view between plot and data table
   observeEvent(input$toggleView, {
     if (input$toggleView %% 2 == 1) {
@@ -69,15 +71,17 @@ server <- function(input, output, session) {
     } else {
       updateActionButton(session, "toggleView", label = "View Table")
       output$viewOutput <- renderUI({
-        plotlyOutput("crimePlot", height = "600px")
+        plotlyOutput("crimePlot", height = "100%")
       })
     }
   })
   
   # Set initial view to plot
   output$viewOutput <- renderUI({
-    plotlyOutput("crimePlot", height = "600px")
+    plotlyOutput("crimePlot", height = "100%")
   })
+  
+
   
   # Reactive function to get the selected row indices
   tableRows <- reactive({

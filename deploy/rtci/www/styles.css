@@ -19,13 +19,14 @@ body {
 }
 
 .main-panel { 
-  width: 100%;
-  height: calc(100vh - 10%); /* Teal background color for main panel */
-  background-color: #00333a;  
+  width: 100%; 
+  background-color: #f328d9;  /* Change to pink to see the effect */
   flex: 1; /* Allow main panel to grow and shrink */
-  overflow: hidden; /* Prevent scrolling */
+  height: calc(100vh - 200px); /* Dynamically adjust the height */
+  display: flex;
+  flex-direction: column; /* Ensure children stack vertically */
+  overflow: hidden; /* Prevent overflow */
 }
-
 
 .well { 
   padding: 10px; 
@@ -45,7 +46,7 @@ select, .btn, .well, .form-control {
   color: #ffffff;  /* White text color for dropdowns and buttons */
 }
 
-select:focus, .btn:focus, .well:focus, .main-panel:focus, .form-control:focus {
+select:focus, .btn:focus, .well:focus, .form-control:focus {
   background-color: #005c6e;  /* Slightly lighter teal for focused elements */
 }
 
@@ -61,6 +62,13 @@ select:focus, .btn:focus, .well:focus, .main-panel:focus, .form-control:focus {
 .table-header {
   background-color: #2d5ef9;
   color: #ffffff;
+}
+
+/* Ensure plot output adjusts dynamically */
+.plotly {
+  background-color: #00333a;
+  font-family: 'Roboto Condensed', sans-serif; /* Apply font to the plot */
+  flex: 1; /* Allow plot to grow and shrink */
 }
 
 .center-div {
@@ -144,6 +152,14 @@ select:focus, .btn:focus, .well:focus, .main-panel:focus, .form-control:focus {
 
 .filter-button-container .btn {
   font-size: 18px; /* Same font size for button */
+}
+
+.kpi-container {
+  flex: 0 1 auto; /* Allow KPI containers to adjust their height */
+}
+
+#viewOutput {
+  flex: 1; /* Allow the view output to grow and shrink */
 }
 
 @media screen and (max-width: 768px) {

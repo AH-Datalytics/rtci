@@ -42,6 +42,7 @@ ui <- fluidPage(
     
     # KPI boxes section
     fluidRow(
+      class = "kpi-container",  # KPI container
       column(4,
              wellPanel(  # Well panel for Current Year-to-Date KPI
                h4("Current Year-to-Date"),

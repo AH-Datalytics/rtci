@@ -109,7 +109,7 @@ head(combined_df)
 rename columns
 #Murder and Nonnegligent Homicide	Forcible Rape	Robbery	Aggravated Assault	Burglary	Larceny - Theft	Motor Vehicle Theft	Arson
 ```{r}
-col_names <- c("Agency Name", 
+col_names <- c("Agency.Name", 
               "Murder and Nonnegligent Homicide",	
               "Forcible Rape",	
               "Robbery",	
@@ -117,87 +117,88 @@ col_names <- c("Agency Name",
               "Burglary",	
               "Larceny - Theft",	
               "Motor Vehicle Theft",	
-              "Arson"
+              "Arson",
+              "Year",
+              "Month"
 
 )
 
-ldf2 <- lapply(ldf1, setNames, col_names)
-
+cdf1 <- select(combined_df, col_names)
 ```
-fill in empty cells with 0
+set the new column names
 ```{r}
-#simple function to apply to all dataframes in list
-replace_empty_with_zero <- function(df) {
-  df[df == ""] <- "0"
-  df
-}
-
-# Apply the function to each data frame in the list
-ldf3 <- lapply(ldf2, replace_empty_with_zero)
-
-#convert these fields to numeric
-convert_to_numeric <- function(df) {
-  df[, -1] <- lapply(df[, -1], as.numeric)
-  return(df)
-}
-
-# Apply the function to each dataframe in the list
-ldf3_num <- lapply(ldf3, convert_to_numeric)
-
-# Print the modified list of data frames
-print(ldf3[1])
-
+# New column names
+  final_col_names <- c("Agency Name", "Murder", "Rape", "Robbery",
+                       "Agg Assault", "Burglary", "Larceny", "MVT", "Arson", "Month", "Year")
+  # Rename the columns
+  names(cdf1) <- final_col_names
 ```
-
-
-rename each column for all dataframes in list
+make the base dataset to join back to that accounts for non-reporting months
 ```{r}
-#list of column names
-final_col_names <-  c("Agency Name","Murder",	"Rape",	"Robbery",
-"Agg Assault",	"Burglary",	"Larceny",	"MVT",	"Arson")
-
-#apply column names
-ldf4 <- lapply(ldf3, setNames, final_col_names)
-
-ldf4[1]
+# Using expand.grid to generate all combinations of unique values from three columns
+all_combinations <- expand.grid(
+  'Agency Name' = unique(cdf1$`Agency Name`),
+  Year = unique(cdf1$Year),
+  Month = unique(cdf1$Month)
+)
 ```
-add a column the designates the time period
+join the combined df to this base dataset - now we know if data is missing for certain agencies for certain months - rather than just calculating the counts based on whether an agency reported a crime in that time period
 ```{r}
-list_of_dataframes <- ldf4
+# Join the data frames
+joined_df <- merge(all_combinations, cdf1, by = c("Agency Name", "Year", "Month"), all.x = TRUE)
 
-# Function to add a column with the name of the data frame
-add_column_with_dataframe_name <- function(df) {
-  df$name_column <- names(list_of_dataframes)[match(deparse(substitute(df)), names(list_of_dataframes))]
-  df
-}
-
-# Apply the function to each data frame in the list
-list_of_dataframes_with_column <- lapply(names(list_of_dataframes), function(df_name) {
-  df <- list_of_dataframes[[df_name]]
-  df$name_column <- df_name
-  df
-})
-ldf5 <- list_of_dataframes_with_column
+# View the result
+print(joined_df)
 ```
-row bind the list together
+are all time periods and agencies accounted for? should have an equal number of each in terms of records
 ```{r}
-combined_df <- do.call(rbind, list_of_dataframes_with_column)
+# Counting frequency of each value in Column1
+freq_Column1 <- table(joined_df$`Agency Name`)
+print("Frequency of Column1:")
+print(freq_Column1)
 
+# Counting frequency of each value in Column2
+freq_Column2 <- table(joined_df$Year)
+print("Frequency of Column2:")
+print(freq_Column2)
+
+# Counting frequency of each value in Column3
+freq_Column3 <- table(joined_df$Month)
+print("Frequency of Column3:")
+print(freq_Column3)
+####we are all set. consistent number of records for each unique value in column now.
 ```
-write it out- still needs to be transformed
+did we create some NA's?
 ```{r}
-write.csv(combined_df, "nv_state_ucr_all.csv")
-
-
+colSums(is.na(joined_df))
 ```
-we need to get rid of agencies that are not cities/part of our list
+change NA to NR
 ```{r}
+# Replace NA in all columns except 'AgencyName', 'Year', and 'Month' with "NR"
+final_df <- joined_df %>%
+  mutate_if(!names(.) %in% c("Agency Name", "Year", "Month"), ~ifelse(is.na(.), "NR", .))
 
+# View the modified DataFrame
+print(final_df)
 ```
+reorder columns and done
+```{r}
+# Specified order for the columns
+column_order <- c("Agency Name", "Murder", "Rape", "Robbery", 
+                  "Agg Assault", "Burglary", "Larceny", "MVT", "Arson",
+                  "Year", "Month")
 
+# Reorder columns based on the specified order
+final_df <- final_df[, column_order]
+```
+write it out!
+```{r}
+# Specify the folder path
+folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Nevada\\Formatted Data"
 
+# Create the full file path
+file_path <- file.path(folder_path, "nv_jan23_present.csv")
 
-
-#notes
-#Online version
-#pdftools::pdf_text(pdf = "http://arxiv.org/pdf/1403.2805.pdf")
+# Write the data frame to a .csv file
+write.csv(final_df, file = file_path, row.names = FALSE)
+```

@@ -4,6 +4,7 @@ output: pdf_document
 date: "2024-04-19"
 updated: "2024-06-10"
 updated: "2024-06-28"
+updated: "2024-07-03"
 ---
 ```{r}
 library(tidyverse)
@@ -64,26 +65,40 @@ what does the top look like
 ```{r}
 head(ldf[1])
 ```
-
-
-
-
-
-
 drop first rows and column row
 ```{r}
-remove_rows_and_columns <- function(df) {
-  df <- df[-c(1:6, ncol(df)), ]
+# Function to process a single dataframe
+process_dataframe2 <- function(df) {
+  # Create a new vector "colnames1" and store the values of row 4
+  colnames1 <- as.character(df[5, ])
+  
+  # Remove rows 1, 2, 3, and 5
+  df <- df[-c(1, 2, 3, 4,6), ]
+  
+  # Reset row numbers
+  rownames(df) <- NULL
+  
+  # Set the new column names as the values in vector colnames1
+  colnames(df) <- colnames1
+  
+  # Change the name of column 1 to "Agency.Name"
+  colnames(df)[1] <- "Agency.Name"
+
+  #change the names of column 10 and 11 to Year and Month
+  colnames(df)[10] <- "Year"
+  colnames(df)[11] <- "Month"
+  
   return(df)
 }
 
 # Apply the function to each dataframe in the list
-list_of_dataframes_trimmed <- lapply(list_rename, remove_rows_and_columns)
+ldf2<- lapply(ldf2, process_dataframe2)
 
-# Print first dataframe in list to see
-print(list_of_dataframes_trimmed[1])
-#make a new vector
-ldf1 <- list_of_dataframes_trimmed
+# Combine all dataframes into a single dataframe
+combined_df <- bind_rows(ldf2)
+
+# Display the combined dataframe
+head(combined_df)
 ```
 
 rename columns

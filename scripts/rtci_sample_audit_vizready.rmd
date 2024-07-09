@@ -47,16 +47,13 @@ crime_categories <- c("Murder", "Rape", "Robbery",
 crime_data <- crime_data %>%
   mutate(across(all_of(crime_categories), ~as.numeric(replace(., . == "NR", NA))))
 ```
-
+Save observations with "NR" values for crime counts to a separate data frame
 ```{r}
-
-# Save observations with "NR" values for crime counts to a separate data frame
 nr_observations <- crime_data %>%
   filter(if_any(all_of(crime_categories), ~is.na(.)))
 ```
-
+Function to calculate lag time
 ```{r}
-# Function to calculate lag time
 calculate_lag_time <- function(data, crime_categories) {
   data %>%
     group_by(Agency) %>%
@@ -73,27 +70,23 @@ calculate_lag_time <- function(data, crime_categories) {
 # Apply lag time calculation
 crime_data <- calculate_lag_time(crime_data, crime_categories)
 ```
-
+Display the cleaned and standardized data frame
 ```{r}
-# Display the cleaned and standardized data frame
 print("Cleaned Crime Data:")
 print(crime_data)
 ```
-
+Display observations with invalid months
 ```{r}
-# Display observations with invalid months
 print("Observations with Invalid Months:")
 print(invalid_months)
 ```
-
+Display observations with invalid years
 ```{r}
-# Display observations with invalid years
 print("Observations with Invalid Years:")
 print(invalid_years)
 ```
-
+Display observations with "NR" values for crime counts
 ```{r}
-# Display observations with "NR" values for crime counts
 print("Observations with 'NR' in Crime Counts:")
 print(nr_observations)
 ```

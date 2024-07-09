@@ -90,6 +90,20 @@ Display observations with "NR" values for crime counts
 print("Observations with 'NR' in Crime Counts:")
 print(nr_observations)
 ```
+run wheeler's outliers
+```{r}
+#we will source it first
+source("C:\\Users\\daveh\\rtci\\scripts\\crimeAnomaly.R")
+```
+
+
+
+
+
+reshape data post 
+```{r}
+
+```
 
 #Now we join the historical data to the sample (technically vice versa)
 C:\OneDrive\OneDrive - ahdatalytics.com\Clients\Real Time Crime Index\Historical Data
@@ -97,4 +111,20 @@ UCR Historical Data 2018-2022.csv
 ```{r}
 file_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Historical Data\\UCR Historical Data 2018-2022.csv"
 ucr_data <- read.csv(file_path)
+```
+reshape the ucr data wide before we join to the sample
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
 ```

@@ -8,7 +8,7 @@ let's load in the sample from the collector script
 ```{r}
 samp <- read_csv("rtci_sample_extracted.csv")
 ```
-function to standardize the month and year fields
+function to standardize the month column
 ```{r}
 standardize_month <- function(month) {
   month_numeric <- match(tolower(month), tolower(month.abb))
@@ -19,37 +19,37 @@ standardize_month <- function(month) {
 }
 
 # Standardize the month column and convert year to numeric
-crime_data <- crime_data %>%
+samp <- samp %>%
   mutate(
     StandardizedMonth = sapply(Month, standardize_month),
     Year = as.numeric(Year)
   )
+
+  #let's see the bad months 
+invalid_months <- samp %>%
+  filter(is.na(StandardizedMonth))
 ```
 filter out and check out obs with problematic month/year columns
 ```{r}
-#let's see the bad months and years 
-invalid_months <- crime_data %>%
-  filter(is.na(StandardizedMonth))
-
-invalid_years <- crime_data %>%
+#let's see the bad years
+invalid_years <- samp %>%
   filter(!grepl("^20(1[8-9]|2[0-4])$", Year))
 
-#keep only valid sample months
-crime_data <- crime_data %>%
+#keep only valid sample months/years
+samp <- samp %>%
   filter(!is.na(StandardizedMonth) & grepl("^20(1[8-9]|2[0-4])$", Year))
-
 ```
 make sure the crime count categories are numeric - make a list of them first
 ```{r}
 # Convert crime category columns to numeric, allowing for negative and positive numbers and 0
 crime_categories <- c("Murder", "Rape", "Robbery", 
                   "Agg Assault", "Burglary", "Larceny", "MVT", "Arson")
-crime_data <- crime_data %>%
+samp <- samp %>%
   mutate(across(all_of(crime_categories), ~as.numeric(replace(., . == "NR", NA))))
 ```
 Save observations with "NR" values for crime counts to a separate data frame
 ```{r}
-nr_observations <- crime_data %>%
+nr_observations <- samp %>%
   filter(if_any(all_of(crime_categories), ~is.na(.)))
 ```
 Function to calculate lag time
@@ -68,12 +68,12 @@ calculate_lag_time <- function(data, crime_categories) {
     select(-FirstNR)
 }
 # Apply lag time calculation
-crime_data <- calculate_lag_time(crime_data, crime_categories)
+samp <- calculate_lag_time(samp, crime_categories)
 ```
 Display the cleaned and standardized data frame
 ```{r}
 print("Cleaned Crime Data:")
-print(crime_data)
+head(samp)
 ```
 Display observations with invalid months
 ```{r}
@@ -90,19 +90,73 @@ Display observations with "NR" values for crime counts
 print("Observations with 'NR' in Crime Counts:")
 print(nr_observations)
 ```
-run wheeler's outliers
+before we run the audit, let's standardize the agency name column so that it will join with historical UCR data
+```{r}
+# List of text pieces to remove
+remove_list <- c("PD", "Police Department", "Department of Public Safety", "MIP", "Police Bureau", "Police Division", "\\(Clermont\\)", "PD MIP", "Police Bureau MIP")
+
+# Create a regex pattern from the remove list - look more into this - thank you chatgpt
+pattern <- paste(remove_list, collapse = "|")
+
+# Remove specified pieces of text from Agency.Name
+samp <- samp %>%
+  mutate(City = gsub(pattern, "", Agency.Name, ignore.case = TRUE))
+
+# Trim leading and trailing whitespaces
+samp <- samp %>%
+  mutate(City = trimws(City))
+
+# View the modified data frame
+head(samp)
+```
+run wheeler's outliers tests
 ```{r}
 #we will source it first
 source("C:\\Users\\daveh\\rtci\\scripts\\crimeAnomaly.R")
+
+# This function looks at cumulative year to date stats
+# so if prior total 100 YTD (averaged over prior_max years)
+# and current is 20 YTD total, this would flagged
+# this expects the values in per a single PD
+ytd_poisson(samp)
+
+# So this will loop over all PDs and return a total count column
+# along with a note, if the note says
+# "Burglary_ytd1 | MVT_ytd1 | Larceny_pri8"
+# That means this police department was flagged for year to date burglary, year to date MVT
+# and prior 8 larceny (but not prior 1 larceny)
+# sorts the results, so the agencies with the most flagges are at the top of the dataframe
+metrics_allpd(samp)
+
+# This function looks at the average of the prior k months
+# so if average of prior 8 is 30, and current month is 10
+# this will likely flag
+# can set prior_max to 1 to just look at current vs prior month
+priork_poisson(samp)
 ```
-
-
-
-
-
-reshape data post 
+reshape data post so we get a clean join to the ucr historical data
 ```{r}
+# Convert Month and Year to a Date column in "%b-%Y" format
+samp <- samp %>%
+  mutate(Date = as.Date(paste(Year, Month, "01", sep = "-"), "%Y-%b-%d"))
 
+# Format the Date column as "%b-%Y"
+samp <- samp %>%
+  mutate(Date = format(Date, "%b-%Y"))
+
+# Reshape to long 
+samp_long <- samp %>%
+  pivot_longer(cols = c("Murder", "Rape", "Robbery", 
+                        "Agg Assault", "Burglary", "Larceny", "MVT", "Arson"),
+                            names_to = "Crime Type",
+                            values_to = "Count")
+
+# Reshape to wide format with Date as columns
+samp_wide <- samp_long %>%
+  pivot_wider(names_from = Date, values_from = Count)
+
+#let's see what we have now
+head(samp_wide)
 ```
 
 #Now we join the historical data to the sample (technically vice versa)
@@ -114,11 +168,34 @@ ucr_data <- read.csv(file_path)
 ```
 reshape the ucr data wide before we join to the sample
 ```{r}
+# Standardize the month first before making the Date column
+standardize_month(ucr_data)
 
+# Convert Month and Year to a Date column in "%b-%Y" format
+ucr_data <- ucr_data %>%
+  mutate(Date = as.Date(paste(Year, Month, "01", sep = "-"), "%Y-%b-%d"))
+
+# Format the Date column as "%b-%Y"
+ucr_data <- ucr_data %>%
+  mutate(Date = format(Date, "%b-%Y"))
+
+# Reshape to long 
+ucr_long <- ucr_data %>%
+  pivot_longer(cols = c("Murder", "Rape", "Robbery", 
+                        "Agg Assault", "Burglary", "Larceny", "MVT", "Arson"),
+                            names_to = "Crime Type",
+                            values_to = "Count")
+
+# Reshape to wide format with Date as columns
+ucr_wide <- ucr_long %>%
+  pivot_wider(names_from = Date, values_from = Count)
+
+#let's see what we have now
+head(ucr_wide)
 ```
-
+now let's join using city and state
 ```{r}
-
+samp_full_wide <- right_join(ucr_wide,samp_wide, by = c("City", "State"))
 ```
 
 ```{r}

@@ -27,14 +27,14 @@ crime_data <- crime_data %>%
 ```
 filter out and check out obs with problematic month/year columns
 ```{r}
-# Save observations with non-standard months and years to separate data frames
+#let's see the bad months and years 
 invalid_months <- crime_data %>%
   filter(is.na(StandardizedMonth))
 
 invalid_years <- crime_data %>%
   filter(!grepl("^20(1[8-9]|2[0-4])$", Year))
 
-# Filter out invalid months and years from the main data frame
+#keep only valid sample months
 crime_data <- crime_data %>%
   filter(!is.na(StandardizedMonth) & grepl("^20(1[8-9]|2[0-4])$", Year))
 
@@ -42,7 +42,8 @@ crime_data <- crime_data %>%
 make sure the crime count categories are numeric - make a list of them first
 ```{r}
 # Convert crime category columns to numeric, allowing for negative and positive numbers and 0
-crime_categories <- c("CrimeCount1", "CrimeCount2") # Add other crime category columns as needed
+crime_categories <- c("Murder", "Rape", "Robbery", 
+                  "Agg Assault", "Burglary", "Larceny", "MVT", "Arson")
 crime_data <- crime_data %>%
   mutate(across(all_of(crime_categories), ~as.numeric(replace(., . == "NR", NA))))
 ```

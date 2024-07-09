@@ -69,7 +69,18 @@ combine list of csv's into master dataset
 ```{r}
 combined_df <- do.call(rbind, extracted_data)
 ```
-save output to viz folder - update output path
+fix the row.names issue first before writing out
 ```{r}
-write.csv(combined_df, "rtci_extracted.csv")
+row.names(combined_df) <- NULL
+```
+save output to viz folder - update output path
+C:\OneDrive\OneDrive - ahdatalytics.com\Clients\Real Time Crime Index\Open Source Data\Collected Sample Data
+```{r}
+folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data"
+
+# Create the full file path
+file_path <- file.path(folder_path, "rtci_sample_extracted.csv")
+
+# Write the data frame to a .csv file
+write.csv(combined_df, file = file_path, row.names = FALSE)
 ```

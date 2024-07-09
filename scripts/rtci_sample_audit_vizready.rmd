@@ -6,7 +6,7 @@ date: 07-09-2024
 
 let's load in the sample from the collector script
 ```{r}
-samp <- read_csv("rtci_extracted.csv")
+samp <- read_csv("rtci_sample_extracted.csv")
 ```
 function to standardize the month and year fields
 ```{r}
@@ -89,4 +89,12 @@ Display observations with "NR" values for crime counts
 ```{r}
 print("Observations with 'NR' in Crime Counts:")
 print(nr_observations)
+```
+
+#Now we join the historical data to the sample (technically vice versa)
+C:\OneDrive\OneDrive - ahdatalytics.com\Clients\Real Time Crime Index\Historical Data
+UCR Historical Data 2018-2022.csv
+```{r}
+file_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Historical Data\\UCR Historical Data 2018-2022.csv"
+ucr_data <- read.csv(file_path)
 ```

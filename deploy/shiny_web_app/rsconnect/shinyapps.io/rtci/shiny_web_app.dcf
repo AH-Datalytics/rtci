@@ -5,7 +5,7 @@ account: rtci
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 12250443
-bundleId: 8849102
+bundleId: 8849163
 url: https://rtci.shinyapps.io/shiny_web_app/
 version: 1
 asMultiple: FALSE

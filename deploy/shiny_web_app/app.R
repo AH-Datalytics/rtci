@@ -104,13 +104,6 @@ ui <- fluidPage(
     class = "main-panel",
     uiOutput("viewOutput"),
     fluidRow(
-      column(2,
-             wellPanel(
-               style = "background-color: #004953; color: #ffffff;",
-               h4("Source"),
-               textOutput("sourceLink")
-             )
-      ),
       column(4,
              wellPanel(
                style = "background-color: #004953; color: #ffffff;",
@@ -136,12 +129,21 @@ ui <- fluidPage(
              )
       )
     ),
-    div(style = "text-align: right;",
-        downloadButton("downloadData", "Download Table"),
-        downloadButton("downloadPlot", "Download Graph"))
+    fluidRow(
+      column(6,
+             wellPanel(
+               style = "background-color: #004953; color: #ffffff;",
+               h4(style = "margin: 0", "Source"),
+               textOutput("sourceLink", inline = TRUE)
+             )
+      ),
+      column(6, div(style = "text-align: right;",
+                    downloadButton("downloadData", "Download Table"),
+                    downloadButton("downloadPlot", "Download Graph"))
+      )
+    )
   )
 )
-
 
 
 
@@ -241,13 +243,13 @@ server <- function(input, output, session) {
     currentYTD <- df %>%
       filter(Year == max(Year)) %>%
       group_by(`Crime Type`) %>%
-      summarize(YTD = sum(Total_Incidents)) %>%
-      pull(YTD)
-    paste("Total Incidents: ", currentYTD)
-  })
-  
-  output$currentYTDLabel <- renderText({
-    paste("Crime Type: ", format_crime_type_label(input$crimeType))
+      summarize(YTD = sum(Total_Incidents))
+    
+    text <- paste(sapply(1:nrow(currentYTD), function(i) {
+      paste(currentYTD$`Crime Type`[i], "Incidents:", currentYTD$YTD[i])
+    }), collapse = "\n")
+    
+    text
   })
   
   output$previousYTD <- renderText({
@@ -255,13 +257,13 @@ server <- function(input, output, session) {
     previousYTD <- df %>%
       filter(Year == max(Year) - 1) %>%
       group_by(`Crime Type`) %>%
-      summarize(YTD = sum(Total_Incidents)) %>%
-      pull(YTD)
-    paste("Total Incidents: ", previousYTD)
-  })
-  
-  output$previousYTDLabel <- renderText({
-    paste("Crime Type: ", format_crime_type_label(input$crimeType))
+      summarize(YTD = sum(Total_Incidents))
+    
+    text <- paste(sapply(1:nrow(previousYTD), function(i) {
+      paste(previousYTD$`Crime Type`[i], "Incidents:", previousYTD$YTD[i])
+    }), collapse = "\n")
+    
+    text
   })
   
   output$percentChangeYTD <- renderText({
@@ -269,24 +271,30 @@ server <- function(input, output, session) {
     currentYTD <- df %>%
       filter(Year == max(Year)) %>%
       group_by(`Crime Type`) %>%
-      summarize(YTD = sum(Total_Incidents)) %>%
-      pull(YTD)
+      summarize(YTD = sum(Total_Incidents))
+    
     previousYTD <- df %>%
       filter(Year == max(Year) - 1) %>%
       group_by(`Crime Type`) %>%
-      summarize(YTD = sum(Total_Incidents)) %>%
-      pull(YTD)
-    percentChange <- ((currentYTD - previousYTD) / previousYTD) * 100
-    paste("Percent Change: ", round(percentChange, 2), "%")
+      summarize(YTD = sum(Total_Incidents))
+    
+    percentChange <- sapply(1:nrow(currentYTD), function(i) {
+      crime_type <- currentYTD$`Crime Type`[i]
+      current_value <- currentYTD$YTD[i]
+      previous_value <- previousYTD$YTD[previousYTD$`Crime Type` == crime_type]
+      change <- if (length(previous_value) == 0) NA else ((current_value - previous_value) / previous_value) * 100
+      paste(crime_type, "Percent Change:", if (is.na(change)) "N/A" else round(change, 2), "%")
+    })
+    
+    text <- paste(percentChange, collapse = "\n")
+    
+    text
   })
   
-  output$percentChangeYTDLabel <- renderText({
-    paste("Crime Type: ", format_crime_type_label(input$crimeType))
-  })
   
   # Source link output
   output$sourceLink <- renderText({
-    paste(input$agencyName)
+    paste("www.hyperlink.com", input$agencyName)
   })
   
   # Download handlers

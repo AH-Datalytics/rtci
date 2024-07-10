@@ -131,7 +131,6 @@ ui <- fluidPage(
           column(4,
                  wellPanel(
                    style = "background-color: #004953; color: #ffffff;",
-                   h4("Percent Change YTD"),
                    uiOutput("percentChangeYTD")
                  )
           )
@@ -172,7 +171,7 @@ server <- function(input, output, session) {
   format_date_range <- function(year, months) {
     min_month <- min(months)
     max_month <- ifelse(length(unique(months)) == 12, 12, max(months))  # Handle full years correctly
-    paste0("(", month.abb[min_month], " '", substr(year, 3, 4), " through ", month.abb[max_month], " '", substr(year, 3, 4), ")")
+    paste0("(", month.abb[min_month], " '", substr(year, 3, 4), " - ", month.abb[max_month], " '", substr(year, 3, 4), ")")
   }
   
   # Calculate and display YTD crime data
@@ -188,7 +187,8 @@ server <- function(input, output, session) {
     date_range <- format_date_range(current_year, current_months)
     
     tagList(
-      h4(paste("Current Year-to-Date", date_range)),
+      h4("Current Year-to-Date"),
+      h5(date_range),
       HTML(paste(sapply(1:nrow(currentYTD), function(i) {
         paste(currentYTD$`Crime Type`[i], "Incidents:", currentYTD$YTD[i])
       }), collapse = " "))
@@ -208,7 +208,8 @@ server <- function(input, output, session) {
     date_range <- format_date_range(previous_year, current_months)
     
     tagList(
-      h4(paste("Previous Year-to-Date", date_range)),
+      h4("Previous Year-to-Date"),
+      h5(date_range),
       HTML(paste(sapply(1:nrow(previousYTD), function(i) {
         paste(previousYTD$`Crime Type`[i], "Incidents:", previousYTD$YTD[i])
       }), collapse = "<br>"))
@@ -238,7 +239,13 @@ server <- function(input, output, session) {
       paste(crime_type, "Percent Change:", if (is.na(change)) "N/A" else round(change, 2), "%")
     })
     
-    HTML(paste(percentChange, collapse = "<br>"))
+    date_range <- format_date_range(current_year, current_months)
+    
+    tagList(
+      h4("Percent Change YTD"),
+      h5(date_range),
+      HTML(paste(percentChange, collapse = "<br>"))
+    )
   })
   
   # Render the data table

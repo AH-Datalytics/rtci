@@ -93,15 +93,15 @@ ui <- fluidPage(
                            div(style = "border-bottom: 1px solid #ffffff; width: 100%;")
                        )
         ))
-      ),
-      fluidRow(
-        column(12, div(style = "padding-top: 10px; text-align: left;",
-                       actionButton("toggleView", "View Table", class = "btn-primary")
-        ))
       )
   ),
   mainPanel(
     class = "main-panel",
+    fluidRow(
+      column(12, div(style = "padding-top: 10px; text-align: left;",
+                     actionButton("toggleView", "View Table", class = "btn-primary")
+      ))
+    ),
     uiOutput("viewOutput"),
     fluidRow(
       column(4,

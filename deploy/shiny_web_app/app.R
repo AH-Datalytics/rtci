@@ -309,14 +309,14 @@ server <- function(input, output, session) {
     } else {
       updateActionButton(session, "toggleView", label = "View Table")
       output$viewOutput <- renderUI({
-        plotlyOutput("crimePlot", height = "600px")
+        plotlyOutput("crimePlot", height = "55vh")
       })
     }
   })
   
   # Set initial view to plot
   output$viewOutput <- renderUI({
-    plotlyOutput("crimePlot", height = "600px")
+    plotlyOutput("crimePlot", height = "55vh")
   })
   
   # Source link output

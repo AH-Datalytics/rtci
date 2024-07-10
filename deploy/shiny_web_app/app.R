@@ -77,7 +77,7 @@ ui <- fluidPage(
   div(style = "width: 100%;",  # Ensure the top panel matches the plot width
       fluidRow(
         column(12, div(style = "padding-top: 20px; font-size: 20px;",
-                       span("I want to see "),
+                       span("Show me "),
                        div(style = "display: inline-block; width: 20%; position: relative;", 
                            selectInput("crimeType", "", choices = unique(data$`Crime Type`), multiple = TRUE, selected = default_crime_type, width = '100%'),
                            div(style = "border-bottom: 1px solid #ffffff; width: 100%;")
@@ -104,6 +104,13 @@ ui <- fluidPage(
     class = "main-panel",
     uiOutput("viewOutput"),
     fluidRow(
+      column(2,
+             wellPanel(
+               style = "background-color: #004953; color: #ffffff;",
+               h4("Source"),
+               textOutput("sourceLink")
+             )
+      ),
       column(4,
              wellPanel(
                style = "background-color: #004953; color: #ffffff;",
@@ -220,7 +227,7 @@ server <- function(input, output, session) {
   
   # Set initial view to plot
   output$viewOutput <- renderUI({
-    plotlyOutput("crimePlot", height = "600px")
+    plotlyOutput("crimePlot", height = "600px") #IS THIS WHERE I EDIT THE SIZING?
   })
   
   # Reactive function to get the selected row indices
@@ -275,6 +282,11 @@ server <- function(input, output, session) {
   
   output$percentChangeYTDLabel <- renderText({
     paste("Crime Type: ", format_crime_type_label(input$crimeType))
+  })
+  
+  # Source link output
+  output$sourceLink <- renderText({
+    paste(input$agencyName)
   })
   
   # Download handlers

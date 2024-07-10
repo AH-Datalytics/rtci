@@ -108,24 +108,21 @@ ui <- fluidPage(
              wellPanel(
                style = "background-color: #004953; color: #ffffff;",
                h4("Current Year-to-Date"),
-               h5(textOutput("currentYTD")),
-               textOutput("currentYTDLabel")
+               uiOutput("currentYTD")
              )
       ),
       column(4,
              wellPanel(
                style = "background-color: #004953; color: #ffffff;",
                h4("Previous Year-to-Date"),
-               h5(textOutput("previousYTD")),
-               textOutput("previousYTDLabel")
+               uiOutput("previousYTD")
              )
       ),
       column(4,
              wellPanel(
                style = "background-color: #004953; color: #ffffff;",
                h4("Percent Change YTD"),
-               h5(textOutput("percentChangeYTD")),
-               textOutput("percentChangeYTDLabel")
+               uiOutput("percentChangeYTD")
              )
       )
     ),
@@ -144,6 +141,7 @@ ui <- fluidPage(
     )
   )
 )
+
 
 
 
@@ -238,7 +236,7 @@ server <- function(input, output, session) {
   })
   
   # Calculate and display YTD crime data
-  output$currentYTD <- renderText({
+  output$currentYTD <- renderUI({
     df <- reactiveData()
     currentYTD <- df %>%
       filter(Year == max(Year)) %>%
@@ -247,12 +245,12 @@ server <- function(input, output, session) {
     
     text <- paste(sapply(1:nrow(currentYTD), function(i) {
       paste(currentYTD$`Crime Type`[i], "Incidents:", currentYTD$YTD[i])
-    }), collapse = "\n")
+    }), collapse = "<br>")
     
-    text
+    HTML(text)
   })
   
-  output$previousYTD <- renderText({
+  output$previousYTD <- renderUI({
     df <- reactiveData()
     previousYTD <- df %>%
       filter(Year == max(Year) - 1) %>%
@@ -261,12 +259,12 @@ server <- function(input, output, session) {
     
     text <- paste(sapply(1:nrow(previousYTD), function(i) {
       paste(previousYTD$`Crime Type`[i], "Incidents:", previousYTD$YTD[i])
-    }), collapse = "\n")
+    }), collapse = "<br>")
     
-    text
+    HTML(text)
   })
   
-  output$percentChangeYTD <- renderText({
+  output$percentChangeYTD <- renderUI({
     df <- reactiveData()
     currentYTD <- df %>%
       filter(Year == max(Year)) %>%
@@ -286,10 +284,11 @@ server <- function(input, output, session) {
       paste(crime_type, "Percent Change:", if (is.na(change)) "N/A" else round(change, 2), "%")
     })
     
-    text <- paste(percentChange, collapse = "\n")
+    text <- paste(percentChange, collapse = "<br>")
     
-    text
+    HTML(text)
   })
+  
   
   
   # Source link output

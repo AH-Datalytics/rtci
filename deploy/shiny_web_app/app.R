@@ -66,83 +66,92 @@ ui <- fluidPage(
       .shiny-output-error { color: #ffffff; }  # Error message color
       .shiny-output-error:before { content: 'Error: '; }
       .sidebar { background-color: #2d5ef9; }  # Change sidebar background color
-      .main-panel { width: 100%; }
+      .main-panel { 
+        width: 100%; 
+      }
       .well { padding: 10px; }  # Reduce the padding in wellPanel for KPI boxes
       h2.title { text-align: center; font-size: 30px; font-family: 'Roboto Condensed', sans-serif; }
+      .content-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 15px; /* Adjust the padding as needed */
+      }
+      .main-content {
+        width: 100%; 
+      }
     "))
   ),
   div(style = "width: 100%; text-align: center; margin-top: 20px;",  # Center the title within the container
-      h2(class = "title", "Real-Time Crime Index")
+      h2(style = "font-size: 25px;","Monthly UCR Part One Crimes by Agency & Year")
   ),
-  div(style = "width: 100%;",  # Ensure the top panel matches the plot width
-      fluidRow(
-        column(12, div(style = "padding-top: 20px; font-size: 20px;",
-                       span("Show me "),
-                       div(style = "display: inline-block; width: 20%; position: relative;", 
-                           selectInput("crimeType", "", choices = unique(data$`Crime Type`), multiple = TRUE, selected = default_crime_type, width = '100%'),
-                           div(style = "border-bottom: 1px solid #ffffff; width: 100%;")
-                       ),
-                       span(" for "),
-                       div(style = "display: inline-block; width: 20%; position: relative;", 
-                           selectInput("agencyName", "", choices = unique(data$`Agency Name`), selected = default_agency, width = '100%'),
-                           div(style = "border-bottom: 1px solid #ffffff; width: 100%;")
-                       ),
-                       span(" from "),
-                       div(style = "display: inline-block; width: 20%; position: relative;", 
-                           selectInput("yearFilter", "", choices = unique(data$Year), multiple = TRUE, selected = default_years, width = '100%'),
-                           div(style = "border-bottom: 1px solid #ffffff; width: 100%;")
-                       )
-        ))
-      )
-  ),
-  mainPanel(
-    class = "main-panel",
-    fluidRow(
-      column(12, div(style = "padding-top: 10px; text-align: left;",
-                     actionButton("toggleView", "View Table", class = "btn-primary")
-      ))
-    ),
-    uiOutput("viewOutput"),
-    fluidRow(
-      column(4,
-             wellPanel(
-               style = "background-color: #004953; color: #ffffff;",
-               h4("Current Year-to-Date"),
-               uiOutput("currentYTD")
-             )
+  div(class = "content-container",
+      div(style = "width: 100%;",  # Ensure the top panel matches the plot width
+          fluidRow(
+            column(12, div(style = "padding-top: 1px; font-size: 20px; text-align: center;",
+                           span("Show me "),
+                           div(style = "display: inline-block; width: 20%; position: relative; text-align: left;", 
+                               selectInput("crimeType", "", choices = unique(data$`Crime Type`), multiple = TRUE, selected = default_crime_type, width = '100%'),
+                               div(style = "border-bottom: 1px solid #ffffff; width: 100%;")
+                           ),
+                           span(" for "),
+                           div(style = "display: inline-block; width: 20%; position: relative; text-align: left", 
+                               selectInput("agencyName", "", choices = unique(data$`Agency Name`), selected = default_agency, width = '100%'),
+                               div(style = "border-bottom: 1px solid #ffffff; width: 100%;")
+                           ),
+                           span(" from "),
+                           div(style = "display: inline-block; width: 20%; position: relative; text-align: left", 
+                               selectInput("yearFilter", "", choices = unique(data$Year), multiple = TRUE, selected = default_years, width = '100%'),
+                               div(style = "border-bottom: 1px solid #ffffff; width: 100%;")
+                           )
+            ))
+          )
       ),
-      column(4,
-             wellPanel(
-               style = "background-color: #004953; color: #ffffff;",
-               h4("Previous Year-to-Date"),
-               uiOutput("previousYTD")
-             )
-      ),
-      column(4,
-             wellPanel(
-               style = "background-color: #004953; color: #ffffff;",
-               h4("Percent Change YTD"),
-               uiOutput("percentChangeYTD")
-             )
+      mainPanel(
+        class = "main-panel main-content",
+        fluidRow(
+          column(12, div(style = "padding-top: 10px; text-align: left;",
+                         actionButton("toggleView", "View Table", class = "btn-primary")
+          ))
+        ),
+        uiOutput("viewOutput"),
+        fluidRow(
+          column(4,
+                 wellPanel(
+                   style = "background-color: #004953; color: #ffffff;",
+                   uiOutput("currentYTD")
+                 )
+          ),
+          column(4,
+                 wellPanel(
+                   style = "background-color: #004953; color: #ffffff;",
+                   uiOutput("previousYTD")
+                 )
+          ),
+          column(4,
+                 wellPanel(
+                   style = "background-color: #004953; color: #ffffff;",
+                   h4("Percent Change YTD"),
+                   uiOutput("percentChangeYTD")
+                 )
+          )
+        ),
+        fluidRow(
+          column(6,
+                 wellPanel(
+                   style = "background-color: #004953; color: #ffffff;",
+                   h4(style = "margin: 0", "Source"),
+                   textOutput("sourceLink", inline = TRUE)
+                 )
+          ),
+          column(6, div(style = "text-align: right;",
+                        downloadButton("downloadData", "Download Table"),
+                        downloadButton("downloadPlot", "Download Graph"))
+          )
+        )
       )
-    ),
-    fluidRow(
-      column(6,
-             wellPanel(
-               style = "background-color: #004953; color: #ffffff;",
-               h4(style = "margin: 0", "Source"),
-               textOutput("sourceLink", inline = TRUE)
-             )
-      ),
-      column(6, div(style = "text-align: right;",
-                    downloadButton("downloadData", "Download Table"),
-                    downloadButton("downloadPlot", "Download Graph"))
-      )
-    )
   )
 )
-
-
 
 
 
@@ -159,29 +168,77 @@ server <- function(input, output, session) {
       arrange(Month)
   })
   
-  # Generate plot
-  output$crimePlot <- renderPlotly({
+  # Helper function to format the date range
+  format_date_range <- function(year, months) {
+    min_month <- min(months)
+    max_month <- ifelse(length(unique(months)) == 12, 12, max(months))  # Handle full years correctly
+    paste0("(", month.abb[min_month], " '", substr(year, 3, 4), " through ", month.abb[max_month], " '", substr(year, 3, 4), ")")
+  }
+  
+  # Calculate and display YTD crime data
+  output$currentYTD <- renderUI({
     df <- reactiveData()
-    colors <- brewer.pal(n = length(unique(df$`Crime Type`)), name = "Set1")
-    p <- ggplot(df, aes(x = Month, y = Total_Incidents, color = `Crime Type`)) +
-      geom_line() +
-      geom_point() +
-      scale_color_manual(values = colors) +
-      scale_x_date(date_labels = "%Y", date_breaks = "1 year") +
-      scale_y_continuous(breaks = pretty(df$Total_Incidents), labels = scales::label_number(accuracy = 1)) +
-      labs(x = "Year", y = paste("Count of", format_crime_type_label(unique(df$`Crime Type`)))) +
-      theme_minimal() +
-      theme(
-        axis.text.x = element_text(size = 12, face = "bold", family = "Roboto Condensed", hjust = 0.5),
-        axis.title.x = element_text(size = 14, face = "bold", family = "Roboto Condensed"),
-        axis.title.y = element_text(size = 14, face = "bold", family = "Roboto Condensed"),
-        legend.position = "none"  # Remove legend
-      )
+    current_year <- max(df$Year)
+    current_months <- unique(month(df$Month[df$Year == current_year]))
+    currentYTD <- df %>%
+      filter(Year == current_year) %>%
+      group_by(`Crime Type`) %>%
+      summarize(YTD = sum(Total_Incidents))
     
-    # Add shaded background for every even-numbered year
-    p <- add_shaded_background(p, df)
+    date_range <- format_date_range(current_year, current_months)
     
-    ggplotly(p)
+    tagList(
+      h4(paste("Current Year-to-Date", date_range)),
+      HTML(paste(sapply(1:nrow(currentYTD), function(i) {
+        paste(currentYTD$`Crime Type`[i], "Incidents:", currentYTD$YTD[i])
+      }), collapse = " "))
+    )
+  })
+  
+  output$previousYTD <- renderUI({
+    df <- reactiveData()
+    current_year <- max(df$Year)
+    current_months <- unique(month(df$Month[df$Year == current_year]))
+    previous_year <- current_year - 1
+    previousYTD <- df %>%
+      filter(Year == previous_year & month(Month) %in% current_months) %>%
+      group_by(`Crime Type`) %>%
+      summarize(YTD = sum(Total_Incidents))
+    
+    date_range <- format_date_range(previous_year, current_months)
+    
+    tagList(
+      h4(paste("Previous Year-to-Date", date_range)),
+      HTML(paste(sapply(1:nrow(previousYTD), function(i) {
+        paste(previousYTD$`Crime Type`[i], "Incidents:", previousYTD$YTD[i])
+      }), collapse = "<br>"))
+    )
+  })
+  
+  output$percentChangeYTD <- renderUI({
+    df <- reactiveData()
+    current_year <- max(df$Year)
+    current_months <- unique(month(df$Month[df$Year == current_year]))
+    previous_year <- current_year - 1
+    currentYTD <- df %>%
+      filter(Year == current_year) %>%
+      group_by(`Crime Type`) %>%
+      summarize(YTD = sum(Total_Incidents))
+    
+    previousYTD <- df %>%
+      filter(Year == previous_year & month(Month) %in% current_months) %>%
+      group_by(`Crime Type`) %>%
+      summarize(YTD = sum(Total_Incidents))
+    
+    percentChange <- sapply(1:nrow(currentYTD), function(i) {
+      crime_type <- currentYTD$`Crime Type`[i]
+      current_value <- currentYTD$YTD[i]
+      previous_value <- previousYTD$YTD[previousYTD$`Crime Type` == crime_type]
+      change <- if (length(previous_value) == 0) NA else ((current_value - previous_value) / previous_value) * 100
+      paste(crime_type, "Percent Change:", if (is.na(change)) "N/A" else round(change, 2), "%")
+    })
+    
+    HTML(paste(percentChange, collapse = "<br>"))
   })
   
   # Render the data table
@@ -210,6 +267,31 @@ server <- function(input, output, session) {
     ), callback = JS("table.draw();"))
   })
   
+  # Generate plot
+  output$crimePlot <- renderPlotly({
+    df <- reactiveData()
+    colors <- brewer.pal(n = length(unique(df$`Crime Type`)), name = "Set1")
+    p <- ggplot(df, aes(x = Month, y = Total_Incidents, color = `Crime Type`)) +
+      geom_line() +
+      geom_point() +
+      scale_color_manual(values = colors) +
+      scale_x_date(date_labels = "%Y", date_breaks = "1 year") +
+      scale_y_continuous(breaks = pretty(df$Total_Incidents), labels = scales::label_number(accuracy = 1)) +
+      labs(x = "Year", y = paste("Count of", format_crime_type_label(unique(df$`Crime Type`)))) +
+      theme_minimal() +
+      theme(
+        axis.text.x = element_text(size = 12, face = "bold", family = "Roboto Condensed", hjust = 0.5),
+        axis.title.x = element_text(size = 14, face = "bold", family = "Roboto Condensed"),
+        axis.title.y = element_text(size = 14, face = "bold", family = "Roboto Condensed"),
+        legend.position = "none"  # Remove legend
+      )
+    
+    # Add shaded background for every even-numbered year
+    p <- add_shaded_background(p, df)
+    
+    ggplotly(p)
+  })
+  
   # Toggle view between plot and data table
   observeEvent(input$toggleView, {
     if (input$toggleView %% 2 == 1) {
@@ -227,69 +309,8 @@ server <- function(input, output, session) {
   
   # Set initial view to plot
   output$viewOutput <- renderUI({
-    plotlyOutput("crimePlot", height = "600px") #IS THIS WHERE I EDIT THE SIZING?
+    plotlyOutput("crimePlot", height = "600px")
   })
-  
-  # Reactive function to get the selected row indices
-  tableRows <- reactive({
-    input$dataTable_rows_selected
-  })
-  
-  # Calculate and display YTD crime data
-  output$currentYTD <- renderUI({
-    df <- reactiveData()
-    currentYTD <- df %>%
-      filter(Year == max(Year)) %>%
-      group_by(`Crime Type`) %>%
-      summarize(YTD = sum(Total_Incidents))
-    
-    text <- paste(sapply(1:nrow(currentYTD), function(i) {
-      paste(currentYTD$`Crime Type`[i], "Incidents:", currentYTD$YTD[i])
-    }), collapse = "<br>")
-    
-    HTML(text)
-  })
-  
-  output$previousYTD <- renderUI({
-    df <- reactiveData()
-    previousYTD <- df %>%
-      filter(Year == max(Year) - 1) %>%
-      group_by(`Crime Type`) %>%
-      summarize(YTD = sum(Total_Incidents))
-    
-    text <- paste(sapply(1:nrow(previousYTD), function(i) {
-      paste(previousYTD$`Crime Type`[i], "Incidents:", previousYTD$YTD[i])
-    }), collapse = "<br>")
-    
-    HTML(text)
-  })
-  
-  output$percentChangeYTD <- renderUI({
-    df <- reactiveData()
-    currentYTD <- df %>%
-      filter(Year == max(Year)) %>%
-      group_by(`Crime Type`) %>%
-      summarize(YTD = sum(Total_Incidents))
-    
-    previousYTD <- df %>%
-      filter(Year == max(Year) - 1) %>%
-      group_by(`Crime Type`) %>%
-      summarize(YTD = sum(Total_Incidents))
-    
-    percentChange <- sapply(1:nrow(currentYTD), function(i) {
-      crime_type <- currentYTD$`Crime Type`[i]
-      current_value <- currentYTD$YTD[i]
-      previous_value <- previousYTD$YTD[previousYTD$`Crime Type` == crime_type]
-      change <- if (length(previous_value) == 0) NA else ((current_value - previous_value) / previous_value) * 100
-      paste(crime_type, "Percent Change:", if (is.na(change)) "N/A" else round(change, 2), "%")
-    })
-    
-    text <- paste(percentChange, collapse = "<br>")
-    
-    HTML(text)
-  })
-  
-  
   
   # Source link output
   output$sourceLink <- renderText({
@@ -315,8 +336,6 @@ server <- function(input, output, session) {
     }
   )
 }
-
-
 
 # Run the application ---------------------------------------------------------------------
 

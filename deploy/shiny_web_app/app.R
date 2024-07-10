@@ -191,7 +191,7 @@ server <- function(input, output, session) {
       h5(date_range),
       HTML(paste(sapply(1:nrow(currentYTD), function(i) {
         paste(currentYTD$`Crime Type`[i], "Incidents:", currentYTD$YTD[i])
-      }), collapse = " "))
+      }), collapse = "<br>"))
     )
   })
   

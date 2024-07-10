@@ -3,77 +3,75 @@ title: "rtci_sample_audit_vizready"
 output: github_document
 date: 07-09-2024
 ---
-
+load up libraries
+```{r}
+library(lubridate)
+library(tidyverse)
+library(stringr)
+library(readr)
+library(dplyr)
+```
 let's load in the sample from the collector script
 ```{r}
-samp <- read_csv("rtci_sample_extracted.csv")
+samp <- read_csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data\\rtci_sample_extracted.csv")    
 ```
 function to standardize the month column
 ```{r}
-standardize_month <- function(month) {
-  month_numeric <- match(tolower(month), tolower(month.abb))
-  if (is.na(month_numeric)) {
-    month_numeric <- match(tolower(month), tolower(month.name))
-  }
-  return(month_numeric)
-}
-
-# Standardize the month column and convert year to numeric
+# Process the month and year columns
 samp <- samp %>%
   mutate(
-    StandardizedMonth = sapply(Month, standardize_month),
+    Month = case_when(
+      is.na(Month) ~ NA_real_,
+      !is.na(as.numeric(Month)) ~ as.numeric(Month),
+      !is.na(match(tolower(Month), tolower(month.abb))) ~ match(tolower(Month), tolower(month.abb)),
+      !is.na(match(tolower(Month), tolower(month.name))) ~ match(tolower(Month), tolower(month.name)),
+      TRUE ~ NA_real_
+    ),
     Year = as.numeric(Year)
   )
 
-  #let's see the bad months 
+# Dataframe for invalid months (NA values in Month column)
 invalid_months <- samp %>%
-  filter(is.na(StandardizedMonth))
-```
-filter out and check out obs with problematic month/year columns
-```{r}
-#let's see the bad years
-invalid_years <- samp %>%
-  filter(!grepl("^20(1[8-9]|2[0-4])$", Year))
+  filter(is.na(Month) | Month < 1 | Month > 12)
 
-#keep only valid sample months/years
-samp <- samp %>%
-  filter(!is.na(StandardizedMonth) & grepl("^20(1[8-9]|2[0-4])$", Year))
+# Dataframe for invalid years
+invalid_years <- samp %>%
+  filter(is.na(Year) | Year < 2018 | Year > 2024)
+
+# Display the dataframes
+print("Invalid Months:")
+print(invalid_months)
+
+print("Invalid Years:")
+print(invalid_years)
+
+# Just keep the valid month/year
+samp1 <- samp %>% 
+  filter(!is.na(Month) | !Month < 1 | !Month > 12 |
+         !is.na(Year) | !Year < 2018 | !Year > 2024)
+```
+
+```{r}
+
 ```
 make sure the crime count categories are numeric - make a list of them first
 ```{r}
 # Convert crime category columns to numeric, allowing for negative and positive numbers and 0
 crime_categories <- c("Murder", "Rape", "Robbery", 
-                  "Agg Assault", "Burglary", "Larceny", "MVT", "Arson")
+                  "Agg.Assault", "Burglary", "Larceny", "MVT", "Arson")
 samp <- samp %>%
   mutate(across(all_of(crime_categories), ~as.numeric(replace(., . == "NR", NA))))
 ```
-Save observations with "NR" values for crime counts to a separate data frame
 ```{r}
-nr_observations <- samp %>%
-  filter(if_any(all_of(crime_categories), ~is.na(.)))
 ```
-Function to calculate lag time
+Function to calculate lag time - in progress
 ```{r}
-calculate_lag_time <- function(data, crime_categories) {
-  data %>%
-    group_by(Agency) %>%
-    arrange(Year, StandardizedMonth) %>%
-    mutate(
-      FirstNR = ifelse(rowSums(is.na(across(all_of(crime_categories)))) > 0,
-                       Year + StandardizedMonth / 12, NA),
-      FirstNR = min(FirstNR, na.rm = TRUE),
-      LagTime = Year + StandardizedMonth / 12 - FirstNR
-    ) %>%
-    ungroup() %>%
-    select(-FirstNR)
-}
-# Apply lag time calculation
-samp <- calculate_lag_time(samp, crime_categories)
+
 ```
 Display the cleaned and standardized data frame
 ```{r}
 print("Cleaned Crime Data:")
-head(samp)
+head(samp1)
 ```
 Display observations with invalid months
 ```{r}
@@ -106,13 +104,19 @@ samp <- samp %>%
 samp <- samp %>%
   mutate(City = trimws(City))
 
+# drop city to lowercase to match ucr
+
+
+#check to make sure there are no more NA's left in the sample
+
+
 # View the modified data frame
 head(samp)
 ```
 run wheeler's outliers tests
 ```{r}
 #we will source it first
-source("C:\\Users\\daveh\\rtci\\scripts\\crimeAnomaly.R")
+source("crimeAnomaly.R")
 
 # This function looks at cumulative year to date stats
 # so if prior total 100 YTD (averaged over prior_max years)
@@ -195,7 +199,7 @@ head(ucr_wide)
 ```
 now let's join using city and state
 ```{r}
-samp_full_wide <- right_join(ucr_wide,samp_wide, by = c("City", "State"))
+samp_full_wide <- right_join(ucr_wide, samp_wide, by = c("City", "State"))
 ```
 
 ```{r}

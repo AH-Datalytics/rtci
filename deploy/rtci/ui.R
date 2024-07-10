@@ -16,15 +16,15 @@ ui <- fluidPage(
   # Filter section
   div(class = "full-width-div",  # Full width div to contain the filter elements
       # Flexbox container to arrange the elements horizontally and center them
-      span("I want to see "),  # Text for filter sentence
+      span("Show me"),  # Text for filter sentence
       div(class = "select-wrapper",  # Wrapper div for the crime type select input
           selectInput("crimeType", "", choices = unique(data$`Crime Type`), multiple = TRUE, selected = default_crime_type, width = '100%')
       ),
-      span(" for "),  # Text for filter sentence
+      span("trends for"),  # Text for filter sentence
       div(class = "select-wrapper",  # Wrapper div for the agency name select input
           selectInput("agencyName", "", choices = unique(data$`Agency Name`), selected = default_agency, width = '100%')
       ),
-      span(" from "),  # Text for filter sentence
+      span("during"),  # Text for filter sentence
       div(class = "select-wrapper",  # Wrapper div for the year filter select input
           selectInput("yearFilter", "", choices = unique(data$Year), multiple = TRUE, selected = default_years, width = '100%')
       )

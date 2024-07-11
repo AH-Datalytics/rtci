@@ -199,10 +199,3 @@ file_path <- file.path(folder_path, "pa_jan22_present.csv")
 # Write the data frame to a .csv file
 write.csv(final_df, file = file_path, row.names = FALSE)
 ```
-
-
-
-
-#notes
-#Online version
-#pdftools::pdf_text(pdf = "http://arxiv.org/pdf/1403.2805.pdf")

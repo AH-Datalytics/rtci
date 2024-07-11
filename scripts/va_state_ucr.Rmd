@@ -53,8 +53,7 @@ reshape_data <- function(df) {
 # Apply the transformation function to each dataframe in the list
 ldf1 <- lapply(ldf, reshape_data)
 
-# Optionally, print the first processed dataframe to verify the results
-print(ldf1[[1]])
+head(ldf1[[1]])
 ```
 reshape wide based on offense field
 ```{r}
@@ -71,23 +70,17 @@ reshape_wide_based_on_offense <- function(df) {
 # Apply the function to each dataframe in the list
 ldf2 <- lapply(ldf1, reshape_wide_based_on_offense)
 
-# Optionally, print the first processed dataframe to verify the results
-print(ldf2[[1]])
+head(ldf2[[1]])
 ```
 create new columns and order them
 Murder and Nonnegligent Manslaughter, Forcible Rape, Aggravated Assault, Arson, Burglary/Breaking & Entering, Theft From Motor Vehicle
 Purse-snatching + Shoplifting + Theft from Building + Theft From Coin Operated Machine or Device + Theft From Motor Vehicle + Theft of Motor Vehicle Parts/Accessories + All Other Larceny
 ```{r}
-
-
 #Larceny/Theft Offenses to sum - 23H
 #Pocket-picking Property,  Purse-snatching Property,  Shoplifting Property,  Theft From Building Property,  Theft From Coin-Operated Machine or Device Property,  Theft From Motor Vehicle Property,  Theft of Motor Vehicle Parts or Accessories Property,All Other Larceny Property
 
 #Pocket-picking, Theft From Coin-Operated Machine not found - but no big
 ############ALSO Add 23H/23C column
-
-
-
 process_larceny <- function(df) {
   # Define the columns related to larceny
   columns_to_larc <- c(
@@ -116,7 +109,7 @@ process_larceny <- function(df) {
 larceny process - only one to do
 ```{r}
 ldf1_larc <- lapply(ldf2, process_larceny)
-print(ldf1_larc[1])
+head(ldf1_larc[1])
 ```
 drop unnecessary columns
 create new columns and order them
@@ -148,12 +141,13 @@ adjust_dataframes <- function(df, required_columns) {
 # Apply the function to each dataframe in the list
 adjusted_list_df <- lapply(ldf1_larc, adjust_dataframes, required_columns = required_columns)
 
-# Print the results to verify the adjustment
-print(adjusted_list_df)
+# head the results to verify the adjustment
+head(adjusted_list_df)
 ```
 row bind the list together
 ```{r}
 combined_df <- do.call(rbind, adjusted_list_df)
+head(combined_df)
 ```
 new column names
 ```{r}
@@ -175,27 +169,27 @@ all_combinations <- expand.grid(
 join the combined df to this base dataset - now we know if data is missing for certain agencies for certain months - rather than just calculating the counts based on whether an agency reported a crime in that time period
 ```{r}
 # Join the data frames
-joined_df <- merge(all_combinations, combined_df, by = c("Agency Name", "Year", "Month"), all.x = TRUE)
+joined_df <- merge(all_combinations, combined_df, by = c("Agency Name", "Month", "Year"), all.x = TRUE)
 
 # View the result
-print(joined_df)
+head(joined_df)
 ```
 are all time periods and agencies accounted for? should have an equal number of each in terms of records
 ```{r}
 # Counting frequency of each value in Column1
 freq_Column1 <- table(joined_df$`Agency Name`)
-print("Frequency of Column1:")
-print(freq_Column1)
+head("Frequency of Column1:")
+head(freq_Column1)
 
 # Counting frequency of each value in Column2
 freq_Column2 <- table(joined_df$Year)
-print("Frequency of Column2:")
-print(freq_Column2)
+head("Frequency of Column2:")
+head(freq_Column2)
 
 # Counting frequency of each value in Column3
 freq_Column3 <- table(joined_df$Month)
-print("Frequency of Column3:")
-print(freq_Column3)
+head("Frequency of Column3:")
+head(freq_Column3)
 ####we are all set. consistent number of records for each unique value in column now.
 ```
 did we create some NA's?
@@ -210,7 +204,7 @@ final_df <- joined_df %>%
   mutate_if(!names(.) %in% c("Agency Name", "Year", "Month"), ~ifelse(is.na(.), "NR", .))
 
 # View the modified DataFrame
-print(final_df)
+head(final_df)
 ```
 reorder columns and done
 ```{r}

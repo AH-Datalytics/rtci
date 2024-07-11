@@ -144,7 +144,7 @@ source("crimeAnomaly.R")
 # so if prior total 100 YTD (averaged over prior_max years)
 # and current is 20 YTD total, this would flagged
 # this expects the values in per a single PD
-ytd_poisson(samp)
+priork_results <-ytd_poisson(samp2)
 
 # So this will loop over all PDs and return a total count column
 # along with a note, if the note says
@@ -152,13 +152,13 @@ ytd_poisson(samp)
 # That means this police department was flagged for year to date burglary, year to date MVT
 # and prior 8 larceny (but not prior 1 larceny)
 # sorts the results, so the agencies with the most flagges are at the top of the dataframe
-metrics_allpd(samp)
+priork_results <-metrics_allpd(samp2)
 
 # This function looks at the average of the prior k months
 # so if average of prior 8 is 30, and current month is 10
 # this will likely flag
 # can set prior_max to 1 to just look at current vs prior month
-priork_poisson(samp)
+priork_results <-priork_poisson(samp2)
 ```
 reshape data post so we get a clean join to the ucr historical data
 ```{r}
@@ -191,35 +191,57 @@ UCR Historical Data 2018-2022.csv
 ```{r}
 file_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Historical Data\\UCR Historical Data 2018-2022.csv"
 ucr_data <- read.csv(file_path)
+head(ucr_data)
 ```
 reshape the ucr data wide before we join to the sample
 ```{r}
-# Convert Month and Year to a Date column in "%b-%Y" format
+# Define a named vector mapping month names to numeric values
+month_mapping <- c(
+  "january" = 1, "february" = 2, "march" = 3, "april" = 4, "may" = 5,
+  "june" = 6, "july" = 7, "august" = 8, "september" = 9, "october" = 10,
+  "november" = 11, "december" = 12
+)
+
+# Convert the 'Month' column to numeric values using the mapping
+ucr_data$Month <- month_mapping[ucr_data$Month]
+
+# generate a new date field based on month and year
 ucr_data <- ucr_data %>%
   mutate(Date = as.Date(paste(Year, Month, "01", sep = "-"), "%Y-%m-%d"))
 
-# Reshape to long 
+# Drop the columns Year, Month, Months.Missing
 ucr_long <- ucr_data %>%
+  select(-Year, -Month, -Months.Missing, -LONG, -LAT, -Last.Report.Month)
+
+# Reshape to long based on crime type
+ucr_long <- ucr_long %>%
   pivot_longer(cols = c("Murder", "Rape", "Robbery", 
                         "Agg.Assault", "Burglary", "Larceny", "MVT", "Arson"),
                             names_to = "Crime Type",
                             values_to = "Count")
 
+head(ucr_long)                           
+```
+break it up between wide and long shaping
+```{r}
 # Reshape to wide format with Date as columns
 ucr_wide <- ucr_long %>%
   pivot_wider(names_from = Date, values_from = Count)
 
-# new column to match on
+# New column to match on
 ucr_wide$City <- ucr_wide$Agency.Name
-#let's see what we have now
+
+# Let's see what we have now
 head(ucr_wide)
 ```
 now let's join using city and state
 ```{r}
-samp_full_wide <- right_join(ucr_wide, samp_wide, by = c("City", "State"))
+samp_full_wide <- right_join(ucr_wide, samp_wide, by = c("City", "State", "Crime Type"))
 ```
 
 
 ```{r}
+ucr_data$Month_viz <- ucr_data$Month
 
+ucr_data$Month_viz <- toTitleCase(ucr_data$Month_viz)
 ```

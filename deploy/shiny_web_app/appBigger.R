@@ -13,23 +13,37 @@ library(here)
 
 # Data Loading and Transformation -------------------------------------------------------------
 
-# Assuming data is already loaded and transformed
-data <- read_csv("final_data_web_app.csv")
-data$Date <- as.Date(paste0(data$Year, "-", data$Month, "-01"), format = "%Y-%m-%d")
-data$Month <- floor_date(data$Date, "month")
-
-data <- data %>% 
-  select(-1)
-
-# Wide to Long bigger data transformation
+# Load the data
 bigger_data <- read_csv("rtci_sample_extracted.csv")
-data <- bigger_data %>%
+
+# Data Cleaning: Remove rows with NA in the Agency.Name column
+cleaned_data <- bigger_data %>%
+  filter(!is.na(Agency.Name))
+
+# Identify rows where the year is in the month column and the month is in the year column
+incorrect_date_rows <- cleaned_data %>%
+  filter(Month > 12)
+
+# Correct the year and month for these rows
+cleaned_data <- cleaned_data %>%
+  mutate(
+    corrected_year = if_else(Month > 12, Month, Year),
+    corrected_month = if_else(Month > 12, Year, Month)
+  ) %>%
+  select(-Year, -Month) %>%
+  rename(Year = corrected_year, Month = corrected_month)
+
+# Fill NA values in the State column with "Not Sorted"
+cleaned_data <- cleaned_data %>%
+  mutate(State = if_else(is.na(State), "Not Sorted", State))
+
+# Transform the data from wide to long format
+data <- cleaned_data %>%
   pivot_longer(cols = c(Murder, Rape, Robbery, Agg.Assault, Burglary, Larceny, MVT, Arson),
                names_to = "Crime Type",
                values_to = "Total_Incidents") %>%
   mutate(Date = as.Date(paste0(Year, "-", Month, "-01"), format = "%Y-%m-%d")) %>%
-  select(`Agency Name` = Agency.Name, Month, Year, `Crime Type`, Total_Incidents, Date)
-
+  select(`Agency Name` = Agency.Name, State, Month, Year, `Crime Type`, Total_Incidents, Date)
 
 # Default selections
 default_crime_type <- "Murder"
@@ -290,7 +304,12 @@ server <- function(input, output, session) {
   # Generate plot
   output$crimePlot <- renderPlotly({
     df <- reactiveData()
+    
+    # Ensure the Month column is properly transformed to Date
+    df$Month <- as.Date(paste0(df$Year, "-", df$Month, "-01"), format = "%Y-%m-%d")
+    
     colors <- brewer.pal(n = length(unique(df$`Crime Type`)), name = "Set1")
+    
     p <- ggplot(df, aes(x = Month, y = Total_Incidents, color = `Crime Type`)) +
       geom_line() +
       geom_point() +
@@ -311,6 +330,7 @@ server <- function(input, output, session) {
     
     ggplotly(p)
   })
+  
   
   # Toggle view between plot and data table
   observeEvent(input$toggleView, {

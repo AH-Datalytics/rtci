@@ -376,13 +376,20 @@ final_df <- final_df[, column_order]
 add a column for State and then we're done.
 ```{r}
 # Specify the value for the "State" column
-state_value <- "Arizona"
+state_value <- "Rhode Island"
 
 # Add the "State" column to the data frame
 final_df$State <- state_value
 ```
 write it out!
 ```{r}
-write.csv(combined_df, "ri_state_Jan22_Present.csv")
+# Specify the folder path
+folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Rhode Island\\Formatted Data"
+
+# Create the full file path
+file_path <- file.path(folder_path, "ri_jan22_present.csv")
+
+# Write the data frame to a .csv file
+write.csv(final_df, file = file_path, row.names = FALSE)
 ```
 

@@ -278,7 +278,7 @@ print(final_df)
 add a column for State and then we're done.
 ```{r}
 # Specify the value for the "State" column
-state_value <- "Arizona"
+state_value <- "South Dakota"
 
 # Add the "State" column to the data frame
 final_df$State <- state_value

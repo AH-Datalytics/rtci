@@ -34,9 +34,9 @@ samp <- samp %>%
 invalid_months <- samp %>%
   filter(is.na(Month) | Month < 1 | Month > 12)
 
-# Dataframe for invalid years
+# Dataframe for invalid years - we use UCR for 2022
 invalid_years <- samp %>%
-  filter(is.na(Year) | Year < 2018 | Year > 2024)
+  filter(is.na(Year) | Year < 2023 | Year > 2024)
 
 # Display the dataframes
 print("Invalid Months:")
@@ -58,6 +58,7 @@ crime_categories <- c("Murder", "Rape", "Robbery",
 samp <- samp %>%
   mutate(across(all_of(crime_categories), ~as.numeric(replace(., . == "NR", NA))))
 ```
+
 ```{r}
 ```
 Function to calculate lag time - in progress
@@ -197,7 +198,8 @@ now let's join using city and state
 ```{r}
 samp_full_wide <- right_join(ucr_wide, samp_wide, by = c("City", "State"))
 ```
-
+make sure city name is in Format. 
+ILLINOIS and lowercase transformations -app view purposes
 ```{r}
 
 ```

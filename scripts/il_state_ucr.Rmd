@@ -226,7 +226,7 @@ ldf4 <- lapply(ldf3, rename_columns, new_col_names = final_col_names)
 row bind the list together
 ```{r}
 combined_df <- do.call(rbind, ldf4)
-
+head(combined_df)
 ```
 
 
@@ -248,7 +248,7 @@ join the combined df to this base dataset - now we know if data is missing for c
 joined_df <- merge(all_combinations, combined_df, by = c("Agency Name", "Year", "Month"), all.x = TRUE)
 
 # View the result
-print(joined_df)
+head(joined_df)
 ```
 drop records with an NA in the month column
 ```{r}
@@ -273,10 +273,12 @@ column_order <- c("Agency Name", "Murder", "Rape", "Robbery",
 # Reorder columns based on the specified order
 final_df <- final_df[, column_order]
 ```
+
+
 add a column for State and then we're done.
 ```{r}
 # Specify the value for the "State" column
-state_value <- "Arizona"
+state_value <- "Illinois"
 
 # Add the "State" column to the data frame
 final_df$State <- state_value

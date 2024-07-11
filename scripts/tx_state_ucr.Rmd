@@ -122,13 +122,20 @@ str(df)
 add a column for State and then we're done.
 ```{r}
 # Specify the value for the "State" column
-state_value <- "Arizona"
+state_value <- "Texas"
 
 # Add the "State" column to the data frame
 final_df$State <- state_value
 ```
 write it out- still needs to be transformed
 ```{r}
-write.csv(combined_df, "tx_state_ucr_all.csv")
+# Specify the folder path
+folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Texas\\Formatted Data"
+
+# Create the full file path
+file_path <- file.path(folder_path, "tx_jan22_present.csv")
+
+# Write the data frame to a .csv file
+write.csv(final_df, file = file_path, row.names = FALSE)
 ```
 

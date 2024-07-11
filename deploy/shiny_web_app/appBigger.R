@@ -69,15 +69,20 @@ format_crime_type_label <- function(crime_types) {
 }
 
 # Function to add shaded background for every even-numbered year
-add_shaded_background <- function(plot, data) {
-  even_years <- unique(data$Year[data$Year %% 2 == 0])
-  plot + 
-    geom_rect(data = data.frame(xmin = as.Date(paste0(even_years, "-01-01")),
-                                xmax = as.Date(paste0(even_years, "-12-31")),
-                                ymin = -Inf, ymax = Inf),
-              aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax),
-              fill = "grey90", alpha = 0.5, inherit.aes = FALSE)
-}
+# add_shaded_background <- function(plot, data) {
+#   even_years <- unique(data$Year[data$Year %% 2 == 0])
+#   
+#   # Ensure Date column is in Date format
+#   data <- data %>% mutate(Date = as.Date(Date))
+#   
+#   plot + 
+#     geom_rect(data = data.frame(xmin = as.Date(paste0(even_years, "-01-01")),
+#                                 xmax = as.Date(paste0(even_years, "-12-31")),
+#                                 ymin = -Inf, ymax = Inf),
+#               aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax),
+#               fill = "grey90", alpha = 0.5, inherit.aes = FALSE)
+# }
+
 
 
 
@@ -121,6 +126,10 @@ ui <- fluidPage(
         font-size: 20px;  # Adjust the font size as needed for selected item text
         font-family: 'Roboto Condensed', sans-serif;
       }
+        .bootstrap-select .dropdown-toggle {
+    white-space: normal;  # Allow the input box to expand to fit the content
+    height: auto;  # Adjust height to fit content
+        }
     "))
   ),
   div(style = "width: 100%; text-align: center; margin-top: 20px;",  # Center the title within the container
@@ -150,7 +159,7 @@ ui <- fluidPage(
                            ),
                            span(" from "),
                            div(style = "display: inline-block; width: 20%; position: relative; text-align: left;", 
-                               pickerInput("yearFilter", "", choices = unique(data$Year), multiple = TRUE, selected = default_years, width = '100%',
+                               pickerInput("yearFilter", "", choices = c("all years", unique(data$Year)), multiple = TRUE, selected = "all years", width = '100%',
                                            options = list(
                                              `live-search` = TRUE,
                                              `live-search-placeholder` = "Select Year"
@@ -206,16 +215,25 @@ ui <- fluidPage(
 )
 
 
+
+
+
 # Server Definition ---------------------------------------------------------------------------
 
 
 server <- function(input, output, session) {
   # Reactive data based on user inputs
   reactiveData <- reactive({
+    selected_years <- if ("all years" %in% input$yearFilter) {
+      unique(data$Year)
+    } else {
+      input$yearFilter
+    }
+    
     data %>%
       filter(`Crime Type` %in% input$crimeType,
              `Agency Name` %in% input$agencyName,
-             Year %in% input$yearFilter) %>%
+             Year %in% selected_years) %>%
       arrange(Month)
   })
   
@@ -233,12 +251,22 @@ server <- function(input, output, session) {
     updatePickerInput(session, "agencyName", choices = nested_choices(), selected = default_agency)
   })
   
+  # Observe yearFilter and adjust selections
+  observeEvent(input$yearFilter, {
+    if ("all years" %in% input$yearFilter & length(input$yearFilter) > 1) {
+      updatePickerInput(session, "yearFilter", selected = setdiff(input$yearFilter, "all years"))
+    } else if (!"all years" %in% input$yearFilter & length(input$yearFilter) == 0) {
+      updatePickerInput(session, "yearFilter", selected = "all years")
+    }
+  })
+  
   # Helper function to format the date range
   format_date_range <- function(year, months) {
     min_month <- min(months)
     max_month <- ifelse(length(unique(months)) == 12, 12, max(months))  # Handle full years correctly
     paste0("(", month.abb[min_month], " '", substr(year, 3, 4), " - ", month.abb[max_month], " '", substr(year, 3, 4), ")")
   }
+  
   
   # Calculate and display YTD crime data
   output$currentYTD <- renderUI({
@@ -369,7 +397,7 @@ server <- function(input, output, session) {
       )
     
     # Add shaded background for every even-numbered year
-    p <- add_shaded_background(p, df)
+    # p <- add_shaded_background(p, df)
     
     ggplotly(p)
   })

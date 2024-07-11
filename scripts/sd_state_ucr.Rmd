@@ -245,7 +245,7 @@ join the combined df to this base dataset - now we know if data is missing for c
 joined_df <- merge(all_combinations, combined_df, by = c("Agency Name", "Year", "Month"), all.x = TRUE)
 
 # View the result
-print(joined_df)
+head(joined_df)
 ```
 drop records with an NA in the month column
 ```{r}
@@ -258,7 +258,7 @@ final_df <- clean_df %>%
   mutate_if(!names(.) %in% c("Agency Name", "Year", "Month"), ~ifelse(is.na(.), "NR", .))
 
 # View the modified DataFrame
-print(final_df)
+head(final_df)
 ```
 reorder columns and done
 ```{r}
@@ -273,7 +273,7 @@ final_df <- final_df[, column_order]
 
 #drop all records with NA in the month
 final_df <- final_df[!is.na(final_df$Year),]
-print(final_df)
+head(final_df)
 ```
 add a column for State and then we're done.
 ```{r}

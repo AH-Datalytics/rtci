@@ -282,6 +282,9 @@ state_value <- "Illinois"
 
 # Add the "State" column to the data frame
 final_df$State <- state_value
+
+# Convert all columns but the first to numeric - aye aye aye
+final_df[, -1] <- lapply(final_df[, -1], as.numeric)
 ```
 
 write it out!

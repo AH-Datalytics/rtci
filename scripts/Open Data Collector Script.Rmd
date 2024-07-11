@@ -67,7 +67,7 @@ for (directory in directories) {
 ```
 combine list of csv's into master dataset
 ```{r}
-combined_df <- do.call(rbind, extracted_data)
+combined_df <- bind_rows(extracted_data)
 ```
 fix the row.names issue first before writing out
 ```{r}

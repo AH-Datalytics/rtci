@@ -109,6 +109,18 @@ ui <- fluidPage(
       .main-content {
         width: 100%; 
       }
+      .selectize-control .selectize-input, .selectize-dropdown-content {
+        font-size: 20px;  # Adjust the font size as needed
+        font-family: 'Roboto Condensed', sans-serif;
+      }
+      .bootstrap-select .dropdown-menu li a {
+        font-size: 14px;  # Adjust the font size as needed for dropdown options
+        font-family: 'Roboto Condensed', sans-serif;
+      }
+      .bootstrap-select .dropdown-toggle .filter-option {
+        font-size: 20px;  # Adjust the font size as needed for selected item text
+        font-family: 'Roboto Condensed', sans-serif;
+      }
     "))
   ),
   div(style = "width: 100%; text-align: center; margin-top: 20px;",  # Center the title within the container
@@ -120,12 +132,16 @@ ui <- fluidPage(
             column(12, div(style = "padding-top: 1px; font-size: 20px; text-align: center;",
                            span("Show me "),
                            div(style = "display: inline-block; width: 20%; position: relative; text-align: left;", 
-                               selectInput("crimeType", "", choices = unique(data$`Crime Type`), multiple = TRUE, selected = default_crime_type, width = '100%'),
+                               pickerInput("crimeType", "", choices = unique(data$`Crime Type`), multiple = TRUE, selected = default_crime_type, width = '100%',
+                                           options = list(
+                                             `live-search` = TRUE,
+                                             `live-search-placeholder` = "Select Crime Type"
+                                           )),
                                div(style = "border-bottom: 1px solid #ffffff; width: 100%;")
                            ),
                            span(" for "),
                            div(style = "display: inline-block; width: 20%; position: relative; text-align: left;", 
-                               pickerInput("agencyName", "", choices = NULL, multiple = FALSE, width = '100%', # This is the code to select multiple at a time
+                               pickerInput("agencyName", "", choices = NULL, multiple = FALSE, width = '100%',
                                            options = list(
                                              `live-search` = TRUE,
                                              `live-search-placeholder` = "Select State and Agency"
@@ -133,8 +149,12 @@ ui <- fluidPage(
                                div(style = "border-bottom: 1px solid #ffffff; width: 100%;")
                            ),
                            span(" from "),
-                           div(style = "display: inline-block; width: 20%; position: relative; text-align: left", 
-                               selectInput("yearFilter", "", choices = unique(data$Year), multiple = TRUE, selected = default_years, width = '100%'),
+                           div(style = "display: inline-block; width: 20%; position: relative; text-align: left;", 
+                               pickerInput("yearFilter", "", choices = unique(data$Year), multiple = TRUE, selected = default_years, width = '100%',
+                                           options = list(
+                                             `live-search` = TRUE,
+                                             `live-search-placeholder` = "Select Year"
+                                           )),
                                div(style = "border-bottom: 1px solid #ffffff; width: 100%;")
                            )
             ))

@@ -83,4 +83,7 @@ file_path <- file.path(folder_path, "rtci_sample_extracted.csv")
 
 # Write the data frame to a .csv file
 write.csv(combined_df, file = file_path, row.names = FALSE)
+
+# Also write the df to GitHub repo in the deploy/shiny_web_app folder
+write.csv(combined_df, "../deploy/shiny_web_app/rtci_sample_extracted.csv", row.names = FALSE)
 ```

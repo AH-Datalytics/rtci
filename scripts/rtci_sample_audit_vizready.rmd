@@ -55,24 +55,24 @@ make sure the crime count categories are numeric - make a list of them first
 # Convert crime category columns to numeric, allowing for negative and positive numbers and 0
 crime_categories <- c("Murder", "Rape", "Robbery", 
                   "Agg.Assault", "Burglary", "Larceny", "MVT", "Arson")
-samp <- samp %>%
+samp1 <- samp1 %>%
   mutate(across(all_of(crime_categories), ~as.numeric(replace(., . == "NR", NA))))
 ```
 drop all cases by this point that have NA's in their crime Counts
 first, segregate them to check them out.
 ```{r}
 # Identify rows with NA or "NA" values
-obs_with_na <- apply(samp, 1, function(row) any(is.na(row) | row == "NA"))
+obs_with_na <- apply(samp1, 1, function(row) any(is.na(row) | row == "NA"))
 
 # Save these observations to a separate data frame for review
-df_na <- samp[obs_with_na, ]
+df_na <- samp1[obs_with_na, ]
 
 # Display the data frame with NA or "NA" values
 print("Data frame with NA or 'NA' values:")
 head(df_na)
 
 # Remove these observations from the original data frame
-df_clean <- samp[!obs_with_na, ]
+samp2 <- samp1[!obs_with_na, ]
 
 # Display the cleaned data frame
 print("Cleaned data frame:")
@@ -81,17 +81,17 @@ head(df_clean)
 Display observations with invalid months
 ```{r}
 print("Observations with Invalid Months:")
-print(invalid_months)
+head(invalid_months)
 ```
 Display observations with invalid years
 ```{r}
 print("Observations with Invalid Years:")
-print(invalid_years)
+head(invalid_years)
 ```
 Display observations with "NR" values for crime counts
 ```{r}
 print("Observations with 'NR' in Crime Counts:")
-print(nr_observations)
+head(nr_observations)
 ```
 Function to calculate lag time - in progress
 ```{r}
@@ -106,21 +106,34 @@ remove_list <- c("PD", "Police Department", "Department of Public Safety", "MIP"
 pattern <- paste(remove_list, collapse = "|")
 
 # Remove specified pieces of text from Agency.Name
-samp <- samp %>%
+samp2 <- samp2 %>%
   mutate(City = gsub(pattern, "", Agency.Name, ignore.case = TRUE))
 
 # Trim leading and trailing whitespaces
-samp <- samp %>%
+samp2 <- samp2 %>%
   mutate(City = trimws(City))
 
 #create a second City column for viz format
-samp$City_viz <- samp$City
+samp2$City_viz <- samp2$City
 
 # drop city to lowercase to match ucr
-samp$City <- tolower(df$Name)
+samp2$City <- tolower(samp2$City)
 
+# Function to capitalize only the first letter
+capitalize_first <- function(x) {
+  tolower_x <- tolower(x)
+  sub("^([a-z])", "\\U\\1", tolower_x, perl = TRUE)
+}
+
+# Apply the function to the 'Name' column
+samp2$City_viz <- sapply(samp2$City_viz, capitalize_first)
+
+#do the same for state
+samp2$State_viz <- samp2$State
+
+samp2$State <- tolower(samp2$State)
 # View the modified data frame
-head(samp)
+head(samp2)
 ```
 run wheeler's outliers tests
 ```{r}
@@ -150,20 +163,20 @@ priork_poisson(samp)
 reshape data post so we get a clean join to the ucr historical data
 ```{r}
 # Convert Month and Year to a Date column in "%b-%Y" format
-samp <- samp %>%
-  mutate(Date = as.Date(paste(Year, Month, "01", sep = "-"), "%Y-%b-%d"))
-
-# Format the Date column as "%b-%Y"
-samp <- samp %>%
-  mutate(Date = format(Date, "%b-%Y"))
+samp3 <- samp2 %>%
+  mutate(Date = as.Date(paste(Year, Month, "01", sep = "-"), "%Y-%m-%d"))
 
 # Reshape to long 
-samp_long <- samp %>%
+samp_long <- samp3 %>%
   pivot_longer(cols = c("Murder", "Rape", "Robbery", 
-                        "Agg Assault", "Burglary", "Larceny", "MVT", "Arson"),
+                        "Agg.Assault", "Burglary", "Larceny", "MVT", "Arson"),
                             names_to = "Crime Type",
                             values_to = "Count")
 
+head(samp_long)
+```
+
+```{r}
 # Reshape to wide format with Date as columns
 samp_wide <- samp_long %>%
   pivot_wider(names_from = Date, values_from = Count)
@@ -181,21 +194,14 @@ ucr_data <- read.csv(file_path)
 ```
 reshape the ucr data wide before we join to the sample
 ```{r}
-# Standardize the month first before making the Date column
-standardize_month(ucr_data)
-
 # Convert Month and Year to a Date column in "%b-%Y" format
 ucr_data <- ucr_data %>%
-  mutate(Date = as.Date(paste(Year, Month, "01", sep = "-"), "%Y-%b-%d"))
-
-# Format the Date column as "%b-%Y"
-ucr_data <- ucr_data %>%
-  mutate(Date = format(Date, "%b-%Y"))
+  mutate(Date = as.Date(paste(Year, Month, "01", sep = "-"), "%Y-%m-%d"))
 
 # Reshape to long 
 ucr_long <- ucr_data %>%
   pivot_longer(cols = c("Murder", "Rape", "Robbery", 
-                        "Agg Assault", "Burglary", "Larceny", "MVT", "Arson"),
+                        "Agg.Assault", "Burglary", "Larceny", "MVT", "Arson"),
                             names_to = "Crime Type",
                             values_to = "Count")
 
@@ -203,6 +209,8 @@ ucr_long <- ucr_data %>%
 ucr_wide <- ucr_long %>%
   pivot_wider(names_from = Date, values_from = Count)
 
+# new column to match on
+ucr_wide$City <- ucr_wide$Agency.Name
 #let's see what we have now
 head(ucr_wide)
 ```
@@ -210,11 +218,7 @@ now let's join using city and state
 ```{r}
 samp_full_wide <- right_join(ucr_wide, samp_wide, by = c("City", "State"))
 ```
-make sure city name is in Format. 
-ILLINOIS and lowercase transformations -app view purposes
-```{r}
 
-```
 
 ```{r}
 

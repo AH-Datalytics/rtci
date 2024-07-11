@@ -67,7 +67,33 @@ for (directory in directories) {
 ```
 combine list of csv's into master dataset
 ```{r}
-combined_df <- bind_rows(extracted_data)
+# Function to convert character columns to numeric where applicable, excluding specific columns
+convert_to_numeric <- function(df, exclude_cols) {
+  # Select columns to be converted
+  cols_to_convert <- setdiff(names(df), exclude_cols)
+  
+  df[, cols_to_convert] <- lapply(df[, cols_to_convert], function(col) {
+    if (is.character(col)) {
+      as.numeric(col)
+    } else {
+      col
+    }
+  })
+  
+  return(df)
+}
+
+# Specify columns to exclude
+exclude_cols <- c("State", "Agency.Name")
+
+# Apply the conversion function to each data frame in the list
+ed1 <- lapply(extracted_data, convert_to_numeric, exclude_cols)
+
+# Combine data frames with missing columns filled with NA
+combined_df <- bind_rows(ed1)
+
+# Display the combined data frame
+head(combined_df)
 ```
 fix the row.names issue first before writing out
 ```{r}
@@ -85,5 +111,5 @@ file_path <- file.path(folder_path, "rtci_sample_extracted.csv")
 write.csv(combined_df, file = file_path, row.names = FALSE)
 
 # Also write the df to GitHub repo in the deploy/shiny_web_app folder
-write.csv(combined_df, "../deploy/shiny_web_app/rtci_sample_extracted.csv", row.names = FALSE)
+#write.csv(combined_df, "../deploy/shiny_web_app/rtci_sample_extracted.csv", row.names = FALSE)
 ```

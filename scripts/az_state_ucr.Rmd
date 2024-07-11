@@ -119,9 +119,6 @@ combine everything
 ```{r}
 combined_df <- do.call(rbind, ldf3)
 ```
-
-
-
 reorder columns and done
 ```{r}
 # Specified order for the columns

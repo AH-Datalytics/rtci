@@ -129,12 +129,78 @@ capitalize_first <- function(x) {
 samp2$City_viz <- sapply(samp2$City_viz, capitalize_first)
 
 #do the same for state
-samp2$State_viz <- samp2$State
+samp2$State_viz <- toTitleCase(samp2$State)
 
 samp2$State <- tolower(samp2$State)
 # View the modified data frame
 head(samp2)
 ```
+
+#Now we join the historical data to the sample (technically vice versa)
+C:\OneDrive\OneDrive - ahdatalytics.com\Clients\Real Time Crime Index\Historical Data
+UCR Historical Data 2018-2022.csv
+```{r}
+file_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Historical Data\\UCR Historical Data 2018-2022.csv"
+ucr_data <- read.csv(file_path)
+head(ucr_data)
+```
+reshape the ucr data wide before we join to the sample
+```{r}
+# Define a named vector mapping month names to numeric values
+month_mapping <- c(
+  "january" = 1, "february" = 2, "march" = 3, "april" = 4, "may" = 5,
+  "june" = 6, "july" = 7, "august" = 8, "september" = 9, "october" = 10,
+  "november" = 11, "december" = 12
+)
+
+# Convert the 'Month' column to numeric values using the mapping
+ucr_data$Month <- month_mapping[ucr_data$Month]
+
+# Drop the columns Year, Month, Months.Missing
+ucr_data <- ucr_data %>%
+  select(-Months.Missing, -LONG, -LAT, -Last.Report.Month) 
+
+# Function to capitalize only the first letter
+capitalize_first <- function(x) {
+  tolower_x <- tolower(x)
+  sub("^([a-z])", "\\U\\1", tolower_x, perl = TRUE)
+}
+
+# Apply the function to the 'Name' column
+ucr_data$City_viz <- capitalize_first(ucr_data$Agency.Name)
+
+#do the same for state
+ucr_data$State_viz <- capitalize_first(ucr_data$State)
+
+ucr_data$City <- tolower(ucr_data$Agency.Name)
+ucr_data$City_viz <- toTitleCase(ucr_data$Agency.Name)
+# View the modified data frame
+
+head(ucr_data)
+```
+let's just rowbind for now
+```{r}
+full_data <- bind_rows(ucr_data, samp2)
+```
+let's write this out to a folder next to extracted for now
+```{r}
+folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Final Sample"
+
+# Create the full file path
+file_path <- file.path(folder_path, "sample_2018_present.csv")
+
+# Write the data frame to a .csv file
+write.csv(full_data, file = file_path, row.names = FALSE)
+```
+
+
+
+
+
+
+
+
+
 run wheeler's outliers tests
 ```{r}
 #we will source it first
@@ -185,55 +251,7 @@ samp_wide <- samp_long %>%
 head(samp_wide)
 ```
 
-#Now we join the historical data to the sample (technically vice versa)
-C:\OneDrive\OneDrive - ahdatalytics.com\Clients\Real Time Crime Index\Historical Data
-UCR Historical Data 2018-2022.csv
-```{r}
-file_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Historical Data\\UCR Historical Data 2018-2022.csv"
-ucr_data <- read.csv(file_path)
-head(ucr_data)
-```
-reshape the ucr data wide before we join to the sample
-```{r}
-# Define a named vector mapping month names to numeric values
-month_mapping <- c(
-  "january" = 1, "february" = 2, "march" = 3, "april" = 4, "may" = 5,
-  "june" = 6, "july" = 7, "august" = 8, "september" = 9, "october" = 10,
-  "november" = 11, "december" = 12
-)
 
-# Convert the 'Month' column to numeric values using the mapping
-ucr_data$Month <- month_mapping[ucr_data$Month]
-
-# generate a new date field based on month and year
-ucr_data <- ucr_data %>%
-  mutate(Date = as.Date(paste(Year, Month, "01", sep = "-"), "%Y-%m-%d"))
-
-# Drop the columns Year, Month, Months.Missing
-ucr_long <- ucr_data %>%
-  select(-Year, -Month, -Months.Missing, -LONG, -LAT, -Last.Report.Month)
-
-# Reshape to long based on crime type
-ucr_long <- ucr_long %>%
-  pivot_longer(cols = c("Murder", "Rape", "Robbery", 
-                        "Agg.Assault", "Burglary", "Larceny", "MVT", "Arson"),
-                            names_to = "Crime Type",
-                            values_to = "Count")
-
-head(ucr_long)                           
-```
-break it up between wide and long shaping
-```{r}
-# Reshape to wide format with Date as columns
-ucr_wide <- ucr_long %>%
-  pivot_wider(names_from = Date, values_from = Count)
-
-# New column to match on
-ucr_wide$City <- ucr_wide$Agency.Name
-
-# Let's see what we have now
-head(ucr_wide)
-```
 now let's join using city and state
 ```{r}
 samp_full_wide <- right_join(ucr_wide, samp_wide, by = c("City", "State", "Crime Type"))

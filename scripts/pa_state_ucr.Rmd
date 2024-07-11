@@ -173,10 +173,23 @@ head(ldf4[[1]])
 ```
 
 
+
+
+
 row bind the list together
 ```{r}
 combined_df <- do.call(rbind, ldf4)
 
+```
+
+
+add a column for State and then we're done.
+```{r}
+# Specify the value for the "State" column
+state_value <- "Arizona"
+
+# Add the "State" column to the data frame
+final_df$State <- state_value
 ```
 write it out!
 ```{r}

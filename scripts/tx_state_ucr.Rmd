@@ -118,6 +118,15 @@ df <- combined_df %>%
 # Check the structure of the dataframe to confirm types
 str(df)
 ```
+
+add a column for State and then we're done.
+```{r}
+# Specify the value for the "State" column
+state_value <- "Arizona"
+
+# Add the "State" column to the data frame
+final_df$State <- state_value
+```
 write it out- still needs to be transformed
 ```{r}
 write.csv(combined_df, "tx_state_ucr_all.csv")

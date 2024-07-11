@@ -275,6 +275,15 @@ final_df <- final_df[, column_order]
 final_df <- final_df[!is.na(final_df$Year),]
 print(final_df)
 ```
+add a column for State and then we're done.
+```{r}
+# Specify the value for the "State" column
+state_value <- "Arizona"
+
+# Add the "State" column to the data frame
+final_df$State <- state_value
+```
+
 write it out!
 ```{r}
 # Specify the folder path

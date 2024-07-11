@@ -50,10 +50,6 @@ samp1 <- samp %>%
   filter(!is.na(Month) | !Month < 1 | !Month > 12 |
          !is.na(Year) | !Year < 2018 | !Year > 2024)
 ```
-
-```{r}
-
-```
 make sure the crime count categories are numeric - make a list of them first
 ```{r}
 # Convert crime category columns to numeric, allowing for negative and positive numbers and 0

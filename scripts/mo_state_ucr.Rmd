@@ -168,6 +168,15 @@ column_order <- c("Agency Name", "Murder", "Rape", "Robbery",
 # Reorder columns based on the specified order
 final_df <- combined_df[, column_order]
 ```
+add a column for State and then we're done.
+```{r}
+# Specify the value for the "State" column
+state_value <- "Arizona"
+
+# Add the "State" column to the data frame
+final_df$State <- state_value
+```
+
 write it out!
 ```{r}
 # Specify the folder path

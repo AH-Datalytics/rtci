@@ -200,15 +200,9 @@ create new columns and order them
 Murder and Nonnegligent Manslaughter, Forcible Rape, Aggravated Assault, Arson, Burglary/Breaking & Entering, Theft From Motor Vehicle
 Purse-snatching + Shoplifting + Theft from Building + Theft From Coin Operated Machine or Device + Theft From Motor Vehicle + Theft of Motor Vehicle Parts/Accessories + All Other Larceny
 ```{r}
-# List of required column names
-required_columns <- c("Agency.Name", "Criminal Homicide",
-                       "Forcible Rape Total", "Robbery Total", "Aggravated Assault Total", "Burglary Total",
-                       "Larceny - Theft Total", "Motor Vehicle Theft Total",
-                      "Arson", "Month", "Year")
-
 # New column names
   final_col_names <- c("Agency Name", "Murder", "Rape", "Robbery",
-                       "Agg Assault", "Burglary", "Larceny", "MVT", "Arson", "Month", "Year")
+                       "Agg Assault", "Burglary", "Larceny", "MVT", "Arson", "Year", "Month")
   # Rename the columns
   names(cdf1) <- final_col_names
 ```
@@ -273,7 +267,7 @@ final_df <- final_df[, column_order]
 add a column for State and then we're done.
 ```{r}
 # Specify the value for the "State" column
-state_value <- "Arizona"
+state_value <- "Massachusetts"
 
 # Add the "State" column to the data frame
 final_df$State <- state_value

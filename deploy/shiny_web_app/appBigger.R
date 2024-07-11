@@ -310,12 +310,16 @@ server <- function(input, output, session) {
     
     colors <- brewer.pal(n = length(unique(df$`Crime Type`)), name = "Set1")
     
+    # Calculate the y-axis limits and breaks manually
+    y_max <- max(df$Total_Incidents, na.rm = TRUE)
+    y_breaks <- seq(0, y_max, by = max(1, ceiling(y_max / 10))) # Adjust 'by' value as needed
+    
     p <- ggplot(df, aes(x = Month, y = Total_Incidents, color = `Crime Type`)) +
       geom_line() +
       geom_point() +
       scale_color_manual(values = colors) +
       scale_x_date(date_labels = "%Y", date_breaks = "1 year") +
-      scale_y_continuous(breaks = pretty(df$Total_Incidents), labels = scales::label_number(accuracy = 1)) +
+      scale_y_continuous(breaks = y_breaks, labels = scales::label_number(accuracy = 1)) +
       labs(x = "Year", y = paste("Count of", format_crime_type_label(unique(df$`Crime Type`)))) +
       theme_minimal() +
       theme(
@@ -330,6 +334,7 @@ server <- function(input, output, session) {
     
     ggplotly(p)
   })
+  
   
   
   # Toggle view between plot and data table

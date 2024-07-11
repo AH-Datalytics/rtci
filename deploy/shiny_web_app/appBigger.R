@@ -21,14 +21,14 @@ data$Month <- floor_date(data$Date, "month")
 data <- data %>% 
   select(-1)
 
-# # Wide to Long bigger data transformation
-# bigger_data <- read_csv("rtci_sample_extracted.csv")
-# data <- bigger_data %>%
-#   pivot_longer(cols = c(Murder, Rape, Robbery, Agg.Assault, Burglary, Larceny, MVT, Arson),
-#                names_to = "Crime Type",
-#                values_to = "Total_Incidents") %>%
-#   mutate(Date = as.Date(paste0(Year, "-", Month, "-01"), format = "%Y-%m-%d")) %>%
-#   select(`Agency Name` = Agency.Name, Month, Year, `Crime Type`, Total_Incidents, Date)
+# Wide to Long bigger data transformation
+bigger_data <- read_csv("rtci_sample_extracted.csv")
+data <- bigger_data %>%
+  pivot_longer(cols = c(Murder, Rape, Robbery, Agg.Assault, Burglary, Larceny, MVT, Arson),
+               names_to = "Crime Type",
+               values_to = "Total_Incidents") %>%
+  mutate(Date = as.Date(paste0(Year, "-", Month, "-01"), format = "%Y-%m-%d")) %>%
+  select(`Agency Name` = Agency.Name, Month, Year, `Crime Type`, Total_Incidents, Date)
 
 
 # Default selections

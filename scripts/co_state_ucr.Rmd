@@ -76,17 +76,28 @@ remove_rows_and_columns <- function(df) {
 ldf1 <- lapply(ldf, remove_rows_and_columns)
 
 # Print first dataframe in list to see
-print(ldf1[1])
+head(ldf1[1])
+
+#new columns?
+ldf1_1 <- as.data.frame(ldf1[1])
 ```
 rename columns
+Murder and Nonnegligent Manslaughter	Rape	Aggravated Assault	Arson	Burglary/Breaking & Entering	
+Robbery	
+
+Pocket-picking	Purse-snatching	Shoplifting	Theft From Building	
+Theft From Coin Operated Machine or Device	Theft From Motor Vehicle	
+Theft of Motor Vehicle Parts/Accessories	All Other Larceny	Motor Vehicle Theft
+
 ```{r}
 col_names <- c("Agency Name","Murder", "Rape", "Agg Assault", "Arson",
-               "Burglary/Breaking & Entering", "Robbery",
-               "Theft From Building", "Theft From Coin Operated Machine Or Device", "Theft From Motor Vehicle", "Theft of Motor Vehicle Parts/Accessories", "All Other Larceny", "Motor Vehicle Theft", "Year", "Month"
+               "Burglary/Breaking & Entering", "Robbery", "Pocket-picking",	"Purse-snatching",	"Shoplifting",
+               "Theft From Building", "Theft From Coin Operated Machine Or Device", "Theft From Motor Vehicle", 
+               "Theft of Motor Vehicle Parts/Accessories", "All Other Larceny", "Motor Vehicle Theft", 
+               "Year", "Month"
 )
 
 ldf2 <- lapply(ldf1, setNames, col_names)
-
 ```
 fill in empty cells with 0
 ```{r}

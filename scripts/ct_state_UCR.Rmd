@@ -75,17 +75,20 @@ remove_rows <- function(df) {
 ldf1 <- lapply(ldf, remove_rows)
 
 # Print first dataframe in list to see
-print(ldf1[1])
+head(ldf1[1])
 ```
 
 rename columns
 ```{r}
 col_names <- c("Agency Name", 
-               "All Summary Offenses", "Criminal Homicide", "Forcible Rape Total", "Robbery Total", "Assault Total", "Burglary Total", "Larceny - Theft Total", "Motor Vehicle Theft Total", "Arson", "Human Trafficking Offenses", "Year", "Month"
+               "Murder and Nonnegligent Homicide",	"Forcible Rape",	
+               "Robbery",	"Aggravated Assault",	"Burglary",	"Larceny - Theft",	"Motor Vehicle Theft",	"Arson",
+               "Year", "Month"
 )
 
+
 ldf2 <- lapply(ldf1, setNames, col_names)
-print(ldf2[1])
+head(ldf2[1])
 ```
 fill in empty cells with 0
 ```{r}
@@ -115,45 +118,32 @@ print(ldf3_num[1])
 drop unnecessary columns
 ```{r}
 columns_to_keep <- c("Agency Name", 
-               "Criminal Homicide", "Forcible Rape Total", 
-               "Robbery Total", 
-               "Assault Total", 
-               "Burglary Total", 
-               "Larceny - Theft Total", 
-               "Motor Vehicle Theft Total", "Arson", "Year", "Month")
+               "Murder and Nonnegligent Homicide",	"Forcible Rape",	
+               "Robbery",	"Aggravated Assault",	"Burglary",
+               "Larceny - Theft",	"Motor Vehicle Theft",	"Arson",
+               "Year", "Month")
 
-# Function to keep specified columns from a dataframe
+# Function to keep specified columns and order columns for renaming
 keep_columns <- function(df) {
   df_subset <- subset(df, select = columns_to_keep)
   return(df_subset)
 }
 
 # Apply the function to each dataframe in the list
-list_of_dataframes_modified <- lapply(ldf3, keep_columns)
+ldf4 <- lapply(ldf3_num, keep_columns)
 ```
 
 
 rename each column for all dataframes in list
 ```{r}
 #list of column names
-final_col_names <-  c("Agency Name","Murder",	"Rape",	"Robbery",
+final_col_names <-  c("Agency Name", "Murder",	"Rape",	"Robbery",
 "Agg Assault",	"Burglary",	"Larceny",	"MVT",	"Arson", "Year", "Month")
 
 #apply column names
-ldf4 <- lapply(list_of_dataframes_modified, setNames, final_col_names)
+ldf5 <- lapply(ldf4, setNames, final_col_names)
 
-ldf4[1]
-```
-rename each column for all dataframes in list
-```{r}
-#list of column names
-final_col_names <-  c("Agency Name","Murder",	"Rape",	"Robbery",
-"Agg Assault",	"Burglary",	"Larceny",	"MVT",	"Arson", "Year", "Month")
-
-#apply column names
-ldf6 <- lapply(ldf5, setNames, final_col_names)
-
-ldf6[1]
+head(ldf5[1])
 ```
 find and ditch the empty row and everything after it
 ```{r}
@@ -179,7 +169,7 @@ trim_agency_na <- function(df) {
 }
 
 # Apply the trim_agency_na function to each dataframe in the list
-ldf7 <- lapply(ldf6, trim_agency_na)
+ldf6 <- lapply(ldf5, trim_agency_na)
 ```
 convert columns to numeric and fill in NA's with 0
 ```{r}
@@ -199,13 +189,13 @@ replace_na <- function(df) {
 }
 
 # Applying the function to each dataframe in the list
-ldf8 <- lapply(ldf7, replace_na)
+ldf7 <- lapply(ldf6, replace_na)
 
-head(ldf8[1])
+head(ldf7[1])
 ```
 row bind the list together
 ```{r}
-combined_df <- do.call(rbind, ldf8)
+combined_df <- do.call(rbind, ldf7)
 ```
 reorder columns and done
 ```{r}

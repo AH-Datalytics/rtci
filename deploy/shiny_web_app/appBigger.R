@@ -9,6 +9,7 @@ library(RColorBrewer)  # For generating color palettes
 library(tidyverse)
 library(rsconnect) # install package if needed
 library(here)
+library(shinyWidgets)
 
 
 # Data Loading and Transformation -------------------------------------------------------------
@@ -47,8 +48,10 @@ data <- cleaned_data %>%
 
 # Default selections
 default_crime_type <- "Murder"
-default_agency <- sort(unique(data$`Agency Name`))[1]
+default_state <- sort(unique(data$State))[1]
+default_agency <- sort(unique(data$`Agency Name`[data$State == default_state]))[1]
 default_years <- unique(data$Year)
+
 
 
 
@@ -80,7 +83,6 @@ add_shaded_background <- function(plot, data) {
 
 # UI Definition -------------------------------------------------------------------------------
 
-# Shiny UI
 ui <- fluidPage(
   tags$head(
     tags$style(HTML("
@@ -110,7 +112,7 @@ ui <- fluidPage(
     "))
   ),
   div(style = "width: 100%; text-align: center; margin-top: 20px;",  # Center the title within the container
-      h2(style = "font-size: 25px;","Monthly UCR Part One Crimes by Agency & Year")
+      h2(style = "font-size: 25px;", "Monthly UCR Part One Crimes by Agency & Year")
   ),
   div(class = "content-container",
       div(style = "width: 100%;",  # Ensure the top panel matches the plot width
@@ -122,8 +124,12 @@ ui <- fluidPage(
                                div(style = "border-bottom: 1px solid #ffffff; width: 100%;")
                            ),
                            span(" for "),
-                           div(style = "display: inline-block; width: 20%; position: relative; text-align: left", 
-                               selectInput("agencyName", "", choices = unique(data$`Agency Name`), selected = default_agency, width = '100%'),
+                           div(style = "display: inline-block; width: 20%; position: relative; text-align: left;", 
+                               pickerInput("agencyName", "", choices = NULL, multiple = FALSE, width = '100%', # This is the code to select multiple at a time
+                                           options = list(
+                                             `live-search` = TRUE,
+                                             `live-search-placeholder` = "Select State and Agency"
+                                           )),
                                div(style = "border-bottom: 1px solid #ffffff; width: 100%;")
                            ),
                            span(" from "),
@@ -180,10 +186,9 @@ ui <- fluidPage(
 )
 
 
-
 # Server Definition ---------------------------------------------------------------------------
 
-# Shiny Server
+
 server <- function(input, output, session) {
   # Reactive data based on user inputs
   reactiveData <- reactive({
@@ -192,6 +197,20 @@ server <- function(input, output, session) {
              `Agency Name` %in% input$agencyName,
              Year %in% input$yearFilter) %>%
       arrange(Month)
+  })
+  
+  # Update agency list based on the selected state
+  nested_choices <- reactive({
+    data %>%
+      group_by(State) %>%
+      summarize(Agencies = list(unique(`Agency Name`))) %>%
+      split(.$State) %>%
+      map(~setNames(.$Agencies[[1]], .$Agencies[[1]])) %>%
+      setNames(names(.))
+  })
+  
+  observe({
+    updatePickerInput(session, "agencyName", choices = nested_choices(), selected = default_agency)
   })
   
   # Helper function to format the date range
@@ -335,8 +354,6 @@ server <- function(input, output, session) {
     ggplotly(p)
   })
   
-  
-  
   # Toggle view between plot and data table
   observeEvent(input$toggleView, {
     if (input$toggleView %% 2 == 1) {
@@ -382,7 +399,9 @@ server <- function(input, output, session) {
   )
 }
 
+
+
+
 # Run the application ---------------------------------------------------------------------
 
 shinyApp(ui = ui, server = server)
-

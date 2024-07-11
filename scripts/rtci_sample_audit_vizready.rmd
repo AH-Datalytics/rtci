@@ -65,14 +65,14 @@ first, segregate them to check them out.
 obs_with_na <- apply(samp, 1, function(row) any(is.na(row) | row == "NA"))
 
 # Save these observations to a separate data frame for review
-df_na <- df[obs_with_na, ]
+df_na <- samp[obs_with_na, ]
 
 # Display the data frame with NA or "NA" values
 print("Data frame with NA or 'NA' values:")
 head(df_na)
 
 # Remove these observations from the original data frame
-df_clean <- df[!obs_with_na, ]
+df_clean <- samp[!obs_with_na, ]
 
 # Display the cleaned data frame
 print("Cleaned data frame:")

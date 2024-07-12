@@ -159,7 +159,7 @@ ui <- fluidPage(
                            ),
                            span(" from "),
                            div(style = "display: inline-block; width: 20%; position: relative; text-align: left;", 
-                               pickerInput("yearFilter", "", choices = c("all years", unique(data$Year)), multiple = TRUE, selected = "all years", width = '100%',
+                               pickerInput("yearFilter", "", choices = c("All years", unique(data$Year)), multiple = TRUE, selected = "All years", width = '100%',
                                            options = list(
                                              `live-search` = TRUE,
                                              `live-search-placeholder` = "Select Year"
@@ -224,7 +224,7 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   # Reactive data based on user inputs
   reactiveData <- reactive({
-    selected_years <- if ("all years" %in% input$yearFilter) {
+    selected_years <- if ("All years" %in% input$yearFilter) {
       unique(data$Year)
     } else {
       input$yearFilter
@@ -253,10 +253,10 @@ server <- function(input, output, session) {
   
   # Observe yearFilter and adjust selections
   observeEvent(input$yearFilter, {
-    if ("all years" %in% input$yearFilter & length(input$yearFilter) > 1) {
-      updatePickerInput(session, "yearFilter", selected = setdiff(input$yearFilter, "all years"))
-    } else if (!"all years" %in% input$yearFilter & length(input$yearFilter) == 0) {
-      updatePickerInput(session, "yearFilter", selected = "all years")
+    if ("All years" %in% input$yearFilter & length(input$yearFilter) > 1) {
+      updatePickerInput(session, "yearFilter", selected = setdiff(input$yearFilter, "All years"))
+    } else if (!"All years" %in% input$yearFilter & length(input$yearFilter) == 0) {
+      updatePickerInput(session, "yearFilter", selected = "All years")
     }
   })
   

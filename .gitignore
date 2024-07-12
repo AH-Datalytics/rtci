@@ -1,0 +1,10 @@
+# macOS specific files
+.DS_Store
+
+# Common directories and files to ignore
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+.Rprofile
+.Rapp.history

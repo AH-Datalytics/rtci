@@ -1,12 +1,12 @@
-name: shiny_web_app
-title: shiny_web_app
+name: monthyl-ucr
+title: monthyl-ucr
 username: rtci
 account: rtci
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
-appId: 12250443
-bundleId: 8849303
-url: https://rtci.shinyapps.io/shiny_web_app/
+appId: 12310976
+bundleId: 8857362
+url: https://rtci.shinyapps.io/monthyl-ucr/
 version: 1
 asMultiple: FALSE
 asStatic: FALSE

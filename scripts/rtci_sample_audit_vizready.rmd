@@ -272,6 +272,34 @@ nationwide_counts$Agency.Name <- "Nationwide Count"
 cdf1 <- bind_rows(combined_df, nationwide_counts)
 head(cdf1)
 ```
+drop everything that does not have a record for april 2024
+```{r}
+#create a date column
+cdf2 <- cdf1 %>% 
+  mutate(Date = as.Date(paste(Year, Month, "01", sep = "-")))
+
+cdf2$Date <- as.Date(cdf2$Date)
+
+april_2024 <- cdf2 %>% 
+  filter(format(Date, "%Y-%m-%d") == "2024-04-01")
+
+# Define the crime columns
+crime_cats <- c("Murder", "Rape", "Agg.Assault", "Robbery", "Burglary", "Larceny", "MVT", "Arson")
+
+# Identify agencies with all NA values for April 2024
+agencies_to_remove <- april_2024 %>%
+  group_by(Agency.Name) %>%
+  summarize(all_na = all(sapply(crime_cats, function(col) all(is.na(.data[[col]]))))) %>%
+  filter(all_na) %>%
+  pull(Agency.Name)
+
+# Filter the data to exclude agencies with all NA values for April 2024
+# Filter the data to exclude agencies with all NA values for April 2024
+filtered_data <- cdf2 %>%
+  filter(!Agency.Name %in% agencies_to_remove)
+
+head(filtered_data)
+```
 
 let's write this out to a folder next to extracted for now
 ```{r}

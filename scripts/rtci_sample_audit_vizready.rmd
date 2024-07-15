@@ -278,6 +278,7 @@ drop everything that does not have a record for april 2024
 cdf2 <- cdf1 %>% 
   mutate(Date = as.Date(paste(Year, Month, "01", sep = "-")))
 
+#ensure data format for date column before filtering
 cdf2$Date <- as.Date(cdf2$Date)
 
 april_2024 <- cdf2 %>% 
@@ -288,17 +289,20 @@ crime_cats <- c("Murder", "Rape", "Agg.Assault", "Robbery", "Burglary", "Larceny
 
 # Identify agencies with all NA values for April 2024
 agencies_to_remove <- april_2024 %>%
-  group_by(Agency.Name) %>%
-  summarize(all_na = all(sapply(crime_cats, function(col) all(is.na(.data[[col]]))))) %>%
+  summarize(all_na = all(across(all_of(crime_cats), ~ all(is.na(.))))) %>%
   filter(all_na) %>%
   pull(Agency.Name)
 
 # Filter the data to exclude agencies with all NA values for April 2024
 # Filter the data to exclude agencies with all NA values for April 2024
-filtered_data <- cdf2 %>%
+bad_agencies <- cdf2 %>%
   filter(!Agency.Name %in% agencies_to_remove)
 
-head(filtered_data)
+#this is the data we want...
+cdf3 <- cdf2 %>% 
+  semi_join(april_2024, by = "Agency.Name")
+
+head(cdf3)
 ```
 
 let's write this out to a folder next to extracted for now

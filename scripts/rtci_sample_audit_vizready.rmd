@@ -330,14 +330,6 @@ let's write this out to a folder next to extracted for now
 write.csv(cdf1, "..\\rtci\\deploy\\shiny_web_app\\sample_2018_present_wlinks.csv", row.names = FALSE)
 ```
 
-
-
-
-
-
-
-
-
 run wheeler's outliers tests
 ```{r}
 #we will source it first
@@ -347,7 +339,13 @@ source("crimeAnomaly.R")
 # so if prior total 100 YTD (averaged over prior_max years)
 # and current is 20 YTD total, this would flagged
 # this expects the values in per a single PD
-priork_results <-ytd_poisson(samp2)
+ytd_poisson_results1 <- ytd_poisson(cdf3)
+
+# This function looks at the average of the prior k months
+# so if average of prior 8 is 30, and current month is 10
+# this will likely flag
+# can set prior_max to 1 to just look at current vs prior month
+priork_results <- priork_poisson(cdf3)
 
 # So this will loop over all PDs and return a total count column
 # along with a note, if the note says
@@ -355,14 +353,25 @@ priork_results <-ytd_poisson(samp2)
 # That means this police department was flagged for year to date burglary, year to date MVT
 # and prior 8 larceny (but not prior 1 larceny)
 # sorts the results, so the agencies with the most flagges are at the top of the dataframe
-priork_results <-metrics_allpd(samp2)
-
-# This function looks at the average of the prior k months
-# so if average of prior 8 is 30, and current month is 10
-# this will likely flag
-# can set prior_max to 1 to just look at current vs prior month
-priork_results <-priork_poisson(samp2)
+metricsallpd_results <-metrics_allpd(cdf3)
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 reshape data post so we get a clean join to the ucr historical data
 ```{r}
 # Convert Month and Year to a Date column in "%b-%Y" format

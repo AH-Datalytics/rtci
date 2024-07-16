@@ -313,7 +313,7 @@ folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Cr
 file_path <- file.path(folder_path, "sample_2018_present_wlinks.csv")
 
 # Write the data frame to a .csv file
-write.csv(cdf1, file = file_path, row.names = FALSE)
+write.csv(cdf3, file = file_path, row.names = FALSE)
 ```
 copy/paste open data script
 -change the name 
@@ -327,9 +327,13 @@ let's write this out to a folder next to extracted for now
 #file_path4 <- file.path(folder_path4, "sample_2018_present.csv")
 
 # Write the data frame to a .csv file
-write.csv(cdf1, "..\\rtci\\deploy\\shiny_web_app\\sample_2018_present_wlinks.csv", row.names = FALSE)
+write.csv(cdf3, "..\\rtci\\deploy\\shiny_web_app\\sample_2018_present_wlinks.csv", row.names = FALSE)
 ```
-
+if i chop off may records what happens?
+```{r}
+cdf_final <- cdf3 %>% 
+  filter(!Year == 2024 & Month >4)
+```
 run wheeler's outliers tests
 ```{r}
 #we will source it first
@@ -339,13 +343,13 @@ source("crimeAnomaly.R")
 # so if prior total 100 YTD (averaged over prior_max years)
 # and current is 20 YTD total, this would flagged
 # this expects the values in per a single PD
-ytd_poisson_results1 <- ytd_poisson(cdf3)
+ytd_poisson_results1 <- ytd_poisson(cdf_final)
 
 # This function looks at the average of the prior k months
 # so if average of prior 8 is 30, and current month is 10
 # this will likely flag
 # can set prior_max to 1 to just look at current vs prior month
-priork_results <- priork_poisson(cdf3)
+priork_results <- priork_poisson(cdf_final)
 
 # So this will loop over all PDs and return a total count column
 # along with a note, if the note says
@@ -353,9 +357,8 @@ priork_results <- priork_poisson(cdf3)
 # That means this police department was flagged for year to date burglary, year to date MVT
 # and prior 8 larceny (but not prior 1 larceny)
 # sorts the results, so the agencies with the most flagges are at the top of the dataframe
-metricsallpd_results <-metrics_allpd(cdf3)
+metricsallpd_results <-metrics_allpd(cdf_final)
 ```
-
 
 
 

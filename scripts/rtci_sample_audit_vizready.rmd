@@ -343,13 +343,13 @@ source("crimeAnomaly.R")
 # so if prior total 100 YTD (averaged over prior_max years)
 # and current is 20 YTD total, this would flagged
 # this expects the values in per a single PD
-ytd_poisson_results1 <- ytd_poisson(cdf_final)
+ytd_poisson_results1 <- ytd_poisson(cdf3)
 
 # This function looks at the average of the prior k months
 # so if average of prior 8 is 30, and current month is 10
 # this will likely flag
 # can set prior_max to 1 to just look at current vs prior month
-priork_results <- priork_poisson(cdf_final)
+priork_results <- priork_poisson(cdf3)
 
 # So this will loop over all PDs and return a total count column
 # along with a note, if the note says
@@ -357,9 +357,37 @@ priork_results <- priork_poisson(cdf_final)
 # That means this police department was flagged for year to date burglary, year to date MVT
 # and prior 8 larceny (but not prior 1 larceny)
 # sorts the results, so the agencies with the most flagges are at the top of the dataframe
-metricsallpd_results <-metrics_allpd(cdf_final)
+metricsallpd_results <-metrics_allpd(cdf3)
 ```
+let's take a look at one of the candidates
+```{r}
+hartford_pd <- cdf3 %>% filter(Agency.Name == "Hartford Police Department")
 
+# Define the crime categories
+crime_cats <- c("Murder", "Rape", "Agg.Assault", "Robbery", "Burglary", "Larceny", "MVT", "Arson")
+
+# Convert data to long format
+crime_data_long <- hartford_pd %>%
+  pivot_longer(cols = all_of(crime_cats),
+               names_to = "crime_type",
+               values_to = "count")
+
+# Create a date column for plotting
+crime_data_long <- crime_data_long %>%
+  mutate(date = as.Date(paste(year, month, "01", sep = "-")))
+
+str(crime_data_long)
+
+# Plot the data
+ggplot(crime_data_long, aes(x = Date, y = count, color = crime_type)) +
+  geom_line() +
+  facet_wrap(~crime_type, scales = "free_y") +
+  labs(title = "Crime Types Over Time",
+       x = "Date",
+       y = "Count",
+       color = "Crime Type") +
+  theme_minimal()
+```
 
 
 

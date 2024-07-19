@@ -1,0 +1,2209 @@
+ID,agency,month,year,date,crime,value
+1,Albany PD,1,2022,1/1/2022,Agg Assault,2
+2,Albany PD,1,2022,1/1/2022,Arson,0
+3,Albany PD,1,2022,1/1/2022,Burglary,8
+4,Albany PD,1,2022,1/1/2022,Larceny,41
+5,Albany PD,1,2022,1/1/2022,MVT,14
+6,Albany PD,1,2022,1/1/2022,Murder,0
+7,Albany PD,1,2022,1/1/2022,Rape,0
+8,Albany PD,1,2022,1/1/2022,Robbery,4
+9,Albany PD,1,2023,1/1/2023,Agg Assault,3
+10,Albany PD,1,2023,1/1/2023,Arson,1
+11,Albany PD,1,2023,1/1/2023,Burglary,8
+12,Albany PD,1,2023,1/1/2023,Larceny,39
+13,Albany PD,1,2023,1/1/2023,MVT,11
+14,Albany PD,1,2023,1/1/2023,Murder,2
+15,Albany PD,1,2023,1/1/2023,Rape,0
+16,Albany PD,1,2023,1/1/2023,Robbery,1
+17,Albany PD,2,2022,2/1/2022,Agg Assault,3
+18,Albany PD,2,2022,2/1/2022,Arson,0
+19,Albany PD,2,2022,2/1/2022,Burglary,10
+20,Albany PD,2,2022,2/1/2022,Larceny,40
+21,Albany PD,2,2022,2/1/2022,MVT,10
+22,Albany PD,2,2022,2/1/2022,Murder,1
+23,Albany PD,2,2022,2/1/2022,Rape,0
+24,Albany PD,2,2022,2/1/2022,Robbery,1
+25,Albany PD,2,2023,2/1/2023,Agg Assault,3
+26,Albany PD,2,2023,2/1/2023,Arson,0
+27,Albany PD,2,2023,2/1/2023,Burglary,8
+28,Albany PD,2,2023,2/1/2023,Larceny,33
+29,Albany PD,2,2023,2/1/2023,MVT,9
+30,Albany PD,2,2023,2/1/2023,Murder,0
+31,Albany PD,2,2023,2/1/2023,Rape,2
+32,Albany PD,2,2023,2/1/2023,Robbery,1
+33,Albany PD,3,2022,3/1/2022,Agg Assault,3
+34,Albany PD,3,2022,3/1/2022,Arson,2
+35,Albany PD,3,2022,3/1/2022,Burglary,10
+36,Albany PD,3,2022,3/1/2022,Larceny,42
+37,Albany PD,3,2022,3/1/2022,MVT,10
+38,Albany PD,3,2022,3/1/2022,Murder,0
+39,Albany PD,3,2022,3/1/2022,Rape,0
+40,Albany PD,3,2022,3/1/2022,Robbery,2
+41,Albany PD,3,2023,3/1/2023,Agg Assault,5
+42,Albany PD,3,2023,3/1/2023,Arson,0
+43,Albany PD,3,2023,3/1/2023,Burglary,13
+44,Albany PD,3,2023,3/1/2023,Larceny,38
+45,Albany PD,3,2023,3/1/2023,MVT,7
+46,Albany PD,3,2023,3/1/2023,Murder,0
+47,Albany PD,3,2023,3/1/2023,Rape,0
+48,Albany PD,3,2023,3/1/2023,Robbery,1
+49,Albany PD,4,2022,4/1/2022,Agg Assault,6
+50,Albany PD,4,2022,4/1/2022,Arson,2
+51,Albany PD,4,2022,4/1/2022,Burglary,10
+52,Albany PD,4,2022,4/1/2022,Larceny,49
+53,Albany PD,4,2022,4/1/2022,MVT,5
+54,Albany PD,4,2022,4/1/2022,Murder,1
+55,Albany PD,4,2022,4/1/2022,Rape,1
+56,Albany PD,4,2022,4/1/2022,Robbery,3
+57,Albany PD,4,2023,4/1/2023,Agg Assault,5
+58,Albany PD,4,2023,4/1/2023,Arson,1
+59,Albany PD,4,2023,4/1/2023,Burglary,9
+60,Albany PD,4,2023,4/1/2023,Larceny,49
+61,Albany PD,4,2023,4/1/2023,MVT,8
+62,Albany PD,4,2023,4/1/2023,Murder,1
+63,Albany PD,4,2023,4/1/2023,Rape,0
+64,Albany PD,4,2023,4/1/2023,Robbery,1
+65,Albany PD,5,2022,5/1/2022,Agg Assault,6
+66,Albany PD,5,2022,5/1/2022,Arson,2
+67,Albany PD,5,2022,5/1/2022,Burglary,7
+68,Albany PD,5,2022,5/1/2022,Larceny,42
+69,Albany PD,5,2022,5/1/2022,MVT,9
+70,Albany PD,5,2022,5/1/2022,Murder,0
+71,Albany PD,5,2022,5/1/2022,Rape,1
+72,Albany PD,5,2022,5/1/2022,Robbery,3
+73,Albany PD,5,2023,5/1/2023,Agg Assault,4
+74,Albany PD,5,2023,5/1/2023,Arson,4
+75,Albany PD,5,2023,5/1/2023,Burglary,13
+76,Albany PD,5,2023,5/1/2023,Larceny,45
+77,Albany PD,5,2023,5/1/2023,MVT,6
+78,Albany PD,5,2023,5/1/2023,Murder,0
+79,Albany PD,5,2023,5/1/2023,Rape,0
+80,Albany PD,5,2023,5/1/2023,Robbery,5
+81,Albany PD,6,2022,6/1/2022,Agg Assault,5
+82,Albany PD,6,2022,6/1/2022,Arson,1
+83,Albany PD,6,2022,6/1/2022,Burglary,13
+84,Albany PD,6,2022,6/1/2022,Larceny,46
+85,Albany PD,6,2022,6/1/2022,MVT,11
+86,Albany PD,6,2022,6/1/2022,Murder,0
+87,Albany PD,6,2022,6/1/2022,Rape,0
+88,Albany PD,6,2022,6/1/2022,Robbery,4
+89,Albany PD,6,2023,6/1/2023,Agg Assault,4
+90,Albany PD,6,2023,6/1/2023,Arson,5
+91,Albany PD,6,2023,6/1/2023,Burglary,12
+92,Albany PD,6,2023,6/1/2023,Larceny,40
+93,Albany PD,6,2023,6/1/2023,MVT,9
+94,Albany PD,6,2023,6/1/2023,Murder,0
+95,Albany PD,6,2023,6/1/2023,Rape,1
+96,Albany PD,6,2023,6/1/2023,Robbery,1
+97,Albany PD,7,2022,7/1/2022,Agg Assault,9
+98,Albany PD,7,2022,7/1/2022,Arson,3
+99,Albany PD,7,2022,7/1/2022,Burglary,8
+100,Albany PD,7,2022,7/1/2022,Larceny,51
+101,Albany PD,7,2022,7/1/2022,MVT,10
+102,Albany PD,7,2022,7/1/2022,Murder,0
+103,Albany PD,7,2022,7/1/2022,Rape,1
+104,Albany PD,7,2022,7/1/2022,Robbery,3
+105,Albany PD,7,2023,7/1/2023,Agg Assault,4
+106,Albany PD,7,2023,7/1/2023,Arson,1
+107,Albany PD,7,2023,7/1/2023,Burglary,8
+108,Albany PD,7,2023,7/1/2023,Larceny,33
+109,Albany PD,7,2023,7/1/2023,MVT,11
+110,Albany PD,7,2023,7/1/2023,Murder,0
+111,Albany PD,7,2023,7/1/2023,Rape,2
+112,Albany PD,7,2023,7/1/2023,Robbery,4
+113,Albany PD,8,2022,8/1/2022,Agg Assault,4
+114,Albany PD,8,2022,8/1/2022,Arson,3
+115,Albany PD,8,2022,8/1/2022,Burglary,10
+116,Albany PD,8,2022,8/1/2022,Larceny,49
+117,Albany PD,8,2022,8/1/2022,MVT,17
+118,Albany PD,8,2022,8/1/2022,Murder,0
+119,Albany PD,8,2022,8/1/2022,Rape,1
+120,Albany PD,8,2022,8/1/2022,Robbery,2
+121,Albany PD,8,2023,8/1/2023,Agg Assault,7
+122,Albany PD,8,2023,8/1/2023,Arson,6
+123,Albany PD,8,2023,8/1/2023,Burglary,8
+124,Albany PD,8,2023,8/1/2023,Larceny,45
+125,Albany PD,8,2023,8/1/2023,MVT,7
+126,Albany PD,8,2023,8/1/2023,Murder,0
+127,Albany PD,8,2023,8/1/2023,Rape,2
+128,Albany PD,8,2023,8/1/2023,Robbery,4
+129,Albany PD,9,2022,9/1/2022,Agg Assault,2
+130,Albany PD,9,2022,9/1/2022,Arson,3
+131,Albany PD,9,2022,9/1/2022,Burglary,10
+132,Albany PD,9,2022,9/1/2022,Larceny,43
+133,Albany PD,9,2022,9/1/2022,MVT,12
+134,Albany PD,9,2022,9/1/2022,Murder,0
+135,Albany PD,9,2022,9/1/2022,Rape,1
+136,Albany PD,9,2022,9/1/2022,Robbery,6
+137,Albany PD,9,2023,9/1/2023,Agg Assault,7
+138,Albany PD,9,2023,9/1/2023,Arson,0
+139,Albany PD,9,2023,9/1/2023,Burglary,6
+140,Albany PD,9,2023,9/1/2023,Larceny,44
+141,Albany PD,9,2023,9/1/2023,MVT,7
+142,Albany PD,9,2023,9/1/2023,Murder,1
+143,Albany PD,9,2023,9/1/2023,Rape,2
+144,Albany PD,9,2023,9/1/2023,Robbery,3
+145,Albany PD,10,2022,10/1/2022,Agg Assault,5
+146,Albany PD,10,2022,10/1/2022,Arson,5
+147,Albany PD,10,2022,10/1/2022,Burglary,15
+148,Albany PD,10,2022,10/1/2022,Larceny,45
+149,Albany PD,10,2022,10/1/2022,MVT,17
+150,Albany PD,10,2022,10/1/2022,Murder,0
+151,Albany PD,10,2022,10/1/2022,Rape,1
+152,Albany PD,10,2022,10/1/2022,Robbery,2
+153,Albany PD,10,2023,10/1/2023,Agg Assault,5
+154,Albany PD,10,2023,10/1/2023,Arson,2
+155,Albany PD,10,2023,10/1/2023,Burglary,8
+156,Albany PD,10,2023,10/1/2023,Larceny,35
+157,Albany PD,10,2023,10/1/2023,MVT,4
+158,Albany PD,10,2023,10/1/2023,Murder,0
+159,Albany PD,10,2023,10/1/2023,Rape,0
+160,Albany PD,10,2023,10/1/2023,Robbery,3
+161,Albany PD,11,2022,11/1/2022,Agg Assault,6
+162,Albany PD,11,2022,11/1/2022,Arson,0
+163,Albany PD,11,2022,11/1/2022,Burglary,9
+164,Albany PD,11,2022,11/1/2022,Larceny,42
+165,Albany PD,11,2022,11/1/2022,MVT,15
+166,Albany PD,11,2022,11/1/2022,Murder,0
+167,Albany PD,11,2022,11/1/2022,Rape,0
+168,Albany PD,11,2022,11/1/2022,Robbery,1
+169,Albany PD,11,2023,11/1/2023,Agg Assault,4
+170,Albany PD,11,2023,11/1/2023,Arson,1
+171,Albany PD,11,2023,11/1/2023,Burglary,11
+172,Albany PD,11,2023,11/1/2023,Larceny,37
+173,Albany PD,11,2023,11/1/2023,MVT,4
+174,Albany PD,11,2023,11/1/2023,Murder,0
+175,Albany PD,11,2023,11/1/2023,Rape,1
+176,Albany PD,11,2023,11/1/2023,Robbery,1
+177,Albany PD,12,2022,12/1/2022,Agg Assault,2
+178,Albany PD,12,2022,12/1/2022,Arson,1
+179,Albany PD,12,2022,12/1/2022,Burglary,11
+180,Albany PD,12,2022,12/1/2022,Larceny,42
+181,Albany PD,12,2022,12/1/2022,MVT,11
+182,Albany PD,12,2022,12/1/2022,Murder,0
+183,Albany PD,12,2022,12/1/2022,Rape,1
+184,Albany PD,12,2022,12/1/2022,Robbery,2
+185,Beaverton PD MIP,1,2022,1/1/2022,Agg Assault,12
+186,Beaverton PD MIP,1,2022,1/1/2022,Arson,1
+187,Beaverton PD MIP,1,2022,1/1/2022,Burglary,17
+188,Beaverton PD MIP,1,2022,1/1/2022,Larceny,56
+189,Beaverton PD MIP,1,2022,1/1/2022,MVT,26
+190,Beaverton PD MIP,1,2022,1/1/2022,Murder,0
+191,Beaverton PD MIP,1,2022,1/1/2022,Rape,2
+192,Beaverton PD MIP,1,2022,1/1/2022,Robbery,3
+193,Beaverton PD MIP,1,2023,1/1/2023,Agg Assault,9
+194,Beaverton PD MIP,1,2023,1/1/2023,Arson,0
+195,Beaverton PD MIP,1,2023,1/1/2023,Burglary,18
+196,Beaverton PD MIP,1,2023,1/1/2023,Larceny,66
+197,Beaverton PD MIP,1,2023,1/1/2023,MVT,25
+198,Beaverton PD MIP,1,2023,1/1/2023,Murder,0
+199,Beaverton PD MIP,1,2023,1/1/2023,Rape,6
+200,Beaverton PD MIP,1,2023,1/1/2023,Robbery,1
+201,Beaverton PD MIP,2,2022,2/1/2022,Agg Assault,5
+202,Beaverton PD MIP,2,2022,2/1/2022,Arson,3
+203,Beaverton PD MIP,2,2022,2/1/2022,Burglary,19
+204,Beaverton PD MIP,2,2022,2/1/2022,Larceny,55
+205,Beaverton PD MIP,2,2022,2/1/2022,MVT,19
+206,Beaverton PD MIP,2,2022,2/1/2022,Murder,0
+207,Beaverton PD MIP,2,2022,2/1/2022,Rape,2
+208,Beaverton PD MIP,2,2022,2/1/2022,Robbery,3
+209,Beaverton PD MIP,2,2023,2/1/2023,Agg Assault,9
+210,Beaverton PD MIP,2,2023,2/1/2023,Arson,2
+211,Beaverton PD MIP,2,2023,2/1/2023,Burglary,15
+212,Beaverton PD MIP,2,2023,2/1/2023,Larceny,43
+213,Beaverton PD MIP,2,2023,2/1/2023,MVT,17
+214,Beaverton PD MIP,2,2023,2/1/2023,Murder,1
+215,Beaverton PD MIP,2,2023,2/1/2023,Rape,3
+216,Beaverton PD MIP,2,2023,2/1/2023,Robbery,3
+217,Beaverton PD MIP,3,2022,3/1/2022,Agg Assault,12
+218,Beaverton PD MIP,3,2022,3/1/2022,Arson,3
+219,Beaverton PD MIP,3,2022,3/1/2022,Burglary,17
+220,Beaverton PD MIP,3,2022,3/1/2022,Larceny,58
+221,Beaverton PD MIP,3,2022,3/1/2022,MVT,20
+222,Beaverton PD MIP,3,2022,3/1/2022,Murder,0
+223,Beaverton PD MIP,3,2022,3/1/2022,Rape,1
+224,Beaverton PD MIP,3,2022,3/1/2022,Robbery,5
+225,Beaverton PD MIP,3,2023,3/1/2023,Agg Assault,4
+226,Beaverton PD MIP,3,2023,3/1/2023,Arson,1
+227,Beaverton PD MIP,3,2023,3/1/2023,Burglary,15
+228,Beaverton PD MIP,3,2023,3/1/2023,Larceny,66
+229,Beaverton PD MIP,3,2023,3/1/2023,MVT,18
+230,Beaverton PD MIP,3,2023,3/1/2023,Murder,0
+231,Beaverton PD MIP,3,2023,3/1/2023,Rape,1
+232,Beaverton PD MIP,3,2023,3/1/2023,Robbery,8
+233,Beaverton PD MIP,4,2022,4/1/2022,Agg Assault,14
+234,Beaverton PD MIP,4,2022,4/1/2022,Arson,0
+235,Beaverton PD MIP,4,2022,4/1/2022,Burglary,16
+236,Beaverton PD MIP,4,2022,4/1/2022,Larceny,52
+237,Beaverton PD MIP,4,2022,4/1/2022,MVT,21
+238,Beaverton PD MIP,4,2022,4/1/2022,Murder,0
+239,Beaverton PD MIP,4,2022,4/1/2022,Rape,1
+240,Beaverton PD MIP,4,2022,4/1/2022,Robbery,1
+241,Beaverton PD MIP,4,2023,4/1/2023,Agg Assault,8
+242,Beaverton PD MIP,4,2023,4/1/2023,Arson,4
+243,Beaverton PD MIP,4,2023,4/1/2023,Burglary,14
+244,Beaverton PD MIP,4,2023,4/1/2023,Larceny,51
+245,Beaverton PD MIP,4,2023,4/1/2023,MVT,18
+246,Beaverton PD MIP,4,2023,4/1/2023,Murder,1
+247,Beaverton PD MIP,4,2023,4/1/2023,Rape,5
+248,Beaverton PD MIP,4,2023,4/1/2023,Robbery,0
+249,Beaverton PD MIP,5,2022,5/1/2022,Agg Assault,13
+250,Beaverton PD MIP,5,2022,5/1/2022,Arson,1
+251,Beaverton PD MIP,5,2022,5/1/2022,Burglary,19
+252,Beaverton PD MIP,5,2022,5/1/2022,Larceny,56
+253,Beaverton PD MIP,5,2022,5/1/2022,MVT,20
+254,Beaverton PD MIP,5,2022,5/1/2022,Murder,2
+255,Beaverton PD MIP,5,2022,5/1/2022,Rape,4
+256,Beaverton PD MIP,5,2022,5/1/2022,Robbery,7
+257,Beaverton PD MIP,5,2023,5/1/2023,Agg Assault,14
+258,Beaverton PD MIP,5,2023,5/1/2023,Arson,1
+259,Beaverton PD MIP,5,2023,5/1/2023,Burglary,8
+260,Beaverton PD MIP,5,2023,5/1/2023,Larceny,59
+261,Beaverton PD MIP,5,2023,5/1/2023,MVT,21
+262,Beaverton PD MIP,5,2023,5/1/2023,Murder,0
+263,Beaverton PD MIP,5,2023,5/1/2023,Rape,1
+264,Beaverton PD MIP,5,2023,5/1/2023,Robbery,3
+265,Beaverton PD MIP,6,2022,6/1/2022,Agg Assault,9
+266,Beaverton PD MIP,6,2022,6/1/2022,Arson,0
+267,Beaverton PD MIP,6,2022,6/1/2022,Burglary,16
+268,Beaverton PD MIP,6,2022,6/1/2022,Larceny,58
+269,Beaverton PD MIP,6,2022,6/1/2022,MVT,18
+270,Beaverton PD MIP,6,2022,6/1/2022,Murder,0
+271,Beaverton PD MIP,6,2022,6/1/2022,Rape,3
+272,Beaverton PD MIP,6,2022,6/1/2022,Robbery,0
+273,Beaverton PD MIP,6,2023,6/1/2023,Agg Assault,14
+274,Beaverton PD MIP,6,2023,6/1/2023,Arson,2
+275,Beaverton PD MIP,6,2023,6/1/2023,Burglary,9
+276,Beaverton PD MIP,6,2023,6/1/2023,Larceny,46
+277,Beaverton PD MIP,6,2023,6/1/2023,MVT,14
+278,Beaverton PD MIP,6,2023,6/1/2023,Murder,0
+279,Beaverton PD MIP,6,2023,6/1/2023,Rape,1
+280,Beaverton PD MIP,6,2023,6/1/2023,Robbery,8
+281,Beaverton PD MIP,7,2022,7/1/2022,Agg Assault,15
+282,Beaverton PD MIP,7,2022,7/1/2022,Arson,0
+283,Beaverton PD MIP,7,2022,7/1/2022,Burglary,20
+284,Beaverton PD MIP,7,2022,7/1/2022,Larceny,55
+285,Beaverton PD MIP,7,2022,7/1/2022,MVT,19
+286,Beaverton PD MIP,7,2022,7/1/2022,Murder,0
+287,Beaverton PD MIP,7,2022,7/1/2022,Rape,3
+288,Beaverton PD MIP,7,2022,7/1/2022,Robbery,2
+289,Beaverton PD MIP,7,2023,7/1/2023,Agg Assault,12
+290,Beaverton PD MIP,7,2023,7/1/2023,Arson,4
+291,Beaverton PD MIP,7,2023,7/1/2023,Burglary,8
+292,Beaverton PD MIP,7,2023,7/1/2023,Larceny,50
+293,Beaverton PD MIP,7,2023,7/1/2023,MVT,16
+294,Beaverton PD MIP,7,2023,7/1/2023,Murder,0
+295,Beaverton PD MIP,7,2023,7/1/2023,Rape,0
+296,Beaverton PD MIP,7,2023,7/1/2023,Robbery,6
+297,Beaverton PD MIP,8,2022,8/1/2022,Agg Assault,12
+298,Beaverton PD MIP,8,2022,8/1/2022,Arson,3
+299,Beaverton PD MIP,8,2022,8/1/2022,Burglary,21
+300,Beaverton PD MIP,8,2022,8/1/2022,Larceny,57
+301,Beaverton PD MIP,8,2022,8/1/2022,MVT,18
+302,Beaverton PD MIP,8,2022,8/1/2022,Murder,0
+303,Beaverton PD MIP,8,2022,8/1/2022,Rape,0
+304,Beaverton PD MIP,8,2022,8/1/2022,Robbery,3
+305,Beaverton PD MIP,8,2023,8/1/2023,Agg Assault,7
+306,Beaverton PD MIP,8,2023,8/1/2023,Arson,3
+307,Beaverton PD MIP,8,2023,8/1/2023,Burglary,5
+308,Beaverton PD MIP,8,2023,8/1/2023,Larceny,56
+309,Beaverton PD MIP,8,2023,8/1/2023,MVT,19
+310,Beaverton PD MIP,8,2023,8/1/2023,Murder,0
+311,Beaverton PD MIP,8,2023,8/1/2023,Rape,4
+312,Beaverton PD MIP,8,2023,8/1/2023,Robbery,4
+313,Beaverton PD MIP,9,2022,9/1/2022,Agg Assault,14
+314,Beaverton PD MIP,9,2022,9/1/2022,Arson,3
+315,Beaverton PD MIP,9,2022,9/1/2022,Burglary,19
+316,Beaverton PD MIP,9,2022,9/1/2022,Larceny,62
+317,Beaverton PD MIP,9,2022,9/1/2022,MVT,12
+318,Beaverton PD MIP,9,2022,9/1/2022,Murder,0
+319,Beaverton PD MIP,9,2022,9/1/2022,Rape,3
+320,Beaverton PD MIP,9,2022,9/1/2022,Robbery,4
+321,Beaverton PD MIP,9,2023,9/1/2023,Agg Assault,11
+322,Beaverton PD MIP,9,2023,9/1/2023,Arson,0
+323,Beaverton PD MIP,9,2023,9/1/2023,Burglary,10
+324,Beaverton PD MIP,9,2023,9/1/2023,Larceny,52
+325,Beaverton PD MIP,9,2023,9/1/2023,MVT,14
+326,Beaverton PD MIP,9,2023,9/1/2023,Murder,0
+327,Beaverton PD MIP,9,2023,9/1/2023,Rape,2
+328,Beaverton PD MIP,9,2023,9/1/2023,Robbery,3
+329,Beaverton PD MIP,10,2022,10/1/2022,Agg Assault,13
+330,Beaverton PD MIP,10,2022,10/1/2022,Arson,2
+331,Beaverton PD MIP,10,2022,10/1/2022,Burglary,14
+332,Beaverton PD MIP,10,2022,10/1/2022,Larceny,52
+333,Beaverton PD MIP,10,2022,10/1/2022,MVT,17
+334,Beaverton PD MIP,10,2022,10/1/2022,Murder,1
+335,Beaverton PD MIP,10,2022,10/1/2022,Rape,1
+336,Beaverton PD MIP,10,2022,10/1/2022,Robbery,1
+337,Beaverton PD MIP,10,2023,10/1/2023,Agg Assault,12
+338,Beaverton PD MIP,10,2023,10/1/2023,Arson,1
+339,Beaverton PD MIP,10,2023,10/1/2023,Burglary,7
+340,Beaverton PD MIP,10,2023,10/1/2023,Larceny,50
+341,Beaverton PD MIP,10,2023,10/1/2023,MVT,15
+342,Beaverton PD MIP,10,2023,10/1/2023,Murder,0
+343,Beaverton PD MIP,10,2023,10/1/2023,Rape,2
+344,Beaverton PD MIP,10,2023,10/1/2023,Robbery,4
+345,Beaverton PD MIP,11,2022,11/1/2022,Agg Assault,6
+346,Beaverton PD MIP,11,2022,11/1/2022,Arson,0
+347,Beaverton PD MIP,11,2022,11/1/2022,Burglary,19
+348,Beaverton PD MIP,11,2022,11/1/2022,Larceny,57
+349,Beaverton PD MIP,11,2022,11/1/2022,MVT,14
+350,Beaverton PD MIP,11,2022,11/1/2022,Murder,0
+351,Beaverton PD MIP,11,2022,11/1/2022,Rape,1
+352,Beaverton PD MIP,11,2022,11/1/2022,Robbery,4
+353,Beaverton PD MIP,11,2023,11/1/2023,Agg Assault,12
+354,Beaverton PD MIP,11,2023,11/1/2023,Arson,1
+355,Beaverton PD MIP,11,2023,11/1/2023,Burglary,11
+356,Beaverton PD MIP,11,2023,11/1/2023,Larceny,43
+357,Beaverton PD MIP,11,2023,11/1/2023,MVT,13
+358,Beaverton PD MIP,11,2023,11/1/2023,Murder,0
+359,Beaverton PD MIP,11,2023,11/1/2023,Rape,1
+360,Beaverton PD MIP,11,2023,11/1/2023,Robbery,5
+361,Beaverton PD MIP,12,2022,12/1/2022,Agg Assault,15
+362,Beaverton PD MIP,12,2022,12/1/2022,Arson,0
+363,Beaverton PD MIP,12,2022,12/1/2022,Burglary,11
+364,Beaverton PD MIP,12,2022,12/1/2022,Larceny,54
+365,Beaverton PD MIP,12,2022,12/1/2022,MVT,20
+366,Beaverton PD MIP,12,2022,12/1/2022,Murder,0
+367,Beaverton PD MIP,12,2022,12/1/2022,Rape,5
+368,Beaverton PD MIP,12,2022,12/1/2022,Robbery,6
+369,Bend PD MIP,1,2022,1/1/2022,Agg Assault,9
+370,Bend PD MIP,1,2022,1/1/2022,Arson,2
+371,Bend PD MIP,1,2022,1/1/2022,Burglary,18
+372,Bend PD MIP,1,2022,1/1/2022,Larceny,51
+373,Bend PD MIP,1,2022,1/1/2022,MVT,9
+374,Bend PD MIP,1,2022,1/1/2022,Murder,0
+375,Bend PD MIP,1,2022,1/1/2022,Rape,2
+376,Bend PD MIP,1,2022,1/1/2022,Robbery,3
+377,Bend PD MIP,1,2023,1/1/2023,Agg Assault,8
+378,Bend PD MIP,1,2023,1/1/2023,Arson,3
+379,Bend PD MIP,1,2023,1/1/2023,Burglary,8
+380,Bend PD MIP,1,2023,1/1/2023,Larceny,58
+381,Bend PD MIP,1,2023,1/1/2023,MVT,9
+382,Bend PD MIP,1,2023,1/1/2023,Murder,0
+383,Bend PD MIP,1,2023,1/1/2023,Rape,0
+384,Bend PD MIP,1,2023,1/1/2023,Robbery,3
+385,Bend PD MIP,2,2022,2/1/2022,Agg Assault,6
+386,Bend PD MIP,2,2022,2/1/2022,Arson,2
+387,Bend PD MIP,2,2022,2/1/2022,Burglary,11
+388,Bend PD MIP,2,2022,2/1/2022,Larceny,52
+389,Bend PD MIP,2,2022,2/1/2022,MVT,12
+390,Bend PD MIP,2,2022,2/1/2022,Murder,0
+391,Bend PD MIP,2,2022,2/1/2022,Rape,2
+392,Bend PD MIP,2,2022,2/1/2022,Robbery,3
+393,Bend PD MIP,2,2023,2/1/2023,Agg Assault,4
+394,Bend PD MIP,2,2023,2/1/2023,Arson,2
+395,Bend PD MIP,2,2023,2/1/2023,Burglary,5
+396,Bend PD MIP,2,2023,2/1/2023,Larceny,46
+397,Bend PD MIP,2,2023,2/1/2023,MVT,10
+398,Bend PD MIP,2,2023,2/1/2023,Murder,0
+399,Bend PD MIP,2,2023,2/1/2023,Rape,5
+400,Bend PD MIP,2,2023,2/1/2023,Robbery,5
+401,Bend PD MIP,3,2022,3/1/2022,Agg Assault,4
+402,Bend PD MIP,3,2022,3/1/2022,Arson,1
+403,Bend PD MIP,3,2022,3/1/2022,Burglary,14
+404,Bend PD MIP,3,2022,3/1/2022,Larceny,57
+405,Bend PD MIP,3,2022,3/1/2022,MVT,12
+406,Bend PD MIP,3,2022,3/1/2022,Murder,0
+407,Bend PD MIP,3,2022,3/1/2022,Rape,1
+408,Bend PD MIP,3,2022,3/1/2022,Robbery,3
+409,Bend PD MIP,3,2023,3/1/2023,Agg Assault,9
+410,Bend PD MIP,3,2023,3/1/2023,Arson,2
+411,Bend PD MIP,3,2023,3/1/2023,Burglary,8
+412,Bend PD MIP,3,2023,3/1/2023,Larceny,50
+413,Bend PD MIP,3,2023,3/1/2023,MVT,14
+414,Bend PD MIP,3,2023,3/1/2023,Murder,0
+415,Bend PD MIP,3,2023,3/1/2023,Rape,2
+416,Bend PD MIP,3,2023,3/1/2023,Robbery,4
+417,Bend PD MIP,4,2022,4/1/2022,Agg Assault,6
+418,Bend PD MIP,4,2022,4/1/2022,Arson,3
+419,Bend PD MIP,4,2022,4/1/2022,Burglary,5
+420,Bend PD MIP,4,2022,4/1/2022,Larceny,52
+421,Bend PD MIP,4,2022,4/1/2022,MVT,9
+422,Bend PD MIP,4,2022,4/1/2022,Murder,0
+423,Bend PD MIP,4,2022,4/1/2022,Rape,2
+424,Bend PD MIP,4,2022,4/1/2022,Robbery,1
+425,Bend PD MIP,4,2023,4/1/2023,Agg Assault,9
+426,Bend PD MIP,4,2023,4/1/2023,Arson,2
+427,Bend PD MIP,4,2023,4/1/2023,Burglary,11
+428,Bend PD MIP,4,2023,4/1/2023,Larceny,58
+429,Bend PD MIP,4,2023,4/1/2023,MVT,4
+430,Bend PD MIP,4,2023,4/1/2023,Murder,0
+431,Bend PD MIP,4,2023,4/1/2023,Rape,3
+432,Bend PD MIP,4,2023,4/1/2023,Robbery,1
+433,Bend PD MIP,5,2022,5/1/2022,Agg Assault,11
+434,Bend PD MIP,5,2022,5/1/2022,Arson,3
+435,Bend PD MIP,5,2022,5/1/2022,Burglary,7
+436,Bend PD MIP,5,2022,5/1/2022,Larceny,48
+437,Bend PD MIP,5,2022,5/1/2022,MVT,15
+438,Bend PD MIP,5,2022,5/1/2022,Murder,0
+439,Bend PD MIP,5,2022,5/1/2022,Rape,5
+440,Bend PD MIP,5,2022,5/1/2022,Robbery,2
+441,Bend PD MIP,5,2023,5/1/2023,Agg Assault,4
+442,Bend PD MIP,5,2023,5/1/2023,Arson,0
+443,Bend PD MIP,5,2023,5/1/2023,Burglary,7
+444,Bend PD MIP,5,2023,5/1/2023,Larceny,55
+445,Bend PD MIP,5,2023,5/1/2023,MVT,4
+446,Bend PD MIP,5,2023,5/1/2023,Murder,0
+447,Bend PD MIP,5,2023,5/1/2023,Rape,0
+448,Bend PD MIP,5,2023,5/1/2023,Robbery,3
+449,Bend PD MIP,6,2022,6/1/2022,Agg Assault,7
+450,Bend PD MIP,6,2022,6/1/2022,Arson,2
+451,Bend PD MIP,6,2022,6/1/2022,Burglary,9
+452,Bend PD MIP,6,2022,6/1/2022,Larceny,44
+453,Bend PD MIP,6,2022,6/1/2022,MVT,13
+454,Bend PD MIP,6,2022,6/1/2022,Murder,0
+455,Bend PD MIP,6,2022,6/1/2022,Rape,1
+456,Bend PD MIP,6,2022,6/1/2022,Robbery,5
+457,Bend PD MIP,6,2023,6/1/2023,Agg Assault,8
+458,Bend PD MIP,6,2023,6/1/2023,Arson,3
+459,Bend PD MIP,6,2023,6/1/2023,Burglary,18
+460,Bend PD MIP,6,2023,6/1/2023,Larceny,58
+461,Bend PD MIP,6,2023,6/1/2023,MVT,2
+462,Bend PD MIP,6,2023,6/1/2023,Murder,0
+463,Bend PD MIP,6,2023,6/1/2023,Rape,1
+464,Bend PD MIP,6,2023,6/1/2023,Robbery,1
+465,Bend PD MIP,7,2022,7/1/2022,Agg Assault,7
+466,Bend PD MIP,7,2022,7/1/2022,Arson,1
+467,Bend PD MIP,7,2022,7/1/2022,Burglary,14
+468,Bend PD MIP,7,2022,7/1/2022,Larceny,53
+469,Bend PD MIP,7,2022,7/1/2022,MVT,14
+470,Bend PD MIP,7,2022,7/1/2022,Murder,0
+471,Bend PD MIP,7,2022,7/1/2022,Rape,4
+472,Bend PD MIP,7,2022,7/1/2022,Robbery,0
+473,Bend PD MIP,7,2023,7/1/2023,Agg Assault,10
+474,Bend PD MIP,7,2023,7/1/2023,Arson,7
+475,Bend PD MIP,7,2023,7/1/2023,Burglary,8
+476,Bend PD MIP,7,2023,7/1/2023,Larceny,49
+477,Bend PD MIP,7,2023,7/1/2023,MVT,8
+478,Bend PD MIP,7,2023,7/1/2023,Murder,0
+479,Bend PD MIP,7,2023,7/1/2023,Rape,1
+480,Bend PD MIP,7,2023,7/1/2023,Robbery,3
+481,Bend PD MIP,8,2022,8/1/2022,Agg Assault,8
+482,Bend PD MIP,8,2022,8/1/2022,Arson,0
+483,Bend PD MIP,8,2022,8/1/2022,Burglary,15
+484,Bend PD MIP,8,2022,8/1/2022,Larceny,56
+485,Bend PD MIP,8,2022,8/1/2022,MVT,13
+486,Bend PD MIP,8,2022,8/1/2022,Murder,1
+487,Bend PD MIP,8,2022,8/1/2022,Rape,1
+488,Bend PD MIP,8,2022,8/1/2022,Robbery,2
+489,Bend PD MIP,8,2023,8/1/2023,Agg Assault,8
+490,Bend PD MIP,8,2023,8/1/2023,Arson,2
+491,Bend PD MIP,8,2023,8/1/2023,Burglary,10
+492,Bend PD MIP,8,2023,8/1/2023,Larceny,55
+493,Bend PD MIP,8,2023,8/1/2023,MVT,13
+494,Bend PD MIP,8,2023,8/1/2023,Murder,1
+495,Bend PD MIP,8,2023,8/1/2023,Rape,4
+496,Bend PD MIP,8,2023,8/1/2023,Robbery,2
+497,Bend PD MIP,9,2022,9/1/2022,Agg Assault,7
+498,Bend PD MIP,9,2022,9/1/2022,Arson,0
+499,Bend PD MIP,9,2022,9/1/2022,Burglary,8
+500,Bend PD MIP,9,2022,9/1/2022,Larceny,39
+501,Bend PD MIP,9,2022,9/1/2022,MVT,12
+502,Bend PD MIP,9,2022,9/1/2022,Murder,0
+503,Bend PD MIP,9,2022,9/1/2022,Rape,3
+504,Bend PD MIP,9,2022,9/1/2022,Robbery,0
+505,Bend PD MIP,9,2023,9/1/2023,Agg Assault,10
+506,Bend PD MIP,9,2023,9/1/2023,Arson,2
+507,Bend PD MIP,9,2023,9/1/2023,Burglary,11
+508,Bend PD MIP,9,2023,9/1/2023,Larceny,55
+509,Bend PD MIP,9,2023,9/1/2023,MVT,13
+510,Bend PD MIP,9,2023,9/1/2023,Murder,0
+511,Bend PD MIP,9,2023,9/1/2023,Rape,1
+512,Bend PD MIP,9,2023,9/1/2023,Robbery,5
+513,Bend PD MIP,10,2022,10/1/2022,Agg Assault,7
+514,Bend PD MIP,10,2022,10/1/2022,Arson,1
+515,Bend PD MIP,10,2022,10/1/2022,Burglary,17
+516,Bend PD MIP,10,2022,10/1/2022,Larceny,46
+517,Bend PD MIP,10,2022,10/1/2022,MVT,10
+518,Bend PD MIP,10,2022,10/1/2022,Murder,0
+519,Bend PD MIP,10,2022,10/1/2022,Rape,1
+520,Bend PD MIP,10,2022,10/1/2022,Robbery,3
+521,Bend PD MIP,10,2023,10/1/2023,Agg Assault,6
+522,Bend PD MIP,10,2023,10/1/2023,Arson,2
+523,Bend PD MIP,10,2023,10/1/2023,Burglary,7
+524,Bend PD MIP,10,2023,10/1/2023,Larceny,54
+525,Bend PD MIP,10,2023,10/1/2023,MVT,12
+526,Bend PD MIP,10,2023,10/1/2023,Murder,0
+527,Bend PD MIP,10,2023,10/1/2023,Rape,1
+528,Bend PD MIP,10,2023,10/1/2023,Robbery,5
+529,Bend PD MIP,11,2022,11/1/2022,Agg Assault,5
+530,Bend PD MIP,11,2022,11/1/2022,Arson,1
+531,Bend PD MIP,11,2022,11/1/2022,Burglary,11
+532,Bend PD MIP,11,2022,11/1/2022,Larceny,45
+533,Bend PD MIP,11,2022,11/1/2022,MVT,6
+534,Bend PD MIP,11,2022,11/1/2022,Murder,0
+535,Bend PD MIP,11,2022,11/1/2022,Rape,1
+536,Bend PD MIP,11,2022,11/1/2022,Robbery,3
+537,Bend PD MIP,11,2023,11/1/2023,Agg Assault,10
+538,Bend PD MIP,11,2023,11/1/2023,Arson,0
+539,Bend PD MIP,11,2023,11/1/2023,Burglary,10
+540,Bend PD MIP,11,2023,11/1/2023,Larceny,54
+541,Bend PD MIP,11,2023,11/1/2023,MVT,7
+542,Bend PD MIP,11,2023,11/1/2023,Murder,0
+543,Bend PD MIP,11,2023,11/1/2023,Rape,0
+544,Bend PD MIP,11,2023,11/1/2023,Robbery,4
+545,Bend PD MIP,12,2022,12/1/2022,Agg Assault,5
+546,Bend PD MIP,12,2022,12/1/2022,Arson,1
+547,Bend PD MIP,12,2022,12/1/2022,Burglary,8
+548,Bend PD MIP,12,2022,12/1/2022,Larceny,59
+549,Bend PD MIP,12,2022,12/1/2022,MVT,8
+550,Bend PD MIP,12,2022,12/1/2022,Murder,0
+551,Bend PD MIP,12,2022,12/1/2022,Rape,3
+552,Bend PD MIP,12,2022,12/1/2022,Robbery,2
+553,Corvallis PD,1,2022,1/1/2022,Agg Assault,2
+554,Corvallis PD,1,2022,1/1/2022,Arson,1
+555,Corvallis PD,1,2022,1/1/2022,Burglary,12
+556,Corvallis PD,1,2022,1/1/2022,Larceny,57
+557,Corvallis PD,1,2022,1/1/2022,MVT,9
+558,Corvallis PD,1,2022,1/1/2022,Murder,0
+559,Corvallis PD,1,2022,1/1/2022,Rape,1
+560,Corvallis PD,1,2022,1/1/2022,Robbery,2
+561,Corvallis PD,1,2023,1/1/2023,Agg Assault,4
+562,Corvallis PD,1,2023,1/1/2023,Arson,0
+563,Corvallis PD,1,2023,1/1/2023,Burglary,15
+564,Corvallis PD,1,2023,1/1/2023,Larceny,43
+565,Corvallis PD,1,2023,1/1/2023,MVT,8
+566,Corvallis PD,1,2023,1/1/2023,Murder,0
+567,Corvallis PD,1,2023,1/1/2023,Rape,3
+568,Corvallis PD,1,2023,1/1/2023,Robbery,4
+569,Corvallis PD,2,2022,2/1/2022,Agg Assault,6
+570,Corvallis PD,2,2022,2/1/2022,Arson,0
+571,Corvallis PD,2,2022,2/1/2022,Burglary,12
+572,Corvallis PD,2,2022,2/1/2022,Larceny,39
+573,Corvallis PD,2,2022,2/1/2022,MVT,6
+574,Corvallis PD,2,2022,2/1/2022,Murder,0
+575,Corvallis PD,2,2022,2/1/2022,Rape,3
+576,Corvallis PD,2,2022,2/1/2022,Robbery,3
+577,Corvallis PD,2,2023,2/1/2023,Agg Assault,2
+578,Corvallis PD,2,2023,2/1/2023,Arson,2
+579,Corvallis PD,2,2023,2/1/2023,Burglary,11
+580,Corvallis PD,2,2023,2/1/2023,Larceny,51
+581,Corvallis PD,2,2023,2/1/2023,MVT,4
+582,Corvallis PD,2,2023,2/1/2023,Murder,0
+583,Corvallis PD,2,2023,2/1/2023,Rape,1
+584,Corvallis PD,2,2023,2/1/2023,Robbery,0
+585,Corvallis PD,3,2022,3/1/2022,Agg Assault,7
+586,Corvallis PD,3,2022,3/1/2022,Arson,0
+587,Corvallis PD,3,2022,3/1/2022,Burglary,19
+588,Corvallis PD,3,2022,3/1/2022,Larceny,48
+589,Corvallis PD,3,2022,3/1/2022,MVT,9
+590,Corvallis PD,3,2022,3/1/2022,Murder,0
+591,Corvallis PD,3,2022,3/1/2022,Rape,0
+592,Corvallis PD,3,2022,3/1/2022,Robbery,4
+593,Corvallis PD,3,2023,3/1/2023,Agg Assault,5
+594,Corvallis PD,3,2023,3/1/2023,Arson,1
+595,Corvallis PD,3,2023,3/1/2023,Burglary,14
+596,Corvallis PD,3,2023,3/1/2023,Larceny,53
+597,Corvallis PD,3,2023,3/1/2023,MVT,9
+598,Corvallis PD,3,2023,3/1/2023,Murder,0
+599,Corvallis PD,3,2023,3/1/2023,Rape,1
+600,Corvallis PD,3,2023,3/1/2023,Robbery,4
+601,Corvallis PD,4,2022,4/1/2022,Agg Assault,5
+602,Corvallis PD,4,2022,4/1/2022,Arson,1
+603,Corvallis PD,4,2022,4/1/2022,Burglary,17
+604,Corvallis PD,4,2022,4/1/2022,Larceny,47
+605,Corvallis PD,4,2022,4/1/2022,MVT,9
+606,Corvallis PD,4,2022,4/1/2022,Murder,0
+607,Corvallis PD,4,2022,4/1/2022,Rape,3
+608,Corvallis PD,4,2022,4/1/2022,Robbery,2
+609,Corvallis PD,4,2023,4/1/2023,Agg Assault,2
+610,Corvallis PD,4,2023,4/1/2023,Arson,3
+611,Corvallis PD,4,2023,4/1/2023,Burglary,14
+612,Corvallis PD,4,2023,4/1/2023,Larceny,53
+613,Corvallis PD,4,2023,4/1/2023,MVT,3
+614,Corvallis PD,4,2023,4/1/2023,Murder,0
+615,Corvallis PD,4,2023,4/1/2023,Rape,3
+616,Corvallis PD,4,2023,4/1/2023,Robbery,4
+617,Corvallis PD,5,2022,5/1/2022,Agg Assault,2
+618,Corvallis PD,5,2022,5/1/2022,Arson,3
+619,Corvallis PD,5,2022,5/1/2022,Burglary,19
+620,Corvallis PD,5,2022,5/1/2022,Larceny,51
+621,Corvallis PD,5,2022,5/1/2022,MVT,11
+622,Corvallis PD,5,2022,5/1/2022,Murder,0
+623,Corvallis PD,5,2022,5/1/2022,Rape,1
+624,Corvallis PD,5,2022,5/1/2022,Robbery,3
+625,Corvallis PD,5,2023,5/1/2023,Agg Assault,5
+626,Corvallis PD,5,2023,5/1/2023,Arson,1
+627,Corvallis PD,5,2023,5/1/2023,Burglary,10
+628,Corvallis PD,5,2023,5/1/2023,Larceny,50
+629,Corvallis PD,5,2023,5/1/2023,MVT,4
+630,Corvallis PD,5,2023,5/1/2023,Murder,0
+631,Corvallis PD,5,2023,5/1/2023,Rape,3
+632,Corvallis PD,5,2023,5/1/2023,Robbery,1
+633,Corvallis PD,6,2022,6/1/2022,Agg Assault,2
+634,Corvallis PD,6,2022,6/1/2022,Arson,2
+635,Corvallis PD,6,2022,6/1/2022,Burglary,10
+636,Corvallis PD,6,2022,6/1/2022,Larceny,45
+637,Corvallis PD,6,2022,6/1/2022,MVT,7
+638,Corvallis PD,6,2022,6/1/2022,Murder,0
+639,Corvallis PD,6,2022,6/1/2022,Rape,0
+640,Corvallis PD,6,2022,6/1/2022,Robbery,1
+641,Corvallis PD,6,2023,6/1/2023,Agg Assault,6
+642,Corvallis PD,6,2023,6/1/2023,Arson,0
+643,Corvallis PD,6,2023,6/1/2023,Burglary,11
+644,Corvallis PD,6,2023,6/1/2023,Larceny,46
+645,Corvallis PD,6,2023,6/1/2023,MVT,5
+646,Corvallis PD,6,2023,6/1/2023,Murder,0
+647,Corvallis PD,6,2023,6/1/2023,Rape,1
+648,Corvallis PD,6,2023,6/1/2023,Robbery,4
+649,Corvallis PD,7,2022,7/1/2022,Agg Assault,10
+650,Corvallis PD,7,2022,7/1/2022,Arson,3
+651,Corvallis PD,7,2022,7/1/2022,Burglary,15
+652,Corvallis PD,7,2022,7/1/2022,Larceny,48
+653,Corvallis PD,7,2022,7/1/2022,MVT,8
+654,Corvallis PD,7,2022,7/1/2022,Murder,0
+655,Corvallis PD,7,2022,7/1/2022,Rape,0
+656,Corvallis PD,7,2022,7/1/2022,Robbery,2
+657,Corvallis PD,7,2023,7/1/2023,Agg Assault,5
+658,Corvallis PD,7,2023,7/1/2023,Arson,3
+659,Corvallis PD,7,2023,7/1/2023,Burglary,11
+660,Corvallis PD,7,2023,7/1/2023,Larceny,55
+661,Corvallis PD,7,2023,7/1/2023,MVT,3
+662,Corvallis PD,7,2023,7/1/2023,Murder,0
+663,Corvallis PD,7,2023,7/1/2023,Rape,1
+664,Corvallis PD,7,2023,7/1/2023,Robbery,3
+665,Corvallis PD,8,2022,8/1/2022,Agg Assault,6
+666,Corvallis PD,8,2022,8/1/2022,Arson,4
+667,Corvallis PD,8,2022,8/1/2022,Burglary,15
+668,Corvallis PD,8,2022,8/1/2022,Larceny,54
+669,Corvallis PD,8,2022,8/1/2022,MVT,10
+670,Corvallis PD,8,2022,8/1/2022,Murder,0
+671,Corvallis PD,8,2022,8/1/2022,Rape,2
+672,Corvallis PD,8,2022,8/1/2022,Robbery,3
+673,Corvallis PD,8,2023,8/1/2023,Agg Assault,5
+674,Corvallis PD,8,2023,8/1/2023,Arson,7
+675,Corvallis PD,8,2023,8/1/2023,Burglary,13
+676,Corvallis PD,8,2023,8/1/2023,Larceny,52
+677,Corvallis PD,8,2023,8/1/2023,MVT,7
+678,Corvallis PD,8,2023,8/1/2023,Murder,0
+679,Corvallis PD,8,2023,8/1/2023,Rape,1
+680,Corvallis PD,8,2023,8/1/2023,Robbery,4
+681,Corvallis PD,9,2022,9/1/2022,Agg Assault,8
+682,Corvallis PD,9,2022,9/1/2022,Arson,0
+683,Corvallis PD,9,2022,9/1/2022,Burglary,15
+684,Corvallis PD,9,2022,9/1/2022,Larceny,59
+685,Corvallis PD,9,2022,9/1/2022,MVT,8
+686,Corvallis PD,9,2022,9/1/2022,Murder,0
+687,Corvallis PD,9,2022,9/1/2022,Rape,3
+688,Corvallis PD,9,2022,9/1/2022,Robbery,2
+689,Corvallis PD,9,2023,9/1/2023,Agg Assault,2
+690,Corvallis PD,9,2023,9/1/2023,Arson,1
+691,Corvallis PD,9,2023,9/1/2023,Burglary,16
+692,Corvallis PD,9,2023,9/1/2023,Larceny,53
+693,Corvallis PD,9,2023,9/1/2023,MVT,8
+694,Corvallis PD,9,2023,9/1/2023,Murder,0
+695,Corvallis PD,9,2023,9/1/2023,Rape,1
+696,Corvallis PD,9,2023,9/1/2023,Robbery,2
+697,Corvallis PD,10,2022,10/1/2022,Agg Assault,9
+698,Corvallis PD,10,2022,10/1/2022,Arson,1
+699,Corvallis PD,10,2022,10/1/2022,Burglary,11
+700,Corvallis PD,10,2022,10/1/2022,Larceny,58
+701,Corvallis PD,10,2022,10/1/2022,MVT,8
+702,Corvallis PD,10,2022,10/1/2022,Murder,0
+703,Corvallis PD,10,2022,10/1/2022,Rape,2
+704,Corvallis PD,10,2022,10/1/2022,Robbery,1
+705,Corvallis PD,10,2023,10/1/2023,Agg Assault,8
+706,Corvallis PD,10,2023,10/1/2023,Arson,3
+707,Corvallis PD,10,2023,10/1/2023,Burglary,11
+708,Corvallis PD,10,2023,10/1/2023,Larceny,53
+709,Corvallis PD,10,2023,10/1/2023,MVT,2
+710,Corvallis PD,10,2023,10/1/2023,Murder,0
+711,Corvallis PD,10,2023,10/1/2023,Rape,0
+712,Corvallis PD,10,2023,10/1/2023,Robbery,1
+713,Corvallis PD,11,2022,11/1/2022,Agg Assault,3
+714,Corvallis PD,11,2022,11/1/2022,Arson,3
+715,Corvallis PD,11,2022,11/1/2022,Burglary,12
+716,Corvallis PD,11,2022,11/1/2022,Larceny,52
+717,Corvallis PD,11,2022,11/1/2022,MVT,8
+718,Corvallis PD,11,2022,11/1/2022,Murder,0
+719,Corvallis PD,11,2022,11/1/2022,Rape,2
+720,Corvallis PD,11,2022,11/1/2022,Robbery,2
+721,Corvallis PD,11,2023,11/1/2023,Agg Assault,5
+722,Corvallis PD,11,2023,11/1/2023,Arson,5
+723,Corvallis PD,11,2023,11/1/2023,Burglary,11
+724,Corvallis PD,11,2023,11/1/2023,Larceny,44
+725,Corvallis PD,11,2023,11/1/2023,MVT,7
+726,Corvallis PD,11,2023,11/1/2023,Murder,0
+727,Corvallis PD,11,2023,11/1/2023,Rape,1
+728,Corvallis PD,11,2023,11/1/2023,Robbery,3
+729,Corvallis PD,12,2022,12/1/2022,Agg Assault,3
+730,Corvallis PD,12,2022,12/1/2022,Arson,1
+731,Corvallis PD,12,2022,12/1/2022,Burglary,18
+732,Corvallis PD,12,2022,12/1/2022,Larceny,47
+733,Corvallis PD,12,2022,12/1/2022,MVT,8
+734,Corvallis PD,12,2022,12/1/2022,Murder,0
+735,Corvallis PD,12,2022,12/1/2022,Rape,2
+736,Corvallis PD,12,2022,12/1/2022,Robbery,2
+737,Eugene PD MIP,1,2022,1/1/2022,Agg Assault,19
+738,Eugene PD MIP,1,2022,1/1/2022,Arson,8
+739,Eugene PD MIP,1,2022,1/1/2022,Burglary,29
+740,Eugene PD MIP,1,2022,1/1/2022,Larceny,78
+741,Eugene PD MIP,1,2022,1/1/2022,MVT,28
+742,Eugene PD MIP,1,2022,1/1/2022,Murder,0
+743,Eugene PD MIP,1,2022,1/1/2022,Rape,10
+744,Eugene PD MIP,1,2022,1/1/2022,Robbery,14
+745,Eugene PD MIP,1,2023,1/1/2023,Agg Assault,20
+746,Eugene PD MIP,1,2023,1/1/2023,Arson,6
+747,Eugene PD MIP,1,2023,1/1/2023,Burglary,30
+748,Eugene PD MIP,1,2023,1/1/2023,Larceny,63
+749,Eugene PD MIP,1,2023,1/1/2023,MVT,28
+750,Eugene PD MIP,1,2023,1/1/2023,Murder,1
+751,Eugene PD MIP,1,2023,1/1/2023,Rape,4
+752,Eugene PD MIP,1,2023,1/1/2023,Robbery,5
+753,Eugene PD MIP,2,2022,2/1/2022,Agg Assault,16
+754,Eugene PD MIP,2,2022,2/1/2022,Arson,7
+755,Eugene PD MIP,2,2022,2/1/2022,Burglary,24
+756,Eugene PD MIP,2,2022,2/1/2022,Larceny,68
+757,Eugene PD MIP,2,2022,2/1/2022,MVT,27
+758,Eugene PD MIP,2,2022,2/1/2022,Murder,0
+759,Eugene PD MIP,2,2022,2/1/2022,Rape,6
+760,Eugene PD MIP,2,2022,2/1/2022,Robbery,9
+761,Eugene PD MIP,2,2023,2/1/2023,Agg Assault,18
+762,Eugene PD MIP,2,2023,2/1/2023,Arson,9
+763,Eugene PD MIP,2,2023,2/1/2023,Burglary,25
+764,Eugene PD MIP,2,2023,2/1/2023,Larceny,66
+765,Eugene PD MIP,2,2023,2/1/2023,MVT,24
+766,Eugene PD MIP,2,2023,2/1/2023,Murder,1
+767,Eugene PD MIP,2,2023,2/1/2023,Rape,6
+768,Eugene PD MIP,2,2023,2/1/2023,Robbery,7
+769,Eugene PD MIP,3,2022,3/1/2022,Agg Assault,25
+770,Eugene PD MIP,3,2022,3/1/2022,Arson,15
+771,Eugene PD MIP,3,2022,3/1/2022,Burglary,25
+772,Eugene PD MIP,3,2022,3/1/2022,Larceny,74
+773,Eugene PD MIP,3,2022,3/1/2022,MVT,29
+774,Eugene PD MIP,3,2022,3/1/2022,Murder,1
+775,Eugene PD MIP,3,2022,3/1/2022,Rape,7
+776,Eugene PD MIP,3,2022,3/1/2022,Robbery,10
+777,Eugene PD MIP,3,2023,3/1/2023,Agg Assault,21
+778,Eugene PD MIP,3,2023,3/1/2023,Arson,7
+779,Eugene PD MIP,3,2023,3/1/2023,Burglary,26
+780,Eugene PD MIP,3,2023,3/1/2023,Larceny,71
+781,Eugene PD MIP,3,2023,3/1/2023,MVT,27
+782,Eugene PD MIP,3,2023,3/1/2023,Murder,1
+783,Eugene PD MIP,3,2023,3/1/2023,Rape,4
+784,Eugene PD MIP,3,2023,3/1/2023,Robbery,9
+785,Eugene PD MIP,4,2022,4/1/2022,Agg Assault,14
+786,Eugene PD MIP,4,2022,4/1/2022,Arson,3
+787,Eugene PD MIP,4,2022,4/1/2022,Burglary,24
+788,Eugene PD MIP,4,2022,4/1/2022,Larceny,66
+789,Eugene PD MIP,4,2022,4/1/2022,MVT,29
+790,Eugene PD MIP,4,2022,4/1/2022,Murder,0
+791,Eugene PD MIP,4,2022,4/1/2022,Rape,9
+792,Eugene PD MIP,4,2022,4/1/2022,Robbery,12
+793,Eugene PD MIP,4,2023,4/1/2023,Agg Assault,16
+794,Eugene PD MIP,4,2023,4/1/2023,Arson,7
+795,Eugene PD MIP,4,2023,4/1/2023,Burglary,25
+796,Eugene PD MIP,4,2023,4/1/2023,Larceny,73
+797,Eugene PD MIP,4,2023,4/1/2023,MVT,26
+798,Eugene PD MIP,4,2023,4/1/2023,Murder,0
+799,Eugene PD MIP,4,2023,4/1/2023,Rape,8
+800,Eugene PD MIP,4,2023,4/1/2023,Robbery,6
+801,Eugene PD MIP,5,2022,5/1/2022,Agg Assault,13
+802,Eugene PD MIP,5,2022,5/1/2022,Arson,6
+803,Eugene PD MIP,5,2022,5/1/2022,Burglary,28
+804,Eugene PD MIP,5,2022,5/1/2022,Larceny,72
+805,Eugene PD MIP,5,2022,5/1/2022,MVT,26
+806,Eugene PD MIP,5,2022,5/1/2022,Murder,0
+807,Eugene PD MIP,5,2022,5/1/2022,Rape,9
+808,Eugene PD MIP,5,2022,5/1/2022,Robbery,10
+809,Eugene PD MIP,5,2023,5/1/2023,Agg Assault,20
+810,Eugene PD MIP,5,2023,5/1/2023,Arson,11
+811,Eugene PD MIP,5,2023,5/1/2023,Burglary,29
+812,Eugene PD MIP,5,2023,5/1/2023,Larceny,70
+813,Eugene PD MIP,5,2023,5/1/2023,MVT,22
+814,Eugene PD MIP,5,2023,5/1/2023,Murder,0
+815,Eugene PD MIP,5,2023,5/1/2023,Rape,7
+816,Eugene PD MIP,5,2023,5/1/2023,Robbery,4
+817,Eugene PD MIP,6,2022,6/1/2022,Agg Assault,21
+818,Eugene PD MIP,6,2022,6/1/2022,Arson,4
+819,Eugene PD MIP,6,2022,6/1/2022,Burglary,30
+820,Eugene PD MIP,6,2022,6/1/2022,Larceny,66
+821,Eugene PD MIP,6,2022,6/1/2022,MVT,27
+822,Eugene PD MIP,6,2022,6/1/2022,Murder,0
+823,Eugene PD MIP,6,2022,6/1/2022,Rape,5
+824,Eugene PD MIP,6,2022,6/1/2022,Robbery,5
+825,Eugene PD MIP,6,2023,6/1/2023,Agg Assault,22
+826,Eugene PD MIP,6,2023,6/1/2023,Arson,14
+827,Eugene PD MIP,6,2023,6/1/2023,Burglary,28
+828,Eugene PD MIP,6,2023,6/1/2023,Larceny,64
+829,Eugene PD MIP,6,2023,6/1/2023,MVT,26
+830,Eugene PD MIP,6,2023,6/1/2023,Murder,0
+831,Eugene PD MIP,6,2023,6/1/2023,Rape,4
+832,Eugene PD MIP,6,2023,6/1/2023,Robbery,10
+833,Eugene PD MIP,7,2022,7/1/2022,Agg Assault,21
+834,Eugene PD MIP,7,2022,7/1/2022,Arson,4
+835,Eugene PD MIP,7,2022,7/1/2022,Burglary,25
+836,Eugene PD MIP,7,2022,7/1/2022,Larceny,66
+837,Eugene PD MIP,7,2022,7/1/2022,MVT,27
+838,Eugene PD MIP,7,2022,7/1/2022,Murder,0
+839,Eugene PD MIP,7,2022,7/1/2022,Rape,7
+840,Eugene PD MIP,7,2022,7/1/2022,Robbery,7
+841,Eugene PD MIP,7,2023,7/1/2023,Agg Assault,19
+842,Eugene PD MIP,7,2023,7/1/2023,Arson,11
+843,Eugene PD MIP,7,2023,7/1/2023,Burglary,29
+844,Eugene PD MIP,7,2023,7/1/2023,Larceny,70
+845,Eugene PD MIP,7,2023,7/1/2023,MVT,30
+846,Eugene PD MIP,7,2023,7/1/2023,Murder,0
+847,Eugene PD MIP,7,2023,7/1/2023,Rape,2
+848,Eugene PD MIP,7,2023,7/1/2023,Robbery,13
+849,Eugene PD MIP,8,2022,8/1/2022,Agg Assault,19
+850,Eugene PD MIP,8,2022,8/1/2022,Arson,10
+851,Eugene PD MIP,8,2022,8/1/2022,Burglary,26
+852,Eugene PD MIP,8,2022,8/1/2022,Larceny,69
+853,Eugene PD MIP,8,2022,8/1/2022,MVT,29
+854,Eugene PD MIP,8,2022,8/1/2022,Murder,0
+855,Eugene PD MIP,8,2022,8/1/2022,Rape,8
+856,Eugene PD MIP,8,2022,8/1/2022,Robbery,12
+857,Eugene PD MIP,8,2023,8/1/2023,Agg Assault,20
+858,Eugene PD MIP,8,2023,8/1/2023,Arson,9
+859,Eugene PD MIP,8,2023,8/1/2023,Burglary,30
+860,Eugene PD MIP,8,2023,8/1/2023,Larceny,68
+861,Eugene PD MIP,8,2023,8/1/2023,MVT,27
+862,Eugene PD MIP,8,2023,8/1/2023,Murder,0
+863,Eugene PD MIP,8,2023,8/1/2023,Rape,7
+864,Eugene PD MIP,8,2023,8/1/2023,Robbery,9
+865,Eugene PD MIP,9,2022,9/1/2022,Agg Assault,23
+866,Eugene PD MIP,9,2022,9/1/2022,Arson,15
+867,Eugene PD MIP,9,2022,9/1/2022,Burglary,25
+868,Eugene PD MIP,9,2022,9/1/2022,Larceny,68
+869,Eugene PD MIP,9,2022,9/1/2022,MVT,26
+870,Eugene PD MIP,9,2022,9/1/2022,Murder,1
+871,Eugene PD MIP,9,2022,9/1/2022,Rape,5
+872,Eugene PD MIP,9,2022,9/1/2022,Robbery,11
+873,Eugene PD MIP,9,2023,9/1/2023,Agg Assault,19
+874,Eugene PD MIP,9,2023,9/1/2023,Arson,6
+875,Eugene PD MIP,9,2023,9/1/2023,Burglary,28
+876,Eugene PD MIP,9,2023,9/1/2023,Larceny,71
+877,Eugene PD MIP,9,2023,9/1/2023,MVT,28
+878,Eugene PD MIP,9,2023,9/1/2023,Murder,1
+879,Eugene PD MIP,9,2023,9/1/2023,Rape,5
+880,Eugene PD MIP,9,2023,9/1/2023,Robbery,7
+881,Eugene PD MIP,10,2022,10/1/2022,Agg Assault,21
+882,Eugene PD MIP,10,2022,10/1/2022,Arson,4
+883,Eugene PD MIP,10,2022,10/1/2022,Burglary,28
+884,Eugene PD MIP,10,2022,10/1/2022,Larceny,70
+885,Eugene PD MIP,10,2022,10/1/2022,MVT,24
+886,Eugene PD MIP,10,2022,10/1/2022,Murder,0
+887,Eugene PD MIP,10,2022,10/1/2022,Rape,5
+888,Eugene PD MIP,10,2022,10/1/2022,Robbery,5
+889,Eugene PD MIP,10,2023,10/1/2023,Agg Assault,20
+890,Eugene PD MIP,10,2023,10/1/2023,Arson,8
+891,Eugene PD MIP,10,2023,10/1/2023,Burglary,27
+892,Eugene PD MIP,10,2023,10/1/2023,Larceny,78
+893,Eugene PD MIP,10,2023,10/1/2023,MVT,28
+894,Eugene PD MIP,10,2023,10/1/2023,Murder,0
+895,Eugene PD MIP,10,2023,10/1/2023,Rape,7
+896,Eugene PD MIP,10,2023,10/1/2023,Robbery,15
+897,Eugene PD MIP,11,2022,11/1/2022,Agg Assault,23
+898,Eugene PD MIP,11,2022,11/1/2022,Arson,3
+899,Eugene PD MIP,11,2022,11/1/2022,Burglary,28
+900,Eugene PD MIP,11,2022,11/1/2022,Larceny,68
+901,Eugene PD MIP,11,2022,11/1/2022,MVT,25
+902,Eugene PD MIP,11,2022,11/1/2022,Murder,1
+903,Eugene PD MIP,11,2022,11/1/2022,Rape,7
+904,Eugene PD MIP,11,2022,11/1/2022,Robbery,11
+905,Eugene PD MIP,11,2023,11/1/2023,Agg Assault,19
+906,Eugene PD MIP,11,2023,11/1/2023,Arson,8
+907,Eugene PD MIP,11,2023,11/1/2023,Burglary,29
+908,Eugene PD MIP,11,2023,11/1/2023,Larceny,73
+909,Eugene PD MIP,11,2023,11/1/2023,MVT,26
+910,Eugene PD MIP,11,2023,11/1/2023,Murder,0
+911,Eugene PD MIP,11,2023,11/1/2023,Rape,7
+912,Eugene PD MIP,11,2023,11/1/2023,Robbery,8
+913,Eugene PD MIP,12,2022,12/1/2022,Agg Assault,17
+914,Eugene PD MIP,12,2022,12/1/2022,Arson,8
+915,Eugene PD MIP,12,2022,12/1/2022,Burglary,28
+916,Eugene PD MIP,12,2022,12/1/2022,Larceny,70
+917,Eugene PD MIP,12,2022,12/1/2022,MVT,25
+918,Eugene PD MIP,12,2022,12/1/2022,Murder,0
+919,Eugene PD MIP,12,2022,12/1/2022,Rape,5
+920,Eugene PD MIP,12,2022,12/1/2022,Robbery,4
+921,Gresham PD MIP,1,2022,1/1/2022,Agg Assault,14
+922,Gresham PD MIP,1,2022,1/1/2022,Arson,1
+923,Gresham PD MIP,1,2022,1/1/2022,Burglary,21
+924,Gresham PD MIP,1,2022,1/1/2022,Larceny,56
+925,Gresham PD MIP,1,2022,1/1/2022,MVT,30
+926,Gresham PD MIP,1,2022,1/1/2022,Murder,1
+927,Gresham PD MIP,1,2022,1/1/2022,Rape,3
+928,Gresham PD MIP,1,2022,1/1/2022,Robbery,7
+929,Gresham PD MIP,1,2023,1/1/2023,Agg Assault,13
+930,Gresham PD MIP,1,2023,1/1/2023,Arson,3
+931,Gresham PD MIP,1,2023,1/1/2023,Burglary,29
+932,Gresham PD MIP,1,2023,1/1/2023,Larceny,64
+933,Gresham PD MIP,1,2023,1/1/2023,MVT,29
+934,Gresham PD MIP,1,2023,1/1/2023,Murder,0
+935,Gresham PD MIP,1,2023,1/1/2023,Rape,2
+936,Gresham PD MIP,1,2023,1/1/2023,Robbery,12
+937,Gresham PD MIP,2,2022,2/1/2022,Agg Assault,15
+938,Gresham PD MIP,2,2022,2/1/2022,Arson,4
+939,Gresham PD MIP,2,2022,2/1/2022,Burglary,19
+940,Gresham PD MIP,2,2022,2/1/2022,Larceny,46
+941,Gresham PD MIP,2,2022,2/1/2022,MVT,27
+942,Gresham PD MIP,2,2022,2/1/2022,Murder,0
+943,Gresham PD MIP,2,2022,2/1/2022,Rape,4
+944,Gresham PD MIP,2,2022,2/1/2022,Robbery,12
+945,Gresham PD MIP,2,2023,2/1/2023,Agg Assault,11
+946,Gresham PD MIP,2,2023,2/1/2023,Arson,0
+947,Gresham PD MIP,2,2023,2/1/2023,Burglary,21
+948,Gresham PD MIP,2,2023,2/1/2023,Larceny,49
+949,Gresham PD MIP,2,2023,2/1/2023,MVT,26
+950,Gresham PD MIP,2,2023,2/1/2023,Murder,1
+951,Gresham PD MIP,2,2023,2/1/2023,Rape,1
+952,Gresham PD MIP,2,2023,2/1/2023,Robbery,10
+953,Gresham PD MIP,3,2022,3/1/2022,Agg Assault,18
+954,Gresham PD MIP,3,2022,3/1/2022,Arson,1
+955,Gresham PD MIP,3,2022,3/1/2022,Burglary,19
+956,Gresham PD MIP,3,2022,3/1/2022,Larceny,45
+957,Gresham PD MIP,3,2022,3/1/2022,MVT,29
+958,Gresham PD MIP,3,2022,3/1/2022,Murder,3
+959,Gresham PD MIP,3,2022,3/1/2022,Rape,3
+960,Gresham PD MIP,3,2022,3/1/2022,Robbery,12
+961,Gresham PD MIP,3,2023,3/1/2023,Agg Assault,8
+962,Gresham PD MIP,3,2023,3/1/2023,Arson,0
+963,Gresham PD MIP,3,2023,3/1/2023,Burglary,20
+964,Gresham PD MIP,3,2023,3/1/2023,Larceny,57
+965,Gresham PD MIP,3,2023,3/1/2023,MVT,26
+966,Gresham PD MIP,3,2023,3/1/2023,Murder,1
+967,Gresham PD MIP,3,2023,3/1/2023,Rape,4
+968,Gresham PD MIP,3,2023,3/1/2023,Robbery,7
+969,Gresham PD MIP,4,2022,4/1/2022,Agg Assault,14
+970,Gresham PD MIP,4,2022,4/1/2022,Arson,0
+971,Gresham PD MIP,4,2022,4/1/2022,Burglary,16
+972,Gresham PD MIP,4,2022,4/1/2022,Larceny,49
+973,Gresham PD MIP,4,2022,4/1/2022,MVT,27
+974,Gresham PD MIP,4,2022,4/1/2022,Murder,0
+975,Gresham PD MIP,4,2022,4/1/2022,Rape,3
+976,Gresham PD MIP,4,2022,4/1/2022,Robbery,8
+977,Gresham PD MIP,4,2023,4/1/2023,Agg Assault,14
+978,Gresham PD MIP,4,2023,4/1/2023,Arson,2
+979,Gresham PD MIP,4,2023,4/1/2023,Burglary,16
+980,Gresham PD MIP,4,2023,4/1/2023,Larceny,49
+981,Gresham PD MIP,4,2023,4/1/2023,MVT,29
+982,Gresham PD MIP,4,2023,4/1/2023,Murder,0
+983,Gresham PD MIP,4,2023,4/1/2023,Rape,4
+984,Gresham PD MIP,4,2023,4/1/2023,Robbery,2
+985,Gresham PD MIP,5,2022,5/1/2022,Agg Assault,11
+986,Gresham PD MIP,5,2022,5/1/2022,Arson,1
+987,Gresham PD MIP,5,2022,5/1/2022,Burglary,24
+988,Gresham PD MIP,5,2022,5/1/2022,Larceny,44
+989,Gresham PD MIP,5,2022,5/1/2022,MVT,28
+990,Gresham PD MIP,5,2022,5/1/2022,Murder,3
+991,Gresham PD MIP,5,2022,5/1/2022,Rape,5
+992,Gresham PD MIP,5,2022,5/1/2022,Robbery,9
+993,Gresham PD MIP,5,2023,5/1/2023,Agg Assault,11
+994,Gresham PD MIP,5,2023,5/1/2023,Arson,2
+995,Gresham PD MIP,5,2023,5/1/2023,Burglary,17
+996,Gresham PD MIP,5,2023,5/1/2023,Larceny,54
+997,Gresham PD MIP,5,2023,5/1/2023,MVT,30
+998,Gresham PD MIP,5,2023,5/1/2023,Murder,0
+999,Gresham PD MIP,5,2023,5/1/2023,Rape,5
+1000,Gresham PD MIP,5,2023,5/1/2023,Robbery,11
+1001,Gresham PD MIP,6,2022,6/1/2022,Agg Assault,15
+1002,Gresham PD MIP,6,2022,6/1/2022,Arson,4
+1003,Gresham PD MIP,6,2022,6/1/2022,Burglary,22
+1004,Gresham PD MIP,6,2022,6/1/2022,Larceny,50
+1005,Gresham PD MIP,6,2022,6/1/2022,MVT,30
+1006,Gresham PD MIP,6,2022,6/1/2022,Murder,0
+1007,Gresham PD MIP,6,2022,6/1/2022,Rape,4
+1008,Gresham PD MIP,6,2022,6/1/2022,Robbery,8
+1009,Gresham PD MIP,6,2023,6/1/2023,Agg Assault,16
+1010,Gresham PD MIP,6,2023,6/1/2023,Arson,2
+1011,Gresham PD MIP,6,2023,6/1/2023,Burglary,20
+1012,Gresham PD MIP,6,2023,6/1/2023,Larceny,47
+1013,Gresham PD MIP,6,2023,6/1/2023,MVT,29
+1014,Gresham PD MIP,6,2023,6/1/2023,Murder,0
+1015,Gresham PD MIP,6,2023,6/1/2023,Rape,2
+1016,Gresham PD MIP,6,2023,6/1/2023,Robbery,5
+1017,Gresham PD MIP,7,2022,7/1/2022,Agg Assault,17
+1018,Gresham PD MIP,7,2022,7/1/2022,Arson,5
+1019,Gresham PD MIP,7,2022,7/1/2022,Burglary,17
+1020,Gresham PD MIP,7,2022,7/1/2022,Larceny,46
+1021,Gresham PD MIP,7,2022,7/1/2022,MVT,29
+1022,Gresham PD MIP,7,2022,7/1/2022,Murder,1
+1023,Gresham PD MIP,7,2022,7/1/2022,Rape,4
+1024,Gresham PD MIP,7,2022,7/1/2022,Robbery,8
+1025,Gresham PD MIP,7,2023,7/1/2023,Agg Assault,16
+1026,Gresham PD MIP,7,2023,7/1/2023,Arson,3
+1027,Gresham PD MIP,7,2023,7/1/2023,Burglary,24
+1028,Gresham PD MIP,7,2023,7/1/2023,Larceny,54
+1029,Gresham PD MIP,7,2023,7/1/2023,MVT,30
+1030,Gresham PD MIP,7,2023,7/1/2023,Murder,2
+1031,Gresham PD MIP,7,2023,7/1/2023,Rape,2
+1032,Gresham PD MIP,7,2023,7/1/2023,Robbery,5
+1033,Gresham PD MIP,8,2022,8/1/2022,Agg Assault,21
+1034,Gresham PD MIP,8,2022,8/1/2022,Arson,1
+1035,Gresham PD MIP,8,2022,8/1/2022,Burglary,21
+1036,Gresham PD MIP,8,2022,8/1/2022,Larceny,46
+1037,Gresham PD MIP,8,2022,8/1/2022,MVT,29
+1038,Gresham PD MIP,8,2022,8/1/2022,Murder,1
+1039,Gresham PD MIP,8,2022,8/1/2022,Rape,2
+1040,Gresham PD MIP,8,2022,8/1/2022,Robbery,6
+1041,Gresham PD MIP,8,2023,8/1/2023,Agg Assault,18
+1042,Gresham PD MIP,8,2023,8/1/2023,Arson,3
+1043,Gresham PD MIP,8,2023,8/1/2023,Burglary,20
+1044,Gresham PD MIP,8,2023,8/1/2023,Larceny,57
+1045,Gresham PD MIP,8,2023,8/1/2023,MVT,30
+1046,Gresham PD MIP,8,2023,8/1/2023,Murder,1
+1047,Gresham PD MIP,8,2023,8/1/2023,Rape,3
+1048,Gresham PD MIP,8,2023,8/1/2023,Robbery,6
+1049,Gresham PD MIP,9,2022,9/1/2022,Agg Assault,13
+1050,Gresham PD MIP,9,2022,9/1/2022,Arson,1
+1051,Gresham PD MIP,9,2022,9/1/2022,Burglary,20
+1052,Gresham PD MIP,9,2022,9/1/2022,Larceny,45
+1053,Gresham PD MIP,9,2022,9/1/2022,MVT,30
+1054,Gresham PD MIP,9,2022,9/1/2022,Murder,0
+1055,Gresham PD MIP,9,2022,9/1/2022,Rape,6
+1056,Gresham PD MIP,9,2022,9/1/2022,Robbery,8
+1057,Gresham PD MIP,9,2023,9/1/2023,Agg Assault,13
+1058,Gresham PD MIP,9,2023,9/1/2023,Arson,2
+1059,Gresham PD MIP,9,2023,9/1/2023,Burglary,24
+1060,Gresham PD MIP,9,2023,9/1/2023,Larceny,53
+1061,Gresham PD MIP,9,2023,9/1/2023,MVT,27
+1062,Gresham PD MIP,9,2023,9/1/2023,Murder,1
+1063,Gresham PD MIP,9,2023,9/1/2023,Rape,4
+1064,Gresham PD MIP,9,2023,9/1/2023,Robbery,4
+1065,Gresham PD MIP,10,2022,10/1/2022,Agg Assault,14
+1066,Gresham PD MIP,10,2022,10/1/2022,Arson,2
+1067,Gresham PD MIP,10,2022,10/1/2022,Burglary,17
+1068,Gresham PD MIP,10,2022,10/1/2022,Larceny,52
+1069,Gresham PD MIP,10,2022,10/1/2022,MVT,30
+1070,Gresham PD MIP,10,2022,10/1/2022,Murder,0
+1071,Gresham PD MIP,10,2022,10/1/2022,Rape,7
+1072,Gresham PD MIP,10,2022,10/1/2022,Robbery,6
+1073,Gresham PD MIP,10,2023,10/1/2023,Agg Assault,13
+1074,Gresham PD MIP,10,2023,10/1/2023,Arson,2
+1075,Gresham PD MIP,10,2023,10/1/2023,Burglary,26
+1076,Gresham PD MIP,10,2023,10/1/2023,Larceny,58
+1077,Gresham PD MIP,10,2023,10/1/2023,MVT,29
+1078,Gresham PD MIP,10,2023,10/1/2023,Murder,1
+1079,Gresham PD MIP,10,2023,10/1/2023,Rape,4
+1080,Gresham PD MIP,10,2023,10/1/2023,Robbery,5
+1081,Gresham PD MIP,11,2022,11/1/2022,Agg Assault,12
+1082,Gresham PD MIP,11,2022,11/1/2022,Arson,4
+1083,Gresham PD MIP,11,2022,11/1/2022,Burglary,21
+1084,Gresham PD MIP,11,2022,11/1/2022,Larceny,54
+1085,Gresham PD MIP,11,2022,11/1/2022,MVT,29
+1086,Gresham PD MIP,11,2022,11/1/2022,Murder,0
+1087,Gresham PD MIP,11,2022,11/1/2022,Rape,3
+1088,Gresham PD MIP,11,2022,11/1/2022,Robbery,10
+1089,Gresham PD MIP,11,2023,11/1/2023,Agg Assault,16
+1090,Gresham PD MIP,11,2023,11/1/2023,Arson,1
+1091,Gresham PD MIP,11,2023,11/1/2023,Burglary,16
+1092,Gresham PD MIP,11,2023,11/1/2023,Larceny,56
+1093,Gresham PD MIP,11,2023,11/1/2023,MVT,29
+1094,Gresham PD MIP,11,2023,11/1/2023,Murder,1
+1095,Gresham PD MIP,11,2023,11/1/2023,Rape,2
+1096,Gresham PD MIP,11,2023,11/1/2023,Robbery,5
+1097,Gresham PD MIP,12,2022,12/1/2022,Agg Assault,20
+1098,Gresham PD MIP,12,2022,12/1/2022,Arson,0
+1099,Gresham PD MIP,12,2022,12/1/2022,Burglary,18
+1100,Gresham PD MIP,12,2022,12/1/2022,Larceny,47
+1101,Gresham PD MIP,12,2022,12/1/2022,MVT,29
+1102,Gresham PD MIP,12,2022,12/1/2022,Murder,0
+1103,Gresham PD MIP,12,2022,12/1/2022,Rape,3
+1104,Gresham PD MIP,12,2022,12/1/2022,Robbery,10
+1105,Hillsboro PD MIP,1,2022,1/1/2022,Agg Assault,13
+1106,Hillsboro PD MIP,1,2022,1/1/2022,Arson,4
+1107,Hillsboro PD MIP,1,2022,1/1/2022,Burglary,20
+1108,Hillsboro PD MIP,1,2022,1/1/2022,Larceny,61
+1109,Hillsboro PD MIP,1,2022,1/1/2022,MVT,21
+1110,Hillsboro PD MIP,1,2022,1/1/2022,Murder,1
+1111,Hillsboro PD MIP,1,2022,1/1/2022,Rape,4
+1112,Hillsboro PD MIP,1,2022,1/1/2022,Robbery,1
+1113,Hillsboro PD MIP,1,2023,1/1/2023,Agg Assault,10
+1114,Hillsboro PD MIP,1,2023,1/1/2023,Arson,2
+1115,Hillsboro PD MIP,1,2023,1/1/2023,Burglary,20
+1116,Hillsboro PD MIP,1,2023,1/1/2023,Larceny,60
+1117,Hillsboro PD MIP,1,2023,1/1/2023,MVT,16
+1118,Hillsboro PD MIP,1,2023,1/1/2023,Murder,1
+1119,Hillsboro PD MIP,1,2023,1/1/2023,Rape,1
+1120,Hillsboro PD MIP,1,2023,1/1/2023,Robbery,5
+1121,Hillsboro PD MIP,2,2022,2/1/2022,Agg Assault,9
+1122,Hillsboro PD MIP,2,2022,2/1/2022,Arson,2
+1123,Hillsboro PD MIP,2,2022,2/1/2022,Burglary,15
+1124,Hillsboro PD MIP,2,2022,2/1/2022,Larceny,52
+1125,Hillsboro PD MIP,2,2022,2/1/2022,MVT,14
+1126,Hillsboro PD MIP,2,2022,2/1/2022,Murder,0
+1127,Hillsboro PD MIP,2,2022,2/1/2022,Rape,6
+1128,Hillsboro PD MIP,2,2022,2/1/2022,Robbery,5
+1129,Hillsboro PD MIP,2,2023,2/1/2023,Agg Assault,11
+1130,Hillsboro PD MIP,2,2023,2/1/2023,Arson,4
+1131,Hillsboro PD MIP,2,2023,2/1/2023,Burglary,19
+1132,Hillsboro PD MIP,2,2023,2/1/2023,Larceny,50
+1133,Hillsboro PD MIP,2,2023,2/1/2023,MVT,16
+1134,Hillsboro PD MIP,2,2023,2/1/2023,Murder,0
+1135,Hillsboro PD MIP,2,2023,2/1/2023,Rape,1
+1136,Hillsboro PD MIP,2,2023,2/1/2023,Robbery,3
+1137,Hillsboro PD MIP,3,2022,3/1/2022,Agg Assault,13
+1138,Hillsboro PD MIP,3,2022,3/1/2022,Arson,2
+1139,Hillsboro PD MIP,3,2022,3/1/2022,Burglary,19
+1140,Hillsboro PD MIP,3,2022,3/1/2022,Larceny,62
+1141,Hillsboro PD MIP,3,2022,3/1/2022,MVT,19
+1142,Hillsboro PD MIP,3,2022,3/1/2022,Murder,0
+1143,Hillsboro PD MIP,3,2022,3/1/2022,Rape,4
+1144,Hillsboro PD MIP,3,2022,3/1/2022,Robbery,7
+1145,Hillsboro PD MIP,3,2023,3/1/2023,Agg Assault,10
+1146,Hillsboro PD MIP,3,2023,3/1/2023,Arson,4
+1147,Hillsboro PD MIP,3,2023,3/1/2023,Burglary,21
+1148,Hillsboro PD MIP,3,2023,3/1/2023,Larceny,63
+1149,Hillsboro PD MIP,3,2023,3/1/2023,MVT,20
+1150,Hillsboro PD MIP,3,2023,3/1/2023,Murder,0
+1151,Hillsboro PD MIP,3,2023,3/1/2023,Rape,2
+1152,Hillsboro PD MIP,3,2023,3/1/2023,Robbery,8
+1153,Hillsboro PD MIP,4,2022,4/1/2022,Agg Assault,9
+1154,Hillsboro PD MIP,4,2022,4/1/2022,Arson,2
+1155,Hillsboro PD MIP,4,2022,4/1/2022,Burglary,14
+1156,Hillsboro PD MIP,4,2022,4/1/2022,Larceny,51
+1157,Hillsboro PD MIP,4,2022,4/1/2022,MVT,16
+1158,Hillsboro PD MIP,4,2022,4/1/2022,Murder,1
+1159,Hillsboro PD MIP,4,2022,4/1/2022,Rape,4
+1160,Hillsboro PD MIP,4,2022,4/1/2022,Robbery,4
+1161,Hillsboro PD MIP,4,2023,4/1/2023,Agg Assault,13
+1162,Hillsboro PD MIP,4,2023,4/1/2023,Arson,3
+1163,Hillsboro PD MIP,4,2023,4/1/2023,Burglary,19
+1164,Hillsboro PD MIP,4,2023,4/1/2023,Larceny,62
+1165,Hillsboro PD MIP,4,2023,4/1/2023,MVT,18
+1166,Hillsboro PD MIP,4,2023,4/1/2023,Murder,1
+1167,Hillsboro PD MIP,4,2023,4/1/2023,Rape,2
+1168,Hillsboro PD MIP,4,2023,4/1/2023,Robbery,5
+1169,Hillsboro PD MIP,5,2022,5/1/2022,Agg Assault,9
+1170,Hillsboro PD MIP,5,2022,5/1/2022,Arson,4
+1171,Hillsboro PD MIP,5,2022,5/1/2022,Burglary,12
+1172,Hillsboro PD MIP,5,2022,5/1/2022,Larceny,63
+1173,Hillsboro PD MIP,5,2022,5/1/2022,MVT,18
+1174,Hillsboro PD MIP,5,2022,5/1/2022,Murder,0
+1175,Hillsboro PD MIP,5,2022,5/1/2022,Rape,3
+1176,Hillsboro PD MIP,5,2022,5/1/2022,Robbery,3
+1177,Hillsboro PD MIP,5,2023,5/1/2023,Agg Assault,12
+1178,Hillsboro PD MIP,5,2023,5/1/2023,Arson,3
+1179,Hillsboro PD MIP,5,2023,5/1/2023,Burglary,16
+1180,Hillsboro PD MIP,5,2023,5/1/2023,Larceny,64
+1181,Hillsboro PD MIP,5,2023,5/1/2023,MVT,18
+1182,Hillsboro PD MIP,5,2023,5/1/2023,Murder,0
+1183,Hillsboro PD MIP,5,2023,5/1/2023,Rape,1
+1184,Hillsboro PD MIP,5,2023,5/1/2023,Robbery,5
+1185,Hillsboro PD MIP,6,2022,6/1/2022,Agg Assault,12
+1186,Hillsboro PD MIP,6,2022,6/1/2022,Arson,3
+1187,Hillsboro PD MIP,6,2022,6/1/2022,Burglary,17
+1188,Hillsboro PD MIP,6,2022,6/1/2022,Larceny,60
+1189,Hillsboro PD MIP,6,2022,6/1/2022,MVT,15
+1190,Hillsboro PD MIP,6,2022,6/1/2022,Murder,0
+1191,Hillsboro PD MIP,6,2022,6/1/2022,Rape,1
+1192,Hillsboro PD MIP,6,2022,6/1/2022,Robbery,4
+1193,Hillsboro PD MIP,6,2023,6/1/2023,Agg Assault,10
+1194,Hillsboro PD MIP,6,2023,6/1/2023,Arson,7
+1195,Hillsboro PD MIP,6,2023,6/1/2023,Burglary,9
+1196,Hillsboro PD MIP,6,2023,6/1/2023,Larceny,62
+1197,Hillsboro PD MIP,6,2023,6/1/2023,MVT,14
+1198,Hillsboro PD MIP,6,2023,6/1/2023,Murder,0
+1199,Hillsboro PD MIP,6,2023,6/1/2023,Rape,2
+1200,Hillsboro PD MIP,6,2023,6/1/2023,Robbery,2
+1201,Hillsboro PD MIP,7,2022,7/1/2022,Agg Assault,10
+1202,Hillsboro PD MIP,7,2022,7/1/2022,Arson,3
+1203,Hillsboro PD MIP,7,2022,7/1/2022,Burglary,19
+1204,Hillsboro PD MIP,7,2022,7/1/2022,Larceny,69
+1205,Hillsboro PD MIP,7,2022,7/1/2022,MVT,20
+1206,Hillsboro PD MIP,7,2022,7/1/2022,Murder,1
+1207,Hillsboro PD MIP,7,2022,7/1/2022,Rape,3
+1208,Hillsboro PD MIP,7,2022,7/1/2022,Robbery,9
+1209,Hillsboro PD MIP,7,2023,7/1/2023,Agg Assault,16
+1210,Hillsboro PD MIP,7,2023,7/1/2023,Arson,3
+1211,Hillsboro PD MIP,7,2023,7/1/2023,Burglary,11
+1212,Hillsboro PD MIP,7,2023,7/1/2023,Larceny,59
+1213,Hillsboro PD MIP,7,2023,7/1/2023,MVT,11
+1214,Hillsboro PD MIP,7,2023,7/1/2023,Murder,0
+1215,Hillsboro PD MIP,7,2023,7/1/2023,Rape,7
+1216,Hillsboro PD MIP,7,2023,7/1/2023,Robbery,5
+1217,Hillsboro PD MIP,8,2022,8/1/2022,Agg Assault,12
+1218,Hillsboro PD MIP,8,2022,8/1/2022,Arson,2
+1219,Hillsboro PD MIP,8,2022,8/1/2022,Burglary,20
+1220,Hillsboro PD MIP,8,2022,8/1/2022,Larceny,66
+1221,Hillsboro PD MIP,8,2022,8/1/2022,MVT,19
+1222,Hillsboro PD MIP,8,2022,8/1/2022,Murder,0
+1223,Hillsboro PD MIP,8,2022,8/1/2022,Rape,1
+1224,Hillsboro PD MIP,8,2022,8/1/2022,Robbery,9
+1225,Hillsboro PD MIP,8,2023,8/1/2023,Agg Assault,16
+1226,Hillsboro PD MIP,8,2023,8/1/2023,Arson,1
+1227,Hillsboro PD MIP,8,2023,8/1/2023,Burglary,15
+1228,Hillsboro PD MIP,8,2023,8/1/2023,Larceny,57
+1229,Hillsboro PD MIP,8,2023,8/1/2023,MVT,10
+1230,Hillsboro PD MIP,8,2023,8/1/2023,Murder,0
+1231,Hillsboro PD MIP,8,2023,8/1/2023,Rape,4
+1232,Hillsboro PD MIP,8,2023,8/1/2023,Robbery,1
+1233,Hillsboro PD MIP,9,2022,9/1/2022,Agg Assault,13
+1234,Hillsboro PD MIP,9,2022,9/1/2022,Arson,1
+1235,Hillsboro PD MIP,9,2022,9/1/2022,Burglary,16
+1236,Hillsboro PD MIP,9,2022,9/1/2022,Larceny,59
+1237,Hillsboro PD MIP,9,2022,9/1/2022,MVT,15
+1238,Hillsboro PD MIP,9,2022,9/1/2022,Murder,0
+1239,Hillsboro PD MIP,9,2022,9/1/2022,Rape,2
+1240,Hillsboro PD MIP,9,2022,9/1/2022,Robbery,3
+1241,Hillsboro PD MIP,9,2023,9/1/2023,Agg Assault,12
+1242,Hillsboro PD MIP,9,2023,9/1/2023,Arson,4
+1243,Hillsboro PD MIP,9,2023,9/1/2023,Burglary,9
+1244,Hillsboro PD MIP,9,2023,9/1/2023,Larceny,64
+1245,Hillsboro PD MIP,9,2023,9/1/2023,MVT,15
+1246,Hillsboro PD MIP,9,2023,9/1/2023,Murder,0
+1247,Hillsboro PD MIP,9,2023,9/1/2023,Rape,4
+1248,Hillsboro PD MIP,9,2023,9/1/2023,Robbery,6
+1249,Hillsboro PD MIP,10,2022,10/1/2022,Agg Assault,11
+1250,Hillsboro PD MIP,10,2022,10/1/2022,Arson,3
+1251,Hillsboro PD MIP,10,2022,10/1/2022,Burglary,11
+1252,Hillsboro PD MIP,10,2022,10/1/2022,Larceny,56
+1253,Hillsboro PD MIP,10,2022,10/1/2022,MVT,16
+1254,Hillsboro PD MIP,10,2022,10/1/2022,Murder,0
+1255,Hillsboro PD MIP,10,2022,10/1/2022,Rape,3
+1256,Hillsboro PD MIP,10,2022,10/1/2022,Robbery,7
+1257,Hillsboro PD MIP,10,2023,10/1/2023,Agg Assault,11
+1258,Hillsboro PD MIP,10,2023,10/1/2023,Arson,0
+1259,Hillsboro PD MIP,10,2023,10/1/2023,Burglary,16
+1260,Hillsboro PD MIP,10,2023,10/1/2023,Larceny,63
+1261,Hillsboro PD MIP,10,2023,10/1/2023,MVT,17
+1262,Hillsboro PD MIP,10,2023,10/1/2023,Murder,1
+1263,Hillsboro PD MIP,10,2023,10/1/2023,Rape,1
+1264,Hillsboro PD MIP,10,2023,10/1/2023,Robbery,5
+1265,Hillsboro PD MIP,11,2022,11/1/2022,Agg Assault,10
+1266,Hillsboro PD MIP,11,2022,11/1/2022,Arson,2
+1267,Hillsboro PD MIP,11,2022,11/1/2022,Burglary,13
+1268,Hillsboro PD MIP,11,2022,11/1/2022,Larceny,55
+1269,Hillsboro PD MIP,11,2022,11/1/2022,MVT,16
+1270,Hillsboro PD MIP,11,2022,11/1/2022,Murder,1
+1271,Hillsboro PD MIP,11,2022,11/1/2022,Rape,2
+1272,Hillsboro PD MIP,11,2022,11/1/2022,Robbery,5
+1273,Hillsboro PD MIP,11,2023,11/1/2023,Agg Assault,12
+1274,Hillsboro PD MIP,11,2023,11/1/2023,Arson,4
+1275,Hillsboro PD MIP,11,2023,11/1/2023,Burglary,18
+1276,Hillsboro PD MIP,11,2023,11/1/2023,Larceny,63
+1277,Hillsboro PD MIP,11,2023,11/1/2023,MVT,15
+1278,Hillsboro PD MIP,11,2023,11/1/2023,Murder,0
+1279,Hillsboro PD MIP,11,2023,11/1/2023,Rape,1
+1280,Hillsboro PD MIP,11,2023,11/1/2023,Robbery,2
+1281,Hillsboro PD MIP,12,2022,12/1/2022,Agg Assault,12
+1282,Hillsboro PD MIP,12,2022,12/1/2022,Arson,3
+1283,Hillsboro PD MIP,12,2022,12/1/2022,Burglary,17
+1284,Hillsboro PD MIP,12,2022,12/1/2022,Larceny,66
+1285,Hillsboro PD MIP,12,2022,12/1/2022,MVT,15
+1286,Hillsboro PD MIP,12,2022,12/1/2022,Murder,0
+1287,Hillsboro PD MIP,12,2022,12/1/2022,Rape,0
+1288,Hillsboro PD MIP,12,2022,12/1/2022,Robbery,2
+1289,Medford PD,1,2022,1/1/2022,Agg Assault,10
+1290,Medford PD,1,2022,1/1/2022,Arson,4
+1291,Medford PD,1,2022,1/1/2022,Burglary,21
+1292,Medford PD,1,2022,1/1/2022,Larceny,72
+1293,Medford PD,1,2022,1/1/2022,MVT,19
+1294,Medford PD,1,2022,1/1/2022,Murder,1
+1295,Medford PD,1,2022,1/1/2022,Rape,2
+1296,Medford PD,1,2022,1/1/2022,Robbery,4
+1297,Medford PD,1,2023,1/1/2023,Agg Assault,10
+1298,Medford PD,1,2023,1/1/2023,Arson,4
+1299,Medford PD,1,2023,1/1/2023,Burglary,19
+1300,Medford PD,1,2023,1/1/2023,Larceny,72
+1301,Medford PD,1,2023,1/1/2023,MVT,17
+1302,Medford PD,1,2023,1/1/2023,Murder,0
+1303,Medford PD,1,2023,1/1/2023,Rape,4
+1304,Medford PD,1,2023,1/1/2023,Robbery,9
+1305,Medford PD,2,2022,2/1/2022,Agg Assault,12
+1306,Medford PD,2,2022,2/1/2022,Arson,2
+1307,Medford PD,2,2022,2/1/2022,Burglary,18
+1308,Medford PD,2,2022,2/1/2022,Larceny,68
+1309,Medford PD,2,2022,2/1/2022,MVT,20
+1310,Medford PD,2,2022,2/1/2022,Murder,0
+1311,Medford PD,2,2022,2/1/2022,Rape,3
+1312,Medford PD,2,2022,2/1/2022,Robbery,7
+1313,Medford PD,2,2023,2/1/2023,Agg Assault,9
+1314,Medford PD,2,2023,2/1/2023,Arson,8
+1315,Medford PD,2,2023,2/1/2023,Burglary,13
+1316,Medford PD,2,2023,2/1/2023,Larceny,62
+1317,Medford PD,2,2023,2/1/2023,MVT,15
+1318,Medford PD,2,2023,2/1/2023,Murder,0
+1319,Medford PD,2,2023,2/1/2023,Rape,0
+1320,Medford PD,2,2023,2/1/2023,Robbery,5
+1321,Medford PD,3,2022,3/1/2022,Agg Assault,13
+1322,Medford PD,3,2022,3/1/2022,Arson,5
+1323,Medford PD,3,2022,3/1/2022,Burglary,20
+1324,Medford PD,3,2022,3/1/2022,Larceny,68
+1325,Medford PD,3,2022,3/1/2022,MVT,16
+1326,Medford PD,3,2022,3/1/2022,Murder,0
+1327,Medford PD,3,2022,3/1/2022,Rape,3
+1328,Medford PD,3,2022,3/1/2022,Robbery,8
+1329,Medford PD,3,2023,3/1/2023,Agg Assault,15
+1330,Medford PD,3,2023,3/1/2023,Arson,4
+1331,Medford PD,3,2023,3/1/2023,Burglary,19
+1332,Medford PD,3,2023,3/1/2023,Larceny,65
+1333,Medford PD,3,2023,3/1/2023,MVT,13
+1334,Medford PD,3,2023,3/1/2023,Murder,0
+1335,Medford PD,3,2023,3/1/2023,Rape,3
+1336,Medford PD,3,2023,3/1/2023,Robbery,5
+1337,Medford PD,4,2022,4/1/2022,Agg Assault,12
+1338,Medford PD,4,2022,4/1/2022,Arson,5
+1339,Medford PD,4,2022,4/1/2022,Burglary,16
+1340,Medford PD,4,2022,4/1/2022,Larceny,63
+1341,Medford PD,4,2022,4/1/2022,MVT,13
+1342,Medford PD,4,2022,4/1/2022,Murder,0
+1343,Medford PD,4,2022,4/1/2022,Rape,3
+1344,Medford PD,4,2022,4/1/2022,Robbery,6
+1345,Medford PD,4,2023,4/1/2023,Agg Assault,17
+1346,Medford PD,4,2023,4/1/2023,Arson,4
+1347,Medford PD,4,2023,4/1/2023,Burglary,18
+1348,Medford PD,4,2023,4/1/2023,Larceny,76
+1349,Medford PD,4,2023,4/1/2023,MVT,13
+1350,Medford PD,4,2023,4/1/2023,Murder,1
+1351,Medford PD,4,2023,4/1/2023,Rape,4
+1352,Medford PD,4,2023,4/1/2023,Robbery,8
+1353,Medford PD,5,2022,5/1/2022,Agg Assault,18
+1354,Medford PD,5,2022,5/1/2022,Arson,4
+1355,Medford PD,5,2022,5/1/2022,Burglary,17
+1356,Medford PD,5,2022,5/1/2022,Larceny,66
+1357,Medford PD,5,2022,5/1/2022,MVT,19
+1358,Medford PD,5,2022,5/1/2022,Murder,0
+1359,Medford PD,5,2022,5/1/2022,Rape,4
+1360,Medford PD,5,2022,5/1/2022,Robbery,3
+1361,Medford PD,5,2023,5/1/2023,Agg Assault,14
+1362,Medford PD,5,2023,5/1/2023,Arson,4
+1363,Medford PD,5,2023,5/1/2023,Burglary,18
+1364,Medford PD,5,2023,5/1/2023,Larceny,71
+1365,Medford PD,5,2023,5/1/2023,MVT,16
+1366,Medford PD,5,2023,5/1/2023,Murder,0
+1367,Medford PD,5,2023,5/1/2023,Rape,5
+1368,Medford PD,5,2023,5/1/2023,Robbery,4
+1369,Medford PD,6,2022,6/1/2022,Agg Assault,11
+1370,Medford PD,6,2022,6/1/2022,Arson,8
+1371,Medford PD,6,2022,6/1/2022,Burglary,15
+1372,Medford PD,6,2022,6/1/2022,Larceny,66
+1373,Medford PD,6,2022,6/1/2022,MVT,22
+1374,Medford PD,6,2022,6/1/2022,Murder,0
+1375,Medford PD,6,2022,6/1/2022,Rape,1
+1376,Medford PD,6,2022,6/1/2022,Robbery,10
+1377,Medford PD,6,2023,6/1/2023,Agg Assault,16
+1378,Medford PD,6,2023,6/1/2023,Arson,6
+1379,Medford PD,6,2023,6/1/2023,Burglary,16
+1380,Medford PD,6,2023,6/1/2023,Larceny,66
+1381,Medford PD,6,2023,6/1/2023,MVT,12
+1382,Medford PD,6,2023,6/1/2023,Murder,0
+1383,Medford PD,6,2023,6/1/2023,Rape,1
+1384,Medford PD,6,2023,6/1/2023,Robbery,6
+1385,Medford PD,7,2022,7/1/2022,Agg Assault,16
+1386,Medford PD,7,2022,7/1/2022,Arson,11
+1387,Medford PD,7,2022,7/1/2022,Burglary,17
+1388,Medford PD,7,2022,7/1/2022,Larceny,77
+1389,Medford PD,7,2022,7/1/2022,MVT,24
+1390,Medford PD,7,2022,7/1/2022,Murder,0
+1391,Medford PD,7,2022,7/1/2022,Rape,2
+1392,Medford PD,7,2022,7/1/2022,Robbery,7
+1393,Medford PD,7,2023,7/1/2023,Agg Assault,14
+1394,Medford PD,7,2023,7/1/2023,Arson,5
+1395,Medford PD,7,2023,7/1/2023,Burglary,17
+1396,Medford PD,7,2023,7/1/2023,Larceny,72
+1397,Medford PD,7,2023,7/1/2023,MVT,14
+1398,Medford PD,7,2023,7/1/2023,Murder,0
+1399,Medford PD,7,2023,7/1/2023,Rape,3
+1400,Medford PD,7,2023,7/1/2023,Robbery,3
+1401,Medford PD,8,2022,8/1/2022,Agg Assault,11
+1402,Medford PD,8,2022,8/1/2022,Arson,7
+1403,Medford PD,8,2022,8/1/2022,Burglary,23
+1404,Medford PD,8,2022,8/1/2022,Larceny,69
+1405,Medford PD,8,2022,8/1/2022,MVT,19
+1406,Medford PD,8,2022,8/1/2022,Murder,0
+1407,Medford PD,8,2022,8/1/2022,Rape,3
+1408,Medford PD,8,2022,8/1/2022,Robbery,7
+1409,Medford PD,8,2023,8/1/2023,Agg Assault,17
+1410,Medford PD,8,2023,8/1/2023,Arson,3
+1411,Medford PD,8,2023,8/1/2023,Burglary,10
+1412,Medford PD,8,2023,8/1/2023,Larceny,69
+1413,Medford PD,8,2023,8/1/2023,MVT,14
+1414,Medford PD,8,2023,8/1/2023,Murder,0
+1415,Medford PD,8,2023,8/1/2023,Rape,2
+1416,Medford PD,8,2023,8/1/2023,Robbery,4
+1417,Medford PD,9,2022,9/1/2022,Agg Assault,13
+1418,Medford PD,9,2022,9/1/2022,Arson,5
+1419,Medford PD,9,2022,9/1/2022,Burglary,18
+1420,Medford PD,9,2022,9/1/2022,Larceny,63
+1421,Medford PD,9,2022,9/1/2022,MVT,22
+1422,Medford PD,9,2022,9/1/2022,Murder,1
+1423,Medford PD,9,2022,9/1/2022,Rape,2
+1424,Medford PD,9,2022,9/1/2022,Robbery,4
+1425,Medford PD,9,2023,9/1/2023,Agg Assault,11
+1426,Medford PD,9,2023,9/1/2023,Arson,1
+1427,Medford PD,9,2023,9/1/2023,Burglary,7
+1428,Medford PD,9,2023,9/1/2023,Larceny,60
+1429,Medford PD,9,2023,9/1/2023,MVT,8
+1430,Medford PD,9,2023,9/1/2023,Murder,0
+1431,Medford PD,9,2023,9/1/2023,Rape,5
+1432,Medford PD,9,2023,9/1/2023,Robbery,4
+1433,Medford PD,10,2022,10/1/2022,Agg Assault,12
+1434,Medford PD,10,2022,10/1/2022,Arson,0
+1435,Medford PD,10,2022,10/1/2022,Burglary,24
+1436,Medford PD,10,2022,10/1/2022,Larceny,68
+1437,Medford PD,10,2022,10/1/2022,MVT,20
+1438,Medford PD,10,2022,10/1/2022,Murder,0
+1439,Medford PD,10,2022,10/1/2022,Rape,3
+1440,Medford PD,10,2022,10/1/2022,Robbery,4
+1441,Medford PD,10,2023,10/1/2023,Agg Assault,9
+1442,Medford PD,10,2023,10/1/2023,Arson,0
+1443,Medford PD,10,2023,10/1/2023,Burglary,8
+1444,Medford PD,10,2023,10/1/2023,Larceny,57
+1445,Medford PD,10,2023,10/1/2023,MVT,15
+1446,Medford PD,10,2023,10/1/2023,Murder,0
+1447,Medford PD,10,2023,10/1/2023,Rape,1
+1448,Medford PD,10,2023,10/1/2023,Robbery,2
+1449,Medford PD,11,2022,11/1/2022,Agg Assault,13
+1450,Medford PD,11,2022,11/1/2022,Arson,5
+1451,Medford PD,11,2022,11/1/2022,Burglary,15
+1452,Medford PD,11,2022,11/1/2022,Larceny,61
+1453,Medford PD,11,2022,11/1/2022,MVT,16
+1454,Medford PD,11,2022,11/1/2022,Murder,0
+1455,Medford PD,11,2022,11/1/2022,Rape,2
+1456,Medford PD,11,2022,11/1/2022,Robbery,6
+1457,Medford PD,11,2023,11/1/2023,Agg Assault,6
+1458,Medford PD,11,2023,11/1/2023,Arson,0
+1459,Medford PD,11,2023,11/1/2023,Burglary,8
+1460,Medford PD,11,2023,11/1/2023,Larceny,44
+1461,Medford PD,11,2023,11/1/2023,MVT,7
+1462,Medford PD,11,2023,11/1/2023,Murder,0
+1463,Medford PD,11,2023,11/1/2023,Rape,0
+1464,Medford PD,11,2023,11/1/2023,Robbery,2
+1465,Medford PD,12,2022,12/1/2022,Agg Assault,10
+1466,Medford PD,12,2022,12/1/2022,Arson,2
+1467,Medford PD,12,2022,12/1/2022,Burglary,16
+1468,Medford PD,12,2022,12/1/2022,Larceny,70
+1469,Medford PD,12,2022,12/1/2022,MVT,15
+1470,Medford PD,12,2022,12/1/2022,Murder,0
+1471,Medford PD,12,2022,12/1/2022,Rape,1
+1472,Medford PD,12,2022,12/1/2022,Robbery,5
+1473,Portland Police Bureau MIP,1,2022,1/1/2022,Agg Assault,31
+1474,Portland Police Bureau MIP,1,2022,1/1/2022,Arson,20
+1475,Portland Police Bureau MIP,1,2022,1/1/2022,Burglary,31
+1476,Portland Police Bureau MIP,1,2022,1/1/2022,Larceny,98
+1477,Portland Police Bureau MIP,1,2022,1/1/2022,MVT,31
+1478,Portland Police Bureau MIP,1,2022,1/1/2022,Murder,7
+1479,Portland Police Bureau MIP,1,2022,1/1/2022,Rape,11
+1480,Portland Police Bureau MIP,1,2022,1/1/2022,Robbery,31
+1481,Portland Police Bureau MIP,1,2023,1/1/2023,Agg Assault,31
+1482,Portland Police Bureau MIP,1,2023,1/1/2023,Arson,16
+1483,Portland Police Bureau MIP,1,2023,1/1/2023,Burglary,31
+1484,Portland Police Bureau MIP,1,2023,1/1/2023,Larceny,97
+1485,Portland Police Bureau MIP,1,2023,1/1/2023,MVT,31
+1486,Portland Police Bureau MIP,1,2023,1/1/2023,Murder,6
+1487,Portland Police Bureau MIP,1,2023,1/1/2023,Rape,12
+1488,Portland Police Bureau MIP,1,2023,1/1/2023,Robbery,29
+1489,Portland Police Bureau MIP,2,2022,2/1/2022,Agg Assault,28
+1490,Portland Police Bureau MIP,2,2022,2/1/2022,Arson,15
+1491,Portland Police Bureau MIP,2,2022,2/1/2022,Burglary,28
+1492,Portland Police Bureau MIP,2,2022,2/1/2022,Larceny,88
+1493,Portland Police Bureau MIP,2,2022,2/1/2022,MVT,28
+1494,Portland Police Bureau MIP,2,2022,2/1/2022,Murder,9
+1495,Portland Police Bureau MIP,2,2022,2/1/2022,Rape,14
+1496,Portland Police Bureau MIP,2,2022,2/1/2022,Robbery,28
+1497,Portland Police Bureau MIP,2,2023,2/1/2023,Agg Assault,28
+1498,Portland Police Bureau MIP,2,2023,2/1/2023,Arson,11
+1499,Portland Police Bureau MIP,2,2023,2/1/2023,Burglary,28
+1500,Portland Police Bureau MIP,2,2023,2/1/2023,Larceny,87
+1501,Portland Police Bureau MIP,2,2023,2/1/2023,MVT,28
+1502,Portland Police Bureau MIP,2,2023,2/1/2023,Murder,4
+1503,Portland Police Bureau MIP,2,2023,2/1/2023,Rape,15
+1504,Portland Police Bureau MIP,2,2023,2/1/2023,Robbery,26
+1505,Portland Police Bureau MIP,3,2022,3/1/2022,Agg Assault,31
+1506,Portland Police Bureau MIP,3,2022,3/1/2022,Arson,15
+1507,Portland Police Bureau MIP,3,2022,3/1/2022,Burglary,31
+1508,Portland Police Bureau MIP,3,2022,3/1/2022,Larceny,95
+1509,Portland Police Bureau MIP,3,2022,3/1/2022,MVT,31
+1510,Portland Police Bureau MIP,3,2022,3/1/2022,Murder,4
+1511,Portland Police Bureau MIP,3,2022,3/1/2022,Rape,15
+1512,Portland Police Bureau MIP,3,2022,3/1/2022,Robbery,31
+1513,Portland Police Bureau MIP,3,2023,3/1/2023,Agg Assault,31
+1514,Portland Police Bureau MIP,3,2023,3/1/2023,Arson,12
+1515,Portland Police Bureau MIP,3,2023,3/1/2023,Burglary,31
+1516,Portland Police Bureau MIP,3,2023,3/1/2023,Larceny,96
+1517,Portland Police Bureau MIP,3,2023,3/1/2023,MVT,31
+1518,Portland Police Bureau MIP,3,2023,3/1/2023,Murder,6
+1519,Portland Police Bureau MIP,3,2023,3/1/2023,Rape,14
+1520,Portland Police Bureau MIP,3,2023,3/1/2023,Robbery,31
+1521,Portland Police Bureau MIP,4,2022,4/1/2022,Agg Assault,30
+1522,Portland Police Bureau MIP,4,2022,4/1/2022,Arson,15
+1523,Portland Police Bureau MIP,4,2022,4/1/2022,Burglary,30
+1524,Portland Police Bureau MIP,4,2022,4/1/2022,Larceny,94
+1525,Portland Police Bureau MIP,4,2022,4/1/2022,MVT,30
+1526,Portland Police Bureau MIP,4,2022,4/1/2022,Murder,9
+1527,Portland Police Bureau MIP,4,2022,4/1/2022,Rape,17
+1528,Portland Police Bureau MIP,4,2022,4/1/2022,Robbery,29
+1529,Portland Police Bureau MIP,4,2023,4/1/2023,Agg Assault,30
+1530,Portland Police Bureau MIP,4,2023,4/1/2023,Arson,12
+1531,Portland Police Bureau MIP,4,2023,4/1/2023,Burglary,30
+1532,Portland Police Bureau MIP,4,2023,4/1/2023,Larceny,94
+1533,Portland Police Bureau MIP,4,2023,4/1/2023,MVT,30
+1534,Portland Police Bureau MIP,4,2023,4/1/2023,Murder,8
+1535,Portland Police Bureau MIP,4,2023,4/1/2023,Rape,17
+1536,Portland Police Bureau MIP,4,2023,4/1/2023,Robbery,30
+1537,Portland Police Bureau MIP,5,2022,5/1/2022,Agg Assault,31
+1538,Portland Police Bureau MIP,5,2022,5/1/2022,Arson,16
+1539,Portland Police Bureau MIP,5,2022,5/1/2022,Burglary,31
+1540,Portland Police Bureau MIP,5,2022,5/1/2022,Larceny,96
+1541,Portland Police Bureau MIP,5,2022,5/1/2022,MVT,31
+1542,Portland Police Bureau MIP,5,2022,5/1/2022,Murder,4
+1543,Portland Police Bureau MIP,5,2022,5/1/2022,Rape,18
+1544,Portland Police Bureau MIP,5,2022,5/1/2022,Robbery,29
+1545,Portland Police Bureau MIP,5,2023,5/1/2023,Agg Assault,31
+1546,Portland Police Bureau MIP,5,2023,5/1/2023,Arson,18
+1547,Portland Police Bureau MIP,5,2023,5/1/2023,Burglary,31
+1548,Portland Police Bureau MIP,5,2023,5/1/2023,Larceny,94
+1549,Portland Police Bureau MIP,5,2023,5/1/2023,MVT,31
+1550,Portland Police Bureau MIP,5,2023,5/1/2023,Murder,7
+1551,Portland Police Bureau MIP,5,2023,5/1/2023,Rape,17
+1552,Portland Police Bureau MIP,5,2023,5/1/2023,Robbery,30
+1553,Portland Police Bureau MIP,6,2022,6/1/2022,Agg Assault,30
+1554,Portland Police Bureau MIP,6,2022,6/1/2022,Arson,9
+1555,Portland Police Bureau MIP,6,2022,6/1/2022,Burglary,30
+1556,Portland Police Bureau MIP,6,2022,6/1/2022,Larceny,94
+1557,Portland Police Bureau MIP,6,2022,6/1/2022,MVT,30
+1558,Portland Police Bureau MIP,6,2022,6/1/2022,Murder,3
+1559,Portland Police Bureau MIP,6,2022,6/1/2022,Rape,17
+1560,Portland Police Bureau MIP,6,2022,6/1/2022,Robbery,29
+1561,Portland Police Bureau MIP,6,2023,6/1/2023,Agg Assault,30
+1562,Portland Police Bureau MIP,6,2023,6/1/2023,Arson,14
+1563,Portland Police Bureau MIP,6,2023,6/1/2023,Burglary,30
+1564,Portland Police Bureau MIP,6,2023,6/1/2023,Larceny,93
+1565,Portland Police Bureau MIP,6,2023,6/1/2023,MVT,30
+1566,Portland Police Bureau MIP,6,2023,6/1/2023,Murder,3
+1567,Portland Police Bureau MIP,6,2023,6/1/2023,Rape,13
+1568,Portland Police Bureau MIP,6,2023,6/1/2023,Robbery,27
+1569,Portland Police Bureau MIP,7,2022,7/1/2022,Agg Assault,31
+1570,Portland Police Bureau MIP,7,2022,7/1/2022,Arson,17
+1571,Portland Police Bureau MIP,7,2022,7/1/2022,Burglary,31
+1572,Portland Police Bureau MIP,7,2022,7/1/2022,Larceny,95
+1573,Portland Police Bureau MIP,7,2022,7/1/2022,MVT,31
+1574,Portland Police Bureau MIP,7,2022,7/1/2022,Murder,8
+1575,Portland Police Bureau MIP,7,2022,7/1/2022,Rape,24
+1576,Portland Police Bureau MIP,7,2022,7/1/2022,Robbery,31
+1577,Portland Police Bureau MIP,7,2023,7/1/2023,Agg Assault,31
+1578,Portland Police Bureau MIP,7,2023,7/1/2023,Arson,17
+1579,Portland Police Bureau MIP,7,2023,7/1/2023,Burglary,31
+1580,Portland Police Bureau MIP,7,2023,7/1/2023,Larceny,92
+1581,Portland Police Bureau MIP,7,2023,7/1/2023,MVT,31
+1582,Portland Police Bureau MIP,7,2023,7/1/2023,Murder,7
+1583,Portland Police Bureau MIP,7,2023,7/1/2023,Rape,18
+1584,Portland Police Bureau MIP,7,2023,7/1/2023,Robbery,29
+1585,Portland Police Bureau MIP,8,2022,8/1/2022,Agg Assault,31
+1586,Portland Police Bureau MIP,8,2022,8/1/2022,Arson,19
+1587,Portland Police Bureau MIP,8,2022,8/1/2022,Burglary,31
+1588,Portland Police Bureau MIP,8,2022,8/1/2022,Larceny,95
+1589,Portland Police Bureau MIP,8,2022,8/1/2022,MVT,31
+1590,Portland Police Bureau MIP,8,2022,8/1/2022,Murder,9
+1591,Portland Police Bureau MIP,8,2022,8/1/2022,Rape,20
+1592,Portland Police Bureau MIP,8,2022,8/1/2022,Robbery,31
+1593,Portland Police Bureau MIP,8,2023,8/1/2023,Agg Assault,31
+1594,Portland Police Bureau MIP,8,2023,8/1/2023,Arson,18
+1595,Portland Police Bureau MIP,8,2023,8/1/2023,Burglary,31
+1596,Portland Police Bureau MIP,8,2023,8/1/2023,Larceny,95
+1597,Portland Police Bureau MIP,8,2023,8/1/2023,MVT,31
+1598,Portland Police Bureau MIP,8,2023,8/1/2023,Murder,4
+1599,Portland Police Bureau MIP,8,2023,8/1/2023,Rape,19
+1600,Portland Police Bureau MIP,8,2023,8/1/2023,Robbery,28
+1601,Portland Police Bureau MIP,9,2022,9/1/2022,Agg Assault,30
+1602,Portland Police Bureau MIP,9,2022,9/1/2022,Arson,16
+1603,Portland Police Bureau MIP,9,2022,9/1/2022,Burglary,30
+1604,Portland Police Bureau MIP,9,2022,9/1/2022,Larceny,91
+1605,Portland Police Bureau MIP,9,2022,9/1/2022,MVT,30
+1606,Portland Police Bureau MIP,9,2022,9/1/2022,Murder,8
+1607,Portland Police Bureau MIP,9,2022,9/1/2022,Rape,18
+1608,Portland Police Bureau MIP,9,2022,9/1/2022,Robbery,30
+1609,Portland Police Bureau MIP,9,2023,9/1/2023,Agg Assault,30
+1610,Portland Police Bureau MIP,9,2023,9/1/2023,Arson,18
+1611,Portland Police Bureau MIP,9,2023,9/1/2023,Burglary,30
+1612,Portland Police Bureau MIP,9,2023,9/1/2023,Larceny,90
+1613,Portland Police Bureau MIP,9,2023,9/1/2023,MVT,30
+1614,Portland Police Bureau MIP,9,2023,9/1/2023,Murder,1
+1615,Portland Police Bureau MIP,9,2023,9/1/2023,Rape,19
+1616,Portland Police Bureau MIP,9,2023,9/1/2023,Robbery,28
+1617,Portland Police Bureau MIP,10,2022,10/1/2022,Agg Assault,31
+1618,Portland Police Bureau MIP,10,2022,10/1/2022,Arson,20
+1619,Portland Police Bureau MIP,10,2022,10/1/2022,Burglary,31
+1620,Portland Police Bureau MIP,10,2022,10/1/2022,Larceny,102
+1621,Portland Police Bureau MIP,10,2022,10/1/2022,MVT,31
+1622,Portland Police Bureau MIP,10,2022,10/1/2022,Murder,9
+1623,Portland Police Bureau MIP,10,2022,10/1/2022,Rape,19
+1624,Portland Police Bureau MIP,10,2022,10/1/2022,Robbery,30
+1625,Portland Police Bureau MIP,10,2023,10/1/2023,Agg Assault,31
+1626,Portland Police Bureau MIP,10,2023,10/1/2023,Arson,15
+1627,Portland Police Bureau MIP,10,2023,10/1/2023,Burglary,31
+1628,Portland Police Bureau MIP,10,2023,10/1/2023,Larceny,99
+1629,Portland Police Bureau MIP,10,2023,10/1/2023,MVT,31
+1630,Portland Police Bureau MIP,10,2023,10/1/2023,Murder,6
+1631,Portland Police Bureau MIP,10,2023,10/1/2023,Rape,16
+1632,Portland Police Bureau MIP,10,2023,10/1/2023,Robbery,31
+1633,Portland Police Bureau MIP,11,2022,11/1/2022,Agg Assault,30
+1634,Portland Police Bureau MIP,11,2022,11/1/2022,Arson,22
+1635,Portland Police Bureau MIP,11,2022,11/1/2022,Burglary,30
+1636,Portland Police Bureau MIP,11,2022,11/1/2022,Larceny,94
+1637,Portland Police Bureau MIP,11,2022,11/1/2022,MVT,30
+1638,Portland Police Bureau MIP,11,2022,11/1/2022,Murder,7
+1639,Portland Police Bureau MIP,11,2022,11/1/2022,Rape,14
+1640,Portland Police Bureau MIP,11,2022,11/1/2022,Robbery,30
+1641,Portland Police Bureau MIP,11,2023,11/1/2023,Agg Assault,30
+1642,Portland Police Bureau MIP,11,2023,11/1/2023,Arson,16
+1643,Portland Police Bureau MIP,11,2023,11/1/2023,Burglary,30
+1644,Portland Police Bureau MIP,11,2023,11/1/2023,Larceny,95
+1645,Portland Police Bureau MIP,11,2023,11/1/2023,MVT,30
+1646,Portland Police Bureau MIP,11,2023,11/1/2023,Murder,7
+1647,Portland Police Bureau MIP,11,2023,11/1/2023,Rape,15
+1648,Portland Police Bureau MIP,11,2023,11/1/2023,Robbery,27
+1649,Portland Police Bureau MIP,12,2022,12/1/2022,Agg Assault,31
+1650,Portland Police Bureau MIP,12,2022,12/1/2022,Arson,9
+1651,Portland Police Bureau MIP,12,2022,12/1/2022,Burglary,31
+1652,Portland Police Bureau MIP,12,2022,12/1/2022,Larceny,96
+1653,Portland Police Bureau MIP,12,2022,12/1/2022,MVT,31
+1654,Portland Police Bureau MIP,12,2022,12/1/2022,Murder,4
+1655,Portland Police Bureau MIP,12,2022,12/1/2022,Rape,16
+1656,Portland Police Bureau MIP,12,2022,12/1/2022,Robbery,31
+1657,Salem PD MIP,1,2022,1/1/2022,Agg Assault,21
+1658,Salem PD MIP,1,2022,1/1/2022,Arson,3
+1659,Salem PD MIP,1,2022,1/1/2022,Burglary,26
+1660,Salem PD MIP,1,2022,1/1/2022,Larceny,80
+1661,Salem PD MIP,1,2022,1/1/2022,MVT,30
+1662,Salem PD MIP,1,2022,1/1/2022,Murder,2
+1663,Salem PD MIP,1,2022,1/1/2022,Rape,2
+1664,Salem PD MIP,1,2022,1/1/2022,Robbery,11
+1665,Salem PD MIP,1,2023,1/1/2023,Agg Assault,26
+1666,Salem PD MIP,1,2023,1/1/2023,Arson,8
+1667,Salem PD MIP,1,2023,1/1/2023,Burglary,23
+1668,Salem PD MIP,1,2023,1/1/2023,Larceny,77
+1669,Salem PD MIP,1,2023,1/1/2023,MVT,30
+1670,Salem PD MIP,1,2023,1/1/2023,Murder,1
+1671,Salem PD MIP,1,2023,1/1/2023,Rape,1
+1672,Salem PD MIP,1,2023,1/1/2023,Robbery,11
+1673,Salem PD MIP,2,2022,2/1/2022,Agg Assault,24
+1674,Salem PD MIP,2,2022,2/1/2022,Arson,7
+1675,Salem PD MIP,2,2022,2/1/2022,Burglary,24
+1676,Salem PD MIP,2,2022,2/1/2022,Larceny,72
+1677,Salem PD MIP,2,2022,2/1/2022,MVT,28
+1678,Salem PD MIP,2,2022,2/1/2022,Murder,0
+1679,Salem PD MIP,2,2022,2/1/2022,Rape,2
+1680,Salem PD MIP,2,2022,2/1/2022,Robbery,12
+1681,Salem PD MIP,2,2023,2/1/2023,Agg Assault,19
+1682,Salem PD MIP,2,2023,2/1/2023,Arson,7
+1683,Salem PD MIP,2,2023,2/1/2023,Burglary,26
+1684,Salem PD MIP,2,2023,2/1/2023,Larceny,71
+1685,Salem PD MIP,2,2023,2/1/2023,MVT,23
+1686,Salem PD MIP,2,2023,2/1/2023,Murder,1
+1687,Salem PD MIP,2,2023,2/1/2023,Rape,0
+1688,Salem PD MIP,2,2023,2/1/2023,Robbery,10
+1689,Salem PD MIP,3,2022,3/1/2022,Agg Assault,23
+1690,Salem PD MIP,3,2022,3/1/2022,Arson,9
+1691,Salem PD MIP,3,2022,3/1/2022,Burglary,26
+1692,Salem PD MIP,3,2022,3/1/2022,Larceny,75
+1693,Salem PD MIP,3,2022,3/1/2022,MVT,30
+1694,Salem PD MIP,3,2022,3/1/2022,Murder,0
+1695,Salem PD MIP,3,2022,3/1/2022,Rape,3
+1696,Salem PD MIP,3,2022,3/1/2022,Robbery,16
+1697,Salem PD MIP,3,2023,3/1/2023,Agg Assault,20
+1698,Salem PD MIP,3,2023,3/1/2023,Arson,9
+1699,Salem PD MIP,3,2023,3/1/2023,Burglary,28
+1700,Salem PD MIP,3,2023,3/1/2023,Larceny,82
+1701,Salem PD MIP,3,2023,3/1/2023,MVT,27
+1702,Salem PD MIP,3,2023,3/1/2023,Murder,0
+1703,Salem PD MIP,3,2023,3/1/2023,Rape,1
+1704,Salem PD MIP,3,2023,3/1/2023,Robbery,16
+1705,Salem PD MIP,4,2022,4/1/2022,Agg Assault,26
+1706,Salem PD MIP,4,2022,4/1/2022,Arson,5
+1707,Salem PD MIP,4,2022,4/1/2022,Burglary,27
+1708,Salem PD MIP,4,2022,4/1/2022,Larceny,76
+1709,Salem PD MIP,4,2022,4/1/2022,MVT,29
+1710,Salem PD MIP,4,2022,4/1/2022,Murder,2
+1711,Salem PD MIP,4,2022,4/1/2022,Rape,3
+1712,Salem PD MIP,4,2022,4/1/2022,Robbery,10
+1713,Salem PD MIP,4,2023,4/1/2023,Agg Assault,23
+1714,Salem PD MIP,4,2023,4/1/2023,Arson,2
+1715,Salem PD MIP,4,2023,4/1/2023,Burglary,24
+1716,Salem PD MIP,4,2023,4/1/2023,Larceny,79
+1717,Salem PD MIP,4,2023,4/1/2023,MVT,27
+1718,Salem PD MIP,4,2023,4/1/2023,Murder,0
+1719,Salem PD MIP,4,2023,4/1/2023,Rape,1
+1720,Salem PD MIP,4,2023,4/1/2023,Robbery,8
+1721,Salem PD MIP,5,2022,5/1/2022,Agg Assault,24
+1722,Salem PD MIP,5,2022,5/1/2022,Arson,13
+1723,Salem PD MIP,5,2022,5/1/2022,Burglary,27
+1724,Salem PD MIP,5,2022,5/1/2022,Larceny,77
+1725,Salem PD MIP,5,2022,5/1/2022,MVT,29
+1726,Salem PD MIP,5,2022,5/1/2022,Murder,0
+1727,Salem PD MIP,5,2022,5/1/2022,Rape,5
+1728,Salem PD MIP,5,2022,5/1/2022,Robbery,16
+1729,Salem PD MIP,5,2023,5/1/2023,Agg Assault,25
+1730,Salem PD MIP,5,2023,5/1/2023,Arson,12
+1731,Salem PD MIP,5,2023,5/1/2023,Burglary,24
+1732,Salem PD MIP,5,2023,5/1/2023,Larceny,77
+1733,Salem PD MIP,5,2023,5/1/2023,MVT,27
+1734,Salem PD MIP,5,2023,5/1/2023,Murder,2
+1735,Salem PD MIP,5,2023,5/1/2023,Rape,2
+1736,Salem PD MIP,5,2023,5/1/2023,Robbery,10
+1737,Salem PD MIP,6,2022,6/1/2022,Agg Assault,23
+1738,Salem PD MIP,6,2022,6/1/2022,Arson,3
+1739,Salem PD MIP,6,2022,6/1/2022,Burglary,24
+1740,Salem PD MIP,6,2022,6/1/2022,Larceny,73
+1741,Salem PD MIP,6,2022,6/1/2022,MVT,29
+1742,Salem PD MIP,6,2022,6/1/2022,Murder,0
+1743,Salem PD MIP,6,2022,6/1/2022,Rape,4
+1744,Salem PD MIP,6,2022,6/1/2022,Robbery,14
+1745,Salem PD MIP,6,2023,6/1/2023,Agg Assault,24
+1746,Salem PD MIP,6,2023,6/1/2023,Arson,8
+1747,Salem PD MIP,6,2023,6/1/2023,Burglary,26
+1748,Salem PD MIP,6,2023,6/1/2023,Larceny,74
+1749,Salem PD MIP,6,2023,6/1/2023,MVT,27
+1750,Salem PD MIP,6,2023,6/1/2023,Murder,1
+1751,Salem PD MIP,6,2023,6/1/2023,Rape,1
+1752,Salem PD MIP,6,2023,6/1/2023,Robbery,13
+1753,Salem PD MIP,7,2022,7/1/2022,Agg Assault,25
+1754,Salem PD MIP,7,2022,7/1/2022,Arson,15
+1755,Salem PD MIP,7,2022,7/1/2022,Burglary,25
+1756,Salem PD MIP,7,2022,7/1/2022,Larceny,78
+1757,Salem PD MIP,7,2022,7/1/2022,MVT,29
+1758,Salem PD MIP,7,2022,7/1/2022,Murder,1
+1759,Salem PD MIP,7,2022,7/1/2022,Rape,4
+1760,Salem PD MIP,7,2022,7/1/2022,Robbery,8
+1761,Salem PD MIP,7,2023,7/1/2023,Agg Assault,24
+1762,Salem PD MIP,7,2023,7/1/2023,Arson,11
+1763,Salem PD MIP,7,2023,7/1/2023,Burglary,25
+1764,Salem PD MIP,7,2023,7/1/2023,Larceny,81
+1765,Salem PD MIP,7,2023,7/1/2023,MVT,29
+1766,Salem PD MIP,7,2023,7/1/2023,Murder,1
+1767,Salem PD MIP,7,2023,7/1/2023,Rape,1
+1768,Salem PD MIP,7,2023,7/1/2023,Robbery,16
+1769,Salem PD MIP,8,2022,8/1/2022,Agg Assault,26
+1770,Salem PD MIP,8,2022,8/1/2022,Arson,13
+1771,Salem PD MIP,8,2022,8/1/2022,Burglary,29
+1772,Salem PD MIP,8,2022,8/1/2022,Larceny,81
+1773,Salem PD MIP,8,2022,8/1/2022,MVT,31
+1774,Salem PD MIP,8,2022,8/1/2022,Murder,2
+1775,Salem PD MIP,8,2022,8/1/2022,Rape,3
+1776,Salem PD MIP,8,2022,8/1/2022,Robbery,14
+1777,Salem PD MIP,8,2023,8/1/2023,Agg Assault,26
+1778,Salem PD MIP,8,2023,8/1/2023,Arson,11
+1779,Salem PD MIP,8,2023,8/1/2023,Burglary,24
+1780,Salem PD MIP,8,2023,8/1/2023,Larceny,79
+1781,Salem PD MIP,8,2023,8/1/2023,MVT,25
+1782,Salem PD MIP,8,2023,8/1/2023,Murder,1
+1783,Salem PD MIP,8,2023,8/1/2023,Rape,1
+1784,Salem PD MIP,8,2023,8/1/2023,Robbery,15
+1785,Salem PD MIP,9,2022,9/1/2022,Agg Assault,25
+1786,Salem PD MIP,9,2022,9/1/2022,Arson,12
+1787,Salem PD MIP,9,2022,9/1/2022,Burglary,27
+1788,Salem PD MIP,9,2022,9/1/2022,Larceny,79
+1789,Salem PD MIP,9,2022,9/1/2022,MVT,26
+1790,Salem PD MIP,9,2022,9/1/2022,Murder,1
+1791,Salem PD MIP,9,2022,9/1/2022,Rape,2
+1792,Salem PD MIP,9,2022,9/1/2022,Robbery,12
+1793,Salem PD MIP,9,2023,9/1/2023,Agg Assault,21
+1794,Salem PD MIP,9,2023,9/1/2023,Arson,5
+1795,Salem PD MIP,9,2023,9/1/2023,Burglary,27
+1796,Salem PD MIP,9,2023,9/1/2023,Larceny,77
+1797,Salem PD MIP,9,2023,9/1/2023,MVT,28
+1798,Salem PD MIP,9,2023,9/1/2023,Murder,0
+1799,Salem PD MIP,9,2023,9/1/2023,Rape,0
+1800,Salem PD MIP,9,2023,9/1/2023,Robbery,10
+1801,Salem PD MIP,10,2022,10/1/2022,Agg Assault,22
+1802,Salem PD MIP,10,2022,10/1/2022,Arson,10
+1803,Salem PD MIP,10,2022,10/1/2022,Burglary,28
+1804,Salem PD MIP,10,2022,10/1/2022,Larceny,79
+1805,Salem PD MIP,10,2022,10/1/2022,MVT,30
+1806,Salem PD MIP,10,2022,10/1/2022,Murder,0
+1807,Salem PD MIP,10,2022,10/1/2022,Rape,1
+1808,Salem PD MIP,10,2022,10/1/2022,Robbery,12
+1809,Salem PD MIP,10,2023,10/1/2023,Agg Assault,19
+1810,Salem PD MIP,10,2023,10/1/2023,Arson,4
+1811,Salem PD MIP,10,2023,10/1/2023,Burglary,30
+1812,Salem PD MIP,10,2023,10/1/2023,Larceny,76
+1813,Salem PD MIP,10,2023,10/1/2023,MVT,29
+1814,Salem PD MIP,10,2023,10/1/2023,Murder,1
+1815,Salem PD MIP,10,2023,10/1/2023,Rape,2
+1816,Salem PD MIP,10,2023,10/1/2023,Robbery,9
+1817,Salem PD MIP,11,2022,11/1/2022,Agg Assault,19
+1818,Salem PD MIP,11,2022,11/1/2022,Arson,8
+1819,Salem PD MIP,11,2022,11/1/2022,Burglary,25
+1820,Salem PD MIP,11,2022,11/1/2022,Larceny,78
+1821,Salem PD MIP,11,2022,11/1/2022,MVT,28
+1822,Salem PD MIP,11,2022,11/1/2022,Murder,0
+1823,Salem PD MIP,11,2022,11/1/2022,Rape,2
+1824,Salem PD MIP,11,2022,11/1/2022,Robbery,7
+1825,Salem PD MIP,11,2023,11/1/2023,Agg Assault,20
+1826,Salem PD MIP,11,2023,11/1/2023,Arson,11
+1827,Salem PD MIP,11,2023,11/1/2023,Burglary,25
+1828,Salem PD MIP,11,2023,11/1/2023,Larceny,72
+1829,Salem PD MIP,11,2023,11/1/2023,MVT,29
+1830,Salem PD MIP,11,2023,11/1/2023,Murder,1
+1831,Salem PD MIP,11,2023,11/1/2023,Rape,1
+1832,Salem PD MIP,11,2023,11/1/2023,Robbery,13
+1833,Salem PD MIP,12,2022,12/1/2022,Agg Assault,22
+1834,Salem PD MIP,12,2022,12/1/2022,Arson,10
+1835,Salem PD MIP,12,2022,12/1/2022,Burglary,25
+1836,Salem PD MIP,12,2022,12/1/2022,Larceny,75
+1837,Salem PD MIP,12,2022,12/1/2022,MVT,31
+1838,Salem PD MIP,12,2022,12/1/2022,Murder,0
+1839,Salem PD MIP,12,2022,12/1/2022,Rape,2
+1840,Salem PD MIP,12,2022,12/1/2022,Robbery,7
+1841,Springfield PD,1,2022,1/1/2022,Agg Assault,10
+1842,Springfield PD,1,2022,1/1/2022,Arson,4
+1843,Springfield PD,1,2022,1/1/2022,Burglary,19
+1844,Springfield PD,1,2022,1/1/2022,Larceny,50
+1845,Springfield PD,1,2022,1/1/2022,MVT,18
+1846,Springfield PD,1,2022,1/1/2022,Murder,0
+1847,Springfield PD,1,2022,1/1/2022,Rape,2
+1848,Springfield PD,1,2022,1/1/2022,Robbery,1
+1849,Springfield PD,1,2023,1/1/2023,Agg Assault,11
+1850,Springfield PD,1,2023,1/1/2023,Arson,0
+1851,Springfield PD,1,2023,1/1/2023,Burglary,14
+1852,Springfield PD,1,2023,1/1/2023,Larceny,52
+1853,Springfield PD,1,2023,1/1/2023,MVT,13
+1854,Springfield PD,1,2023,1/1/2023,Murder,0
+1855,Springfield PD,1,2023,1/1/2023,Rape,2
+1856,Springfield PD,1,2023,1/1/2023,Robbery,7
+1857,Springfield PD,2,2022,2/1/2022,Agg Assault,3
+1858,Springfield PD,2,2022,2/1/2022,Arson,2
+1859,Springfield PD,2,2022,2/1/2022,Burglary,15
+1860,Springfield PD,2,2022,2/1/2022,Larceny,45
+1861,Springfield PD,2,2022,2/1/2022,MVT,19
+1862,Springfield PD,2,2022,2/1/2022,Murder,0
+1863,Springfield PD,2,2022,2/1/2022,Rape,1
+1864,Springfield PD,2,2022,2/1/2022,Robbery,4
+1865,Springfield PD,2,2023,2/1/2023,Agg Assault,5
+1866,Springfield PD,2,2023,2/1/2023,Arson,0
+1867,Springfield PD,2,2023,2/1/2023,Burglary,13
+1868,Springfield PD,2,2023,2/1/2023,Larceny,55
+1869,Springfield PD,2,2023,2/1/2023,MVT,7
+1870,Springfield PD,2,2023,2/1/2023,Murder,0
+1871,Springfield PD,2,2023,2/1/2023,Rape,0
+1872,Springfield PD,2,2023,2/1/2023,Robbery,4
+1873,Springfield PD,3,2022,3/1/2022,Agg Assault,9
+1874,Springfield PD,3,2022,3/1/2022,Arson,2
+1875,Springfield PD,3,2022,3/1/2022,Burglary,14
+1876,Springfield PD,3,2022,3/1/2022,Larceny,47
+1877,Springfield PD,3,2022,3/1/2022,MVT,10
+1878,Springfield PD,3,2022,3/1/2022,Murder,0
+1879,Springfield PD,3,2022,3/1/2022,Rape,1
+1880,Springfield PD,3,2022,3/1/2022,Robbery,3
+1881,Springfield PD,3,2023,3/1/2023,Agg Assault,9
+1882,Springfield PD,3,2023,3/1/2023,Arson,2
+1883,Springfield PD,3,2023,3/1/2023,Burglary,15
+1884,Springfield PD,3,2023,3/1/2023,Larceny,62
+1885,Springfield PD,3,2023,3/1/2023,MVT,10
+1886,Springfield PD,3,2023,3/1/2023,Murder,0
+1887,Springfield PD,3,2023,3/1/2023,Rape,2
+1888,Springfield PD,3,2023,3/1/2023,Robbery,4
+1889,Springfield PD,4,2022,4/1/2022,Agg Assault,4
+1890,Springfield PD,4,2022,4/1/2022,Arson,1
+1891,Springfield PD,4,2022,4/1/2022,Burglary,10
+1892,Springfield PD,4,2022,4/1/2022,Larceny,46
+1893,Springfield PD,4,2022,4/1/2022,MVT,9
+1894,Springfield PD,4,2022,4/1/2022,Murder,1
+1895,Springfield PD,4,2022,4/1/2022,Rape,1
+1896,Springfield PD,4,2022,4/1/2022,Robbery,1
+1897,Springfield PD,4,2023,4/1/2023,Agg Assault,9
+1898,Springfield PD,4,2023,4/1/2023,Arson,1
+1899,Springfield PD,4,2023,4/1/2023,Burglary,9
+1900,Springfield PD,4,2023,4/1/2023,Larceny,59
+1901,Springfield PD,4,2023,4/1/2023,MVT,12
+1902,Springfield PD,4,2023,4/1/2023,Murder,0
+1903,Springfield PD,4,2023,4/1/2023,Rape,1
+1904,Springfield PD,4,2023,4/1/2023,Robbery,2
+1905,Springfield PD,5,2022,5/1/2022,Agg Assault,7
+1906,Springfield PD,5,2022,5/1/2022,Arson,2
+1907,Springfield PD,5,2022,5/1/2022,Burglary,13
+1908,Springfield PD,5,2022,5/1/2022,Larceny,55
+1909,Springfield PD,5,2022,5/1/2022,MVT,16
+1910,Springfield PD,5,2022,5/1/2022,Murder,0
+1911,Springfield PD,5,2022,5/1/2022,Rape,1
+1912,Springfield PD,5,2022,5/1/2022,Robbery,2
+1913,Springfield PD,5,2023,5/1/2023,Agg Assault,7
+1914,Springfield PD,5,2023,5/1/2023,Arson,0
+1915,Springfield PD,5,2023,5/1/2023,Burglary,10
+1916,Springfield PD,5,2023,5/1/2023,Larceny,47
+1917,Springfield PD,5,2023,5/1/2023,MVT,10
+1918,Springfield PD,5,2023,5/1/2023,Murder,0
+1919,Springfield PD,5,2023,5/1/2023,Rape,2
+1920,Springfield PD,5,2023,5/1/2023,Robbery,1
+1921,Springfield PD,6,2022,6/1/2022,Agg Assault,8
+1922,Springfield PD,6,2022,6/1/2022,Arson,1
+1923,Springfield PD,6,2022,6/1/2022,Burglary,12
+1924,Springfield PD,6,2022,6/1/2022,Larceny,52
+1925,Springfield PD,6,2022,6/1/2022,MVT,9
+1926,Springfield PD,6,2022,6/1/2022,Murder,0
+1927,Springfield PD,6,2022,6/1/2022,Rape,1
+1928,Springfield PD,6,2022,6/1/2022,Robbery,4
+1929,Springfield PD,6,2023,6/1/2023,Agg Assault,7
+1930,Springfield PD,6,2023,6/1/2023,Arson,3
+1931,Springfield PD,6,2023,6/1/2023,Burglary,13
+1932,Springfield PD,6,2023,6/1/2023,Larceny,55
+1933,Springfield PD,6,2023,6/1/2023,MVT,9
+1934,Springfield PD,6,2023,6/1/2023,Murder,0
+1935,Springfield PD,6,2023,6/1/2023,Rape,3
+1936,Springfield PD,6,2023,6/1/2023,Robbery,3
+1937,Springfield PD,7,2022,7/1/2022,Agg Assault,9
+1938,Springfield PD,7,2022,7/1/2022,Arson,2
+1939,Springfield PD,7,2022,7/1/2022,Burglary,17
+1940,Springfield PD,7,2022,7/1/2022,Larceny,56
+1941,Springfield PD,7,2022,7/1/2022,MVT,11
+1942,Springfield PD,7,2022,7/1/2022,Murder,0
+1943,Springfield PD,7,2022,7/1/2022,Rape,0
+1944,Springfield PD,7,2022,7/1/2022,Robbery,5
+1945,Springfield PD,7,2023,7/1/2023,Agg Assault,11
+1946,Springfield PD,7,2023,7/1/2023,Arson,4
+1947,Springfield PD,7,2023,7/1/2023,Burglary,15
+1948,Springfield PD,7,2023,7/1/2023,Larceny,49
+1949,Springfield PD,7,2023,7/1/2023,MVT,6
+1950,Springfield PD,7,2023,7/1/2023,Murder,0
+1951,Springfield PD,7,2023,7/1/2023,Rape,0
+1952,Springfield PD,7,2023,7/1/2023,Robbery,2
+1953,Springfield PD,8,2022,8/1/2022,Agg Assault,6
+1954,Springfield PD,8,2022,8/1/2022,Arson,3
+1955,Springfield PD,8,2022,8/1/2022,Burglary,14
+1956,Springfield PD,8,2022,8/1/2022,Larceny,56
+1957,Springfield PD,8,2022,8/1/2022,MVT,17
+1958,Springfield PD,8,2022,8/1/2022,Murder,0
+1959,Springfield PD,8,2022,8/1/2022,Rape,1
+1960,Springfield PD,8,2022,8/1/2022,Robbery,2
+1961,Springfield PD,8,2023,8/1/2023,Agg Assault,5
+1962,Springfield PD,8,2023,8/1/2023,Arson,4
+1963,Springfield PD,8,2023,8/1/2023,Burglary,8
+1964,Springfield PD,8,2023,8/1/2023,Larceny,47
+1965,Springfield PD,8,2023,8/1/2023,MVT,7
+1966,Springfield PD,8,2023,8/1/2023,Murder,0
+1967,Springfield PD,8,2023,8/1/2023,Rape,1
+1968,Springfield PD,8,2023,8/1/2023,Robbery,1
+1969,Springfield PD,9,2022,9/1/2022,Agg Assault,9
+1970,Springfield PD,9,2022,9/1/2022,Arson,1
+1971,Springfield PD,9,2022,9/1/2022,Burglary,11
+1972,Springfield PD,9,2022,9/1/2022,Larceny,49
+1973,Springfield PD,9,2022,9/1/2022,MVT,9
+1974,Springfield PD,9,2022,9/1/2022,Murder,0
+1975,Springfield PD,9,2022,9/1/2022,Rape,0
+1976,Springfield PD,9,2022,9/1/2022,Robbery,3
+1977,Springfield PD,9,2023,9/1/2023,Agg Assault,6
+1978,Springfield PD,9,2023,9/1/2023,Arson,4
+1979,Springfield PD,9,2023,9/1/2023,Burglary,13
+1980,Springfield PD,9,2023,9/1/2023,Larceny,50
+1981,Springfield PD,9,2023,9/1/2023,MVT,7
+1982,Springfield PD,9,2023,9/1/2023,Murder,1
+1983,Springfield PD,9,2023,9/1/2023,Rape,0
+1984,Springfield PD,9,2023,9/1/2023,Robbery,1
+1985,Springfield PD,10,2022,10/1/2022,Agg Assault,11
+1986,Springfield PD,10,2022,10/1/2022,Arson,0
+1987,Springfield PD,10,2022,10/1/2022,Burglary,8
+1988,Springfield PD,10,2022,10/1/2022,Larceny,51
+1989,Springfield PD,10,2022,10/1/2022,MVT,9
+1990,Springfield PD,10,2022,10/1/2022,Murder,1
+1991,Springfield PD,10,2022,10/1/2022,Rape,4
+1992,Springfield PD,10,2022,10/1/2022,Robbery,4
+1993,Springfield PD,10,2023,10/1/2023,Agg Assault,8
+1994,Springfield PD,10,2023,10/1/2023,Arson,5
+1995,Springfield PD,10,2023,10/1/2023,Burglary,10
+1996,Springfield PD,10,2023,10/1/2023,Larceny,46
+1997,Springfield PD,10,2023,10/1/2023,MVT,4
+1998,Springfield PD,10,2023,10/1/2023,Murder,0
+1999,Springfield PD,10,2023,10/1/2023,Rape,2
+2000,Springfield PD,10,2023,10/1/2023,Robbery,3
+2001,Springfield PD,11,2022,11/1/2022,Agg Assault,17
+2002,Springfield PD,11,2022,11/1/2022,Arson,1
+2003,Springfield PD,11,2022,11/1/2022,Burglary,15
+2004,Springfield PD,11,2022,11/1/2022,Larceny,51
+2005,Springfield PD,11,2022,11/1/2022,MVT,20
+2006,Springfield PD,11,2022,11/1/2022,Murder,1
+2007,Springfield PD,11,2022,11/1/2022,Rape,1
+2008,Springfield PD,11,2022,11/1/2022,Robbery,3
+2009,Springfield PD,11,2023,11/1/2023,Agg Assault,5
+2010,Springfield PD,11,2023,11/1/2023,Arson,1
+2011,Springfield PD,11,2023,11/1/2023,Burglary,12
+2012,Springfield PD,11,2023,11/1/2023,Larceny,47
+2013,Springfield PD,11,2023,11/1/2023,MVT,8
+2014,Springfield PD,11,2023,11/1/2023,Murder,0
+2015,Springfield PD,11,2023,11/1/2023,Rape,1
+2016,Springfield PD,11,2023,11/1/2023,Robbery,4
+2017,Springfield PD,12,2022,12/1/2022,Agg Assault,7
+2018,Springfield PD,12,2022,12/1/2022,Arson,3
+2019,Springfield PD,12,2022,12/1/2022,Burglary,11
+2020,Springfield PD,12,2022,12/1/2022,Larceny,51
+2021,Springfield PD,12,2022,12/1/2022,MVT,12
+2022,Springfield PD,12,2022,12/1/2022,Murder,0
+2023,Springfield PD,12,2022,12/1/2022,Rape,0
+2024,Springfield PD,12,2022,12/1/2022,Robbery,5
+2025,Tigard PD,1,2022,1/1/2022,Agg Assault,7
+2026,Tigard PD,1,2022,1/1/2022,Arson,3
+2027,Tigard PD,1,2022,1/1/2022,Burglary,13
+2028,Tigard PD,1,2022,1/1/2022,Larceny,51
+2029,Tigard PD,1,2022,1/1/2022,MVT,20
+2030,Tigard PD,1,2022,1/1/2022,Murder,0
+2031,Tigard PD,1,2022,1/1/2022,Rape,2
+2032,Tigard PD,1,2022,1/1/2022,Robbery,7
+2033,Tigard PD,1,2023,1/1/2023,Agg Assault,5
+2034,Tigard PD,1,2023,1/1/2023,Arson,0
+2035,Tigard PD,1,2023,1/1/2023,Burglary,14
+2036,Tigard PD,1,2023,1/1/2023,Larceny,40
+2037,Tigard PD,1,2023,1/1/2023,MVT,18
+2038,Tigard PD,1,2023,1/1/2023,Murder,0
+2039,Tigard PD,1,2023,1/1/2023,Rape,2
+2040,Tigard PD,1,2023,1/1/2023,Robbery,2
+2041,Tigard PD,2,2022,2/1/2022,Agg Assault,6
+2042,Tigard PD,2,2022,2/1/2022,Arson,2
+2043,Tigard PD,2,2022,2/1/2022,Burglary,16
+2044,Tigard PD,2,2022,2/1/2022,Larceny,48
+2045,Tigard PD,2,2022,2/1/2022,MVT,15
+2046,Tigard PD,2,2022,2/1/2022,Murder,0
+2047,Tigard PD,2,2022,2/1/2022,Rape,2
+2048,Tigard PD,2,2022,2/1/2022,Robbery,5
+2049,Tigard PD,2,2023,2/1/2023,Agg Assault,6
+2050,Tigard PD,2,2023,2/1/2023,Arson,2
+2051,Tigard PD,2,2023,2/1/2023,Burglary,15
+2052,Tigard PD,2,2023,2/1/2023,Larceny,34
+2053,Tigard PD,2,2023,2/1/2023,MVT,13
+2054,Tigard PD,2,2023,2/1/2023,Murder,1
+2055,Tigard PD,2,2023,2/1/2023,Rape,1
+2056,Tigard PD,2,2023,2/1/2023,Robbery,5
+2057,Tigard PD,3,2022,3/1/2022,Agg Assault,10
+2058,Tigard PD,3,2022,3/1/2022,Arson,1
+2059,Tigard PD,3,2022,3/1/2022,Burglary,17
+2060,Tigard PD,3,2022,3/1/2022,Larceny,49
+2061,Tigard PD,3,2022,3/1/2022,MVT,17
+2062,Tigard PD,3,2022,3/1/2022,Murder,0
+2063,Tigard PD,3,2022,3/1/2022,Rape,2
+2064,Tigard PD,3,2022,3/1/2022,Robbery,1
+2065,Tigard PD,3,2023,3/1/2023,Agg Assault,5
+2066,Tigard PD,3,2023,3/1/2023,Arson,0
+2067,Tigard PD,3,2023,3/1/2023,Burglary,14
+2068,Tigard PD,3,2023,3/1/2023,Larceny,52
+2069,Tigard PD,3,2023,3/1/2023,MVT,8
+2070,Tigard PD,3,2023,3/1/2023,Murder,1
+2071,Tigard PD,3,2023,3/1/2023,Rape,0
+2072,Tigard PD,3,2023,3/1/2023,Robbery,2
+2073,Tigard PD,4,2022,4/1/2022,Agg Assault,11
+2074,Tigard PD,4,2022,4/1/2022,Arson,1
+2075,Tigard PD,4,2022,4/1/2022,Burglary,16
+2076,Tigard PD,4,2022,4/1/2022,Larceny,47
+2077,Tigard PD,4,2022,4/1/2022,MVT,22
+2078,Tigard PD,4,2022,4/1/2022,Murder,0
+2079,Tigard PD,4,2022,4/1/2022,Rape,1
+2080,Tigard PD,4,2022,4/1/2022,Robbery,5
+2081,Tigard PD,4,2023,4/1/2023,Agg Assault,6
+2082,Tigard PD,4,2023,4/1/2023,Arson,0
+2083,Tigard PD,4,2023,4/1/2023,Burglary,12
+2084,Tigard PD,4,2023,4/1/2023,Larceny,49
+2085,Tigard PD,4,2023,4/1/2023,MVT,16
+2086,Tigard PD,4,2023,4/1/2023,Murder,0
+2087,Tigard PD,4,2023,4/1/2023,Rape,0
+2088,Tigard PD,4,2023,4/1/2023,Robbery,5
+2089,Tigard PD,5,2022,5/1/2022,Agg Assault,8
+2090,Tigard PD,5,2022,5/1/2022,Arson,1
+2091,Tigard PD,5,2022,5/1/2022,Burglary,16
+2092,Tigard PD,5,2022,5/1/2022,Larceny,50
+2093,Tigard PD,5,2022,5/1/2022,MVT,20
+2094,Tigard PD,5,2022,5/1/2022,Murder,1
+2095,Tigard PD,5,2022,5/1/2022,Rape,2
+2096,Tigard PD,5,2022,5/1/2022,Robbery,5
+2097,Tigard PD,5,2023,5/1/2023,Agg Assault,8
+2098,Tigard PD,5,2023,5/1/2023,Arson,1
+2099,Tigard PD,5,2023,5/1/2023,Burglary,18
+2100,Tigard PD,5,2023,5/1/2023,Larceny,53
+2101,Tigard PD,5,2023,5/1/2023,MVT,12
+2102,Tigard PD,5,2023,5/1/2023,Murder,0
+2103,Tigard PD,5,2023,5/1/2023,Rape,1
+2104,Tigard PD,5,2023,5/1/2023,Robbery,3
+2105,Tigard PD,6,2022,6/1/2022,Agg Assault,10
+2106,Tigard PD,6,2022,6/1/2022,Arson,0
+2107,Tigard PD,6,2022,6/1/2022,Burglary,10
+2108,Tigard PD,6,2022,6/1/2022,Larceny,48
+2109,Tigard PD,6,2022,6/1/2022,MVT,11
+2110,Tigard PD,6,2022,6/1/2022,Murder,1
+2111,Tigard PD,6,2022,6/1/2022,Rape,0
+2112,Tigard PD,6,2022,6/1/2022,Robbery,5
+2113,Tigard PD,6,2023,6/1/2023,Agg Assault,11
+2114,Tigard PD,6,2023,6/1/2023,Arson,2
+2115,Tigard PD,6,2023,6/1/2023,Burglary,11
+2116,Tigard PD,6,2023,6/1/2023,Larceny,44
+2117,Tigard PD,6,2023,6/1/2023,MVT,12
+2118,Tigard PD,6,2023,6/1/2023,Murder,0
+2119,Tigard PD,6,2023,6/1/2023,Rape,1
+2120,Tigard PD,6,2023,6/1/2023,Robbery,3
+2121,Tigard PD,7,2022,7/1/2022,Agg Assault,8
+2122,Tigard PD,7,2022,7/1/2022,Arson,1
+2123,Tigard PD,7,2022,7/1/2022,Burglary,10
+2124,Tigard PD,7,2022,7/1/2022,Larceny,42
+2125,Tigard PD,7,2022,7/1/2022,MVT,15
+2126,Tigard PD,7,2022,7/1/2022,Murder,0
+2127,Tigard PD,7,2022,7/1/2022,Rape,0
+2128,Tigard PD,7,2022,7/1/2022,Robbery,7
+2129,Tigard PD,7,2023,7/1/2023,Agg Assault,8
+2130,Tigard PD,7,2023,7/1/2023,Arson,1
+2131,Tigard PD,7,2023,7/1/2023,Burglary,14
+2132,Tigard PD,7,2023,7/1/2023,Larceny,45
+2133,Tigard PD,7,2023,7/1/2023,MVT,9
+2134,Tigard PD,7,2023,7/1/2023,Murder,0
+2135,Tigard PD,7,2023,7/1/2023,Rape,2
+2136,Tigard PD,7,2023,7/1/2023,Robbery,4
+2137,Tigard PD,8,2022,8/1/2022,Agg Assault,6
+2138,Tigard PD,8,2022,8/1/2022,Arson,0
+2139,Tigard PD,8,2022,8/1/2022,Burglary,14
+2140,Tigard PD,8,2022,8/1/2022,Larceny,51
+2141,Tigard PD,8,2022,8/1/2022,MVT,12
+2142,Tigard PD,8,2022,8/1/2022,Murder,0
+2143,Tigard PD,8,2022,8/1/2022,Rape,2
+2144,Tigard PD,8,2022,8/1/2022,Robbery,8
+2145,Tigard PD,8,2023,8/1/2023,Agg Assault,5
+2146,Tigard PD,8,2023,8/1/2023,Arson,0
+2147,Tigard PD,8,2023,8/1/2023,Burglary,11
+2148,Tigard PD,8,2023,8/1/2023,Larceny,48
+2149,Tigard PD,8,2023,8/1/2023,MVT,12
+2150,Tigard PD,8,2023,8/1/2023,Murder,0
+2151,Tigard PD,8,2023,8/1/2023,Rape,1
+2152,Tigard PD,8,2023,8/1/2023,Robbery,4
+2153,Tigard PD,9,2022,9/1/2022,Agg Assault,10
+2154,Tigard PD,9,2022,9/1/2022,Arson,0
+2155,Tigard PD,9,2022,9/1/2022,Burglary,15
+2156,Tigard PD,9,2022,9/1/2022,Larceny,43
+2157,Tigard PD,9,2022,9/1/2022,MVT,14
+2158,Tigard PD,9,2022,9/1/2022,Murder,0
+2159,Tigard PD,9,2022,9/1/2022,Rape,0
+2160,Tigard PD,9,2022,9/1/2022,Robbery,6
+2161,Tigard PD,9,2023,9/1/2023,Agg Assault,4
+2162,Tigard PD,9,2023,9/1/2023,Arson,1
+2163,Tigard PD,9,2023,9/1/2023,Burglary,9
+2164,Tigard PD,9,2023,9/1/2023,Larceny,45
+2165,Tigard PD,9,2023,9/1/2023,MVT,14
+2166,Tigard PD,9,2023,9/1/2023,Murder,0
+2167,Tigard PD,9,2023,9/1/2023,Rape,0
+2168,Tigard PD,9,2023,9/1/2023,Robbery,5
+2169,Tigard PD,10,2022,10/1/2022,Agg Assault,8
+2170,Tigard PD,10,2022,10/1/2022,Arson,1
+2171,Tigard PD,10,2022,10/1/2022,Burglary,15
+2172,Tigard PD,10,2022,10/1/2022,Larceny,39
+2173,Tigard PD,10,2022,10/1/2022,MVT,17
+2174,Tigard PD,10,2022,10/1/2022,Murder,0
+2175,Tigard PD,10,2022,10/1/2022,Rape,1
+2176,Tigard PD,10,2022,10/1/2022,Robbery,3
+2177,Tigard PD,10,2023,10/1/2023,Agg Assault,6
+2178,Tigard PD,10,2023,10/1/2023,Arson,0
+2179,Tigard PD,10,2023,10/1/2023,Burglary,10
+2180,Tigard PD,10,2023,10/1/2023,Larceny,52
+2181,Tigard PD,10,2023,10/1/2023,MVT,7
+2182,Tigard PD,10,2023,10/1/2023,Murder,0
+2183,Tigard PD,10,2023,10/1/2023,Rape,2
+2184,Tigard PD,10,2023,10/1/2023,Robbery,5
+2185,Tigard PD,11,2022,11/1/2022,Agg Assault,5
+2186,Tigard PD,11,2022,11/1/2022,Arson,3
+2187,Tigard PD,11,2022,11/1/2022,Burglary,14
+2188,Tigard PD,11,2022,11/1/2022,Larceny,43
+2189,Tigard PD,11,2022,11/1/2022,MVT,11
+2190,Tigard PD,11,2022,11/1/2022,Murder,0
+2191,Tigard PD,11,2022,11/1/2022,Rape,0
+2192,Tigard PD,11,2022,11/1/2022,Robbery,4
+2193,Tigard PD,11,2023,11/1/2023,Agg Assault,3
+2194,Tigard PD,11,2023,11/1/2023,Arson,0
+2195,Tigard PD,11,2023,11/1/2023,Burglary,11
+2196,Tigard PD,11,2023,11/1/2023,Larceny,49
+2197,Tigard PD,11,2023,11/1/2023,MVT,8
+2198,Tigard PD,11,2023,11/1/2023,Murder,0
+2199,Tigard PD,11,2023,11/1/2023,Rape,0
+2200,Tigard PD,11,2023,11/1/2023,Robbery,4
+2201,Tigard PD,12,2022,12/1/2022,Agg Assault,9
+2202,Tigard PD,12,2022,12/1/2022,Arson,2
+2203,Tigard PD,12,2022,12/1/2022,Burglary,10
+2204,Tigard PD,12,2022,12/1/2022,Larceny,48
+2205,Tigard PD,12,2022,12/1/2022,MVT,14
+2206,Tigard PD,12,2022,12/1/2022,Murder,0
+2207,Tigard PD,12,2022,12/1/2022,Rape,2
+2208,Tigard PD,12,2022,12/1/2022,Robbery,4

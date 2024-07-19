@@ -48,7 +48,7 @@ ytd_poisson <- function(data,cf=count_fields,month='Month',year='Year',prior_max
 # so if average of prior 8 is 30, and current month is 10
 # this will likely flag
 # can set prior_max to 1 to just look at current vs prior month
-priork_poisson <- function(data,cf=count_fields,month='Month',year='Year',prior_max=8,alt='less'){
+priork_poisson <- function(data,cf=count_fields,month='Month',year='Year',prior_max=1,alt='less'){
     last_row <- tail(data,1)
     last_year <- last_row[,year]
     last_month <- last_row[,month]

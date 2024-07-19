@@ -2,6 +2,7 @@
 title: "rtci_sample_audit_vizready"
 output: github_document
 date: 07-09-2024
+updated: "2024-07-12"
 ---
 load up libraries
 ```{r}
@@ -10,6 +11,8 @@ library(tidyverse)
 library(stringr)
 library(readr)
 library(dplyr)
+library(readxl)
+library(tools)
 ```
 let's load in the sample from the collector script
 ```{r}
@@ -58,6 +61,22 @@ crime_categories <- c("Murder", "Rape", "Robbery",
 samp1 <- samp1 %>%
   mutate(across(all_of(crime_categories), ~as.numeric(replace(., . == "NR", NA))))
 ```
+ditch the bad obs with sheriff's etc.
+```{r}
+#ditch the bad agencies - mostly texas
+# Specify the texts to remove and the column to check
+texts_to_remove <- c("CO ISD PD", "ISD PD", "UNIV PD", "UNIVERSITY", "CO SO", "COMM COLL", "COLLEGE PD",  "MARSHALS")
+column_to_check <- "Agency.Name"
+
+# Remove observations that have any of the specified texts in the specified column
+samp1 <- samp1 %>%
+  filter(!(get(column_to_check) %in% texts_to_remove))
+
+# View the modified data frame
+head(samp1)
+```
+
+
 drop all cases by this point that have NA's in their crime Counts
 first, segregate them to check them out.
 ```{r}
@@ -132,8 +151,15 @@ samp2$City_viz <- sapply(samp2$City_viz, capitalize_first)
 samp2$State_viz <- toTitleCase(samp2$State)
 
 samp2$State <- tolower(samp2$State)
-# View the modified data frame
-head(samp2)
+
+samp2$samp <- 1
+```
+
+create a list of valid city and state names to include for UCR - in progress?
+```{r}
+# Get unique combinations of City and State
+#unique_combinations <- samp2 %>%
+  #distinct(City, State)
 ```
 
 #Now we join the historical data to the sample (technically vice versa)
@@ -174,6 +200,8 @@ ucr_data$State_viz <- capitalize_first(ucr_data$State)
 
 ucr_data$City <- tolower(ucr_data$Agency.Name)
 ucr_data$City_viz <- toTitleCase(ucr_data$Agency.Name)
+
+ucr_data$samp <- 0
 # View the modified data frame
 
 head(ucr_data)
@@ -182,25 +210,130 @@ let's just rowbind for now
 ```{r}
 full_data <- bind_rows(ucr_data, samp2)
 ```
+add hyperlinks for sourcing information based on city/state
+"C:\OneDrive\OneDrive - ahdatalytics.com\Clients\Real Time Crime Index\Open Source Data\State UCR - Open Data - Audit.xlsx"
+```{r}
+# Define the path to the Excel workbook
+file_path3 <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Monthly Open Data Download Tracker - 2024.csv"
+
+# Read the first sheet of the Excel workbook
+links <- read_csv(file_path3)
+
+# Display the head of the data
+head(links)
+```
+remove all columns except city, state and hyperlink
+```{r}
+links <- links %>%
+  select(-c(6:20)) %>%
+  select(-Vendor, -has_open_data, -November, -December)
+```
+create new columns 
+```{r}
+links$State <-tolower(links$state_name)
+
+links$City <- tolower(links$ucr_agency_name)
+head(links)
+```
+
+join the data frames based on City and State
+```{r}
+links_unique <- links %>%
+  distinct()
+
+combined_df <- full_data %>%
+  left_join(links_unique, by = c("City", "State"))
+
+```
+
+```{r}
+nationwide_counts <- combined_df %>%
+  group_by(Year, Month) %>%
+  summarise(
+    Murder= sum(Murder, na.rm = TRUE),
+    Rape= sum(Rape, na.rm = TRUE),
+    Robbery= sum(Robbery, na.rm = TRUE),
+    Agg.Assault= sum(Agg.Assault, na.rm = TRUE),
+    Burglary= sum(Burglary, na.rm = TRUE),
+    Larceny = sum(Larceny, na.rm = TRUE),
+    Arson = sum(Arson, na.rm = TRUE),
+    MVT = sum(MVT, na.rm = TRUE),
+    .groups = 'drop'
+  )
+
+# Display the aggregate level dataframe
+head(nationwide_counts)
+```
+add the nationwide counts to the sample once it's working
+```{r}
+nationwide_counts$Agency.Name <- "Nationwide Count"
+
+
+cdf1 <- bind_rows(combined_df, nationwide_counts)
+head(cdf1)
+```
+drop everything that does not have a record for april 2024
+```{r}
+#create a date column
+cdf2 <- cdf1 %>% 
+  mutate(Date = as.Date(paste(Year, Month, "01", sep = "-")))
+
+#ensure data format for date column before filtering
+cdf2$Date <- as.Date(cdf2$Date)
+
+april_2024 <- cdf2 %>% 
+  filter(format(Date, "%Y-%m-%d") == "2024-04-01")
+
+# Define the crime columns
+crime_cats <- c("Murder", "Rape", "Agg.Assault", "Robbery", "Burglary", "Larceny", "MVT", "Arson")
+
+# Identify agencies with all NA values for April 2024
+agencies_to_remove <- april_2024 %>%
+  summarize(all_na = all(across(all_of(crime_cats), ~ all(is.na(.))))) %>%
+  filter(all_na) %>%
+  pull(Agency.Name)
+
+# Filter the data to exclude agencies with all NA values for April 2024
+# Filter the data to exclude agencies with all NA values for April 2024
+bad_agencies <- cdf2 %>%
+  filter(!Agency.Name %in% agencies_to_remove)
+
+#this is the data we want...
+cdf3 <- cdf2 %>% 
+  semi_join(april_2024, by = "Agency.Name")
+
+head(cdf3)
+```
+
 let's write this out to a folder next to extracted for now
 ```{r}
 folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Final Sample"
 
 # Create the full file path
-file_path <- file.path(folder_path, "sample_2018_present.csv")
+file_path <- file.path(folder_path, "sample_2018_present_wlinks.csv")
 
 # Write the data frame to a .csv file
-write.csv(full_data, file = file_path, row.names = FALSE)
+write.csv(cdf3, file = file_path, row.names = FALSE)
 ```
+copy/paste open data script
+-change the name 
+-shiny web app folder
+C:\Users\daveh\rtci\deploy\shiny_web_app
+let's write this out to a folder next to extracted for now
+```{r}
+#folder_path4 <- "..\\rtci\\deploy\\shiny_web_app\\sample_2018_present1.csv"
 
+# Create the full file path
+#file_path4 <- file.path(folder_path4, "sample_2018_present.csv")
 
-
-
-
-
-
-
-
+# Write the data frame to a .csv file
+write.csv(cdf3, "..\\rtci\\deploy\\shiny_web_app\\sample_2018_present_wlinks.csv", row.names = FALSE)
+```
+if i chop off may records what happens?
+```{r}
+cdf_final <- cdf3 %>% 
+  filter(!Year == 2024 & Month >4)
+```
 run wheeler's outliers tests
 ```{r}
 #we will source it first
@@ -210,7 +343,13 @@ source("crimeAnomaly.R")
 # so if prior total 100 YTD (averaged over prior_max years)
 # and current is 20 YTD total, this would flagged
 # this expects the values in per a single PD
-priork_results <-ytd_poisson(samp2)
+ytd_poisson_results1 <- ytd_poisson(cdf3)
+
+# This function looks at the average of the prior k months
+# so if average of prior 8 is 30, and current month is 10
+# this will likely flag
+# can set prior_max to 1 to just look at current vs prior month
+priork_results <- priork_poisson(cdf3)
 
 # So this will loop over all PDs and return a total count column
 # along with a note, if the note says
@@ -218,14 +357,52 @@ priork_results <-ytd_poisson(samp2)
 # That means this police department was flagged for year to date burglary, year to date MVT
 # and prior 8 larceny (but not prior 1 larceny)
 # sorts the results, so the agencies with the most flagges are at the top of the dataframe
-priork_results <-metrics_allpd(samp2)
-
-# This function looks at the average of the prior k months
-# so if average of prior 8 is 30, and current month is 10
-# this will likely flag
-# can set prior_max to 1 to just look at current vs prior month
-priork_results <-priork_poisson(samp2)
+metricsallpd_results <-metrics_allpd(cdf3)
 ```
+let's take a look at one of the candidates
+```{r}
+hartford_pd <- cdf3 %>% filter(Agency.Name == "Hartford Police Department")
+
+# Define the crime categories
+crime_cats <- c("Murder", "Rape", "Agg.Assault", "Robbery", "Burglary", "Larceny", "MVT", "Arson")
+
+# Convert data to long format
+crime_data_long <- hartford_pd %>%
+  pivot_longer(cols = all_of(crime_cats),
+               names_to = "crime_type",
+               values_to = "count")
+
+# Create a date column for plotting
+crime_data_long <- crime_data_long %>%
+  mutate(date = as.Date(paste(year, month, "01", sep = "-")))
+
+str(crime_data_long)
+
+# Plot the data
+ggplot(crime_data_long, aes(x = Date, y = count, color = crime_type)) +
+  geom_line() +
+  facet_wrap(~crime_type, scales = "free_y") +
+  labs(title = "Crime Types Over Time",
+       x = "Date",
+       y = "Count",
+       color = "Crime Type") +
+  theme_minimal()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 reshape data post so we get a clean join to the ucr historical data
 ```{r}
 # Convert Month and Year to a Date column in "%b-%Y" format

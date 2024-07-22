@@ -1,14 +1,12 @@
 /* RTCI Design Style Guide */
-
-
-/* Reset margin and padding */
 html, body {
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Prevent scrolling */
-    height: 100%; /* Ensure the body and html take up full height */
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    background-color: #00333a; /* Teal background */
 }
-
 
 #rtci-dashboard {
     font-family: 'Roboto Condensed', Arial, sans-serif;
@@ -17,9 +15,8 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* Align items at the start (top) */
+    justify-content: flex-start;
     height: 100vh;
-    background-color: #00333a; /* Teal background */
 }
 
 .rtci-header {
@@ -30,7 +27,18 @@ html, body {
     margin-top: 2rem; /* Add some top margin for spacing */
 }
 
-/* Line Graph Container */
+.filters-container {
+    color: white;
+    font-size: 2vw; /* Responsive font size */
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.filter-dropdown {
+    font-size:1.5vw; /* Responsive font size */
+    margin: 0 0.5rem;
+}
+
 .rtci-line-graph {
     width: 80%; /* Dynamic width relative to the dashboard */
     height: 60%; /* Dynamic height relative to the viewport height */
@@ -42,10 +50,17 @@ html, body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow for depth */
 }
 
-/* Ensure proper scaling on smaller screens */
 @media (max-width: 600px) {
     .rtci-header {
         font-size: 3vw; /* Adjust font size for smaller screens */
+    }
+
+    .filters-container {
+        font-size: 2vw; /* Adjust font size for smaller screens */
+    }
+
+    .filter-dropdown {
+        font-size: 1.5vw; /* Adjust font size for smaller screens */
     }
 
     .rtci-line-graph {

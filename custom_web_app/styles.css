@@ -29,13 +29,15 @@ html, body {
 
 .filters-container {
     color: white;
+    font-family: 'Roboto Condensed', Arial, sans-serif; /* Roboto Condensed font */
     font-size: 2vw; /* Responsive font size */
     text-align: center;
     margin: 1rem 0;
 }
 
 .filter-dropdown {
-    font-size:1.5vw; /* Responsive font size */
+    font-family: 'Roboto Condensed', Arial, sans-serif !important; /* Roboto Condensed font */
+    font-size:1.5vw !important; /* Responsive font size */
     margin: 0 0.5rem;
 }
 
@@ -48,6 +50,7 @@ html, body {
     align-items: center;
     justify-content: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow for depth */
+    font-size: 'Roboto Condensed', Arial, sans-serif; /* Roboto Condensed font */
 }
 
 @media (max-width: 600px) {
@@ -59,8 +62,8 @@ html, body {
         font-size: 2vw; /* Adjust font size for smaller screens */
     }
 
-    .filter-dropdown {
-        font-size: 1.5vw; /* Adjust font size for smaller screens */
+    .filter-dropdown, .filter-dropdown option {
+        font-size: 1.5vw !important; /* Adjust font size for smaller screens */
     }
 
     .rtci-line-graph {

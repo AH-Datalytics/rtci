@@ -1,4 +1,15 @@
 /* RTCI Design Style Guide */
+
+
+/* Reset margin and padding */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevent scrolling */
+    height: 100%; /* Ensure the body and html take up full height */
+}
+
+
 #rtci-dashboard {
     font-family: 'Roboto Condensed', Arial, sans-serif;
     margin: 0;

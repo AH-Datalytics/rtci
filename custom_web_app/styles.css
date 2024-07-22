@@ -1,0 +1,26 @@
+/* RTCI Design Style Guide */
+#rtci-dashboard {
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #00333a; /* Teal background */
+}
+
+.rtci-header {
+    color: white;
+    font-family: 'Roboto Condensed', Arial, sans-serif; /* Roboto Condensed font */
+    font-size: 5vw; /* Responsive font size based on viewport width */
+    text-align: center;
+}
+
+/* Ensure proper scaling on smaller screens */
+@media (max-width: 600px) {
+    .rtci-header {
+        font-size: 5vw; /* Adjust font size for smaller screens */
+    }
+}

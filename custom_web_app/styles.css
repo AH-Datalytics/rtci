@@ -6,7 +6,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* Align items at the start (top) */
     height: 100vh;
     background-color: #00333a; /* Teal background */
 }
@@ -14,13 +14,31 @@
 .rtci-header {
     color: white;
     font-family: 'Roboto Condensed', Arial, sans-serif; /* Roboto Condensed font */
-    font-size: 5vw; /* Responsive font size based on viewport width */
+    font-size: 3vw; /* Responsive font size based on viewport width */
     text-align: center;
+    margin-top: 2rem; /* Add some top margin for spacing */
+}
+
+/* Line Graph Container */
+.rtci-line-graph {
+    width: 80%; /* Dynamic width relative to the dashboard */
+    height: 60%; /* Dynamic height relative to the viewport height */
+    background-color: white; /* Background color for visibility */
+    margin-top: 2rem; /* Space between the title and the line graph */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow for depth */
 }
 
 /* Ensure proper scaling on smaller screens */
 @media (max-width: 600px) {
     .rtci-header {
-        font-size: 5vw; /* Adjust font size for smaller screens */
+        font-size: 3vw; /* Adjust font size for smaller screens */
+    }
+
+    .rtci-line-graph {
+        width: 80%; /* Adjust width for smaller screens */
+        height: 40%; /* Adjust height for smaller screens */
     }
 }

@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         // Calculate the start and end dates for the previous year
         const startDatePrevYear = new Date(mostRecentYear - 1, 0, 1); // January 1st of previous year
-        const endDatePrevYear = new Date(mostRecentYear - 1, mostRecentMonth - 1, 31); // End of most recent month of previous year
+        const endDatePrevYear = new Date(mostRecentYear - 1, mostRecentMonth, 0); // Last day of the most recent month of the previous year
     
         // Filter data for the previous year up to the same month
         const ytdDataPrevYear = filteredData.filter(d => 
@@ -125,6 +125,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <p><strong>${ytdSumPrevYear}</strong></p>
         `;
     }
+    
     
     function updateKPIBox3(filteredData) {
         const kpiBox3 = document.getElementById("kpi-box3");

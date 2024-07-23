@@ -112,6 +112,19 @@ standardize_columns <- function(df, all_columns) {
 
 # Apply the standardize_columns function to each dataframe in the list
 ldf2 <- lapply(ldf1, standardize_columns, all_columns = all_columns)
+
+#change column names where they don't match - larceny to theft
+rename_larceny_to_theft <- function(df) {
+  if ("Larceny" %in% names(df)) {
+    names(df)[names(df) == "Larceny"] <- "Theft"
+  }
+  return(df)
+}
+
+ldf2 <- lapply(ldf2, rename_larceny_to_theft)
+
+
+
 ```
 still have a few odd column names
 ```{r}
@@ -140,11 +153,14 @@ for (df_name in dataframes_with_odd_columns) {
 # Print the list of data frames with odd column names
 print(dataframes_with_odd_columns)
 ```
-
-
 combine and check it out
 ```{r}
-combined_df <- do.call(rbind, ldf1)
+combined_df <- do.call(rbind, ldf2)
+
+rownames(combined_df) <- NULL
+
+#drop the extra theft
+combined_df <- combined_df[,-12]
 
 head(combined_df)
 ```
@@ -156,48 +172,74 @@ nationwide_counts <- combined_df %>%
     Murder= sum(Murder, na.rm = TRUE),
     Rape= sum(Rape, na.rm = TRUE),
     Robbery= sum(Robbery, na.rm = TRUE),
-    Aggravated Assault= sum(Aggravated Assault, na.rm = TRUE),
+    `Aggravated Assault`= sum(`Aggravated Assault`, na.rm = TRUE),
     Burglary= sum(Burglary, na.rm = TRUE),
-    Larceny = sum(Larceny, na.rm = TRUE),
-    Arson = sum(Arson, na.rm = TRUE),
-    Motor Vehicle Theft = sum(Motor Vehicle Theft, na.rm = TRUE),
+    Theft = sum(Theft, na.rm = TRUE),
+    `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
     .groups = 'drop'
+  )
 
 # Display the aggregate level dataframe
 head(nationwide_counts)
 ```
-```{r}
-#sort everything
-combined_df <- combined_df %>%
-  arrange(`Agency Name`, crime_types, Year, Month)
-
-#create year column
-combined_df <- combined_df %>%
-  mutate(Date = as.Date(paste(Year, Month, "01", sep = "-")))
-
-#Calculate the 12-month moving average
-df_moving_avg <- combined_df %>%
-  group_by(Agency, CrimeType) %>%
-  arrange(Date) %>%
-  mutate(MovingAvg12 = rollmean(Count, 12, fill = NA, align = "right"))
-
-#select out columns to clean up
-df_moving_avg <- df_moving_avg %>%
-  select(`Agency Name`, crime_types, Year, Month, Count, mva_12mo)
-```
-
 add the nationwide counts to the sample once it's working
 ```{r}
-nationwide_counts$Agency.Name <- "Nationwide Count"
+nationwide_counts$`Agency Name` <- "Nationwide Count"
 
 cdf1 <- bind_rows(combined_df, nationwide_counts)
 head(cdf1)
 ```
-merge moving avg by Agency Name Year Month
 ```{r}
-combined_df_mva_12mo <- inner_join(combined_df, df_moving_avg, by = c("`Agency Name`", "Year", "Month"))
-head(combined_df_mva_12mo)
+# Function to calculate 12-month cumulative sum 
+mvs_12mo <- function(df) {
+  df <- df %>%
+    arrange(Year, Month) %>%
+    group_by(`Agency Name`) %>%
+    mutate(across(c(Murder, Burglary, Rape, Robbery, `Aggravated Assault`, `Motor Vehicle Theft`, Theft), 
+                  ~ cumsum(.), 
+                  .names = "{col}_mvs_12mo")) %>%
+    ungroup()
+  return(df)
+}
+
+# Apply the function to the single dataframe
+df_mvs_12mo <- mvs_12mo(cdf1)
+
+# Print the result to verify
+head(df_mvs_12mo)
 ```
+
+write it out!
+```{r}
+# Specify the folder path
+folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data"
+
+# Create the full file path
+file_path <- file.path(folder_path, "rtci_benjeff_sample.csv")
+
+# Write the data frame to a .csv file
+write.csv(df_mvs_12mo, file = file_path, row.names = FALSE)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AUDITING
 ```{r}
 # Function to get column names from each data frame in the list
 get_column_names <- function(df_list) {

@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
         d3.select("#line-graph-container svg").remove();
 
         // Set up the SVG container dimensions
-        const margin = { top: 20, right: 20, bottom: 30, left: 70 };
+        const margin = { top: 20, right: 20, bottom: 50, left: 70 };
         const container = document.getElementById('line-graph-container');
         const width = container.clientWidth - margin.left - margin.right;
         const height = container.clientHeight - margin.top - margin.bottom;
@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Add the Y axis label
         svg.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", -margin.left + 30) // Adjusted margin for spacing
+            .attr("y", -margin.left + 25) // Adjusted margin for spacing
             .attr("x", -height / 2)
             .attr("dy", "1em")
             .style("text-anchor", "middle")
@@ -135,12 +135,17 @@ document.addEventListener("DOMContentLoaded", function() {
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a");
 
+
+       // Calculate dynamic stroke-width and dot thickness
+            const lineThickness = Math.max(Math.min(width * 0.005, 3.5), 2); // Example: scale between 2 and 3.5
+            const dotSize = Math.max(Math.min(width * 0.005, 3.5), 2); // Example: scale between 3 and 5
+
         // Add the line
         const line = svg.append("path")
             .datum(filteredData)
             .attr("fill", "none")
             .attr("stroke", "#2d5ef9")
-            .attr("stroke-width", 3) // Thicker line
+            .attr("stroke-width", lineThickness) // Thicker line
             .attr("d", d3.line()
                 .curve(d3.curveCatmullRom.alpha(0.5)) // Smoother line
                 .x(d => x(d.date))
@@ -153,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .enter().append("circle")
             .attr("cx", d => x(d.date))
             .attr("cy", d => y(d.count))
-            .attr("r", 3)
+            .attr("r", dotSize) // Dynamic dot size
             .attr("fill", "#2d5ef9");
 
         // Add tooltip
@@ -176,6 +181,35 @@ document.addEventListener("DOMContentLoaded", function() {
                     .duration(500)
                     .style("opacity", 0);
             });
+
+        // Add source text in the bottom right corner
+const agencyFull = filteredData[0].agency_full;
+const stateUcrLink = filteredData[0].state_ucr_link;
+const sourceText = `${agencyFull}`;
+
+// Group the source text and link together for easier positioning
+const sourceGroup = svg.append("g")
+    .attr("transform", `translate(${width}, ${height + margin.bottom - 10})`) // Increase the margin bottom value to add more padding
+    .attr("text-anchor", "end");
+
+// Add text element for the source
+const sourceTextElement = sourceGroup.append("text")
+    .style("font-family", "'Roboto Condensed', Arial, sans-serif")
+    .style("font-size", "1.5vh") // Adjust as needed
+    .style("fill", "#00333a");
+
+sourceTextElement.append("tspan")
+    .text(sourceText);
+
+sourceTextElement.append("tspan")
+    .attr("text-anchor", "start")
+    .attr("dx", "0.2em") // Adjust spacing as needed
+    .style("fill", "#2d5ef9") // Light blue color for the link
+    .style("cursor", "pointer")
+    .on("click", function() { window.open(stateUcrLink, "_blank"); })
+    .text("source.");
+
+
     }
 
     // Load data and initialize filters and chart

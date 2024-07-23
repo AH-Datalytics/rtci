@@ -33,18 +33,37 @@ html, body {
     font-size: 2vw; /* Responsive font size */
     text-align: center;
     margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .filter-dropdown {
     font-family: 'Roboto Condensed', Arial, sans-serif !important; /* Roboto Condensed font */
     font-size:1.5vw !important; /* Responsive font size */
     color: #2d5ef9;
-    margin: 0 0.5rem;
+    position: relative;
+}
+
+.filter-dropdown select {
+    width: 100%; /* Ensure the select element takes up the full width */
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.5rem;
+    font-size: 1.5vw; /* Responsive font size */
+}
+
+.filter-dropdown option {
+    font-family: 'Roboto Condensed', Arial, sans-serif; /* Roboto Condensed font */
+    font-size: 1vw; /* Responsive font size */
 }
 
 .rtci-line-graph {
     width: 80%; /* Dynamic width relative to the dashboard */
-    height: 60%; /* Dynamic height relative to the viewport height */
+    height: 65%; /* Dynamic height relative to the viewport height */
     background-color: white; /* Background color for visibility */
     margin-top: 2rem; /* Space between the title and the line graph */
     display: flex;
@@ -82,6 +101,6 @@ html, body {
 
     .rtci-line-graph {
         width: 80%; /* Adjust width for smaller screens */
-        height: 60%; /* Adjust height for smaller screens */
+        height: 65%; /* Adjust height for smaller screens */
     }
 }

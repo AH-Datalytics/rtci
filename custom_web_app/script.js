@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
         d3.select("#line-graph-container svg").remove();
 
         // Set up the SVG container dimensions
-        const margin = { top: 20, right: 20, bottom: 50, left: 70 };
+        const margin = { top: 40, right: 30, bottom: 50, left: 70 };
         const container = document.getElementById('line-graph-container');
         const width = container.clientWidth - margin.left - margin.right;
         const height = container.clientHeight - margin.top - margin.bottom;

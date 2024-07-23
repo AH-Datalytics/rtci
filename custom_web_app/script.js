@@ -186,6 +186,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 .y(d => y(d.count))
             );
 
+        // Add tooltip
+        const tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0)
+            .style("font-family", "'Roboto Condensed', Arial, sans-serif");
+
         // Add dots at each data point
         const dots = svg.selectAll("circle")
             .data(filteredData)
@@ -193,32 +199,32 @@ document.addEventListener("DOMContentLoaded", function() {
             .attr("cx", d => x(d.date))
             .attr("cy", d => y(d.count))
             .attr("r", dotSize) // Dynamic dot size
-            .attr("fill", "#2d5ef9")
-            .on("mouseover", function(event, d) {
-                d3.select(this).attr("fill", "#f28106"); // Change dot color to orange on hover
-                tooltip.transition()
-                    .duration(0) // Make tooltip appear immediately
-                    .style("opacity", .9);
-                tooltip.html(`<strong>Agency:</strong> ${d.agency_name}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Offenses:</strong> ${d.count}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
-                    .style("left", (event.pageX + 5) + "px")
-                    .style("top", (event.pageY - 28) + "px");
-            })
-            .on("mousemove", function(event, d) {
-                tooltip.style("left", (event.pageX + 5) + "px")
-                    .style("top", (event.pageY - 28) + "px");
-            })
-            .on("mouseout", function(d) {
-                d3.select(this).attr("fill", "#2d5ef9"); // Change dot color back to original
-                tooltip.transition()
-                    .duration(500)
-                    .style("opacity", 0);
-            });
+            .attr("fill", "#2d5ef9");
 
-        // Add tooltip
-        const tooltip = d3.select("body").append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 0)
-            .style("font-family", "'Roboto Condensed', Arial, sans-serif");
+        dots.on("mouseover", function(event, d) {
+            console.log("mouseover event", d); // Log for debugging
+            d3.select(this).attr("fill", "#f28106"); // Change dot color to orange on hover
+            tooltip.transition()
+                .duration(0) // Make tooltip appear immediately
+                .style("opacity", .9);
+            tooltip.html(`<strong>Agency:</strong> ${d.agency_name}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Offenses:</strong> ${d.count}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
+                .style("left", (event.pageX + 5) + "px")
+                .style("top", (event.pageY - 28) + "px");
+        })
+        .on("mousemove", function(event, d) {
+            console.log("mousemove event", d); // Log for debugging
+            tooltip.style("left", (event.pageX + 5) + "px")
+                .style("top", (event.pageY - 28) + "px");
+        })
+        .on("mouseout", function(d) {
+            console.log("mouseout event", d); // Log for debugging
+            d3.select(this).attr("fill", "#2d5ef9"); // Change dot color back to original
+            tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
+        });
+
+
 
         // Add source text in the bottom right corner
         const agencyFull = filteredData[0].agency_full;

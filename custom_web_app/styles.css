@@ -81,13 +81,14 @@ html, body {
     font-size: 2vw; /* Responsive font size */
     text-align: center;
     margin-bottom: 1rem; /* Space between KPI boxes */
-    padding: 1rem;
+    padding: 1rem; 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow for depth */
     flex: 1;
     border-radius: 8px; /* Add rounded corners to the KPI boxes */
     display: flex; /* Add flexbox for vertical alignment */
     flex-direction: column; /* Align children vertically */
     justify-content: center; /* Center children vertically */
+    align-items: center; /* Center children horizontally */
 }
 
 .kpi-box h2 {
@@ -107,6 +108,22 @@ html, body {
 .kpi-box:last-child {
     margin-bottom: 0; /* Remove margin from the last KPI box */
 }
+
+.tooltip {
+    position: absolute;
+    text-align: center;
+    padding: 5px;
+    background: #f28106; /* Orange background color */
+    border: 1px solid #ccc;
+    border-radius: 4px; /* Rounded corners */
+    pointer-events: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    color: #00333a; /* Font color */
+    opacity: 0.9; /* Slightly transparent */
+    font-size: 0.8em; /* Smaller font size */
+}
+
 
 
 /* Responsive styles for smaller screens */
@@ -154,12 +171,13 @@ html, body {
         align-items: center;
         justify-content: center;
         margin: 0.25rem; /* Adjust margin for spacing */
+        padding-bottom: 0.4rem; /* Adjust padding for spacing */
         font-size: 2vw; /* Maintain responsive font size */
         text-align: center;
         background-color: #f28106; /* Orange background color */
         color: white;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow for depth */
-        height: 75%; /* Ensure KPI boxes fill the available height */
+        height: 50%; /* Ensure KPI boxes fill the available height */
     }
 
     .kpi-box:first-child {
@@ -168,5 +186,19 @@ html, body {
 
     .kpi-box:last-child {
         margin-right: 0; /* Remove right margin for the last KPI box */
+    }
+
+    .kpi-box h2 {
+        font-size: 1em; /* Larger font size for title on small screens */
+    }
+
+    .kpi-box p {
+        font-size: 0.75em; /* Larger font size for date on small screens */
+    }
+
+    .kpi-box p strong {
+        font-size: 2em; /* Larger font size for count on small screens */
+        margin-bottom: 0; /* Remove bottom margin */
+        padding-bottom: 0; /* Remove bottom padding */
     }
 }

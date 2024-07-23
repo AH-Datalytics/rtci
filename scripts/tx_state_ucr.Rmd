@@ -4,6 +4,7 @@ output: pdf_document
 date: "2024-04-19"
 updated: "2024-05-03"
 updated: "2024-07-11"
+updated: "2024-07-23"
 ---
 ```{r}
 library(readxl)
@@ -129,6 +130,64 @@ final_df <- final_df[final_df$`Agency Name` != "NA", ]
 # Drop the last row - it's empty and NA text?
 final_df <- final_df[-nrow(final_df), ]
 ```
+clean up the agency names/city names
+remove if: "CO SO"; "MARSHALS OFFICE";
+           "UNIVERSITY MEDICAL CENTER PD"; "UNIVERSITY OF NORTH TEXAS HEALTH SCIENCE CENTER PD";
+           "DALLAS BAPTIST UNIVERSITY PD"; "UNIVERSITY OF DALLAS PD"
+
+capitalize first character in each word found in the string - after removing PD, etc.
+
+```{r}
+# Remove obs for county sheriff's and marshal's offices
+fdf1 <- final_df[!grepl("CO SO$", final_df$`Agency Name`) & !grepl("MARSHALS OFFICE$", final_df$`Agency Name`), ]
+
+#ditch NA from previous headers and universityies
+unis <- c("NA",
+                       "UNIVERSITY MEDICAL CENTER PD", 
+                       "UNIVERSITY OF NORTH TEXAS HEALTH SCIENCE CENTER PD",
+                       "DALLAS BAPTIST UNIVERSITY PD", 
+                       "UNIVERSITY OF DALLAS PD", "TX A&M UNIV INTERNATIONAL PD")
+
+fdf2 <- fdf1[!fdf1$`Agency Name` %in% unis, ]
+```
+let's drop 
+
+```{r}
+# List of allowed city names
+allowed_cities <- c("HOUSTON", "SAN ANTONIO", "DALLAS", "AUSTIN", "FORT WORTH", "EL PASO",
+                    "ARLINGTON", "CORPUS CHRISTI", "PLANO", "LUBBOCK", "LAREDO", "IRVING",
+                    "GARLAND", "FRISCO", "MCKINNEY", "AMARILLO", "GRAND PRAIRIE", "BROWNSVILLE",
+                    "KILLEEN", "DENTON", "MESQUITE", "PASADENA", "MCALLEN", "WACO", "CARROLLTON",
+                    "MIDLAND", "ROUND ROCK", "PEARLAND", "ABILENE", "COLLEGE STATION", "LEAGUE CITY",
+                    "RICHARDSON", "LEWISVILLE", "BEAUMONT", "ODESSA", "TYLER", "ALLEN", "SUGAR LAND",
+                    "NEW BRAUNFELS", "EDINBURG", "WICHITA FALLS", "SAN ANGELO", "CONROE", "TEMPLE",
+                    "BRYAN", "MISSION", "GEORGETOWN", "LONGVIEW", "BAYTOWN", "PHARR", "CEDAR PARK",
+                    "FLOWER MOUND", "MANSFIELD", "MISSOURI CITY", "LEANDER", "HARLINGEN",
+                    "NORTH RICHLAND HILLS", "SAN MARCOS", "PFLUGERVILLE", "ROWLETT", "VICTORIA",
+                    "WYLIE", "EULESS", "KYLE", "TEXAS CITY", "DESOTO", "PORT ARTHUR", "BURLESON",
+                    "LITTLE ELM", "GALVESTON", "ROCKWALL", "GRAPEVINE")
+
+# Create a pattern to match any of theds allowed city names
+pattern <- paste(allowed_cities, collapse = "|")
+
+# Function to check if any city name is in the agency name
+contains_city_name <- function(agency_name, cities) {
+  for (city in cities) {
+    if (grepl(city, agency_name, ignore.case = TRUE)) {
+      return(TRUE)
+    }
+  }
+  return(FALSE)
+}
+
+#
+fdf3 <- fdf2[sapply(fdf2$`Agency Name`, contains_city_name, cities = allowed_cities), ]
+
+# Display the filtered data frame
+head(fdf3)
+```
+drop the agnecy name == 
+
 write it out- still needs to be transformed
 ```{r}
 # Specify the folder path
@@ -138,6 +197,6 @@ folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Cr
 file_path <- file.path(folder_path, "tx_jan22_present.csv")
 
 # Write the data frame to a .csv file
-write.csv(final_df, file = file_path, row.names = FALSE)
+write.csv(fdf2, file = file_path, row.names = FALSE)
 ```
 

@@ -18,8 +18,8 @@ file_paths <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
 
 crime_types <- c("Agency Name",
                  "Murder", "Rape", "Robbery",
-                 "Aggravated Assault", "Burglary", "Larceny", 
-                 "Motor Vehicle Theft", "Arson", 
+                 "Aggravated Assault", "Burglary", 
+                 "Theft", "Motor Vehicle Theft", 
                  "Month", "Year")
 ```
 read everything in, extract the month/year and do the initial processing
@@ -67,28 +67,84 @@ print(names(ldf))
 
 head(ldf[1])
 ```
-
 format everything
 ```{r}
+# Define the format_cols function
 format_cols <- function(df) {
-  df <- df %>%
-    mutate(across(c("`Agency Name`", "State"), as.character)) %>%
-    mutate(across(c("Murder", "Rape", "Robbery", "Aggravated Assault", "Burglary", 
-                    "Larceny", "Motor Vehicle Theft", "Arson", "Month", "Year"), as.numeric))
+  # Remove the Arson column
+  df <- df[, !(names(df) %in% "Arson")]
+  
+  # Convert specified columns to character
+  char_cols <- c("Agency Name", "State")
+  for (col in char_cols) {
+    if (col %in% names(df)) {
+      df[[col]] <- as.character(df[[col]])
+    }
+  }
+  
+  # Convert specified columns to numeric
+  num_cols <- c("Murder", "Rape", "Robbery", "Aggravated Assault", "Burglary", 
+                "Theft", "Motor Vehicle Theft", "Month", "Year")
+  for (col in num_cols) {
+    if (col %in% names(df)) {
+      df[[col]] <- as.numeric(df[[col]])
+    }
+  }
   
   return(df)
 }
-ldf <- format_cols(ldf)
 
-head(ldf[1])
+ldf1 <- lapply(ldf, format_cols)
+head(ldf1[1])
 ```
+```{r}
+# Ensure all data frames have the same columns and column types
+all_columns <- Reduce(union, lapply(ldf1, names))
 
+# Function to ensure all data frames have the same columns
+standardize_columns <- function(df, all_columns) {
+  missing_cols <- setdiff(all_columns, names(df))
+  for (col in missing_cols) {
+    df[[col]] <- NA
+  }
+  return(df[all_columns])
+}
 
+# Apply the standardize_columns function to each dataframe in the list
+ldf2 <- lapply(ldf1, standardize_columns, all_columns = all_columns)
+```
+still have a few odd column names
+```{r}
+acceptable_names <- c("Agency Name", "Murder", "Rape", "Robbery", "Aggravated Assault", 
+"Burglary", "Theft", "Motor Vehicle Theft", "Year", "Month","State")
+
+# Function to check if a data frame has odd column names
+find_odd_columns <- function(df, acceptable_names) {
+  # Find columns that are not in the acceptable list
+  odd_columns <- setdiff(names(df), acceptable_names)
+  return(odd_columns)
+}
+
+# Check each data frame for odd column names
+odd_columns_list <- lapply(ldf2, find_odd_columns, acceptable_names = acceptable_names)
+
+# Identify data frames with odd column names
+dataframes_with_odd_columns <- names(odd_columns_list)[sapply(odd_columns_list, length) > 0]
+
+# Print the odd columns and the corresponding data frames
+for (df_name in dataframes_with_odd_columns) {
+  cat("Data frame:", df_name, "\n")
+  cat("Odd columns:", paste(odd_columns_list[[df_name]], collapse = ", "), "\n\n")
+}
+
+# Print the list of data frames with odd column names
+print(dataframes_with_odd_columns)
+```
 
 
 combine and check it out
 ```{r}
-combined_df <- do.call(rbind, ldf)
+combined_df <- do.call(rbind, ldf1)
 
 head(combined_df)
 ```

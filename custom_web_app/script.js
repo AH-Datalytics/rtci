@@ -5,6 +5,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     let allData = [];
 
+    // Define a date parser
+    const parseDate = d3.timeParse("%Y-%m-%d");
+
     function updateFilters(data) {
         const crimeTypes = [...new Set(data.map(d => d.crime_type))];
         const states = [...new Set(data.map(d => d.state_name))];
@@ -167,7 +170,6 @@ document.addEventListener("DOMContentLoaded", function() {
         `;
     }
     
-
     // Render the chart
     function renderChart() {
         const filteredData = filterData(allData);
@@ -176,8 +178,6 @@ document.addEventListener("DOMContentLoaded", function() {
         updateKPIBox1(filteredData);
         updateKPIBox2(filteredData);
         updateKPIBox3(filteredData);
-
-
 
         // Remove any existing SVG
         d3.select("#line-graph-container svg").remove();
@@ -281,31 +281,27 @@ document.addEventListener("DOMContentLoaded", function() {
             .attr("r", dotSize) // Dynamic dot size
             .attr("fill", "#2d5ef9");
 
-            dots.on("mouseover", function(event, d) {
-                d3.select(this).attr("fill", "#f28106"); // Change dot color to orange on hover
-            
-                // Tooltip date display
-                tooltip.transition()
-                    .duration(0) // Make tooltip appear immediately
-                    .style("opacity", .9);
-                tooltip.html(`<strong>Agency:</strong> ${d.agency_name}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Offenses:</strong> ${d.count}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
-                    .style("left", (event.pageX + 5) + "px")
-                    .style("top", (event.pageY - 28) + "px");
-            })
-            .on("mousemove", function(event, d) {
-                tooltip.style("left", (event.pageX + 5) + "px")
-                    .style("top", (event.pageY - 28) + "px");
-            })
-            .on("mouseout", function(d) {
-                d3.select(this).attr("fill", "#2d5ef9"); // Change dot color back to original
-                tooltip.transition()
-                    .duration(500)
-                    .style("opacity", 0);
-            });
-            
-        
+        dots.on("mouseover", function(event, d) {
+            d3.select(this).attr("fill", "#f28106"); // Change dot color to orange on hover
 
-
+            // Tooltip date display
+            tooltip.transition()
+                .duration(0) // Make tooltip appear immediately
+                .style("opacity", .9);
+            tooltip.html(`<strong>Agency:</strong> ${d.agency_name}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Offenses:</strong> ${d.count}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
+                .style("left", (event.pageX + 5) + "px")
+                .style("top", (event.pageY - 28) + "px");
+        })
+        .on("mousemove", function(event, d) {
+            tooltip.style("left", (event.pageX + 5) + "px")
+                .style("top", (event.pageY - 28) + "px");
+        })
+        .on("mouseout", function(d) {
+            d3.select(this).attr("fill", "#2d5ef9"); // Change dot color back to original
+            tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
+        });
 
         // Add source text in the bottom right corner
         const agencyFull = filteredData[0].agency_full;
@@ -335,11 +331,10 @@ document.addEventListener("DOMContentLoaded", function() {
             .text("source.");
     }
 
-
     // Load data and initialize filters and chart
     d3.csv("data/viz_data.csv").then(function(data) {
         data.forEach(d => {
-            d.date = new Date(d.date);
+            d.date = parseDate(d.date); // Use d3.timeParse to parse dates
             d.count = +d.count;
         });
 

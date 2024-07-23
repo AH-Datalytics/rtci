@@ -1,0 +1,67 @@
+---
+title: "ben/jeff collector"
+output: github_document
+started: "07-23-2024"
+---
+read in the data from the ben/jeff folder
+```{r}
+library(tidyverse)
+library(dplyr)
+library(readr)
+library(stringr)
+```
+directory path where the arizona files are stored
+```{r}
+data_dir <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work"
+
+crime_types <- c("Agency Name",
+                 "Murder", "Rape", "Robbery",
+                 "Aggraveated Assault", "Burglary", "Larceny", 
+                 "Motor Vehicle Theft", "Arson", 
+                 "Month", "Year")
+```
+read everything in, extract the month/year and do the initial processing
+```{r}
+
+# List all CSV files in the directory
+file_paths <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
+
+
+# Apply function to dataframes in the list
+ldf <- lapply(file_paths, process_csv)
+
+# Combine all dataframes into one
+combined_df <- bind_rows(ldf, .id = "source")
+
+# Print the combined DataFrame for debugging purposes
+head(combined_df)
+```
+check it out
+```{r}
+head(combined_df)
+```
+include R code in the document as follows:
+c("Agency Name","Murder", "Rape", "Robbery","Agg Assault", "Burglary", "Larceny", "MVT", "Arson", "Month", "Year")
+```{r}
+#sort everything
+df <- df %>%
+  arrange(`Agency Name`, crime_types , Year, Month)
+
+#create year column
+df <- df %>%
+  mutate(Date = as.Date(paste(Year, Month, "01", sep = "-")))
+
+#Calculate the 12-month moving average
+df_moving_avg <- df %>%
+  group_by(Agency, CrimeType) %>%
+  arrange(Date) %>%
+  mutate(MovingAvg12 = rollmean(Count, 12, fill = NA, align = "right"))
+
+#select out columns to clean up
+df_moving_avg <- df_moving_avg %>%
+  select(`Agency Name`, crime_types, Year, Month, Count, mva_12mo)
+```
+
+```{r}
+```
+

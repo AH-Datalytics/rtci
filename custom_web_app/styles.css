@@ -44,6 +44,7 @@ html, body {
     font-size:1.5vw !important; /* Responsive font size */
     color: #2d5ef9;
     position: relative;
+    border-radius: 6px; /* Make the corners more rounded */
 }
 
 .filter-dropdown select {
@@ -51,7 +52,6 @@ html, body {
     background-color: white;
     color: black;
     border: 1px solid #ccc;
-    border-radius: 4px;
     padding: 0.5rem;
     font-size: 1.5vw; /* Responsive font size */
 }

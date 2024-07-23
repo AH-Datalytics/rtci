@@ -64,6 +64,7 @@ document.addEventListener("DOMContentLoaded", function() {
         );
     }
 
+    // Render the chart
     function renderChart() {
         const filteredData = filterData(allData);
 
@@ -118,6 +119,9 @@ document.addEventListener("DOMContentLoaded", function() {
         // Calculate dynamic font size for the Y-axis label
         const labelFontSize = Math.max(Math.min(height * 0.05, 16), 10);
 
+        // Get the selected crime type
+        const selectedCrimeType = crimeTypeSelect.options[crimeTypeSelect.selectedIndex].text;
+
         // Add the Y axis label
         svg.append("text")
             .attr("transform", "rotate(-90)")
@@ -127,18 +131,17 @@ document.addEventListener("DOMContentLoaded", function() {
             .style("text-anchor", "middle")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("font-size", `${labelFontSize}px`)
-            .attr("fill", "00333a")
-            .text("Offenses");
+            .attr("fill", "#00333a")
+            .text(`Reported ${selectedCrimeType} Offenses`);
 
         // Style the tick labels correctly
-            svg.selectAll(".tick text")
+        svg.selectAll(".tick text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a");
 
-
-       // Calculate dynamic stroke-width and dot thickness
-            const lineThickness = Math.max(Math.min(width * 0.005, 3.5), 2); // Example: scale between 2 and 3.5
-            const dotSize = Math.max(Math.min(width * 0.005, 3.5), 2); // Example: scale between 3 and 5
+        // Calculate dynamic stroke-width and dot size
+        const lineThickness = Math.max(Math.min(width * 0.005, 3.5), 2); // Example: scale between 2 and 3.5
+        const dotSize = Math.max(Math.min(width * 0.005, 3.5), 2); // Example: scale between 3 and 5
 
         // Add the line
         const line = svg.append("path")
@@ -153,13 +156,32 @@ document.addEventListener("DOMContentLoaded", function() {
             );
 
         // Add dots at each data point
-        svg.selectAll("dot")
+        const dots = svg.selectAll("circle")
             .data(filteredData)
             .enter().append("circle")
             .attr("cx", d => x(d.date))
             .attr("cy", d => y(d.count))
             .attr("r", dotSize) // Dynamic dot size
-            .attr("fill", "#2d5ef9");
+            .attr("fill", "#2d5ef9")
+            .on("mouseover", function(event, d) {
+                d3.select(this).attr("fill", "#f28106"); // Change dot color to orange on hover
+                tooltip.transition()
+                    .duration(0) // Make tooltip appear immediately
+                    .style("opacity", .9);
+                tooltip.html(`<strong>Agency:</strong> ${d.agency_name}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Offenses:</strong> ${d.count}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
+                    .style("left", (event.pageX + 5) + "px")
+                    .style("top", (event.pageY - 28) + "px");
+            })
+            .on("mousemove", function(event, d) {
+                tooltip.style("left", (event.pageX + 5) + "px")
+                    .style("top", (event.pageY - 28) + "px");
+            })
+            .on("mouseout", function(d) {
+                d3.select(this).attr("fill", "#2d5ef9"); // Change dot color back to original
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            });
 
         // Add tooltip
         const tooltip = d3.select("body").append("div")
@@ -167,50 +189,34 @@ document.addEventListener("DOMContentLoaded", function() {
             .style("opacity", 0)
             .style("font-family", "'Roboto Condensed', Arial, sans-serif");
 
-        svg.selectAll("circle")
-            .on("mouseover", function(event, d) {
-                tooltip.transition()
-                    .duration(200)
-                    .style("opacity", .9);
-                tooltip.html(`<strong>Agency:</strong> ${d.agency_name}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Offenses:</strong> ${d.count}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
-                    .style("left", (event.pageX + 5) + "px")
-                    .style("top", (event.pageY - 28) + "px");
-            })
-            .on("mouseout", function(d) {
-                tooltip.transition()
-                    .duration(500)
-                    .style("opacity", 0);
-            });
-
         // Add source text in the bottom right corner
-const agencyFull = filteredData[0].agency_full;
-const stateUcrLink = filteredData[0].state_ucr_link;
-const sourceText = `${agencyFull}`;
+        const agencyFull = filteredData[0].agency_full;
+        const stateUcrLink = filteredData[0].state_ucr_link;
+        const sourceText = `${agencyFull}`;
 
-// Group the source text and link together for easier positioning
-const sourceGroup = svg.append("g")
-    .attr("transform", `translate(${width}, ${height + margin.bottom - 10})`) // Increase the margin bottom value to add more padding
-    .attr("text-anchor", "end");
+        // Group the source text and link together for easier positioning
+        const sourceGroup = svg.append("g")
+            .attr("transform", `translate(${width}, ${height + margin.bottom - 10})`) // Increase the margin bottom value to add more padding
+            .attr("text-anchor", "end");
 
-// Add text element for the source
-const sourceTextElement = sourceGroup.append("text")
-    .style("font-family", "'Roboto Condensed', Arial, sans-serif")
-    .style("font-size", "1.5vh") // Adjust as needed
-    .style("fill", "#00333a");
+        // Add text element for the source
+        const sourceTextElement = sourceGroup.append("text")
+            .style("font-family", "'Roboto Condensed', Arial, sans-serif")
+            .style("font-size", "1.5vh") // Adjust as needed
+            .style("fill", "#00333a");
 
-sourceTextElement.append("tspan")
-    .text(sourceText);
+        sourceTextElement.append("tspan")
+            .text(sourceText);
 
-sourceTextElement.append("tspan")
-    .attr("text-anchor", "start")
-    .attr("dx", "0.2em") // Adjust spacing as needed
-    .style("fill", "#2d5ef9") // Light blue color for the link
-    .style("cursor", "pointer")
-    .on("click", function() { window.open(stateUcrLink, "_blank"); })
-    .text("source.");
-
-
+        sourceTextElement.append("tspan")
+            .attr("text-anchor", "start")
+            .attr("dx", "0.2em") // Adjust spacing as needed
+            .style("fill", "#2d5ef9") // Light blue color for the link
+            .style("cursor", "pointer")
+            .on("click", function() { window.open(stateUcrLink, "_blank"); })
+            .text("source.");
     }
+
 
     // Load data and initialize filters and chart
     d3.csv("data/viz_data.csv").then(function(data) {

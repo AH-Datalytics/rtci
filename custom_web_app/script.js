@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const crimeTypeSelect = document.getElementById("crime-type");
     const stateSelect = document.getElementById("state");
     const agencySelect = document.getElementById("agency");
+    const downloadButton = document.getElementById("download-button");
 
     let allData = [];
 
@@ -171,7 +172,6 @@ document.addEventListener("DOMContentLoaded", function() {
         `;
     }
     
-    // Render the chart
     function renderChart() {
         const filteredData = filterData(allData);
 
@@ -195,7 +195,6 @@ document.addEventListener("DOMContentLoaded", function() {
             .append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
-        // Set up the scales
         const x = d3.scaleTime()
             .domain(d3.extent(filteredData, d => d.date))
             .range([0, width]);
@@ -205,39 +204,31 @@ document.addEventListener("DOMContentLoaded", function() {
             .nice()
             .range([height, 0]);
 
-        // Add the X axis with only year labels
         svg.append("g")
             .attr("transform", `translate(0,${height})`)
             .call(d3.axisBottom(x).ticks(d3.timeYear).tickFormat(d3.timeFormat("%Y")).tickSizeOuter(0))
             .selectAll("path, line")
             .style("stroke", "#e0e0e0");
 
-        // Style the X axis tick labels
         svg.selectAll(".x-axis text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a");
 
-        // Add the Y axis with integer ticks only
         svg.append("g")
             .call(d3.axisLeft(y).ticks(d3.max(filteredData, d => d.count) < 10 ? d3.max(filteredData, d => d.count) : 10).tickFormat(d3.format("d")))
             .selectAll("path, line")
             .style("stroke", "#e0e0e0");
 
-        // Style the Y axis tick labels
         svg.selectAll(".y-axis text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a");
 
-        // Calculate dynamic font size for the Y-axis label
         const labelFontSize = Math.max(Math.min(height * 0.05, 16), 10);
-
-        // Get the selected crime type
         const selectedCrimeType = crimeTypeSelect.options[crimeTypeSelect.selectedIndex].text;
 
-        // Add the Y axis label
         svg.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", -margin.left + 25) // Adjusted margin for spacing
+            .attr("y", -margin.left + 25)
             .attr("x", -height / 2)
             .attr("dy", "1em")
             .style("text-anchor", "middle")
@@ -246,48 +237,42 @@ document.addEventListener("DOMContentLoaded", function() {
             .attr("fill", "#00333a")
             .text(`Reported ${selectedCrimeType} Offenses`);
 
-        // Style the tick labels correctly
         svg.selectAll(".tick text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a");
 
-        // Calculate dynamic stroke-width and dot size
-        const lineThickness = Math.max(Math.min(width * 0.005, 3.5), 2); // Example: scale between 2 and 3.5
-        const dotSize = Math.max(Math.min(width * 0.005, 3.5), 2); // Example: scale between 3 and 5
+        const lineThickness = Math.max(Math.min(width * 0.005, 3.5), 2);
+        const dotSize = Math.max(Math.min(width * 0.005, 3.5), 2);
 
-        // Add the line
         const line = svg.append("path")
             .datum(filteredData)
             .attr("fill", "none")
             .attr("stroke", "#2d5ef9")
-            .attr("stroke-width", lineThickness) // Thicker line
+            .attr("stroke-width", lineThickness)
             .attr("d", d3.line()
-                .curve(d3.curveCatmullRom.alpha(0.5)) // Smoother line
+                .curve(d3.curveCatmullRom.alpha(0.5))
                 .x(d => x(d.date))
                 .y(d => y(d.count))
             );
 
-        // Add tooltip
         const tooltip = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0)
             .style("font-family", "'Roboto Condensed', Arial, sans-serif");
 
-        // Add dots at each data point
         const dots = svg.selectAll("circle")
             .data(filteredData)
             .enter().append("circle")
             .attr("cx", d => x(d.date))
             .attr("cy", d => y(d.count))
-            .attr("r", dotSize) // Dynamic dot size
+            .attr("r", dotSize)
             .attr("fill", "#2d5ef9");
 
         dots.on("mouseover", function(event, d) {
-            d3.select(this).attr("fill", "#f28106"); // Change dot color to orange on hover
+            d3.select(this).attr("fill", "#f28106");
 
-            // Tooltip date display
             tooltip.transition()
-                .duration(0) // Make tooltip appear immediately
+                .duration(0)
                 .style("opacity", .9);
             tooltip.html(`<strong>Agency:</strong> ${d.agency_name}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Offenses:</strong> ${d.count}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
                 .style("left", (event.pageX + 5) + "px")
@@ -298,26 +283,24 @@ document.addEventListener("DOMContentLoaded", function() {
                 .style("top", (event.pageY - 28) + "px");
         })
         .on("mouseout", function(d) {
-            d3.select(this).attr("fill", "#2d5ef9"); // Change dot color back to original
+            d3.select(this).attr("fill", "#2d5ef9");
             tooltip.transition()
                 .duration(500)
                 .style("opacity", 0);
         });
 
-        // Add source text in the bottom right corner
         const agencyFull = filteredData[0].agency_full;
         const stateUcrLink = filteredData[0].state_ucr_link;
         const sourceText = `${agencyFull}`;
 
-        // Group the source text and link together for easier positioning
         const sourceGroup = svg.append("g")
-            .attr("transform", `translate(${width}, ${height + margin.bottom - 10})`) // Increase the margin bottom value to add more padding
+            .attr("transform", `translate(${width}, ${height + margin.bottom - 10})`)
             .attr("text-anchor", "end");
 
-        // Add text element for the source
         const sourceTextElement = sourceGroup.append("text")
+            .attr("class", "source-link")  // Add this line to apply the class
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
-            .style("font-size", "1.5vh") // Adjust as needed
+            .style("font-size", "1.5vh")
             .style("fill", "#00333a");
 
         sourceTextElement.append("tspan")
@@ -325,11 +308,43 @@ document.addEventListener("DOMContentLoaded", function() {
 
         sourceTextElement.append("tspan")
             .attr("text-anchor", "start")
-            .attr("dx", "0.2em") // Adjust spacing as needed
-            .style("fill", "#2d5ef9") // Light blue color for the link
+            .attr("dx", "0.2em")
+            .attr("class", "source-link")  // Add this line to apply the class
             .style("cursor", "pointer")
             .on("click", function() { window.open(stateUcrLink, "_blank"); })
             .text("source.");
+    }
+
+    function downloadFilteredData(filteredData) {
+        // Create CSV header
+        const headers = ["agency_name", "state_name", "date", "crime_type", "count"];
+        const csvRows = [headers.join(",")];
+
+        // Add data rows
+        filteredData.forEach(d => {
+            const row = [
+                d.agency_name,
+                d.state_name,
+                d3.timeFormat("%Y-%m-%d")(d.date),
+                d.crime_type,
+                d.count
+            ];
+            csvRows.push(row.join(","));
+        });
+
+        // Create CSV content
+        const csvContent = "data:text/csv;charset=utf-8," + csvRows.join("\n");
+
+        // Create a downloadable link
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "filtered_data.csv");
+
+        // Append to the document and trigger the download
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
 
     // Load data and initialize filters and chart
@@ -356,4 +371,10 @@ document.addEventListener("DOMContentLoaded", function() {
         renderChart();
     });
     agencySelect.addEventListener('change', renderChart);
+
+    // Add event listener to download button
+    downloadButton.addEventListener("click", function() {
+        const filteredData = filterData(allData);
+        downloadFilteredData(filteredData);
+    });
 });

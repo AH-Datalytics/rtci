@@ -29,7 +29,7 @@ html, body {
 .filters-container {
     color: white;
     font-family: 'Roboto Condensed', Arial, sans-serif; /* Roboto Condensed font */
-    font-size: 2vw; /* Responsive font size */
+    font-size: 1.5vw; /* Responsive font size */
     text-align: center;
     margin: 1rem 0;
     display: flex;
@@ -145,6 +145,12 @@ html, body {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Increased shadow size for more depth */
     cursor: pointer;
     z-index: 1000; /* Ensure the button is above other elements */
+    display: flex;
+    align-items: center;
+}
+
+#download-button i {
+    margin-right: 5px;
 }
 
 #download-button:hover {
@@ -156,6 +162,15 @@ html, body {
     position: relative;
 }
 
+.source-link {
+    fill: #2d5ef9;
+    cursor: pointer;
+}
+
+.source-link:hover {
+    fill: #2d5df96d;
+}
+
 /* Responsive styles for smaller screens */
 @media (max-width: 600px) {
     .rtci-header {
@@ -163,8 +178,7 @@ html, body {
     }
 
     .filters-container {
-        font-size: 2.25vw; /* Adjust font size for smaller screens */
-        margin: 0.5rem 0; /* Reduce margin for smaller screens */
+        font-size: 1.75vw; /* Adjust font size for smaller screens */
     }
 
     .filter-dropdown {

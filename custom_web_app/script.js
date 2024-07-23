@@ -64,9 +64,40 @@ document.addEventListener("DOMContentLoaded", function() {
         );
     }
 
+    function updateKPIBox1(filteredData) {
+        const kpiBox1 = document.getElementById("kpi-box1");
+        
+        // Get the most recent year with data
+        const mostRecentDate = d3.max(filteredData, d => d.date);
+        const mostRecentYear = mostRecentDate.getFullYear();
+        const mostRecentMonth = mostRecentDate.getMonth() + 1; // Months are zero-based
+
+        // Filter data for the most recent year up to the most recent month
+        const ytdData = filteredData.filter(d => 
+            d.date.getFullYear() === mostRecentYear &&
+            d.date.getMonth() + 1 <= mostRecentMonth
+        );
+
+        // Calculate the sum of offenses
+        const ytdSum = d3.sum(ytdData, d => d.count);
+
+        // Get the selected crime type
+        const selectedCrimeType = crimeTypeSelect.options[crimeTypeSelect.selectedIndex].text;
+
+        // Update KPI box 1 content
+        kpiBox1.innerHTML = `
+            <h2>Year to Date ${selectedCrimeType} Offenses</h2>
+            <p>Jan '${mostRecentYear.toString().slice(-2)} through ${d3.timeFormat("%B")(mostRecentDate)} '${mostRecentYear.toString().slice(-2)}</p>
+            <p><strong>${ytdSum}</strong></p>
+        `;
+    }
+
     // Render the chart
     function renderChart() {
         const filteredData = filterData(allData);
+
+        // Update KPI box 1
+        updateKPIBox1(filteredData);
 
         // Remove any existing SVG
         d3.select("#line-graph-container svg").remove();

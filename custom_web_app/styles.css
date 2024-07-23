@@ -85,6 +85,23 @@ html, body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow for depth */
     flex: 1;
     border-radius: 8px; /* Add rounded corners to the KPI boxes */
+    display: flex; /* Add flexbox for vertical alignment */
+    flex-direction: column; /* Align children vertically */
+    justify-content: center; /* Center children vertically */
+}
+
+.kpi-box h2 {
+    font-size: 0.75em; /* Adjust as needed */
+    margin: 0;
+}
+
+.kpi-box p {
+    margin: 0.5em 0; /* Add some margin for spacing */
+    font-size: 0.5em; /* Adjust as needed */
+}
+
+.kpi-box p strong {
+    font-size: 2em; /* Larger font size for the count */
 }
 
 .kpi-box:last-child {

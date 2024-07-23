@@ -3,6 +3,7 @@ title: "rhode island ucr processing"
 output: pdf_document
 date: "2024-05-01"
 updated: "2024-05-03"
+updated: "2024-07-23"
 ---
 ```{r}
 library(lubridate)
@@ -220,20 +221,22 @@ process_arson <- function(df) {
 
 #apply function and print out the first dataframe
 ldf3_rape <- lapply(ldf3, process_rape)
+head(ldf3_rape)
 ```
 separate functions? fix arson first
 ```{r}
 ldf3_arson <- lapply(ldf3_rape, process_arson)
+head(ldf3_arson)
 ```
 mvt next
 ```{r}
 ldf3_mvt <- lapply(ldf3_arson, process_mvt)
-
+head(ldf3_mvt)
 ```
 larceny last
 ```{r}
 ldf3_larc <- lapply(ldf3_mvt, process_larceny)
-print(ldf3_larc[1])
+head(ldf3_larc[1])
 ```
 
 issues with murder not found in one of the dataframes
@@ -262,10 +265,6 @@ column_differences <- compare_column_names(ldf3_larc)
 # Print the results
 print(column_differences)
 ```
-clearly not every data frame has the same columns as some agencies didn't report or didn't report a certain index crime?
-
-
-
 
 drop unnecessary columns
 ```{r}
@@ -295,7 +294,7 @@ adjust_dataframes <- function(df, required_columns) {
 adjusted_list_df <- lapply(ldf3_larc, adjust_dataframes, required_columns = required_columns)
 
 # Print the results to verify the adjustment
-print(adjusted_list_df)
+head(adjusted_list_df)
 ```
 row bind the list together
 ```{r}
@@ -381,6 +380,37 @@ state_value <- "Rhode Island"
 # Add the "State" column to the data frame
 final_df$State <- state_value
 ```
+drop some agencies that don't match our list
+PROVIDENCE
+WARWICK
+CRANSTON
+PAWTUCKET
+
+```{r}
+# List of allowed city names
+allowed_cities <- c("PROVIDENCE", "WARWICK", "CRANSTON", "PAWTUCKET")
+
+# Create a pattern to match any of theds allowed city names
+pattern <- paste(allowed_cities, collapse = "|")
+
+# Function to check if any city name is in the agency name
+contains_city_name <- function(agency_name, cities) {
+  for (city in cities) {
+    if (grepl(paste0("^", city, "$"), agency_name, ignore.case = TRUE)) {
+      return(TRUE)
+    }
+  }
+  return(FALSE)
+}
+
+#
+fdf1 <- final_df[sapply(final_df$`Agency Name`, contains_city_name, cities = allowed_cities), ]
+
+# Display the filtered data frame
+head(fdf1)
+```
+
+
 write it out!
 ```{r}
 # Specify the folder path
@@ -390,6 +420,6 @@ folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Cr
 file_path <- file.path(folder_path, "ri_jan22_present.csv")
 
 # Write the data frame to a .csv file
-write.csv(final_df, file = file_path, row.names = FALSE)
+write.csv(fdf1, file = file_path, row.names = FALSE)
 ```
 

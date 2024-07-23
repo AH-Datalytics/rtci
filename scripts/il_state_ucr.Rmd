@@ -3,9 +3,9 @@ title: "illinois ucr processing"
 output: pdf_document
 date: "2024-04-24"
 updated: "2024-06-07"
+updated: "2024-07-23"
 ---
 ```{r}
-#install.packages("lubridate")
 library(lubridate)
 library(tidyverse)
 library(stringr)
@@ -44,7 +44,6 @@ what does the top look like
 ```{r}
 head(ldf[1])
 ```
-
 create a new table that aggregates by agency + month + year + UCR.Offense.Code
 ```{r}
 aggregate_data <- function(df) {
@@ -229,9 +228,7 @@ combined_df <- do.call(rbind, ldf4)
 head(combined_df)
 ```
 
-
 ####UPDATE THIS NEW SECTION
-
 
 create a dataframe that is every combination of agency + year + month - then merge the combined_df back - do we want to keep the na's? or do we want to write a code that it was un-reported for that time period?
 ```{r}
@@ -260,32 +257,57 @@ add NR label for NA categories - these months weren't reported yet (for whatever
 final_df <- clean_df %>%
   mutate_if(!names(.) %in% c("Agency Name", "Year", "Month"), ~ifelse(is.na(.), "NR", .))
 
-# View the modified DataFrame
-print(final_df)
+head(final_df)
 ```
 reorder columns and done
 ```{r}
-# Specified order for the columns
+# column name order
 column_order <- c("Agency Name", "Murder", "Rape", "Robbery", 
                   "Agg Assault", "Burglary", "Larceny", "MVT", "Arson",
                   "Year", "Month")
 
-# Reorder columns based on the specified order
-final_df <- final_df[, column_order]
+# Reorder columns
+final_df1 <- final_df[, column_order]
 ```
+convert NA's created to NR's because there is now a gap between an idealized time frame and when things were reported
+```{r}
+# Function to convert invalid numbers to "NR"
+convert_invalid_to_NR <- function(x) {
+  suppressWarnings({
+    num_x <- as.numeric(x)
+  })
+  ifelse(is.na(num_x), "NR", x)
+}
 
-
+# Apply the function to columns 2 to 9 - crime count columns only
+final_df1[, 2:9] <- lapply(final_df1[, 2:9], convert_invalid_to_NR)
+```
 add a column for State and then we're done.
 ```{r}
 # Specify the value for the "State" column
 state_value <- "Illinois"
 
 # Add the "State" column to the data frame
-final_df$State <- state_value
+final_df1$State <- state_value
 
-# Convert all columns but the first to numeric - aye aye aye
-final_df[, -1] <- lapply(final_df[, -1], as.numeric)
 ```
+format the columns and then we're really done.
+```{r}
+# Function to convert to numeric and handle invalid numbers
+convert_to_numeric <- function(x) {
+  suppressWarnings(as.numeric(x))
+}
+
+# Convert columns 2 to 11 to numeric
+final_df1[, 2:11] <- lapply(final_df1[, 2:11], convert_to_numeric)
+
+# Convert remaining columns to character
+convert_to_character <- function(x) {
+  suppressWarnings(as.character(x))
+}
+final_df1[, -c(2:11)] <- lapply(final_df1[, -c(2:11)], convert_to_character)
+```
+
 
 write it out!
 ```{r}
@@ -296,5 +318,5 @@ folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Cr
 file_path <- file.path(folder_path, "il_jan22_present.csv")
 
 # Write the data frame to a .csv file
-write.csv(final_df, file = file_path, row.names = FALSE)
+write.csv(final_df1, file = file_path, row.names = FALSE)
 ```

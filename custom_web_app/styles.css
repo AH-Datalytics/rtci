@@ -81,7 +81,6 @@ html, body {
     font-size: 2vw; /* Responsive font size */
     text-align: center;
     margin-bottom: 1rem; /* Space between KPI boxes */
-    padding: 1rem; 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow for depth */
     flex: 1;
     border-radius: 8px; /* Add rounded corners to the KPI boxes */
@@ -93,12 +92,13 @@ html, body {
 
 .kpi-box h2 {
     font-size: 0.75em; /* Adjust as needed */
-    margin: 0;
+    padding-top: 0.25rem;
+    margin-bottom: 0.25rem;
 }
 
 .kpi-box p {
-    margin: 0.5em 0; /* Add some margin for spacing */
     font-size: 0.5em; /* Adjust as needed */
+    margin: 0.2rem;
 }
 
 .kpi-box p strong {
@@ -171,7 +171,8 @@ html, body {
         align-items: center;
         justify-content: center;
         margin: 0.25rem; /* Adjust margin for spacing */
-        padding-bottom: 0.4rem; /* Adjust padding for spacing */
+        padding-top: 0.25rem;
+        padding-bottom: 0.8rem; /* Adjust padding for spacing */
         font-size: 2vw; /* Maintain responsive font size */
         text-align: center;
         background-color: #f28106; /* Orange background color */
@@ -198,7 +199,5 @@ html, body {
 
     .kpi-box p strong {
         font-size: 2em; /* Larger font size for count on small screens */
-        margin-bottom: 0; /* Remove bottom margin */
-        padding-bottom: 0; /* Remove bottom padding */
     }
 }

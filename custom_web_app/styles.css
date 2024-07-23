@@ -46,6 +46,13 @@ html, body {
     border-radius: 8px; /* Make the corners more rounded */
 }
 
+/* Style the dropdown options but note this is NOT CURRENTLY WORKING*/
+.filter-dropdown option {
+    font-family: 'Roboto Condensed', Arial, sans-serif !important;
+    font-size: 0.5vw !important; /* Adjust the font size for options */
+    color: #2be237 !important;
+}
+
 .graph-kpis-container {
     display: flex;
     width: 90%;
@@ -124,7 +131,30 @@ html, body {
     font-size: 0.8em; /* Smaller font size */
 }
 
+#download-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: white;
+    color: #00333a;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-size: 0.9vw;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Increased shadow size for more depth */
+    cursor: pointer;
+    z-index: 1000; /* Ensure the button is above other elements */
+}
 
+#download-button:hover {
+    background-color: #f0f0f0;
+    color: #2d5df96d;
+}
+
+#line-graph-container {
+    position: relative;
+}
 
 /* Responsive styles for smaller screens */
 @media (max-width: 600px) {

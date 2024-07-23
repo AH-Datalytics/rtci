@@ -3,7 +3,7 @@ title: "ohio ucr processing"
 output: pdf_document
 date: "2024-05-01"
 updated: "2024-06-06"
-updated: ""
+updated: "2024-07-22"
 ---
 ```{r}
 library(lubridate)
@@ -226,7 +226,7 @@ join the combined df to this base dataset - now we know if data is missing for c
 joined_df <- merge(all_combinations, combined_df, by = c("Agency Name", "Year", "Month"), all.x = TRUE)
 
 # View the result
-print(joined_df)
+head(joined_df)
 ```
 are all time periods and agencies accounted for? should have an equal number of each in terms of records
 ```{r}
@@ -258,7 +258,7 @@ final_df <- joined_df %>%
   mutate_if(!names(.) %in% c("Agency Name", "Year", "Month"), ~ifelse(is.na(.), "NR", .))
 
 # View the modified DataFrame
-print(final_df)
+head(final_df)
 ```
 reorder columns and done
 ```{r}

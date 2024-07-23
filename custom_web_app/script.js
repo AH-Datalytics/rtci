@@ -298,6 +298,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .attr("text-anchor", "end");
 
         const sourceTextElement = sourceGroup.append("text")
+            .attr("class", "source-link")  // Add this line to apply the class
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("font-size", "1.5vh")
             .style("fill", "#00333a");
@@ -308,7 +309,7 @@ document.addEventListener("DOMContentLoaded", function() {
         sourceTextElement.append("tspan")
             .attr("text-anchor", "start")
             .attr("dx", "0.2em")
-            .style("fill", "#2d5ef9")
+            .attr("class", "source-link")  // Add this line to apply the class
             .style("cursor", "pointer")
             .on("click", function() { window.open(stateUcrLink, "_blank"); })
             .text("source.");

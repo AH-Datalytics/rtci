@@ -162,6 +162,15 @@ html, body {
     position: relative;
 }
 
+.source-link {
+    fill: #2d5ef9;
+    cursor: pointer;
+}
+
+.source-link:hover {
+    fill: #2d5df96d;
+}
+
 /* Responsive styles for smaller screens */
 @media (max-width: 600px) {
     .rtci-header {

@@ -161,8 +161,8 @@ document.addEventListener("DOMContentLoaded", function() {
     
         // Update KPI box 3 content
         kpiBox3.innerHTML = `
-            <h2>% Change ${selectedCrimeType} Offenses YTD</h2>
-            <p>Jan '${mostRecentYear.toString().slice(-2)} - ${d3.timeFormat("%B")(mostRecentDate)} '${mostRecentYear.toString().slice(-2)} vs Jan '${(mostRecentYear - 1).toString().slice(-2)} - ${d3.timeFormat("%B")(new Date(mostRecentYear - 1, mostRecentMonth - 1, 1))} '${(mostRecentYear - 1).toString().slice(-2)}</p>
+            <h2>% Change in ${selectedCrimeType} YTD</h2>
+            <p>Jan '${mostRecentYear.toString().slice(-2)} - ${d3.timeFormat("%B")(mostRecentDate)} '${mostRecentYear.toString().slice(-2)} vs. Jan '${(mostRecentYear - 1).toString().slice(-2)} - ${d3.timeFormat("%B")(new Date(mostRecentYear - 1, mostRecentMonth - 1, 1))} '${(mostRecentYear - 1).toString().slice(-2)}</p>
             <p><strong>${percentChange.toFixed(2)}%</strong></p>
         `;
     }

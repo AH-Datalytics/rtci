@@ -43,7 +43,7 @@ html, body {
     font-size:1.5vw; /* Responsive font size */
     color: #2d5ef9;
     position: relative;
-    border-radius: 6px; /* Make the corners more rounded */
+    border-radius: 8px; /* Make the corners more rounded */
 }
 
 .graph-kpis-container {
@@ -63,6 +63,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 8px; /* Add rounded corners to the graph */
 }
 
 .kpi-container {
@@ -83,6 +84,7 @@ html, body {
     padding: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow for depth */
     flex: 1;
+    border-radius: 8px; /* Add rounded corners to the KPI boxes */
 }
 
 .kpi-box:last-child {

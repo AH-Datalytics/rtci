@@ -53,6 +53,22 @@ html, body {
     font-size: 'Roboto Condensed', Arial, sans-serif; /* Roboto Condensed font */
 }
 
+.tooltip {
+    position: absolute;
+    text-align: left;
+    width: auto;
+    height: auto;
+    padding: 5px;
+    font-size: 12px;
+    font-family: 'Roboto Condensed', Arial, sans-serif; /* Font family for tooltip */
+    background: lightsteelblue;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+
+
 @media (max-width: 600px) {
     .rtci-header {
         font-size: 3vw; /* Adjust font size for smaller screens */

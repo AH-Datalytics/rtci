@@ -41,25 +41,15 @@ html, body {
 
 .filter-dropdown {
     font-family: 'Roboto Condensed', Arial, sans-serif !important; /* Roboto Condensed font */
-    font-size:1.5vw !important; /* Responsive font size */
+    font-size:1.5vw; /* Responsive font size */
     color: #2d5ef9;
     position: relative;
     border-radius: 6px; /* Make the corners more rounded */
 }
 
-.filter-dropdown select {
-    width: 100%; /* Ensure the select element takes up the full width */
-    background-color: white;
-    color: black;
-    border: 1px solid #ccc;
-    padding: 0.5rem;
-    font-size: 1.5vw; /* Responsive font size */
-}
+/* Now make the dropdown menu font dynamic and roboto condensed */
+/*START HERE*/
 
-.filter-dropdown option {
-    font-family: 'Roboto Condensed', Arial, sans-serif; /* Roboto Condensed font */
-    font-size: 1vw; /* Responsive font size */
-}
 
 .rtci-line-graph {
     width: 80%; /* Dynamic width relative to the dashboard */

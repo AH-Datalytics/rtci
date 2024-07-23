@@ -99,11 +99,21 @@ document.addEventListener("DOMContentLoaded", function() {
             .selectAll("path, line")
             .style("stroke", "#e0e0e0");
 
+        // Style the X axis tick labels
+        svg.selectAll(".x-axis text")
+            .style("font-family", "'Roboto Condensed', Arial, sans-serif")
+            .style("fill", "#00333a");
+
         // Add the Y axis with integer ticks only
         svg.append("g")
             .call(d3.axisLeft(y).ticks(d3.max(filteredData, d => d.count) < 10 ? d3.max(filteredData, d => d.count) : 10).tickFormat(d3.format("d")))
             .selectAll("path, line")
             .style("stroke", "#e0e0e0");
+
+        // Style the Y axis tick labels
+        svg.selectAll(".y-axis text")
+            .style("font-family", "'Roboto Condensed', Arial, sans-serif")
+            .style("fill", "#00333a");
 
         // Calculate dynamic font size for the Y-axis label
         const labelFontSize = Math.max(Math.min(height * 0.05, 16), 10);
@@ -111,21 +121,28 @@ document.addEventListener("DOMContentLoaded", function() {
         // Add the Y axis label
         svg.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", -margin.left + 20) // Adjusted margin for spacing
+            .attr("y", -margin.left + 30) // Adjusted margin for spacing
             .attr("x", -height / 2)
             .attr("dy", "1em")
             .style("text-anchor", "middle")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("font-size", `${labelFontSize}px`)
+            .attr("fill", "00333a")
             .text("Offenses");
+
+        // Style the tick labels correctly
+            svg.selectAll(".tick text")
+            .style("font-family", "'Roboto Condensed', Arial, sans-serif")
+            .style("fill", "#00333a");
 
         // Add the line
         const line = svg.append("path")
             .datum(filteredData)
             .attr("fill", "none")
-            .attr("stroke", "steelblue")
-            .attr("stroke-width", 2.5) // Thicker line
+            .attr("stroke", "#2d5ef9")
+            .attr("stroke-width", 3) // Thicker line
             .attr("d", d3.line()
+                .curve(d3.curveCatmullRom.alpha(0.5)) // Smoother line
                 .x(d => x(d.date))
                 .y(d => y(d.count))
             );
@@ -137,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .attr("cx", d => x(d.date))
             .attr("cy", d => y(d.count))
             .attr("r", 3)
-            .attr("fill", "steelblue");
+            .attr("fill", "#2d5ef9");
 
         // Add tooltip
         const tooltip = d3.select("body").append("div")

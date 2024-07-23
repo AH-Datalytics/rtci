@@ -5,6 +5,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     let allData = [];
 
+    // Define a date parser
+    const parseDate = d3.timeParse("%Y-%m-%d");
+
     function updateFilters(data) {
         const crimeTypes = [...new Set(data.map(d => d.crime_type))];
         const states = [...new Set(data.map(d => d.state_name))];
@@ -64,9 +67,118 @@ document.addEventListener("DOMContentLoaded", function() {
         );
     }
 
+    function updateKPIBox1(filteredData) {
+        const kpiBox1 = document.getElementById("kpi-box1");
+        
+        // Get the most recent year with data
+        const mostRecentDate = d3.max(filteredData, d => d.date);
+        const mostRecentYear = mostRecentDate.getFullYear();
+        const mostRecentMonth = mostRecentDate.getMonth() + 1; // Months are zero-based
+
+        // Filter data for the most recent year up to the most recent month
+        const ytdData = filteredData.filter(d => 
+            d.date.getFullYear() === mostRecentYear &&
+            d.date.getMonth() + 1 <= mostRecentMonth
+        );
+
+        // Calculate the sum of offenses
+        const ytdSum = d3.sum(ytdData, d => d.count);
+
+        // Get the selected crime type
+        const selectedCrimeType = crimeTypeSelect.options[crimeTypeSelect.selectedIndex].text;
+
+        // Update KPI box 1 content
+        kpiBox1.innerHTML = `
+            <h2>Year to Date ${selectedCrimeType} Offenses</h2>
+            <p>Jan '${mostRecentYear.toString().slice(-2)} through ${d3.timeFormat("%B")(mostRecentDate)} '${mostRecentYear.toString().slice(-2)}</p>
+            <p><strong>${ytdSum}</strong></p>
+        `;
+    }
+
+    function updateKPIBox2(filteredData) {
+        const kpiBox2 = document.getElementById("kpi-box2");
+        
+        // Get the most recent date
+        const mostRecentDate = d3.max(filteredData, d => d.date);
+        const mostRecentYear = mostRecentDate.getFullYear();
+        const mostRecentMonth = mostRecentDate.getMonth() + 1; // Months are zero-based
+    
+        // Calculate the start and end dates for the previous year
+        const startDatePrevYear = new Date(mostRecentYear - 1, 0, 1); // January 1st of previous year
+        const endDatePrevYear = new Date(mostRecentYear - 1, mostRecentMonth, 0); // Last day of the most recent month of the previous year
+    
+        // Filter data for the previous year up to the same month
+        const ytdDataPrevYear = filteredData.filter(d => 
+            d.date >= startDatePrevYear && d.date <= endDatePrevYear
+        );
+    
+        // Calculate the sum of offenses for the previous year
+        const ytdSumPrevYear = d3.sum(ytdDataPrevYear, d => d.count);
+    
+        // Get the selected crime type
+        const selectedCrimeType = crimeTypeSelect.options[crimeTypeSelect.selectedIndex].text;
+    
+        // Update KPI box 2 content
+        kpiBox2.innerHTML = `
+            <h2>Previous YTD ${selectedCrimeType} Offenses</h2>
+            <p>Jan '${(mostRecentYear - 1).toString().slice(-2)} through ${d3.timeFormat("%B")(new Date(mostRecentYear - 1, mostRecentMonth - 1, 1))} '${(mostRecentYear - 1).toString().slice(-2)}</p>
+            <p><strong>${ytdSumPrevYear}</strong></p>
+        `;
+    }
+    
+    
+    function updateKPIBox3(filteredData) {
+        const kpiBox3 = document.getElementById("kpi-box3");
+    
+        // Get the most recent date
+        const mostRecentDate = d3.max(filteredData, d => d.date);
+        const mostRecentYear = mostRecentDate.getFullYear();
+        const mostRecentMonth = mostRecentDate.getMonth() + 1; // Months are zero-based
+    
+        // Calculate the start and end dates for the current year
+        const startDateCurrentYear = new Date(mostRecentYear, 0, 1); // January 1st of current year
+        const endDateCurrentYear = new Date(mostRecentYear, mostRecentMonth, 0); // End of most recent month of current year
+    
+        // Calculate the start and end dates for the previous year
+        const startDatePrevYear = new Date(mostRecentYear - 1, 0, 1); // January 1st of previous year
+        const endDatePrevYear = new Date(mostRecentYear - 1, mostRecentMonth, 0); // End of most recent month of previous year
+    
+        // Filter data for the current year up to the most recent month
+        const ytdDataCurrentYear = filteredData.filter(d => 
+            d.date >= startDateCurrentYear && d.date <= endDateCurrentYear
+        );
+    
+        // Filter data for the previous year up to the same month
+        const ytdDataPrevYear = filteredData.filter(d => 
+            d.date >= startDatePrevYear && d.date <= endDatePrevYear
+        );
+    
+        // Calculate the sum of offenses for the current year and previous year
+        const ytdSumCurrentYear = d3.sum(ytdDataCurrentYear, d => d.count);
+        const ytdSumPrevYear = d3.sum(ytdDataPrevYear, d => d.count);
+    
+        // Calculate the percentage change
+        const percentChange = ((ytdSumCurrentYear - ytdSumPrevYear) / ytdSumPrevYear) * 100;
+    
+        // Get the selected crime type
+        const selectedCrimeType = crimeTypeSelect.options[crimeTypeSelect.selectedIndex].text;
+    
+        // Update KPI box 3 content
+        kpiBox3.innerHTML = `
+            <h2>% Change in ${selectedCrimeType} YTD</h2>
+            <p>Jan '${mostRecentYear.toString().slice(-2)} - ${d3.timeFormat("%B")(mostRecentDate)} '${mostRecentYear.toString().slice(-2)} vs. Jan '${(mostRecentYear - 1).toString().slice(-2)} - ${d3.timeFormat("%B")(new Date(mostRecentYear - 1, mostRecentMonth - 1, 1))} '${(mostRecentYear - 1).toString().slice(-2)}</p>
+            <p><strong>${percentChange.toFixed(2)}%</strong></p>
+        `;
+    }
+    
     // Render the chart
     function renderChart() {
         const filteredData = filterData(allData);
+
+        // Update KPI boxes
+        updateKPIBox1(filteredData);
+        updateKPIBox2(filteredData);
+        updateKPIBox3(filteredData);
 
         // Remove any existing SVG
         d3.select("#line-graph-container svg").remove();
@@ -155,6 +267,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 .y(d => y(d.count))
             );
 
+        // Add tooltip
+        const tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0)
+            .style("font-family", "'Roboto Condensed', Arial, sans-serif");
+
         // Add dots at each data point
         const dots = svg.selectAll("circle")
             .data(filteredData)
@@ -162,32 +280,29 @@ document.addEventListener("DOMContentLoaded", function() {
             .attr("cx", d => x(d.date))
             .attr("cy", d => y(d.count))
             .attr("r", dotSize) // Dynamic dot size
-            .attr("fill", "#2d5ef9")
-            .on("mouseover", function(event, d) {
-                d3.select(this).attr("fill", "#f28106"); // Change dot color to orange on hover
-                tooltip.transition()
-                    .duration(0) // Make tooltip appear immediately
-                    .style("opacity", .9);
-                tooltip.html(`<strong>Agency:</strong> ${d.agency_name}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Offenses:</strong> ${d.count}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
-                    .style("left", (event.pageX + 5) + "px")
-                    .style("top", (event.pageY - 28) + "px");
-            })
-            .on("mousemove", function(event, d) {
-                tooltip.style("left", (event.pageX + 5) + "px")
-                    .style("top", (event.pageY - 28) + "px");
-            })
-            .on("mouseout", function(d) {
-                d3.select(this).attr("fill", "#2d5ef9"); // Change dot color back to original
-                tooltip.transition()
-                    .duration(500)
-                    .style("opacity", 0);
-            });
+            .attr("fill", "#2d5ef9");
 
-        // Add tooltip
-        const tooltip = d3.select("body").append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 0)
-            .style("font-family", "'Roboto Condensed', Arial, sans-serif");
+        dots.on("mouseover", function(event, d) {
+            d3.select(this).attr("fill", "#f28106"); // Change dot color to orange on hover
+
+            // Tooltip date display
+            tooltip.transition()
+                .duration(0) // Make tooltip appear immediately
+                .style("opacity", .9);
+            tooltip.html(`<strong>Agency:</strong> ${d.agency_name}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Offenses:</strong> ${d.count}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
+                .style("left", (event.pageX + 5) + "px")
+                .style("top", (event.pageY - 28) + "px");
+        })
+        .on("mousemove", function(event, d) {
+            tooltip.style("left", (event.pageX + 5) + "px")
+                .style("top", (event.pageY - 28) + "px");
+        })
+        .on("mouseout", function(d) {
+            d3.select(this).attr("fill", "#2d5ef9"); // Change dot color back to original
+            tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
+        });
 
         // Add source text in the bottom right corner
         const agencyFull = filteredData[0].agency_full;
@@ -217,11 +332,10 @@ document.addEventListener("DOMContentLoaded", function() {
             .text("source.");
     }
 
-
     // Load data and initialize filters and chart
     d3.csv("data/viz_data.csv").then(function(data) {
         data.forEach(d => {
-            d.date = new Date(d.date);
+            d.date = parseDate(d.date); // Use d3.timeParse to parse dates
             d.count = +d.count;
         });
 

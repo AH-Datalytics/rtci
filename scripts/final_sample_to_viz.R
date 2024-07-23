@@ -1,5 +1,6 @@
 # Load Libraries
 library(tidyverse)
+library(lubridate)
 
 # Load Data
 final_sample <- read_csv("data/sample_2018_present_wlinks.csv")
@@ -84,6 +85,9 @@ final_sample_long <- final_sample_long %>%
          population, 
          crime_type, 
          count)
+
+final_sample_long <- final_sample_long %>%
+  mutate(viz_date = date %m+% months(1))
 
 # Print the first few rows of the cleaned data
 head(final_sample_long)

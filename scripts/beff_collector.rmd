@@ -14,6 +14,9 @@ directory path where the arizona files are stored
 ```{r}
 data_dir <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work"
 
+file_paths <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
+
+
 crime_types <- c("Agency Name",
                  "Murder", "Rape", "Robbery",
                  "Aggraveated Assault", "Burglary", "Larceny", 
@@ -22,37 +25,99 @@ crime_types <- c("Agency Name",
 ```
 read everything in, extract the month/year and do the initial processing
 ```{r}
+# Function to read all CSV files in a folder and save them as data frames in a list
+read_csvs <- function(folder_path) {
+  # List all CSV files in the directory
+  file_paths <- list.files(folder_path, pattern = "\\.csv$", full.names = TRUE)
+  
+  # Debug: Check if any files are listed
+  if (length(file_paths) == 0) {
+    stop("No CSV files found in the specified directory.")
+  } else {
+    message("Processing ", length(file_paths), " files.")
+  }
+  
+  # Function to read a single CSV file
+  read_csv_file <- function(file_path) {
+    # Debug: Check the file path
+    message("Reading file: ", file_path)
+    
+    # Attempt to read the CSV file
+    tryCatch({
+      df <- read_csv(file_path, show_col_types = FALSE)
+      return(df)
+    }, error = function(e) {
+      warning("Failed to read: ", file_path, " Error: ", e$message)
+      return(NULL)  # Return NULL if the file cannot be read
+    })
+  }
+  
+  # Read all CSV files and save them as data frames in a list
+  df_list <- lapply(file_paths, read_csv_file)
+  
+  # Name each element in the list with the corresponding file name (without extension)
+  names(df_list) <- tools::file_path_sans_ext(basename(file_paths))
+  
+  return(df_list)
+}
 
-# List all CSV files in the directory
-file_paths <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
+ldf <- read_csvs(data_dir)
 
+# Print the names of the data frames in the list to verify
+print(names(ldf))
 
-# Apply function to dataframes in the list
-ldf <- lapply(file_paths, process_csv)
-
-# Combine all dataframes into one
-combined_df <- bind_rows(ldf, .id = "source")
-
-# Print the combined DataFrame for debugging purposes
-head(combined_df)
 ```
-check it out
+
+format everything
 ```{r}
+format_cols <- function(df) {
+  df <- df %>%
+    mutate(across(c("`Agency Name`", "State"), as.character)) %>%
+    mutate(across(c("Murder", "Rape", "Robbery", "Aggravated Assault", "Burglary", 
+                    "Larceny", "Motor Vehicle Theft", "Arson", "Month", "Year"), as.numeric))
+  
+  return(df)
+}
+
+ldf1 <- format_cols(ldf)
+
+head(ldf1)
+```
+combine and check it out
+```{r}
+combined_df <- do.call(rbind, ldf1)
+
 head(combined_df)
 ```
-include R code in the document as follows:
-c("Agency Name","Murder", "Rape", "Robbery","Agg Assault", "Burglary", "Larceny", "MVT", "Arson", "Month", "Year")
+calculate and add nationwide counts
+```{r}
+nationwide_counts <- combined_df %>%
+  group_by(Year, Month) %>%
+  summarise(
+    Murder= sum(Murder, na.rm = TRUE),
+    Rape= sum(Rape, na.rm = TRUE),
+    Robbery= sum(Robbery, na.rm = TRUE),
+    Aggravated Assault= sum(Aggravated Assault, na.rm = TRUE),
+    Burglary= sum(Burglary, na.rm = TRUE),
+    Larceny = sum(Larceny, na.rm = TRUE),
+    Arson = sum(Arson, na.rm = TRUE),
+    Motor Vehicle Theft = sum(Motor Vehicle Theft, na.rm = TRUE),
+    .groups = 'drop'
+
+# Display the aggregate level dataframe
+head(nationwide_counts)
+```
 ```{r}
 #sort everything
-df <- df %>%
-  arrange(`Agency Name`, crime_types , Year, Month)
+combined_df <- combined_df %>%
+  arrange(`Agency Name`, crime_types, Year, Month)
 
 #create year column
-df <- df %>%
+combined_df <- combined_df %>%
   mutate(Date = as.Date(paste(Year, Month, "01", sep = "-")))
 
 #Calculate the 12-month moving average
-df_moving_avg <- df %>%
+df_moving_avg <- combined_df %>%
   group_by(Agency, CrimeType) %>%
   arrange(Date) %>%
   mutate(MovingAvg12 = rollmean(Count, 12, fill = NA, align = "right"))
@@ -62,6 +127,18 @@ df_moving_avg <- df_moving_avg %>%
   select(`Agency Name`, crime_types, Year, Month, Count, mva_12mo)
 ```
 
+add the nationwide counts to the sample once it's working
+```{r}
+nationwide_counts$Agency.Name <- "Nationwide Count"
+
+cdf1 <- bind_rows(combined_df, nationwide_counts)
+head(cdf1)
+```
+merge moving avg by Agency Name Year Month
+```{r}
+combined_df_mva_12mo <- inner_join(combined_df, df_moving_avg, by = c("`Agency Name`", "Year", "Month"))
+head(combined_df_mva_12mo)
+```
 ```{r}
 ```
 

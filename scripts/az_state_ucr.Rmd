@@ -3,6 +3,7 @@ title: "arizona state ucr"
 output: pdf_document
 date: "2024-04-16"
 updated: "2024-06-10"
+updated: "2024-07-23"
 ---
 ```{r}
 library(tidyverse)
@@ -58,7 +59,6 @@ process_csv <- function(file_path) {
 
 # Apply the function to each file path and store dataframes in a list
 ldf <- setNames(lapply(file_paths, process_csv), basename(file_paths))
-
 ```
 check it out
 ```{r}
@@ -77,7 +77,7 @@ col_names <-  c("Agency Name","Murder",	"Rape",	"Robbery",
 #apply column names
 ldf1 <- lapply(ldf1, setNames, col_names)
 
-print(ldf1[1])
+head(ldf1[1])
 ```
 fill in empty cells with 0
 ```{r}
@@ -91,29 +91,28 @@ replace_empty_with_zero <- function(df) {
 ldf2 <- lapply(ldf1, replace_empty_with_zero)
 
 # Print the modified list of data frames
-print(ldf2[1])
-
+head(ldf2[1])
 ```
 change NA to 0 and make sure that we don't have NA values in the time variables
 ```{r}
-#function to do both
+# Function to clean the data frame
 clean_df <- function(df) {
-  # Filter out rows where 'year' and 'month' column has NA values
+  # Filter out rows where 'Year' and 'Month' columns have NA values
   clean_data <- df %>%
-    filter(!is.na(Year) | !is.na(Month))
+    filter(!is.na(Year) & !is.na(Month))
   
   # Convert all columns (except the first one) to numeric and replace NA with 0
   clean_data1 <- clean_data %>%
-    mutate(across(.cols = -(1), ~ as.numeric(replace(., is.na(.), 0))))
+    mutate(across(.cols = -1, ~ as.numeric(replace(., is.na(.), 0))))
   
   return(clean_data1)
 }
 
-#apply function to dataframes in list
+# Apply function to data frames in list
 ldf3 <- lapply(ldf2, clean_df)
 
 #take a look
-print(ldf3[1])
+head(ldf3[1])
 ```
 combine everything
 ```{r}

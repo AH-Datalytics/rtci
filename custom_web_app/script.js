@@ -92,12 +92,92 @@ document.addEventListener("DOMContentLoaded", function() {
         `;
     }
 
+    function updateKPIBox2(filteredData) {
+        const kpiBox2 = document.getElementById("kpi-box2");
+        
+        // Get the most recent date
+        const mostRecentDate = d3.max(filteredData, d => d.date);
+        const mostRecentYear = mostRecentDate.getFullYear();
+        const mostRecentMonth = mostRecentDate.getMonth() + 1; // Months are zero-based
+    
+        // Calculate the start and end dates for the previous year
+        const startDatePrevYear = new Date(mostRecentYear - 1, 0, 1); // January 1st of previous year
+        const endDatePrevYear = new Date(mostRecentYear - 1, mostRecentMonth - 1, 31); // End of most recent month of previous year
+    
+        // Filter data for the previous year up to the same month
+        const ytdDataPrevYear = filteredData.filter(d => 
+            d.date >= startDatePrevYear && d.date <= endDatePrevYear
+        );
+    
+        // Calculate the sum of offenses for the previous year
+        const ytdSumPrevYear = d3.sum(ytdDataPrevYear, d => d.count);
+    
+        // Get the selected crime type
+        const selectedCrimeType = crimeTypeSelect.options[crimeTypeSelect.selectedIndex].text;
+    
+        // Update KPI box 2 content
+        kpiBox2.innerHTML = `
+            <h2>Previous YTD ${selectedCrimeType} Offenses</h2>
+            <p>Jan '${(mostRecentYear - 1).toString().slice(-2)} through ${d3.timeFormat("%B")(new Date(mostRecentYear - 1, mostRecentMonth - 1, 1))} '${(mostRecentYear - 1).toString().slice(-2)}</p>
+            <p><strong>${ytdSumPrevYear}</strong></p>
+        `;
+    }
+    
+    function updateKPIBox3(filteredData) {
+        const kpiBox3 = document.getElementById("kpi-box3");
+    
+        // Get the most recent date
+        const mostRecentDate = d3.max(filteredData, d => d.date);
+        const mostRecentYear = mostRecentDate.getFullYear();
+        const mostRecentMonth = mostRecentDate.getMonth() + 1; // Months are zero-based
+    
+        // Calculate the start and end dates for the current year
+        const startDateCurrentYear = new Date(mostRecentYear, 0, 1); // January 1st of current year
+        const endDateCurrentYear = new Date(mostRecentYear, mostRecentMonth, 0); // End of most recent month of current year
+    
+        // Calculate the start and end dates for the previous year
+        const startDatePrevYear = new Date(mostRecentYear - 1, 0, 1); // January 1st of previous year
+        const endDatePrevYear = new Date(mostRecentYear - 1, mostRecentMonth, 0); // End of most recent month of previous year
+    
+        // Filter data for the current year up to the most recent month
+        const ytdDataCurrentYear = filteredData.filter(d => 
+            d.date >= startDateCurrentYear && d.date <= endDateCurrentYear
+        );
+    
+        // Filter data for the previous year up to the same month
+        const ytdDataPrevYear = filteredData.filter(d => 
+            d.date >= startDatePrevYear && d.date <= endDatePrevYear
+        );
+    
+        // Calculate the sum of offenses for the current year and previous year
+        const ytdSumCurrentYear = d3.sum(ytdDataCurrentYear, d => d.count);
+        const ytdSumPrevYear = d3.sum(ytdDataPrevYear, d => d.count);
+    
+        // Calculate the percentage change
+        const percentChange = ((ytdSumCurrentYear - ytdSumPrevYear) / ytdSumPrevYear) * 100;
+    
+        // Get the selected crime type
+        const selectedCrimeType = crimeTypeSelect.options[crimeTypeSelect.selectedIndex].text;
+    
+        // Update KPI box 3 content
+        kpiBox3.innerHTML = `
+            <h2>% Change ${selectedCrimeType} Offenses YTD</h2>
+            <p>Jan '${mostRecentYear.toString().slice(-2)} - ${d3.timeFormat("%B")(mostRecentDate)} '${mostRecentYear.toString().slice(-2)} vs Jan '${(mostRecentYear - 1).toString().slice(-2)} - ${d3.timeFormat("%B")(new Date(mostRecentYear - 1, mostRecentMonth - 1, 1))} '${(mostRecentYear - 1).toString().slice(-2)}</p>
+            <p><strong>${percentChange.toFixed(2)}%</strong></p>
+        `;
+    }
+    
+
     // Render the chart
     function renderChart() {
         const filteredData = filterData(allData);
 
-        // Update KPI box 1
+        // Update KPI boxes
         updateKPIBox1(filteredData);
+        updateKPIBox2(filteredData);
+        updateKPIBox3(filteredData);
+
+
 
         // Remove any existing SVG
         d3.select("#line-graph-container svg").remove();

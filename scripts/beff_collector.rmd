@@ -16,10 +16,9 @@ data_dir <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime
 
 file_paths <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
 
-
 crime_types <- c("Agency Name",
                  "Murder", "Rape", "Robbery",
-                 "Aggraveated Assault", "Burglary", "Larceny", 
+                 "Aggravated Assault", "Burglary", "Larceny", 
                  "Motor Vehicle Theft", "Arson", 
                  "Month", "Year")
 ```
@@ -66,6 +65,7 @@ ldf <- read_csvs(data_dir)
 # Print the names of the data frames in the list to verify
 print(names(ldf))
 
+head(ldf[1])
 ```
 
 format everything
@@ -78,14 +78,17 @@ format_cols <- function(df) {
   
   return(df)
 }
+ldf <- format_cols(ldf)
 
-ldf1 <- format_cols(ldf)
-
-head(ldf1)
+head(ldf[1])
 ```
+
+
+
+
 combine and check it out
 ```{r}
-combined_df <- do.call(rbind, ldf1)
+combined_df <- do.call(rbind, ldf)
 
 head(combined_df)
 ```
@@ -140,5 +143,50 @@ combined_df_mva_12mo <- inner_join(combined_df, df_moving_avg, by = c("`Agency N
 head(combined_df_mva_12mo)
 ```
 ```{r}
+# Function to get column names from each data frame in the list
+get_column_names <- function(df_list) {
+  # Extract column names from each data frame
+  column_list <- lapply(df_list, colnames)
+  
+  # Create a data frame with column names and their respective data frame indices
+  col_df <- data.frame(
+    DataFrame = rep(names(column_list), sapply(column_list, length)),
+    ColumnName = unlist(column_list)
+  )
+  
+  return(col_df)
+}
+
+# Function to identify rarely used columns
+identify_rare_columns <- function(col_df, threshold = 1) {
+  # Count the frequency of each column name
+  col_count <- col_df %>%
+    group_by(ColumnName) %>%
+    summarize(Frequency = n()) %>%
+    arrange(Frequency)
+  
+  # Identify columns used in fewer data frames than the threshold
+  rare_columns <- col_count %>%
+    filter(Frequency <= threshold)
+  
+  return(rare_columns)
+}
+
 ```
 
+
+
+```{r}
+# Get column names from each data frame
+col_df <- get_column_names(ldf)
+
+# Print the breakdown of column names
+print(col_df)
+```
+```{r}
+# Identify rarely used columns (e.g., used in 1 or fewer data frames)
+rare_columns <- identify_rare_columns(col_df, threshold = 1)
+
+# Print the rarely used columns
+print(rare_columns)
+```

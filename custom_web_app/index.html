@@ -10,6 +10,20 @@
 <body>
     <div id="rtci-dashboard" class="rtci-container">
         <h1 class="rtci-header">Monthly UCR Part One Crimes by Year and Agency</h1>
+        <div id="filters-container" class="filters-container">
+            <span>Show me</span>
+            <select id="crime-type" class="filter-dropdown">
+                <!-- Options will be dynamically populated -->
+            </select>
+            <span>in</span>
+            <select id="state" class="filter-dropdown">
+                <!-- Options will be dynamically populated -->
+            </select>
+            <span>for</span>
+            <select id="agency" class="filter-dropdown">
+                <!-- Options will be dynamically populated -->
+            </select>
+        </div>
         <div id="line-graph-container" class="rtci-line-graph"></div>
     </div>
     <script src="https://d3js.org/d3.v7.min.js"></script>

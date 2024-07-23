@@ -1,14 +1,12 @@
 /* RTCI Design Style Guide */
-
-
-/* Reset margin and padding */
 html, body {
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Prevent scrolling */
-    height: 100%; /* Ensure the body and html take up full height */
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    background-color: #00333a; /* Teal background */
 }
-
 
 #rtci-dashboard {
     font-family: 'Roboto Condensed', Arial, sans-serif;
@@ -17,39 +15,82 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* Align items at the start (top) */
+    justify-content: flex-start;
     height: 100vh;
-    background-color: #00333a; /* Teal background */
 }
 
 .rtci-header {
-    color: white;
+    color: #f28106; /* Orange text color */
     font-family: 'Roboto Condensed', Arial, sans-serif; /* Roboto Condensed font */
     font-size: 3vw; /* Responsive font size based on viewport width */
     text-align: center;
     margin-top: 2rem; /* Add some top margin for spacing */
 }
 
-/* Line Graph Container */
+.filters-container {
+    color: white;
+    font-family: 'Roboto Condensed', Arial, sans-serif; /* Roboto Condensed font */
+    font-size: 2vw; /* Responsive font size */
+    text-align: center;
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filter-dropdown {
+    font-family: 'Roboto Condensed', Arial, sans-serif !important; /* Roboto Condensed font */
+    font-size:1.5vw; /* Responsive font size */
+    color: #2d5ef9;
+    position: relative;
+    border-radius: 6px; /* Make the corners more rounded */
+}
+
+/* Now make the dropdown menu font dynamic and roboto condensed */
+/*START HERE*/
+
+
 .rtci-line-graph {
     width: 80%; /* Dynamic width relative to the dashboard */
-    height: 60%; /* Dynamic height relative to the viewport height */
+    height: 65%; /* Dynamic height relative to the viewport height */
     background-color: white; /* Background color for visibility */
     margin-top: 2rem; /* Space between the title and the line graph */
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow for depth */
+    font-size: 'Roboto Condensed', Arial, sans-serif; /* Roboto Condensed font */
 }
 
-/* Ensure proper scaling on smaller screens */
+.tooltip {
+    position: absolute;
+    text-align: left;
+    width: auto;
+    height: auto;
+    padding: 5px;
+    font-size: 12px;
+    font-family: 'Roboto Condensed', Arial, sans-serif; /* Font family for tooltip */
+    background: #f28106; /* Orange background color */
+    color: #00333a; /* White text color */
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+
+
 @media (max-width: 600px) {
     .rtci-header {
         font-size: 3vw; /* Adjust font size for smaller screens */
     }
 
+    .filters-container {
+        font-size: 2vw; /* Adjust font size for smaller screens */
+    }
+
     .rtci-line-graph {
         width: 80%; /* Adjust width for smaller screens */
-        height: 40%; /* Adjust height for smaller screens */
+        height: 65%; /* Adjust height for smaller screens */
     }
 }

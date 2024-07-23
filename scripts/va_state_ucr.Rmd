@@ -4,6 +4,7 @@ output: pdf_document
 date: "2024-05-03"
 updated: "2024-05-08"
 updated: "2024-06-07"
+updated:  "2024-07-23"
 ---
 
 load libraries
@@ -13,7 +14,7 @@ library(readr)
 library(lubridate)
 
 # Specify the directory containing the CSV files
-data_dir <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Virginia\\State UCR"  # Update this path
+data_dir <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Virginia\\State UCR"
 
 # List all CSV files in the directory
 file_path <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)

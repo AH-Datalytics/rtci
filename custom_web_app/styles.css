@@ -116,7 +116,7 @@ html, body {
     .rtci-line-graph {
         width: 100%; /* Adjust width for smaller screens */
         height: 50vh; /* Set a fixed height for the graph */
-        margin-bottom: 1rem; /* Reduce space between the graph and KPI boxes */
+        margin-bottom: 0.5rem; /* Reduce space between the graph and KPI boxes */
     }
 
     .kpi-container {
@@ -125,7 +125,8 @@ html, body {
         flex-direction: row; /* Make KPI boxes horizontal */
         justify-content: space-between; /* Evenly distribute KPI boxes */
         align-items: stretch; /* Ensure KPI boxes have equal height */
-        padding-left: 0;
+        padding: 0; /* Remove padding */
+        margin: 0; /* Remove margin */
     }
 
     .kpi-box {
@@ -140,5 +141,13 @@ html, body {
         color: white;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow for depth */
         height: 75%; /* Ensure KPI boxes fill the available height */
+    }
+
+    .kpi-box:first-child {
+        margin-left: 0; /* Remove left margin for the first KPI box */
+    }
+
+    .kpi-box:last-child {
+        margin-right: 0; /* Remove right margin for the last KPI box */
     }
 }

@@ -122,9 +122,6 @@ rename_larceny_to_theft <- function(df) {
 }
 
 ldf2 <- lapply(ldf2, rename_larceny_to_theft)
-
-
-
 ```
 still have a few odd column names
 ```{r}

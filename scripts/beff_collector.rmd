@@ -218,7 +218,7 @@ file_path <- file.path(folder_path, "rtci_benjeff_sample.csv")
 write.csv(df_mvs_12mo, file = file_path, row.names = FALSE)
 
 # Write the data frame to the data folder in Github repo
-write.csv(df_mvs_23mo, "../data/rtci_benjeff_sample.csv")
+write.csv(df_mvs_12mo, "data/rtci_benjeff_sample.csv")
 ```
 
 

@@ -1,6 +1,7 @@
 # Load Libraries
 library(tidyverse)
 library(lubridate)
+library(datasets)
 
 # Load Data
 final_sample <- read_csv("data/rtci_benjeff_sample.csv")
@@ -8,11 +9,16 @@ final_sample <- read_csv("data/rtci_benjeff_sample.csv")
 # Rename columns: lower case and underscores
 final_sample <- final_sample %>%
   rename_with(~ str_replace_all(tolower(.), "\\s+", "_")) %>%
-  rename(state_name = state)
+  rename(state_abbr = state)
 
 # Create 'date' column formatted as 1/1/YYYY
 final_sample <- final_sample %>%
   mutate(date = make_date(year = year, month = month, day = 1))
+
+# Map state abbreviations to full state names
+state_names <- data.frame(state_abbr = state.abb, state_name = state.name)
+final_sample <- final_sample %>%
+  left_join(state_names, by = "state_abbr")
 
 # Create 'agency_full' and 'location_full' columns
 final_sample <- final_sample %>%
@@ -53,6 +59,17 @@ final_sample_long <- final_sample_long %>%
 # Final arrangement of columns
 final_sample_long <- final_sample_long %>%
   select(date, state_ucr_link, agency_name, state_name, agency_full, location_full, population, crime_type, count, mvs_12mo)
+
+# Capitalize crime types before printing and writing
+final_sample_long <- final_sample_long %>%
+  mutate(crime_type = ifelse(crime_type == "murder", "Murder", 
+                     ifelse(crime_type == "rape", "Rape", 
+                     ifelse(crime_type == "robbery", "Robbery", 
+                     ifelse(crime_type == "aggravated_assault", "Aggravated Assault", 
+                     ifelse(crime_type == "burglary", "Burglary", 
+                     ifelse(crime_type == "theft", "Theft", 
+                     ifelse(crime_type == "motor_vehicle_theft", "Motor Vehicle Theft", crime_type))))))))
+
 
 # Print the first few rows of the cleaned data with all columns
 print(head(final_sample_long), width = Inf)

@@ -4,7 +4,7 @@ library(lubridate)
 library(datasets)
 
 # Load Data
-final_sample <- read_csv("data/rtci_benjeff_sample.csv")
+final_sample <- read_csv("../data/rtci_benjeff_sample.csv")
 
 # Rename columns: lower case and underscores
 final_sample <- final_sample %>%
@@ -51,6 +51,17 @@ final_sample_long_mvs <- final_sample %>%
 final_sample_long <- final_sample_long_counts %>%
   left_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "location_full", "crime_type"))
 
+# Audit merge
+final_sample_left <- final_sample_long_counts %>%
+  left_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "location_full", "crime_type"))
+
+final_sample_inner <- final_sample_long_counts %>%
+  inner_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "location_full", "crime_type"))
+
+final_sample_full <- final_sample_long_counts %>%
+  full_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "location_full", "crime_type"))
+
+
 # Add placeholder columns for state_ucr_link and population
 final_sample_long <- final_sample_long %>%
   mutate(state_ucr_link = NA_character_,
@@ -75,4 +86,4 @@ final_sample_long <- final_sample_long %>%
 print(head(final_sample_long), width = Inf)
 
 # Write the final_sample_long data frame to viz_data.csv
-write.csv(final_sample_long, "custom_web_app/data/viz_data.csv", row.names = FALSE)
+write.csv(final_sample_long, "../custom_web_app/data/viz_data.csv", row.names = FALSE)

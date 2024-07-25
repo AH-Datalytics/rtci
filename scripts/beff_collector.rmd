@@ -205,7 +205,6 @@ df_mvs_12mo <- mvs_12mo(cdf1)
 # Print the result to verify
 head(df_mvs_12mo)
 ```
-
 write it out!
 ```{r}
 # Specify the folder path

@@ -81,14 +81,21 @@ head(ldf1[1])
 ```
 fill in empty cells with 0
 ```{r}
-#simple function to apply to all dataframes in list
-replace_empty_with_zero <- function(df) {
-  df[df == ""] <- "0"
-  df
+# Function to keep only columns that match names from a list
+keep_valid_columns <- function(df, col_names) {
+  df %>%
+    select(any_of(col_names))
 }
 
-# Apply the function to each data frame in the list
-ldf2 <- lapply(ldf1, replace_empty_with_zero)
+# Function to transform a single dataframe
+transform_df <- function(df) {
+  df %>%
+    keep_valid_columns(col_names) %>%
+    mutate(across(-1, convert_to_numeric))
+}
+
+# Apply the transformation to all dataframes in the list
+ldf2 <- lapply(ldf1, transform_df)
 
 # Print the modified list of data frames
 head(ldf2[1])
@@ -101,11 +108,8 @@ clean_df <- function(df) {
   clean_data <- df %>%
     filter(!is.na(Year) & !is.na(Month))
   
-  # Convert all columns (except the first one) to numeric and replace NA with 0
-  clean_data1 <- clean_data %>%
-    mutate(across(.cols = -1, ~ as.numeric(replace(., is.na(.), 0))))
-  
-  return(clean_data1)
+ 
+  return(clean_data)
 }
 
 # Apply function to data frames in list

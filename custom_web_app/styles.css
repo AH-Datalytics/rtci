@@ -162,15 +162,6 @@ html, body {
     position: relative;
 }
 
-.source-link {
-    fill: #2d5ef9;
-    cursor: pointer;
-}
-
-.source-link:hover {
-    fill: #2d5df96d;
-}
-
 /* Responsive styles for smaller screens */
 @media (max-width: 600px) {
     .rtci-header {
@@ -243,5 +234,32 @@ html, body {
 
     .kpi-box p strong {
         font-size: 2em; /* Larger font size for count on small screens */
+    }
+}
+
+
+/* For all three caption styling */
+.caption-group text {
+    font-size: 1.5vh; /* Initial font size */
+}
+
+.source-link {
+    fill: #2d5ef9;
+    cursor: pointer;
+    font-size: 1.5vh;
+}
+
+.source-link:hover {
+    fill: #2d5df96d;
+}
+
+
+@media (max-width: 800px) {
+    .caption-group text {
+        font-size: 1.1vh; /* Adjust size for screens less than 800 */
+    }
+
+    .source-link {
+        font-size: 1.1vh; /* Adjust size for screens less than 800 */
     }
 }

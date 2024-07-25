@@ -204,29 +204,46 @@ document.addEventListener("DOMContentLoaded", function() {
             .domain(d3.extent(filteredData, d => d.date))
             .range([0, width]);
     
-        const y = d3.scaleLinear()
+            const y = d3.scaleLinear()
             .domain([0, d3.max(filteredData, d => d.value)])
             .nice()
             .range([height, 0]);
         
-        svg.append("g")
+        // X-axis
+        const xAxis = d3.axisBottom(x)
+            .ticks(d3.timeYear)
+            .tickFormat(d3.timeFormat("%Y"))
+            .tickSizeOuter(0);
+        
+        const xAxisGroup = svg.append("g")
             .attr("transform", `translate(0,${height})`)
-            .call(d3.axisBottom(x).ticks(d3.timeYear).tickFormat(d3.timeFormat("%Y")).tickSizeOuter(0))
-            .selectAll("path, line")
+            .call(xAxis);
+        
+        xAxisGroup.selectAll("path, line")
             .style("stroke", "#e0e0e0");
         
-        svg.selectAll(".x-axis text")
+        xAxisGroup.selectAll("text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
-            .style("fill", "#00333a");
+            .style("fill", "#00333a")
+            .style("font-size", "0.9vw"); // Adjust font size as needed
         
-        svg.append("g")
-            .call(d3.axisLeft(y).ticks(Math.min(d3.max(filteredData, d => d.value), 10)).tickFormat(d3.format("d"))) // Ensure proper number of ticks
-            .selectAll("path, line")
+        // Y-axis
+        const yAxis = d3.axisLeft(y)
+            .ticks(Math.min(d3.max(filteredData, d => d.value), 10))
+            .tickFormat(d3.format("d")); // Ensure proper number of ticks
+        
+        const yAxisGroup = svg.append("g")
+            .call(yAxis);
+        
+        yAxisGroup.selectAll("path, line")
             .style("stroke", "#e0e0e0");
         
-        svg.selectAll(".y-axis text")
+        yAxisGroup.selectAll("text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
-            .style("fill", "#00333a");
+            .style("fill", "#00333a")
+            .style("font-size", "0.9vw"); // Adjust font size as needed
+        
+
         
     
         const labelFontSize = Math.max(Math.min(height * 0.05, 16), 10);
@@ -247,8 +264,8 @@ document.addEventListener("DOMContentLoaded", function() {
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a");
     
-        const lineThickness = Math.max(Math.min(width * 0.005, 3.5), 2);
-        const dotSize = Math.max(Math.min(width * 0.005, 3.5), 2);
+        const lineThickness = Math.max(Math.min(width * 0.003, 2.5), 1);
+        const dotSize = Math.max(Math.min(width * 0.003, 2.5), 1);
     
         const line = svg.append("path")
             .datum(filteredData)
@@ -306,7 +323,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const sourceTextElement = sourceGroup.append("text")
             .attr("class", "source-link")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
-            .style("font-size", "1.5vh")
             .style("fill", "#00333a");
     
         sourceTextElement.append("tspan")
@@ -326,11 +342,12 @@ document.addEventListener("DOMContentLoaded", function() {
     
         const captionGroup = svg.append("g")
             .attr("transform", `translate(0, ${height + margin.bottom - 10})`) // Adjust vertical position
-            .attr("text-anchor", "start");
+            .attr("text-anchor", "start")
+            .attr("class", "caption-group"); // Add a class for the captions
+
     
         const captionTextElement = captionGroup.append("text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
-            .style("font-size", "1.5vh")
             .style("fill", "#00333a");
     
         captionTextElement.append("tspan")

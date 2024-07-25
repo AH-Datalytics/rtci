@@ -9,6 +9,7 @@ library(tidyverse)
 library(dplyr)
 library(readr)
 library(stringr)
+library(zoo)
 ```
 directory path where the arizona files are stored
 ```{r}
@@ -156,11 +157,70 @@ combined_df <- do.call(rbind, ldf2)
 
 rownames(combined_df) <- NULL
 
-#drop the extra theft
-combined_df <- combined_df[,-12]
-
+#select out acceptable columns and take a look
+combined_df <- combined_df %>% select(acceptable_names)
 head(combined_df)
 ```
+remove non-current jurisdictions
+```{r}
+crime_types <- c("Murder", "Rape", "Robbery",
+                 "Aggravated Assault", "Burglary", 
+                 "Theft", "Motor Vehicle Theft")
+
+ # Create a Date column from Month and Year columns
+  df <- combined_df %>%
+         mutate(Date = as.Date(paste(Year, Month, "01", sep = "-")))
+
+# Function to remove current and previous months and...
+#check for valid numerical counts in the obs two months prior
+#check_valid_counts <- function(df, crime_types, date_column) {
+  # Get the current month and year
+  current_month <- month(Sys.Date())
+  current_year <- year(Sys.Date())
+  
+  # Get the previous month and year
+  if (current_month == 1) {
+    previous_month <- 12
+    previous_year <- current_year - 1
+    two_months_prior_month <- 11
+    two_months_prior_year <- current_year - 1
+  } else if (current_month == 2) {
+    previous_month <- 1
+    previous_year <- current_year
+    two_months_prior_month <- 12
+    two_months_prior_year <- current_year - 1
+  } else {
+    previous_month <- current_month - 1
+    previous_year <- current_year
+    two_months_prior_month <- current_month - 2
+    two_months_prior_year <- current_year
+  }
+  
+  # Filter rows for the current and previous month/year
+  filtered_data <- df %>%
+    filter((year(Date)) == current_year & month(Date) == current_month |
+           (year(Date)) == previous_year & month(Date) == previous_month
+    )
+# Filter rows for two months prior
+two_months_prior_data <- df %>%
+    filter(year(Date) == two_months_prior_year & month(Date) == two_months_prior_month)
+  
+# Check out two months previous - the first month of our sample
+invalid_two_months_prior <- two_months_prior_data %>%
+  filter(if_any(c(Murder, `Motor Vehicle Theft`, `Aggravated Assault`,
+                  Burglary, Robbery, Theft, Rape), ~ is.na(.))) %>%
+  pull(`Agency Name`) %>%
+  unique()
+
+# Save the invalid records as a separate vector
+invalid_records <- two_months_prior_data %>%
+  filter(if_any(c(Murder, `Motor Vehicle Theft`, `Aggravated Assault`,
+                  Burglary, Robbery, Theft, Rape), ~ is.na(.)))
+
+head(invalid_records)
+```
+
+
 calculate and add nationwide counts
 ```{r}
 nationwide_counts <- combined_df %>%
@@ -191,16 +251,16 @@ head(cdf1)
 mvs_12mo <- function(df) {
   df <- df %>%
     arrange(Year, Month) %>%
-    group_by(`Agency Name`) %>%
+    group_by(`Agency Name`, State) %>%
     mutate(across(c(Murder, Burglary, Rape, Robbery, `Aggravated Assault`, `Motor Vehicle Theft`, Theft), 
-                  ~ cumsum(.), 
+                  ~rollapply(.x, width = 12, FUN = sum, align = "right", fill = NA, partial = TRUE),
                   .names = "{col}_mvs_12mo")) %>%
     ungroup()
   return(df)
 }
 
 # Apply the function to the single dataframe
-df_mvs_12mo <- mvs_12mo(cdf1)
+df_mvs_12mo <- mvs_12mo(combined_df)
 
 # Print the result to verify
 head(df_mvs_12mo)
@@ -220,12 +280,22 @@ write.csv(df_mvs_12mo, file = file_path, row.names = FALSE)
 write.csv(df_mvs_12mo, "data/rtci_benjeff_sample.csv")
 ```
 
+1 -add % change to mvs for groupings -sum
+1a -august pull - round off and remove sys month - august and previous month 
+##august - 8/1 we get June data
+2 -reference file inclusion - pop, groupings, ORI, city/state
+3 -make spatial data
+4 -create vc/pc groupings
+5 -run wheeler script again and report agency issues
+6 -map process w/ OB
+7 -links to sources
+8 -ytd table for each agency in the sample
+9 -based on 2022 we think we are capturing X amount of the total crimes that 
 
-pull in the tracker 
+august 1st - collect data for June
 
-
-
-
+audit 
+-pull out agencies 
 
 
 
@@ -240,16 +310,20 @@ pull in the tracker
 
 AUDITING
 ```{r}
-# Function to get column names from each data frame in the list
-get_column_names <- function(df_list) {
-  # Extract column names from each data frame
-  column_list <- lapply(df_list, colnames)
+get_column_names_and_formats <- function(df_list) {
+  # Extract column names and formats from each data frame
+  column_list <- lapply(df_list, function(df) {
+    colnames <- colnames(df)
+    formats <- sapply(df, class)
+    data.frame(ColumnName = colnames, Format = formats, stringsAsFactors = FALSE)
+  })
   
-  # Create a data frame with column names and their respective data frame indices
-  col_df <- data.frame(
-    DataFrame = rep(names(column_list), sapply(column_list, length)),
-    ColumnName = unlist(column_list)
-  )
+  # Combine the column name and format information into a single data frame
+  col_df <- do.call(rbind, lapply(seq_along(column_list), function(i) {
+    df <- column_list[[i]]
+    df$DataFrame <- names(df_list)[i]
+    df
+  }))
   
   return(col_df)
 }
@@ -275,7 +349,7 @@ identify_rare_columns <- function(col_df, threshold = 1) {
 
 ```{r}
 # Get column names from each data frame
-col_df <- get_column_names(ldf)
+col_df <- get_column_names_and_formats(ldf2)
 
 # Print the breakdown of column names
 print(col_df)

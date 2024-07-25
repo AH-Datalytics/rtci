@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Update KPI box 1 content
         kpiBox1.innerHTML = `
-            <h2>Year to Date ${selectedCrimeType} Offenses</h2>
+            <h2>Year to Date ${selectedCrimeType}</h2>
             <p>Jan '${mostRecentYear.toString().slice(-2)} through ${d3.timeFormat("%B")(mostRecentDate)} '${mostRecentYear.toString().slice(-2)}</p>
             <p><strong>${ytdSum}</strong></p>
         `;
@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         // Update KPI box 2 content
         kpiBox2.innerHTML = `
-            <h2>Previous YTD ${selectedCrimeType} Offenses</h2>
+            <h2>Previous YTD ${selectedCrimeType}</h2>
             <p>Jan '${(mostRecentYear - 1).toString().slice(-2)} through ${d3.timeFormat("%B")(new Date(mostRecentYear - 1, mostRecentMonth - 1, 1))} '${(mostRecentYear - 1).toString().slice(-2)}</p>
             <p><strong>${ytdSumPrevYear}</strong></p>
         `;
@@ -240,7 +240,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("font-size", `${labelFontSize}px`)
             .attr("fill", "#00333a")
-            .text(`Reported ${selectedCrimeType} Offenses`);
+            .text(`Reported ${selectedCrimeType}`);
     
         svg.selectAll(".tick text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
@@ -279,7 +279,7 @@ document.addEventListener("DOMContentLoaded", function() {
             tooltip.transition()
                 .duration(0)
                 .style("opacity", .9);
-            tooltip.html(`<strong>Agency:</strong> ${d.agency_name}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Offenses:</strong> ${d.value}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
+            tooltip.html(`<strong>Agency:</strong> ${d.agency_name}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Total:</strong> ${d.value}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
                 .style("left", (event.pageX + 5) + "px")
                 .style("top", (event.pageY - 28) + "px");
         })

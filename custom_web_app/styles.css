@@ -4,7 +4,7 @@ html, body {
     overflow: hidden;
     height: 100%;
     width: 100%;
-    background-color: #00333a; /* Teal background */
+    background-color: white; /* Teal background */
 }
 
 #rtci-dashboard {
@@ -27,7 +27,7 @@ html, body {
 }
 
 .filters-container {
-    color: white;
+    color: #00333a;
     font-family: 'Roboto Condensed', Arial, sans-serif; /* Roboto Condensed font */
     font-size: 1.5vw; /* Responsive font size */
     text-align: center;

@@ -60,12 +60,17 @@ document.addEventListener("DOMContentLoaded", function() {
         const selectedCrimeType = crimeTypeSelect.value;
         const selectedState = stateSelect.value;
         const selectedAgency = agencySelect.value;
+        const selectedDataType = document.getElementById("data-type").value;
+
 
         return data.filter(d => 
             d.crime_type === selectedCrimeType &&
             d.state_name === selectedState &&
             d.agency_name === selectedAgency
-        );
+        ).map(d => ({
+            ...d,
+            value: d[selectedDataType]
+        }));
     }
 
     function updateKPIBox1(filteredData) {
@@ -90,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Update KPI box 1 content
         kpiBox1.innerHTML = `
-            <h2>Year to Date ${selectedCrimeType} Offenses</h2>
+            <h2>Year to Date ${selectedCrimeType}</h2>
             <p>Jan '${mostRecentYear.toString().slice(-2)} through ${d3.timeFormat("%B")(mostRecentDate)} '${mostRecentYear.toString().slice(-2)}</p>
             <p><strong>${ytdSum}</strong></p>
         `;
@@ -121,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         // Update KPI box 2 content
         kpiBox2.innerHTML = `
-            <h2>Previous YTD ${selectedCrimeType} Offenses</h2>
+            <h2>Previous YTD ${selectedCrimeType}</h2>
             <p>Jan '${(mostRecentYear - 1).toString().slice(-2)} through ${d3.timeFormat("%B")(new Date(mostRecentYear - 1, mostRecentMonth - 1, 1))} '${(mostRecentYear - 1).toString().slice(-2)}</p>
             <p><strong>${ytdSumPrevYear}</strong></p>
         `;
@@ -174,76 +179,93 @@ document.addEventListener("DOMContentLoaded", function() {
     
     function renderChart() {
         const filteredData = filterData(allData);
-
+    
         // Update KPI boxes
         updateKPIBox1(filteredData);
         updateKPIBox2(filteredData);
         updateKPIBox3(filteredData);
-
+    
         // Remove any existing SVG
         d3.select("#line-graph-container svg").remove();
-
+    
         // Set up the SVG container dimensions
         const margin = { top: 40, right: 30, bottom: 50, left: 70 };
         const container = document.getElementById('line-graph-container');
         const width = container.clientWidth - margin.left - margin.right;
         const height = container.clientHeight - margin.top - margin.bottom;
-
+    
         const svg = d3.select("#line-graph-container").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
-
+    
         const x = d3.scaleTime()
             .domain(d3.extent(filteredData, d => d.date))
             .range([0, width]);
-
-        const y = d3.scaleLinear()
-            .domain([0, d3.max(filteredData, d => d.count)])
+    
+            const y = d3.scaleLinear()
+            .domain([0, d3.max(filteredData, d => d.value)])
             .nice()
             .range([height, 0]);
+        
+        // X-axis
+            const xAxis = d3.axisBottom(x)
+            .ticks(d3.timeYear)
+            .tickFormat(d3.timeFormat("%Y"))
+            .tickSizeOuter(0);
 
-        svg.append("g")
+            const xAxisGroup = svg.append("g")
             .attr("transform", `translate(0,${height})`)
-            .call(d3.axisBottom(x).ticks(d3.timeYear).tickFormat(d3.timeFormat("%Y")).tickSizeOuter(0))
-            .selectAll("path, line")
+            .call(xAxis);
+
+            xAxisGroup.selectAll("path, line")
             .style("stroke", "#e0e0e0");
 
-        svg.selectAll(".x-axis text")
+            xAxisGroup.selectAll("text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
-            .style("fill", "#00333a");
+            .style("fill", "#00333a")
+            .attr("class", "axis-text"); // Add class for responsive font size
 
-        svg.append("g")
-            .call(d3.axisLeft(y).ticks(d3.max(filteredData, d => d.count) < 10 ? d3.max(filteredData, d => d.count) : 10).tickFormat(d3.format("d")))
-            .selectAll("path, line")
+            // Y-axis
+            const yAxis = d3.axisLeft(y)
+            .ticks(Math.min(d3.max(filteredData, d => d.value), 10))
+            .tickFormat(d3.format("d")); // Ensure proper number of ticks
+
+            const yAxisGroup = svg.append("g")
+            .call(yAxis);
+
+            yAxisGroup.selectAll("path, line")
             .style("stroke", "#e0e0e0");
 
-        svg.selectAll(".y-axis text")
+            yAxisGroup.selectAll("text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
-            .style("fill", "#00333a");
+            .style("fill", "#00333a")
+            .attr("class", "axis-text"); // Add class for responsive font size
 
-        const labelFontSize = Math.max(Math.min(height * 0.05, 16), 10);
+            const labelFontSize = Math.max(Math.min(height * 0.05, 16), 10);
+
+
         const selectedCrimeType = crimeTypeSelect.options[crimeTypeSelect.selectedIndex].text;
-
+    
         svg.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", -margin.left + 25)
+            .attr("y", -margin.left + 15)
             .attr("x", -height / 2)
             .attr("dy", "1em")
             .style("text-anchor", "middle")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("font-size", `${labelFontSize}px`)
             .attr("fill", "#00333a")
-            .text(`Reported ${selectedCrimeType} Offenses`);
-
+            .text(`Reported ${selectedCrimeType}`);
+    
         svg.selectAll(".tick text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a");
-
-        const lineThickness = Math.max(Math.min(width * 0.005, 3.5), 2);
-        const dotSize = Math.max(Math.min(width * 0.005, 3.5), 2);
-
+    
+        const lineThickness = Math.max(Math.min(width * 0.003, 2.5), 1);
+        const dotSize = Math.max(Math.min(width * 0.003, 2.5), 1);
+    
         const line = svg.append("path")
             .datum(filteredData)
             .attr("fill", "none")
@@ -252,29 +274,29 @@ document.addEventListener("DOMContentLoaded", function() {
             .attr("d", d3.line()
                 .curve(d3.curveCatmullRom.alpha(0.5))
                 .x(d => x(d.date))
-                .y(d => y(d.count))
+                .y(d => y(d.value))
             );
-
+    
         const tooltip = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0)
             .style("font-family", "'Roboto Condensed', Arial, sans-serif");
-
+    
         const dots = svg.selectAll("circle")
             .data(filteredData)
             .enter().append("circle")
             .attr("cx", d => x(d.date))
-            .attr("cy", d => y(d.count))
+            .attr("cy", d => y(d.value))
             .attr("r", dotSize)
             .attr("fill", "#2d5ef9");
-
+    
         dots.on("mouseover", function(event, d) {
             d3.select(this).attr("fill", "#f28106");
-
+    
             tooltip.transition()
                 .duration(0)
                 .style("opacity", .9);
-            tooltip.html(`<strong>Agency:</strong> ${d.agency_name}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Offenses:</strong> ${d.count}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
+            tooltip.html(`<strong>Agency:</strong> ${d.agency_name}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Total:</strong> ${d.value}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
                 .style("left", (event.pageX + 5) + "px")
                 .style("top", (event.pageY - 28) + "px");
         })
@@ -288,38 +310,82 @@ document.addEventListener("DOMContentLoaded", function() {
                 .duration(500)
                 .style("opacity", 0);
         });
-
+    
         const agencyFull = filteredData[0].agency_full;
         const stateUcrLink = filteredData[0].state_ucr_link;
         const sourceText = `${agencyFull}`;
-
+    
         const sourceGroup = svg.append("g")
             .attr("transform", `translate(${width}, ${height + margin.bottom - 10})`)
             .attr("text-anchor", "end");
-
+    
         const sourceTextElement = sourceGroup.append("text")
-            .attr("class", "source-link")  // Add this line to apply the class
+            .attr("class", "source-link")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
-            .style("font-size", "1.5vh")
             .style("fill", "#00333a");
-
+    
         sourceTextElement.append("tspan")
             .text(sourceText);
-
+    
         sourceTextElement.append("tspan")
             .attr("text-anchor", "start")
             .attr("dx", "0.2em")
-            .attr("class", "source-link")  // Add this line to apply the class
+            .attr("class", "source-link")
             .style("cursor", "pointer")
             .on("click", function() { window.open(stateUcrLink, "_blank"); })
             .text("source.");
+    
+        // Add new caption group for population and number of agencies
+        const population = filteredData[0].population;
+        const agencyCount = filteredData[0].agency_count || "N/A";
+    
+        const captionGroup = svg.append("g")
+            .attr("transform", `translate(0, ${height + margin.bottom - 10})`) // Adjust vertical position
+            .attr("text-anchor", "start")
+            .attr("class", "caption-group"); // Add a class for the captions
+
+    
+        const captionTextElement = captionGroup.append("text")
+            .style("font-family", "'Roboto Condensed', Arial, sans-serif")
+            .style("fill", "#00333a");
+    
+        captionTextElement.append("tspan")
+            .text("Population* Covered: ")
+            .attr("x", 0);
+    
+        captionTextElement.append("tspan")
+            .text(population)
+            .attr("dx", "0.2em")
+            .style("fill", "#f28106");
+    
+        captionTextElement.append("tspan")
+            .text("Number of Agencies: ")
+            .attr("dx", "3em"); // Increase spacing
+    
+        captionTextElement.append("tspan")
+            .text(agencyCount)
+            .attr("dx", "0.2em")
+            .style("fill", "#f28106");
     }
+    
+    
+    
+    
+    
 
     function downloadFilteredData(filteredData) {
-        // Create CSV header
-        const headers = ["agency_name", "state_name", "date", "crime_type", "count"];
+        const selectedDataType = document.getElementById("data-type").value;
+        const headers = ["agency_name", "state_name", "date", "crime_type", "number_of_agencies"];
+        
+        // Rename the 'value' column based on the selected data type
+        const dataColumn = selectedDataType === "count" ? "count" : "12mo_rolling_sum";
+        headers.push(dataColumn);
+    
         const csvRows = [headers.join(",")];
-
+    
+        // Check if the number_of_agencies column exists in the data
+        const hasAgencyCount = filteredData.length > 0 && filteredData[0].hasOwnProperty("number_of_agencies");
+    
         // Add data rows
         filteredData.forEach(d => {
             const row = [
@@ -327,25 +393,27 @@ document.addEventListener("DOMContentLoaded", function() {
                 d.state_name,
                 d3.timeFormat("%Y-%m-%d")(d.date),
                 d.crime_type,
-                d.count
+                hasAgencyCount ? d.number_of_agencies : "N/A", // Use the number_of_agencies column if it exists, otherwise "N/A"
+                d.value
             ];
             csvRows.push(row.join(","));
         });
-
+    
         // Create CSV content
         const csvContent = "data:text/csv;charset=utf-8," + csvRows.join("\n");
-
+    
         // Create a downloadable link
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
         link.setAttribute("download", "filtered_data.csv");
-
+    
         // Append to the document and trigger the download
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
     }
+    
 
     // Load data and initialize filters and chart
     d3.csv("data/viz_data.csv").then(function(data) {
@@ -377,4 +445,8 @@ document.addEventListener("DOMContentLoaded", function() {
         const filteredData = filterData(allData);
         downloadFilteredData(filteredData);
     });
+
+    const dataTypeSelect = document.getElementById("data-type");
+    dataTypeSelect.addEventListener('change', renderChart);
+
 });

@@ -4,7 +4,7 @@ library(lubridate)
 library(datasets)
 
 # Load Data
-final_sample <- read_csv("../data/rtci_benjeff_sample.csv")
+final_sample <- read_csv("data/rtci_benjeff_sample.csv")
 
 # Rename columns: lower case and underscores
 final_sample <- final_sample %>%
@@ -73,17 +73,18 @@ final_sample_long <- final_sample_long %>%
 
 # Capitalize crime types before printing and writing
 final_sample_long <- final_sample_long %>%
-  mutate(crime_type = ifelse(crime_type == "murder", "Murder", 
-                     ifelse(crime_type == "rape", "Rape", 
-                     ifelse(crime_type == "robbery", "Robbery", 
-                     ifelse(crime_type == "aggravated_assault", "Aggravated Assault", 
-                     ifelse(crime_type == "burglary", "Burglary", 
-                     ifelse(crime_type == "theft", "Theft", 
-                     ifelse(crime_type == "motor_vehicle_theft", "Motor Vehicle Theft", crime_type))))))))
+  mutate(crime_type = ifelse(crime_type == "murder", "Murders", 
+                     ifelse(crime_type == "rape", "Rapes", 
+                     ifelse(crime_type == "robbery", "Robberies", 
+                     ifelse(crime_type == "aggravated_assault", "Aggravated Assaults", 
+                     ifelse(crime_type == "burglary", "Burglaries", 
+                     ifelse(crime_type == "theft", "Thefts", 
+                     ifelse(crime_type == "motor_vehicle_theft", "Motor Vehicle Thefts", crime_type))))))))
 
 
 # Print the first few rows of the cleaned data with all columns
 print(head(final_sample_long), width = Inf)
 
 # Write the final_sample_long data frame to viz_data.csv
-write.csv(final_sample_long, "../custom_web_app/data/viz_data.csv", row.names = FALSE)
+write.csv(final_sample_long, "custom_web_app/data/viz_data.csv", row.names = FALSE)
+a

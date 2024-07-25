@@ -4,7 +4,7 @@ html, body {
     overflow: hidden;
     height: 100%;
     width: 100%;
-    background-color: #00333a; /* Teal background */
+    background-color: white; /* Teal background */
 }
 
 #rtci-dashboard {
@@ -27,7 +27,7 @@ html, body {
 }
 
 .filters-container {
-    color: white;
+    color: #00333a;
     font-family: 'Roboto Condensed', Arial, sans-serif; /* Roboto Condensed font */
     font-size: 1.5vw; /* Responsive font size */
     text-align: center;
@@ -43,7 +43,22 @@ html, body {
     font-size:1.5vw; /* Responsive font size */
     color: #2d5ef9;
     position: relative;
+    border: 0.1vw solid white; /* Border color and thickness */
     border-radius: 8px; /* Make the corners more rounded */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1); /* Box shadow */
+    width: auto; /* Let JavaScript set the width */
+    display: inline-block; /* Ensure the width adjustment works */
+}
+/* Hover and focus styles for better user experience */
+.filter-dropdown:hover {
+    border: 0.1vw solid #f0f0f0; /* Border color and thickness */
+    background-color: #f0f0f0; /* Background color on hover/focus */
+    box-shadow: 0 0px 15px rgba(0, 0, 0, 0.2); /* Darker and larger shadow on hover/focus */
+}
+
+/* Remove focus outline */
+.filter-dropdown:focus {
+    outline: none; /* Remove default focus outline */
 }
 
 /* Style the dropdown options but note this is NOT CURRENTLY WORKING*/
@@ -118,7 +133,7 @@ html, body {
 
 .tooltip {
     position: absolute;
-    text-align: center;
+    text-align: left;
     padding: 5px;
     background: #f28106; /* Orange background color */
     border: 1px solid #ccc;
@@ -160,15 +175,6 @@ html, body {
 
 #line-graph-container {
     position: relative;
-}
-
-.source-link {
-    fill: #2d5ef9;
-    cursor: pointer;
-}
-
-.source-link:hover {
-    fill: #2d5df96d;
 }
 
 /* Responsive styles for smaller screens */
@@ -243,5 +249,43 @@ html, body {
 
     .kpi-box p strong {
         font-size: 2em; /* Larger font size for count on small screens */
+    }
+}
+
+
+/* For all three caption styling */
+.caption-group text {
+    font-size: 1.5vh; /* Initial font size */
+}
+
+.source-link {
+    fill: #2d5ef9;
+    cursor: pointer;
+    font-size: 1.5vh;
+}
+
+.source-link:hover {
+    fill: #2d5df96d;
+}
+
+
+@media (max-width: 800px) {
+    .caption-group text {
+        font-size: 1.1vh; /* Adjust size for screens less than 800 */
+    }
+
+    .source-link {
+        font-size: 1.1vh; /* Adjust size for screens less than 800 */
+    }
+}
+
+/* For all axis text styling */
+.axis-text {
+    font-size: 13px !important; /* Initial font size */
+}
+
+@media (max-width: 800px) {
+    .axis-text {
+        font-size: 11px !important; /* Adjust size for screens less than 800 */
     }
 }

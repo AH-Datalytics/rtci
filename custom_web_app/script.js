@@ -208,25 +208,26 @@ document.addEventListener("DOMContentLoaded", function() {
             .domain([0, d3.max(filteredData, d => d.value)])
             .nice()
             .range([height, 0]);
-    
+        
         svg.append("g")
             .attr("transform", `translate(0,${height})`)
             .call(d3.axisBottom(x).ticks(d3.timeYear).tickFormat(d3.timeFormat("%Y")).tickSizeOuter(0))
             .selectAll("path, line")
             .style("stroke", "#e0e0e0");
-    
+        
         svg.selectAll(".x-axis text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a");
-    
+        
         svg.append("g")
-            .call(d3.axisLeft(y).ticks(10).tickFormat(d3.format("d")))
+            .call(d3.axisLeft(y).ticks(Math.min(d3.max(filteredData, d => d.value), 10)).tickFormat(d3.format("d"))) // Ensure proper number of ticks
             .selectAll("path, line")
             .style("stroke", "#e0e0e0");
-    
+        
         svg.selectAll(".y-axis text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a");
+        
     
         const labelFontSize = Math.max(Math.min(height * 0.05, 16), 10);
         const selectedCrimeType = crimeTypeSelect.options[crimeTypeSelect.selectedIndex].text;
@@ -358,13 +359,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function downloadFilteredData(filteredData) {
         const selectedDataType = document.getElementById("data-type").value;
-        const headers = ["agency_name", "state_name", "date", "crime_type"];
+        const headers = ["agency_name", "state_name", "date", "crime_type", "number_of_agencies"];
         
         // Rename the 'value' column based on the selected data type
         const dataColumn = selectedDataType === "count" ? "count" : "12mo_rolling_sum";
         headers.push(dataColumn);
     
         const csvRows = [headers.join(",")];
+    
+        // Check if the number_of_agencies column exists in the data
+        const hasAgencyCount = filteredData.length > 0 && filteredData[0].hasOwnProperty("number_of_agencies");
     
         // Add data rows
         filteredData.forEach(d => {
@@ -373,6 +377,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 d.state_name,
                 d3.timeFormat("%Y-%m-%d")(d.date),
                 d.crime_type,
+                hasAgencyCount ? d.number_of_agencies : "N/A", // Use the number_of_agencies column if it exists, otherwise "N/A"
                 d.value
             ];
             csvRows.push(row.join(","));
@@ -392,6 +397,8 @@ document.addEventListener("DOMContentLoaded", function() {
         link.click();
         document.body.removeChild(link);
     }
+    
+    
     
 
     // Load data and initialize filters and chart

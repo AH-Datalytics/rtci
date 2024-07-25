@@ -204,47 +204,46 @@ document.addEventListener("DOMContentLoaded", function() {
             .domain(d3.extent(filteredData, d => d.date))
             .range([0, width]);
     
-            const y = d3.scaleLinear()
+        const y = d3.scaleLinear()
             .domain([0, d3.max(filteredData, d => d.value)])
             .nice()
             .range([height, 0]);
         
         // X-axis
-            const xAxis = d3.axisBottom(x)
+        const xAxis = d3.axisBottom(x)
             .ticks(d3.timeYear)
             .tickFormat(d3.timeFormat("%Y"))
             .tickSizeOuter(0);
 
-            const xAxisGroup = svg.append("g")
+        const xAxisGroup = svg.append("g")
             .attr("transform", `translate(0,${height})`)
             .call(xAxis);
 
-            xAxisGroup.selectAll("path, line")
+        xAxisGroup.selectAll("path, line")
             .style("stroke", "#e0e0e0");
 
-            xAxisGroup.selectAll("text")
+        xAxisGroup.selectAll("text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a")
             .attr("class", "axis-text"); // Add class for responsive font size
 
-            // Y-axis
-            const yAxis = d3.axisLeft(y)
+        // Y-axis
+        const yAxis = d3.axisLeft(y)
             .ticks(Math.min(d3.max(filteredData, d => d.value), 10))
             .tickFormat(d3.format("d")); // Ensure proper number of ticks
 
-            const yAxisGroup = svg.append("g")
+        const yAxisGroup = svg.append("g")
             .call(yAxis);
 
-            yAxisGroup.selectAll("path, line")
+        yAxisGroup.selectAll("path, line")
             .style("stroke", "#e0e0e0");
 
-            yAxisGroup.selectAll("text")
+        yAxisGroup.selectAll("text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a")
             .attr("class", "axis-text"); // Add class for responsive font size
 
-            const labelFontSize = Math.max(Math.min(height * 0.05, 16), 10);
-
+        const labelFontSize = Math.max(Math.min(height * 0.05, 16), 10);
 
         const selectedCrimeType = crimeTypeSelect.options[crimeTypeSelect.selectedIndex].text;
     
@@ -269,7 +268,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const line = svg.append("path")
             .datum(filteredData)
             .attr("fill", "none")
-            .attr("stroke", "#2d5ef9")
+            .attr("stroke", "#2d5ef9") // Blue line color as per style guide
             .attr("stroke-width", lineThickness)
             .attr("d", d3.line()
                 .curve(d3.curveCatmullRom.alpha(0.5))
@@ -288,7 +287,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .attr("cx", d => x(d.date))
             .attr("cy", d => y(d.value))
             .attr("r", dotSize)
-            .attr("fill", "#2d5ef9");
+            .attr("fill", "#2d5ef9"); // Blue dots color as per style guide
     
         dots.on("mouseover", function(event, d) {
             d3.select(this).attr("fill", "#f28106");
@@ -305,9 +304,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 .style("top", (event.pageY - 28) + "px");
         })
         .on("mouseout", function(d) {
-            d3.select(this).attr("fill", "#2d5ef9");
+            d3.select(this).attr("fill", "#2d5ef9"); // Reset to blue color
             tooltip.transition()
-                .duration(500)
+                .duration(0)
                 .style("opacity", 0);
         });
     
@@ -367,18 +366,13 @@ document.addEventListener("DOMContentLoaded", function() {
             .attr("dx", "0.2em")
             .style("fill", "#f28106");
     }
-    
-    
-    
-    
-    
 
     function downloadFilteredData(filteredData) {
         const selectedDataType = document.getElementById("data-type").value;
         const headers = ["agency_name", "state_name", "date", "crime_type", "number_of_agencies"];
         
         // Rename the 'value' column based on the selected data type
-        const dataColumn = selectedDataType === "count" ? "count" : "12mo_rolling_sum";
+        const dataColumn = selectedDataType === "count" ? "count" : "mvs_12mo";
         headers.push(dataColumn);
     
         const csvRows = [headers.join(",")];
@@ -420,6 +414,7 @@ document.addEventListener("DOMContentLoaded", function() {
         data.forEach(d => {
             d.date = parseDate(d.date); // Use d3.timeParse to parse dates
             d.count = +d.count;
+            d.mvs_12mo = +d.mvs_12mo; // Add parsing for mvs_12mo column
         });
 
         allData = data;

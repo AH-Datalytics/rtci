@@ -210,43 +210,42 @@ document.addEventListener("DOMContentLoaded", function() {
             .range([height, 0]);
         
         // X-axis
-        const xAxis = d3.axisBottom(x)
+            const xAxis = d3.axisBottom(x)
             .ticks(d3.timeYear)
             .tickFormat(d3.timeFormat("%Y"))
             .tickSizeOuter(0);
-        
-        const xAxisGroup = svg.append("g")
+
+            const xAxisGroup = svg.append("g")
             .attr("transform", `translate(0,${height})`)
             .call(xAxis);
-        
-        xAxisGroup.selectAll("path, line")
+
+            xAxisGroup.selectAll("path, line")
             .style("stroke", "#e0e0e0");
-        
-        xAxisGroup.selectAll("text")
+
+            xAxisGroup.selectAll("text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a")
-            .style("font-size", "0.9vw"); // Adjust font size as needed
-        
-        // Y-axis
-        const yAxis = d3.axisLeft(y)
+            .attr("class", "axis-text"); // Add class for responsive font size
+
+            // Y-axis
+            const yAxis = d3.axisLeft(y)
             .ticks(Math.min(d3.max(filteredData, d => d.value), 10))
             .tickFormat(d3.format("d")); // Ensure proper number of ticks
-        
-        const yAxisGroup = svg.append("g")
+
+            const yAxisGroup = svg.append("g")
             .call(yAxis);
-        
-        yAxisGroup.selectAll("path, line")
+
+            yAxisGroup.selectAll("path, line")
             .style("stroke", "#e0e0e0");
-        
-        yAxisGroup.selectAll("text")
+
+            yAxisGroup.selectAll("text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a")
-            .style("font-size", "0.9vw"); // Adjust font size as needed
-        
+            .attr("class", "axis-text"); // Add class for responsive font size
 
-        
-    
-        const labelFontSize = Math.max(Math.min(height * 0.05, 16), 10);
+            const labelFontSize = Math.max(Math.min(height * 0.05, 16), 10);
+
+
         const selectedCrimeType = crimeTypeSelect.options[crimeTypeSelect.selectedIndex].text;
     
         svg.append("text")

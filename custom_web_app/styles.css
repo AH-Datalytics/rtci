@@ -263,3 +263,14 @@ html, body {
         font-size: 1.1vh; /* Adjust size for screens less than 800 */
     }
 }
+
+/* For all axis text styling */
+.axis-text {
+    font-size: 13px !important; /* Initial font size */
+}
+
+@media (max-width: 800px) {
+    .axis-text {
+        font-size: 11px !important; /* Adjust size for screens less than 800 */
+    }
+}

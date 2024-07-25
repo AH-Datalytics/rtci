@@ -250,7 +250,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         svg.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", -margin.left + 25)
+            .attr("y", -margin.left + 15)
             .attr("x", -height / 2)
             .attr("dy", "1em")
             .style("text-anchor", "middle")
@@ -413,49 +413,6 @@ document.addEventListener("DOMContentLoaded", function() {
         link.click();
         document.body.removeChild(link);
     }
-    
-    
-    document.addEventListener("DOMContentLoaded", function() {
-        const crimeTypeSelect = document.getElementById("crime-type");
-        const stateSelect = document.getElementById("state");
-        const agencySelect = document.getElementById("agency");
-    
-        function adjustWidthBasedOnSelectedOption(selectElement) {
-            const tempOption = document.createElement('option');
-            tempOption.textContent = selectElement.options[selectElement.selectedIndex].text;
-            document.body.appendChild(tempOption);
-    
-            const tempSelect = document.createElement('select');
-            tempSelect.style.visibility = 'hidden';
-            tempSelect.style.position = 'absolute';
-            tempSelect.appendChild(tempOption);
-            document.body.appendChild(tempSelect);
-    
-            const width = tempSelect.clientWidth;
-    
-            document.body.removeChild(tempSelect);
-    
-            selectElement.style.width = `${width + 20}px`; // Add some padding
-        }
-    
-        // Adjust width on page load
-        adjustWidthBasedOnSelectedOption(crimeTypeSelect);
-        adjustWidthBasedOnSelectedOption(stateSelect);
-        adjustWidthBasedOnSelectedOption(agencySelect);
-    
-        // Adjust width when the selected option changes
-        crimeTypeSelect.addEventListener('change', function() {
-            adjustWidthBasedOnSelectedOption(crimeTypeSelect);
-        });
-    
-        stateSelect.addEventListener('change', function() {
-            adjustWidthBasedOnSelectedOption(stateSelect);
-        });
-    
-        agencySelect.addEventListener('change', function() {
-            adjustWidthBasedOnSelectedOption(agencySelect);
-        });
-    });
     
 
     // Load data and initialize filters and chart

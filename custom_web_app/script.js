@@ -304,7 +304,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 .style("top", (event.pageY - 28) + "px");
         })
         .on("mouseout", function(d) {
-            d3.select(this).attr("fill", "#2d5ef9"); // Reset to orange color
+            d3.select(this).attr("fill", "#2d5ef9"); // Reset to blue color
             tooltip.transition()
                 .duration(0)
                 .style("opacity", 0);

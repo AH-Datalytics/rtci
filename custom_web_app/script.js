@@ -220,7 +220,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .style("fill", "#00333a");
     
         svg.append("g")
-            .call(d3.axisLeft(y).ticks(d3.max(filteredData, d => d.value) < 10 ? d3.max(filteredData, d => d.value) : 10).tickFormat(d3.format("d")))
+            .call(d3.axisLeft(y).ticks(10).tickFormat(d3.format("d")))
             .selectAll("path, line")
             .style("stroke", "#e0e0e0");
     
@@ -303,7 +303,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .attr("text-anchor", "end");
     
         const sourceTextElement = sourceGroup.append("text")
-            .attr("class", "source-link")  // Add this line to apply the class
+            .attr("class", "source-link")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("font-size", "1.5vh")
             .style("fill", "#00333a");
@@ -314,11 +314,46 @@ document.addEventListener("DOMContentLoaded", function() {
         sourceTextElement.append("tspan")
             .attr("text-anchor", "start")
             .attr("dx", "0.2em")
-            .attr("class", "source-link")  // Add this line to apply the class
+            .attr("class", "source-link")
             .style("cursor", "pointer")
             .on("click", function() { window.open(stateUcrLink, "_blank"); })
             .text("source.");
+    
+        // Add new caption group for population and number of agencies
+        const population = filteredData[0].population;
+        const agencyCount = filteredData[0].agency_count || "N/A";
+    
+        const captionGroup = svg.append("g")
+            .attr("transform", `translate(0, ${height + margin.bottom - 10})`) // Adjust vertical position
+            .attr("text-anchor", "start");
+    
+        const captionTextElement = captionGroup.append("text")
+            .style("font-family", "'Roboto Condensed', Arial, sans-serif")
+            .style("font-size", "1.5vh")
+            .style("fill", "#00333a");
+    
+        captionTextElement.append("tspan")
+            .text("Population* Covered: ")
+            .attr("x", 0);
+    
+        captionTextElement.append("tspan")
+            .text(population)
+            .attr("dx", "0.2em")
+            .style("fill", "#f28106");
+    
+        captionTextElement.append("tspan")
+            .text("Number of Agencies: ")
+            .attr("dx", "3em"); // Increase spacing
+    
+        captionTextElement.append("tspan")
+            .text(agencyCount)
+            .attr("dx", "0.2em")
+            .style("fill", "#f28106");
     }
+    
+    
+    
+    
     
 
     function downloadFilteredData(filteredData) {

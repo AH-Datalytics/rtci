@@ -322,10 +322,15 @@ document.addEventListener("DOMContentLoaded", function() {
     
 
     function downloadFilteredData(filteredData) {
-        // Create CSV header
-        const headers = ["agency_name", "state_name", "date", "crime_type", "count"];
+        const selectedDataType = document.getElementById("data-type").value;
+        const headers = ["agency_name", "state_name", "date", "crime_type"];
+        
+        // Rename the 'value' column based on the selected data type
+        const dataColumn = selectedDataType === "count" ? "count" : "12mo_rolling_sum";
+        headers.push(dataColumn);
+    
         const csvRows = [headers.join(",")];
-
+    
         // Add data rows
         filteredData.forEach(d => {
             const row = [
@@ -333,25 +338,26 @@ document.addEventListener("DOMContentLoaded", function() {
                 d.state_name,
                 d3.timeFormat("%Y-%m-%d")(d.date),
                 d.crime_type,
-                d.count
+                d.value
             ];
             csvRows.push(row.join(","));
         });
-
+    
         // Create CSV content
         const csvContent = "data:text/csv;charset=utf-8," + csvRows.join("\n");
-
+    
         // Create a downloadable link
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
         link.setAttribute("download", "filtered_data.csv");
-
+    
         // Append to the document and trigger the download
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
     }
+    
 
     // Load data and initialize filters and chart
     d3.csv("data/viz_data.csv").then(function(data) {

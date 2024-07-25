@@ -43,7 +43,9 @@ html, body {
     font-size:1.5vw; /* Responsive font size */
     color: #2d5ef9;
     position: relative;
+    border: 0.1vw solid #00333a; /* Border color and thickness */
     border-radius: 8px; /* Make the corners more rounded */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow */
 }
 
 /* Style the dropdown options but note this is NOT CURRENTLY WORKING*/

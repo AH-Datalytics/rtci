@@ -415,6 +415,47 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
     
+    document.addEventListener("DOMContentLoaded", function() {
+        const crimeTypeSelect = document.getElementById("crime-type");
+        const stateSelect = document.getElementById("state");
+        const agencySelect = document.getElementById("agency");
+    
+        function adjustWidthBasedOnSelectedOption(selectElement) {
+            const tempOption = document.createElement('option');
+            tempOption.textContent = selectElement.options[selectElement.selectedIndex].text;
+            document.body.appendChild(tempOption);
+    
+            const tempSelect = document.createElement('select');
+            tempSelect.style.visibility = 'hidden';
+            tempSelect.style.position = 'absolute';
+            tempSelect.appendChild(tempOption);
+            document.body.appendChild(tempSelect);
+    
+            const width = tempSelect.clientWidth;
+    
+            document.body.removeChild(tempSelect);
+    
+            selectElement.style.width = `${width + 20}px`; // Add some padding
+        }
+    
+        // Adjust width on page load
+        adjustWidthBasedOnSelectedOption(crimeTypeSelect);
+        adjustWidthBasedOnSelectedOption(stateSelect);
+        adjustWidthBasedOnSelectedOption(agencySelect);
+    
+        // Adjust width when the selected option changes
+        crimeTypeSelect.addEventListener('change', function() {
+            adjustWidthBasedOnSelectedOption(crimeTypeSelect);
+        });
+    
+        stateSelect.addEventListener('change', function() {
+            adjustWidthBasedOnSelectedOption(stateSelect);
+        });
+    
+        agencySelect.addEventListener('change', function() {
+            adjustWidthBasedOnSelectedOption(agencySelect);
+        });
+    });
     
 
     // Load data and initialize filters and chart

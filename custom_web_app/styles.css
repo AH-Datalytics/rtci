@@ -43,9 +43,22 @@ html, body {
     font-size:1.5vw; /* Responsive font size */
     color: #2d5ef9;
     position: relative;
-    border: 0.1vw solid #00333a; /* Border color and thickness */
+    border: 0.1vw solid white; /* Border color and thickness */
     border-radius: 8px; /* Make the corners more rounded */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1); /* Box shadow */
+    width: auto; /* Let JavaScript set the width */
+    display: inline-block; /* Ensure the width adjustment works */
+}
+/* Hover and focus styles for better user experience */
+.filter-dropdown:hover {
+    border: 0.1vw solid #f0f0f0; /* Border color and thickness */
+    background-color: #f0f0f0; /* Background color on hover/focus */
+    box-shadow: 0 0px 15px rgba(0, 0, 0, 0.2); /* Darker and larger shadow on hover/focus */
+}
+
+/* Remove focus outline */
+.filter-dropdown:focus {
+    outline: none; /* Remove default focus outline */
 }
 
 /* Style the dropdown options but note this is NOT CURRENTLY WORKING*/

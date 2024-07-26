@@ -285,7 +285,9 @@ write.csv(df_mvs_12mo, "data/rtci_benjeff_sample.csv")
 ##august - 8/1 we get June data
 2 -reference file inclusion - pop, groupings, ORI, city/state
 3 -make spatial data
-4 -create vc/pc groupings
+4 -create vc/pc groupings - The descending order of UCR violent crimes
+ are murder and nonnegligent manslaughter, rape, robbery, and aggravated assault, 
+ followed by the property crimes of burglary, larceny-theft, and motor vehicle theft.
 5 -run wheeler script again and report agency issues
 6 -map process w/ OB
 7 -links to sources
@@ -297,8 +299,18 @@ august 1st - collect data for June
 audit 
 -pull out agencies 
 
+quick jeff ask
+```{r}
+his_2022 <- nationwide_counts %>% filter(Year ==2022)
 
+folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data"
 
+# Create the full file path
+file_path <- file.path(folder_path, "nationwide_sample_2022.csv")
+
+# Write the data frame to a .csv file
+write.csv(his_2022, file = file_path, row.names = FALSE)
+```
 
 
 

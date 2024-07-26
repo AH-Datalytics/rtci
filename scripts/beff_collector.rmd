@@ -123,41 +123,26 @@ rename_larceny_to_theft <- function(df) {
 }
 
 ldf2 <- lapply(ldf2, rename_larceny_to_theft)
+head(ldf2[1])
 ```
 still have a few odd column names
 ```{r}
 acceptable_names <- c("Agency Name", "Murder", "Rape", "Robbery", "Aggravated Assault", 
-"Burglary", "Theft", "Motor Vehicle Theft", "Year", "Month","State")
+"Burglary", "Theft", "Motor Vehicle Theft", "Year", "Month", "State")
 
-# Function to check if a data frame has odd column names
-find_odd_columns <- function(df, acceptable_names) {
-  # Find columns that are not in the acceptable list
-  odd_columns <- setdiff(names(df), acceptable_names)
-  return(odd_columns)
-}
+ldf3 <- lapply(ldf2, function(df) {
+  df[, (names(df) %in% acceptable_names)]
+})
 
-# Check each data frame for odd column names
-odd_columns_list <- lapply(ldf2, find_odd_columns, acceptable_names = acceptable_names)
-
-# Identify data frames with odd column names
-dataframes_with_odd_columns <- names(odd_columns_list)[sapply(odd_columns_list, length) > 0]
-
-# Print the odd columns and the corresponding data frames
-for (df_name in dataframes_with_odd_columns) {
-  cat("Data frame:", df_name, "\n")
-  cat("Odd columns:", paste(odd_columns_list[[df_name]], collapse = ", "), "\n\n")
-}
-
-# Print the list of data frames with odd column names
-print(dataframes_with_odd_columns)
+head(ldf3[1])
 ```
 combine and check it out
 ```{r}
-combined_df <- do.call(rbind, ldf2)
+combined_df <- do.call(rbind, ldf3)
 
 rownames(combined_df) <- NULL
 
-#select out acceptable columns and take a look
+#select out acceptable columns and take a look just to make sure
 combined_df <- combined_df %>% select(acceptable_names)
 head(combined_df)
 ```
@@ -265,6 +250,11 @@ df_mvs_12mo <- mvs_12mo(combined_df)
 # Print the result to verify
 head(df_mvs_12mo)
 ```
+agency number!!?
+```{r}
+length(unique(combined_df$`Agency Name`))
+```
+
 write it out!
 ```{r}
 # Specify the folder path

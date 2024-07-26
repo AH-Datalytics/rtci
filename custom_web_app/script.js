@@ -62,7 +62,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const selectedAgency = agencySelect.value;
         const selectedDataType = document.getElementById("data-type").value;
 
-
         return data.filter(d => 
             d.crime_type === selectedCrimeType &&
             d.state_name === selectedState &&
@@ -131,7 +130,6 @@ document.addEventListener("DOMContentLoaded", function() {
             <p><strong>${ytdSumPrevYear}</strong></p>
         `;
     }
-    
     
     function updateKPIBox3(filteredData) {
         const kpiBox3 = document.getElementById("kpi-box3");
@@ -277,6 +275,11 @@ document.addEventListener("DOMContentLoaded", function() {
             );
     
         const selectedDataType = document.getElementById("data-type").value;
+
+        const tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0)
+            .style("font-family", "'Roboto Condensed', Arial, sans-serif");
         
         if (selectedDataType === "count") {
             const dots = svg.selectAll("circle")
@@ -307,12 +310,30 @@ document.addEventListener("DOMContentLoaded", function() {
                     .duration(500)
                     .style("opacity", 0);
             });
+        } else {
+            // Handle tooltip for non-count data type
+            svg.on("mousemove", function(event) {
+                const [mouseX, mouseY] = d3.pointer(event);
+                const xDate = x.invert(mouseX);
+                const closestData = filteredData.reduce((a, b) => {
+                    return Math.abs(b.date - xDate) < Math.abs(a.date - xDate) ? b : a;
+                });
+                const xPos = x(closestData.date);
+                const yPos = y(closestData.value);
+                
+                tooltip.transition()
+                    .duration(0)
+                    .style("opacity", .9);
+                tooltip.html(`<strong>Agency:</strong> ${closestData.agency_name}<br><strong>Crime Type:</strong> ${closestData.crime_type}<br><strong>12 Month Sum:</strong> ${closestData.value}<br><strong>Through:</strong> ${d3.timeFormat("%B %Y")(closestData.date)}`)
+                    .style("left", (event.pageX + 5) + "px")
+                    .style("top", (event.pageY - 28) + "px");
+            })
+            .on("mouseout", function() {
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            });
         }
-    
-        const tooltip = d3.select("body").append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 0)
-            .style("font-family", "'Roboto Condensed', Arial, sans-serif");
     
         const agencyFull = filteredData[0].agency_full;
         const stateUcrLink = filteredData[0].state_ucr_link;
@@ -371,8 +392,6 @@ document.addEventListener("DOMContentLoaded", function() {
             .style("fill", "#f28106");
     }
     
-
-
     // Function to download filtered data as CSV
     function downloadFilteredData(filteredData) {
         const selectedDataType = document.getElementById("data-type").value;
@@ -415,7 +434,6 @@ document.addEventListener("DOMContentLoaded", function() {
         document.body.removeChild(link);
     }
     
-
     // Load data and initialize filters and chart
     d3.csv("data/viz_data.csv").then(function(data) {
         data.forEach(d => {
@@ -450,5 +468,4 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const dataTypeSelect = document.getElementById("data-type");
     dataTypeSelect.addEventListener('change', renderChart);
-
 });

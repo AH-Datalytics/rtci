@@ -374,7 +374,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .style("fill", "#00333a");
     
         captionTextElement.append("tspan")
-            .text("Population* Covered: ")
+            .text("Population Covered* : ")
             .attr("x", 0);
     
         captionTextElement.append("tspan")
@@ -383,7 +383,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .style("fill", "#f28106");
     
         captionTextElement.append("tspan")
-            .text("Number of Agencies: ")
+            .text("Number of Agencies : ")
             .attr("dx", "3em"); // Increase spacing
     
         captionTextElement.append("tspan")

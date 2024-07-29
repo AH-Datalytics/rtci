@@ -109,12 +109,50 @@ html, body {
 }
 
 .dropdown-search {
-    width: calc(100% - 16px); /* Adjust width to account for padding */
-    padding: 8px;
+    width: 8vw; /* Adjust width to account for padding */
+    height: 2vw; /* Adjust width to account for padding */
+    padding: 6px;
     border: 1px solid #ccc;
     border-radius: 4px;
     margin: 8px;
     box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    z-index: 1002;
+    font-size: 1vw;
+}
+
+/* Style the scrollbar for WebKit browsers */
+.dropdown-menu::-webkit-scrollbar {
+    width: 1vw; /* Width of the scrollbar */
+    border-radius: 8px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Background of the scrollbar track */
+    border-radius: 8px; /* Rounded corners for the track */
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the scrollbar thumb */
+    border-radius: 8px; /* Rounded corners for the thumb */
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Darker color on hover */
+}
+
+/* Style the scrollbar for Firefox */
+.dropdown-menu {
+    scrollbar-width: thin; /* Thin scrollbar */
+    scrollbar-color: #888 #f1f1f1; /* Thumb and track colors */
+}
+
+/* Style the focus outline for the search bar */
+.dropdown-search:focus {
+    outline: 0.02rem solid #2d5ef9; /* Outline color and width */
+    border-color: #2d5ef9; /* Border color */
 }
 
 

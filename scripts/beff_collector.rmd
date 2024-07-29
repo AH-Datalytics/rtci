@@ -23,6 +23,24 @@ crime_types <- c("Agency Name",
                  "Theft", "Motor Vehicle Theft", 
                  "Month", "Year")
 ```
+describe all the csv's coming in
+```{r}
+# Function to get information about each CSV file
+get_csv_info <- function(file) {
+  df <- read_csv(file)
+  data.frame(
+    file_name = basename(file),
+    num_columns = ncol(df),
+    column_names = paste(names(df), collapse = ", "),
+    column_formats = paste(sapply(df, class), collapse = ", ")
+  )
+}
+
+# Apply the function to each CSV file and combine the results into a single dataframe
+csv_info_df <- map_df(file_paths, get_csv_info)
+
+head(csv_info_df)
+```
 read everything in, extract the month/year and do the initial processing
 ```{r}
 # Function to read all CSV files in a folder and save them as data frames in a list
@@ -68,6 +86,23 @@ print(names(ldf))
 
 head(ldf[1])
 ```
+let's get the unique number of agencies at the beginning
+```{r}
+# Function to get the count of unique 'Agency Name'
+get_unique_agency_count <- function(df) {
+  length(unique(df$`Agency Name`))
+}
+
+# Apply the function to each dataframe in the list and store the results
+unique_agency_counts <- map(ldf, get_unique_agency_count)
+
+total_agency_raw <- sum(unlist(unique_agency_counts))
+
+# Print the results
+head(total_agency_raw)
+##332 as of this writing this and counting...why do we lose agencies at the end?
+```
+
 format everything
 ```{r}
 # Define the format_cols function
@@ -99,6 +134,17 @@ ldf1 <- lapply(ldf, format_cols)
 head(ldf1[1])
 ```
 ```{r}
+# Apply the function to each dataframe in the list and store the results
+unique_agency_counts <- map(ldf1, get_unique_agency_count)
+
+total_agency_raw <- sum(unlist(unique_agency_counts))
+
+# Print the results
+head(total_agency_raw)
+##332 as of this writing this and counting...why do we lose agencies at the end?
+```
+next...
+```{r}
 # Ensure all data frames have the same columns and column types
 all_columns <- Reduce(union, lapply(ldf1, names))
 
@@ -125,6 +171,17 @@ rename_larceny_to_theft <- function(df) {
 ldf2 <- lapply(ldf2, rename_larceny_to_theft)
 head(ldf2[1])
 ```
+```{r}
+# Apply the function to each dataframe in the list and store the results
+unique_agency_counts <- map(ldf2, get_unique_agency_count)
+
+total_agency_raw <- sum(unlist(unique_agency_counts))
+
+# Print the results
+head(total_agency_raw)
+##332 as of this writing this and counting...why do we lose agencies at the end?
+```
+
 still have a few odd column names
 ```{r}
 acceptable_names <- c("Agency Name", "Murder", "Rape", "Robbery", "Aggravated Assault", 
@@ -136,6 +193,16 @@ ldf3 <- lapply(ldf2, function(df) {
 
 head(ldf3[1])
 ```
+```{r}
+# Apply the function to each dataframe in the list and store the results
+unique_agency_counts <- map(ldf3, get_unique_agency_count)
+
+total_agency_raw <- sum(unlist(unique_agency_counts))
+
+# Print the results
+head(total_agency_raw)
+##332 as of this writing this and counting...why do we lose agencies at the end?
+```
 combine and check it out
 ```{r}
 combined_df <- do.call(rbind, ldf3)
@@ -146,6 +213,54 @@ rownames(combined_df) <- NULL
 combined_df <- combined_df %>% select(acceptable_names)
 head(combined_df)
 ```
+```{r}
+length(unique(combined_df$`Agency Name`))
+```
+what are we kicking when we rowbind?
+```{r}
+# Function to extract unique values from 'Agency.Name' column in each dataframe
+extract_unique_agencies <- function(df_list, column_name) {
+  unique_values <- df_list %>%
+    map(~ .x %>% pull(.data[[column_name]])) %>%
+    unlist() %>%
+    unique()
+  
+  return(unique_values)
+}
+
+# Extract unique 'Agency.Name' values from the list of dataframes
+unique_agencies <- extract_unique_agencies(df_list, "Agency Name")
+
+# Create a dataframe with these unique values
+df1 <- tibble(Agency Name = unique_agencies)
+
+
+# Function to extract unique values from a column and save as a vector
+extract_unique_values <- function(df, column_name) {
+  unique_values <- df %>% pull(.data[[column_name]]) %>% unique()
+  return(unique_values)
+}
+
+# Extract unique values from 'Agency.Name' column in both dataframes
+unique_values_df1 <- extract_unique_values(df1, "Agency.Name")
+unique_values_df2 <- extract_unique_values(df2, "Agency.Name")
+
+# Compare the unique values between the two vectors
+only_in_df1 <- setdiff(unique_values_df1, unique_values_df2)
+only_in_df2 <- setdiff(unique_values_df2, unique_values_df1)
+in_both <- intersect(unique_values_df1, unique_values_df2)
+
+# Print the comparison results
+cat("Unique values only in df1:\n")
+print(only_in_df1)
+cat("\nUnique values only in df2:\n")
+print(only_in_df2)
+cat("\nUnique values in both df1 and df2:\n")
+print(in_both)
+
+```
+
+
 remove non-current jurisdictions
 ```{r}
 crime_types <- c("Murder", "Rape", "Robbery",

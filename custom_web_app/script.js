@@ -32,11 +32,17 @@ document.addEventListener("DOMContentLoaded", function() {
             stateSelect.appendChild(option);
         });
 
-        // Set default values
+         // Set default values
         crimeTypeSelect.value = crimeTypes[0];
-        stateSelect.value = states[0];
+        // Check if Texas exists in the states list and set it as default if present
+        if (states.includes("Texas")) {
+            stateSelect.value = "Texas";
+            updateAgencyFilter(data, "Texas");
+        } else {
+            stateSelect.value = states[0];
+            updateAgencyFilter(data, states[0]);
+        }
 
-        updateAgencyFilter(data, states[0]);
     }
 
     function updateAgencyFilter(data, selectedState) {
@@ -44,16 +50,20 @@ document.addEventListener("DOMContentLoaded", function() {
         
         // Clear previous options
         agencySelect.innerHTML = "";
-
+    
         agencies.forEach(agency => {
             const option = document.createElement("option");
             option.value = agency;
             option.text = agency;
             agencySelect.appendChild(option);
         });
-
-        // Set default value
-        agencySelect.value = agencies[0];
+    
+        // Set default value to Houston if it exists
+        if (selectedState === "Texas" && agencies.includes("Houston")) {
+            agencySelect.value = "Houston";
+        } else {
+            agencySelect.value = agencies[0];
+        }
     }
 
     function filterData(data) {

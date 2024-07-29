@@ -1,13 +1,51 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const crimeTypeSelect = document.getElementById("crime-type");
-    const stateSelect = document.getElementById("state");
-    const agencySelect = document.getElementById("agency");
+    const crimeTypeSelect = document.getElementById("crime-type-dropdown");
+    const stateSelect = document.getElementById("state-dropdown");
+    const agencySelect = document.getElementById("agency-dropdown");
+    const dataTypeDropdown = document.getElementById("data-type-dropdown");
+
+    const crimeTypeBtn = document.getElementById("crime-type-btn");
+    const stateBtn = document.getElementById("state-btn");
+    const agencyBtn = document.getElementById("agency-btn");
+    const dataTypeBtn = document.getElementById("data-type-btn");
+
     const downloadButton = document.getElementById("download-button");
 
     let allData = [];
 
-    // Define a date parser
-    const parseDate = d3.timeParse("%Y-%m-%d");
+    function toggleDropdown(button, dropdown) {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation();
+            dropdown.classList.toggle("show");
+        });
+
+        document.addEventListener('click', function() {
+            dropdown.classList.remove("show");
+        });
+
+        dropdown.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    }
+
+    function createDropdownOption(value, text, dropdown, button) {
+        const option = document.createElement("div");
+        option.className = "dropdown-item";
+        option.dataset.value = value;
+        option.textContent = text;
+        option.addEventListener('click', function() {
+            button.textContent = text;
+            button.dataset.value = value;
+            button.appendChild(document.createElement('i')).className = "fas fa-caret-down";
+            dropdown.classList.remove("show");
+            if (button === stateBtn) {
+                updateAgencyFilter(allData, value);
+            } else {
+                renderChart();
+            }
+        });
+        return option;
+    }
 
     function updateFilters(data) {
         const crimeTypes = [...new Set(data.map(d => d.crime_type))];
@@ -19,30 +57,31 @@ document.addEventListener("DOMContentLoaded", function() {
         agencySelect.innerHTML = "";
 
         crimeTypes.forEach(crimeType => {
-            const option = document.createElement("option");
-            option.value = crimeType;
-            option.text = crimeType;
+            const option = createDropdownOption(crimeType, crimeType, crimeTypeSelect, crimeTypeBtn);
             crimeTypeSelect.appendChild(option);
         });
 
         states.forEach(state => {
-            const option = document.createElement("option");
-            option.value = state;
-            option.text = state;
+            const option = createDropdownOption(state, state, stateSelect, stateBtn);
             stateSelect.appendChild(option);
         });
 
-         // Set default values
-        crimeTypeSelect.value = crimeTypes[0];
-        // Check if Texas exists in the states list and set it as default if present
+        // Set default values
+        crimeTypeBtn.textContent = crimeTypes[0];
+        crimeTypeBtn.dataset.value = crimeTypes[0];
         if (states.includes("Texas")) {
-            stateSelect.value = "Texas";
+            stateBtn.textContent = "Texas";
+            stateBtn.dataset.value = "Texas";
             updateAgencyFilter(data, "Texas");
         } else {
-            stateSelect.value = states[0];
+            stateBtn.textContent = states[0];
+            stateBtn.dataset.value = states[0];
             updateAgencyFilter(data, states[0]);
         }
 
+        // Set default value for data type
+        dataTypeBtn.textContent = "Monthly Totals";
+        dataTypeBtn.dataset.value = "count";
     }
 
     function updateAgencyFilter(data, selectedState) {
@@ -52,25 +91,22 @@ document.addEventListener("DOMContentLoaded", function() {
         agencySelect.innerHTML = "";
     
         agencies.forEach(agency => {
-            const option = document.createElement("option");
-            option.value = agency;
-            option.text = agency;
+            const option = createDropdownOption(agency, agency, agencySelect, agencyBtn);
             agencySelect.appendChild(option);
         });
     
-        // Set default value to Houston if it exists
-        if (selectedState === "Texas" && agencies.includes("Houston")) {
-            agencySelect.value = "Houston";
-        } else {
-            agencySelect.value = agencies[0];
-        }
+        // Set default value to the first agency in the list
+        agencyBtn.textContent = agencies[0];
+        agencyBtn.dataset.value = agencies[0];
+
+        renderChart();
     }
 
     function filterData(data) {
-        const selectedCrimeType = crimeTypeSelect.value;
-        const selectedState = stateSelect.value;
-        const selectedAgency = agencySelect.value;
-        const selectedDataType = document.getElementById("data-type").value;
+        const selectedCrimeType = crimeTypeBtn.dataset.value;
+        const selectedState = stateBtn.dataset.value;
+        const selectedAgency = agencyBtn.dataset.value;
+        const selectedDataType = dataTypeBtn.dataset.value;
 
         return data.filter(d => 
             d.crime_type === selectedCrimeType &&
@@ -100,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const ytdSum = d3.sum(ytdData, d => d.count);
 
         // Get the selected crime type
-        const selectedCrimeType = crimeTypeSelect.options[crimeTypeSelect.selectedIndex].text;
+        const selectedCrimeType = crimeTypeBtn.textContent;
 
         // Update KPI box 1 content
         kpiBox1.innerHTML = `
@@ -131,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const ytdSumPrevYear = d3.sum(ytdDataPrevYear, d => d.count);
     
         // Get the selected crime type
-        const selectedCrimeType = crimeTypeSelect.options[crimeTypeSelect.selectedIndex].text;
+        const selectedCrimeType = crimeTypeBtn.textContent;
     
         // Update KPI box 2 content
         kpiBox2.innerHTML = `
@@ -175,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const percentChange = ((ytdSumCurrentYear - ytdSumPrevYear) / ytdSumPrevYear) * 100;
     
         // Get the selected crime type
-        const selectedCrimeType = crimeTypeSelect.options[crimeTypeSelect.selectedIndex].text;
+        const selectedCrimeType = crimeTypeBtn.textContent;
     
         // Update KPI box 3 content
         kpiBox3.innerHTML = `
@@ -233,12 +269,12 @@ document.addEventListener("DOMContentLoaded", function() {
         xAxisGroup.selectAll("text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a")
-            .attr("class", "axis-text"); // Add class for responsive font size
+            .attr("class", "axis-text");
     
         // Y-axis
         const yAxis = d3.axisLeft(y)
             .ticks(Math.min(d3.max(filteredData, d => d.value), 10))
-            .tickFormat(d3.format("d")); // Ensure proper number of ticks
+            .tickFormat(d3.format("d"));
     
         const yAxisGroup = svg.append("g")
             .call(yAxis);
@@ -249,11 +285,11 @@ document.addEventListener("DOMContentLoaded", function() {
         yAxisGroup.selectAll("text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a")
-            .attr("class", "axis-text"); // Add class for responsive font size
+            .attr("class", "axis-text");
     
         const labelFontSize = Math.max(Math.min(height * 0.05, 16), 10);
     
-        const selectedCrimeType = crimeTypeSelect.options[crimeTypeSelect.selectedIndex].text;
+        const selectedCrimeType = crimeTypeBtn.textContent;
     
         svg.append("text")
             .attr("transform", "rotate(-90)")
@@ -276,7 +312,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const line = svg.append("path")
             .datum(filteredData)
             .attr("fill", "none")
-            .attr("stroke", "#2d5ef9") // Blue line color as per style guide
+            .attr("stroke", "#2d5ef9")
             .attr("stroke-width", lineThickness)
             .attr("d", d3.line()
                 .curve(d3.curveCatmullRom.alpha(0.5))
@@ -284,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 .y(d => y(d.value))
             );
     
-        const selectedDataType = document.getElementById("data-type").value;
+        const selectedDataType = dataTypeBtn.dataset.value;
 
         const tooltip = d3.select("body").append("div")
             .attr("class", "tooltip")
@@ -298,7 +334,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 .attr("cx", d => x(d.date))
                 .attr("cy", d => y(d.value))
                 .attr("r", dotSize)
-                .attr("fill", "#2d5ef9"); // Blue dots color as per style guide
+                .attr("fill", "#2d5ef9");
     
             dots.on("mouseover", function(event, d) {
                 d3.select(this).attr("fill", "#f28106");
@@ -315,13 +351,12 @@ document.addEventListener("DOMContentLoaded", function() {
                     .style("top", (event.pageY - 28) + "px");
             })
             .on("mouseout", function(d) {
-                d3.select(this).attr("fill", "#2d5ef9"); // Reset to blue color
+                d3.select(this).attr("fill", "#2d5ef9");
                 tooltip.transition()
                     .duration(500)
                     .style("opacity", 0);
             });
         } else {
-            // Handle tooltip for non-count data type
             svg.on("mousemove", function(event) {
                 const [mouseX, mouseY] = d3.pointer(event);
                 const xDate = x.invert(mouseX);
@@ -369,15 +404,13 @@ document.addEventListener("DOMContentLoaded", function() {
             .on("click", function() { window.open(stateUcrLink, "_blank"); })
             .text("source.");
     
-        // Add new caption group for population and number of agencies
         const population = filteredData[0].population;
         const agencyCount = filteredData[0].agency_count || "N/A";
     
         const captionGroup = svg.append("g")
-            .attr("transform", `translate(0, ${height + margin.bottom - 10})`) // Adjust vertical position
+            .attr("transform", `translate(0, ${height + margin.bottom - 10})`)
             .attr("text-anchor", "start")
-            .attr("class", "caption-group"); // Add a class for the captions
-    
+            .attr("class", "caption-group");
     
         const captionTextElement = captionGroup.append("text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
@@ -394,7 +427,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         captionTextElement.append("tspan")
             .text("Number of Agencies : ")
-            .attr("dx", "3em"); // Increase spacing
+            .attr("dx", "3em");
     
         captionTextElement.append("tspan")
             .text(agencyCount)
@@ -402,54 +435,46 @@ document.addEventListener("DOMContentLoaded", function() {
             .style("fill", "#f28106");
     }
     
-    // Function to download filtered data as CSV
     function downloadFilteredData(filteredData) {
-        const selectedDataType = document.getElementById("data-type").value;
+        const selectedDataType = dataTypeBtn.dataset.value;
         const headers = ["agency_name", "state_name", "date", "crime_type", "number_of_agencies"];
         
-        // Rename the 'value' column based on the selected data type
         const dataColumn = selectedDataType === "count" ? "count" : "mvs_12mo";
         headers.push(dataColumn);
     
         const csvRows = [headers.join(",")];
     
-        // Check if the number_of_agencies column exists in the data
         const hasAgencyCount = filteredData.length > 0 && filteredData[0].hasOwnProperty("number_of_agencies");
     
-        // Add data rows
         filteredData.forEach(d => {
             const row = [
                 d.agency_name,
                 d.state_name,
                 d3.timeFormat("%Y-%m-%d")(d.date),
                 d.crime_type,
-                hasAgencyCount ? d.number_of_agencies : "N/A", // Use the number_of_agencies column if it exists, otherwise "N/A"
+                hasAgencyCount ? d.number_of_agencies : "N/A",
                 d.value
             ];
             csvRows.push(row.join(","));
         });
     
-        // Create CSV content
         const csvContent = "data:text/csv;charset=utf-8," + csvRows.join("\n");
     
-        // Create a downloadable link
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
         link.setAttribute("download", "filtered_data.csv");
     
-        // Append to the document and trigger the download
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
     }
     
-    // Load data and initialize filters and chart
     d3.csv("data/viz_data.csv").then(function(data) {
         data.forEach(d => {
-            d.date = parseDate(d.date); // Use d3.timeParse to parse dates
+            d.date = d3.timeParse("%Y-%m-%d")(d.date);
             d.count = +d.count;
-            d.mvs_12mo = +d.mvs_12mo; // Add parsing for mvs_12mo column
+            d.mvs_12mo = +d.mvs_12mo;
         });
 
         allData = data;
@@ -459,21 +484,25 @@ document.addEventListener("DOMContentLoaded", function() {
         console.error("Error loading the CSV file:", error);
     });
 
-    // Re-render on window resize
     window.addEventListener('resize', renderChart);
 
-    // Update chart when filters change
-    crimeTypeSelect.addEventListener('change', renderChart);
-    stateSelect.addEventListener('change', function() {
-        updateAgencyFilter(allData, stateSelect.value);
-        renderChart();
-    });
-    agencySelect.addEventListener('change', renderChart);
+    toggleDropdown(crimeTypeBtn, crimeTypeSelect);
+    toggleDropdown(stateBtn, stateSelect);
+    toggleDropdown(agencyBtn, agencySelect);
+    toggleDropdown(dataTypeBtn, dataTypeDropdown);
 
-    // Add event listener to download button
     downloadButton.addEventListener("click", function() {
         const filteredData = filterData(allData);
         downloadFilteredData(filteredData);
+    });
+
+    dataTypeDropdown.addEventListener('click', event => {
+        const selectedItem = event.target.closest('.dropdown-item');
+        if (selectedItem) {
+            dataTypeBtn.textContent = selectedItem.textContent;
+            dataTypeBtn.dataset.value = selectedItem.dataset.value;
+            renderChart();
+        }
     });
 
     const dataTypeSelect = document.getElementById("data-type");

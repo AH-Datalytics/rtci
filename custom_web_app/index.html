@@ -13,22 +13,34 @@
         <h1 class="rtci-header">Monthly UCR Part One Crimes by Year and Agency</h1>
         <div id="filters-container" class="filters-container">
             <span>Show me reported</span>
-            <select id="crime-type" class="filter-dropdown">
-                <!-- Options will be dynamically populated -->
-            </select>
+            <div class="dropdown">
+                <div id="crime-type-btn" class="dropdown-btn">Select Crime Type <i class="fas fa-caret-down"></i></div>
+                <div id="crime-type-dropdown" class="dropdown-menu">
+                    <!-- Options will be dynamically populated -->
+                </div>
+            </div>
             <span>in</span>
-            <select id="state" class="filter-dropdown">
-                <!-- Options will be dynamically populated -->
-            </select>
+            <div class="dropdown">
+                <div id="state-btn" class="dropdown-btn">Select State <i class="fas fa-caret-down"></i></div>
+                <div id="state-dropdown" class="dropdown-menu">
+                    <!-- Options will be dynamically populated -->
+                </div>
+            </div>
             <span>for</span>
-            <select id="agency" class="filter-dropdown">
-                <!-- Options will be dynamically populated -->
-            </select>
+            <div class="dropdown">
+                <div id="agency-btn" class="dropdown-btn">Select Agency <i class="fas fa-caret-down"></i></div>
+                <div id="agency-dropdown" class="dropdown-menu">
+                    <!-- Options will be dynamically populated -->
+                </div>
+            </div>
             <span>as</span>
-            <select id="data-type" class="filter-dropdown">
-                <option value="count">Monthly Totals</option>
-                <option value="mvs_12mo">12 Month Rolling Sum</option>
-    </select>
+            <div class="dropdown">
+                <div id="data-type-btn" class="dropdown-btn">Monthly Totals <i class="fas fa-caret-down"></i></div>
+                <div id="data-type-dropdown" class="dropdown-menu">
+                    <div class="dropdown-item" data-value="count">Monthly Totals</div>
+                    <div class="dropdown-item" data-value="mvs_12mo">12 Month Rolling Sum</div>
+                </div>
+            </div>
         </div>
         <div id="graph-kpis-container" class="graph-kpis-container">
             <div id="line-graph-container" class="rtci-line-graph">
@@ -39,7 +51,7 @@
                 <div id="kpi-box2" class="kpi-box">KPI 2</div>
                 <div id="kpi-box3" class="kpi-box">KPI 3</div>
             </div>
-        </div> 
+        </div>
     </div>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="script.js"></script>

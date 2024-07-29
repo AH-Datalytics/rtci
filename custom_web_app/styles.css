@@ -4,7 +4,7 @@ html, body {
     overflow: hidden;
     height: 100%;
     width: 100%;
-    background-color: white; /* Teal background */
+    background-color: white;
 }
 
 #rtci-dashboard {
@@ -19,17 +19,17 @@ html, body {
 }
 
 .rtci-header {
-    color: #f28106; /* Orange text color */
-    font-family: 'Roboto Condensed', Arial, sans-serif; /* Roboto Condensed font */
-    font-size: 3vw; /* Responsive font size based on viewport width */
+    color: #f28106;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-size: 3vw;
     text-align: center;
-    margin-top: 2rem; /* Add some top margin for spacing */
+    margin-top: 2rem;
 }
 
 .filters-container {
     color: #00333a;
-    font-family: 'Roboto Condensed', Arial, sans-serif; /* Roboto Condensed font */
-    font-size: 1.5vw; /* Responsive font size */
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-size: 1.5vw;
     text-align: center;
     margin: 1rem 0;
     display: flex;
@@ -38,112 +38,127 @@ html, body {
     gap: 0.5rem;
 }
 
-.filter-dropdown {
-    font-family: 'Roboto Condensed', Arial, sans-serif !important; /* Roboto Condensed font */
-    font-size:1.5vw; /* Responsive font size */
-    color: #2d5ef9;
+.dropdown {
     position: relative;
-    border: 0.1vw solid white; /* Border color and thickness */
-    border-radius: 8px; /* Make the corners more rounded */
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1); /* Box shadow */
-    width: auto; /* Let JavaScript set the width */
-    display: inline-block; /* Ensure the width adjustment works */
-}
-/* Hover and focus styles for better user experience */
-.filter-dropdown:hover {
-    border: 0.1vw solid #f0f0f0; /* Border color and thickness */
-    background-color: #f0f0f0; /* Background color on hover/focus */
-    box-shadow: 0 0px 15px rgba(0, 0, 0, 0.2); /* Darker and larger shadow on hover/focus */
+    display: inline-block;
 }
 
-/* Remove focus outline */
-.filter-dropdown:focus {
-    outline: none; /* Remove default focus outline */
+.dropdown-btn {
+    background-color: #f0f0f0;
+    color: #2d5ef9;
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-/* Style the dropdown options but note this is NOT CURRENTLY WORKING*/
-.filter-dropdown option {
-    font-family: 'Roboto Condensed', Arial, sans-serif !important;
-    font-size: 0.5vw !important; /* Adjust the font size for options */
-    color: #2be237 !important;
+.dropdown-btn i {
+    margin-left: 10px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-menu .dropdown-item {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown-menu.show {
+    display: block;
 }
 
 .graph-kpis-container {
     display: flex;
     width: 90%;
     justify-content: space-between;
-    align-items: stretch; /* ensure items are stretched to align top and bottom */
-    margin-top: 2rem; /* Space between the title and the content */
-    height: 65%; /* Match the height of the line graph */
+    align-items: stretch;
+    margin-top: 2rem;
+    height: 65%;
 }
 
 .rtci-line-graph {
-    width: 75%; /* Adjust width to make room for KPI boxes */
-    height: 100%; /* Full height within the container */
-    background-color: white; /* Background color for visibility */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow for depth */
+    width: 75%;
+    height: 100%;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px; /* Add rounded corners to the graph */
+    border-radius: 8px;
 }
 
 .kpi-container {
     display: flex;
     flex-direction: column;
-    width: 25%; /* Adjust width to fit the KPI boxes */
+    width: 25%;
     justify-content: space-between;
     padding-left: 1rem;
 }
 
 .kpi-box {
-    background-color: #f28106; /* Orange background color */
+    background-color: #f28106;
     color: white;
-    font-family: 'Roboto Condensed', Arial, sans-serif; /* Roboto Condensed font */
-    font-size: 2vw; /* Responsive font size */
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-size: 2vw;
     text-align: center;
-    margin-bottom: 1rem; /* Space between KPI boxes */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow for depth */
+    margin-bottom: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     flex: 1;
-    border-radius: 8px; /* Add rounded corners to the KPI boxes */
-    display: flex; /* Add flexbox for vertical alignment */
-    flex-direction: column; /* Align children vertically */
-    justify-content: center; /* Center children vertically */
-    align-items: center; /* Center children horizontally */
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .kpi-box h2 {
-    font-size: 0.75em; /* Adjust as needed */
+    font-size: 0.75em;
     padding-top: 0.25rem;
     margin-bottom: 0.25rem;
 }
 
 .kpi-box p {
-    font-size: 0.5em; /* Adjust as needed */
+    font-size: 0.5em;
     margin: 0.2rem;
 }
 
 .kpi-box p strong {
-    font-size: 2em; /* Larger font size for the count */
+    font-size: 2em;
 }
 
 .kpi-box:last-child {
-    margin-bottom: 0; /* Remove margin from the last KPI box */
+    margin-bottom: 0;
 }
 
 .tooltip {
     position: absolute;
     text-align: left;
     padding: 5px;
-    background: #f28106; /* Orange background color */
+    background: #f28106;
     border: 1px solid #ccc;
-    border-radius: 4px; /* Rounded corners */
+    border-radius: 4px;
     pointer-events: none;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto Condensed', Arial, sans-serif;
-    color: #00333a; /* Font color */
-    opacity: 0.9; /* Slightly transparent */
-    font-size: 0.8em; /* Smaller font size */
+    color: #00333a;
+    opacity: 0.9;
+    font-size: 0.8em;
 }
 
 #download-button {
@@ -157,9 +172,9 @@ html, body {
     padding: 5px 10px;
     font-family: 'Roboto Condensed', Arial, sans-serif;
     font-size: 0.9vw;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Increased shadow size for more depth */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     cursor: pointer;
-    z-index: 1000; /* Ensure the button is above other elements */
+    z-index: 1000;
     display: flex;
     align-items: center;
 }
@@ -170,25 +185,24 @@ html, body {
 
 #download-button:hover {
     background-color: #f0f0f0;
-    color: #2d5df96d;
+    color: #2d5ef9;
 }
 
 #line-graph-container {
     position: relative;
 }
 
-/* Responsive styles for smaller screens */
 @media (max-width: 600px) {
     .rtci-header {
-        font-size: 3vw; /* Adjust font size for smaller screens */
+        font-size: 3vw;
     }
 
     .filters-container {
-        font-size: 1.75vw; /* Adjust font size for smaller screens */
+        font-size: 1.75vw;
     }
 
-    .filter-dropdown {
-        font-size: 1.75vw; /* Adjust font size for smaller screens */
+    .dropdown-btn {
+        font-size: 1.75vw;
     }
 
     .graph-kpis-container {
@@ -196,66 +210,64 @@ html, body {
         align-items: center;
         width: 95%;
         height: auto;
-        margin-top: 1rem; /* Reduce space between the title and the content */
+        margin-top: 1rem;
     }
 
     .rtci-line-graph {
-        width: 100%; /* Adjust width for smaller screens */
-        height: 50vh; /* Set a fixed height for the graph */
-        margin-bottom: 0.5rem; /* Reduce space between the graph and KPI boxes */
+        width: 100%;
+        height: 50vh;
+        margin-bottom: 0.5rem;
     }
 
     .kpi-container {
         width: 100%;
         display: flex;
-        flex-direction: row; /* Make KPI boxes horizontal */
-        justify-content: space-between; /* Evenly distribute KPI boxes */
-        align-items: stretch; /* Ensure KPI boxes have equal height */
-        padding: 0; /* Remove padding */
-        margin: 0; /* Remove margin */
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: stretch;
+        padding: 0;
+        margin: 0;
     }
 
     .kpi-box {
-        flex: 1; /* Ensure all KPI boxes have equal width and height */
+        flex: 1;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 0.25rem; /* Adjust margin for spacing */
+        margin: 0.25rem;
         padding-top: 0.25rem;
-        padding-bottom: 0.8rem; /* Adjust padding for spacing */
-        font-size: 2vw; /* Maintain responsive font size */
+        padding-bottom: 0.8rem;
+        font-size: 2vw;
         text-align: center;
-        background-color: #f28106; /* Orange background color */
+        background-color: #f28106;
         color: white;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow for depth */
-        height: 50%; /* Ensure KPI boxes fill the available height */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        height: 50%;
     }
 
     .kpi-box:first-child {
-        margin-left: 0; /* Remove left margin for the first KPI box */
+        margin-left: 0;
     }
 
     .kpi-box:last-child {
-        margin-right: 0; /* Remove right margin for the last KPI box */
+        margin-right: 0;
     }
 
     .kpi-box h2 {
-        font-size: 1em; /* Larger font size for title on small screens */
+        font-size: 1em;
     }
 
     .kpi-box p {
-        font-size: 0.75em; /* Larger font size for date on small screens */
+        font-size: 0.75em;
     }
 
     .kpi-box p strong {
-        font-size: 2em; /* Larger font size for count on small screens */
+        font-size: 2em;
     }
 }
 
-
-/* For all three caption styling */
 .caption-group text {
-    font-size: 1.5vh; /* Initial font size */
+    font-size: 1.5vh;
 }
 
 .source-link {
@@ -265,27 +277,25 @@ html, body {
 }
 
 .source-link:hover {
-    fill: #2d5df96d;
+    fill: #2d5ef9;
 }
-
 
 @media (max-width: 800px) {
     .caption-group text {
-        font-size: 1.1vh; /* Adjust size for screens less than 800 */
+        font-size: 1.1vh;
     }
 
     .source-link {
-        font-size: 1.1vh; /* Adjust size for screens less than 800 */
+        font-size: 1.1vh;
     }
 }
 
-/* For all axis text styling */
 .axis-text {
-    font-size: 13px !important; /* Initial font size */
+    font-size: 13px !important;
 }
 
 @media (max-width: 800px) {
     .axis-text {
-        font-size: 11px !important; /* Adjust size for screens less than 800 */
+        font-size: 11px !important;
     }
 }

@@ -13,20 +13,29 @@ document.addEventListener("DOMContentLoaded", function() {
 
     let allData = [];
 
+    function closeAllDropdowns() {
+        const dropdownMenus = document.querySelectorAll(".dropdown-menu");
+        dropdownMenus.forEach(menu => {
+            menu.classList.remove("show");
+        });
+    }
+
     function toggleDropdown(button, dropdown) {
         button.addEventListener('click', function(event) {
             event.stopPropagation();
+            closeAllDropdowns();  // Close all dropdowns before toggling the current one
             dropdown.classList.toggle("show");
         });
-
+    
         document.addEventListener('click', function() {
-            dropdown.classList.remove("show");
+            closeAllDropdowns();  // Close all dropdowns when clicking outside
         });
-
+    
         dropdown.addEventListener('click', function(event) {
             event.stopPropagation();
         });
     }
+    
 
     function createDropdownOption(value, text, dropdown, button) {
         const option = document.createElement("div");

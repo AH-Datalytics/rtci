@@ -42,11 +42,26 @@ document.addEventListener("DOMContentLoaded", function() {
         option.className = "dropdown-item";
         option.dataset.value = value;
         option.textContent = text;
+    
+        // Check if this option is the current selected option
+        if (button.dataset.value === value) {
+            option.classList.add('selected');
+        }
+    
         option.addEventListener('click', function() {
+            // Remove the 'selected' class from all items
+            const items = dropdown.querySelectorAll('.dropdown-item');
+            items.forEach(item => item.classList.remove('selected'));
+    
+            // Add the 'selected' class to the clicked item
+            option.classList.add('selected');
+    
+            // Update the button text and dataset value
             button.textContent = text;
             button.dataset.value = value;
             button.appendChild(document.createElement('i')).className = "fas fa-caret-down";
             dropdown.classList.remove("show");
+    
             if (button === stateBtn) {
                 updateAgencyFilter(allData, value);
             } else {
@@ -55,26 +70,45 @@ document.addEventListener("DOMContentLoaded", function() {
         });
         return option;
     }
+    
 
     function updateFilters(data) {
         const crimeTypes = [...new Set(data.map(d => d.crime_type))];
         const states = [...new Set(data.map(d => d.state_name))];
-
+        const agencies = [...new Set(data.map(d => d.agency_name))];
+    
         // Clear previous options
         crimeTypeSelect.innerHTML = "";
         stateSelect.innerHTML = "";
         agencySelect.innerHTML = "";
-
+        dataTypeDropdown.innerHTML = "";  // Clear the data type dropdown
+    
         crimeTypes.forEach(crimeType => {
             const option = createDropdownOption(crimeType, crimeType, crimeTypeSelect, crimeTypeBtn);
             crimeTypeSelect.appendChild(option);
         });
-
+    
         states.forEach(state => {
             const option = createDropdownOption(state, state, stateSelect, stateBtn);
             stateSelect.appendChild(option);
         });
-
+    
+        agencies.forEach(agency => {
+            const option = createDropdownOption(agency, agency, agencySelect, agencyBtn);
+            agencySelect.appendChild(option);
+        });
+    
+        // Add options for the data type dropdown
+        const dataTypes = [
+            { value: "count", text: "Monthly Totals" },
+            { value: "mvs_12mo", text: "12 Month Rolling Sum" }
+        ];
+    
+        dataTypes.forEach(dataType => {
+            const option = createDropdownOption(dataType.value, dataType.text, dataTypeDropdown, dataTypeBtn);
+            dataTypeDropdown.appendChild(option);
+        });
+    
         // Set default values
         crimeTypeBtn.textContent = crimeTypes[0];
         crimeTypeBtn.dataset.value = crimeTypes[0];
@@ -87,29 +121,61 @@ document.addEventListener("DOMContentLoaded", function() {
             stateBtn.dataset.value = states[0];
             updateAgencyFilter(data, states[0]);
         }
-
+    
         // Set default value for data type
         dataTypeBtn.textContent = "Monthly Totals";
         dataTypeBtn.dataset.value = "count";
+    
+        // Set default value for agency (prefer "Houston" if available)
+        if (agencies.includes("Houston")) {
+            agencyBtn.textContent = "Houston";
+            agencyBtn.dataset.value = "Houston";
+        } else {
+            agencyBtn.textContent = agencies[0];
+            agencyBtn.dataset.value = agencies[0];
+        }
+    
+        // Add 'selected' class to the default values
+        const defaultCrimeTypeOption = crimeTypeSelect.querySelector(`[data-value="${crimeTypeBtn.dataset.value}"]`);
+        if (defaultCrimeTypeOption) defaultCrimeTypeOption.classList.add('selected');
+    
+        const defaultStateOption = stateSelect.querySelector(`[data-value="${stateBtn.dataset.value}"]`);
+        if (defaultStateOption) defaultStateOption.classList.add('selected');
+    
+        const defaultAgencyOption = agencySelect.querySelector(`[data-value="${agencyBtn.dataset.value}"]`);
+        if (defaultAgencyOption) defaultAgencyOption.classList.add('selected');
+    
+        const defaultDataTypeOption = dataTypeDropdown.querySelector(`[data-value="${dataTypeBtn.dataset.value}"]`);
+        if (defaultDataTypeOption) defaultDataTypeOption.classList.add('selected');
     }
-
+    
     function updateAgencyFilter(data, selectedState) {
         const agencies = [...new Set(data.filter(d => d.state_name === selectedState).map(d => d.agency_name))];
-        
+            
         // Clear previous options
         agencySelect.innerHTML = "";
-    
+        
         agencies.forEach(agency => {
             const option = createDropdownOption(agency, agency, agencySelect, agencyBtn);
             agencySelect.appendChild(option);
         });
+        
+        // Set default value to "Houston" if available, else the first agency in the list
+        if (agencies.includes("Houston")) {
+            agencyBtn.textContent = "Houston";
+            agencyBtn.dataset.value = "Houston";
+        } else {
+            agencyBtn.textContent = agencies[0];
+            agencyBtn.dataset.value = agencies[0];
+        }
     
-        // Set default value to the first agency in the list
-        agencyBtn.textContent = agencies[0];
-        agencyBtn.dataset.value = agencies[0];
-
+        // Add 'selected' class to the default value
+        const defaultAgencyOption = agencySelect.querySelector(`[data-value="${agencyBtn.dataset.value}"]`);
+        if (defaultAgencyOption) defaultAgencyOption.classList.add('selected');
+    
         renderChart();
     }
+    
 
     function filterData(data) {
         const selectedCrimeType = crimeTypeBtn.dataset.value;
@@ -510,9 +576,11 @@ document.addEventListener("DOMContentLoaded", function() {
         if (selectedItem) {
             dataTypeBtn.textContent = selectedItem.textContent;
             dataTypeBtn.dataset.value = selectedItem.dataset.value;
+            dataTypeDropdown.classList.remove("show"); // Close the dropdown
             renderChart();
         }
     });
+    
 
     const dataTypeSelect = document.getElementById("data-type");
     dataTypeSelect.addEventListener('change', renderChart);

@@ -98,6 +98,10 @@ html, body {
     color: #f28106;
 }
 
+.dropdown-item.selected {
+    font-weight: bold;
+}
+
 .dropdown-menu.show {
     display: block;
 }

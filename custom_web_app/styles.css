@@ -75,6 +75,8 @@ html, body {
     position: absolute;
     background-color: #f9f9f9;
     min-width: 10vw;
+    max-height: 70vh; /* Set the maximum height for the dropdown menu */
+    overflow-y: auto; /* Enable vertical scrolling */
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1001;
     border-radius: 8px;
@@ -85,7 +87,7 @@ html, body {
 }
 
 .dropdown-menu .dropdown-item {
-    color: black;
+    color: #00333a;
     padding: 0.2rem;
     margin-right: 0px;
     padding-right: 0px;

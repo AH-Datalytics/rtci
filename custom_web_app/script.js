@@ -109,8 +109,14 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     
         // Set default values
-        crimeTypeBtn.textContent = crimeTypes[0];
-        crimeTypeBtn.dataset.value = crimeTypes[0];
+        if (crimeTypes.includes("Murders")) {
+            crimeTypeBtn.textContent = "Murders";
+            crimeTypeBtn.dataset.value = "Murders";
+        } else {
+            crimeTypeBtn.textContent = crimeTypes[0];
+            crimeTypeBtn.dataset.value = crimeTypes[0];
+        }
+    
         if (states.includes("Texas")) {
             stateBtn.textContent = "Texas";
             stateBtn.dataset.value = "Texas";
@@ -174,6 +180,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         renderChart();
     }
+    
     
 
     function filterData(data) {

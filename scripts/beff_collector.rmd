@@ -135,12 +135,12 @@ head(ldf1[1])
 ```
 ```{r}
 # Apply the function to each dataframe in the list and store the results
-unique_agency_counts <- map(ldf1, get_unique_agency_count)
+unique_agency_counts1 <- map(ldf1, get_unique_agency_count)
 
-total_agency_raw <- sum(unlist(unique_agency_counts))
+total_agency_raw1 <- sum(unlist(unique_agency_counts1))
 
 # Print the results
-head(total_agency_raw)
+head(total_agency_raw1)
 ##332 as of this writing this and counting...why do we lose agencies at the end?
 ```
 next...
@@ -173,12 +173,12 @@ head(ldf2[1])
 ```
 ```{r}
 # Apply the function to each dataframe in the list and store the results
-unique_agency_counts <- map(ldf2, get_unique_agency_count)
+unique_agency_counts2 <- map(ldf2, get_unique_agency_count)
 
-total_agency_raw <- sum(unlist(unique_agency_counts))
+total_agency_raw2 <- sum(unlist(unique_agency_counts2))
 
 # Print the results
-head(total_agency_raw)
+head(total_agency_raw2)
 ##332 as of this writing this and counting...why do we lose agencies at the end?
 ```
 
@@ -195,12 +195,12 @@ head(ldf3[1])
 ```
 ```{r}
 # Apply the function to each dataframe in the list and store the results
-unique_agency_counts <- map(ldf3, get_unique_agency_count)
+unique_agency_counts3 <- map(ldf3, get_unique_agency_count)
 
-total_agency_raw <- sum(unlist(unique_agency_counts))
+total_agency_raw3 <- sum(unlist(unique_agency_counts3))
 
 # Print the results
-head(total_agency_raw)
+head(total_agency_raw3)
 ##332 as of this writing this and counting...why do we lose agencies at the end?
 ```
 combine and check it out
@@ -216,6 +216,30 @@ head(combined_df)
 ```{r}
 length(unique(combined_df$`Agency Name`))
 ```
+duplicates?
+```{r}
+# Function to find unique values for "Agency Name" in a dataframe
+get_unique_agencies <- function(df) {
+  unique(df$`Agency Name`)
+}
+
+# Find unique values for "Agency Name" in all dataframes
+unique_agencies_list <- lapply(ldf3, get_unique_agencies)
+
+# Combine all unique values into a single vector
+all_unique_agencies <- unlist(unique_agencies_list)
+
+# Find duplicate agency names across all dataframes
+duplicate_agencies <- all_unique_agencies[duplicated(all_unique_agencies)]
+
+# View the unique agency names
+print("Unique Agency Names Across All Dataframes")
+print(unique(all_unique_agencies))
+
+# View the duplicate agency names
+print("Duplicate Agency Names Across All Dataframes")
+print(duplicate_agencies)
+```
 what are we kicking when we rowbind?
 ```{r}
 # Function to extract unique values from 'Agency.Name' column in each dataframe
@@ -229,10 +253,29 @@ extract_unique_agencies <- function(df_list, column_name) {
 }
 
 # Extract unique 'Agency.Name' values from the list of dataframes
-unique_agencies <- extract_unique_agencies(df_list, "Agency Name")
+unique_agencies <- extract_unique_agencies(ldf3, "Agency Name")
 
 # Create a dataframe with these unique values
-df1 <- tibble(Agency Name = unique_agencies)
+df1 <- as.data.frame(unique(unique_agencies))
+
+
+# Count occurrences of values in the 'name' column for both dataframes
+counts_df1 <- as.data.frame(table(df1$name))
+counts_df2 <- as.data.frame(table(df2$name))
+
+# Rename columns for clarity
+colnames(counts_df1) <- c("name", "count_df1")
+colnames(counts_df2) <- c("name", "count_df2")
+
+# Merge the two count dataframes by the 'name' column
+comparison <- merge(counts_df1, counts_df2, by = "name", all = TRUE)
+
+# Replace NA values with 0 (if a name is not found in one of the dataframes)
+comparison[is.na(comparison)] <- 0
+
+# View the comparison
+print("Comparison of Value Counts in 'name' Column Across Two Dataframes")
+print(comparison)
 
 
 # Function to extract unique values from a column and save as a vector
@@ -243,7 +286,7 @@ extract_unique_values <- function(df, column_name) {
 
 # Extract unique values from 'Agency.Name' column in both dataframes
 unique_values_df1 <- extract_unique_values(df1, "Agency.Name")
-unique_values_df2 <- extract_unique_values(df2, "Agency.Name")
+unique_values_df2 <- extract_unique_values(combined_df, "Agency Name")
 
 # Compare the unique values between the two vectors
 only_in_df1 <- setdiff(unique_values_df1, unique_values_df2)

@@ -108,6 +108,16 @@ html, body {
     display: block;
 }
 
+.dropdown-search {
+    width: calc(100% - 16px); /* Adjust width to account for padding */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 8px;
+    box-sizing: border-box;
+}
+
+
 .graph-kpis-container {
     display: flex;
     width: 90%;

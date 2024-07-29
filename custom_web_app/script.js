@@ -71,31 +71,55 @@ document.addEventListener("DOMContentLoaded", function() {
         return option;
     }
     
+    function createSearchableDropdown(dropdown, button, options) {
+        const searchInput = document.createElement("input");
+        searchInput.type = "text";
+        searchInput.placeholder = "Search...";
+        searchInput.className = "dropdown-search";
+    
+        // Clear previous options
+        dropdown.innerHTML = "";
+        dropdown.appendChild(searchInput);
+    
+        function filterOptions() {
+            const filter = searchInput.value.toLowerCase();
+            const filteredOptions = options.filter(option => option.toLowerCase().includes(filter));
+    
+            // Clear previous options
+            const existingItems = dropdown.querySelectorAll(".dropdown-item");
+            existingItems.forEach(item => item.remove());
+    
+            // Add filtered options
+            filteredOptions.forEach(option => {
+                const dropdownOption = createDropdownOption(option, option, dropdown, button);
+                dropdown.appendChild(dropdownOption);
+            });
+        }
+    
+        searchInput.addEventListener("input", filterOptions);
+    
+        // Initial population of options
+        options.forEach(option => {
+            const dropdownOption = createDropdownOption(option, option, dropdown, button);
+            dropdown.appendChild(dropdownOption);
+        });
+    }
+    
     function updateFilters(data) {
         const crimeTypes = [...new Set(data.map(d => d.crime_type))].sort();
         const states = [...new Set(data.map(d => d.state_name))].sort();
         const agencies = [...new Set(data.map(d => d.agency_name))].sort();
     
-        // Clear previous options
+        // Initialize crime type dropdown without search
         crimeTypeSelect.innerHTML = "";
-        stateSelect.innerHTML = "";
-        agencySelect.innerHTML = "";
-        dataTypeDropdown.innerHTML = "";  // Clear the data type dropdown
-    
         crimeTypes.forEach(crimeType => {
             const option = createDropdownOption(crimeType, crimeType, crimeTypeSelect, crimeTypeBtn);
             crimeTypeSelect.appendChild(option);
         });
     
-        states.forEach(state => {
-            const option = createDropdownOption(state, state, stateSelect, stateBtn);
-            stateSelect.appendChild(option);
-        });
-    
-        agencies.forEach(agency => {
-            const option = createDropdownOption(agency, agency, agencySelect, agencyBtn);
-            agencySelect.appendChild(option);
-        });
+        // Initialize searchable state and agency dropdowns
+        createSearchableDropdown(stateSelect, stateBtn, states);
+        createSearchableDropdown(agencySelect, agencyBtn, agencies);
     
         // Add options for the data type dropdown
         const dataTypes = [
@@ -103,6 +127,7 @@ document.addEventListener("DOMContentLoaded", function() {
             { value: "mvs_12mo", text: "12 Month Rolling Sum" }
         ];
     
+        dataTypeDropdown.innerHTML = "";
         dataTypes.forEach(dataType => {
             const option = createDropdownOption(dataType.value, dataType.text, dataTypeDropdown, dataTypeBtn);
             dataTypeDropdown.appendChild(option);
@@ -156,15 +181,8 @@ document.addEventListener("DOMContentLoaded", function() {
     
     function updateAgencyFilter(data, selectedState) {
         const agencies = [...new Set(data.filter(d => d.state_name === selectedState).map(d => d.agency_name))].sort();
-            
-        // Clear previous options
-        agencySelect.innerHTML = "";
-        
-        agencies.forEach(agency => {
-            const option = createDropdownOption(agency, agency, agencySelect, agencyBtn);
-            agencySelect.appendChild(option);
-        });
-        
+        createSearchableDropdown(agencySelect, agencyBtn, agencies);
+    
         // Set default value to "Houston" if available, else the first agency in the list
         if (agencies.includes("Houston")) {
             agencyBtn.textContent = "Houston";
@@ -180,6 +198,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         renderChart();
     }
+    
     
     
 

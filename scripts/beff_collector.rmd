@@ -283,6 +283,8 @@ write.csv(df_mvs_12mo, "data/rtci_benjeff_sample.csv")
 7 -links to sources
 8 -ytd table for each agency in the sample
 9 -based on 2022 we think we are capturing X amount of the total crimes that 
+10 -0 larceny agencies in a month find
+11 -nationwide is being summed based on who is and isn'tincluded based on our limits and something
 
 august 1st - collect data for June
 

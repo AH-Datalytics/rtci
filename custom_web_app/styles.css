@@ -84,6 +84,7 @@ html, body {
     left: 50%; /* Position from the left of the button */
     transform: translateX(-50%); /* Center the dropdown */
     cursor: pointer;
+    padding-top: 0.3px;
 }
 
 .dropdown-menu .dropdown-item {
@@ -114,7 +115,7 @@ html, body {
     padding: 6px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    margin: 8px;
+    margin: 8px 8px 2px 8px; /* Adjust margin to keep padding consistent */
     box-sizing: border-box;
     position: sticky;
     top: 0;
@@ -151,8 +152,10 @@ html, body {
 
 /* Style the focus outline for the search bar */
 .dropdown-search:focus {
-    outline: 0.02rem solid #2d5ef9; /* Outline color and width */
-    border-color: #2d5ef9; /* Border color */
+    outline: 0.02rem solid #2d5df96d; /* Outline color and width */
+    border-color: #2d5df96d; /* Border color */
+    border-width: 0.02rem;
+    z-index: 1009;
 }
 
 
@@ -272,10 +275,13 @@ html, body {
 
     .filters-container {
         font-size: 1.75vw;
+        gap: 0.25rem;
     }
 
     .dropdown-btn {
         font-size: 1.75vw;
+        border-radius: 4px;
+        padding: 3px;
     }
 
     .graph-kpis-container {

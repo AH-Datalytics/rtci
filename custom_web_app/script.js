@@ -71,11 +71,10 @@ document.addEventListener("DOMContentLoaded", function() {
         return option;
     }
     
-
     function updateFilters(data) {
-        const crimeTypes = [...new Set(data.map(d => d.crime_type))];
-        const states = [...new Set(data.map(d => d.state_name))];
-        const agencies = [...new Set(data.map(d => d.agency_name))];
+        const crimeTypes = [...new Set(data.map(d => d.crime_type))].sort();
+        const states = [...new Set(data.map(d => d.state_name))].sort();
+        const agencies = [...new Set(data.map(d => d.agency_name))].sort();
     
         // Clear previous options
         crimeTypeSelect.innerHTML = "";
@@ -150,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
     function updateAgencyFilter(data, selectedState) {
-        const agencies = [...new Set(data.filter(d => d.state_name === selectedState).map(d => d.agency_name))];
+        const agencies = [...new Set(data.filter(d => d.state_name === selectedState).map(d => d.agency_name))].sort();
             
         // Clear previous options
         agencySelect.innerHTML = "";

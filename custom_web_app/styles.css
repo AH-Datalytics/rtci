@@ -46,7 +46,7 @@ html, body {
 .dropdown-btn {
     background-color: white;
     color: #2d5ef9;
-    padding: 3px;
+    padding: 2px 3px; /* Top/Bottom padding is 2px, Left/Right padding is 3px */
     font-size: 1.5vw;
     border: none;
     cursor: pointer;

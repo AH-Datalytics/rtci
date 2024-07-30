@@ -473,3 +473,20 @@ html, body {
         font-size: 11px !important;
     }
 }
+
+/* Media Queries for Responsive Design for tab buttons*/
+@media (max-width: 550px) {
+    .tab-link, .nav-button {
+        font-size: 2vw; /* Adjust font size for smaller screens */
+        padding: 1vw 2vw; /* Adjust padding for smaller screens */
+        border-radius: 8px;
+        margin-bottom: 0;
+    }
+
+    .tab-navigation {
+        top: -27px; /* Adjust this value to move tabs closer to the graph */
+    }
+    
+
+
+}

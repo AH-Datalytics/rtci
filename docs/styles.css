@@ -13,11 +13,10 @@ html, body {
     top: -35px; /* Adjust this value as needed to position it correctly */
     left: 0;
     margin-bottom: 10px;
-    border: 1px solid red; /* Temporary border for debugging */
 }
 
 .tab-link {
-    background-color: #f1f1f1;
+    background-color: #e2e0e0;
     border: none;
     padding: 5px 10px; /* Adjust padding for smaller tabs */
     cursor: pointer;
@@ -26,7 +25,8 @@ html, body {
     font-size: 1em; /* Adjust font size for smaller text */
     border-radius: 10px; /* Increase border-radius for rounder tabs */
     margin-right: 5px; /* Add space between tabs */
-    border: 1px solid blue; /* Temporary border for debugging */
+    text-decoration: none; /* Remove underline */
+    color: white;
 }
 
 .tab-link.active {
@@ -44,6 +44,12 @@ html, body {
 
 .tab-content.active {
     display: block;
+}
+
+/* Ensure visited links do not change color */
+.tab-link:visited {
+    color: white
+    text-decoration: none; /* Ensure underline is removed */
 }
 
 /* Buttons for Table and Map Pages */

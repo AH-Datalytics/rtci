@@ -9,51 +9,65 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div id="rtci-dashboard" class="rtci-container">
-        <h1 class="rtci-header">Monthly UCR Part One Crimes by Year and Agency</h1>
-        <div id="filters-container" class="filters-container">
-            <span>Show me reported</span>
-            <div class="dropdown">
-                <div id="crime-type-btn" class="dropdown-btn">Select Crime Type <i class="fas fa-caret-down"></i></div>
-                <div id="crime-type-dropdown" class="dropdown-menu">
-                    <!-- Options will be dynamically populated -->
+    <div id="dashboard" class="tab-content active">
+        <div id="rtci-dashboard" class="rtci-container">
+            <h1 class="rtci-header">Monthly UCR Part One Crimes by Year and Agency</h1>
+            <div id="filters-container" class="filters-container">
+                <span>Show me reported</span>
+                <div class="dropdown">
+                    <div id="crime-type-btn" class="dropdown-btn">Select Crime Type <i class="fas fa-caret-down"></i></div>
+                    <div id="crime-type-dropdown" class="dropdown-menu">
+                        <!-- Options will be dynamically populated -->
+                    </div>
+                </div>
+                <span>in</span>
+                <div class="dropdown">
+                    <div id="state-btn" class="dropdown-btn">Select State <i class="fas fa-caret-down"></i></div>
+                    <div id="state-dropdown" class="dropdown-menu">
+                        <!-- Options will be dynamically populated -->
+                    </div>
+                </div>
+                <span>for</span>
+                <div class="dropdown">
+                    <div id="agency-btn" class="dropdown-btn">Select Agency <i class="fas fa-caret-down"></i></div>
+                    <div id="agency-dropdown" class="dropdown-menu">
+                        <!-- Options will be dynamically populated -->
+                    </div>
+                </div>
+                <span>as</span>
+                <div class="dropdown">
+                    <div id="data-type-btn" class="dropdown-btn">Monthly Totals <i class="fas fa-caret-down"></i></div>
+                    <div id="data-type-dropdown" class="dropdown-menu">
+                        <div class="dropdown-item" data-value="count">Monthly Totals</div>
+                        <div class="dropdown-item" data-value="mvs_12mo">12 Month Rolling Sum</div>
+                    </div>
                 </div>
             </div>
-            <span>in</span>
-            <div class="dropdown">
-                <div id="state-btn" class="dropdown-btn">Select State <i class="fas fa-caret-down"></i></div>
-                <div id="state-dropdown" class="dropdown-menu">
-                    <!-- Options will be dynamically populated -->
+            <div id="graph-kpis-container" class="graph-kpis-container">
+                <div class="tab-navigation">
+                    <button class="tab-link active" onclick="openTab('dashboard')">Dashboard</button>
+                    <button class="tab-link" onclick="openTab('table')">Table</button>
+                    <button class="tab-link" onclick="openTab('map')">Map</button>
                 </div>
-            </div>
-            <span>for</span>
-            <div class="dropdown">
-                <div id="agency-btn" class="dropdown-btn">Select Agency <i class="fas fa-caret-down"></i></div>
-                <div id="agency-dropdown" class="dropdown-menu">
-                    <!-- Options will be dynamically populated -->
+                <div id="line-graph-container" class="rtci-line-graph">
+                    <button id="download-button"><i class="fas fa-download"></i> Download Filtered Data</button>
                 </div>
-            </div>
-            <span>as</span>
-            <div class="dropdown">
-                <div id="data-type-btn" class="dropdown-btn">Monthly Totals <i class="fas fa-caret-down"></i></div>
-                <div id="data-type-dropdown" class="dropdown-menu">
-                    <div class="dropdown-item" data-value="count">Monthly Totals</div>
-                    <div class="dropdown-item" data-value="mvs_12mo">12 Month Rolling Sum</div>
+                <div id="kpi-container" class="kpi-container">
+                    <div id="kpi-box1" class="kpi-box">KPI 1</div>
+                    <div id="kpi-box2" class="kpi-box">KPI 2</div>
+                    <div id="kpi-box3" class="kpi-box">KPI 3</div>
                 </div>
-            </div>
-        </div>
-        <div id="graph-kpis-container" class="graph-kpis-container">
-            <div id="line-graph-container" class="rtci-line-graph">
-                <button id="download-button"><i class="fas fa-download"></i> Download Filtered Data</button>
-            </div>
-            <div id="kpi-container" class="kpi-container">
-                <div id="kpi-box1" class="kpi-box">KPI 1</div>
-                <div id="kpi-box2" class="kpi-box">KPI 2</div>
-                <div id="kpi-box3" class="kpi-box">KPI 3</div>
             </div>
         </div>
     </div>
+    <div id="table" class="tab-content">
+        <!-- Placeholder for Table content -->
+    </div>
+    <div id="map" class="tab-content">
+        <!-- Placeholder for Map content -->
+    </div>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="script.js"></script>
+    <script src="tabs.js"></script>
 </body>
 </html>

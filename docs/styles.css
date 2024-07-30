@@ -7,6 +7,43 @@ html, body {
     background-color: white;
 }
 
+.tab-navigation {
+    display: flex;
+    position: absolute; /* Change to absolute positioning */
+    top: -50px; /* Adjust this value as needed to position it correctly */
+    left: 0;
+    margin-bottom: 10px;
+}
+
+.tab-link {
+    background-color: #f1f1f1;
+    border: none;
+    padding: 10px 20px; /* Adjust padding as needed */
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-size: 1.2em;
+}
+
+.tab-link.active {
+    background-color: #f28106;
+    color: white;
+}
+
+.tab-link:hover {
+    background-color: #ddd;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Existing styles for the RTCI Dashboard */
+
 #rtci-dashboard {
     font-family: 'Roboto Condensed', Arial, sans-serif;
     margin: 0;
@@ -17,6 +54,16 @@ html, body {
     justify-content: flex-start;
     height: 100vh;
     overflow-y: auto;
+}
+
+#graph-kpis-container {
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    align-items: flex-start; /* Align items to the start to ensure the tab-navigation is at the top */
+    margin-top: 2rem;
+    height: 65%;
+    position: relative; /* Ensure this is relative so the tab-navigation can be positioned absolutely within it */
 }
 
 .rtci-header {
@@ -159,16 +206,7 @@ html, body {
     z-index: 1009;
 }
 
-
-.graph-kpis-container {
-    display: flex;
-    width: 90%;
-    justify-content: space-between;
-    align-items: stretch;
-    margin-top: 2rem;
-    height: 65%;
-}
-
+/* Line Graph and Kpis Styles */
 .rtci-line-graph {
     width: 75%;
     height: 100%;
@@ -184,6 +222,7 @@ html, body {
     display: flex;
     flex-direction: column;
     width: 25%;
+    height: 100%;
     justify-content: space-between;
     padding-left: 1rem;
 }
@@ -289,7 +328,7 @@ html, body {
         flex-direction: column;
         align-items: center;
         width: 95%;
-        height: auto;
+        height: 100vh;
         margin-top: 1rem;
     }
 
@@ -322,7 +361,7 @@ html, body {
         background-color: #f28106;
         color: white;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        height: 50%;
+        height: 20%;
     }
 
     .kpi-box:first-child {

@@ -35,7 +35,7 @@ html, body {
 }
 
 .tab-link:hover {
-    background-color: #ddd;
+    background-color: #b5b3b3;
 }
 
 .tab-content {
@@ -46,9 +46,8 @@ html, body {
     display: block;
 }
 
-/* Ensure visited links do not change color */
 .tab-link:visited {
-    color: white
+    color: white;
     text-decoration: none; /* Ensure underline is removed */
 }
 
@@ -60,25 +59,27 @@ html, body {
 }
 
 .nav-button {
-    background-color: #4CAF50; /* Green */
+    background-color: #e2e0e0; /* Same as .tab-link */
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 5px 10px; /* Same as .tab-link */
     text-align: center;
-    text-decoration: none;
+    text-decoration: none; /* Remove underline */
     display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
+    font-size: 1em; /* Same as .tab-link */
+    margin: 4px 2px; /* Adjust as needed */
     cursor: pointer;
     transition: background-color 0.3s;
+    border-radius: 10px; /* Same as .tab-link */
+    font-family: 'Roboto Condensed', Arial, sans-serif; /* Same as .tab-link */
 }
 
 .nav-button:hover {
-    background-color: #45a049;
+    background-color: #b5b3b3; /* Same as .tab-link:hover */
 }
 
 .nav-button.active {
-    background-color: #00333a;
+    background-color: #00333a; /* Same as .tab-link.active */
     color: white;
 }
 

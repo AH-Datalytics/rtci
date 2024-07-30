@@ -7,7 +7,85 @@ html, body {
     background-color: white;
 }
 
-#rtci-dashboard {
+.tab-navigation {
+    display: flex;
+    position: absolute;
+    top: -35px; /* Adjust this value as needed to position it correctly */
+    left: 0;
+    margin-bottom: 10px;
+}
+
+.tab-link {
+    background-color: #e2e0e0;
+    border: none;
+    padding: 5px 10px; /* Adjust padding for smaller tabs */
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-size: 1em; /* Adjust font size for smaller text */
+    border-radius: 10px; /* Increase border-radius for rounder tabs */
+    margin-right: 5px; /* Add space between tabs */
+    text-decoration: none; /* Remove underline */
+    color: white;
+}
+
+.tab-link.active {
+    background-color: #00333a;
+    color: white;
+}
+
+.tab-link:hover {
+    background-color: #b5b3b3;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-link:visited {
+    color: white;
+    text-decoration: none; /* Ensure underline is removed */
+}
+
+/* Buttons for Table and Map Pages */
+.nav-buttons {
+    display: flex;
+    justify-content: center; /* Adjust as needed */
+    margin-bottom: 10px;
+}
+
+.nav-button {
+    background-color: #e2e0e0; /* Same as .tab-link */
+    border: none;
+    color: white;
+    padding: 5px 10px; /* Same as .tab-link */
+    text-align: center;
+    text-decoration: none; /* Remove underline */
+    display: inline-block;
+    font-size: 1em; /* Same as .tab-link */
+    margin: 4px 2px; /* Adjust as needed */
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 10px; /* Same as .tab-link */
+    font-family: 'Roboto Condensed', Arial, sans-serif; /* Same as .tab-link */
+}
+
+.nav-button:hover {
+    background-color: #b5b3b3; /* Same as .tab-link:hover */
+}
+
+.nav-button.active {
+    background-color: #00333a; /* Same as .tab-link.active */
+    color: white;
+}
+
+/* Existing styles for the RTCI Dashboard */
+
+#rtci-dashboard, #rtci-table, #rtci-map {
     font-family: 'Roboto Condensed', Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -17,6 +95,16 @@ html, body {
     justify-content: flex-start;
     height: 100vh;
     overflow-y: auto;
+}
+
+#graph-kpis-container {
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    align-items: flex-start; /* Align items to the start to ensure the tab-navigation is at the top */
+    margin-top: 2rem;
+    height: 65%;
+    position: relative; /* Ensure this is relative so the tab-navigation can be positioned absolutely within it */
 }
 
 .rtci-header {
@@ -159,16 +247,7 @@ html, body {
     z-index: 1009;
 }
 
-
-.graph-kpis-container {
-    display: flex;
-    width: 90%;
-    justify-content: space-between;
-    align-items: stretch;
-    margin-top: 2rem;
-    height: 65%;
-}
-
+/* Line Graph and Kpis Styles */
 .rtci-line-graph {
     width: 75%;
     height: 100%;
@@ -184,6 +263,7 @@ html, body {
     display: flex;
     flex-direction: column;
     width: 25%;
+    height: 100%;
     justify-content: space-between;
     padding-left: 1rem;
 }
@@ -270,6 +350,10 @@ html, body {
 }
 
 @media (max-width: 600px) {
+    #rtci-dashboard {
+        height: 175vh;
+    }
+
     .rtci-header {
         font-size: 3vw;
     }
@@ -295,7 +379,7 @@ html, body {
 
     .rtci-line-graph {
         width: 100%;
-        height: 50vh;
+        height: 100vh;
         margin-bottom: 0.5rem;
     }
 
@@ -322,7 +406,7 @@ html, body {
         background-color: #f28106;
         color: white;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        height: 50%;
+        height: 10%;
     }
 
     .kpi-box:first-child {
@@ -388,4 +472,21 @@ html, body {
     .axis-text {
         font-size: 11px !important;
     }
+}
+
+/* Media Queries for Responsive Design for tab buttons*/
+@media (max-width: 550px) {
+    .tab-link, .nav-button {
+        font-size: 2vw; /* Adjust font size for smaller screens */
+        padding: 1vw 2vw; /* Adjust padding for smaller screens */
+        border-radius: 8px;
+        margin-bottom: 0;
+    }
+
+    .tab-navigation {
+        top: -27px; /* Adjust this value to move tabs closer to the graph */
+    }
+    
+
+
 }

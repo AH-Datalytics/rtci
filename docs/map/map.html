@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTCI Map</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="nav-buttons">
+        <button class="nav-button" onclick="navigateTo('../index.html')">Dashboard</button>
+        <button class="nav-button" onclick="navigateTo('../table/table.html')">Table</button>
+        <button class="nav-button active" onclick="navigateTo('map.html')">Map</button>
+    </div>
+    <div id="map" class="tab-content active">
+        <h1 class="rtci-header">Map</h1>
+        <!-- Your map content here -->
+    </div>
+    <script>
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+    </script>
+    <script src="map.js"></script>
+</body>
+</html>

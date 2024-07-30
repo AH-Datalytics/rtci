@@ -328,13 +328,13 @@ html, body {
         flex-direction: column;
         align-items: center;
         width: 95%;
-        height: 100vh;
+        height: auto;
         margin-top: 1rem;
     }
 
     .rtci-line-graph {
         width: 100%;
-        height: 50vh;
+        height: 100vh;
         margin-bottom: 0.5rem;
     }
 

@@ -86,4 +86,4 @@ final_sample_long <- final_sample_long %>%
 print(head(final_sample_long), width = Inf)
 
 # Write the final_sample_long data frame to viz_data.csv
-write.csv(final_sample_long, "custom_web_app/data/viz_data.csv", row.names = FALSE)
+write.csv(final_sample_long, "app_data/viz_data.csv", row.names = FALSE)

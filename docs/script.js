@@ -609,7 +609,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const dataTypeSelect = document.getElementById("data-type");
     dataTypeSelect.addEventListener('change', renderChart);
-});
+
 
     // Tab functionality
     function openTab(event, tabName) {

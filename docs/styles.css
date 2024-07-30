@@ -309,6 +309,10 @@ html, body {
 }
 
 @media (max-width: 600px) {
+    #rtci-dashboard {
+        height: 175vh;
+    }
+
     .rtci-header {
         font-size: 3vw;
     }
@@ -361,7 +365,7 @@ html, body {
         background-color: #f28106;
         color: white;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        height: 20%;
+        height: 10%;
     }
 
     .kpi-box:first-child {

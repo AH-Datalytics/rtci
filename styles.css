@@ -369,6 +369,16 @@ html, body {
     }
 }
 
+@media (max-width: 600px) {
+    .caption-group text {
+        font-size: 0.9vh;
+    }
+
+    .source-link {
+        font-size: 0.9vh;
+    }
+}
+
 .axis-text {
     font-size: 13px !important;
 }

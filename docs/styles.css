@@ -9,24 +9,28 @@ html, body {
 
 .tab-navigation {
     display: flex;
-    position: absolute; /* Change to absolute positioning */
-    top: -50px; /* Adjust this value as needed to position it correctly */
+    position: absolute;
+    top: -35px; /* Adjust this value as needed to position it correctly */
     left: 0;
     margin-bottom: 10px;
+    border: 1px solid red; /* Temporary border for debugging */
 }
 
 .tab-link {
     background-color: #f1f1f1;
     border: none;
-    padding: 10px 20px; /* Adjust padding as needed */
+    padding: 5px 10px; /* Adjust padding for smaller tabs */
     cursor: pointer;
     transition: background-color 0.3s;
     font-family: 'Roboto Condensed', Arial, sans-serif;
-    font-size: 1.2em;
+    font-size: 1em; /* Adjust font size for smaller text */
+    border-radius: 10px; /* Increase border-radius for rounder tabs */
+    margin-right: 5px; /* Add space between tabs */
+    border: 1px solid blue; /* Temporary border for debugging */
 }
 
 .tab-link.active {
-    background-color: #f28106;
+    background-color: #00333a;
     color: white;
 }
 
@@ -42,9 +46,39 @@ html, body {
     display: block;
 }
 
+/* Buttons for Table and Map Pages */
+.nav-buttons {
+    display: flex;
+    justify-content: center; /* Adjust as needed */
+    margin-bottom: 10px;
+}
+
+.nav-button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.nav-button:hover {
+    background-color: #45a049;
+}
+
+.nav-button.active {
+    background-color: #00333a;
+    color: white;
+}
+
 /* Existing styles for the RTCI Dashboard */
 
-#rtci-dashboard {
+#rtci-dashboard, #rtci-table, #rtci-map {
     font-family: 'Roboto Condensed', Arial, sans-serif;
     margin: 0;
     padding: 0;

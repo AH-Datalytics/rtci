@@ -235,6 +235,9 @@ document.addEventListener("DOMContentLoaded", function() {
         // Calculate the sum of offenses
         const ytdSum = d3.sum(ytdData, d => d.count);
 
+        // Format the sum with commas
+        const formattedYtdSum = d3.format(",")(ytdSum);
+
         // Get the selected crime type
         const selectedCrimeType = crimeTypeBtn.textContent;
 
@@ -242,7 +245,7 @@ document.addEventListener("DOMContentLoaded", function() {
         kpiBox1.innerHTML = `
             <h2>Year to Date ${selectedCrimeType}</h2>
             <p>Jan '${mostRecentYear.toString().slice(-2)} through ${d3.timeFormat("%B")(mostRecentDate)} '${mostRecentYear.toString().slice(-2)}</p>
-            <p><strong>${ytdSum}</strong></p>
+            <p><strong>${formattedYtdSum}</strong></p>
         `;
     }
 
@@ -265,6 +268,9 @@ document.addEventListener("DOMContentLoaded", function() {
     
         // Calculate the sum of offenses for the previous year
         const ytdSumPrevYear = d3.sum(ytdDataPrevYear, d => d.count);
+
+        // Format the sum with commas
+        const formattedYtdSumPrevYear = d3.format(",")(ytdSumPrevYear);
     
         // Get the selected crime type
         const selectedCrimeType = crimeTypeBtn.textContent;
@@ -273,7 +279,7 @@ document.addEventListener("DOMContentLoaded", function() {
         kpiBox2.innerHTML = `
             <h2>Previous YTD ${selectedCrimeType}</h2>
             <p>Jan '${(mostRecentYear - 1).toString().slice(-2)} through ${d3.timeFormat("%B")(new Date(mostRecentYear - 1, mostRecentMonth - 1, 1))} '${(mostRecentYear - 1).toString().slice(-2)}</p>
-            <p><strong>${ytdSumPrevYear}</strong></p>
+            <p><strong>${formattedYtdSumPrevYear}</strong></p>
         `;
     }
     
@@ -374,7 +380,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Y-axis
         const yAxis = d3.axisLeft(y)
             .ticks(Math.min(d3.max(filteredData, d => d.value), 10))
-            .tickFormat(d3.format("d"));
+            .tickFormat(d3.format(",d"));
     
         const yAxisGroup = svg.append("g")
             .call(yAxis);
@@ -391,9 +397,24 @@ document.addEventListener("DOMContentLoaded", function() {
     
         const selectedCrimeType = crimeTypeBtn.textContent;
     
+        // Function to calculate text width
+        function getTextWidth(text, font) {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            context.font = font;
+            const metrics = context.measureText(text);
+            return metrics.width;
+        }
+
+        // Calculate the width of the largest y-axis tick label
+        const maxYValue = d3.max(filteredData, d => d.value);
+        const maxYValueFormatted = d3.format(",d")(maxYValue);
+        const font = `${labelFontSize}px 'Roboto Condensed', Arial, sans-serif`;
+        const maxYLabelWidth = getTextWidth(maxYValueFormatted, font);
+
         svg.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", -margin.left + 15)
+            .attr("y", -margin.left - maxYLabelWidth + 40) // Adjust to increase distance from the y-axis
             .attr("x", -height / 2)
             .attr("dy", "1em")
             .style("text-anchor", "middle")

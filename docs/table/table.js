@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     let currentPage = 1;
-    const rowsPerPage = 25;
+    const rowsPerPage = 10;
     let allData;
     let currentSortKey = "YTD";
     let currentSortOrder = "desc";

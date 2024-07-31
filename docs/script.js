@@ -397,9 +397,24 @@ document.addEventListener("DOMContentLoaded", function() {
     
         const selectedCrimeType = crimeTypeBtn.textContent;
     
+        // Function to calculate text width
+        function getTextWidth(text, font) {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            context.font = font;
+            const metrics = context.measureText(text);
+            return metrics.width;
+        }
+
+        // Calculate the width of the largest y-axis tick label
+        const maxYValue = d3.max(filteredData, d => d.value);
+        const maxYValueFormatted = d3.format(",d")(maxYValue);
+        const font = `${labelFontSize}px 'Roboto Condensed', Arial, sans-serif`;
+        const maxYLabelWidth = getTextWidth(maxYValueFormatted, font);
+
         svg.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", -margin.left + 15)
+            .attr("y", -margin.left - maxYLabelWidth + 40) // Adjust to increase distance from the y-axis
             .attr("x", -height / 2)
             .attr("dy", "1em")
             .style("text-anchor", "middle")

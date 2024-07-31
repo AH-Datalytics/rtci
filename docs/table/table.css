@@ -3,7 +3,6 @@ body {
     overflow-y: auto;
 }
 
-
 .tab-toggle {
     display: flex;
     justify-content: center;
@@ -45,7 +44,6 @@ body {
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
 }
 
 th, td {
@@ -61,12 +59,6 @@ th {
 
 tr:hover {
     background-color: #f1f1f1;
-}
-
-#filter-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
 }
 
 #pagination {

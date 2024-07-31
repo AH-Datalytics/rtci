@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="table.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 </head>
 <body>
     <div class="nav-buttons">
@@ -22,11 +21,32 @@
             <button id="full-sample-btn" class="toggle-button active">Full Sample</button>
             <button id="by-agency-btn" class="toggle-button">By Agency</button>
         </div>
-        <div id="filter-container">
-            <label for="crime-type-filter">Filter by Crime Type:</label>
-            <select id="crime-type-filter">
-                <!-- Options will be dynamically populated -->
-            </select>
+        <div id="filters-container" class="filters-container">
+            <span>Show me reported</span>
+            <div class="dropdown">
+                <div id="crime-type-btn" class="dropdown-btn">Murders<i class="fas fa-caret-down"></i></div>
+                <div id="crime-type-dropdown" class="dropdown-menu">
+                    <!-- Options will be dynamically populated -->
+                </div>
+            </div>
+            <span>sorted by</span>
+            <div class="dropdown">
+                <div id="sort-key-btn" class="dropdown-btn">YTD<i class="fas fa-caret-down"></i></div>
+                <div id="sort-key-dropdown" class="dropdown-menu">
+                    <div class="dropdown-item" data-value="YTD">YTD</div>
+                    <div class="dropdown-item" data-value="PrevYTD">Previous YTD</div>
+                    <div class="dropdown-item" data-value="Percent_Change">% Change</div>
+                </div>
+            </div>
+            <span>in</span>
+            <div class="dropdown">
+                <div id="sort-order-btn" class="dropdown-btn">descending<i class="fas fa-caret-down"></i></div>
+                <div id="sort-order-dropdown" class="dropdown-menu">
+                    <div class="dropdown-item" data-value="desc">descending</div>
+                    <div class="dropdown-item" data-value="asc">ascending</div>
+                </div>
+            </div>
+            <span>order</span>
         </div>
         <div id="full-sample-table" class="table-container active">
             <table>
@@ -34,9 +54,9 @@
                     <tr>
                         <th>Agency</th>
                         <th>Crime Type</th>
-                        <th data-sort="YTD">YTD <i class="fas fa-sort"></i></th>
-                        <th data-sort="PrevYTD">Previous YTD <i class="fas fa-sort"></i></th>
-                        <th data-sort="Percent_Change">% Change <i class="fas fa-sort"></i></th>
+                        <th>YTD</th>
+                        <th>Previous YTD</th>
+                        <th>% Change</th>
                         <th>Date Through</th>
                     </tr>
                 </thead>
@@ -49,43 +69,6 @@
                 <span id="page-info"></span>
                 <button id="next-page" class="pagination-button">Next</button>
             </div>
-        </div>
-        <div id="by-agency-table" class="table-container">
-            <div id="by-agency-filters" class="filters-container">
-                <span>Filter by State:</span>
-                <div class="dropdown">
-                    <div id="state-btn" class="dropdown-btn">Select State<i class="fas fa-caret-down"></i></div>
-                    <div id="state-dropdown" class="dropdown-menu">
-                        <!-- State options will be dynamically populated -->
-                    </div>
-                </div>
-                <span>Filter by Agency:</span>
-                <div class="dropdown">
-                    <div id="agency-btn" class="dropdown-btn">Select Agency<i class="fas fa-caret-down"></i></div>
-                    <div id="agency-dropdown" class="dropdown-menu">
-                        <!-- Agency options will be dynamically populated -->
-                    </div>
-                </div>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Agency</th>
-                        <th>Date</th>
-                        <th>Murder</th>
-                        <th>Rape</th>
-                        <th>Robbery</th>
-                        <th>Assault</th>
-                        <th>Burglary</th>
-                        <th>Theft</th>
-                        <th>Motor Vehicle Theft</th>
-                        <th>Arson</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Data will be dynamically populated -->
-                </tbody>
-            </table>
         </div>
     </div>
     <script>

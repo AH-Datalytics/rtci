@@ -4,27 +4,41 @@ document.addEventListener("DOMContentLoaded", function() {
     const fullSampleTable = document.getElementById("full-sample-table");
     const byAgencyTable = document.getElementById("by-agency-table");
     const byAgencyFilters = document.getElementById("by-agency-filters");
-    const crimeTypeFilter = document.getElementById("crime-type-filter");
+
+    const crimeTypeSelect = document.getElementById("crime-type-dropdown");
+    const sortKeySelect = document.getElementById("sort-key-dropdown");
+    const sortOrderSelect = document.getElementById("sort-order-dropdown");
+
+    const crimeTypeBtn = document.getElementById("crime-type-btn");
+    const sortKeyBtn = document.getElementById("sort-key-btn");
+    const sortOrderBtn = document.getElementById("sort-order-btn");
+
+    if (!fullSampleBtn || !byAgencyBtn || !fullSampleTable || !crimeTypeSelect || !sortKeySelect || !sortOrderSelect || !crimeTypeBtn || !sortKeyBtn || !sortOrderBtn) {
+        console.error("One or more elements could not be found.");
+        return;
+    }
 
     fullSampleBtn.addEventListener("click", function() {
         fullSampleTable.style.display = "table";
-        byAgencyTable.style.display = "none";
-        byAgencyFilters.style.display = "none";
+        if (byAgencyTable) byAgencyTable.style.display = "none";
+        if (byAgencyFilters) byAgencyFilters.style.display = "none";
         fullSampleBtn.classList.add("active");
         byAgencyBtn.classList.remove("active");
     });
 
     byAgencyBtn.addEventListener("click", function() {
         fullSampleTable.style.display = "none";
-        byAgencyTable.style.display = "table";
-        byAgencyFilters.style.display = "block";
+        if (byAgencyTable) byAgencyTable.style.display = "table";
+        if (byAgencyFilters) byAgencyFilters.style.display = "block";
         byAgencyBtn.classList.add("active");
         fullSampleBtn.classList.remove("active");
     });
 
     let currentPage = 1;
-    const rowsPerPage = 10;
+    const rowsPerPage = 25;
     let allData;
+    let currentSortKey = "YTD";
+    let currentSortOrder = "desc";
 
     d3.csv("../app_data/full_table_data.csv").then(data => {
         data.forEach(d => {
@@ -37,14 +51,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const crimeTypes = Array.from(new Set(data.map(d => d.crime_type)));
         crimeTypes.forEach(crimeType => {
-            const option = document.createElement("option");
-            option.value = crimeType;
+            const option = document.createElement("div");
+            option.className = "dropdown-item";
+            option.dataset.value = crimeType;
             option.textContent = crimeType;
-            crimeTypeFilter.appendChild(option);
+            option.addEventListener('click', function() {
+                crimeTypeBtn.textContent = crimeType;
+                crimeTypeBtn.dataset.value = crimeType;
+                crimeTypeSelect.classList.remove("show");
+                currentPage = 1;
+                populateFullSampleTable();
+            });
+            crimeTypeSelect.appendChild(option);
         });
-
-        // Set default crime type to Murders
-        crimeTypeFilter.value = "Murders";
 
         function paginate(data, page, rowsPerPage) {
             const start = (page - 1) * rowsPerPage;
@@ -52,15 +71,21 @@ document.addEventListener("DOMContentLoaded", function() {
             return data.slice(start, end);
         }
 
-        function populateFullSampleTable(sortedData = null) {
-            const crimeType = crimeTypeFilter.value;
-            let filteredData = crimeType === "" ? data : data.filter(d => d.crime_type === crimeType);
+        function sortTable(data) {
+            return data.slice().sort((a, b) => {
+                if (currentSortKey === "agency_full" || currentSortKey === "crime_type") {
+                    return currentSortOrder === "asc" ? a[currentSortKey].localeCompare(b[currentSortKey]) : b[currentSortKey].localeCompare(a[currentSortKey]);
+                } else {
+                    return currentSortOrder === "asc" ? a[currentSortKey] - b[currentSortKey] : b[currentSortKey] - a[currentSortKey];
+                }
+            });
+        }
 
-            if (sortedData) {
-                filteredData = sortedData;
-            } else {
-                filteredData.sort((a, b) => b.YTD - a.YTD); // Default sorting by YTD descending
-            }
+        function populateFullSampleTable() {
+            const crimeType = crimeTypeBtn.dataset.value || "Murders";
+            let filteredData = allData.filter(d => d.crime_type === crimeType);
+
+            filteredData = sortTable(filteredData);
 
             const paginatedData = paginate(filteredData, currentPage, rowsPerPage);
 
@@ -80,16 +105,6 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("page-info").textContent = `Page ${currentPage} of ${Math.ceil(filteredData.length / rowsPerPage)}`;
         }
 
-        function sortTable(data, key) {
-            return data.slice().sort((a, b) => {
-                if (key === "agency_full" || key === "crime_type") {
-                    return a[key].localeCompare(b[key]);
-                } else {
-                    return b[key] - a[key];
-                }
-            });
-        }
-
         document.getElementById("prev-page").addEventListener("click", () => {
             if (currentPage > 1) {
                 currentPage--;
@@ -98,30 +113,59 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         document.getElementById("next-page").addEventListener("click", () => {
-            if (currentPage * rowsPerPage < data.length) {
+            if (currentPage * rowsPerPage < allData.length) {
                 currentPage++;
                 populateFullSampleTable();
             }
         });
 
-        crimeTypeFilter.addEventListener("change", () => {
-            currentPage = 1;
-            populateFullSampleTable();
-        });
-
-        const headers = document.querySelectorAll("th[data-sort]");
-        headers.forEach(header => {
-            header.addEventListener("click", () => {
-                const key = header.getAttribute("data-sort");
-                const sortedData = sortTable(allData.filter(d => d.crime_type === crimeTypeFilter.value), key);
-                populateFullSampleTable(sortedData);
+        sortKeySelect.querySelectorAll(".dropdown-item").forEach(item => {
+            item.addEventListener("click", function() {
+                currentSortKey = this.dataset.value;
+                sortKeyBtn.textContent = this.textContent;
+                sortKeySelect.classList.remove("show");
+                populateFullSampleTable();
             });
         });
 
-        // Default view: Murders sorted by YTD descending
-        populateFullSampleTable();
+        sortOrderSelect.querySelectorAll(".dropdown-item").forEach(item => {
+            item.addEventListener("click", function() {
+                currentSortOrder = this.dataset.value;
+                sortOrderBtn.textContent = this.textContent;
+                sortOrderSelect.classList.remove("show");
+                populateFullSampleTable();
+            });
+        });
 
+        populateFullSampleTable();
     }).catch(error => {
         console.error("Error loading the CSV file:", error);
     });
+
+    function toggleDropdown(button, dropdown) {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation();
+            closeAllDropdowns();  
+            dropdown.classList.toggle("show");
+        });
+
+        document.addEventListener('click', function() {
+            closeAllDropdowns();  
+        });
+
+        dropdown.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    }
+
+    function closeAllDropdowns() {
+        const dropdownMenus = document.querySelectorAll(".dropdown-menu");
+        dropdownMenus.forEach(menu => {
+            menu.classList.remove("show");
+        });
+    }
+
+    toggleDropdown(crimeTypeBtn, crimeTypeSelect);
+    toggleDropdown(sortKeyBtn, sortKeySelect);
+    toggleDropdown(sortOrderBtn, sortOrderSelect);
 });

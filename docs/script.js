@@ -235,6 +235,9 @@ document.addEventListener("DOMContentLoaded", function() {
         // Calculate the sum of offenses
         const ytdSum = d3.sum(ytdData, d => d.count);
 
+        // Format the sum with commas
+        const formattedYtdSum = d3.format(",")(ytdSum);
+
         // Get the selected crime type
         const selectedCrimeType = crimeTypeBtn.textContent;
 
@@ -242,7 +245,7 @@ document.addEventListener("DOMContentLoaded", function() {
         kpiBox1.innerHTML = `
             <h2>Year to Date ${selectedCrimeType}</h2>
             <p>Jan '${mostRecentYear.toString().slice(-2)} through ${d3.timeFormat("%B")(mostRecentDate)} '${mostRecentYear.toString().slice(-2)}</p>
-            <p><strong>${ytdSum}</strong></p>
+            <p><strong>${formattedYtdSum}</strong></p>
         `;
     }
 
@@ -265,6 +268,9 @@ document.addEventListener("DOMContentLoaded", function() {
     
         // Calculate the sum of offenses for the previous year
         const ytdSumPrevYear = d3.sum(ytdDataPrevYear, d => d.count);
+
+        // Format the sum with commas
+        const formattedYtdSumPrevYear = d3.format(",")(ytdSumPrevYear);
     
         // Get the selected crime type
         const selectedCrimeType = crimeTypeBtn.textContent;
@@ -273,7 +279,7 @@ document.addEventListener("DOMContentLoaded", function() {
         kpiBox2.innerHTML = `
             <h2>Previous YTD ${selectedCrimeType}</h2>
             <p>Jan '${(mostRecentYear - 1).toString().slice(-2)} through ${d3.timeFormat("%B")(new Date(mostRecentYear - 1, mostRecentMonth - 1, 1))} '${(mostRecentYear - 1).toString().slice(-2)}</p>
-            <p><strong>${ytdSumPrevYear}</strong></p>
+            <p><strong>${formattedYtdSumPrevYear}</strong></p>
         `;
     }
     
@@ -374,7 +380,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Y-axis
         const yAxis = d3.axisLeft(y)
             .ticks(Math.min(d3.max(filteredData, d => d.value), 10))
-            .tickFormat(d3.format("d"));
+            .tickFormat(d3.format(",d"));
     
         const yAxisGroup = svg.append("g")
             .call(yAxis);

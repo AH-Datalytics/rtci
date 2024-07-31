@@ -3,6 +3,10 @@ body {
     overflow-y: auto;
 }
 
+.dropdown-item.selected {
+    font-weight: bold;
+}
+
 .tab-toggle {
     display: flex;
     justify-content: center;

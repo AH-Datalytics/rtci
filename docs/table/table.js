@@ -50,15 +50,21 @@ document.addEventListener("DOMContentLoaded", function() {
             option.className = "dropdown-item";
             option.dataset.value = crimeType;
             option.textContent = crimeType;
+            if (crimeType === crimeTypeBtn.dataset.value) {
+                option.classList.add("selected");
+            }
             option.addEventListener('click', function() {
                 crimeTypeBtn.textContent = crimeType;
                 crimeTypeBtn.dataset.value = crimeType;
                 crimeTypeSelect.classList.remove("show");
                 currentPage = 1;
                 populateFullSampleTable();
+                setSelectedClass(crimeTypeSelect, crimeType);
             });
             crimeTypeSelect.appendChild(option);
         });
+
+        setSelectedClass(crimeTypeSelect, crimeTypeBtn.dataset.value || "Murders");
 
         function paginate(data, page, rowsPerPage) {
             const start = (page - 1) * rowsPerPage;
@@ -122,20 +128,28 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         sortKeySelect.querySelectorAll(".dropdown-item").forEach(item => {
+            if (item.dataset.value === currentSortKey) {
+                item.classList.add("selected");
+            }
             item.addEventListener("click", function() {
                 currentSortKey = this.dataset.value;
                 sortKeyBtn.textContent = this.textContent;
                 sortKeySelect.classList.remove("show");
                 populateFullSampleTable();
+                setSelectedClass(sortKeySelect, currentSortKey);
             });
         });
 
         sortOrderSelect.querySelectorAll(".dropdown-item").forEach(item => {
+            if (item.dataset.value === currentSortOrder) {
+                item.classList.add("selected");
+            }
             item.addEventListener("click", function() {
                 currentSortOrder = this.dataset.value;
                 sortOrderBtn.textContent = this.textContent;
                 sortOrderSelect.classList.remove("show");
                 populateFullSampleTable();
+                setSelectedClass(sortOrderSelect, currentSortOrder);
             });
         });
 
@@ -164,6 +178,12 @@ document.addEventListener("DOMContentLoaded", function() {
         const dropdownMenus = document.querySelectorAll(".dropdown-menu");
         dropdownMenus.forEach(menu => {
             menu.classList.remove("show");
+        });
+    }
+
+    function setSelectedClass(dropdown, value) {
+        dropdown.querySelectorAll(".dropdown-item").forEach(item => {
+            item.classList.toggle("selected", item.dataset.value === value);
         });
     }
 

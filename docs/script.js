@@ -443,6 +443,8 @@ document.addEventListener("DOMContentLoaded", function() {
     
         const selectedDataType = dataTypeBtn.dataset.value;
 
+        const formatComma = d3.format(",");
+
         const tooltip = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0)
@@ -463,7 +465,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 tooltip.transition()
                     .duration(0)
                     .style("opacity", .9);
-                tooltip.html(`<strong>Agency:</strong> ${d.agency_name}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Total:</strong> ${d.value}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
+                tooltip.html(`<strong>Agency:</strong> ${d.agency_name}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Total:</strong> ${formatComma(d.value)}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
                     .style("left", (event.pageX + 5) + "px")
                     .style("top", (event.pageY - 28) + "px");
             })
@@ -490,7 +492,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 tooltip.transition()
                     .duration(0)
                     .style("opacity", .9);
-                tooltip.html(`<strong>Agency:</strong> ${closestData.agency_name}<br><strong>Crime Type:</strong> ${closestData.crime_type}<br><strong>12 Month Sum:</strong> ${closestData.value}<br><strong>Through:</strong> ${d3.timeFormat("%B %Y")(closestData.date)}`)
+                tooltip.html(`<strong>Agency:</strong> ${closestData.agency_name}<br><strong>Crime Type:</strong> ${closestData.crime_type}<br><strong>12 Month Sum:</strong> ${formatComma(closestData.value)}<br><strong>Through:</strong> ${d3.timeFormat("%B %Y")(closestData.date)}`)
                     .style("left", (event.pageX + 5) + "px")
                     .style("top", (event.pageY - 28) + "px");
             })

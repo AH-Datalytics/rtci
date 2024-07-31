@@ -4,7 +4,7 @@ library(lubridate)
 library(datasets)
 
 # Load Data
-final_sample <- read_csv("data/rtci_benjeff_sample.csv")
+final_sample <- read_csv("../data/rtci_benjeff_sample.csv")
 
 # Rename columns: lower case and underscores
 final_sample <- final_sample %>%
@@ -86,4 +86,4 @@ final_sample_long <- final_sample_long %>%
 print(head(final_sample_long), width = Inf)
 
 # Write the final_sample_long data frame to viz_data.csv
-write.csv(final_sample_long, "docs/app_data/viz_data.csv", row.names = FALSE)
+write.csv(final_sample_long, "../docs/app_data/viz_data.csv", row.names = FALSE)

@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RTCI Table</title>
     <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="table.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 </head>
 <body>
     <div class="nav-buttons">
@@ -15,7 +18,75 @@
     </div>
     <div id="table" class="tab-content active">
         <h1 class="rtci-header">Table</h1>
-        <!-- Your table content here -->
+        <div class="tab-toggle">
+            <button id="full-sample-btn" class="toggle-button active">Full Sample</button>
+            <button id="by-agency-btn" class="toggle-button">By Agency</button>
+        </div>
+        <div id="filter-container">
+            <label for="crime-type-filter">Filter by Crime Type:</label>
+            <select id="crime-type-filter">
+                <!-- Options will be dynamically populated -->
+            </select>
+        </div>
+        <div id="full-sample-table" class="table-container active">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Agency</th>
+                        <th>Crime Type</th>
+                        <th>YTD <i class="fas fa-sort"></i></th>
+                        <th>Previous YTD</th>
+                        <th>% Change</th>
+                        <th>Date Through</th>
+                    </tr>
+                </thead>
+                <tbody id="full-sample-table-body">
+                    <!-- Data will be dynamically populated -->
+                </tbody>
+            </table>
+            <div id="pagination">
+                <button id="prev-page" class="pagination-button">Previous</button>
+                <span id="page-info"></span>
+                <button id="next-page" class="pagination-button">Next</button>
+            </div>
+        </div>
+        <div id="by-agency-table" class="table-container">
+            <div id="by-agency-filters" class="filters-container">
+                <span>Filter by State:</span>
+                <div class="dropdown">
+                    <div id="state-btn" class="dropdown-btn">Select State<i class="fas fa-caret-down"></i></div>
+                    <div id="state-dropdown" class="dropdown-menu">
+                        <!-- State options will be dynamically populated -->
+                    </div>
+                </div>
+                <span>Filter by Agency:</span>
+                <div class="dropdown">
+                    <div id="agency-btn" class="dropdown-btn">Select Agency<i class="fas fa-caret-down"></i></div>
+                    <div id="agency-dropdown" class="dropdown-menu">
+                        <!-- Agency options will be dynamically populated -->
+                    </div>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Agency</th>
+                        <th>Date</th>
+                        <th>Murder</th>
+                        <th>Rape</th>
+                        <th>Robbery</th>
+                        <th>Assault</th>
+                        <th>Burglary</th>
+                        <th>Theft</th>
+                        <th>Motor Vehicle Theft</th>
+                        <th>Arson</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be dynamically populated -->
+                </tbody>
+            </table>
+        </div>
     </div>
     <script>
         function navigateTo(page) {

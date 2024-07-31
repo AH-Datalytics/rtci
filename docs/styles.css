@@ -29,13 +29,14 @@ html, body {
     color: white;
 }
 
-.tab-link.active {
-    background-color: #00333a;
-    color: white;
-}
 
 .tab-link:hover {
     background-color: #b5b3b3;
+}
+
+.tab-link.active {
+    background-color: #00333a;
+    color: white;
 }
 
 .tab-content {

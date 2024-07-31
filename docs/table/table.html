@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RTCI Table</title>
     <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="table.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 </head>
 <body>
     <div class="nav-buttons">
@@ -15,13 +18,59 @@
     </div>
     <div id="table" class="tab-content active">
         <h1 class="rtci-header">Table</h1>
-        <!-- Your table content here -->
+        <div class="tab-toggle">
+            <button id="full-sample-btn" class="toggle-button active">Full Sample</button>
+            <button id="by-agency-btn" class="toggle-button">By Agency</button>
+        </div>
+        <div id="filters-container" class="filters-container">
+            <span>Show me reported</span>
+            <div class="dropdown">
+                <div id="crime-type-btn" class="dropdown-btn">Murders</div>
+                <div id="crime-type-dropdown" class="dropdown-menu">
+                    <!-- Options will be dynamically populated -->
+                </div>
+            </div>
+            <span>sorted by</span>
+            <div class="dropdown">
+                <div id="sort-key-btn" class="dropdown-btn">Year to Date</div>
+                <div id="sort-key-dropdown" class="dropdown-menu">
+                    <div class="dropdown-item" data-value="YTD">Year to Date</div>
+                    <div class="dropdown-item" data-value="PrevYTD">Previous YTD</div>
+                    <div class="dropdown-item" data-value="Percent_Change">% Change</div>
+                </div>
+            </div>
+            <span>in</span>
+            <div class="dropdown">
+                <div id="sort-order-btn" class="dropdown-btn">Descending Order</div>
+                <div id="sort-order-dropdown" class="dropdown-menu">
+                    <div class="dropdown-item" data-value="desc">Descending Order</div>
+                    <div class="dropdown-item" data-value="asc">Ascending Order</div>
+                </div>
+            </div>
+        </div>
+        <div id="full-sample-table" class="table-container active">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Agency</th>
+                        <th>Crime Type</th>
+                        <th>Year to Date</th>
+                        <th>Previous YTD</th>
+                        <th>% Change</th>
+                        <th>Date Through</th>
+                    </tr>
+                </thead>
+                <tbody id="full-sample-table-body">
+                    <!-- Data will be dynamically populated -->
+                </tbody>
+            </table>
+            <div id="pagination">
+                <button id="prev-page" class="pagination-button">Previous</button>
+                <span id="page-info"></span>
+                <button id="next-page" class="pagination-button">Next</button>
+            </div>
+        </div>
     </div>
-    <script>
-        function navigateTo(page) {
-            window.location.href = page;
-        }
-    </script>
     <script src="table.js"></script>
 </body>
 </html>

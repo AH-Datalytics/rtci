@@ -10,23 +10,30 @@ document.addEventListener("DOMContentLoaded", function() {
         fullSampleTable.style.display = "table";
         byAgencyTable.style.display = "none";
         byAgencyFilters.style.display = "none";
+        fullSampleBtn.classList.add("active");
+        byAgencyBtn.classList.remove("active");
     });
 
     byAgencyBtn.addEventListener("click", function() {
         fullSampleTable.style.display = "none";
         byAgencyTable.style.display = "table";
         byAgencyFilters.style.display = "block";
+        byAgencyBtn.classList.add("active");
+        fullSampleBtn.classList.remove("active");
     });
 
     let currentPage = 1;
     const rowsPerPage = 10;
+    let allData;
 
-    d3.csv("../app_data/viz_data.csv").then(data => {
-        console.log("Raw Data:", data);
-
+    d3.csv("../app_data/full_table_data.csv").then(data => {
         data.forEach(d => {
-            d.date = new Date(d.date);
+            d.YTD = +d.YTD;
+            d.PrevYTD = +d.PrevYTD;
+            d.Percent_Change = +d.Percent_Change;
         });
+
+        allData = data;
 
         const crimeTypes = Array.from(new Set(data.map(d => d.crime_type)));
         crimeTypes.forEach(crimeType => {
@@ -36,74 +43,51 @@ document.addEventListener("DOMContentLoaded", function() {
             crimeTypeFilter.appendChild(option);
         });
 
+        // Set default crime type to Murders
+        crimeTypeFilter.value = "Murders";
+
         function paginate(data, page, rowsPerPage) {
             const start = (page - 1) * rowsPerPage;
             const end = start + rowsPerPage;
             return data.slice(start, end);
         }
 
-        function calculateYTDValues(filteredData) {
-            const mostRecentDate = d3.max(filteredData, d => d.date);
-            const mostRecentYear = mostRecentDate.getFullYear();
-            const mostRecentMonth = mostRecentDate.getMonth() + 1;
-
-            const ytdCurrentData = filteredData.filter(d => 
-                d.date >= new Date(mostRecentYear, 0, 1) &&  // Start from January of the current year
-                d.date < new Date(mostRecentYear, mostRecentMonth, 1)  // Include up to the next month
-            );
-            const ytdPreviousData = filteredData.filter(d => 
-                d.date >= new Date(mostRecentYear - 1, 0, 1) &&  // Start from January of the previous year
-                d.date < new Date(mostRecentYear - 1, mostRecentMonth, 1)  // Include up to the next month
-            );
-
-            const ytdCurrent = d3.sum(ytdCurrentData, d => d.count);
-            const ytdPrevious = d3.sum(ytdPreviousData, d => d.count);
-            const percentChange = ((ytdCurrent - ytdPrevious) / ytdPrevious) * 100;
-
-            return {
-                ytdCurrent,
-                ytdPrevious,
-                percentChange: percentChange.toFixed(2),
-                dateThrough: d3.timeFormat("%B %Y")(mostRecentDate)
-            };
-        }
-
-        function populateFullSampleTable() {
+        function populateFullSampleTable(sortedData = null) {
             const crimeType = crimeTypeFilter.value;
-            let filteredData = crimeType === "all" ? data : data.filter(d => d.crime_type === crimeType);
+            let filteredData = crimeType === "" ? data : data.filter(d => d.crime_type === crimeType);
 
-            const agencyData = Array.from(
-                d3.group(filteredData, d => d.agency_full),
-                ([key, values]) => {
-                    const ytdValues = calculateYTDValues(values);
-                    return {
-                        key,
-                        values: {
-                            ...ytdValues,
-                            crimeType: values[0].crime_type
-                        }
-                    };
-                }
-            );
+            if (sortedData) {
+                filteredData = sortedData;
+            } else {
+                filteredData.sort((a, b) => b.YTD - a.YTD); // Default sorting by YTD descending
+            }
 
-            agencyData.sort((a, b) => b.values.ytdCurrent - a.values.ytdCurrent);
-
-            const paginatedData = paginate(agencyData, currentPage, rowsPerPage);
+            const paginatedData = paginate(filteredData, currentPage, rowsPerPage);
 
             const tableBody = document.getElementById("full-sample-table-body");
             tableBody.innerHTML = "";
 
-            paginatedData.forEach(agency => {
+            paginatedData.forEach(d => {
                 const row = tableBody.insertRow();
-                row.insertCell(0).textContent = agency.key;
-                row.insertCell(1).textContent = agency.values.crimeType;
-                row.insertCell(2).textContent = agency.values.ytdCurrent;
-                row.insertCell(3).textContent = agency.values.ytdPrevious;
-                row.insertCell(4).textContent = agency.values.percentChange + '%';
-                row.insertCell(5).textContent = agency.values.dateThrough;
+                row.insertCell(0).textContent = d.agency_full;
+                row.insertCell(1).textContent = d.crime_type;
+                row.insertCell(2).textContent = d.YTD;
+                row.insertCell(3).textContent = d.PrevYTD;
+                row.insertCell(4).textContent = d.Percent_Change.toFixed(2) + '%';
+                row.insertCell(5).textContent = d.Date_Through;
             });
 
-            document.getElementById("page-info").textContent = `Page ${currentPage} of ${Math.ceil(agencyData.length / rowsPerPage)}`;
+            document.getElementById("page-info").textContent = `Page ${currentPage} of ${Math.ceil(filteredData.length / rowsPerPage)}`;
+        }
+
+        function sortTable(data, key) {
+            return data.slice().sort((a, b) => {
+                if (key === "agency_full" || key === "crime_type") {
+                    return a[key].localeCompare(b[key]);
+                } else {
+                    return b[key] - a[key];
+                }
+            });
         }
 
         document.getElementById("prev-page").addEventListener("click", () => {
@@ -125,6 +109,16 @@ document.addEventListener("DOMContentLoaded", function() {
             populateFullSampleTable();
         });
 
+        const headers = document.querySelectorAll("th[data-sort]");
+        headers.forEach(header => {
+            header.addEventListener("click", () => {
+                const key = header.getAttribute("data-sort");
+                const sortedData = sortTable(allData.filter(d => d.crime_type === crimeTypeFilter.value), key);
+                populateFullSampleTable(sortedData);
+            });
+        });
+
+        // Default view: Murders sorted by YTD descending
         populateFullSampleTable();
 
     }).catch(error => {

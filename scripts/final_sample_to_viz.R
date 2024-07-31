@@ -87,3 +87,62 @@ print(head(final_sample_long), width = Inf)
 
 # Write the final_sample_long data frame to viz_data.csv
 write.csv(final_sample_long, "../docs/app_data/viz_data.csv", row.names = FALSE)
+
+
+
+
+# Make New Data for Table Page ----------------------------------------------------------------
+
+# Step 1: Read the dataset
+full_table_data <- final_sample_long
+
+# Step 2: Determine the most recent date for each agency
+most_recent_dates <- full_table_data %>%
+  group_by(agency_full) %>%
+  summarise(most_recent_date = max(date))
+
+# Step 3: Function to calculate YTD and PrevYTD dynamically
+calculate_ytd_data <- function(data, agency, most_recent_date) {
+  most_recent_year <- year(most_recent_date)
+  most_recent_month <- month(most_recent_date)
+  
+  ytd_data <- data %>%
+    filter(agency_full == agency,
+           year(date) == most_recent_year,
+           month(date) <= most_recent_month) %>%
+    group_by(crime_type) %>%
+    summarise(YTD = sum(count, na.rm = TRUE))
+  
+  prev_ytd_data <- data %>%
+    filter(agency_full == agency,
+           year(date) == (most_recent_year - 1),
+           month(date) <= most_recent_month) %>%
+    group_by(crime_type) %>%
+    summarise(PrevYTD = sum(count, na.rm = TRUE))
+  
+  combined_data <- ytd_data %>%
+    left_join(prev_ytd_data, by = "crime_type") %>%
+    mutate(Percent_Change = ((YTD - PrevYTD) / PrevYTD) * 100,
+           Date_Through = most_recent_date) %>%
+    select(crime_type, YTD, PrevYTD, Percent_Change, Date_Through)
+  
+  return(combined_data)
+}
+
+# Step 4: Apply the function to each agency
+final_data_list <- lapply(1:nrow(most_recent_dates), function(i) {
+  agency <- most_recent_dates$agency_full[i]
+  most_recent_date <- most_recent_dates$most_recent_date[i]
+  
+  calculate_ytd_data(full_table_data, agency, most_recent_date) %>%
+    mutate(agency_full = agency)
+})
+
+# Step 5: Combine the results into a final dataset
+final_dataset <- bind_rows(final_data_list)
+
+# View the final dataset
+print(final_dataset)
+
+# Write the final_sample_long data frame to viz_data.csv
+write.csv(final_dataset, "../docs/app_data/full_table_data.csv", row.names = FALSE)

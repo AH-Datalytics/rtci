@@ -2,8 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const fullSampleBtn = document.getElementById("full-sample-btn");
     const byAgencyBtn = document.getElementById("by-agency-btn");
     const fullSampleTable = document.getElementById("full-sample-table");
-    const byAgencyTable = document.getElementById("by-agency-table");
-    const byAgencyFilters = document.getElementById("by-agency-filters");
+    const filtersContainer = document.getElementById("filters-container");
 
     const crimeTypeSelect = document.getElementById("crime-type-dropdown");
     const sortKeySelect = document.getElementById("sort-key-dropdown");
@@ -20,18 +19,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
     fullSampleBtn.addEventListener("click", function() {
         fullSampleTable.style.display = "table";
-        if (byAgencyTable) byAgencyTable.style.display = "none";
-        if (byAgencyFilters) byAgencyFilters.style.display = "none";
+        if (filtersContainer) filtersContainer.style.display = "flex"; // Show the filters container
         fullSampleBtn.classList.add("active");
         byAgencyBtn.classList.remove("active");
     });
 
     byAgencyBtn.addEventListener("click", function() {
-        fullSampleTable.style.display = "none";
-        if (byAgencyTable) byAgencyTable.style.display = "table";
-        if (byAgencyFilters) byAgencyFilters.style.display = "block";
-        byAgencyBtn.classList.add("active");
-        fullSampleBtn.classList.remove("active");
+        window.location.href = "by-agency.html"; // Navigate to the new HTML page
     });
 
     let currentPage = 1;
@@ -45,6 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
             d.YTD = +d.YTD;
             d.PrevYTD = +d.PrevYTD;
             d.Percent_Change = +d.Percent_Change;
+            d.Date_Through = formatDateThrough(d.Date_Through);
         });
 
         allData = data;
@@ -79,6 +74,13 @@ document.addEventListener("DOMContentLoaded", function() {
                     return currentSortOrder === "asc" ? a[currentSortKey] - b[currentSortKey] : b[currentSortKey] - a[currentSortKey];
                 }
             });
+        }
+
+        function formatDateThrough(dateString) {
+            const date = new Date(dateString);
+            const options = { month: 'short' };
+            const monthName = new Intl.DateTimeFormat('en-US', options).format(date);
+            return `Jan - ${monthName}`;
         }
 
         function populateFullSampleTable() {
@@ -169,3 +171,7 @@ document.addEventListener("DOMContentLoaded", function() {
     toggleDropdown(sortKeyBtn, sortKeySelect);
     toggleDropdown(sortOrderBtn, sortOrderSelect);
 });
+
+function navigateTo(page) {
+    window.location.href = page;
+}

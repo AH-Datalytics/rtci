@@ -12,12 +12,15 @@
 <body>
     <div class="nav-buttons">
         <button class="nav-button" onclick="navigateTo('../index.html')">Graph</button>
-        <button class="nav-button" onclick="navigateTo('table.html')">Full Sample</button>
-        <button class="nav-button active" onclick="navigateTo('by-agency.html')">By Agency</button>
+        <button class="nav-button active" onclick="navigateTo('table.html')">Table</button>
         <button class="nav-button" onclick="navigateTo('../map/map.html')">Map</button>
     </div>
     <div id="table" class="tab-content active">
         <h1 class="rtci-header">By Agency Table</h1>
+        <div class="tab-toggle">
+            <button id="full-sample-btn" class="toggle-button">Full Sample</button>
+            <button id="by-agency-btn" class="toggle-button active">By Agency</button>
+        </div>
         <div id="by-agency-filters" class="filters-container">
             <span>Filter by State:</span>
             <div class="dropdown">
@@ -33,27 +36,6 @@
                     <!-- Agency options will be dynamically populated -->
                 </div>
             </div>
-        </div>
-        <div id="by-agency-table" class="table-container active">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Agency</th>
-                        <th>Date</th>
-                        <th>Murder</th>
-                        <th>Rape</th>
-                        <th>Robbery</th>
-                        <th>Assault</th>
-                        <th>Burglary</th>
-                        <th>Theft</th>
-                        <th>Motor Vehicle Theft</th>
-                        <th>Arson</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Data will be dynamically populated -->
-                </tbody>
-            </table>
         </div>
     </div>
     <script>

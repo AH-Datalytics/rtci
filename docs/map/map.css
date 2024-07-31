@@ -1,0 +1,12 @@
+.coming-soon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh; /* Adjust height as necessary */
+}
+
+.coming-soon {
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-size: 3rem;
+    color: #00333a;
+}

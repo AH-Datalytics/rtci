@@ -20,26 +20,23 @@ html, body {
     border: none;
     padding: 5px 10px; /* Adjust padding for smaller tabs */
     cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.3s; /* Add box-shadow transition */
+    transition: background-color 0.3s;
     font-family: 'Roboto Condensed', Arial, sans-serif;
     font-size: 1em; /* Adjust font size for smaller text */
     border-radius: 10px; /* Increase border-radius for rounder tabs */
     margin-right: 5px; /* Add space between tabs */
     text-decoration: none; /* Remove underline */
     color: white;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1); /* Add shadow */
 }
 
 
 .tab-link:hover {
     background-color: #b5b3b3;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
 }
 
 .tab-link.active {
     background-color: #00333a;
     color: white;
-    box-shadow: 0 0 0 rgba(0, 0, 0, 0.0); /* Remove shadow on active */
 }
 
 .tab-content {
@@ -73,20 +70,18 @@ html, body {
     font-size: 1em; /* Same as .tab-link */
     margin: 4px 2px; /* Adjust as needed */
     cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.3s; /* Add box-shadow transition */
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1); /* Add shadow */    border-radius: 10px; /* Same as .tab-link */
+    transition: background-color 0.3s;
+    border-radius: 10px; /* Same as .tab-link */
     font-family: 'Roboto Condensed', Arial, sans-serif; /* Same as .tab-link */
 }
 
 .nav-button:hover {
     background-color: #b5b3b3; /* Same as .tab-link:hover */
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
 }
 
 .nav-button.active {
     background-color: #00333a; /* Same as .tab-link.active */
     color: white;
-    box-shadow: 0 0 0 rgba(0, 0, 0, 0); /* Remove shadow on active */
 }
 
 /* Existing styles for the RTCI Dashboard */

@@ -412,6 +412,11 @@ agency number!!?
 ```{r}
 length(unique(combined_df$`Agency Name`))
 ```
+drop 2017
+```{r}
+df_mvs_12mo <- df_mvs_12mo %>% filter(Year != 2017)
+```
+
 
 write it out!
 ```{r}

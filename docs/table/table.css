@@ -318,7 +318,7 @@ thead th {
 .view-toggle {
     display: flex;
     justify-content: flex-end;
-    margin: 1rem 0;
+    margin: 0;
 }
 
 
@@ -331,10 +331,10 @@ thead th {
 }
 
 .view-button {
-    background-color: #00333a;
-    color: white;
+    background-color: white;
+    color: #ddd;
     border: none;
-    padding: 10px 20px;
+    padding: 0;
     cursor: pointer;
     transition: background-color 0.3s;
     font-family: 'Roboto Condensed', Arial, sans-serif;
@@ -343,12 +343,12 @@ thead th {
 }
 
 .view-button.active {
-    background-color: #f28106;
-    color: white;
+    background-color: white;
+    color: #00333a;
 }
 
 .view-button:hover {
-    background-color: #2d5df96d;
+    color: #2d5df96d;
 }
 
 

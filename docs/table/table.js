@@ -1,9 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const fullSampleBtn = document.getElementById("full-sample-btn");
-    const byAgencyBtn = document.getElementById("by-agency-btn");
-    const fullSampleTable = document.getElementById("full-sample-table");
-    const filtersContainer = document.getElementById("filters-container");
-
     const crimeTypeSelect = document.getElementById("crime-type-dropdown");
     const sortKeySelect = document.getElementById("sort-key-dropdown");
     const sortOrderSelect = document.getElementById("sort-order-dropdown");
@@ -11,22 +6,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const crimeTypeBtn = document.getElementById("crime-type-btn");
     const sortKeyBtn = document.getElementById("sort-key-btn");
     const sortOrderBtn = document.getElementById("sort-order-btn");
-
-    if (!fullSampleBtn || !byAgencyBtn || !fullSampleTable || !crimeTypeSelect || !sortKeySelect || !sortOrderSelect || !crimeTypeBtn || !sortKeyBtn || !sortOrderBtn) {
-        console.error("One or more elements could not be found.");
-        return;
-    }
-
-    fullSampleBtn.addEventListener("click", function() {
-        fullSampleTable.style.display = "table";
-        if (filtersContainer) filtersContainer.style.display = "flex"; // Show the filters container
-        fullSampleBtn.classList.add("active");
-        byAgencyBtn.classList.remove("active");
-    });
-
-    byAgencyBtn.addEventListener("click", function() {
-        window.location.href = "by-agency.html"; // Navigate to the new HTML page
-    });
 
     let currentPage = 1;
     const rowsPerPage = 10;
@@ -161,12 +140,12 @@ document.addEventListener("DOMContentLoaded", function() {
     function toggleDropdown(button, dropdown) {
         button.addEventListener('click', function(event) {
             event.stopPropagation();
-            closeAllDropdowns();  
+            closeAllDropdowns();
             dropdown.classList.toggle("show");
         });
 
         document.addEventListener('click', function() {
-            closeAllDropdowns();  
+            closeAllDropdowns();
         });
 
         dropdown.addEventListener('click', function(event) {
@@ -191,7 +170,3 @@ document.addEventListener("DOMContentLoaded", function() {
     toggleDropdown(sortKeyBtn, sortKeySelect);
     toggleDropdown(sortOrderBtn, sortOrderSelect);
 });
-
-function navigateTo(page) {
-    window.location.href = page;
-}

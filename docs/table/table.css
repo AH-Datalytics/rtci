@@ -3,46 +3,190 @@ body {
     overflow-y: auto;
 }
 
-.dropdown-item.selected {
-    font-weight: bold;
-}
-
-.tab-toggle {
+.tab-navigation {
     display: flex;
-    justify-content: center;
-    margin-bottom: 2rem;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
 }
 
-.toggle-button {
+.tab-link {
     background-color: #e2e0e0;
     border: none;
     padding: 5px 10px;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
     font-size: 1em;
     border-radius: 10px;
-    margin: 0 5px;
+    margin-right: 5px;
+    text-decoration: none;
+    color: white;
 }
 
-.toggle-button.active {
+.tab-link:hover {
+    background-color: #b5b3b3;
+}
+
+.tab-link.active {
     background-color: #00333a;
     color: white;
 }
 
-.toggle-button:hover {
-    background-color: #ddd;
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.rtci-header {
+    color: #f28106;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-size: 3vw;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.filters-container {
+    color: #00333a;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-size: 1.5vw;
+    text-align: center;
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-btn {
+    background-color: white;
+    color: #2d5ef9;
+    padding: 2px 3px;
+    font-size: 1.5vw;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center align the text */
+    border: 0.1vw solid white;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.dropdown-btn:hover {
+    border: 0.1vw solid #f0f0f0;
+    background-color: #f0f0f0;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 10vw;
+    max-height: 50vh;
+    overflow-y: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1001;
+    border-radius: 8px;
+    font-size: 1vw;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+    padding-top: 0.3px;
+}
+
+.dropdown-menu .dropdown-item {
+    color: #00333a;
+    padding: 0.2rem;
+    margin-right: 0px;
+    padding-right: 0px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #f1f1f1;
+    color: #f28106;
+}
+
+.dropdown-item.selected {
+    font-weight: bold;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-search {
+    width: 8vw;
+    height: 2vw;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 8px 8px 2px 8px;
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    z-index: 1002;
+    font-size: 1vw;
+}
+
+.dropdown-menu::-webkit-scrollbar {
+    width: 1vw;
+    border-radius: 8px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 8px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 8px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.dropdown-menu {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+}
+
+.dropdown-search:focus {
+    outline: 0.02rem solid #2d5df96d;
+    border-color: #2d5df96d;
+    border-width: 0.02rem;
+    z-index: 1009;
+}
+
+.rtci-table-container {
+    width: 75%;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    border-radius: 8px;
+    margin: 2rem auto;
+    position: relative;
 }
 
 .table-container {
-    display: none;
-    width: 90%;
-    margin: 20px auto;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
-}
-
-.table-container.active {
-    display: block;
+    width: 100%;
 }
 
 table {
@@ -93,42 +237,73 @@ tr:hover {
     font-size: 1em;
 }
 
-.rtci-container {
-    position: relative;
-    width: 100%;
-    padding: 0px;
-    box-sizing: border-box;
-}
-
-.table-wrapper {
-    position: relative;
-}
-
-.nav-buttons {
-    display: flex;
-    justify-content: flex-start;
-    position: absolute;
-    top: 75px; /* Use viewport width to position relative to screen width */
-    left: 5vw; /* Use viewport width to position relative to screen width */
-}
-
-
-
-/* Dynamic font size for table when width is below 800px */
 @media (max-width: 800px) {
     th, td {
         padding: 0.5rem;
-        font-size: 2vw; /* Use viewport width to adjust font size dynamically */
+        font-size: 2vw;
     }
     #page-info {
-        font-size: 2vw; /* Adjust pagination info font size */
+        font-size: 2vw;
     }
     #prev-page, #next-page {
         padding: 0.5rem 1rem;
-        font-size: 2vw; /* Adjust button font size */
+        font-size: 2vw;
+    }
+}
+
+.caption-group text {
+    font-size: 1.5vh;
+}
+
+.source-link {
+    fill: #2d5ef9;
+    cursor: pointer;
+    font-size: 1.5vh;
+}
+
+.source-link:hover {
+    fill: #2d5df96d;
+}
+
+@media (max-width: 800px) {
+    .caption-group text {
+        font-size: 1.1vh;
     }
 
-    .nav-buttons {
-        top: calc(75px - 1vw); /* Adjust position relative to screen width */
+    .source-link {
+        font-size: 1.1vh;
+    }
+}
+
+@media (max-width: 600px) {
+    .caption-group text {
+        font-size: 0.9vh;
+    }
+
+    .source-link {
+        font-size: 0.9vh;
+    }
+}
+
+.axis-text {
+    font-size: 13px !important;
+}
+
+@media (max-width: 800px) {
+    .axis-text {
+        font-size: 11px !important;
+    }
+}
+
+@media (max-width: 550px) {
+    .tab-link, .nav-button {
+        font-size: 2vw;
+        padding: 1vw 2vw;
+        border-radius: 8px;
+        margin-bottom: 0;
+    }
+
+    .tab-navigation {
+        top: -27px;
     }
 }

@@ -201,7 +201,7 @@ th, td {
 }
 
 th {
-    background-color: blue;
+    background-color: #f28106;
     color: white;
 }
 
@@ -230,6 +230,11 @@ tr:hover {
     align-items: center;
     margin-top: 5px;
     font-size: small;
+    font-weight: 300; /* Light weight */
+}
+
+.pagination-button.active {
+    font-weight: bold;
 }
 
 #prev-page, #next-page {

@@ -1,9 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const fullSampleBtn = document.getElementById("full-sample-btn");
-    const byAgencyBtn = document.getElementById("by-agency-btn");
-    const fullSampleTable = document.getElementById("full-sample-table");
-    const filtersContainer = document.getElementById("filters-container");
-
     const crimeTypeSelect = document.getElementById("crime-type-dropdown");
     const sortKeySelect = document.getElementById("sort-key-dropdown");
     const sortOrderSelect = document.getElementById("sort-order-dropdown");
@@ -12,24 +7,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const sortKeyBtn = document.getElementById("sort-key-btn");
     const sortOrderBtn = document.getElementById("sort-order-btn");
 
-    if (!fullSampleBtn || !byAgencyBtn || !fullSampleTable || !crimeTypeSelect || !sortKeySelect || !sortOrderSelect || !crimeTypeBtn || !sortKeyBtn || !sortOrderBtn) {
-        console.error("One or more elements could not be found.");
-        return;
-    }
-
-    fullSampleBtn.addEventListener("click", function() {
-        fullSampleTable.style.display = "table";
-        if (filtersContainer) filtersContainer.style.display = "flex"; // Show the filters container
-        fullSampleBtn.classList.add("active");
-        byAgencyBtn.classList.remove("active");
-    });
-
-    byAgencyBtn.addEventListener("click", function() {
-        window.location.href = "by-agency.html"; // Navigate to the new HTML page
-    });
-
     let currentPage = 1;
-    const rowsPerPage = 25;
+    const rowsPerPage = 10;
     let allData;
     let currentSortKey = "YTD";
     let currentSortOrder = "desc";
@@ -84,9 +63,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
         function formatDateThrough(dateString) {
             const date = new Date(dateString);
-            const options = { month: 'short' };
+            const options = { month: 'long' };
             const monthName = new Intl.DateTimeFormat('en-US', options).format(date);
-            return `Jan - ${monthName}`;
+            return `January - ${monthName}`;
         }
 
         function populateFullSampleTable() {
@@ -102,13 +81,34 @@ document.addEventListener("DOMContentLoaded", function() {
 
             paginatedData.forEach(d => {
                 const row = tableBody.insertRow();
-                row.insertCell(0).textContent = d.agency_full;
-                row.insertCell(1).textContent = d.crime_type;
-                row.insertCell(2).textContent = d.YTD;
-                row.insertCell(3).textContent = d.PrevYTD;
-                row.insertCell(4).textContent = d.Percent_Change.toFixed(2) + '%';
-                row.insertCell(5).textContent = d.Date_Through;
+                
+                const cell0 = row.insertCell(0);
+                cell0.textContent = d.agency_full;
+                if (currentSortKey === "agency_full") cell0.classList.add('bold');
+                
+                const cell1 = row.insertCell(1);
+                cell1.textContent = d.crime_type;
+                if (currentSortKey === "crime_type") cell1.classList.add('bold');
+                
+                const cell2 = row.insertCell(2);
+                cell2.textContent = d.YTD;
+                if (currentSortKey === "YTD") cell2.classList.add('bold');
+                
+                const cell3 = row.insertCell(3);
+                cell3.textContent = d.PrevYTD;
+                if (currentSortKey === "PrevYTD") cell3.classList.add('bold');
+                
+                const cell4 = row.insertCell(4);
+                cell4.textContent = d.Percent_Change.toFixed(1) + '%';
+                cell4.style.color = d.Percent_Change >= 0 ? '#f28106' : '#2d5ef9';
+                if (currentSortKey === "Percent_Change") cell4.classList.add('bold');
+                
+                const cell5 = row.insertCell(5);
+                cell5.textContent = d.Date_Through;
+                if (currentSortKey === "Date_Through") cell5.classList.add('bold');
             });
+            
+            
 
             document.getElementById("page-info").textContent = `Page ${currentPage} of ${Math.ceil(filteredData.length / rowsPerPage)}`;
         }
@@ -161,12 +161,12 @@ document.addEventListener("DOMContentLoaded", function() {
     function toggleDropdown(button, dropdown) {
         button.addEventListener('click', function(event) {
             event.stopPropagation();
-            closeAllDropdowns();  
+            closeAllDropdowns();
             dropdown.classList.toggle("show");
         });
 
         document.addEventListener('click', function() {
-            closeAllDropdowns();  
+            closeAllDropdowns();
         });
 
         dropdown.addEventListener('click', function(event) {
@@ -191,7 +191,3 @@ document.addEventListener("DOMContentLoaded", function() {
     toggleDropdown(sortKeyBtn, sortKeySelect);
     toggleDropdown(sortOrderBtn, sortOrderSelect);
 });
-
-function navigateTo(page) {
-    window.location.href = page;
-}

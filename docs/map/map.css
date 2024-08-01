@@ -1,12 +1,54 @@
-.coming-soon-container {
+/* Container for the map */
+#map-container {
+    width: 75%;
+    height: 65vh; /* Adjust height as necessary */
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
-    justify-content: center;
     align-items: center;
-    height: 80vh; /* Adjust height as necessary */
+    justify-content: center;
+    border-radius: 8px;
+    margin: 2rem auto;
+    margin-top: 100px;
+    position: relative;
 }
 
+/* Coming Soon text styling */
 .coming-soon {
     font-family: 'Roboto Condensed', Arial, sans-serif;
     font-size: 3rem;
     color: #00333a;
+}
+
+/* Navigation buttons styling */
+.nav-buttons {
+    display: flex;
+    justify-content: flex-start;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: -2.5rem; /* Adjust as necessary to align with the top of the container */
+}
+
+.nav-button {
+    background-color: #e2e0e0;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-size: 1em;
+    border-radius: 10px;
+    margin-right: 5px;
+    text-decoration: none;
+    color: white;
+}
+
+.nav-button:hover {
+    background-color: #b5b3b3;
+}
+
+.nav-button.active {
+    background-color: #00333a;
+    color: white;
 }

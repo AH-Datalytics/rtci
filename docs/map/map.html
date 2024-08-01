@@ -9,17 +9,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="nav-buttons">
-        <button class="nav-button" onclick="navigateTo('../index.html')">Graph</button>
-        <button class="nav-button" onclick="navigateTo('../table/table.html')">Table</button>
-        <button class="nav-button active" onclick="navigateTo('map.html')">Map</button>
-    </div>
     <div id="map" class="tab-content active">
         <h1 class="rtci-header">Map</h1>
-        <!-- Your map content here -->
-    </div>
-    <div class="coming-soon-container">
-        <h1 class="coming-soon">Coming Soon!</h1>
+        <div id="map-container">
+            <div class="nav-buttons">
+                <button class="nav-button" onclick="navigateTo('../index.html')">Graph</button>
+                <button class="nav-button" onclick="navigateTo('../table/table.html')">Table</button>
+                <button class="nav-button active" onclick="navigateTo('map.html')">Map</button>
+            </div>
+            <h1 class="coming-soon">Coming Soon!</h1>
+        </div>
     </div>
     <script>
         function navigateTo(page) {

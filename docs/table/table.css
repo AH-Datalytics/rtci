@@ -201,8 +201,23 @@ th, td {
 }
 
 th {
-    background-color: #00333a;
+    background-color: blue;
     color: white;
+}
+
+/* Apply border-radius to the top-left and top-right corners */
+th:first-child {
+    border-top-left-radius: 8px;
+}
+
+th:last-child {
+    border-top-right-radius: 8px;
+}
+
+/* Cell specific styling */
+td {
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-weight: 300; /* Light weight */
 }
 
 tr:hover {
@@ -306,4 +321,9 @@ tr:hover {
     .tab-navigation {
         top: -27px;
     }
+}
+
+
+.bold {
+    font-weight: bold;
 }

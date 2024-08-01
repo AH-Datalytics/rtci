@@ -81,13 +81,34 @@ document.addEventListener("DOMContentLoaded", function() {
 
             paginatedData.forEach(d => {
                 const row = tableBody.insertRow();
-                row.insertCell(0).textContent = d.agency_full;
-                row.insertCell(1).textContent = d.crime_type;
-                row.insertCell(2).textContent = d.YTD;
-                row.insertCell(3).textContent = d.PrevYTD;
-                row.insertCell(4).textContent = d.Percent_Change.toFixed(2) + '%';
-                row.insertCell(5).textContent = d.Date_Through;
+                
+                const cell0 = row.insertCell(0);
+                cell0.textContent = d.agency_full;
+                if (currentSortKey === "agency_full") cell0.classList.add('bold');
+                
+                const cell1 = row.insertCell(1);
+                cell1.textContent = d.crime_type;
+                if (currentSortKey === "crime_type") cell1.classList.add('bold');
+                
+                const cell2 = row.insertCell(2);
+                cell2.textContent = d.YTD;
+                if (currentSortKey === "YTD") cell2.classList.add('bold');
+                
+                const cell3 = row.insertCell(3);
+                cell3.textContent = d.PrevYTD;
+                if (currentSortKey === "PrevYTD") cell3.classList.add('bold');
+                
+                const cell4 = row.insertCell(4);
+                cell4.textContent = d.Percent_Change.toFixed(1) + '%';
+                cell4.style.color = d.Percent_Change >= 0 ? '#f28106' : '#2d5ef9';
+                if (currentSortKey === "Percent_Change") cell4.classList.add('bold');
+                
+                const cell5 = row.insertCell(5);
+                cell5.textContent = d.Date_Through;
+                if (currentSortKey === "Date_Through") cell5.classList.add('bold');
             });
+            
+            
 
             document.getElementById("page-info").textContent = `Page ${currentPage} of ${Math.ceil(filteredData.length / rowsPerPage)}`;
         }

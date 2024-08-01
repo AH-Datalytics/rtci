@@ -3,6 +3,7 @@ title: "rtci_sample_audit_vizready"
 output: github_document
 date: 07-09-2024
 updated: "2024-07-12"
+updated: "2024-08-01"
 ---
 load up libraries
 ```{r}
@@ -16,7 +17,7 @@ library(tools)
 ```
 let's load in the sample from the collector script
 ```{r}
-samp <- read_csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data\\rtci_sample_extracted.csv")    
+samp <- read_csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data\\rtci_benjeff_sample.csv")    
 ```
 function to standardize the month column
 ```{r}
@@ -51,13 +52,21 @@ print(invalid_years)
 # Just keep the valid month/year
 samp1 <- samp %>% 
   filter(!is.na(Month) | !Month < 1 | !Month > 12 |
-         !is.na(Year) | !Year < 2023 | !Year > 2025)
+         !is.na(Year) | !Year < 2018 | !Year > 2025)
 ```
 make sure the crime count categories are numeric - make a list of them first
 ```{r}
+# Rename columns so they are easier to handle when scripting
+data <- df_mvs_12mo %>%
+  rename(
+    Agg.Assault = `Aggravated Assault`,
+    Agency.Name = `Agency Name`,
+    MVT = `Motor Vehicle Theft`
+  )
+  
 # Convert crime category columns to numeric, allowing for negative and positive numbers and 0
 crime_categories <- c("Murder", "Rape", "Robbery", 
-                  "Agg.Assault", "Burglary", "Larceny", "MVT", "Arson")
+                  "Agg. Assault", "Burglary", "Theft", "MVT")
 samp1 <- samp1 %>%
   mutate(across(all_of(crime_categories), ~as.numeric(replace(., . == "NR", NA))))
 ```

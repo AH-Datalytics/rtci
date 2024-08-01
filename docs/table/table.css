@@ -238,10 +238,10 @@ thead th {
     background-color: #f28106; /* Ensure background color is applied */
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1100px) {
     th, td {
         padding: 0.5rem;
-        font-size: 1.5vw;
+        font-size: 1.25vw;
     }
     #page-info {
         font-size: 2vw;

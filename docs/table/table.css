@@ -228,23 +228,31 @@ tr:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 5px;
+    font-size: small;
 }
 
 #prev-page, #next-page {
-    background-color: #00333a;
-    color: white;
+    background-color: white; /* Match the background color */
+    color: #2d5ef9;
     border: none;
-    padding: 10px 20px;
+    padding: 0;
     cursor: pointer;
     transition: background-color 0.3s;
     font-size: 1em;
-    border-radius: 5px;
-    margin: 0 5px;
+    border-radius: 8px; /* Match the border radius */
+    margin: 0 0px; /* Add margin between buttons */
+    font-family: 'Roboto Condensed', Arial, sans-serif;
 }
 
 #prev-page:hover, #next-page:hover {
-    background-color: #005555;
+    background-color: white; /* Match the hover color */
+    color: #2d5df96d;
+}
+
+#prev-page.active, #next-page.active {
+    background-color: #00333a; /* Match the active background color */
+    color: white;
 }
 
 #page-info {

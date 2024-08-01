@@ -63,9 +63,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
         function formatDateThrough(dateString) {
             const date = new Date(dateString);
-            const options = { month: 'short' };
+            const options = { month: 'long' };
             const monthName = new Intl.DateTimeFormat('en-US', options).format(date);
-            return `Jan - ${monthName}`;
+            return `January - ${monthName}`;
         }
 
         function populateFullSampleTable() {

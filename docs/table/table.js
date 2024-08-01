@@ -162,3 +162,7 @@ document.addEventListener("DOMContentLoaded", function() {
     toggleDropdown(sortKeyBtn, sortKeySelect);
     toggleDropdown(sortOrderBtn, sortOrderSelect);
 });
+
+function navigateTo(page) {
+    window.location.href = page;
+}

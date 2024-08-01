@@ -7,8 +7,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const sortKeyBtn = document.getElementById("sort-key-btn");
     const sortOrderBtn = document.getElementById("sort-order-btn");
 
-    let currentPage = 1;
-    const rowsPerPage = 10;
     let allData;
     let currentSortKey = "YTD";
     let currentSortOrder = "desc";
@@ -36,7 +34,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 crimeTypeBtn.textContent = crimeType;
                 crimeTypeBtn.dataset.value = crimeType;
                 crimeTypeSelect.classList.remove("show");
-                currentPage = 1;
                 populateFullSampleTable();
                 setSelectedClass(crimeTypeSelect, crimeType);
             });
@@ -44,12 +41,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         setSelectedClass(crimeTypeSelect, crimeTypeBtn.dataset.value || "Murders");
-
-        function paginate(data, page, rowsPerPage) {
-            const start = (page - 1) * rowsPerPage;
-            const end = start + rowsPerPage;
-            return data.slice(start, end);
-        }
 
         function sortTable(data) {
             return data.slice().sort((a, b) => {
@@ -74,12 +65,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
             filteredData = sortTable(filteredData);
 
-            const paginatedData = paginate(filteredData, currentPage, rowsPerPage);
-
             const tableBody = document.getElementById("full-sample-table-body");
             tableBody.innerHTML = "";
 
-            paginatedData.forEach(d => {
+            filteredData.forEach(d => {
                 const row = tableBody.insertRow();
                 
                 const cell0 = row.insertCell(0);
@@ -107,25 +96,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 cell5.textContent = d.Date_Through;
                 if (currentSortKey === "Date_Through") cell5.classList.add('bold');
             });
-            
-            
-
-            document.getElementById("page-info").textContent = `Page ${currentPage} of ${Math.ceil(filteredData.length / rowsPerPage)}`;
         }
-
-        document.getElementById("prev-page").addEventListener("click", () => {
-            if (currentPage > 1) {
-                currentPage--;
-                populateFullSampleTable();
-            }
-        });
-
-        document.getElementById("next-page").addEventListener("click", () => {
-            if (currentPage * rowsPerPage < allData.length) {
-                currentPage++;
-                populateFullSampleTable();
-            }
-        });
 
         sortKeySelect.querySelectorAll(".dropdown-item").forEach(item => {
             if (item.dataset.value === currentSortKey) {

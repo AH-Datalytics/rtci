@@ -26,6 +26,7 @@
                 <div class="dropdown">
                     <div id="sort-key-btn" class="dropdown-btn">Year to Date</div>
                     <div id="sort-key-dropdown" class="dropdown-menu">
+                        <div class="dropdown-item" data-value="agency_full">Agency</div> <!-- Added this line -->
                         <div class="dropdown-item" data-value="YTD">Year to Date</div>
                         <div class="dropdown-item" data-value="PrevYTD">Previous YTD</div>
                         <div class="dropdown-item" data-value="Percent_Change">% Change</div>
@@ -62,11 +63,6 @@
                             <!-- Data will be dynamically populated -->
                         </tbody>
                     </table>
-                    <div id="pagination">
-                        <button id="prev-page" class="pagination-button">Previous</button>
-                        <span id="page-info"></span>
-                        <button id="next-page" class="pagination-button">Next</button>
-                    </div>
                 </div>
             </div>
         </div>

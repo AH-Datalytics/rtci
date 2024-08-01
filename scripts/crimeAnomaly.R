@@ -194,7 +194,7 @@ folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Cr
 file_path <- file.path(folder_path, "rtci_sample_review_agencies.csv")
 
 # Write the data frame to a .csv file
-write.csv(data, file = file_path, row.names = FALSE)
+write.csv(results2, file = file_path, row.names = FALSE)
 
 # Write the data frame to the data folder in Github repo
-write.csv(data, "data\\rtci_sample_review_agencies.csv")
+write.csv(results2, "data\\rtci_sample_review_agencies.csv")

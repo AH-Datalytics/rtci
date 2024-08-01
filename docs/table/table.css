@@ -248,6 +248,7 @@ tr:hover {
     border-radius: 8px; /* Match the border radius */
     margin: 0 0px; /* Add margin between buttons */
     font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-weight: 300; /* Light weight */
 }
 
 #prev-page:hover, #next-page:hover {

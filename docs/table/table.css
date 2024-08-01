@@ -350,3 +350,10 @@ thead th {
 .view-button:hover {
     background-color: #2d5df96d;
 }
+
+
+/* Styles for the blue header table */
+.blue-header-table th {
+    background-color: #2d5ef9;
+}
+

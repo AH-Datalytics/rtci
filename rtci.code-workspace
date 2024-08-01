@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../rtci"
+		},
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "dEvElOpMeNt"
+	}
+}

@@ -10,13 +10,13 @@ body {
 .tab-toggle {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
 }
 
 .toggle-button {
     background-color: #e2e0e0;
     border: none;
-    padding: 10px 20px;
+    padding: 5px 10px;
     cursor: pointer;
     transition: background-color 0.3s;
     font-size: 1em;
@@ -36,7 +36,7 @@ body {
 .table-container {
     display: none;
     width: 90%;
-    margin: 0 auto;
+    margin: 20px auto;
     border: 1px solid #ddd;
     background-color: #f9f9f9;
 }
@@ -108,69 +108,27 @@ tr:hover {
     display: flex;
     justify-content: flex-start;
     position: absolute;
-    top: 10vh; /* Use viewport height to position relative to screen height */
+    top: 75px; /* Use viewport width to position relative to screen width */
     left: 5vw; /* Use viewport width to position relative to screen width */
-    margin-bottom: 0px; /* Ensure it has some space from the header */
-}
-
-.tab-link {
-    background-color: #e2e0e0;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-family: 'Roboto Condensed', Arial, sans-serif;
-    font-size: 1em;
-    border-radius: 10px;
-    margin-right: 5px;
-    text-decoration: none;
-    color: white;
-}
-
-.tab-link:hover {
-    background-color: #b5b3b3;
-}
-
-.tab-link.active {
-    background-color: #00333a;
-    color: white;
-}
-
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-.tab-link:visited {
-    color: white;
-    text-decoration: none;
 }
 
 
-/* Media Queries for Responsive Design */
 
-
-@media (max-width: 992px) {
-    .nav-buttons {
-        top: 10vh; /* Use viewport height to position relative to screen height */
-        left: 5vw; /* Use viewport width to position relative to screen width */
+/* Dynamic font size for table when width is below 800px */
+@media (max-width: 800px) {
+    th, td {
+        padding: 0.5rem;
+        font-size: 2vw; /* Use viewport width to adjust font size dynamically */
     }
-}
-
-@media (max-width: 768px) {
-    .nav-buttons {
-        top: 2vh; /* Adjust as needed */
-        left: 2vw; /* Adjust as needed */
+    #page-info {
+        font-size: 2vw; /* Adjust pagination info font size */
     }
-}
+    #prev-page, #next-page {
+        padding: 0.5rem 1rem;
+        font-size: 2vw; /* Adjust button font size */
+    }
 
-@media (max-width: 576px) {
     .nav-buttons {
-        top: 1vh; /* Adjust as needed */
-        left: 1vw; /* Adjust as needed */
-        flex-direction: column; /* Stack buttons vertically */
+        top: calc(75px - 1vw); /* Adjust position relative to screen width */
     }
 }

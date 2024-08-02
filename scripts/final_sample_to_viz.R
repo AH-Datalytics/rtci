@@ -141,6 +141,20 @@ final_data_list <- lapply(1:nrow(most_recent_dates), function(i) {
 # Step 5: Combine the results into a final dataset
 final_dataset <- bind_rows(final_data_list)
 
+# Step 6: Deal with NAs for % change
+final_dataset <- final_dataset %>% 
+  mutate(Percent_Change = ifelse((YTD == 0 & PrevYTD == 0 & is.na(Percent_Change)), 0, Percent_Change))
+
+final_dataset <- final_dataset %>% 
+  mutate(Percent_Change = ifelse(Percent_Change == "Inf", 1000, Percent_Change))
+
+# Audit 
+na_percents <- final_dataset %>% filter(is.na(Percent_Change) | Percent_Change == "Inf") 
+
+# Remove NAs in PrevYTD
+final_dataset <- final_dataset %>% 
+  filter(!is.na(PrevYTD))
+
 # View the final dataset
 print(final_dataset)
 

@@ -89,8 +89,17 @@ document.addEventListener("DOMContentLoaded", function() {
                 
                 const cell4 = row.insertCell(4);
                 cell4.textContent = d.Percent_Change.toFixed(1) + '%';
-                cell4.style.color = d.Percent_Change >= 0 ? '#f28106' : '#2d5ef9';
+
+                if (d.Percent_Change > 0) {
+                    cell4.style.color = '#f28106';  // Positive change
+                } else if (d.Percent_Change < 0) {
+                    cell4.style.color = '#2d5ef9';  // Negative change
+                } else {
+                    cell4.style.color = '#00333a';  // No change
+                }
+
                 if (currentSortKey === "Percent_Change") cell4.classList.add('bold');
+
                 
                 const cell5 = row.insertCell(5);
                 cell5.textContent = d.Date_Through;

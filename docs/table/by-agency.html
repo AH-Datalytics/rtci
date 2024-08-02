@@ -3,46 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>By Agency Table</title>
+    <title>RTCI Table</title>
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="table.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 </head>
 <body>
-    <div class="nav-buttons">
-        <button class="nav-button" onclick="navigateTo('../index.html')">Graph</button>
-        <button class="nav-button active" onclick="navigateTo('table.html')">Table</button>
-        <button class="nav-button" onclick="navigateTo('../map/map.html')">Map</button>
-    </div>
-    <div id="table" class="tab-content active">
-        <h1 class="rtci-header">By Agency Table</h1>
-        <div class="tab-toggle">
-            <button id="full-sample-btn" class="toggle-button">Full Sample</button>
-            <button id="by-agency-btn" class="toggle-button active">By Agency</button>
-        </div>
-        <div id="by-agency-filters" class="filters-container">
-            <span>Filter by State:</span>
-            <div class="dropdown">
-                <div id="state-btn" class="dropdown-btn">Select State<i class="fas fa-caret-down"></i></div>
-                <div id="state-dropdown" class="dropdown-menu">
-                    <!-- State options will be dynamically populated -->
+    <div id="dashboard" class="tab-content active">
+        <div id="rtci-dashboard" class="rtci-container">
+            <h1 class="rtci-header">Monthly UCR Part One Crimes by Agency</h1>
+            <div id="filters-container" class="filters-container">
+                <span>Show me crimes in</span>
+                <div class="dropdown">
+                    <div id="state-btn" class="dropdown-btn">Texas</div>
+                    <div id="state-dropdown" class="dropdown-menu">
+                        <!-- Options will be dynamically populated -->
+                    </div>
+                </div>
+                <span>for</span>
+                <div class="dropdown">
+                    <div id="agency-btn" class="dropdown-btn">Houston</div>
+                    <div id="agency-dropdown" class="dropdown-menu">
+                        <!-- Options will be dynamically populated -->
+                    </div>
                 </div>
             </div>
-            <span>Filter by Agency:</span>
-            <div class="dropdown">
-                <div id="agency-btn" class="dropdown-btn">Select Agency<i class="fas fa-caret-down"></i></div>
-                <div id="agency-dropdown" class="dropdown-menu">
-                    <!-- Agency options will be dynamically populated -->
+            <div class="rtci-table-container">
+                <div class="view-buttons">
+                    <button id="full-sample-btn" class="view-button" onclick="navigateTo('table.html')">Full Sample</button>
+                    <button id="by-agency-btn" class="view-button active">By Agency</button>
+                </div>
+                <div class="tab-navigation">
+                    <a href="../index.html" class="tab-link">Graph</a>
+                    <a href="table.html" class="tab-link active">Table</a>
+                    <a href="../map/map.html" class="tab-link">Map</a>
+                </div>
+                <div id="by-agency-table" class="table-container active">
+                    <table class="blue-header-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Agency Name</th>
+                                <th>State Name</th>
+                                <th>Aggravated Assault</th>
+                                <th>Burglary</th>
+                                <th>Motor Vehicle Theft</th>
+                                <th>Murder</th>
+                                <th>Rape</th>
+                                <th>Robbery</th>
+                                <th>Theft</th>
+                            </tr>
+                        </thead>
+                        <tbody id="by-agency-table-body">
+                            <!-- Data will be dynamically populated -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        function navigateTo(page) {
-            window.location.href = page;
-        }
-    </script>
     <script src="by-agency.js"></script>
 </body>
 </html>

@@ -146,3 +146,25 @@ print(final_dataset)
 
 # Write the final_sample_long data frame to viz_data.csv
 write.csv(final_dataset, "../docs/app_data/full_table_data.csv", row.names = FALSE)
+
+
+
+
+# Write Wide Format For All Agency Table ------------------------------------------------------
+final_sample <- final_sample %>% 
+  select(date,
+         agency_name,
+         state_name,
+         agency_full,
+         aggravated_assault,
+         burglary,
+         motor_vehicle_theft,
+         murder,
+         rape,
+         robbery,
+         theft
+         )
+
+write.csv(final_sample, "../docs/app_data/by_agency_table.csv", row.names = FALSE)
+
+

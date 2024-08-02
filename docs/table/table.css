@@ -324,8 +324,8 @@ thead th {
 
 .view-buttons {
     position: absolute;
-    right: 2rem;
-    top: -2.5rem; /* Adjust this to align with the top of the table */
+    right: 2px;
+    top: -30px; /* Adjust this to align with the top of the table */
     display: flex;
     gap: 1rem;
 }
@@ -334,12 +334,13 @@ thead th {
     background-color: white;
     color: #ddd;
     border: none;
-    padding: 0;
+    padding: 0.2em;
     cursor: pointer;
     transition: background-color 0.3s;
     font-family: 'Roboto Condensed', Arial, sans-serif;
     font-size: 1em;
     border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .view-button.active {

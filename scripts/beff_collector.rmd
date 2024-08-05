@@ -216,94 +216,6 @@ head(combined_df)
 ```{r}
 length(unique(combined_df$`Agency Name`))
 ```
-duplicates?
-```{r}
-# Function to find unique values for "Agency Name" in a dataframe
-get_unique_agencies <- function(df) {
-  unique(df$`Agency Name`)
-}
-
-# Find unique values for "Agency Name" in all dataframes
-unique_agencies_list <- lapply(ldf3, get_unique_agencies)
-
-# Combine all unique values into a single vector
-all_unique_agencies <- unlist(unique_agencies_list)
-
-# Find duplicate agency names across all dataframes
-duplicate_agencies <- all_unique_agencies[duplicated(all_unique_agencies)]
-
-# View the unique agency names
-print("Unique Agency Names Across All Dataframes")
-print(unique(all_unique_agencies))
-
-# View the duplicate agency names
-print("Duplicate Agency Names Across All Dataframes")
-print(duplicate_agencies)
-```
-what are we kicking when we rowbind?
-```{r}
-# Function to extract unique values from 'Agency.Name' column in each dataframe
-extract_unique_agencies <- function(df_list, column_name) {
-  unique_values <- df_list %>%
-    map(~ .x %>% pull(.data[[column_name]])) %>%
-    unlist() %>%
-    unique()
-  
-  return(unique_values)
-}
-
-# Extract unique 'Agency.Name' values from the list of dataframes
-unique_agencies <- extract_unique_agencies(ldf3, "Agency Name")
-
-# Create a dataframe with these unique values
-df1 <- as.data.frame(unique(unique_agencies))
-
-
-# Count occurrences of values in the 'name' column for both dataframes
-counts_df1 <- as.data.frame(table(df1$name))
-counts_df2 <- as.data.frame(table(df2$name))
-
-# Rename columns for clarity
-colnames(counts_df1) <- c("name", "count_df1")
-colnames(counts_df2) <- c("name", "count_df2")
-
-# Merge the two count dataframes by the 'name' column
-comparison <- merge(counts_df1, counts_df2, by = "name", all = TRUE)
-
-# Replace NA values with 0 (if a name is not found in one of the dataframes)
-comparison[is.na(comparison)] <- 0
-
-# View the comparison
-print("Comparison of Value Counts in 'name' Column Across Two Dataframes")
-print(comparison)
-
-
-# Function to extract unique values from a column and save as a vector
-extract_unique_values <- function(df, column_name) {
-  unique_values <- df %>% pull(.data[[column_name]]) %>% unique()
-  return(unique_values)
-}
-
-# Extract unique values from 'Agency.Name' column in both dataframes
-unique_values_df1 <- extract_unique_values(df1, "Agency.Name")
-unique_values_df2 <- extract_unique_values(combined_df, "Agency Name")
-
-# Compare the unique values between the two vectors
-only_in_df1 <- setdiff(unique_values_df1, unique_values_df2)
-only_in_df2 <- setdiff(unique_values_df2, unique_values_df1)
-in_both <- intersect(unique_values_df1, unique_values_df2)
-
-# Print the comparison results
-cat("Unique values only in df1:\n")
-print(only_in_df1)
-cat("\nUnique values only in df2:\n")
-print(only_in_df2)
-cat("\nUnique values in both df1 and df2:\n")
-print(in_both)
-
-```
-
-
 remove non-current jurisdictions
 ```{r}
 crime_types <- c("Murder", "Rape", "Robbery",
@@ -340,7 +252,7 @@ crime_types <- c("Murder", "Rape", "Robbery",
   }
   
   # Filter rows for the current and previous month/year
-  filtered_data <- df %>%
+  combined_df <- df %>%
     filter((year(Date)) == current_year & month(Date) == current_month |
            (year(Date)) == previous_year & month(Date) == previous_month
     )
@@ -362,11 +274,22 @@ invalid_records <- two_months_prior_data %>%
 
 head(invalid_records)
 ```
+drop everything from current year/month and current year/previous month
+```{r}
+# Filter out observations with the current month and year or previous month and year
+cdf <- combined_df %>%
+  filter(
+    !(Year == current_year & Month == current_month) |
+    !(Year == current_year & Month == previous_month)
+  )
 
+# Print the result
+head(cdf)
 
+```
 calculate and add nationwide counts
 ```{r}
-nationwide_counts <- combined_df %>%
+nationwide_counts <- cdf %>%
   group_by(Year, Month) %>%
   summarise(
     Murder= sum(Murder, na.rm = TRUE),
@@ -386,9 +309,38 @@ add the nationwide counts to the sample once it's working
 ```{r}
 nationwide_counts$`Agency Name` <- "Nationwide Count"
 
-cdf1 <- bind_rows(combined_df, nationwide_counts)
+cdf1 <- bind_rows(cdf, nationwide_counts)
 head(cdf1)
 ```
+calculate and add state counts
+```{r}
+state_counts <- cdf %>%
+  group_by(Year, Month, State) %>%
+  summarise(
+    Murder= sum(Murder, na.rm = TRUE),
+    Rape= sum(Rape, na.rm = TRUE),
+    Robbery= sum(Robbery, na.rm = TRUE),
+    `Aggravated Assault`= sum(`Aggravated Assault`, na.rm = TRUE),
+    Burglary= sum(Burglary, na.rm = TRUE),
+    Theft = sum(Theft, na.rm = TRUE),
+    `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
+    .groups = 'drop'
+  )
+
+# Display the aggregate level dataframe
+head(state_counts)
+```
+vc/pc groupings
+```{r}
+# Add new columns for violent and property crime
+cdf_groups <- cdf %>%
+  mutate(
+    vio_crime = Murder + Rape + Robbery + `Aggravated Assault`,
+    prop_crime = Burglary + Theft + `Motor Vehicle Theft`
+  )
+```
+
+
 ```{r}
 # Function to calculate 12-month cumulative sum 
 mvs_12mo <- function(df) {
@@ -403,10 +355,10 @@ mvs_12mo <- function(df) {
 }
 
 # Apply the function to the single dataframe
-df_mvs_12mo <- mvs_12mo(combined_df)
+df_mvs_12mo1 <- mvs_12mo(cdf1)
 
 # Print the result to verify
-head(df_mvs_12mo)
+head(df_mvs_12mo1)
 ```
 agency number!!?
 ```{r}
@@ -416,8 +368,35 @@ drop 2017
 ```{r}
 df_mvs_12mo <- df_mvs_12mo %>% filter(Year != 2017)
 ```
+find all months with 0 larcenies
+```{r}
+theft_zero <- df_mvs_12mo %>%
+  filter(Theft == 0)
+
+##some non-reportes from OH and MA expected
+##tracy,ca; beaverton, or the review
+```
+drop most recent month
+```{r}
+
+```
+add the reference file for links and the result
+```{r}
+#name of file to merge: OUTPUT_Participating Agencies Reference File
+# Read the reference file and the wide dataset
+reference_data <- read.csv("OUTPUT_Participating Agencies Reference File.csv")
+wide_data <- read.csv("wide_dataset.csv")
+
+# Inspect the first few rows of each dataset to ensure the column names and structures are as expected
+head(reference_data)
+head(wide_data)
+
+# Merge the datasets on city and state columns
+merged_data <- wide_data %>%
+  left_join(reference_data, by = c("city", "state"))
 
 
+```
 write it out!
 ```{r}
 # Specify the folder path
@@ -527,4 +506,91 @@ rare_columns <- identify_rare_columns(col_df, threshold = 1)
 
 # Print the rarely used columns
 print(rare_columns)
+```
+
+duplicates?
+```{r}
+# Function to find unique values for "Agency Name" in a dataframe
+get_unique_agencies <- function(df) {
+  unique(df$`Agency Name`)
+}
+
+# Find unique values for "Agency Name" in all dataframes
+unique_agencies_list <- lapply(ldf3, get_unique_agencies)
+
+# Combine all unique values into a single vector
+all_unique_agencies <- unlist(unique_agencies_list)
+
+# Find duplicate agency names across all dataframes
+duplicate_agencies <- all_unique_agencies[duplicated(all_unique_agencies)]
+
+# View the unique agency names
+print("Unique Agency Names Across All Dataframes")
+print(unique(all_unique_agencies))
+
+# View the duplicate agency names
+print("Duplicate Agency Names Across All Dataframes")
+print(duplicate_agencies)
+```
+what are we kicking when we rowbind?
+```{r}
+# Function to extract unique values from 'Agency.Name' column in each dataframe
+extract_unique_agencies <- function(df_list, column_name) {
+  unique_values <- df_list %>%
+    map(~ .x %>% pull(.data[[column_name]])) %>%
+    unlist() %>%
+    unique()
+  
+  return(unique_values)
+}
+
+# Extract unique 'Agency.Name' values from the list of dataframes
+unique_agencies <- extract_unique_agencies(ldf3, "Agency Name")
+
+# Create a dataframe with these unique values
+df1 <- as.data.frame(unique(unique_agencies))
+
+
+# Count occurrences of values in the 'name' column for both dataframes
+counts_df1 <- as.data.frame(table(df1$name))
+counts_df2 <- as.data.frame(table(df2$name))
+
+# Rename columns for clarity
+colnames(counts_df1) <- c("name", "count_df1")
+colnames(counts_df2) <- c("name", "count_df2")
+
+# Merge the two count dataframes by the 'name' column
+comparison <- merge(counts_df1, counts_df2, by = "name", all = TRUE)
+
+# Replace NA values with 0 (if a name is not found in one of the dataframes)
+comparison[is.na(comparison)] <- 0
+
+# View the comparison
+print("Comparison of Value Counts in 'name' Column Across Two Dataframes")
+print(comparison)
+
+
+# Function to extract unique values from a column and save as a vector
+extract_unique_values <- function(df, column_name) {
+  unique_values <- df %>% pull(.data[[column_name]]) %>% unique()
+  return(unique_values)
+}
+
+# Extract unique values from 'Agency.Name' column in both dataframes
+unique_values_df1 <- extract_unique_values(df1, "Agency.Name")
+unique_values_df2 <- extract_unique_values(combined_df, "Agency Name")
+
+# Compare the unique values between the two vectors
+only_in_df1 <- setdiff(unique_values_df1, unique_values_df2)
+only_in_df2 <- setdiff(unique_values_df2, unique_values_df1)
+in_both <- intersect(unique_values_df1, unique_values_df2)
+
+# Print the comparison results
+cat("Unique values only in df1:\n")
+print(only_in_df1)
+cat("\nUnique values only in df2:\n")
+print(only_in_df2)
+cat("\nUnique values in both df1 and df2:\n")
+print(in_both)
+
 ```

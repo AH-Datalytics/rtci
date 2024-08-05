@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 const cell5 = row.insertCell(5);
                 cell5.textContent = `January - ${d.Month_Through}`;
-                if (currentSortKey === "Date_Through") cell5.classList.add('bold');
+                if (currentSortKey === "Month_Through") cell5.classList.add('bold');
             });
         }
 

@@ -26,12 +26,18 @@ document.addEventListener("DOMContentLoaded", function() {
     function formatAndPopulateTable(data) {
         tableBody.innerHTML = "";
 
+        const formatNumber = d3.format(","); // Formatter for numbers with commas
+
         data.forEach(row => {
             const tr = document.createElement("tr");
 
             ["month_year", "agency_name", "state_name", "aggravated_assault", "burglary", "motor_vehicle_theft", "murder", "rape", "robbery", "theft"].forEach(col => {
                 const td = document.createElement("td");
-                td.textContent = row[col];
+                if (["aggravated_assault", "burglary", "motor_vehicle_theft", "murder", "rape", "robbery", "theft"].includes(col)) {
+                    td.textContent = formatNumber(row[col]); // Format with commas
+                } else {
+                    td.textContent = row[col];
+                }
                 tr.appendChild(td);
             });
 

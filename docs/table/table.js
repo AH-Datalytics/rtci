@@ -61,6 +61,8 @@ document.addEventListener("DOMContentLoaded", function() {
             const tableBody = document.getElementById("full-sample-table-body");
             tableBody.innerHTML = "";
 
+            const formatNumber = d3.format(","); // Formatter for numbers with commas
+
             filteredData.forEach(d => {
                 const row = tableBody.insertRow();
                 
@@ -73,11 +75,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (currentSortKey === "crime_type") cell1.classList.add('bold');
                 
                 const cell2 = row.insertCell(2);
-                cell2.textContent = d.YTD;
+                cell2.textContent = formatNumber(d.YTD);
                 if (currentSortKey === "YTD") cell2.classList.add('bold');
                 
                 const cell3 = row.insertCell(3);
-                cell3.textContent = d.PrevYTD;
+                cell3.textContent = formatNumber(d.PrevYTD);
                 if (currentSortKey === "PrevYTD") cell3.classList.add('bold');
                 
                 const cell4 = row.insertCell(4);

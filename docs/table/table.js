@@ -21,7 +21,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
         allData = data;
 
-        const crimeTypes = Array.from(new Set(data.map(d => d.crime_type)));
+        const severityOrder = ["Murders", "Rapes", "Robberies", "Aggravated Assaults", "Burglaries", "Thefts", "Motor Vehicle Thefts"];
+        const crimeTypes = severityOrder.filter(crimeType => data.some(d => d.crime_type === crimeType));
+
         crimeTypes.forEach(crimeType => {
             const option = document.createElement("div");
             option.className = "dropdown-item";
@@ -39,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
             });
             crimeTypeSelect.appendChild(option);
         });
+
 
         setSelectedClass(crimeTypeSelect, crimeTypeBtn.dataset.value || "Murders");
 

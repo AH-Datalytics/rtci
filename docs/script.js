@@ -106,7 +106,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
     function updateFilters(data) {
-        const crimeTypes = [...new Set(data.map(d => d.crime_type))].sort();
+        const severityOrder = ["Murders", "Rapes", "Robberies", "Aggravated Assaults", "Burglaries", "Thefts", "Motor Vehicle Thefts"];
+        const crimeTypes = severityOrder.filter(crimeType => data.some(d => d.crime_type === crimeType));
         const states = [...new Set(data.map(d => d.state_name))].sort();
         const agencies = [...new Set(data.map(d => d.agency_name))].sort();
     

@@ -184,6 +184,10 @@ final_sample <- final_sample %>%
          theft
          )
 
+final_sample <- final_sample %>% 
+  mutate(month_year = paste(month(date, label = TRUE, abbr = FALSE), year(date), sep = " "))
+
+
 write.csv(final_sample, "../docs/app_data/by_agency_table.csv", row.names = FALSE)
 
 

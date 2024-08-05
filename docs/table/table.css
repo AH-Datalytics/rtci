@@ -352,6 +352,10 @@ thead th {
     color: #2d5df96d;
 }
 
+.view-button.active:hover {
+    color: #00333a;
+}
+
 
 /* Styles for the blue header table */
 .blue-header-table th {

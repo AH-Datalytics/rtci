@@ -106,7 +106,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
     function updateFilters(data) {
-        const crimeTypes = [...new Set(data.map(d => d.crime_type))].sort();
+        const severityOrder = ["Murders", "Rapes", "Robberies", "Aggravated Assaults", "Burglaries", "Thefts", "Motor Vehicle Thefts"];
+        const crimeTypes = severityOrder.filter(crimeType => data.some(d => d.crime_type === crimeType));
         const states = [...new Set(data.map(d => d.state_name))].sort();
         const agencies = [...new Set(data.map(d => d.agency_name))].sort();
     
@@ -525,7 +526,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .attr("class", "source-link")
             .style("cursor", "pointer")
             .on("click", function() { window.open(stateUcrLink, "_blank"); })
-            .text("source.");
+            .text("primary source.");
     
         const population = filteredData[0].population;
         const agencyCount = filteredData[0].agency_count || "N/A";

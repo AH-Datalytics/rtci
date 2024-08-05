@@ -308,6 +308,7 @@ thead th {
     .tab-navigation {
         top: -27px;
     }
+    
 }
 
 
@@ -325,7 +326,7 @@ thead th {
 .view-buttons {
     position: absolute;
     right: 2px;
-    top: -30px; /* Adjust this to align with the top of the table */
+    top: -32px; /* Adjust this to align with the top of the table */
     display: flex;
     gap: 1rem;
 }
@@ -362,3 +363,16 @@ thead th {
     background-color: #2d5ef9;
 }
 
+
+
+@media (max-width: 550px) {
+    .view-buttons {
+        top: -27px;
+    }
+    
+    .view-button {
+        font-size: 2vw;
+        padding: 0.5em;
+    }
+    
+}

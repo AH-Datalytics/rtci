@@ -155,6 +155,11 @@ na_percents <- final_dataset %>% filter(is.na(Percent_Change) | Percent_Change =
 final_dataset <- final_dataset %>% 
   filter(!is.na(PrevYTD))
 
+# Step 7: Reformat Month Column
+# Assuming final_dataset has a column named Date_Through in date format
+final_dataset <- final_dataset %>% 
+  mutate(Month_Through = as.character(month(Date_Through, label = TRUE, abbr = FALSE)))
+
 # View the final dataset
 print(final_dataset)
 

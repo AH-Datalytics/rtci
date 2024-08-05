@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
             d.YTD = +d.YTD;
             d.PrevYTD = +d.PrevYTD;
             d.Percent_Change = +d.Percent_Change;
-            d.Date_Through = formatDateThrough(d.Date_Through);
+            // No need to format the date here as we are using the Month_Through column directly
         });
 
         allData = data;
@@ -50,13 +50,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     return currentSortOrder === "asc" ? a[currentSortKey] - b[currentSortKey] : b[currentSortKey] - a[currentSortKey];
                 }
             });
-        }
-
-        function formatDateThrough(dateString) {
-            const date = new Date(dateString);
-            const options = { month: 'long' };
-            const monthName = new Intl.DateTimeFormat('en-US', options).format(date);
-            return `January - ${monthName}`;
         }
 
         function populateFullSampleTable() {
@@ -100,9 +93,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 if (currentSortKey === "Percent_Change") cell4.classList.add('bold');
 
-                
                 const cell5 = row.insertCell(5);
-                cell5.textContent = d.Date_Through;
+                cell5.textContent = `January - ${d.Month_Through}`;
                 if (currentSortKey === "Date_Through") cell5.classList.add('bold');
             });
         }

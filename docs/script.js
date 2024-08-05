@@ -526,7 +526,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .attr("class", "source-link")
             .style("cursor", "pointer")
             .on("click", function() { window.open(stateUcrLink, "_blank"); })
-            .text("source.");
+            .text("primary source.");
     
         const population = filteredData[0].population;
         const agencyCount = filteredData[0].agency_count || "N/A";

@@ -308,6 +308,7 @@ thead th {
     .tab-navigation {
         top: -27px;
     }
+    
 }
 
 
@@ -325,7 +326,7 @@ thead th {
 .view-buttons {
     position: absolute;
     right: 2px;
-    top: -30px; /* Adjust this to align with the top of the table */
+    top: -32px; /* Adjust this to align with the top of the table */
     display: flex;
     gap: 1rem;
 }
@@ -352,9 +353,28 @@ thead th {
     color: #2d5df96d;
 }
 
+.view-button.active:hover {
+    color: #00333a;
+}
+
 
 /* Styles for the blue header table */
 .blue-header-table th {
     background-color: #2d5ef9;
 }
 
+
+
+@media (max-width: 550px) {
+    .view-buttons {
+        top: -23px;
+        gap: 0.5rem;
+    }
+    
+    .view-button {
+        font-size: 2vw;
+        padding: 0.25em;
+        border-radius: 6px;
+    }
+    
+}

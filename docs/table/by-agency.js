@@ -23,21 +23,15 @@ document.addEventListener("DOMContentLoaded", function() {
         console.error("Error loading the CSV data:", error);
     });
 
-    function formatDate(dateStr) {
-        const date = new Date(dateStr);
-        const options = { year: 'numeric', month: 'long' };
-        return date.toLocaleDateString(undefined, options);
-    }
-
     function formatAndPopulateTable(data) {
         tableBody.innerHTML = "";
 
         data.forEach(row => {
             const tr = document.createElement("tr");
 
-            ["date", "agency_name", "state_name", "aggravated_assault", "burglary", "motor_vehicle_theft", "murder", "rape", "robbery", "theft"].forEach(col => {
+            ["month_year", "agency_name", "state_name", "aggravated_assault", "burglary", "motor_vehicle_theft", "murder", "rape", "robbery", "theft"].forEach(col => {
                 const td = document.createElement("td");
-                td.textContent = col === "date" ? formatDate(row[col]) : row[col];
+                td.textContent = row[col];
                 tr.appendChild(td);
             });
 

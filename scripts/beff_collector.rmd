@@ -215,6 +215,7 @@ head(combined_df)
 ```
 ```{r}
 length(unique(combined_df$`Agency Name`))
+#31,442
 ```
 remove non-current jurisdictions
 ```{r}
@@ -252,12 +253,12 @@ crime_types <- c("Murder", "Rape", "Robbery",
   }
   
   # Filter rows for the current and previous month/year
-  combined_df <- df %>%
-    filter((year(Date)) == current_year & month(Date) == current_month |
-           (year(Date)) == previous_year & month(Date) == previous_month
+  df1 <- df %>%
+    filter(Year == current_year & Month == 7 |
+           Year == current_year & Month == 6
     )
 # Filter rows for two months prior
-two_months_prior_data <- df %>%
+two_months_prior_data <- df1 %>%
     filter(year(Date) == two_months_prior_year & month(Date) == two_months_prior_month)
   
 # Check out two months previous - the first month of our sample
@@ -272,6 +273,12 @@ invalid_records <- two_months_prior_data %>%
   filter(if_any(c(Murder, `Motor Vehicle Theft`, `Aggravated Assault`,
                   Burglary, Robbery, Theft, Rape), ~ is.na(.)))
 
+cdf6 <- combined_df %>%
+  filter(
+    (Year == current_year & Month == current_month) |
+    (Year == current_year & Month == previous_month)
+  )
+
 head(invalid_records)
 ```
 drop everything from current year/month and current year/previous month
@@ -285,9 +292,11 @@ cdf <- combined_df %>%
 
 # Print the result
 head(cdf)
-
 ```
 calculate and add nationwide counts
+
+
+ONLY GOOD SAMPLE
 ```{r}
 nationwide_counts <- cdf %>%
   group_by(Year, Month) %>%
@@ -314,7 +323,7 @@ head(cdf1)
 ```
 calculate and add state counts
 ```{r}
-state_counts <- cdf %>%
+state_counts <- cdf1 %>%
   group_by(Year, Month, State) %>%
   summarise(
     Murder= sum(Murder, na.rm = TRUE),
@@ -327,13 +336,16 @@ state_counts <- cdf %>%
     .groups = 'drop'
   )
 
-# Display the aggregate level dataframe
-head(state_counts)
+state_counts$`Agency Name` <- "All Agencies"
+
+#join state counts with agency names to sample
+cdf3 <- bind_rows(cdf1, state_counts)
+head(cdf3)
 ```
 vc/pc groupings
 ```{r}
 # Add new columns for violent and property crime
-cdf_groups <- cdf %>%
+cdf3 <- cdf3 %>%
   mutate(
     vio_crime = Murder + Rape + Robbery + `Aggravated Assault`,
     prop_crime = Burglary + Theft + `Motor Vehicle Theft`
@@ -355,7 +367,7 @@ mvs_12mo <- function(df) {
 }
 
 # Apply the function to the single dataframe
-df_mvs_12mo1 <- mvs_12mo(cdf1)
+df_mvs_12mo1 <- mvs_12mo(cdf3)
 
 # Print the result to verify
 head(df_mvs_12mo1)
@@ -376,10 +388,7 @@ theft_zero <- df_mvs_12mo %>%
 ##some non-reportes from OH and MA expected
 ##tracy,ca; beaverton, or the review
 ```
-drop most recent month
-```{r}
 
-```
 add the reference file for links and the result
 ```{r}
 #name of file to merge: OUTPUT_Participating Agencies Reference File

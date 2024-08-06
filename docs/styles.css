@@ -350,6 +350,16 @@ html, body {
     position: relative;
 }
 
+@media (max-width: 1000px) {
+    .dropdown-btn {
+        border-radius: 6px;
+    }
+
+    .dropdown-menu {
+        border-radius: 6px;
+    }
+}
+
 @media (max-width: 600px) {
     #rtci-dashboard {
         height: 175vh;
@@ -368,6 +378,10 @@ html, body {
         font-size: 1.75vw;
         border-radius: 4px;
         padding: 3px;
+    }
+
+    .dropdown-menu {
+        border-radius: 4px;
     }
 
     .graph-kpis-container {
@@ -444,6 +458,7 @@ html, body {
 .source-link:hover {
     fill: #2d5df96d;
 }
+
 
 @media (max-width: 1000px) {
     .caption-group text {

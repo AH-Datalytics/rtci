@@ -323,7 +323,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .style("fill", "#00333a")
             .attr("class", "axis-text");
 
-        const labelFontSize = Math.max(Math.min(height * 0.05, 16), 10);
+        const labelFontSize = Math.max(Math.min(height * 0.05, window.innerWidth * 0.02, 16), 14);
 
         const selectedCrimeType = crimeTypeBtn.textContent;
 

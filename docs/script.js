@@ -109,7 +109,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         createSearchableDropdown(stateSelect, stateBtn, states);
-        createSearchableDropdown(agencySelect, agencyBtn, agencies);
 
         const dataTypes = [
             { value: "count", text: "Monthly Totals" },
@@ -124,21 +123,28 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const defaultFilters = {
             crimeType: "Murders",
-            state: states.includes("Texas") ? "Texas" : states[0],
-            agency: agencies[0],
+            state: "New York",
+            agency: "New York City",
             dataType: "count"
         };
 
         retrieveFilterValues(defaultFilters);
-
-        renderChart();
     }
 
     function updateAgencyFilter(data, selectedState) {
         const agencies = [...new Set(data.filter(d => d.state_name === selectedState).map(d => d.agency_name))].sort();
         createSearchableDropdown(agencySelect, agencyBtn, agencies);
 
-        if (agencies.length > 0) {
+        const savedFilters = JSON.parse(sessionStorage.getItem('rtciFilters')) || {};
+        const savedAgency = savedFilters.agency;
+
+        if (agencies.includes(savedAgency)) {
+            agencyBtn.textContent = savedAgency;
+            agencyBtn.dataset.value = savedAgency;
+        } else if (agencies.includes("New York City")) {
+            agencyBtn.textContent = "New York City";
+            agencyBtn.dataset.value = "New York City";
+        } else if (agencies.length > 0) {
             agencyBtn.textContent = agencies[0];
             agencyBtn.dataset.value = agencies[0];
         }
@@ -226,7 +232,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const startDateCurrentYear = new Date(mostRecentYear, 0, 1);
         const endDateCurrentYear = new Date(mostRecentYear, mostRecentMonth, 0);
-
         const startDatePrevYear = new Date(mostRecentYear - 1, 0, 1);
         const endDatePrevYear = new Date(mostRecentYear - 1, mostRecentMonth, 0);
 
@@ -353,7 +358,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const lineThickness = Math.max(Math.min(width * 0.003, 2.5), 1);
         const dotSize = Math.max(Math.min(width * 0.003, 2.5), 1);
 
-        svg.append("path")
+        const line = svg.append("path")
             .datum(filteredData)
             .attr("fill", "none")
             .attr("stroke", "#2d5ef9")
@@ -392,11 +397,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     .style("left", (event.pageX + 5) + "px")
                     .style("top", (event.pageY - 28) + "px");
             })
-            .on("mousemove", function(event) {
+            .on("mousemove", function(event, d) {
                 tooltip.style("left", (event.pageX + 5) + "px")
                     .style("top", (event.pageY - 28) + "px");
             })
-            .on("mouseout", function() {
+            .on("mouseout", function(d) {
                 d3.select(this).attr("fill", "#2d5ef9");
                 tooltip.transition()
                     .duration(500)
@@ -426,9 +431,16 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         }
 
-        const agencyFull = filteredData[0].agency_full || agencyBtn.textContent;
-        const stateUcrLink = filteredData[0].state_ucr_link || '#';
-        const sourceText = `${agencyFull}`;
+        const agencyFull = filteredData[0].agency_full;
+        const stateUcrLink = filteredData[0].state_ucr_link;
+        let sourceText;
+
+        // Check if the agency name ends with 's'
+        if (agencyFull.endsWith("s")) {
+            sourceText = `${agencyFull}' primary`;
+        } else {
+            sourceText = `${agencyFull}'s primary`;
+        }
 
         const sourceGroup = svg.append("g")
             .attr("transform", `translate(${width}, ${height + margin.bottom - 10})`)
@@ -440,7 +452,8 @@ document.addEventListener("DOMContentLoaded", function() {
             .style("fill", "#00333a");
 
         sourceTextElement.append("tspan")
-            .text(sourceText);
+            .text(sourceText)
+            .style("cursor", "text");
 
         sourceTextElement.append("tspan")
             .attr("text-anchor", "start")
@@ -448,9 +461,10 @@ document.addEventListener("DOMContentLoaded", function() {
             .attr("class", "source-link")
             .style("cursor", "pointer")
             .on("click", function() { window.open(stateUcrLink, "_blank"); })
-            .text("primary source.");
+            .text("source.");
 
-        const population = filteredData[0].population || 'N/A';
+
+        const population = filteredData[0].population;
         const agencyCount = filteredData[0].agency_count || "N/A";
 
         const captionGroup = svg.append("g")
@@ -516,6 +530,38 @@ document.addEventListener("DOMContentLoaded", function() {
         document.body.removeChild(link);
     }
 
+    function saveFilterValues() {
+        const filters = {
+            crimeType: crimeTypeBtn.dataset.value,
+            state: stateBtn.dataset.value,
+            agency: agencyBtn.dataset.value,
+            dataType: dataTypeBtn.dataset.value
+        };
+        sessionStorage.setItem('rtciFilters', JSON.stringify(filters));
+    }
+
+    function retrieveFilterValues(defaultFilters) {
+        const savedFilters = JSON.parse(sessionStorage.getItem('rtciFilters')) || defaultFilters;
+
+        crimeTypeBtn.textContent = savedFilters.crimeType;
+        crimeTypeBtn.dataset.value = savedFilters.crimeType;
+        stateBtn.textContent = savedFilters.state;
+        stateBtn.dataset.value = savedFilters.state;
+        agencyBtn.textContent = savedFilters.agency;
+        agencyBtn.dataset.value = savedFilters.agency;
+        dataTypeBtn.textContent = savedFilters.dataType === "count" ? "Monthly Totals" : "12 Month Rolling Sum";
+        dataTypeBtn.dataset.value = savedFilters.dataType;
+
+        const crimeTypeOption = crimeTypeSelect.querySelector(`[data-value="${savedFilters.crimeType}"]`);
+        if (crimeTypeOption) crimeTypeOption.classList.add('selected');
+        const stateOption = stateSelect.querySelector(`[data-value="${savedFilters.state}"]`);
+        if (stateOption) stateOption.classList.add('selected');
+        const dataTypeOption = dataTypeDropdown.querySelector(`[data-value="${savedFilters.dataType}"]`);
+        if (dataTypeOption) dataTypeOption.classList.add('selected');
+
+        updateAgencyFilter(allData, savedFilters.state);
+    }
+
     d3.csv("app_data/viz_data.csv").then(function(data) {
         data.forEach(d => {
             d.date = d3.timeParse("%Y-%m-%d")(d.date);
@@ -525,6 +571,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         allData = data;
         updateFilters(allData);
+        renderChart();
     }).catch(function(error) {
         console.error("Error loading the CSV file:", error);
     });
@@ -555,53 +602,18 @@ document.addEventListener("DOMContentLoaded", function() {
     const dataTypeSelect = document.getElementById("data-type");
     dataTypeSelect.addEventListener('change', renderChart);
 
-    function saveFilterValues() {
-        const filters = {
-            crimeType: crimeTypeBtn.dataset.value,
-            state: stateBtn.dataset.value,
-            agency: agencyBtn.dataset.value,
-            dataType: dataTypeBtn.dataset.value
-        };
-        localStorage.setItem('rtciFilters', JSON.stringify(filters));
-    }
-
-    function retrieveFilterValues(defaultFilters) {
-        const filters = JSON.parse(localStorage.getItem('rtciFilters')) || defaultFilters;
-
-        crimeTypeBtn.dataset.value = filters.crimeType;
-        crimeTypeBtn.textContent = filters.crimeType;
-        stateBtn.dataset.value = filters.state;
-        stateBtn.textContent = filters.state;
-        agencyBtn.dataset.value = filters.agency;
-        agencyBtn.textContent = filters.agency;
-        dataTypeBtn.dataset.value = filters.dataType;
-        dataTypeBtn.textContent = filters.dataType;
-
-        const crimeTypeOption = crimeTypeSelect.querySelector(`[data-value="${filters.crimeType}"]`);
-        if (crimeTypeOption) crimeTypeOption.classList.add('selected');
-
-        const stateOption = stateSelect.querySelector(`[data-value="${filters.state}"]`);
-        if (stateOption) stateOption.classList.add('selected');
-
-        const agencyOption = agencySelect.querySelector(`[data-value="${filters.agency}"]`);
-        if (agencyOption) agencyOption.classList.add('selected');
-
-        const dataTypeOption = dataTypeDropdown.querySelector(`[data-value="${filters.dataType}"]`);
-        if (dataTypeOption) dataTypeOption.classList.add('selected');
-
-        updateAgencyFilter(allData, filters.state);
-    }
-
     function openTab(event, tabName) {
         var tabContents = document.getElementsByClassName('tab-content');
         for (var i = 0; i < tabContents.length; i++) {
             tabContents[i].style.display = 'none';
             tabContents[i].classList.remove('active');
         }
+
         var tabLinks = document.getElementsByClassName('tab-link');
         for (var i = 0; i < tabLinks.length; i++) {
             tabLinks[i].classList.remove('active');
         }
+
         document.getElementById(tabName).style.display = 'block';
         document.getElementById(tabName).classList.add('active');
         event.currentTarget.classList.add('active');

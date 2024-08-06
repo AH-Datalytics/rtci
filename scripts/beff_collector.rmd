@@ -11,7 +11,7 @@ library(readr)
 library(stringr)
 library(zoo)
 ```
-directory path where the arizona files are stored
+directory path where the BEFF files are stored
 ```{r}
 data_dir <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work"
 
@@ -102,7 +102,10 @@ total_agency_raw <- sum(unlist(unique_agency_counts))
 head(total_agency_raw)
 ##332 as of this writing this and counting...why do we lose agencies at the end?
 ```
+create a separate df that will be city + , + state and then run the length to get the full number of agencies 
+```{r}
 
+```
 format everything
 ```{r}
 # Define the format_cols function
@@ -133,6 +136,7 @@ format_cols <- function(df) {
 ldf1 <- lapply(ldf, format_cols)
 head(ldf1[1])
 ```
+
 ```{r}
 # Apply the function to each dataframe in the list and store the results
 unique_agency_counts1 <- map(ldf1, get_unique_agency_count)
@@ -193,16 +197,9 @@ ldf3 <- lapply(ldf2, function(df) {
 
 head(ldf3[1])
 ```
-```{r}
-# Apply the function to each dataframe in the list and store the results
-unique_agency_counts3 <- map(ldf3, get_unique_agency_count)
 
-total_agency_raw3 <- sum(unlist(unique_agency_counts3))
 
-# Print the results
-head(total_agency_raw3)
-##332 as of this writing this and counting...why do we lose agencies at the end?
-```
+
 combine and check it out
 ```{r}
 combined_df <- do.call(rbind, ldf3)
@@ -213,73 +210,73 @@ rownames(combined_df) <- NULL
 combined_df <- combined_df %>% select(acceptable_names)
 head(combined_df)
 ```
+city state column for getting unique number of agencies
 ```{r}
+combined_df <- combined_df %>% mutate(city_state = paste(`Agency Name`, State, sep = ", "))
+
+length(unique(combined_df$city_state))
+#351 agencies
+#31,442 obs
 length(unique(combined_df$`Agency Name`))
-#31,442
+
+
+unique_df <- combined_df %>%
+  select(city_state) %>%
+  distinct()
+
+
+df1<- as.data.frame(unique(combined_df$city_state))
+df2<- as.data.frame(unique(combined_df$city_state))
+
+
+unique(combined_df$city_state)
+unique(combined_df$city_state)
+
+merged_df <- full_join(df1, df2, by = "")
+
+# Print the merged data frame
+print("Merged Data Frame:")
+print(merged_df)
+
+# Find records without a match in df1
+unmatched_in_df1 <- anti_join(df2, df1, by = "city_state")
+print("Records in df2 without a match in df1:")
+print(unmatched_in_df1)
+
+# Find records without a match in df2
+unmatched_in_df2 <- anti_join(df1, df2, by = "city_state")
+print("Records in df1 without a match in df2:")
+print(unmatched_in_df2)
 ```
-remove non-current jurisdictions
+create variables for audit
 ```{r}
-crime_types <- c("Murder", "Rape", "Robbery",
-                 "Aggravated Assault", "Burglary", 
-                 "Theft", "Motor Vehicle Theft")
+# Get the current date
+current_date <- Sys.Date()
 
- # Create a Date column from Month and Year columns
-  df <- combined_df %>%
-         mutate(Date = as.Date(paste(Year, Month, "01", sep = "-")))
+# Extract the current year and month
+current_year <- year(current_date)
+current_month <- month(current_date)
 
-# Function to remove current and previous months and...
-#check for valid numerical counts in the obs two months prior
-#check_valid_counts <- function(df, crime_types, date_column) {
-  # Get the current month and year
-  current_month <- month(Sys.Date())
-  current_year <- year(Sys.Date())
-  
-  # Get the previous month and year
-  if (current_month == 1) {
-    previous_month <- 12
-    previous_year <- current_year - 1
-    two_months_prior_month <- 11
-    two_months_prior_year <- current_year - 1
-  } else if (current_month == 2) {
-    previous_month <- 1
-    previous_year <- current_year
-    two_months_prior_month <- 12
-    two_months_prior_year <- current_year - 1
-  } else {
-    previous_month <- current_month - 1
-    previous_year <- current_year
-    two_months_prior_month <- current_month - 2
-    two_months_prior_year <- current_year
-  }
-  
-  # Filter rows for the current and previous month/year
-  df1 <- df %>%
-    filter(Year == current_year & Month == 7 |
-           Year == current_year & Month == 6
-    )
-# Filter rows for two months prior
-two_months_prior_data <- df1 %>%
-    filter(year(Date) == two_months_prior_year & month(Date) == two_months_prior_month)
-  
-# Check out two months previous - the first month of our sample
-invalid_two_months_prior <- two_months_prior_data %>%
-  filter(if_any(c(Murder, `Motor Vehicle Theft`, `Aggravated Assault`,
-                  Burglary, Robbery, Theft, Rape), ~ is.na(.))) %>%
-  pull(`Agency Name`) %>%
-  unique()
+# Calculate the previous months
+previous_month_date <- current_date %m-% months(1)
+two_months_previous_date <- current_date %m-% months(2)
+three_months_previous_date <- current_date %m-% months(3)
 
-# Save the invalid records as a separate vector
-invalid_records <- two_months_prior_data %>%
-  filter(if_any(c(Murder, `Motor Vehicle Theft`, `Aggravated Assault`,
-                  Burglary, Robbery, Theft, Rape), ~ is.na(.)))
+# Extract the year and month for the previous months
+previous_month_year <- year(previous_month_date)
+previous_month_month <- month(previous_month_date)
 
-cdf6 <- combined_df %>%
-  filter(
-    (Year == current_year & Month == current_month) |
-    (Year == current_year & Month == previous_month)
-  )
+two_months_previous_year <- year(two_months_previous_date)
+two_months_previous_month <- month(two_months_previous_date)
 
-head(invalid_records)
+three_months_previous_year <- year(three_months_previous_date)
+three_months_previous_month <- month(three_months_previous_date)
+
+# Print the results
+cat("Current Year:", current_year, "Current Month:", current_month, "\n")
+cat("Previous Month - Year:", previous_month_year, "Month:", previous_month_month, "\n")
+cat("Two Months Previous - Year:", two_months_previous_year, "Month:", two_months_previous_month, "\n")
+cat("Three Months Previous - Year:", three_months_previous_year, "Month:", three_months_previous_month, "\n")
 ```
 drop everything from current year/month and current year/previous month
 ```{r}
@@ -287,18 +284,24 @@ drop everything from current year/month and current year/previous month
 cdf <- combined_df %>%
   filter(
     !(Year == current_year & Month == current_month) |
-    !(Year == current_year & Month == previous_month)
+    !(Year == current_year & Month == previous_month_month)
   )
 
 # Print the result
 head(cdf)
 ```
-calculate and add nationwide counts
-
-
-ONLY GOOD SAMPLE
+vc/pc groupings
 ```{r}
-nationwide_counts <- cdf %>%
+# Add new columns for violent and property crime
+cdf1 <- cdf %>%
+    mutate(
+    vio_crime = rowSums(select(., Murder, Rape, Robbery, `Aggravated Assault`), na.rm = TRUE),
+    prop_crime = rowSums(select(., Burglary, Theft, `Motor Vehicle Theft`), na.rm = TRUE)
+  )
+```
+calculate and add nationwide counts
+```{r}
+nationwide_counts <- cdf1 %>%
   group_by(Year, Month) %>%
   summarise(
     Murder= sum(Murder, na.rm = TRUE),
@@ -308,6 +311,8 @@ nationwide_counts <- cdf %>%
     Burglary= sum(Burglary, na.rm = TRUE),
     Theft = sum(Theft, na.rm = TRUE),
     `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
+    `Violent Crime` = sum(vio_crime, na.rm = TRUE),
+    `Property Crime` = sum(prop_crime, na.rm = TRUE),
     .groups = 'drop'
   )
 
@@ -318,48 +323,49 @@ add the nationwide counts to the sample once it's working
 ```{r}
 nationwide_counts$`Agency Name` <- "Nationwide Count"
 
-cdf1 <- bind_rows(cdf, nationwide_counts)
-head(cdf1)
+nationwide_counts$State <- "All Agencies"
 ```
-calculate and add state counts
+drop cdf1 extra columns after fixing
 ```{r}
-state_counts <- cdf1 %>%
-  group_by(Year, Month, State) %>%
-  summarise(
-    Murder= sum(Murder, na.rm = TRUE),
-    Rape= sum(Rape, na.rm = TRUE),
-    Robbery= sum(Robbery, na.rm = TRUE),
-    `Aggravated Assault`= sum(`Aggravated Assault`, na.rm = TRUE),
-    Burglary= sum(Burglary, na.rm = TRUE),
-    Theft = sum(Theft, na.rm = TRUE),
-    `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
-    .groups = 'drop'
-  )
+cdf2 <- cdf1 %>%
+  mutate(`Violent Crime` = vio_crime,
+          `Property Crime` = prop_crime ) %>%
+            select(-city_state, -vio_crime, -prop_crime)
 
-state_counts$`Agency Name` <- "All Agencies"
-
-#join state counts with agency names to sample
-cdf3 <- bind_rows(cdf1, state_counts)
-head(cdf3)
 ```
-vc/pc groupings
+
+
 ```{r}
-# Add new columns for violent and property crime
-cdf3 <- cdf3 %>%
-  mutate(
-    vio_crime = Murder + Rape + Robbery + `Aggravated Assault`,
-    prop_crime = Burglary + Theft + `Motor Vehicle Theft`
-  )
+cdf2 <- bind_rows(cdf2, nationwide_counts)
+head(cdf2)
 ```
+audit 2 and 3 months
+```{r}
+# Filter records with any NA values for two months previous
+na_two_months_previous <- cdf2 %>%
+  filter(Month == two_months_previous_month & Year == two_months_previous_year) %>%
+  filter(rowSums(is.na(.)) > 0)
 
+# Filter records with any NA values for three months previous
+na_three_months_previous <- cdf2 %>%
+  filter(Month == three_months_previous_month & Year == three_months_previous_year) %>%
+  filter(rowSums(is.na(.)) > 0)
 
+# Print the data frames
+print("Records with NA values two months previous:")
+print(na_two_months_previous)
+
+print("Records with NA values three months previous:")
+print(na_three_months_previous)
+```
+generate 12mo mvsums - for all agencies/month/year obs and across all crime types
 ```{r}
 # Function to calculate 12-month cumulative sum 
 mvs_12mo <- function(df) {
   df <- df %>%
     arrange(Year, Month) %>%
     group_by(`Agency Name`, State) %>%
-    mutate(across(c(Murder, Burglary, Rape, Robbery, `Aggravated Assault`, `Motor Vehicle Theft`, Theft), 
+    mutate(across(c(Murder, Burglary, Rape, Robbery, `Aggravated Assault`, `Motor Vehicle Theft`, Theft, `Violent Crime`, `Property Crime`), 
                   ~rollapply(.x, width = 12, FUN = sum, align = "right", fill = NA, partial = TRUE),
                   .names = "{col}_mvs_12mo")) %>%
     ungroup()
@@ -367,18 +373,18 @@ mvs_12mo <- function(df) {
 }
 
 # Apply the function to the single dataframe
-df_mvs_12mo1 <- mvs_12mo(cdf3)
+df_mvs_12mo1 <- mvs_12mo(cdf2)
 
 # Print the result to verify
 head(df_mvs_12mo1)
 ```
 agency number!!?
 ```{r}
-length(unique(combined_df$`Agency Name`))
+length(unique(df_mvs_12mo1$`Agency Name`))
 ```
 drop 2017
 ```{r}
-df_mvs_12mo <- df_mvs_12mo %>% filter(Year != 2017)
+df_mvs_12mo1 <- df_mvs_12mo1 %>% filter(Year != 2017)
 ```
 find all months with 0 larcenies
 ```{r}
@@ -415,10 +421,40 @@ folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Cr
 file_path <- file.path(folder_path, "rtci_benjeff_sample.csv")
 
 # Write the data frame to a .csv file
-write.csv(df_mvs_12mo, file = file_path, row.names = FALSE)
+write.csv(df_mvs_12mo1, file = file_path, row.names = FALSE)
 
 # Write the data frame to the data folder in Github repo
-write.csv(df_mvs_12mo, "data/rtci_benjeff_sample.csv")
+write.csv(df_mvs_12mo1, "data/rtci_benjeff_sample.csv")
+```
+
+
+
+
+
+
+
+
+
+calculate and add state counts
+```{r}
+state_counts <- cdf1 %>%
+  group_by(Year, Month, State) %>%
+  summarise(
+    Murder= sum(Murder, na.rm = TRUE),
+    Rape= sum(Rape, na.rm = TRUE),
+    Robbery= sum(Robbery, na.rm = TRUE),
+    `Aggravated Assault`= sum(`Aggravated Assault`, na.rm = TRUE),
+    Burglary= sum(Burglary, na.rm = TRUE),
+    Theft = sum(Theft, na.rm = TRUE),
+    `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
+    .groups = 'drop'
+  )
+
+state_counts$`Agency Name` <- "All Agencies"
+
+#join state counts with agency names to sample
+cdf3 <- bind_rows(cdf1, state_counts)
+head(cdf3)
 ```
 
 1 -add % change to mvs for groupings -sum
@@ -444,15 +480,15 @@ audit
 
 quick jeff ask
 ```{r}
-his_2022 <- nationwide_counts %>% filter(Year ==2022)
+#his_2022 <- nationwide_counts %>% filter(Year ==2022)
 
 folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data"
 
 # Create the full file path
-file_path <- file.path(folder_path, "nationwide_sample_2022.csv")
+file_path <- file.path(folder_path, "agency_list_080624.csv")
 
 # Write the data frame to a .csv file
-write.csv(his_2022, file = file_path, row.names = FALSE)
+write.csv(df1, file = file_path, row.names = FALSE)
 ```
 
 

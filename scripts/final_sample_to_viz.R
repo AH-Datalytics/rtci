@@ -17,6 +17,11 @@ final_sample <- final_sample %>%
 
 # Map state abbreviations to full state names
 state_names <- data.frame(state_abbr = state.abb, state_name = state.name)
+
+dc <- c("DC", "District of Columbia")
+
+state_names <- rbind(state_names, dc)
+
 final_sample <- final_sample %>%
   left_join(state_names, by = "state_abbr")
 

@@ -445,7 +445,7 @@ html, body {
     fill: #2d5df96d;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
     .caption-group text {
         font-size: 1.1vh;
     }
@@ -455,7 +455,7 @@ html, body {
     }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 800px) {
     .caption-group text {
         font-size: 0.9vh;
     }

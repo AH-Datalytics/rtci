@@ -4,7 +4,7 @@ library(lubridate)
 library(datasets)
 
 # Load Data
-final_sample <- read_csv("../data/rtci_benjeff_sample.csv")
+final_sample <- read_csv("../data/final_sample.csv")
 
 # Rename columns: lower case and underscores
 final_sample <- final_sample %>%

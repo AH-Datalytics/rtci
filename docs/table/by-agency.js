@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Default filter values
     const defaultFilters = {
-        state: "New York",
-        agency: "New York City"
+        state: "Nationwide",
+        agency: "Full Sample"
     };
 
     // Load data

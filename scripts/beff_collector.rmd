@@ -331,10 +331,8 @@ cdf2 <- cdf1 %>%
   mutate(`Violent Crime` = vio_crime,
           `Property Crime` = prop_crime ) %>%
             select(-city_state, -vio_crime, -prop_crime)
-
 ```
-
-
+bind the national counts to 
 ```{r}
 cdf2 <- bind_rows(cdf2, nationwide_counts)
 head(cdf2)
@@ -395,6 +393,23 @@ theft_zero <- df_mvs_12mo %>%
 ##tracy,ca; beaverton, or the review
 ```
 
+how many are we down to if i remove everything with an NA in murder?
+```{r}
+# 1. Identify observations with NA in the "Murder" column
+na_murder_data <- na_two_months_previous %>% 
+  filter(is.na(Murder))
+
+# 2. Generate a list of unique agency names with NA in the "Murder" column
+agencies_with_na_murder <- unique(na_murder_data$`Agency Name`)
+
+# Print the list of unique agencies with NA in "Murder"
+print(agencies_with_na_murder)
+
+# 3. Remove all records associated with these agencies from the full dataset
+df_mvs_12mo2 <- df_mvs_12mo1 %>% 
+  filter(!`Agency Name` %in% agencies_with_na_murder)
+```
+
 add the reference file for links and the result
 ```{r}
 #name of file to merge: OUTPUT_Participating Agencies Reference File
@@ -412,6 +427,8 @@ merged_data <- wide_data %>%
 
 
 ```
+
+
 write it out!
 ```{r}
 # Specify the folder path
@@ -426,7 +443,12 @@ write.csv(df_mvs_12mo1, file = file_path, row.names = FALSE)
 # Write the data frame to the data folder in Github repo
 write.csv(df_mvs_12mo1, "data/rtci_benjeff_sample.csv")
 ```
+final agency numbers?
+```{r}
 
+
+
+```
 
 
 
@@ -485,10 +507,10 @@ quick jeff ask
 folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data"
 
 # Create the full file path
-file_path <- file.path(folder_path, "agency_list_080624.csv")
+file_path <- file.path(folder_path, "non_reporters_60days.csv")
 
 # Write the data frame to a .csv file
-write.csv(df1, file = file_path, row.names = FALSE)
+write.csv(na_two_months_previous, file = file_path, row.names = FALSE)
 ```
 
 

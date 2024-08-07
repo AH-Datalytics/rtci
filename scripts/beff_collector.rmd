@@ -102,10 +102,6 @@ total_agency_raw <- sum(unlist(unique_agency_counts))
 head(total_agency_raw)
 ##332 as of this writing this and counting...why do we lose agencies at the end?
 ```
-create a separate df that will be city + , + state and then run the length to get the full number of agencies 
-```{r}
-
-```
 format everything
 ```{r}
 # Define the format_cols function
@@ -136,7 +132,7 @@ format_cols <- function(df) {
 ldf1 <- lapply(ldf, format_cols)
 head(ldf1[1])
 ```
-
+how many agencies are in the component files /no duplicates this way/
 ```{r}
 # Apply the function to each dataframe in the list and store the results
 unique_agency_counts1 <- map(ldf1, get_unique_agency_count)
@@ -147,7 +143,7 @@ total_agency_raw1 <- sum(unlist(unique_agency_counts1))
 head(total_agency_raw1)
 ##332 as of this writing this and counting...why do we lose agencies at the end?
 ```
-next...
+next...standardize the columns
 ```{r}
 # Ensure all data frames have the same columns and column types
 all_columns <- Reduce(union, lapply(ldf1, names))
@@ -175,6 +171,8 @@ rename_larceny_to_theft <- function(df) {
 ldf2 <- lapply(ldf2, rename_larceny_to_theft)
 head(ldf2[1])
 ```
+
+make sure our agency counts are the same
 ```{r}
 # Apply the function to each dataframe in the list and store the results
 unique_agency_counts2 <- map(ldf2, get_unique_agency_count)
@@ -185,7 +183,6 @@ total_agency_raw2 <- sum(unlist(unique_agency_counts2))
 head(total_agency_raw2)
 ##332 as of this writing this and counting...why do we lose agencies at the end?
 ```
-
 still have a few odd column names
 ```{r}
 acceptable_names <- c("Agency Name", "Murder", "Rape", "Robbery", "Aggravated Assault", 
@@ -197,9 +194,6 @@ ldf3 <- lapply(ldf2, function(df) {
 
 head(ldf3[1])
 ```
-
-
-
 combine and check it out
 ```{r}
 combined_df <- do.call(rbind, ldf3)
@@ -333,8 +327,7 @@ cdf2 <- cdf1 %>%
             select(-city_state, -vio_crime, -prop_crime)
 
 ```
-
-
+bind the nationwide counts to the bottom
 ```{r}
 cdf2 <- bind_rows(cdf2, nationwide_counts)
 head(cdf2)
@@ -400,7 +393,6 @@ ref_df <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Tim
 ref_df <- ref_df %>% mutate(city_state = paste(Agency.Name, state, sep = ", "))
 
 head(ref_df)
-
 #of obs in sample 27,373
 ```
 join ref to sample
@@ -408,7 +400,7 @@ join ref to sample
 df_w_ref <- df_mvs_12mo1 %>%
   left_join(ref_df, by = "city_state")
 
-#of obs
+#of obs 27,373!
 ```
 write it out!
 ```{r}

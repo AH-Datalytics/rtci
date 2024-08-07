@@ -25,6 +25,13 @@ state_names <- rbind(state_names, dc)
 final_sample <- final_sample %>%
   left_join(state_names, by = "state_abbr")
 
+
+# Fix Nationwide Naming
+final_sample <- final_sample %>% 
+  mutate(agency_name = ifelse(agency_name == "Nationwide Count", "Full Sample", agency_name),
+         state_name = ifelse(agency_name == "Full Sample", "Nationwide", state_name))
+  
+
 # Create 'agency_full' and 'location_full' columns
 final_sample <- final_sample %>%
   mutate(agency_full = str_c(agency_name, ", ", state_name),

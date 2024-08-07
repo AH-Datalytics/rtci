@@ -198,7 +198,9 @@ final_sample <- final_sample %>%
          murder,
          rape,
          robbery,
-         theft
+         theft,
+         violent_crime,
+         property_crime
          )
 
 final_sample <- final_sample %>% 

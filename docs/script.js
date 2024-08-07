@@ -489,7 +489,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .text("source.");
 
 
-        const population = filteredData[0].population;
+        const population = abbreviateNumber(filteredData[0].population);
         const agencyCount = filteredData[0].agency_count || "N/A";
 
         const captionGroup = svg.append("g")

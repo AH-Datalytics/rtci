@@ -61,7 +61,7 @@ body {
 }
 
 .rtci-table-container {
-    width: 75%;
+    width: 90%;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -85,7 +85,7 @@ table {
 
 th, td {
     padding: 10px;
-    text-align: left;
+    text-align: center;
     border-bottom: 1px solid #ddd;
 }
 
@@ -94,13 +94,17 @@ th {
     color: white;
 }
 
-/* Apply border-radius to the top-left and top-right corners */
 th:first-child {
     border-top-left-radius: 8px;
+    text-align: left;
 }
 
 th:last-child {
     border-top-right-radius: 8px;
+}
+
+td:first-child {
+    text-align: left;
 }
 
 /* Cell specific styling */

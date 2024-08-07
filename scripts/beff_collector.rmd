@@ -331,8 +331,10 @@ cdf2 <- cdf1 %>%
   mutate(`Violent Crime` = vio_crime,
           `Property Crime` = prop_crime ) %>%
             select(-city_state, -vio_crime, -prop_crime)
+
 ```
-bind the national counts to 
+
+
 ```{r}
 cdf2 <- bind_rows(cdf2, nationwide_counts)
 head(cdf2)
@@ -376,59 +378,38 @@ df_mvs_12mo1 <- mvs_12mo(cdf2)
 # Print the result to verify
 head(df_mvs_12mo1)
 ```
-agency number!!?
-```{r}
-length(unique(df_mvs_12mo1$`Agency Name`))
-```
 drop 2017
 ```{r}
 df_mvs_12mo1 <- df_mvs_12mo1 %>% filter(Year != 2017)
 ```
-find all months with 0 larcenies
+make a new date field 
 ```{r}
-theft_zero <- df_mvs_12mo %>%
-  filter(Theft == 0)
-
-##some non-reportes from OH and MA expected
-##tracy,ca; beaverton, or the review
+df_mvs_12mo1 <- df_mvs_12mo1 %>% mutate(city_state = paste(`Agency Name`, State, sep = ", "))
+# city state unique id
+length(unique(df_mvs_12mo1$city_state))
+# duplicate agency names
+length(unique(df_mvs_12mo1$`Agency Name`))
 ```
-
-how many are we down to if i remove everything with an NA in murder?
-```{r}
-# 1. Identify observations with NA in the "Murder" column
-na_murder_data <- na_two_months_previous %>% 
-  filter(is.na(Murder))
-
-# 2. Generate a list of unique agency names with NA in the "Murder" column
-agencies_with_na_murder <- unique(na_murder_data$`Agency Name`)
-
-# Print the list of unique agencies with NA in "Murder"
-print(agencies_with_na_murder)
-
-# 3. Remove all records associated with these agencies from the full dataset
-df_mvs_12mo2 <- df_mvs_12mo1 %>% 
-  filter(!`Agency Name` %in% agencies_with_na_murder)
-```
-
 add the reference file for links and the result
 ```{r}
 #name of file to merge: OUTPUT_Participating Agencies Reference File
 # Read the reference file and the wide dataset
-reference_data <- read.csv("OUTPUT_Participating Agencies Reference File.csv")
-wide_data <- read.csv("wide_dataset.csv")
+ref_df <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\Ben and Jeff working files\\OUTPUT_Participating Agencies Reference File.csv")
 
-# Inspect the first few rows of each dataset to ensure the column names and structures are as expected
-head(reference_data)
-head(wide_data)
+# cleave off that silliness
+ref_df <- ref_df %>% mutate(city_state = paste(Agency.Name, state, sep = ", "))
 
-# Merge the datasets on city and state columns
-merged_data <- wide_data %>%
-  left_join(reference_data, by = c("city", "state"))
+head(ref_df)
 
-
+#of obs in sample 27,373
 ```
+join ref to sample
+```{r}
+df_w_ref <- df_mvs_12mo1 %>%
+  left_join(ref_df, by = "city_state")
 
-
+#of obs
+```
 write it out!
 ```{r}
 # Specify the folder path
@@ -438,17 +419,12 @@ folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Cr
 file_path <- file.path(folder_path, "rtci_benjeff_sample.csv")
 
 # Write the data frame to a .csv file
-write.csv(df_mvs_12mo1, file = file_path, row.names = FALSE)
+write.csv(df_w_ref, file = file_path, row.names = FALSE)
 
 # Write the data frame to the data folder in Github repo
-write.csv(df_mvs_12mo1, "data/rtci_benjeff_sample.csv")
+write.csv(df_w_ref, "data/rtci_benjeff_sample.csv")
 ```
-final agency numbers?
-```{r}
 
-
-
-```
 
 
 
@@ -478,28 +454,6 @@ state_counts$`Agency Name` <- "All Agencies"
 cdf3 <- bind_rows(cdf1, state_counts)
 head(cdf3)
 ```
-
-1 -add % change to mvs for groupings -sum
-1a -august pull - round off and remove sys month - august and previous month 
-##august - 8/1 we get June data
-2 -reference file inclusion - pop, groupings, ORI, city/state
-3 -make spatial data
-4 -create vc/pc groupings - The descending order of UCR violent crimes
- are murder and nonnegligent manslaughter, rape, robbery, and aggravated assault, 
- followed by the property crimes of burglary, larceny-theft, and motor vehicle theft.
-5 -run wheeler script again and report agency issues
-6 -map process w/ OB
-7 -links to sources
-8 -ytd table for each agency in the sample
-9 -based on 2022 we think we are capturing X amount of the total crimes that 
-10 -0 larceny agencies in a month find
-11 -nationwide is being summed based on who is and isn'tincluded based on our limits and something
-
-august 1st - collect data for June
-
-audit 
--pull out agencies 
-
 quick jeff ask
 ```{r}
 #his_2022 <- nationwide_counts %>% filter(Year ==2022)
@@ -507,15 +461,23 @@ quick jeff ask
 folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data"
 
 # Create the full file path
-file_path <- file.path(folder_path, "non_reporters_60days.csv")
+file_path <- file.path(folder_path, "agency_list_080624.csv")
 
 # Write the data frame to a .csv file
-write.csv(na_two_months_previous, file = file_path, row.names = FALSE)
+write.csv(df1, file = file_path, row.names = FALSE)
 ```
 
 
 
 
+find all months with 0 larcenies
+```{r}
+theft_zero <- df_mvs_12mo %>%
+  filter(Theft == 0)
+
+##some non-reportes from OH and MA expected
+##tracy,ca; beaverton, or the review
+```
 
 
 

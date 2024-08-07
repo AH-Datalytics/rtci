@@ -293,9 +293,21 @@ cdf1 <- cdf %>%
     prop_crime = rowSums(select(., Burglary, Theft, `Motor Vehicle Theft`), na.rm = TRUE)
   )
 ```
+without non-reporters for 45 day lag month //first month is June
+```{r}
+# First need to create a df from na_two_months_previous 
+non_reporters <- na_two_months_previous %>%
+  filter(is.na(Murder))
+
+# Get unique values from the column in the separate dataframe
+remove_agencies <- unique(non_reporters$`Agency Name`)
+
+# Filter out rows where Agency_Name is in the list of values_to_remove
+cdf_nwcounts<- cdf1 %>% filter(!`Agency Name` %in% remove_agencies)
+```
 calculate and add nationwide counts
 ```{r}
-nationwide_counts <- cdf1 %>%
+nationwide_counts <- cdf_nwcounts %>%
   group_by(Year, Month) %>%
   summarise(
     Murder= sum(Murder, na.rm = TRUE),
@@ -402,6 +414,9 @@ df_w_ref <- df_mvs_12mo1 %>%
 
 #of obs 27,373!
 ```
+
+
+
 write it out!
 ```{r}
 # Specify the folder path

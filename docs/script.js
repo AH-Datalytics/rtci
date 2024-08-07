@@ -123,8 +123,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const defaultFilters = {
             crimeType: "Murders",
-            state: "New York",
-            agency: "New York City",
+            state: "Nationwide",
+            agency: "Full Sample",
             dataType: "count"
         };
 
@@ -141,9 +141,9 @@ document.addEventListener("DOMContentLoaded", function() {
         if (agencies.includes(savedAgency)) {
             agencyBtn.textContent = savedAgency;
             agencyBtn.dataset.value = savedAgency;
-        } else if (agencies.includes("New York City")) {
-            agencyBtn.textContent = "New York City";
-            agencyBtn.dataset.value = "New York City";
+        } else if (agencies.includes("Full Sample")) {
+            agencyBtn.textContent = "Full Sample";
+            agencyBtn.dataset.value = "Full Sample";
         } else if (agencies.length > 0) {
             agencyBtn.textContent = agencies[0];
             agencyBtn.dataset.value = agencies[0];

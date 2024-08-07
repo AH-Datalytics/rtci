@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         allData = data;
 
-        const severityOrder = ["Murders", "Rapes", "Robberies", "Aggravated Assaults", "Burglaries", "Thefts", "Motor Vehicle Thefts"];
+        const severityOrder = ["Violent Crimes", "Murders", "Rapes", "Robberies", "Aggravated Assaults", "Property Crimes", "Burglaries", "Thefts", "Motor Vehicle Thefts"];
         const crimeTypes = severityOrder.filter(crimeType => data.some(d => d.crime_type === crimeType));
 
         crimeTypes.forEach(crimeType => {

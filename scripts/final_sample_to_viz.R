@@ -40,20 +40,22 @@ final_sample <- final_sample %>%
 # Select relevant columns
 final_sample <- final_sample %>%
   select(date, agency_name, state_name, agency_full, location_full, 
-         murder, rape, robbery, aggravated_assault, burglary, theft, motor_vehicle_theft,
-         murder_mvs_12mo, rape_mvs_12mo, robbery_mvs_12mo, aggravated_assault_mvs_12mo, 
-         burglary_mvs_12mo, theft_mvs_12mo, motor_vehicle_theft_mvs_12mo)
+         murder, rape, robbery, aggravated_assault, violent_crime, 
+         burglary, theft, motor_vehicle_theft, property_crime,
+         murder_mvs_12mo, rape_mvs_12mo, robbery_mvs_12mo, aggravated_assault_mvs_12mo, violent_crime_mvs_12mo,
+         burglary_mvs_12mo, theft_mvs_12mo, motor_vehicle_theft_mvs_12mo, property_crime_mvs_12mo)
 
 # Convert crime data to long format for counts
 final_sample_long_counts <- final_sample %>%
-  pivot_longer(cols = c(murder, rape, robbery, aggravated_assault, burglary, theft, motor_vehicle_theft),
+  pivot_longer(cols = c(murder, rape, robbery, aggravated_assault, violent_crime, 
+                        burglary, theft, motor_vehicle_theft, property_crime),
                names_to = "crime_type",
                values_to = "count")
 
 # Convert mvs_12mo data to long format for mvs_12mo
 final_sample_long_mvs <- final_sample %>%
-  pivot_longer(cols = c(murder_mvs_12mo, rape_mvs_12mo, robbery_mvs_12mo, aggravated_assault_mvs_12mo, 
-                        burglary_mvs_12mo, theft_mvs_12mo, motor_vehicle_theft_mvs_12mo),
+  pivot_longer(cols = c(murder_mvs_12mo, rape_mvs_12mo, robbery_mvs_12mo, aggravated_assault_mvs_12mo, violent_crime_mvs_12mo,
+                        burglary_mvs_12mo, theft_mvs_12mo, motor_vehicle_theft_mvs_12mo, property_crime_mvs_12mo),
                names_to = "crime_type_mvs_12mo",
                values_to = "mvs_12mo") %>%
   mutate(crime_type = str_replace(crime_type_mvs_12mo, "_mvs_12mo", "")) %>%
@@ -86,12 +88,15 @@ final_sample_long <- final_sample_long %>%
 # Capitalize crime types before printing and writing
 final_sample_long <- final_sample_long %>%
   mutate(crime_type = ifelse(crime_type == "murder", "Murders", 
-                     ifelse(crime_type == "rape", "Rapes", 
-                     ifelse(crime_type == "robbery", "Robberies", 
-                     ifelse(crime_type == "aggravated_assault", "Aggravated Assaults", 
-                     ifelse(crime_type == "burglary", "Burglaries", 
-                     ifelse(crime_type == "theft", "Thefts", 
-                     ifelse(crime_type == "motor_vehicle_theft", "Motor Vehicle Thefts", crime_type))))))))
+                             ifelse(crime_type == "rape", "Rapes", 
+                                    ifelse(crime_type == "robbery", "Robberies", 
+                                           ifelse(crime_type == "aggravated_assault", "Aggravated Assaults", 
+                                                  ifelse(crime_type == "burglary", "Burglaries", 
+                                                         ifelse(crime_type == "theft", "Thefts", 
+                                                                ifelse(crime_type == "motor_vehicle_theft", "Motor Vehicle Thefts", 
+                                                                       ifelse(crime_type == "violent_crime", "Violent Crimes", 
+                                                                              ifelse(crime_type == "property_crime", "Property Crimes", crime_type))))))))))
+
 
 
 # Print the first few rows of the cleaned data with all columns
@@ -193,7 +198,9 @@ final_sample <- final_sample %>%
          murder,
          rape,
          robbery,
-         theft
+         theft,
+         violent_crime,
+         property_crime
          )
 
 final_sample <- final_sample %>% 

@@ -257,6 +257,17 @@ document.addEventListener("DOMContentLoaded", function() {
         `;
     }
 
+    function abbreviateNumber(value) {
+        if (value >= 1e6) {
+            return (value / 1e6).toFixed(1) + "M";
+        }
+        if (value >= 100000) {
+            return (value / 1e3).toFixed(0) + "K";
+        }
+        return d3.format(",")(value);
+    }
+    
+
     function renderChart() {
         const filteredData = filterData(allData);
 
@@ -310,7 +321,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const yAxis = d3.axisLeft(y)
             .ticks(Math.min(d3.max(filteredData, d => d.value), 10))
-            .tickFormat(d3.format(",d"));
+            .tickFormat(abbreviateNumber);  // Use the updated abbreviateNumber function here
 
         const yAxisGroup = svg.append("g")
             .call(yAxis);
@@ -335,14 +346,12 @@ document.addEventListener("DOMContentLoaded", function() {
             return metrics.width;
         }
 
-        const maxYValue = d3.max(filteredData, d => d.value);
-        const maxYValueFormatted = d3.format(",d")(maxYValue);
-        const font = `${labelFontSize}px 'Roboto Condensed', Arial, sans-serif`;
-        const maxYLabelWidth = getTextWidth(maxYValueFormatted, font);
+        const maxYLabelWidth = Math.max(...yAxisGroup.selectAll(".tick text").nodes().map(node => node.getBBox().width));
+
 
         svg.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", -margin.left - maxYLabelWidth + 40)
+            .attr("y", -margin.left - maxYLabelWidth + 35)
             .attr("x", -height / 2)
             .attr("dy", "1em")
             .style("text-anchor", "middle")
@@ -385,7 +394,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 .attr("cx", d => x(d.date))
                 .attr("cy", d => y(d.value))
                 .attr("r", dotSize)
-                .attr("fill", "#2d5ef9");
+                .attr("fill", "#2d5ef9")
+                .style("cursor", "pointer"); // Add this line to change cursor to pointer
+                ;
 
             dots.on("mouseover", function(event, d) {
                 d3.select(this).attr("fill", "#f28106");
@@ -408,7 +419,20 @@ document.addEventListener("DOMContentLoaded", function() {
                     .style("opacity", 0);
             });
         } else {
-            svg.on("mousemove", function(event) {
+            const path = svg.append("path")
+                .datum(filteredData)
+                .attr("fill", "none")
+                .attr("stroke", "#2d5ef9")
+                .attr("stroke-width", lineThickness)
+                .attr("d", d3.line()
+                    .curve(d3.curveCatmullRom.alpha(0.5))
+                    .x(d => x(d.date))
+                    .y(d => y(d.value))
+                )    
+                .style("cursor", "pointer"); // Add this line to change cursor to pointer
+                ;
+        
+            path.on("mousemove", function(event) {
                 const [mouseX, mouseY] = d3.pointer(event);
                 const xDate = x.invert(mouseX);
                 const closestData = filteredData.reduce((a, b) => {
@@ -416,7 +440,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
                 const xPos = x(closestData.date);
                 const yPos = y(closestData.value);
-
+        
                 tooltip.transition()
                     .duration(0)
                     .style("opacity", .9);
@@ -430,6 +454,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     .style("opacity", 0);
             });
         }
+        
 
         const agencyFull = filteredData[0].agency_full;
         const stateUcrLink = filteredData[0].state_ucr_link;

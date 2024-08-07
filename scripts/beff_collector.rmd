@@ -414,9 +414,6 @@ df_w_ref <- df_mvs_12mo1 %>%
 
 #of obs 27,373!
 ```
-
-
-
 write it out!
 ```{r}
 # Specify the folder path

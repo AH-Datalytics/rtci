@@ -317,6 +317,7 @@ html, body {
     color: #00333a;
     opacity: 0.9;
     font-size: 0.8em;
+    z-index: 1001;
 }
 
 #download-button {
@@ -390,6 +391,7 @@ html, body {
         width: 14vw;
         font-size: 2.15vw;
         height: 4vw;
+        margin: 1px 4px 1px 4px; /* Adjust margin to keep padding consistent */
     }   
 
     .graph-kpis-container {
@@ -451,9 +453,22 @@ html, body {
     .kpi-box p strong {
         font-size: 2em;
     }
+
+    .tooltip {
+        font-size: 0.4em;
+        padding: 3px;
+    }
+
+    #download-button {
+        font-size: 1.5vw;
+        padding: 4px 8px;
+    }
 }
 
-.caption-group text {
+/* Styles for the caption and source link graph */
+
+.caption-group text,
+.source-group text {
     font-size: 1.5vh;
 }
 
@@ -466,7 +481,6 @@ html, body {
 .source-link:hover {
     fill: #2d5df96d;
 }
-
 
 @media (max-width: 1000px) {
     .caption-group text {
@@ -497,6 +511,10 @@ html, body {
         font-size: 1vh;
     }
 }
+
+
+
+/* Styles for the axis font */
 
 .axis-text {
     font-size: 13px !important;

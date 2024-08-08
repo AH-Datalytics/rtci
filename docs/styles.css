@@ -465,6 +465,12 @@ html, body {
     }
 }
 
+@media (max-width: 500px) {
+    #download-button {
+        padding: 2px 4px;
+    }
+}
+
 /* Styles for the caption and source link graph */
 
 .caption-group text {

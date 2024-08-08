@@ -531,6 +531,16 @@ html, body {
     }
 }
 
+@media (max-width: 500px) {
+    .caption-group text {
+        font-size: 7px;
+    }
+
+    .source-link {
+        font-size: 7px;
+    }
+}
+
 
 /* Styles for the axis font */
 

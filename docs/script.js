@@ -518,7 +518,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const agencyFull = filteredData[0].agency_full;
         const stateUcrLink = filteredData[0].state_ucr_link;
-       
         let sourceText;
 
         // Check if the agency name ends with 's'
@@ -528,86 +527,58 @@ document.addEventListener("DOMContentLoaded", function() {
             sourceText = `${agencyFull}'s primary`;
         }
 
-// Calculate initial text widths and font sizes
-let fontSize = 1.5; // initial font size in vh
-let font = `${fontSize}vh 'Roboto Condensed', Arial, sans-serif`;
+        const sourceGroup = svg.append("g")
+            .attr("transform", `translate(${width}, ${height + margin.bottom - 10})`)
+            .attr("text-anchor", "end");
 
-const population = abbreviateNumberForCaption(filteredData[0].population);
-const agencyCount = filteredData[0].agency_count || "N/A";
-const sourceLink = stateUcrLink || "https://example.com"; // Replace with the actual link if available
+        const sourceTextElement = sourceGroup.append("text")
+            .attr("class", "source-link")
+            .style("font-family", "'Roboto Condensed', Arial, sans-serif")
+            .style("fill", "#00333a");
 
-const populationText = `Population Covered*: ${population}`;
-const agencyCountText = `Number of Agencies: ${agencyCount}`;
-const sourceTextFinal = agencyFull.endsWith("s") ? `${agencyFull}' primary source.` : `${agencyFull}'s primary source.`;
+        sourceTextElement.append("tspan")
+            .text(sourceText)
+            .style("cursor", "text");
 
-let sourceTextWidth = getTextWidth(sourceTextFinal, font);
-let populationTextWidth = getTextWidth(populationText, font);
-let agencyCountTextWidth = getTextWidth(agencyCountText, font);
-
-// Dynamically adjust font size to prevent overlap
-while (sourceTextWidth + populationTextWidth + agencyCountTextWidth + 10 > width - margin.left - margin.right && fontSize > 0.7) {
-    fontSize -= 0.1;
-    font = `${fontSize}vh 'Roboto Condensed', Arial, sans-serif`;
-    sourceTextWidth = getTextWidth(sourceTextFinal, font);
-    populationTextWidth = getTextWidth(populationText, font);
-    agencyCountTextWidth = getTextWidth(agencyCountText, font);
-}
+        sourceTextElement.append("tspan")
+            .attr("text-anchor", "start")
+            .attr("dx", "0.2em")
+            .attr("class", "source-link")
+            .style("cursor", "pointer")
+            .on("click", function() { window.open(stateUcrLink, "_blank"); })
+            .text("source.");
 
 
-const sourceGroup = svg.append("g")
-    .attr("transform", `translate(${width}, ${height + margin.bottom - 10})`)
-    .attr("text-anchor", "end");
+        const population = abbreviateNumberForCaption(filteredData[0].population);
+        const agencyCount = filteredData[0].agency_count || "N/A";
 
-const sourceTextElement = sourceGroup.append("text")
-    .attr("class", "source-link")
-    .style("font-family", "'Roboto Condensed', Arial, sans-serif")
-    .style("font-size", `${fontSize}vh`)
-    .style("fill", "#00333a");
+        const captionGroup = svg.append("g")
+            .attr("transform", `translate(0, ${height + margin.bottom - 10})`)
+            .attr("text-anchor", "start")
+            .attr("class", "caption-group");
 
-sourceTextElement.append("tspan")
-    .text(sourceText)
-    .style("cursor", "text");
+        const captionTextElement = captionGroup.append("text")
+            .style("font-family", "'Roboto Condensed', Arial, sans-serif")
+            .style("fill", "#00333a");
 
-    sourceTextElement.append("tspan")
-    .attr("text-anchor", "start")
-    .attr("dx", "0.2em")
-    .attr("class", "source-link")
-    .style("font-size", `${fontSize}vh`) // Ensure the same font size for the link
-    .style("fill", "#2d5ef9")
-    .style("cursor", "pointer")
-    .on("click", function() { window.open(stateUcrLink, "_blank"); })
-    .text("source.");
+        captionTextElement.append("tspan")
+            .text("Population Covered* : ")
+            .attr("x", 0);
 
-    const captionGroup = svg.append("g")
-    .attr("transform", `translate(0, ${height + margin.bottom - 10})`)
-    .attr("text-anchor", "start")
-    .attr("class", "caption-group");
+        captionTextElement.append("tspan")
+            .text(population)
+            .attr("dx", "0.2em")
+            .style("fill", "#f28106");
 
-const captionTextElement = captionGroup.append("text")
-    .style("font-family", "'Roboto Condensed', Arial, sans-serif")
-    .style("font-size", `${fontSize}vh`)
-    .style("fill", "#00333a");
+        captionTextElement.append("tspan")
+            .text("Number of Agencies : ")
+            .attr("dx", "3em");
 
-
-captionTextElement.append("tspan")
-    .text("Population Covered* : ")
-    .attr("x", 0);
-
-captionTextElement.append("tspan")
-    .text(population)
-    .attr("dx", "0.2em")
-    .style("fill", "#f28106");
-
-captionTextElement.append("tspan")
-    .text("Number of Agencies : ")
-    .attr("dx", "3em");
-
-captionTextElement.append("tspan")
-    .text(agencyCount)
-    .attr("dx", "0.2em")
-    .style("fill", "#f28106");
-
-}
+        captionTextElement.append("tspan")
+            .text(agencyCount)
+            .attr("dx", "0.2em")
+            .style("fill", "#f28106");
+    }
 
     function downloadFilteredData(filteredData) {
         const selectedDataType = dataTypeBtn.dataset.value;

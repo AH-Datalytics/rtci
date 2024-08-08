@@ -546,12 +546,13 @@ let agencyCountTextWidth = getTextWidth(agencyCountText, font);
 
 // Dynamically adjust font size to prevent overlap
 while (sourceTextWidth + populationTextWidth + agencyCountTextWidth + 10 > width - margin.left - margin.right && fontSize > 0.7) {
-    fontSize -= 0.05;
+    fontSize -= 0.1;
     font = `${fontSize}vh 'Roboto Condensed', Arial, sans-serif`;
     sourceTextWidth = getTextWidth(sourceTextFinal, font);
     populationTextWidth = getTextWidth(populationText, font);
     agencyCountTextWidth = getTextWidth(agencyCountText, font);
 }
+
 
 const sourceGroup = svg.append("g")
     .attr("transform", `translate(${width}, ${height + margin.bottom - 10})`)
@@ -567,15 +568,17 @@ sourceTextElement.append("tspan")
     .text(sourceText)
     .style("cursor", "text");
 
-sourceTextElement.append("tspan")
+    sourceTextElement.append("tspan")
     .attr("text-anchor", "start")
     .attr("dx", "0.2em")
     .attr("class", "source-link")
     .style("font-size", `${fontSize}vh`) // Ensure the same font size for the link
+    .style("fill", "#2d5ef9")
+    .style("cursor", "pointer")
     .on("click", function() { window.open(stateUcrLink, "_blank"); })
     .text("source.");
 
-const captionGroup = svg.append("g")
+    const captionGroup = svg.append("g")
     .attr("transform", `translate(0, ${height + margin.bottom - 10})`)
     .attr("text-anchor", "start")
     .attr("class", "caption-group");
@@ -584,6 +587,7 @@ const captionTextElement = captionGroup.append("text")
     .style("font-family", "'Roboto Condensed', Arial, sans-serif")
     .style("font-size", `${fontSize}vh`)
     .style("fill", "#00333a");
+
 
 captionTextElement.append("tspan")
     .text("Population Covered* : ")

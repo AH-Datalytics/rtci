@@ -370,19 +370,27 @@ html, body {
     }
 
     .filters-container {
-        font-size: 1.75vw;
+        font-size: 2.15vw;
         gap: 0.25rem;
     }
 
     .dropdown-btn {
-        font-size: 1.75vw;
+        font-size: 2.15vw;
         border-radius: 4px;
         padding: 3px;
     }
 
     .dropdown-menu {
         border-radius: 4px;
+        font-size: 2.15vw;
+        min-width: 16vw;
     }
+
+    .dropdown-search {
+        width: 14vw;
+        font-size: 2.15vw;
+        height: 4vw;
+    }   
 
     .graph-kpis-container {
         flex-direction: column;
@@ -477,6 +485,16 @@ html, body {
 
     .source-link {
         font-size: 0.9vh;
+    }
+}
+
+@media (max-width: 600px) {
+    .caption-group text {
+        font-size: 1vh;
+    }
+
+    .source-link {
+        font-size: 1vh;
     }
 }
 

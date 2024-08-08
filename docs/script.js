@@ -285,11 +285,21 @@ document.addEventListener("DOMContentLoaded", function() {
         if (value >= 1e6) {
             return (value / 1e6).toFixed(1) + "M";
         }
-        if (value >= 100000) {
+        if (value >= 1e4) {
             return (value / 1e3).toFixed(0) + "K";
         }
         return d3.format(",")(value);
     }
+
+    function abbreviateNumberForCaption(value) { // Add function to abbreviate caption pop (currently same)
+        if (value >= 1e6) {
+            return (value / 1e6).toFixed(2) + "M";
+        }
+        if (value >= 1e4) {
+            return (value / 1e3).toFixed(0) + "K";
+        }
+        return d3.format(",")(value);
+    }    
     
 
     function renderChart() {
@@ -539,7 +549,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .text("source.");
 
 
-        const population = abbreviateNumber(filteredData[0].population);
+        const population = abbreviateNumberForCaption(filteredData[0].population);
         const agencyCount = filteredData[0].agency_count || "N/A";
 
         const captionGroup = svg.append("g")

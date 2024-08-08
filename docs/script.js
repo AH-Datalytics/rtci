@@ -560,7 +560,7 @@ const captionGroup = svg.append("g")
 
 // Function to adjust caption position based on screen size
 function adjustCaptionForMobile() {
-const isMobile = window.innerWidth <= 400; // Adjust for screens 400px or less
+const isMobile = window.innerWidth <= 600; // Adjust for screens 400px or less
 
 if (isMobile) {
     // For mobile view, adjust the translate value

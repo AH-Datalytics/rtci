@@ -171,7 +171,6 @@ rename_larceny_to_theft <- function(df) {
 ldf2 <- lapply(ldf2, rename_larceny_to_theft)
 head(ldf2[1])
 ```
-
 make sure our agency counts are the same
 ```{r}
 # Apply the function to each dataframe in the list and store the results
@@ -293,6 +292,10 @@ cdf1 <- cdf %>%
     prop_crime = rowSums(select(., Burglary, Theft, `Motor Vehicle Theft`), na.rm = TRUE)
   )
 ```
+
+
+
+
 without non-reporters for 45 day lag month //first month is June
 ```{r}
 # First need to create a df from na_two_months_previous 
@@ -420,13 +423,13 @@ write it out!
 folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data"
 
 # Create the full file path
-file_path <- file.path(folder_path, "rtci_benjeff_sample.csv")
+file_path <- file.path(folder_path, "final_sample.csv")
 
 # Write the data frame to a .csv file
 write.csv(df_w_ref, file = file_path, row.names = FALSE)
 
 # Write the data frame to the data folder in Github repo
-write.csv(df_w_ref, "data/rtci_benjeff_sample.csv")
+write.csv(df_w_ref, "data/final_sample.csv")
 ```
 
 
@@ -478,6 +481,11 @@ find all months with 0 larcenies
 ```{r}
 theft_zero <- df_mvs_12mo %>%
   filter(Theft == 0)
+
+murd_over_theft <- df_mvs_12mo %>%
+  filter(Murder > Theft)
+
+  
 
 ##some non-reportes from OH and MA expected
 ##tracy,ca; beaverton, or the review

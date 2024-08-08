@@ -317,6 +317,7 @@ html, body {
     color: #00333a;
     opacity: 0.9;
     font-size: 0.8em;
+    z-index: 1001;
 }
 
 #download-button {
@@ -370,19 +371,28 @@ html, body {
     }
 
     .filters-container {
-        font-size: 1.75vw;
+        font-size: 2.15vw;
         gap: 0.25rem;
     }
 
     .dropdown-btn {
-        font-size: 1.75vw;
+        font-size: 2.15vw;
         border-radius: 4px;
         padding: 3px;
     }
 
     .dropdown-menu {
         border-radius: 4px;
+        font-size: 2.15vw;
+        min-width: 16vw;
     }
+
+    .dropdown-search {
+        width: 14vw;
+        font-size: 2.15vw;
+        height: 4vw;
+        margin: 1px 4px 1px 4px; /* Adjust margin to keep padding consistent */
+    }   
 
     .graph-kpis-container {
         flex-direction: column;
@@ -414,7 +424,7 @@ html, body {
         align-items: center;
         justify-content: center;
         margin: 0.25rem;
-        padding-top: 0.25rem;
+        padding-top: 0.4rem;
         padding-bottom: 0.8rem;
         font-size: 2vw;
         text-align: center;
@@ -443,9 +453,22 @@ html, body {
     .kpi-box p strong {
         font-size: 2em;
     }
+
+    .tooltip {
+        font-size: 0.4em;
+        padding: 3px;
+    }
+
+    #download-button {
+        font-size: 1.5vw;
+        padding: 4px 8px;
+    }
 }
 
-.caption-group text {
+/* Styles for the caption and source link graph */
+
+.caption-group text,
+.source-group text {
     font-size: 1.5vh;
 }
 
@@ -458,7 +481,6 @@ html, body {
 .source-link:hover {
     fill: #2d5df96d;
 }
-
 
 @media (max-width: 1000px) {
     .caption-group text {
@@ -479,6 +501,20 @@ html, body {
         font-size: 0.9vh;
     }
 }
+
+@media (max-width: 600px) {
+    .caption-group text {
+        font-size: 1vh;
+    }
+
+    .source-link {
+        font-size: 1vh;
+    }
+}
+
+
+
+/* Styles for the axis font */
 
 .axis-text {
     font-size: 13px !important;

@@ -173,22 +173,29 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function updateKPIBox1(filteredData) {
         const kpiBox1 = document.getElementById("kpi-box1");
-
+    
         const mostRecentDate = d3.max(filteredData, d => d.date);
-        const mostRecentYear = mostRecentDate.getFullYear();
-        const mostRecentMonth = mostRecentDate.getMonth() + 1;
-
+        const mostRecentYear = mostRecentDate ? mostRecentDate.getFullYear() : null;
+        const mostRecentMonth = mostRecentDate ? mostRecentDate.getMonth() + 1 : null;
+    
         const ytdData = filteredData.filter(d =>
             d.date.getFullYear() === mostRecentYear &&
             d.date.getMonth() + 1 <= mostRecentMonth
         );
-
+    
         const ytdSum = d3.sum(ytdData, d => d.count);
-
         const formattedYtdSum = d3.format(",")(ytdSum);
-
+    
         const selectedCrimeType = crimeTypeBtn.textContent;
-
+    
+        if (filteredData.length === 0 || filteredData.every(d => isNaN(d.value))) {
+            kpiBox1.innerHTML = `
+                <h2>Year to Date ${selectedCrimeType}</h2>
+                <p>Missing data.</p>
+            `;
+            return;
+        }
+    
         kpiBox1.innerHTML = `
             <h2>Year to Date ${selectedCrimeType}</h2>
             <p>Jan '${mostRecentYear.toString().slice(-2)} through ${d3.timeFormat("%B")(mostRecentDate)} '${mostRecentYear.toString().slice(-2)}</p>
@@ -198,83 +205,136 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function updateKPIBox2(filteredData) {
         const kpiBox2 = document.getElementById("kpi-box2");
-
+    
         const mostRecentDate = d3.max(filteredData, d => d.date);
-        const mostRecentYear = mostRecentDate.getFullYear();
-        const mostRecentMonth = mostRecentDate.getMonth() + 1;
-
+        const mostRecentYear = mostRecentDate ? mostRecentDate.getFullYear() : null;
+        const mostRecentMonth = mostRecentDate ? mostRecentDate.getMonth() + 1 : null;
+    
         const startDatePrevYear = new Date(mostRecentYear - 1, 0, 1);
         const endDatePrevYear = new Date(mostRecentYear - 1, mostRecentMonth, 0);
-
+    
         const ytdDataPrevYear = filteredData.filter(d =>
             d.date >= startDatePrevYear && d.date <= endDatePrevYear
         );
-
+    
         const ytdSumPrevYear = d3.sum(ytdDataPrevYear, d => d.count);
-
         const formattedYtdSumPrevYear = d3.format(",")(ytdSumPrevYear);
-
+    
         const selectedCrimeType = crimeTypeBtn.textContent;
-
+    
+        if (filteredData.length === 0 || filteredData.every(d => isNaN(d.value))) {
+            kpiBox2.innerHTML = `
+                <h2>Previous YTD ${selectedCrimeType}</h2>
+                <p>Missing data.</p>
+            `;
+            return;
+        }
+    
         kpiBox2.innerHTML = `
             <h2>Previous YTD ${selectedCrimeType}</h2>
             <p>Jan '${(mostRecentYear - 1).toString().slice(-2)} through ${d3.timeFormat("%B")(new Date(mostRecentYear - 1, mostRecentMonth - 1, 1))} '${(mostRecentYear - 1).toString().slice(-2)}</p>
             <p><strong>${formattedYtdSumPrevYear}</strong></p>
         `;
     }
+    
 
     function updateKPIBox3(filteredData) {
         const kpiBox3 = document.getElementById("kpi-box3");
-
+    
         const mostRecentDate = d3.max(filteredData, d => d.date);
-        const mostRecentYear = mostRecentDate.getFullYear();
-        const mostRecentMonth = mostRecentDate.getMonth() + 1;
-
+        const mostRecentYear = mostRecentDate ? mostRecentDate.getFullYear() : null;
+        const mostRecentMonth = mostRecentDate ? mostRecentDate.getMonth() + 1 : null;
+    
         const startDateCurrentYear = new Date(mostRecentYear, 0, 1);
         const endDateCurrentYear = new Date(mostRecentYear, mostRecentMonth, 0);
         const startDatePrevYear = new Date(mostRecentYear - 1, 0, 1);
         const endDatePrevYear = new Date(mostRecentYear - 1, mostRecentMonth, 0);
-
+    
         const ytdDataCurrentYear = filteredData.filter(d =>
             d.date >= startDateCurrentYear && d.date <= endDateCurrentYear
         );
-
+    
         const ytdDataPrevYear = filteredData.filter(d =>
             d.date >= startDatePrevYear && d.date <= endDatePrevYear
         );
-
+    
         const ytdSumCurrentYear = d3.sum(ytdDataCurrentYear, d => d.count);
         const ytdSumPrevYear = d3.sum(ytdDataPrevYear, d => d.count);
-
+    
         const percentChange = ((ytdSumCurrentYear - ytdSumPrevYear) / ytdSumPrevYear) * 100;
-
+        const formattedPercentChange = isNaN(percentChange) ? "N/A" : `${percentChange.toFixed(1)}%`;
+    
         const selectedCrimeType = crimeTypeBtn.textContent;
-
+    
+        if (filteredData.length === 0 || filteredData.every(d => isNaN(d.value))) {
+            kpiBox3.innerHTML = `
+                <h2>% Change in ${selectedCrimeType} YTD</h2>
+                <p>Missing data.</p>
+            `;
+            return;
+        }
+    
         kpiBox3.innerHTML = `
             <h2>% Change in ${selectedCrimeType} YTD</h2>
             <p>Jan '${mostRecentYear.toString().slice(-2)} - ${d3.timeFormat("%B")(mostRecentDate)} '${mostRecentYear.toString().slice(-2)} vs. Jan '${(mostRecentYear - 1).toString().slice(-2)} - ${d3.timeFormat("%B")(new Date(mostRecentYear - 1, mostRecentMonth - 1, 1))} '${(mostRecentYear - 1).toString().slice(-2)}</p>
-            <p><strong>${percentChange.toFixed(1)}%</strong></p>
+            <p><strong>${formattedPercentChange}</strong></p>
         `;
     }
-
+    
     function abbreviateNumber(value) {
         if (value >= 1e6) {
             return (value / 1e6).toFixed(1) + "M";
         }
-        if (value >= 100000) {
+        if (value >= 1e4) {
             return (value / 1e3).toFixed(0) + "K";
         }
         return d3.format(",")(value);
     }
+
+    function abbreviateNumberForCaption(value) { // Add function to abbreviate caption pop (currently same)
+        if (value >= 1e6) {
+            return (value / 1e6).toFixed(2) + "M";
+        }
+        if (value >= 1e4) {
+            return (value / 1e3).toFixed(0) + "K";
+        }
+        return d3.format(",")(value);
+    }    
     
 
     function renderChart() {
         const filteredData = filterData(allData);
+    
+        // Check if there are any valid values
+        const hasValidValues = filteredData.some(d => !isNaN(d.value));
+    
+        // Clear existing content
+        d3.select("#line-graph-container").html("");
+    
+        if (!hasValidValues) {
+            // Display the message if no valid values are found
+            d3.select("#line-graph-container").append("div")
+                .attr("class", "no-data-message")
+                .style("color", "#00333a")
+                .text("Missing some or all data for the selected crime type.");
 
-        if (filteredData.length === 0) {
-            console.warn("No data to render the chart.");
+            // Update KPI boxes with "Missing data"
+            updateKPIBox1([]);
+            updateKPIBox2([]);
+            updateKPIBox3([]);   
+            
             return;
         }
+    
+        // Re-add the download button
+    d3.select("#line-graph-container")
+    .append("button")
+    .attr("id", "download-button")
+    .html('<i class="fas fa-download"></i> Download Filtered Data')
+    .on("click", function() {
+        const filteredData = filterData(allData);
+        downloadFilteredData(filteredData);
+    });
 
         updateKPIBox1(filteredData);
         updateKPIBox2(filteredData);
@@ -489,7 +549,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .text("source.");
 
 
-        const population = abbreviateNumber(filteredData[0].population);
+        const population = abbreviateNumberForCaption(filteredData[0].population);
         const agencyCount = filteredData[0].agency_count || "N/A";
 
         const captionGroup = svg.append("g")

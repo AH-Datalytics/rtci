@@ -465,11 +465,32 @@ html, body {
     }
 }
 
+/* Some extra mobile phone styling */
 @media (max-width: 500px) {
     #download-button {
         padding: 3px 6px;
         border-radius: 3px
     }
+
+    .filters-container {
+        font-size: 2.25vw;
+    }
+
+    .dropdown-btn {
+        font-size: 2.25vw;
+    }
+
+    .dropdown-menu {
+        border-radius: 4px;
+        font-size: 2.25vw;
+        min-width: 18vw;
+    }
+
+    .dropdown-search {
+        width: 16vw;
+        font-size: 2.25vw;
+        height: 4vw;
+    }   
 }
 
 /* Styles for the caption and source link graph */

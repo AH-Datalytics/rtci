@@ -468,7 +468,7 @@ html, body {
 @media (max-width: 500px) {
     #download-button {
         padding: 3px 6px;
-        border-radius: 1px
+        border-radius: 2px
     }
 }
 

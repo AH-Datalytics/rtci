@@ -54,6 +54,8 @@ final_sample <- final_sample %>%
          burglary_mvs_12mo, theft_mvs_12mo, motor_vehicle_theft_mvs_12mo, property_crime_mvs_12mo, 
          population, population_grouping, source_link)
 
+
+
 # Convert crime data to long format for counts
 final_sample_long_counts <- final_sample %>%
   pivot_longer(cols = c(murder, rape, robbery, aggravated_assault, violent_crime, 
@@ -69,6 +71,8 @@ final_sample_long_mvs <- final_sample %>%
                values_to = "mvs_12mo") %>%
   mutate(crime_type = str_replace(crime_type_mvs_12mo, "_mvs_12mo", "")) %>%
   select(-crime_type_mvs_12mo)
+
+
 
 # Combine counts and mvs_12mo data
 final_sample_long <- final_sample_long_counts %>%
@@ -87,6 +91,7 @@ final_sample_inner <- final_sample_long_counts %>%
 final_sample_full <- final_sample_long_counts %>%
   full_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "location_full", "crime_type",
                                           "population", "population_grouping", "source_link"))
+
 
 
 # Rename state_ucr_link

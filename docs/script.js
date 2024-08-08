@@ -316,6 +316,15 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
     
+        // Re-add the download button
+    d3.select("#line-graph-container")
+    .append("button")
+    .attr("id", "download-button")
+    .html('<i class="fas fa-download"></i> Download Filtered Data')
+    .on("click", function() {
+        const filteredData = filterData(allData);
+        downloadFilteredData(filteredData);
+    });
 
         updateKPIBox1(filteredData);
         updateKPIBox2(filteredData);

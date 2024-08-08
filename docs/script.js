@@ -553,25 +553,25 @@ document.addEventListener("DOMContentLoaded", function() {
         const agencyCount = filteredData[0].agency_count || "N/A";
 
         // Define the captionGroup as before
-const captionGroup = svg.append("g")
-.attr("transform", `translate(0, ${height + margin.bottom - 10})`)
-.attr("text-anchor", "start")
-.attr("class", "caption-group");
+        const captionGroup = svg.append("g")
+        .attr("transform", `translate(0, ${height + margin.bottom - 10})`)
+        .attr("text-anchor", "start")
+        .attr("class", "caption-group");
 
-// Function to adjust caption position based on screen size
-function adjustCaptionForMobile() {
-const isMobile = window.innerWidth <= 600; // Adjust for screens 600px or less
+        // Function to adjust caption position based on screen size
+        function adjustCaptionForMobile() {
+        const isMobile = window.innerWidth <= 600; // Adjust for screens 600px or less
 
-if (isMobile) {
-    // For mobile view, adjust the translate value
-    captionGroup.attr("transform", `translate(-60, ${height + margin.bottom - 10})`);
-    sourceGroup.attr("transform", `translate(${width + 20}, ${height + margin.bottom - 10})`);
-} else {
-    // For non-mobile view, use the standard translate value
-    captionGroup.attr("transform", `translate(0, ${height + margin.bottom - 10})`);
-    sourceGroup.attr("transform", `translate(${width}, ${height + margin.bottom - 10})`);
-}
-}
+        if (isMobile) {
+            // For mobile view, adjust the translate value
+            captionGroup.attr("transform", `translate(-60, ${height + margin.bottom - 10})`);
+            sourceGroup.attr("transform", `translate(${width + 20}, ${height + margin.bottom - 10})`);
+        } else {
+            // For non-mobile view, use the standard translate value
+            captionGroup.attr("transform", `translate(0, ${height + margin.bottom - 10})`);
+            sourceGroup.attr("transform", `translate(${width}, ${height + margin.bottom - 10})`);
+        }
+        }
 
 // Initial adjustment
 adjustCaptionForMobile();

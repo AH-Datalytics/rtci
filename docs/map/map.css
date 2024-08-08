@@ -1,6 +1,6 @@
 /* Container for the map */
 #map-container {
-    width: 75%;
+    width: 90%;
     height: 65vh; /* Adjust height as necessary */
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

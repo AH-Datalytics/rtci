@@ -40,25 +40,6 @@ body {
     display: block;
 }
 
-.rtci-header {
-    color: #f28106;
-    font-family: 'Roboto Condensed', Arial, sans-serif;
-    font-size: 3vw;
-    text-align: center;
-    margin-top: 2rem;
-}
-
-.filters-container {
-    color: #00333a;
-    font-family: 'Roboto Condensed', Arial, sans-serif;
-    font-size: 1.5vw;
-    text-align: center;
-    margin: 1rem 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-}
 
 .rtci-table-container {
     width: 90%;

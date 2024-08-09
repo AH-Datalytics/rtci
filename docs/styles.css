@@ -478,13 +478,13 @@ html, body {
 
     .dropdown-btn {
         font-size: 2.25vw;
+        padding: 0.15em;
     }
 
     .dropdown-menu {
         border-radius: 4px;
         font-size: 2.25vw;
         min-width: 22vw;
-        padding-top: 4px;
     }
 
     .dropdown-search {

@@ -170,18 +170,19 @@ thead th {
     }
 }
 
+/* Media Queries for Responsive Design for tab buttons*/
 @media (max-width: 550px) {
     .tab-link, .nav-button {
-        font-size: 2vw;
-        padding: 1vw 2vw;
-        border-radius: 8px;
+        font-size: 2.25vw; /* Adjust font size for smaller screens */
+        padding: 0.9vw 1.8vw; /* Adjust padding for smaller screens */
+        border-radius: 6px;
         margin-bottom: 0;
+        margin-right: 3px;
     }
 
     .tab-navigation {
-        top: -27px;
+        top: -25px; /* Adjust this value to move tabs closer to the graph */
     }
-    
 }
 
 

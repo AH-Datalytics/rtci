@@ -40,25 +40,6 @@ body {
     display: block;
 }
 
-.rtci-header {
-    color: #f28106;
-    font-family: 'Roboto Condensed', Arial, sans-serif;
-    font-size: 3vw;
-    text-align: center;
-    margin-top: 2rem;
-}
-
-.filters-container {
-    color: #00333a;
-    font-family: 'Roboto Condensed', Arial, sans-serif;
-    font-size: 1.5vw;
-    text-align: center;
-    margin: 1rem 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-}
 
 .rtci-table-container {
     width: 90%;
@@ -189,18 +170,19 @@ thead th {
     }
 }
 
+/* Media Queries for Responsive Design for tab buttons*/
 @media (max-width: 550px) {
     .tab-link, .nav-button {
-        font-size: 2vw;
-        padding: 1vw 2vw;
-        border-radius: 8px;
+        font-size: 2.25vw; /* Adjust font size for smaller screens */
+        padding: 0.9vw 1.8vw; /* Adjust padding for smaller screens */
+        border-radius: 6px;
         margin-bottom: 0;
+        margin-right: 3px;
     }
 
     .tab-navigation {
-        top: -27px;
+        top: -25px; /* Adjust this value to move tabs closer to the graph */
     }
-    
 }
 
 

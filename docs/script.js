@@ -424,8 +424,8 @@ document.addEventListener("DOMContentLoaded", function() {
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a");
 
-        const lineThickness = Math.max(Math.min(width * 0.003, 2.5), 1);
-        const dotSize = Math.max(Math.min(width * 0.003, 2.5), 1);
+        const lineThickness = Math.max(Math.min(width * 0.005, 2.5), 1);
+        const dotSize = Math.max(Math.min(width * 0.005, 2.5), 1);
 
         const line = svg.append("path")
             .datum(filteredData)
@@ -552,10 +552,33 @@ document.addEventListener("DOMContentLoaded", function() {
         const population = abbreviateNumberForCaption(filteredData[0].population);
         const agencyCount = filteredData[0].agency_count || "N/A";
 
+        // Define the captionGroup as before
         const captionGroup = svg.append("g")
-            .attr("transform", `translate(0, ${height + margin.bottom - 10})`)
-            .attr("text-anchor", "start")
-            .attr("class", "caption-group");
+        .attr("transform", `translate(0, ${height + margin.bottom - 10})`)
+        .attr("text-anchor", "start")
+        .attr("class", "caption-group");
+
+        // Function to adjust caption position based on screen size
+        function adjustCaptionForMobile() {
+        const isMobile = window.innerWidth <= 600; // Adjust for screens 600px or less
+
+        if (isMobile) {
+            // For mobile view, adjust the translate value
+            captionGroup.attr("transform", `translate(-60, ${height + margin.bottom - 10})`);
+            sourceGroup.attr("transform", `translate(${width + 20}, ${height + margin.bottom - 10})`);
+        } else {
+            // For non-mobile view, use the standard translate value
+            captionGroup.attr("transform", `translate(0, ${height + margin.bottom - 10})`);
+            sourceGroup.attr("transform", `translate(${width}, ${height + margin.bottom - 10})`);
+        }
+        }
+
+// Initial adjustment
+adjustCaptionForMobile();
+
+// Adjust on window resize
+window.addEventListener('resize', adjustCaptionForMobile);
+
 
         const captionTextElement = captionGroup.append("text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
@@ -567,16 +590,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
         captionTextElement.append("tspan")
             .text(population)
-            .attr("dx", "0.2em")
+            .attr("dx", "0em")
             .style("fill", "#f28106");
 
         captionTextElement.append("tspan")
             .text("Number of Agencies : ")
-            .attr("dx", "3em");
+            .attr("dx", "1.5em");
 
         captionTextElement.append("tspan")
             .text(agencyCount)
-            .attr("dx", "0.2em")
+            .attr("dx", "0em")
             .style("fill", "#f28106");
     }
 

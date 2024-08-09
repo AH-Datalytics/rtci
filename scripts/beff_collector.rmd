@@ -2,6 +2,7 @@
 title: "ben/jeff collector"
 output: github_document
 started: "07-23-2024"
+updated: "08-09-2024"
 ---
 read in the data from the ben/jeff folder
 ```{r}
@@ -82,7 +83,7 @@ read_csvs <- function(folder_path) {
 ldf <- read_csvs(data_dir)
 
 # Print the names of the data frames in the list to verify
-print(names(ldf))
+#print(names(ldf))
 
 head(ldf[1])
 ```
@@ -207,39 +208,10 @@ city state column for getting unique number of agencies
 ```{r}
 combined_df <- combined_df %>% mutate(city_state = paste(`Agency Name`, State, sep = ", "))
 
+#31,442 obs
 length(unique(combined_df$city_state))
 #351 agencies
-#31,442 obs
 length(unique(combined_df$`Agency Name`))
-
-
-unique_df <- combined_df %>%
-  select(city_state) %>%
-  distinct()
-
-
-df1<- as.data.frame(unique(combined_df$city_state))
-df2<- as.data.frame(unique(combined_df$city_state))
-
-
-unique(combined_df$city_state)
-unique(combined_df$city_state)
-
-merged_df <- full_join(df1, df2, by = "")
-
-# Print the merged data frame
-print("Merged Data Frame:")
-print(merged_df)
-
-# Find records without a match in df1
-unmatched_in_df1 <- anti_join(df2, df1, by = "city_state")
-print("Records in df2 without a match in df1:")
-print(unmatched_in_df1)
-
-# Find records without a match in df2
-unmatched_in_df2 <- anti_join(df1, df2, by = "city_state")
-print("Records in df1 without a match in df2:")
-print(unmatched_in_df2)
 ```
 create variables for audit
 ```{r}
@@ -283,19 +255,25 @@ cdf <- combined_df %>%
 # Print the result
 head(cdf)
 ```
-vc/pc groupings
+audit 2 and 3 months
 ```{r}
-# Add new columns for violent and property crime
-cdf1 <- cdf %>%
-    mutate(
-    vio_crime = rowSums(select(., Murder, Rape, Robbery, `Aggravated Assault`), na.rm = TRUE),
-    prop_crime = rowSums(select(., Burglary, Theft, `Motor Vehicle Theft`), na.rm = TRUE)
-  )
+# Filter records with any NA values for two months previous
+na_two_months_previous <- cdf %>%
+  filter(Month == two_months_previous_month & Year == two_months_previous_year) %>%
+  filter(rowSums(is.na(.)) > 0)
+
+# Filter records with any NA values for three months previous
+na_three_months_previous <- cdf %>%
+  filter(Month == three_months_previous_month & Year == three_months_previous_year) %>%
+  filter(rowSums(is.na(.)) > 0)
+
+# Print the data frames
+print("Records with NA values two months previous:")
+print(na_two_months_previous)
+
+print("Records with NA values three months previous:")
+print(na_three_months_previous)
 ```
-
-
-
-
 without non-reporters for 45 day lag month //first month is June
 ```{r}
 # First need to create a df from na_two_months_previous 
@@ -306,11 +284,42 @@ non_reporters <- na_two_months_previous %>%
 remove_agencies <- unique(non_reporters$`Agency Name`)
 
 # Filter out rows where Agency_Name is in the list of values_to_remove
-cdf_nwcounts<- cdf1 %>% filter(!`Agency Name` %in% remove_agencies)
+cdf_nwcounts<- cdf %>% filter(!`Agency Name` %in% remove_agencies)
+```
+vc/pc groupings
+```{r}
+# Add new columns for violent and property crime
+cdf_vcpc<- cdf_nwcounts %>% 
+    mutate(
+    vio_crime = rowSums(select(., Murder, Rape, Robbery, `Aggravated Assault`), na.rm = TRUE),
+    prop_crime = rowSums(select(., Burglary, Theft, `Motor Vehicle Theft`), na.rm = TRUE)
+  )
+
+# save a copy for later
+cdf_vcpc_nats <- cdf_vcpc
+
+cdf_vcpc <- cdf_vcpc %>% select(city_state, vio_crime, prop_crime, Year, Month)
+
+```
+join to main dataframe
+```{r}
+cdf1 <- merge(cdf, cdf_vcpc, by = c("city_state", "Month", "Year"))
+```
+drop cdf1 extra columns after fixing
+```{r}
+cdf2 <- cdf1 %>%
+  mutate(`Violent Crime` = vio_crime,
+          `Property Crime` = prop_crime ) %>%
+            select(-city_state, -vio_crime, -prop_crime)
+
+cdf_vcpc_nats <- cdf_vcpc_nats %>%
+  mutate(`Violent Crime` = vio_crime,
+          `Property Crime` = prop_crime ) %>%
+            select(-city_state, -vio_crime, -prop_crime)
 ```
 calculate and add nationwide counts
 ```{r}
-nationwide_counts <- cdf_nwcounts %>%
+nationwide_counts <- cdf_vcpc_nats %>%
   group_by(Year, Month) %>%
   summarise(
     Murder= sum(Murder, na.rm = TRUE),
@@ -320,8 +329,8 @@ nationwide_counts <- cdf_nwcounts %>%
     Burglary= sum(Burglary, na.rm = TRUE),
     Theft = sum(Theft, na.rm = TRUE),
     `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
-    `Violent Crime` = sum(vio_crime, na.rm = TRUE),
-    `Property Crime` = sum(prop_crime, na.rm = TRUE),
+    `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
+    `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
     .groups = 'drop'
   )
 
@@ -334,39 +343,37 @@ nationwide_counts$`Agency Name` <- "Nationwide Count"
 
 nationwide_counts$State <- "All Agencies"
 ```
-drop cdf1 extra columns after fixing
-```{r}
-cdf2 <- cdf1 %>%
-  mutate(`Violent Crime` = vio_crime,
-          `Property Crime` = prop_crime ) %>%
-            select(-city_state, -vio_crime, -prop_crime)
-
-```
 bind the nationwide counts to the bottom
 ```{r}
 cdf2 <- bind_rows(cdf2, nationwide_counts)
 head(cdf2)
 ```
-audit 2 and 3 months
+calculate and add state counts
 ```{r}
-# Filter records with any NA values for two months previous
-na_two_months_previous <- cdf2 %>%
-  filter(Month == two_months_previous_month & Year == two_months_previous_year) %>%
-  filter(rowSums(is.na(.)) > 0)
+state_counts <- cdf_vcpc_nats %>%
+  group_by(Year, Month, State) %>%
+  summarise(
+    Murder= sum(Murder, na.rm = TRUE),
+    Rape= sum(Rape, na.rm = TRUE),
+    Robbery= sum(Robbery, na.rm = TRUE),
+    `Aggravated Assault`= sum(`Aggravated Assault`, na.rm = TRUE),
+    Burglary= sum(Burglary, na.rm = TRUE),
+    Theft = sum(Theft, na.rm = TRUE),
+    `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
+    `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
+    `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
+    .groups = 'drop'
+  )
 
-# Filter records with any NA values for three months previous
-na_three_months_previous <- cdf2 %>%
-  filter(Month == three_months_previous_month & Year == three_months_previous_year) %>%
-  filter(rowSums(is.na(.)) > 0)
+# Concatenate "State, Full Sample" for each observation
+sc1 <- state_counts %>%
+  mutate(`Agency Name` = paste(State, "Full Sample", sep = ", "))
 
-# Print the data frames
-print("Records with NA values two months previous:")
-print(na_two_months_previous)
-
-print("Records with NA values three months previous:")
-print(na_three_months_previous)
+#join state counts with agency names to sample
+cdf3 <- bind_rows(cdf2, sc1)
+head(cdf3)
 ```
-generate 12mo mvsums - for all agencies/month/year obs and across all crime types
+get mvs_12mo for all crime categories and groupings
 ```{r}
 # Function to calculate 12-month cumulative sum 
 mvs_12mo <- function(df) {
@@ -381,16 +388,16 @@ mvs_12mo <- function(df) {
 }
 
 # Apply the function to the single dataframe
-df_mvs_12mo1 <- mvs_12mo(cdf2)
+df_mvs_12mo1 <- mvs_12mo(cdf3)
 
 # Print the result to verify
 head(df_mvs_12mo1)
 ```
-drop 2017
+drop 2017 - just needed it for 12mo MVS to start in 2018
 ```{r}
 df_mvs_12mo1 <- df_mvs_12mo1 %>% filter(Year != 2017)
 ```
-make a new date field 
+make a new city_state field just to check no agencies were kicked, etc.
 ```{r}
 df_mvs_12mo1 <- df_mvs_12mo1 %>% mutate(city_state = paste(`Agency Name`, State, sep = ", "))
 # city state unique id
@@ -430,208 +437,4 @@ write.csv(df_w_ref, file = file_path, row.names = FALSE)
 
 # Write the data frame to the data folder in Github repo
 write.csv(df_w_ref, "data/final_sample.csv")
-```
-
-
-
-
-
-
-
-
-
-calculate and add state counts
-```{r}
-state_counts <- cdf1 %>%
-  group_by(Year, Month, State) %>%
-  summarise(
-    Murder= sum(Murder, na.rm = TRUE),
-    Rape= sum(Rape, na.rm = TRUE),
-    Robbery= sum(Robbery, na.rm = TRUE),
-    `Aggravated Assault`= sum(`Aggravated Assault`, na.rm = TRUE),
-    Burglary= sum(Burglary, na.rm = TRUE),
-    Theft = sum(Theft, na.rm = TRUE),
-    `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
-    .groups = 'drop'
-  )
-
-state_counts$`Agency Name` <- "All Agencies"
-
-#join state counts with agency names to sample
-cdf3 <- bind_rows(cdf1, state_counts)
-head(cdf3)
-```
-quick jeff ask
-```{r}
-#his_2022 <- nationwide_counts %>% filter(Year ==2022)
-
-folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data"
-
-# Create the full file path
-file_path <- file.path(folder_path, "agency_list_080624.csv")
-
-# Write the data frame to a .csv file
-write.csv(df1, file = file_path, row.names = FALSE)
-```
-
-
-
-
-find all months with 0 larcenies
-```{r}
-theft_zero <- df_mvs_12mo %>%
-  filter(Theft == 0)
-
-murd_over_theft <- df_mvs_12mo %>%
-  filter(Murder > Theft)
-
-  
-
-##some non-reportes from OH and MA expected
-##tracy,ca; beaverton, or the review
-```
-
-
-
-
-
-AUDITING
-```{r}
-get_column_names_and_formats <- function(df_list) {
-  # Extract column names and formats from each data frame
-  column_list <- lapply(df_list, function(df) {
-    colnames <- colnames(df)
-    formats <- sapply(df, class)
-    data.frame(ColumnName = colnames, Format = formats, stringsAsFactors = FALSE)
-  })
-  
-  # Combine the column name and format information into a single data frame
-  col_df <- do.call(rbind, lapply(seq_along(column_list), function(i) {
-    df <- column_list[[i]]
-    df$DataFrame <- names(df_list)[i]
-    df
-  }))
-  
-  return(col_df)
-}
-
-# Function to identify rarely used columns
-identify_rare_columns <- function(col_df, threshold = 1) {
-  # Count the frequency of each column name
-  col_count <- col_df %>%
-    group_by(ColumnName) %>%
-    summarize(Frequency = n()) %>%
-    arrange(Frequency)
-  
-  # Identify columns used in fewer data frames than the threshold
-  rare_columns <- col_count %>%
-    filter(Frequency <= threshold)
-  
-  return(rare_columns)
-}
-
-```
-
-
-
-```{r}
-# Get column names from each data frame
-col_df <- get_column_names_and_formats(ldf2)
-
-# Print the breakdown of column names
-print(col_df)
-```
-```{r}
-# Identify rarely used columns (e.g., used in 1 or fewer data frames)
-rare_columns <- identify_rare_columns(col_df, threshold = 1)
-
-# Print the rarely used columns
-print(rare_columns)
-```
-
-duplicates?
-```{r}
-# Function to find unique values for "Agency Name" in a dataframe
-get_unique_agencies <- function(df) {
-  unique(df$`Agency Name`)
-}
-
-# Find unique values for "Agency Name" in all dataframes
-unique_agencies_list <- lapply(ldf3, get_unique_agencies)
-
-# Combine all unique values into a single vector
-all_unique_agencies <- unlist(unique_agencies_list)
-
-# Find duplicate agency names across all dataframes
-duplicate_agencies <- all_unique_agencies[duplicated(all_unique_agencies)]
-
-# View the unique agency names
-print("Unique Agency Names Across All Dataframes")
-print(unique(all_unique_agencies))
-
-# View the duplicate agency names
-print("Duplicate Agency Names Across All Dataframes")
-print(duplicate_agencies)
-```
-what are we kicking when we rowbind?
-```{r}
-# Function to extract unique values from 'Agency.Name' column in each dataframe
-extract_unique_agencies <- function(df_list, column_name) {
-  unique_values <- df_list %>%
-    map(~ .x %>% pull(.data[[column_name]])) %>%
-    unlist() %>%
-    unique()
-  
-  return(unique_values)
-}
-
-# Extract unique 'Agency.Name' values from the list of dataframes
-unique_agencies <- extract_unique_agencies(ldf3, "Agency Name")
-
-# Create a dataframe with these unique values
-df1 <- as.data.frame(unique(unique_agencies))
-
-
-# Count occurrences of values in the 'name' column for both dataframes
-counts_df1 <- as.data.frame(table(df1$name))
-counts_df2 <- as.data.frame(table(df2$name))
-
-# Rename columns for clarity
-colnames(counts_df1) <- c("name", "count_df1")
-colnames(counts_df2) <- c("name", "count_df2")
-
-# Merge the two count dataframes by the 'name' column
-comparison <- merge(counts_df1, counts_df2, by = "name", all = TRUE)
-
-# Replace NA values with 0 (if a name is not found in one of the dataframes)
-comparison[is.na(comparison)] <- 0
-
-# View the comparison
-print("Comparison of Value Counts in 'name' Column Across Two Dataframes")
-print(comparison)
-
-
-# Function to extract unique values from a column and save as a vector
-extract_unique_values <- function(df, column_name) {
-  unique_values <- df %>% pull(.data[[column_name]]) %>% unique()
-  return(unique_values)
-}
-
-# Extract unique values from 'Agency.Name' column in both dataframes
-unique_values_df1 <- extract_unique_values(df1, "Agency.Name")
-unique_values_df2 <- extract_unique_values(combined_df, "Agency Name")
-
-# Compare the unique values between the two vectors
-only_in_df1 <- setdiff(unique_values_df1, unique_values_df2)
-only_in_df2 <- setdiff(unique_values_df2, unique_values_df1)
-in_both <- intersect(unique_values_df1, unique_values_df2)
-
-# Print the comparison results
-cat("Unique values only in df1:\n")
-print(only_in_df1)
-cat("\nUnique values only in df2:\n")
-print(only_in_df2)
-cat("\nUnique values in both df1 and df2:\n")
-print(in_both)
-
 ```

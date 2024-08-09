@@ -3,6 +3,7 @@ library(tidyverse)
 library(lubridate)
 library(datasets)
 library(janitor)
+library(stringr)
 
 # Load Data
 final_sample <- read_csv("../data/final_sample.csv")
@@ -116,6 +117,16 @@ final_sample_long <- final_sample_long %>%
                                                                               ifelse(crime_type == "property_crime", "Property Crimes", crime_type))))))))))
 
 
+# Fix State Full Sample Agency Naming
+final_sample_long <- final_sample_long %>% 
+  mutate(agency_name = ifelse(str_detect(agency_name, "Full Sample"), "Full Sample", agency_name))
+
+# Fix Agency_Full Column
+final_sample_long <- final_sample_long %>%
+  mutate(agency_full = ifelse(str_detect(agency_full, "^[A-Z]{2}, "), 
+                              str_sub(agency_full, 5, nchar(agency_full)),
+                              agency_full))
+
 
 # Print the first few rows of the cleaned data with all columns
 print(head(final_sample_long), width = Inf)
@@ -220,6 +231,10 @@ final_sample <- final_sample %>%
          violent_crime,
          property_crime
          )
+
+# Fix State Full Sample Agency Naming
+final_sample <- final_sample %>% 
+  mutate(agency_name = ifelse(str_detect(agency_name, "Full Sample"), "Full Sample", agency_name))
 
 final_sample <- final_sample %>% 
   mutate(month_year = paste(month(date, label = TRUE, abbr = FALSE), year(date), sep = " "))

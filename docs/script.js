@@ -99,61 +99,84 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateFilters(data) {
         const severityOrder = ["Violent Crimes", "Murders", "Rapes", "Robberies", "Aggravated Assaults", "Property Crimes", "Burglaries", "Thefts", "Motor Vehicle Thefts"];
         const crimeTypes = severityOrder.filter(crimeType => data.some(d => d.crime_type === crimeType));
-        const states = [...new Set(data.map(d => d.state_name))].sort();
-        const agencies = [...new Set(data.map(d => d.agency_name))].sort();
-
+    
+        let states = [...new Set(data.map(d => d.state_name))];
+    
+        // Remove "Nationwide" from the list if it exists
+        const nationwideIndex = states.indexOf("Nationwide");
+        if (nationwideIndex > -1) {
+            states.splice(nationwideIndex, 1);  // Remove "Nationwide" from its original position
+        }
+    
+        // Sort the remaining states alphabetically
+        states.sort();
+    
+        // Add "Nationwide" back at the beginning of the list
+        states.unshift("Nationwide");
+    
+        // Create the dropdown with the ordered list
+        createSearchableDropdown(stateSelect, stateBtn, states);
+    
         crimeTypeSelect.innerHTML = "";
         crimeTypes.forEach(crimeType => {
             const option = createDropdownOption(crimeType, crimeType, crimeTypeSelect, crimeTypeBtn);
             crimeTypeSelect.appendChild(option);
         });
-
-        createSearchableDropdown(stateSelect, stateBtn, states);
-
+    
         const dataTypes = [
             { value: "count", text: "Monthly Totals" },
             { value: "mvs_12mo", text: "12 Month Rolling Sum" }
         ];
-
+    
         dataTypeDropdown.innerHTML = "";
         dataTypes.forEach(dataType => {
             const option = createDropdownOption(dataType.value, dataType.text, dataTypeDropdown, dataTypeBtn);
             dataTypeDropdown.appendChild(option);
         });
-
+    
         const defaultFilters = {
             crimeType: "Murders",
             state: "Nationwide",
             agency: "Full Sample",
             dataType: "count"
         };
-
+    
         retrieveFilterValues(defaultFilters);
     }
+    
 
     function updateAgencyFilter(data, selectedState) {
-        const agencies = [...new Set(data.filter(d => d.state_name === selectedState).map(d => d.agency_name))].sort();
+        let agencies = [...new Set(data.filter(d => d.state_name === selectedState).map(d => d.agency_name))];
+    
+        // Check if "Full Sample" exists
+        const fullSampleIndex = agencies.indexOf("Full Sample");
+        if (fullSampleIndex > -1) {
+            agencies.splice(fullSampleIndex, 1);  // Remove "Full Sample" from its original position
+            agencies.sort();  // Sort the remaining agencies alphabetically
+            agencies.unshift("Full Sample");  // Add "Full Sample" back at the top
+        } else {
+            agencies.sort();  // Just sort if "Full Sample" doesn't exist
+        }
+    
         createSearchableDropdown(agencySelect, agencyBtn, agencies);
-
+    
         const savedFilters = JSON.parse(sessionStorage.getItem('rtciFilters')) || {};
         const savedAgency = savedFilters.agency;
-
+    
         if (agencies.includes(savedAgency)) {
             agencyBtn.textContent = savedAgency;
             agencyBtn.dataset.value = savedAgency;
-        } else if (agencies.includes("Full Sample")) {
-            agencyBtn.textContent = "Full Sample";
-            agencyBtn.dataset.value = "Full Sample";
         } else if (agencies.length > 0) {
             agencyBtn.textContent = agencies[0];
             agencyBtn.dataset.value = agencies[0];
         }
-
+    
         const defaultAgencyOption = agencySelect.querySelector(`[data-value="${agencyBtn.dataset.value}"]`);
         if (defaultAgencyOption) defaultAgencyOption.classList.add('selected');
-
+    
         renderChart();
     }
+    
 
     function filterData(data) {
         const selectedCrimeType = crimeTypeBtn.dataset.value;

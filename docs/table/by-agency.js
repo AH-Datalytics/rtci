@@ -50,25 +50,53 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function populateFilters(data) {
-        const states = [...new Set(data.map(row => row.state_name))].sort();
-
+        let states = [...new Set(data.map(row => row.state_name))];
+    
+        // Remove "Nationwide" from the list if it exists
+        const nationwideIndex = states.indexOf("Nationwide");
+        if (nationwideIndex > -1) {
+            states.splice(nationwideIndex, 1);  // Remove "Nationwide" from its original position
+        }
+    
+        // Sort the remaining states alphabetically
+        states.sort();
+    
+        // Add "Nationwide" back at the beginning of the list
+        states.unshift("Nationwide");
+    
+        // Create the dropdown with the ordered list
         createSearchableDropdown(stateDropdown, stateBtn, states);
     }
 
     function updateAgencyFilter(state) {
-        const agencies = [...new Set(allData.filter(row => row.state_name === state).map(row => row.agency_name))].sort();
+        let agencies = [...new Set(allData.filter(row => row.state_name === state).map(row => row.agency_name))];
+    
+        // Check if "Full Sample" exists
+        const fullSampleIndex = agencies.indexOf("Full Sample");
+        if (fullSampleIndex > -1) {
+            agencies.splice(fullSampleIndex, 1);  // Remove "Full Sample" from its original position
+            agencies.sort();  // Sort the remaining agencies alphabetically
+            agencies.unshift("Full Sample");  // Add "Full Sample" back at the top
+        } else {
+            agencies.sort();  // Just sort if "Full Sample" doesn't exist
+        }
+    
         createSearchableDropdown(agencyDropdown, agencyBtn, agencies);
-
+    
         const savedFilters = JSON.parse(sessionStorage.getItem('byAgencyTableFilters'));
         const savedAgency = savedFilters ? savedFilters.agency : null;
-
-        // Default to the saved agency or the default agency for the first time
-        if (agencies.length > 0) {
-            agencyBtn.textContent = agencies.includes(savedAgency) ? savedAgency : (state === defaultFilters.state ? defaultFilters.agency : agencies[0]);
-            filterData();
+    
+        // Default to "Full Sample" if available, otherwise saved agency or first agency
+        if (agencies.includes(savedAgency)) {
+            agencyBtn.textContent = savedAgency;
+        } else if (agencies.length > 0) {
+            agencyBtn.textContent = agencies[0];
         } else {
             agencyBtn.textContent = "Agency";
         }
+
+        // Automatically filter the table after setting the agency
+        filterData();
 
         // Ensure only the saved agency is bolded
         const items = agencyDropdown.querySelectorAll('.dropdown-item');

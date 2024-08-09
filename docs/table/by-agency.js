@@ -62,13 +62,19 @@ document.addEventListener("DOMContentLoaded", function() {
         const savedFilters = JSON.parse(sessionStorage.getItem('byAgencyTableFilters'));
         const savedAgency = savedFilters ? savedFilters.agency : null;
 
-        // Default to the saved agency or the default agency for the first time
-        if (agencies.length > 0) {
-            agencyBtn.textContent = agencies.includes(savedAgency) ? savedAgency : (state === defaultFilters.state ? defaultFilters.agency : agencies[0]);
-            filterData();
+        // Default to "Full Sample" if available, otherwise saved agency or first agency
+        if (agencies.includes("Full Sample")) {
+            agencyBtn.textContent = "Full Sample";
+        } else if (agencies.includes(savedAgency)) {
+            agencyBtn.textContent = savedAgency;
+        } else if (agencies.length > 0) {
+            agencyBtn.textContent = agencies[0];
         } else {
             agencyBtn.textContent = "Agency";
         }
+
+        // Automatically filter the table after setting the agency
+        filterData();
 
         // Ensure only the saved agency is bolded
         const items = agencyDropdown.querySelectorAll('.dropdown-item');

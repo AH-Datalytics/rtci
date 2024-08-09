@@ -127,6 +127,24 @@ final_sample_long <- final_sample_long %>%
                               str_sub(agency_full, 5, nchar(agency_full)),
                               agency_full))
 
+# Remove Full Sample agencies for states where there is just one agency
+
+# Step 1: Identify states (excluding "Nationwide") where there are exactly two agencies, one of which is "Full Sample"
+states_with_full_sample <- final_sample_long %>%
+  filter(state_name != "Nationwide") %>%
+  group_by(state_name) %>%
+  filter(n_distinct(agency_name) == 2 & "Full Sample" %in% agency_name) %>%
+  pull(state_name) %>%
+  unique()
+
+# Step 2: Filter out the "Full Sample" agency for those states
+final_sample_long <- final_sample_long %>%
+  filter(!(state_name %in% states_with_full_sample & agency_name == "Full Sample"))
+
+
+
+
+
 
 # Print the first few rows of the cleaned data with all columns
 print(head(final_sample_long), width = Inf)
@@ -206,6 +224,12 @@ final_dataset <- final_dataset %>%
 final_dataset <- final_dataset %>% 
   mutate(Month_Through = as.character(month(Date_Through, label = TRUE, abbr = FALSE)))
 
+# Remove State Full Samples
+# Filter out rows where "agency_full" contains "Full Sample" unless it also contains "Nationwide"
+final_dataset <- final_dataset %>%
+  filter(!(str_detect(agency_full, "Full Sample") & !str_detect(agency_full, "Nationwide")))
+
+
 # View the final dataset
 print(final_dataset)
 
@@ -236,6 +260,23 @@ final_sample <- final_sample %>%
 final_sample <- final_sample %>% 
   mutate(agency_name = ifelse(str_detect(agency_name, "Full Sample"), "Full Sample", agency_name))
 
+
+# Remove Full Sample agencies for states where there is just one agency
+
+# Step 1: Identify states (excluding "Nationwide") where there are exactly two agencies, one of which is "Full Sample"
+states_with_full_sample <- final_sample %>%
+  filter(state_name != "Nationwide") %>%
+  group_by(state_name) %>%
+  filter(n_distinct(agency_name) == 2 & "Full Sample" %in% agency_name) %>%
+  pull(state_name) %>%
+  unique()
+
+# Step 2: Filter out the "Full Sample" agency for those states
+final_sample <- final_sample %>%
+  filter(!(state_name %in% states_with_full_sample & agency_name == "Full Sample"))
+
+
+# Month formatting
 final_sample <- final_sample %>% 
   mutate(month_year = paste(month(date, label = TRUE, abbr = FALSE), year(date), sep = " "))
 

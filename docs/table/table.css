@@ -255,14 +255,14 @@ thead th {
 
 @media (max-width: 500px) {
     .view-buttons {
-        top: -21px;
-        gap: 0.3rem;
+        top: -20px;
+        gap: 0.2rem;
     }
     
     .view-button {
         font-size: 2vw;
-        padding: 0.25em;
-        border-radius: 4px;
+        padding: 0.3em;
+        border-radius: 5px;
     }
     
 }

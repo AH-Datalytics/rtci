@@ -483,11 +483,12 @@ html, body {
     .dropdown-menu {
         border-radius: 4px;
         font-size: 2.25vw;
-        min-width: 18vw;
+        min-width: 22vw;
+        padding-top: 4px;
     }
 
     .dropdown-search {
-        width: 16vw;
+        width: 18vw;
         font-size: 2.25vw;
         height: 4vw;
     }   

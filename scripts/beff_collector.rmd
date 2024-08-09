@@ -83,7 +83,7 @@ read_csvs <- function(folder_path) {
 ldf <- read_csvs(data_dir)
 
 # Print the names of the data frames in the list to verify
-print(names(ldf))
+#print(names(ldf))
 
 head(ldf[1])
 ```
@@ -284,7 +284,7 @@ non_reporters <- na_two_months_previous %>%
 remove_agencies <- unique(non_reporters$`Agency Name`)
 
 # Filter out rows where Agency_Name is in the list of values_to_remove
-cdf_nwcounts<- cdf1 %>% filter(!`Agency Name` %in% remove_agencies)
+cdf_nwcounts<- cdf %>% filter(!`Agency Name` %in% remove_agencies)
 ```
 vc/pc groupings
 ```{r}
@@ -295,11 +295,15 @@ cdf_vcpc<- cdf_nwcounts %>%
     prop_crime = rowSums(select(., Burglary, Theft, `Motor Vehicle Theft`), na.rm = TRUE)
   )
 
-cdf_vcpc <- cdf_vcpc %>% select(city_state, vio_crime, prop_crime)
+# save a copy for later
+cdf_vcpc_nats <- cdf_vcpc
+
+cdf_vcpc <- cdf_vcpc %>% select(city_state, vio_crime, prop_crime, Year, Month)
+
 ```
 join to main dataframe
 ```{r}
-cdf1 <- merge(cdf, cdf_vcpc, by = "city_state", all.x = TRUE)
+cdf1 <- merge(cdf, cdf_vcpc, by = c("city_state", "Month", "Year"))
 ```
 drop cdf1 extra columns after fixing
 ```{r}
@@ -307,10 +311,15 @@ cdf2 <- cdf1 %>%
   mutate(`Violent Crime` = vio_crime,
           `Property Crime` = prop_crime ) %>%
             select(-city_state, -vio_crime, -prop_crime)
+
+cdf_vcpc_nats <- cdf_vcpc_nats %>%
+  mutate(`Violent Crime` = vio_crime,
+          `Property Crime` = prop_crime ) %>%
+            select(-city_state, -vio_crime, -prop_crime)
 ```
 calculate and add nationwide counts
 ```{r}
-nationwide_counts <- cdf_nwcounts %>%
+nationwide_counts <- cdf_vcpc_nats %>%
   group_by(Year, Month) %>%
   summarise(
     Murder= sum(Murder, na.rm = TRUE),
@@ -320,8 +329,8 @@ nationwide_counts <- cdf_nwcounts %>%
     Burglary= sum(Burglary, na.rm = TRUE),
     Theft = sum(Theft, na.rm = TRUE),
     `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
-    `Violent Crime` = sum(vio_crime, na.rm = TRUE),
-    `Property Crime` = sum(prop_crime, na.rm = TRUE),
+    `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
+    `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
     .groups = 'drop'
   )
 
@@ -341,7 +350,7 @@ head(cdf2)
 ```
 calculate and add state counts
 ```{r}
-state_counts <- cdf1 %>%
+state_counts <- cdf_vcpc_nats %>%
   group_by(Year, Month, State) %>%
   summarise(
     Murder= sum(Murder, na.rm = TRUE),
@@ -351,20 +360,19 @@ state_counts <- cdf1 %>%
     Burglary= sum(Burglary, na.rm = TRUE),
     Theft = sum(Theft, na.rm = TRUE),
     `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
-    `Violent Crime` = sum(vio_crime, na.rm = TRUE),
-    `Property Crime` = sum(prop_crime, na.rm = TRUE),
+    `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
+    `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
     .groups = 'drop'
   )
 
-state_counts$`Agency Name` <- "Sampled Agencies"
+# Concatenate "State, Full Sample" for each observation
+sc1 <- state_counts %>%
+  mutate(`Agency Name` = paste(State, "Full Sample", sep = ", "))
 
 #join state counts with agency names to sample
-cdf3 <- bind_rows(cdf2, state_counts)
+cdf3 <- bind_rows(cdf2, sc1)
 head(cdf3)
 ```
-
-
-
 get mvs_12mo for all crime categories and groupings
 ```{r}
 # Function to calculate 12-month cumulative sum 
@@ -380,7 +388,7 @@ mvs_12mo <- function(df) {
 }
 
 # Apply the function to the single dataframe
-df_mvs_12mo1 <- mvs_12mo(cdf2)
+df_mvs_12mo1 <- mvs_12mo(cdf3)
 
 # Print the result to verify
 head(df_mvs_12mo1)
@@ -430,27 +438,3 @@ write.csv(df_w_ref, file = file_path, row.names = FALSE)
 # Write the data frame to the data folder in Github repo
 write.csv(df_w_ref, "data/final_sample.csv")
 ```
-
-
-
-
-
-
-
-
-
-
-quick jeff ask
-```{r}
-#his_2022 <- nationwide_counts %>% filter(Year ==2022)
-
-folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data"
-
-# Create the full file path
-file_path <- file.path(folder_path, "agency_list_080624.csv")
-
-# Write the data frame to a .csv file
-write.csv(df1, file = file_path, row.names = FALSE)
-```
-
-

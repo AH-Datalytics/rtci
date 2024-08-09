@@ -252,3 +252,17 @@ thead th {
     }
     
 }
+
+@media (max-width: 500px) {
+    .view-buttons {
+        top: -21px;
+        gap: 0.3rem;
+    }
+    
+    .view-button {
+        font-size: 2vw;
+        padding: 0.25em;
+        border-radius: 4px;
+    }
+    
+}

@@ -467,7 +467,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 return this.getTotalLength();
             })
             .transition()
-            .duration(1000)  // Set the duration of the animation (2000ms = 2 seconds)
+            .duration(2000)  // Set the duration of the animation (2000ms = 2 seconds)
             .ease(d3.easeLinear)  // Choose the easing function (linear for a smooth effect)
             .attr("stroke-dashoffset", 0);
 
@@ -493,8 +493,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Make the dots appear after the line has completed
             dots.transition()
-            .delay(1000)  // Delay dots' appearance until after the line animation completes
-            .duration(10)  // Short duration for the dots' appearance
+            .delay(2000)  // Delay dots' appearance until after the line animation completes (2sec)
+            .duration(100)  // Short duration for the dots' appearance
             .ease(d3.easeLinear)  // Easing to match the line
             .attr("r", dotSize);  // Animate the radius to the desired size
 
@@ -560,7 +560,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
             // Apply the transition separately
             path.transition()
-                .duration(1000)  // Match the duration of the Monthly Totals line
+                .duration(2000)  // Match the duration of the Monthly Totals line @ 2 secs
                 .ease(d3.easeLinear)  // Easing to match the Monthly Totals line
                 .attr("stroke-dashoffset", 0);
         }

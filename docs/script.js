@@ -456,10 +456,20 @@ document.addEventListener("DOMContentLoaded", function() {
             .attr("stroke", "#2d5ef9")
             .attr("stroke-width", lineThickness)
             .attr("d", d3.line()
-                .curve(d3.curveCatmullRom.alpha(0.5))
+                .curve(d3.curveCatmullRom.alpha(0.5))  // Keep the curve for smoothness
                 .x(d => x(d.date))
                 .y(d => y(d.value))
-            );
+            )
+            .attr("stroke-dasharray", function() { 
+                return this.getTotalLength(); 
+            })
+            .attr("stroke-dashoffset", function() { 
+                return this.getTotalLength();
+            })
+            .transition()
+            .duration(2000)  // Set the duration of the animation (2000ms = 2 seconds)
+            .ease(d3.easeLinear)  // Choose the easing function (linear for a smooth effect)
+            .attr("stroke-dashoffset", 0);
 
         const selectedDataType = dataTypeBtn.dataset.value;
 
@@ -476,10 +486,17 @@ document.addEventListener("DOMContentLoaded", function() {
                 .enter().append("circle")
                 .attr("cx", d => x(d.date))
                 .attr("cy", d => y(d.value))
-                .attr("r", dotSize)
+                .attr("r", 0)  // Start with a radius of 0 so the dots are invisible initially
                 .attr("fill", "#2d5ef9")
                 .style("cursor", "pointer"); // Add this line to change cursor to pointer
                 ;
+
+            // Make the dots appear after the line has completed
+            dots.transition()
+            .delay(2000)  // Delay dots' appearance until after the line animation completes (2sec)
+            .duration(100)  // Short duration for the dots' appearance
+            .ease(d3.easeLinear)  // Easing to match the line
+            .attr("r", dotSize);  // Animate the radius to the desired size
 
             dots.on("mouseover", function(event, d) {
                 d3.select(this).attr("fill", "#f28106");
@@ -487,7 +504,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 tooltip.transition()
                     .duration(0)
                     .style("opacity", .9);
-                tooltip.html(`<strong>Agency:</strong> ${d.agency_name}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Total:</strong> ${formatComma(d.value)}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
+                tooltip.html(`<strong>Agency:</strong> ${d.agency_full}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Total:</strong> ${formatComma(d.value)}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
                     .style("left", (event.pageX + 5) + "px")
                     .style("top", (event.pageY - 28) + "px");
             })
@@ -511,32 +528,43 @@ document.addEventListener("DOMContentLoaded", function() {
                     .curve(d3.curveCatmullRom.alpha(0.5))
                     .x(d => x(d.date))
                     .y(d => y(d.value))
-                )    
-                .style("cursor", "pointer"); // Add this line to change cursor to pointer
-                ;
+                )
+                .attr("stroke-dasharray", function() { 
+                    return this.getTotalLength(); 
+                })
+                .attr("stroke-dashoffset", function() { 
+                    return this.getTotalLength();
+                })
+                .style("cursor", "pointer")  // Keep the cursor change here
+                .on("mousemove", function(event) {
+                    const [mouseX, mouseY] = d3.pointer(event);
+                    const xDate = x.invert(mouseX);
+                    const closestData = filteredData.reduce((a, b) => {
+                        return Math.abs(b.date - xDate) < Math.abs(a.date - xDate) ? b : a;
+                    });
+                    const xPos = x(closestData.date);
+                    const yPos = y(closestData.value);
         
-            path.on("mousemove", function(event) {
-                const [mouseX, mouseY] = d3.pointer(event);
-                const xDate = x.invert(mouseX);
-                const closestData = filteredData.reduce((a, b) => {
-                    return Math.abs(b.date - xDate) < Math.abs(a.date - xDate) ? b : a;
+                    tooltip.transition()
+                        .duration(0)
+                        .style("opacity", .9);
+                    tooltip.html(`<strong>Agency:</strong> ${closestData.agency_full}<br><strong>Crime Type:</strong> ${closestData.crime_type}<br><strong>12 Month Sum:</strong> ${formatComma(closestData.value)}<br><strong>Through:</strong> ${d3.timeFormat("%B %Y")(closestData.date)}`)
+                        .style("left", (event.pageX + 5) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mouseout", function() {
+                    tooltip.transition()
+                        .duration(500)
+                        .style("opacity", 0);
                 });
-                const xPos = x(closestData.date);
-                const yPos = y(closestData.value);
         
-                tooltip.transition()
-                    .duration(0)
-                    .style("opacity", .9);
-                tooltip.html(`<strong>Agency:</strong> ${closestData.agency_name}<br><strong>Crime Type:</strong> ${closestData.crime_type}<br><strong>12 Month Sum:</strong> ${formatComma(closestData.value)}<br><strong>Through:</strong> ${d3.timeFormat("%B %Y")(closestData.date)}`)
-                    .style("left", (event.pageX + 5) + "px")
-                    .style("top", (event.pageY - 28) + "px");
-            })
-            .on("mouseout", function() {
-                tooltip.transition()
-                    .duration(500)
-                    .style("opacity", 0);
-            });
+            // Apply the transition separately
+            path.transition()
+                .duration(2000)  // Match the duration of the Monthly Totals line @ 2 secs
+                .ease(d3.easeLinear)  // Easing to match the Monthly Totals line
+                .attr("stroke-dashoffset", 0);
         }
+        
         
 
         const agencyFull = filteredData[0].agency_full;

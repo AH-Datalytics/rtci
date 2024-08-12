@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const downloadButton = document.getElementById("download-button");
 
     let allData = [];
+    let filtersChanged = false; // Flag to track filter changes
 
     function closeAllDropdowns() {
         const dropdownMenus = document.querySelectorAll(".dropdown-menu");
@@ -47,6 +48,10 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         option.addEventListener('click', function() {
+            if (button.dataset.value !== value) {
+                filtersChanged = true; // Set the flag to true when a filter is changed
+            }
+
             const items = dropdown.querySelectorAll('.dropdown-item');
             items.forEach(item => item.classList.remove('selected'));
             option.classList.add('selected');
@@ -350,14 +355,14 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     
         // Re-add the download button
-    d3.select("#line-graph-container")
-    .append("button")
-    .attr("id", "download-button")
-    .html('<i class="fas fa-download"></i> Download Filtered Data')
-    .on("click", function() {
-        const filteredData = filterData(allData);
-        downloadFilteredData(filteredData);
-    });
+        d3.select("#line-graph-container")
+        .append("button")
+        .attr("id", "download-button")
+        .html('<i class="fas fa-download"></i> Download Filtered Data')
+        .on("click", function() {
+            const filteredData = filterData(allData);
+            downloadFilteredData(filteredData);
+        });
 
         updateKPIBox1(filteredData);
         updateKPIBox2(filteredData);
@@ -459,17 +464,21 @@ document.addEventListener("DOMContentLoaded", function() {
                 .curve(d3.curveCatmullRom.alpha(0.5))  // Keep the curve for smoothness
                 .x(d => x(d.date))
                 .y(d => y(d.value))
-            )
-            .attr("stroke-dasharray", function() { 
-                return this.getTotalLength(); 
-            })
-            .attr("stroke-dashoffset", function() { 
-                return this.getTotalLength();
-            })
-            .transition()
-            .duration(2000)  // Set the duration of the animation (2000ms = 2 seconds)
-            .ease(d3.easeLinear)  // Choose the easing function (linear for a smooth effect)
-            .attr("stroke-dashoffset", 0);
+            );
+
+        if (filtersChanged) {
+            // Apply animation if filters have changed
+            line.attr("stroke-dasharray", function() { 
+                    return this.getTotalLength(); 
+                })
+                .attr("stroke-dashoffset", function() { 
+                    return this.getTotalLength();
+                })
+                .transition()
+                .duration(2000)
+                .ease(d3.easeLinear)
+                .attr("stroke-dashoffset", 0);
+        }
 
         const selectedDataType = dataTypeBtn.dataset.value;
 
@@ -486,17 +495,18 @@ document.addEventListener("DOMContentLoaded", function() {
                 .enter().append("circle")
                 .attr("cx", d => x(d.date))
                 .attr("cy", d => y(d.value))
-                .attr("r", 0)  // Start with a radius of 0 so the dots are invisible initially
+                .attr("r", dotSize)
                 .attr("fill", "#2d5ef9")
-                .style("cursor", "pointer"); // Add this line to change cursor to pointer
-                ;
+                .style("cursor", "pointer");
 
-            // Make the dots appear after the line has completed
-            dots.transition()
-            .delay(2000)  // Delay dots' appearance until after the line animation completes (2sec)
-            .duration(100)  // Short duration for the dots' appearance
-            .ease(d3.easeLinear)  // Easing to match the line
-            .attr("r", dotSize);  // Animate the radius to the desired size
+            if (filtersChanged) {
+                dots.attr("r", 0)  // Start with a radius of 0 for the animation
+                    .transition()
+                    .delay(2000)  // Delay dots' appearance until after the line animation completes
+                    .duration(100)
+                    .ease(d3.easeLinear)
+                    .attr("r", dotSize);  // Animate the radius to the desired size
+            }
 
             dots.on("mouseover", function(event, d) {
                 d3.select(this).attr("fill", "#f28106");
@@ -529,12 +539,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     .x(d => x(d.date))
                     .y(d => y(d.value))
                 )
-                .attr("stroke-dasharray", function() { 
-                    return this.getTotalLength(); 
-                })
-                .attr("stroke-dashoffset", function() { 
-                    return this.getTotalLength();
-                })
                 .style("cursor", "pointer")  // Keep the cursor change here
                 .on("mousemove", function(event) {
                     const [mouseX, mouseY] = d3.pointer(event);
@@ -558,14 +562,22 @@ document.addEventListener("DOMContentLoaded", function() {
                         .style("opacity", 0);
                 });
         
-            // Apply the transition separately
-            path.transition()
+            if (filtersChanged) {
+                // Apply animation if filters have changed
+                path.attr("stroke-dasharray", function() { 
+                    return this.getTotalLength(); 
+                })
+                .attr("stroke-dashoffset", function() { 
+                    return this.getTotalLength();
+                })
+                .transition()
                 .duration(2000)  // Match the duration of the Monthly Totals line @ 2 secs
                 .ease(d3.easeLinear)  // Easing to match the Monthly Totals line
                 .attr("stroke-dashoffset", 0);
+            }
         }
-        
-        
+
+        filtersChanged = false; // Reset the flag after rendering
 
         const agencyFull = filteredData[0].agency_full;
         const stateUcrLink = filteredData[0].state_ucr_link;
@@ -624,11 +636,11 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         }
 
-// Initial adjustment
-adjustCaptionForMobile();
+        // Initial adjustment
+        adjustCaptionForMobile();
 
-// Adjust on window resize
-window.addEventListener('resize', adjustCaptionForMobile);
+        // Adjust on window resize
+        window.addEventListener('resize', adjustCaptionForMobile);
 
 
         const captionTextElement = captionGroup.append("text")
@@ -727,9 +739,11 @@ window.addEventListener('resize', adjustCaptionForMobile);
             d.count = +d.count;
             d.mvs_12mo = +d.mvs_12mo;
         });
-
+    
         allData = data;
         updateFilters(allData);
+        
+        filtersChanged = true; // Ensure animation on first render
         renderChart();
     }).catch(function(error) {
         console.error("Error loading the CSV file:", error);
@@ -749,7 +763,8 @@ window.addEventListener('resize', adjustCaptionForMobile);
 
     dataTypeDropdown.addEventListener('click', event => {
         const selectedItem = event.target.closest('.dropdown-item');
-        if (selectedItem) {
+        if (selectedItem && dataTypeBtn.dataset.value !== selectedItem.dataset.value) {
+            filtersChanged = true; // Set the flag to true when data type is changed
             dataTypeBtn.textContent = selectedItem.textContent;
             dataTypeBtn.dataset.value = selectedItem.dataset.value;
             dataTypeDropdown.classList.remove("show");
@@ -757,6 +772,7 @@ window.addEventListener('resize', adjustCaptionForMobile);
             saveFilterValues();
         }
     });
+    
 
     const dataTypeSelect = document.getElementById("data-type");
     dataTypeSelect.addEventListener('change', renderChart);

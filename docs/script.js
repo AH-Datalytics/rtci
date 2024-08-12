@@ -571,7 +571,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     return this.getTotalLength();
                 })
                 .transition()
-                .duration(2000)  // Match the duration of the Monthly Totals line @ 2 secs
+                .duration(1000)  // Halve the duration of the Monthly Totals line @ 1 sec
                 .ease(d3.easeLinear)  // Easing to match the Monthly Totals line
                 .attr("stroke-dashoffset", 0);
             }

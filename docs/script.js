@@ -384,10 +384,13 @@ document.addEventListener("DOMContentLoaded", function() {
         // Append the logo image to the SVG
         svg.append("image")
             .attr("xlink:href", "images/rtci_full_logo.png")  // Path to your logo
-            .attr("x", width - 80)  // Adjust 'x' to position the logo inside the graph (80px from the right)
-            .attr("y", -margin.top + 10)  // Adjust 'y' to position the logo inside the graph (10px from the top)
-            .attr("width", 70)  // Adjust the width of the logo
-            .attr("height", 70);  // Adjust the height of the logo
+            .attr("x", -margin.left + 80)  // Offset by margin and set a fixed distance from the left
+            .attr("y", -margin.top - 3)  // Offset by margin and set a fixed distance from the top
+            .attr("width", 60)  // Fixed width
+            .attr("height", 60)  // Fixed height
+            .attr("opacity", 0.5);  // Adjust the opacity as needed
+
+
 
 
         const x = d3.scaleTime()

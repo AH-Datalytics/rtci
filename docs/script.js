@@ -475,7 +475,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     return this.getTotalLength();
                 })
                 .transition()
-                .duration(2000)
+                .duration(1500)
                 .ease(d3.easeLinear)
                 .attr("stroke-dashoffset", 0);
         }
@@ -502,7 +502,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (filtersChanged) {
                 dots.attr("r", 0)  // Start with a radius of 0 for the animation
                     .transition()
-                    .delay(2000)  // Delay dots' appearance until after the line animation completes
+                    .delay(1500)  // Delay dots' appearance until after the line animation completes
                     .duration(100)
                     .ease(d3.easeLinear)
                     .attr("r", dotSize);  // Animate the radius to the desired size

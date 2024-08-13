@@ -381,6 +381,15 @@ document.addEventListener("DOMContentLoaded", function() {
             .append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
+        // Append the logo image to the SVG
+        svg.append("image")
+            .attr("xlink:href", "images/rtci_full_logo.png")  // Path to your logo
+            .attr("x", width - 80)  // Adjust 'x' to position the logo inside the graph (80px from the right)
+            .attr("y", -margin.top + 10)  // Adjust 'y' to position the logo inside the graph (10px from the top)
+            .attr("width", 70)  // Adjust the width of the logo
+            .attr("height", 70);  // Adjust the height of the logo
+
+
         const x = d3.scaleTime()
             .domain(d3.extent(filteredData, d => d.date))
             .range([0, width]);

@@ -1,0 +1,298 @@
+---
+title: "sample_audit_v1"
+output: github_document
+---
+
+## Second script to run in a series of three that prepare the RTCI sample for production.
+## This script takes the processed data and audits for non-reporting and anomalies.
+bring in the sample
+```{r}
+
+```
+
+```{r}
+```
+
+```{r}
+
+
+unique_df <- combined_df %>%
+  select(city_state) %>%
+  distinct()
+
+
+df1<- as.data.frame(unique(combined_df$city_state))
+df2<- as.data.frame(unique(combined_df$city_state))
+
+
+unique(combined_df$city_state)
+unique(combined_df$city_state)
+
+merged_df <- full_join(df1, df2, by = "")
+
+# Print the merged data frame
+print("Merged Data Frame:")
+print(merged_df)
+
+# Find records without a match in df1
+unmatched_in_df1 <- anti_join(df2, df1, by = "city_state")
+print("Records in df2 without a match in df1:")
+print(unmatched_in_df1)
+
+# Find records without a match in df2
+unmatched_in_df2 <- anti_join(df1, df2, by = "city_state")
+print("Records in df1 without a match in df2:")
+print(unmatched_in_df2)
+```
+
+
+find all months with 0 larcenies
+```{r}
+theft_zero <- df_mvs_12mo %>%
+  filter(Theft == 0)
+
+murd_over_theft <- df_mvs_12mo %>%
+  filter(Murder > Theft)
+
+  
+
+##some non-reportes from OH and MA expected
+##tracy,ca; beaverton, or the review
+```
+
+
+
+
+
+AUDITING
+```{r}
+get_column_names_and_formats <- function(df_list) {
+  # Extract column names and formats from each data frame
+  column_list <- lapply(df_list, function(df) {
+    colnames <- colnames(df)
+    formats <- sapply(df, class)
+    data.frame(ColumnName = colnames, Format = formats, stringsAsFactors = FALSE)
+  })
+  
+  # Combine the column name and format information into a single data frame
+  col_df <- do.call(rbind, lapply(seq_along(column_list), function(i) {
+    df <- column_list[[i]]
+    df$DataFrame <- names(df_list)[i]
+    df
+  }))
+  
+  return(col_df)
+}
+
+# Function to identify rarely used columns
+identify_rare_columns <- function(col_df, threshold = 1) {
+  # Count the frequency of each column name
+  col_count <- col_df %>%
+    group_by(ColumnName) %>%
+    summarize(Frequency = n()) %>%
+    arrange(Frequency)
+  
+  # Identify columns used in fewer data frames than the threshold
+  rare_columns <- col_count %>%
+    filter(Frequency <= threshold)
+  
+  return(rare_columns)
+}
+
+```
+
+
+
+```{r}
+# Get column names from each data frame
+col_df <- get_column_names_and_formats(ldf2)
+
+# Print the breakdown of column names
+print(col_df)
+```
+```{r}
+# Identify rarely used columns (e.g., used in 1 or fewer data frames)
+rare_columns <- identify_rare_columns(col_df, threshold = 1)
+
+# Print the rarely used columns
+print(rare_columns)
+```
+
+duplicates?
+```{r}
+# Function to find unique values for "Agency Name" in a dataframe
+get_unique_agencies <- function(df) {
+  unique(df$`Agency Name`)
+}
+
+# Find unique values for "Agency Name" in all dataframes
+unique_agencies_list <- lapply(ldf3, get_unique_agencies)
+
+# Combine all unique values into a single vector
+all_unique_agencies <- unlist(unique_agencies_list)
+
+# Find duplicate agency names across all dataframes
+duplicate_agencies <- all_unique_agencies[duplicated(all_unique_agencies)]
+
+# View the unique agency names
+print("Unique Agency Names Across All Dataframes")
+print(unique(all_unique_agencies))
+
+# View the duplicate agency names
+print("Duplicate Agency Names Across All Dataframes")
+print(duplicate_agencies)
+```
+what are we kicking when we rowbind?
+```{r}
+# Function to extract unique values from 'Agency.Name' column in each dataframe
+extract_unique_agencies <- function(df_list, column_name) {
+  unique_values <- df_list %>%
+    map(~ .x %>% pull(.data[[column_name]])) %>%
+    unlist() %>%
+    unique()
+  
+  return(unique_values)
+}
+
+# Extract unique 'Agency.Name' values from the list of dataframes
+unique_agencies <- extract_unique_agencies(ldf3, "Agency Name")
+
+# Create a dataframe with these unique values
+df1 <- as.data.frame(unique(unique_agencies))
+
+
+# Count occurrences of values in the 'name' column for both dataframes
+counts_df1 <- as.data.frame(table(df1$name))
+counts_df2 <- as.data.frame(table(df2$name))
+
+# Rename columns for clarity
+colnames(counts_df1) <- c("name", "count_df1")
+colnames(counts_df2) <- c("name", "count_df2")
+
+# Merge the two count dataframes by the 'name' column
+comparison <- merge(counts_df1, counts_df2, by = "name", all = TRUE)
+
+# Replace NA values with 0 (if a name is not found in one of the dataframes)
+comparison[is.na(comparison)] <- 0
+
+# View the comparison
+print("Comparison of Value Counts in 'name' Column Across Two Dataframes")
+print(comparison)
+
+
+# Function to extract unique values from a column and save as a vector
+extract_unique_values <- function(df, column_name) {
+  unique_values <- df %>% pull(.data[[column_name]]) %>% unique()
+  return(unique_values)
+}
+
+# Extract unique values from 'Agency.Name' column in both dataframes
+unique_values_df1 <- extract_unique_values(df1, "Agency.Name")
+unique_values_df2 <- extract_unique_values(combined_df, "Agency Name")
+
+# Compare the unique values between the two vectors
+only_in_df1 <- setdiff(unique_values_df1, unique_values_df2)
+only_in_df2 <- setdiff(unique_values_df2, unique_values_df1)
+in_both <- intersect(unique_values_df1, unique_values_df2)
+
+# Print the comparison results
+cat("Unique values only in df1:\n")
+print(only_in_df1)
+cat("\nUnique values only in df2:\n")
+print(only_in_df2)
+cat("\nUnique values in both df1 and df2:\n")
+print(in_both)
+
+```
+
+drop all cases by this point that have NA's in their crime Counts
+first, segregate them to check them out.
+```{r}
+# Identify rows with NA or "NA" values
+obs_with_na <- apply(samp1, 1, function(row) any(is.na(row) | row == "NA"))
+
+# Save these observations to a separate data frame for review
+df_na <- samp1[obs_with_na, ]
+
+# Display the data frame with NA or "NA" values
+print("Data frame with NA or 'NA' values:")
+head(df_na)
+
+# Remove these observations from the original data frame
+samp2 <- samp1[!obs_with_na, ]
+
+# Display the cleaned data frame
+print("Cleaned data frame:")
+head(df_clean)
+```
+Display observations with invalid months
+```{r}
+print("Observations with Invalid Months:")
+head(invalid_months)
+```
+Display observations with invalid years
+```{r}
+print("Observations with Invalid Years:")
+head(invalid_years)
+```
+Display observations with "NR" values for crime counts
+```{r}
+print("Observations with 'NR' in Crime Counts:")
+head(nr_observations)
+```
+
+
+run wheeler's outliers tests
+```{r}
+#we will source it first
+source("crimeAnomaly.R")
+
+# This function looks at cumulative year to date stats
+# so if prior total 100 YTD (averaged over prior_max years)
+# and current is 20 YTD total, this would flagged
+# this expects the values in per a single PD
+ytd_poisson_results1 <- ytd_poisson(cdf3)
+
+# This function looks at the average of the prior k months
+# so if average of prior 8 is 30, and current month is 10
+# this will likely flag
+# can set prior_max to 1 to just look at current vs prior month
+priork_results <- priork_poisson(cdf3)
+
+# So this will loop over all PDs and return a total count column
+# along with a note, if the note says
+# "Burglary_ytd1 | MVT_ytd1 | Larceny_pri8"
+# That means this police department was flagged for year to date burglary, year to date MVT
+# and prior 8 larceny (but not prior 1 larceny)
+# sorts the results, so the agencies with the most flagges are at the top of the dataframe
+metricsallpd_results <-metrics_allpd(cdf3)
+```
+let's take a look at one of the candidates
+```{r}
+hartford_pd <- cdf3 %>% filter(Agency.Name == "Hartford Police Department")
+
+# Define the crime categories
+crime_cats <- c("Murder", "Rape", "Agg.Assault", "Robbery", "Burglary", "Larceny", "MVT", "Arson")
+
+# Convert data to long format
+crime_data_long <- hartford_pd %>%
+  pivot_longer(cols = all_of(crime_cats),
+               names_to = "crime_type",
+               values_to = "count")
+
+# Create a date column for plotting
+crime_data_long <- crime_data_long %>%
+  mutate(date = as.Date(paste(year, month, "01", sep = "-")))
+
+str(crime_data_long)
+
+# Plot the data
+ggplot(crime_data_long, aes(x = Date, y = count, color = crime_type)) +
+  geom_line() +
+  facet_wrap(~crime_type, scales = "free_y") +
+  labs(title = "Crime Types Over Time",
+       x = "Date",
+       y = "Count",
+       color = "Crime Type") +
+  theme_minimal()
+```

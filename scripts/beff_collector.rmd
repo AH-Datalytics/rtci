@@ -260,12 +260,12 @@ audit 2 and 3 months
 # Filter records with any NA values for two months previous
 na_two_months_previous <- cdf %>%
   filter(Month == two_months_previous_month & Year == two_months_previous_year) %>%
-  filter(rowSums(is.na(.)) > 0)
+  filter(if_any(everything(), is.na))
 
 # Filter records with any NA values for three months previous
 na_three_months_previous <- cdf %>%
   filter(Month == three_months_previous_month & Year == three_months_previous_year) %>%
-  filter(rowSums(is.na(.)) > 0)
+  filter(if_any(everything(), is.na))
 
 # Print the data frames
 print("Records with NA values two months previous:")
@@ -281,10 +281,10 @@ non_reporters <- na_two_months_previous %>%
   filter(is.na(Murder))
 
 # Get unique values from the column in the separate dataframe
-remove_agencies <- unique(non_reporters$`Agency Name`)
+remove_agencies <- unique(non_reporters$city_state)
 
 # Filter out rows where Agency_Name is in the list of values_to_remove
-cdf_nwcounts<- cdf %>% filter(!`Agency Name` %in% remove_agencies)
+cdf_nwcounts<- cdf %>% filter(!city_state %in% remove_agencies)
 ```
 vc/pc groupings
 ```{r}
@@ -303,19 +303,28 @@ cdf_vcpc <- cdf_vcpc %>% select(city_state, vio_crime, prop_crime, Year, Month)
 ```
 join to main dataframe
 ```{r}
-cdf1 <- merge(cdf, cdf_vcpc, by = c("city_state", "Month", "Year"))
+cdf1 <- merge(cdf, cdf_vcpc, by = c("city_state", "Month", "Year"), all.x = TRUE)
+```
+add population figures for nationwide descriptors
+```{r}
+#ref_df <- ref_df %>% mutate(city_state = paste(Agency.Name, state, sep = ", "))
+
+ref_df <- ref_df %>% select(city_state, population)
+
+cdf_vcpc_nats <- merge(cdf_vcpc_nats, ref_df, by = "city_state", all.x = TRUE)
 ```
 drop cdf1 extra columns after fixing
 ```{r}
 cdf2 <- cdf1 %>%
   mutate(`Violent Crime` = vio_crime,
-          `Property Crime` = prop_crime ) %>%
+          `Property Crime` = prop_crime, ) %>%
             select(-city_state, -vio_crime, -prop_crime)
 
 cdf_vcpc_nats <- cdf_vcpc_nats %>%
   mutate(`Violent Crime` = vio_crime,
-          `Property Crime` = prop_crime ) %>%
-            select(-city_state, -vio_crime, -prop_crime)
+          `Property Crime` = prop_crime,
+           agency_num = 1) %>%
+           select(-city_state, -vio_crime, -prop_crime)
 ```
 calculate and add nationwide counts
 ```{r}
@@ -331,6 +340,8 @@ nationwide_counts <- cdf_vcpc_nats %>%
     `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
     `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
     `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
+    `Population Total` = sum(population, na.rm = TRUE),
+    Agency_num = sum(agency_num, na.rm = TRUE),
     .groups = 'drop'
   )
 
@@ -372,6 +383,11 @@ sc1 <- state_counts %>%
 #join state counts with agency names to sample
 cdf3 <- bind_rows(cdf2, sc1)
 head(cdf3)
+
+# city state unique id
+length(unique(cdf3$city_state))
+# duplicate agency names
+length(unique(cdf3$`Agency Name`))
 ```
 get mvs_12mo for all crime categories and groupings
 ```{r}
@@ -424,6 +440,19 @@ df_w_ref <- df_mvs_12mo1 %>%
 
 #of obs 27,373!
 ```
+remove non-current reporter
+```{r}
+#replace population values with Population values
+colSums(is.na(df_w_ref))
+df_w_ref$population <- ifelse(is.na(df_w_ref$population), df_w_ref$`Population Total`, df_w_ref$population)
+colSums(is.na(df_w_ref))
+
+df_w_ref$Agency_num <- ifelse(is.na(df_w_ref$Agency_num), 1, df_w_ref$Agency_num)
+colSums(is.na(df_w_ref))
+
+```
+
+
 write it out!
 ```{r}
 # Specify the folder path
@@ -438,3 +467,4 @@ write.csv(df_w_ref, file = file_path, row.names = FALSE)
 # Write the data frame to the data folder in Github repo
 write.csv(df_w_ref, "data/final_sample.csv")
 ```
+

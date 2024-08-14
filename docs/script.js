@@ -29,6 +29,12 @@ document.addEventListener("DOMContentLoaded", function() {
             event.stopPropagation();
             closeAllDropdowns(); // Close all dropdowns before toggling the current one
             dropdown.classList.toggle("show");
+    
+            // Close the download dropdown menu if it's open
+            const downloadMenu = document.querySelector("#download-button .dropdown-menu");
+            if (downloadMenu && downloadMenu.style.display === "block") {
+                downloadMenu.style.display = "none";
+            }
         });
     
         document.addEventListener('click', function() {
@@ -39,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
             event.stopPropagation();
         });
     }
+    
 
     // Helper functions (createDropdownOption, createSearchableDropdown, etc.)
     function createDropdownOption(value, text, dropdown, button) {

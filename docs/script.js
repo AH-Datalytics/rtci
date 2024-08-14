@@ -148,7 +148,6 @@ document.addEventListener("DOMContentLoaded", function() {
     
         retrieveFilterValues(defaultFilters);
     }
-    
 
     function updateAgencyFilter(data, selectedState) {
         let agencies = [...new Set(data.filter(d => d.state_name === selectedState).map(d => d.agency_name))];
@@ -181,7 +180,6 @@ document.addEventListener("DOMContentLoaded", function() {
     
         renderChart();
     }
-    
 
     function filterData(data) {
         const selectedCrimeType = crimeTypeBtn.dataset.value;
@@ -264,7 +262,6 @@ document.addEventListener("DOMContentLoaded", function() {
             <p><strong>${formattedYtdSumPrevYear}</strong></p>
         `;
     }
-    
 
     function updateKPIBox3(filteredData) {
         const kpiBox3 = document.getElementById("kpi-box3");
@@ -354,15 +351,8 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
     
-        // Re-add the download button
-        d3.select("#line-graph-container")
-        .append("button")
-        .attr("id", "download-button")
-        .html('<i class="fas fa-download"></i> Download Filtered Data')
-        .on("click", function() {
-            const filteredData = filterData(allData);
-            downloadFilteredData(filteredData);
-        });
+        // Ensure the download button is functional
+        ensureDownloadButtonIsFunctional();
 
         updateKPIBox1(filteredData);
         updateKPIBox2(filteredData);
@@ -389,9 +379,6 @@ document.addEventListener("DOMContentLoaded", function() {
             .attr("width", 60)  // Fixed width
             .attr("height", 60)  // Fixed height
             .attr("opacity", 0.5);  // Adjust the opacity as needed
-
-
-
 
         const x = d3.scaleTime()
             .domain(d3.extent(filteredData, d => d.date))
@@ -623,7 +610,6 @@ document.addEventListener("DOMContentLoaded", function() {
             .on("click", function() { window.open(stateUcrLink, "_blank"); })
             .text("source.");
 
-
         const population = abbreviateNumberForCaption(filteredData[0].population);
         const agencyCount = filteredData[0].agency_count || "N/A";
 
@@ -653,7 +639,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Adjust on window resize
         window.addEventListener('resize', adjustCaptionForMobile);
-
 
         const captionTextElement = captionGroup.append("text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
@@ -768,10 +753,90 @@ document.addEventListener("DOMContentLoaded", function() {
     toggleDropdown(agencyBtn, agencySelect);
     toggleDropdown(dataTypeBtn, dataTypeDropdown);
 
-    downloadButton.addEventListener("click", function() {
+    // Create the dropdown menu for the download button
+    const downloadMenu = document.createElement("div");
+    downloadMenu.className = "dropdown-menu";
+    downloadMenu.style.position = "absolute";
+    downloadMenu.style.top = "100%";
+    downloadMenu.style.right = "0";
+    downloadMenu.style.minWidth = "150px"; // Adjust as needed
+    downloadMenu.style.display = "none";
+    downloadMenu.style.zIndex = "1000";
+
+    const downloadDataOption = document.createElement("div");
+    downloadDataOption.className = "dropdown-item";
+    downloadDataOption.textContent = "Download Data";
+    downloadDataOption.addEventListener("click", function() {
         const filteredData = filterData(allData);
         downloadFilteredData(filteredData);
+        downloadMenu.style.display = "none"; // Close the dropdown after click
     });
+
+    const downloadImageOption = document.createElement("div");
+    downloadImageOption.className = "dropdown-item";
+    downloadImageOption.textContent = "Download Graph";
+    downloadImageOption.addEventListener("click", function() {
+        downloadGraphAsImage();
+        downloadMenu.style.display = "none"; // Close the dropdown after click
+    });
+
+    downloadMenu.appendChild(downloadDataOption);
+    downloadMenu.appendChild(downloadImageOption);
+    downloadButton.appendChild(downloadMenu);
+
+    // Toggle the dropdown menu on download button click
+    downloadButton.addEventListener("click", function(event) {
+        event.stopPropagation();
+        const isMenuVisible = downloadMenu.style.display === "block";
+        closeAllDropdowns();
+        downloadMenu.style.display = isMenuVisible ? "none" : "block";
+    });
+
+    // Function to close all dropdowns
+    function closeAllDropdowns() {
+        downloadMenu.style.display = "none";
+    }
+
+    document.addEventListener("click", function() {
+        closeAllDropdowns();
+    });
+
+    // Function to download the graph as an image
+    function downloadGraphAsImage() {
+        const svgElement = document.querySelector("#line-graph-container svg");
+        const svgData = new XMLSerializer().serializeToString(svgElement);
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        const img = new Image();
+        const svgBlob = new Blob([svgData], {type: "image/svg+xml;charset=utf-8"});
+        const url = URL.createObjectURL(svgBlob);
+
+        img.onload = function() {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            URL.revokeObjectURL(url);
+            const imgURI = canvas
+                .toDataURL("image/png")
+                .replace("image/png", "image/octet-stream");
+
+            const link = document.createElement("a");
+            link.setAttribute("href", imgURI);
+            link.setAttribute("download", "graph.png");
+            link.click();
+        };
+
+        img.src = url;
+    }
+
+    // Function to ensure the button doesn't get re-added
+    function ensureDownloadButtonIsFunctional() {
+        const existingButton = document.getElementById("download-button");
+        if (!existingButton) {
+            const container = document.querySelector("#line-graph-container");
+            container.appendChild(downloadButton);
+        }
+    }
 
     dataTypeDropdown.addEventListener('click', event => {
         const selectedItem = event.target.closest('.dropdown-item');
@@ -784,7 +849,6 @@ document.addEventListener("DOMContentLoaded", function() {
             saveFilterValues();
         }
     });
-    
 
     const dataTypeSelect = document.getElementById("data-type");
     dataTypeSelect.addEventListener('change', renderChart);

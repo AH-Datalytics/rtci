@@ -5,6 +5,7 @@ html, body {
     height: 100%;
     width: 100%;
     background-color: white;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
 }
 
 .tab-navigation {
@@ -351,6 +352,40 @@ html, body {
     position: relative;
 }
 
+#download-button .dropdown-menu .dropdown-item {
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+/* Style the dropdown menu container */
+#download-button .dropdown-menu {
+    padding: 0px; /* Reduce padding */
+    margin: 0;
+    min-width: 100% !important; /* Use !important to enforce the width */
+    width: 100%; /* Set a fixed width */
+    box-sizing: border-box; /* Ensures padding is included in width */
+    background-color: #f9f9f9;
+    display: inline-block; /* or inline-block */
+    flex-direction: column;
+    align-items: center; /* Center items if using flexbox */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+
+/* Style the individual dropdown items */
+#download-button .dropdown-item {
+    color: #00333a;
+    padding: 3px;
+    font-size: 0.9vw;
+}
+
+/* Add a hover effect to dropdown items */
+#download-button .dropdown-item:hover {
+    color: #f28106;
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
+
 @media (max-width: 1000px) {
     .dropdown-btn {
         border-radius: 6px;
@@ -462,6 +497,11 @@ html, body {
     #download-button {
         font-size: 1.5vw;
         padding: 4px 8px;
+    }
+
+    /* Style the individual dropdown items */
+    #download-button .dropdown-item {
+        font-size: 1.5vw;
     }
 }
 

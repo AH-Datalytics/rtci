@@ -483,7 +483,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     return this.getTotalLength();
                 })
                 .transition()
-                .duration(1500)
+                .duration(1000)
                 .ease(d3.easeLinear)
                 .attr("stroke-dashoffset", 0);
         }
@@ -510,7 +510,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (filtersChanged) {
                 dots.attr("r", 0)
                     .transition()
-                    .delay(1500)
+                    .delay(1000)
                     .duration(100)
                     .ease(d3.easeLinear)
                     .attr("r", dotSize);
@@ -578,7 +578,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     return this.getTotalLength();
                 })
                 .transition()
-                .duration(1000)
+                .duration(750)
                 .ease(d3.easeLinear)
                 .attr("stroke-dashoffset", 0);
             }

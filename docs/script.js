@@ -559,6 +559,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
         } else {
             svg.selectAll(".line-segment")
+                .style("cursor", "pointer")
                 .on("mousemove", function(event, d) {
                     const [mouseX] = d3.pointer(event);
                     const xDate = x.invert(mouseX);

@@ -543,7 +543,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     tooltip.transition()
                         .duration(0)
                         .style("opacity", .9);
-                    tooltip.html(`<strong>Agency:</strong> ${d.agency_full}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Total:</strong> ${abbreviateNumber(d.value)}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
+                    tooltip.html(`<strong>Agency:</strong> ${d.agency_full}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Total:</strong> ${d3.format(",")(d.value)}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
                         .style("left", (event.pageX + 5) + "px")
                         .style("top", (event.pageY - 28) + "px");
                 })
@@ -570,7 +570,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     tooltip.transition()
                         .duration(0)
                         .style("opacity", .9);
-                    tooltip.html(`<strong>Agency:</strong> ${closestData.agency_full}<br><strong>Crime Type:</strong> ${closestData.crime_type}<br><strong>12 Month Sum:</strong> ${abbreviateNumber(closestData.value)}<br><strong>Through:</strong> ${d3.timeFormat("%B %Y")(closestData.date)}`)
+                    tooltip.html(`<strong>Agency:</strong> ${closestData.agency_full}<br><strong>Crime Type:</strong> ${closestData.crime_type}<br><strong>12 Month Sum:</strong> ${d3.format(",")(closestData.value)}<br><strong>Through:</strong> ${d3.timeFormat("%B %Y")(closestData.date)}`)
                         .style("left", (event.pageX + 5) + "px")
                         .style("top", (event.pageY - 28) + "px");
                 })

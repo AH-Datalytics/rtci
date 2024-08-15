@@ -101,7 +101,7 @@ tr:hover {
 
 .table-container {
     width: 100%;
-    max-height: 65vh; /* Adjust as needed */
+    max-height: 74vh; /* Adjust as needed */
     overflow-y: auto; /* Enable vertical scrolling */
 }
 

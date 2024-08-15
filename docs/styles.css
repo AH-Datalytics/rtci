@@ -101,7 +101,7 @@ html, body {
 
 #graph-kpis-container {
     display: flex;
-    width: 90%;
+    width: 100%;
     justify-content: space-between;
     align-items: flex-start; /* Align items to the start to ensure the tab-navigation is at the top */
     margin-top: 2rem;

@@ -105,7 +105,7 @@ html, body {
     justify-content: space-between;
     align-items: flex-start; /* Align items to the start to ensure the tab-navigation is at the top */
     margin-top: 2rem;
-    height: 65%;
+    height: 74%;
     position: relative; /* Ensure this is relative so the tab-navigation can be positioned absolutely within it */
 }
 

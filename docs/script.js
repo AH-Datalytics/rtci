@@ -630,7 +630,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .style("fill", "#00333a");
 
         captionTextElement.append("tspan")
-            .text("Population Covered* : ")
+            .text("Population Covered : ")
             .attr("x", 0);
 
         captionTextElement.append("tspan")

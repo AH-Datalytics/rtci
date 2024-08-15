@@ -270,3 +270,10 @@ thead th {
     }
     
 }
+
+@media (max-width: 600px) {
+    .table-container {
+        height: 83vh;
+        max-height: 83vh;
+    }
+}

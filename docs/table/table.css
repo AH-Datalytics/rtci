@@ -1,6 +1,9 @@
-body {
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
     font-family: 'Roboto Condensed', Arial, sans-serif;
-    overflow-y: auto;
+    overflow: hidden;
 }
 
 .tab-navigation {
@@ -42,7 +45,7 @@ body {
 
 
 .rtci-table-container {
-    width: 90%;
+    width: 98.5%;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -101,7 +104,8 @@ tr:hover {
 
 .table-container {
     width: 100%;
-    max-height: 65vh; /* Adjust as needed */
+    height: 68vh;
+    max-height: 68vh; /* Adjust as needed */
     overflow-y: auto; /* Enable vertical scrolling */
 }
 
@@ -265,4 +269,11 @@ thead th {
         border-radius: 5px;
     }
     
+}
+
+@media (max-width: 600px) {
+    .table-container {
+        height: 83vh;
+        max-height: 83vh;
+    }
 }

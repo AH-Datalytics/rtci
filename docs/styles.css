@@ -5,6 +5,7 @@ html, body {
     height: 100%;
     width: 100%;
     background-color: white;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
 }
 
 .tab-navigation {
@@ -100,11 +101,11 @@ html, body {
 
 #graph-kpis-container {
     display: flex;
-    width: 90%;
+    width: 98.5%;
     justify-content: space-between;
     align-items: flex-start; /* Align items to the start to ensure the tab-navigation is at the top */
     margin-top: 2rem;
-    height: 65%;
+    height: 68%;
     position: relative; /* Ensure this is relative so the tab-navigation can be positioned absolutely within it */
 }
 
@@ -113,7 +114,7 @@ html, body {
     font-family: 'Roboto Condensed', Arial, sans-serif;
     font-size: 3vw;
     text-align: center;
-    margin-top: 2rem;
+    margin-top: 0.5rem;
 }
 
 .filters-container {
@@ -250,7 +251,7 @@ html, body {
 
 /* Line Graph and Kpis Styles */
 .rtci-line-graph {
-    width: 75%;
+    width: 110%;
     height: 100%;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -351,6 +352,40 @@ html, body {
     position: relative;
 }
 
+#download-button .dropdown-menu .dropdown-item {
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+/* Style the dropdown menu container */
+#download-button .dropdown-menu {
+    padding: 0px; /* Reduce padding */
+    margin: 0;
+    min-width: 100% !important; /* Use !important to enforce the width */
+    width: 100%; /* Set a fixed width */
+    box-sizing: border-box; /* Ensures padding is included in width */
+    background-color: #f9f9f9;
+    display: inline-block; /* or inline-block */
+    flex-direction: column;
+    align-items: center; /* Center items if using flexbox */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+
+/* Style the individual dropdown items */
+#download-button .dropdown-item {
+    color: #00333a;
+    padding: 3px;
+    font-size: 0.9vw;
+}
+
+/* Add a hover effect to dropdown items */
+#download-button .dropdown-item:hover {
+    color: #f28106;
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
+
 @media (max-width: 1000px) {
     .dropdown-btn {
         border-radius: 6px;
@@ -363,7 +398,7 @@ html, body {
 
 @media (max-width: 600px) {
     #rtci-dashboard {
-        height: 175vh;
+        height: 265vh;
     }
 
     .rtci-header {
@@ -404,7 +439,7 @@ html, body {
 
     .rtci-line-graph {
         width: 100%;
-        height: 100vh;
+        height: 122vh;
         margin-bottom: 0.5rem;
     }
 
@@ -431,7 +466,7 @@ html, body {
         background-color: #f28106;
         color: white;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        height: 10%;
+        height: 5%;
     }
 
     .kpi-box:first-child {
@@ -462,6 +497,11 @@ html, body {
     #download-button {
         font-size: 1.5vw;
         padding: 4px 8px;
+    }
+
+    /* Style the individual dropdown items */
+    #download-button .dropdown-item {
+        font-size: 1.5vw;
     }
 }
 

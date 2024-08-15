@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
+    // Define elements for dropdowns and buttons
     const crimeTypeSelect = document.getElementById("crime-type-dropdown");
     const stateSelect = document.getElementById("state-dropdown");
     const agencySelect = document.getElementById("agency-dropdown");
@@ -14,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let allData = [];
     let filtersChanged = false; // Flag to track filter changes
 
+    // Function to close all dropdowns
     function closeAllDropdowns() {
         const dropdownMenus = document.querySelectorAll(".dropdown-menu");
         dropdownMenus.forEach(menu => {
@@ -21,22 +23,31 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    // Function to toggle dropdowns
     function toggleDropdown(button, dropdown) {
         button.addEventListener('click', function(event) {
             event.stopPropagation();
-            closeAllDropdowns();
+            closeAllDropdowns(); // Close all dropdowns before toggling the current one
             dropdown.classList.toggle("show");
+    
+            // Close the download dropdown menu if it's open
+            const downloadMenu = document.querySelector("#download-button .dropdown-menu");
+            if (downloadMenu && downloadMenu.style.display === "block") {
+                downloadMenu.style.display = "none";
+            }
         });
-
+    
         document.addEventListener('click', function() {
             closeAllDropdowns();
         });
-
+    
         dropdown.addEventListener('click', function(event) {
             event.stopPropagation();
         });
     }
+    
 
+    // Helper functions (createDropdownOption, createSearchableDropdown, etc.)
     function createDropdownOption(value, text, dropdown, button) {
         const option = document.createElement("div");
         option.className = "dropdown-item";
@@ -101,6 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    // Define functions for handling data filtering and rendering
     function updateFilters(data) {
         const severityOrder = ["Violent Crimes", "Murders", "Rapes", "Robberies", "Aggravated Assaults", "Property Crimes", "Burglaries", "Thefts", "Motor Vehicle Thefts"];
         const crimeTypes = severityOrder.filter(crimeType => data.some(d => d.crime_type === crimeType));
@@ -148,7 +160,6 @@ document.addEventListener("DOMContentLoaded", function() {
     
         retrieveFilterValues(defaultFilters);
     }
-    
 
     function updateAgencyFilter(data, selectedState) {
         let agencies = [...new Set(data.filter(d => d.state_name === selectedState).map(d => d.agency_name))];
@@ -181,7 +192,6 @@ document.addEventListener("DOMContentLoaded", function() {
     
         renderChart();
     }
-    
 
     function filterData(data) {
         const selectedCrimeType = crimeTypeBtn.dataset.value;
@@ -264,7 +274,6 @@ document.addEventListener("DOMContentLoaded", function() {
             <p><strong>${formattedYtdSumPrevYear}</strong></p>
         `;
     }
-    
 
     function updateKPIBox3(filteredData) {
         const kpiBox3 = document.getElementById("kpi-box3");
@@ -319,7 +328,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return d3.format(",")(value);
     }
 
-    function abbreviateNumberForCaption(value) { // Add function to abbreviate caption pop (currently same)
+    function abbreviateNumberForCaption(value) {
         if (value >= 1e6) {
             return (value / 1e6).toFixed(2) + "M";
         }
@@ -329,7 +338,6 @@ document.addEventListener("DOMContentLoaded", function() {
         return d3.format(",")(value);
     }    
     
-
     function renderChart() {
         const filteredData = filterData(allData);
     
@@ -354,15 +362,8 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
     
-        // Re-add the download button
-        d3.select("#line-graph-container")
-        .append("button")
-        .attr("id", "download-button")
-        .html('<i class="fas fa-download"></i> Download Filtered Data')
-        .on("click", function() {
-            const filteredData = filterData(allData);
-            downloadFilteredData(filteredData);
-        });
+        // Ensure the download button is functional
+        ensureDownloadButtonIsFunctional();
 
         updateKPIBox1(filteredData);
         updateKPIBox2(filteredData);
@@ -383,15 +384,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Append the logo image to the SVG
         svg.append("image")
-            .attr("xlink:href", "images/rtci_full_logo.png")  // Path to your logo
-            .attr("x", -margin.left + 80)  // Offset by margin and set a fixed distance from the left
-            .attr("y", -margin.top - 3)  // Offset by margin and set a fixed distance from the top
-            .attr("width", 60)  // Fixed width
-            .attr("height", 60)  // Fixed height
-            .attr("opacity", 0.5);  // Adjust the opacity as needed
-
-
-
+            .attr("xlink:href", "images/rtci_full_logo.png")
+            .attr("x", -margin.left + 80)
+            .attr("y", -margin.top - 3)
+            .attr("width", 60)
+            .attr("height", 60)
+            .attr("opacity", 0.5);
 
         const x = d3.scaleTime()
             .domain(d3.extent(filteredData, d => d.date))
@@ -421,7 +419,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const yAxis = d3.axisLeft(y)
             .ticks(Math.min(d3.max(filteredData, d => d.value), 10))
-            .tickFormat(abbreviateNumber);  // Use the updated abbreviateNumber function here
+            .tickFormat(abbreviateNumber);
 
         const yAxisGroup = svg.append("g")
             .call(yAxis);
@@ -448,7 +446,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const maxYLabelWidth = Math.max(...yAxisGroup.selectAll(".tick text").nodes().map(node => node.getBBox().width));
 
-
         svg.append("text")
             .attr("transform", "rotate(-90)")
             .attr("y", -margin.left - maxYLabelWidth + 35)
@@ -473,13 +470,12 @@ document.addEventListener("DOMContentLoaded", function() {
             .attr("stroke", "#2d5ef9")
             .attr("stroke-width", lineThickness)
             .attr("d", d3.line()
-                .curve(d3.curveCatmullRom.alpha(0.5))  // Keep the curve for smoothness
+                .curve(d3.curveCatmullRom.alpha(0.5))
                 .x(d => x(d.date))
                 .y(d => y(d.value))
             );
 
         if (filtersChanged) {
-            // Apply animation if filters have changed
             line.attr("stroke-dasharray", function() { 
                     return this.getTotalLength(); 
                 })
@@ -487,7 +483,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     return this.getTotalLength();
                 })
                 .transition()
-                .duration(1500)
+                .duration(1000)
                 .ease(d3.easeLinear)
                 .attr("stroke-dashoffset", 0);
         }
@@ -512,12 +508,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 .style("cursor", "pointer");
 
             if (filtersChanged) {
-                dots.attr("r", 0)  // Start with a radius of 0 for the animation
+                dots.attr("r", 0)
                     .transition()
-                    .delay(1500)  // Delay dots' appearance until after the line animation completes
+                    .delay(1000)
                     .duration(100)
                     .ease(d3.easeLinear)
-                    .attr("r", dotSize);  // Animate the radius to the desired size
+                    .attr("r", dotSize);
             }
 
             dots.on("mouseover", function(event, d) {
@@ -530,11 +526,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     .style("left", (event.pageX + 5) + "px")
                     .style("top", (event.pageY - 28) + "px");
             })
-            .on("mousemove", function(event, d) {
+            .on("mousemove", function(event) {
                 tooltip.style("left", (event.pageX + 5) + "px")
                     .style("top", (event.pageY - 28) + "px");
             })
-            .on("mouseout", function(d) {
+            .on("mouseout", function() {
                 d3.select(this).attr("fill", "#2d5ef9");
                 tooltip.transition()
                     .duration(500)
@@ -551,7 +547,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     .x(d => x(d.date))
                     .y(d => y(d.value))
                 )
-                .style("cursor", "pointer")  // Keep the cursor change here
+                .style("cursor", "pointer")
                 .on("mousemove", function(event) {
                     const [mouseX, mouseY] = d3.pointer(event);
                     const xDate = x.invert(mouseX);
@@ -575,7 +571,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
         
             if (filtersChanged) {
-                // Apply animation if filters have changed
                 path.attr("stroke-dasharray", function() { 
                     return this.getTotalLength(); 
                 })
@@ -583,19 +578,18 @@ document.addEventListener("DOMContentLoaded", function() {
                     return this.getTotalLength();
                 })
                 .transition()
-                .duration(1000)  // Halve the duration of the Monthly Totals line @ 1 sec
-                .ease(d3.easeLinear)  // Easing to match the Monthly Totals line
+                .duration(750)
+                .ease(d3.easeLinear)
                 .attr("stroke-dashoffset", 0);
             }
         }
 
-        filtersChanged = false; // Reset the flag after rendering
+        filtersChanged = false;
 
         const agencyFull = filteredData[0].agency_full;
         const stateUcrLink = filteredData[0].state_ucr_link;
         let sourceText;
 
-        // Check if the agency name ends with 's'
         if (agencyFull.endsWith("s")) {
             sourceText = `${agencyFull}' primary`;
         } else {
@@ -623,44 +617,20 @@ document.addEventListener("DOMContentLoaded", function() {
             .on("click", function() { window.open(stateUcrLink, "_blank"); })
             .text("source.");
 
-
         const population = abbreviateNumberForCaption(filteredData[0].population);
         const agencyCount = filteredData[0].agency_count || "N/A";
 
-        // Define the captionGroup as before
         const captionGroup = svg.append("g")
         .attr("transform", `translate(0, ${height + margin.bottom - 10})`)
         .attr("text-anchor", "start")
         .attr("class", "caption-group");
-
-        // Function to adjust caption position based on screen size
-        function adjustCaptionForMobile() {
-        const isMobile = window.innerWidth <= 600; // Adjust for screens 600px or less
-
-        if (isMobile) {
-            // For mobile view, adjust the translate value
-            captionGroup.attr("transform", `translate(-60, ${height + margin.bottom - 10})`);
-            sourceGroup.attr("transform", `translate(${width + 20}, ${height + margin.bottom - 10})`);
-        } else {
-            // For non-mobile view, use the standard translate value
-            captionGroup.attr("transform", `translate(0, ${height + margin.bottom - 10})`);
-            sourceGroup.attr("transform", `translate(${width}, ${height + margin.bottom - 10})`);
-        }
-        }
-
-        // Initial adjustment
-        adjustCaptionForMobile();
-
-        // Adjust on window resize
-        window.addEventListener('resize', adjustCaptionForMobile);
-
 
         const captionTextElement = captionGroup.append("text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a");
 
         captionTextElement.append("tspan")
-            .text("Population Covered* : ")
+            .text("Population Covered: ")
             .attr("x", 0);
 
         captionTextElement.append("tspan")
@@ -676,6 +646,27 @@ document.addEventListener("DOMContentLoaded", function() {
             .text(agencyCount)
             .attr("dx", "0em")
             .style("fill", "#f28106");
+
+        // Function to adjust caption position based on screen size
+    function adjustCaptionForMobile() {
+        const isMobile = window.innerWidth <= 600; // Adjust for screens 600px or less
+
+        if (isMobile) {
+            // For mobile view, adjust the translate value
+            captionGroup.attr("transform", `translate(-60, ${height + margin.bottom - 10})`);
+            sourceGroup.attr("transform", `translate(${width + 20}, ${height + margin.bottom - 10})`);
+        } else {
+            // For non-mobile view, use the standard translate value
+            captionGroup.attr("transform", `translate(0, ${height + margin.bottom - 10})`);
+            sourceGroup.attr("transform", `translate(${width}, ${height + margin.bottom - 10})`);
+        }
+    }
+
+    // Initial adjustment
+    adjustCaptionForMobile();
+
+    // Adjust on window resize
+    window.addEventListener('resize', adjustCaptionForMobile);
     }
 
     function downloadFilteredData(filteredData) {
@@ -768,10 +759,67 @@ document.addEventListener("DOMContentLoaded", function() {
     toggleDropdown(agencyBtn, agencySelect);
     toggleDropdown(dataTypeBtn, dataTypeDropdown);
 
-    downloadButton.addEventListener("click", function() {
+    // Create the dropdown menu for the download button
+    const downloadMenu = document.createElement("div");
+    downloadMenu.className = "dropdown-menu";
+    downloadMenu.style.position = "absolute";
+    downloadMenu.style.top = "100%";
+    downloadMenu.style.right = "0";
+    downloadMenu.style.minWidth = "150px"; // Adjust as needed
+    downloadMenu.style.display = "none";
+    downloadMenu.style.zIndex = "1000";
+
+    const downloadDataOption = document.createElement("div");
+    downloadDataOption.className = "dropdown-item";
+    downloadDataOption.textContent = "Filtered Data";
+    downloadDataOption.addEventListener("click", function() {
         const filteredData = filterData(allData);
         downloadFilteredData(filteredData);
+        setTimeout(() => {
+            downloadMenu.style.display = "none"; // Close the dropdown after click
+        }, 100); // Adding a slight delay
     });
+
+    const downloadImageOption = document.createElement("div");
+    downloadImageOption.className = "dropdown-item";
+    downloadImageOption.textContent = "Graph";
+    downloadImageOption.addEventListener("click", function() {
+        downloadGraphAsImage();
+        setTimeout(() => {
+            downloadMenu.style.display = "none"; // Close the dropdown after click
+        }, 100); // Adding a slight delay
+    });
+
+
+    downloadMenu.appendChild(downloadDataOption);
+    downloadMenu.appendChild(downloadImageOption);
+    downloadButton.appendChild(downloadMenu);
+
+   // Toggle the dropdown menu on download button click
+downloadButton.addEventListener("click", function(event) {
+    event.stopPropagation();
+    const isMenuVisible = downloadMenu.style.display === "block";
+    closeAllDropdowns();
+    downloadMenu.style.display = isMenuVisible ? "none" : "block";
+});
+
+// Global event listener to close the dropdown menu when clicking outside
+document.addEventListener("click", function(event) {
+    // Check if the click was outside the download button or the dropdown menu
+    if (!downloadButton.contains(event.target) && !downloadMenu.contains(event.target)) {
+        downloadMenu.style.display = "none"; // Close the dropdown menu
+    }
+});
+
+
+    // Function to ensure the button doesn't get re-added
+    function ensureDownloadButtonIsFunctional() {
+        const existingButton = document.getElementById("download-button");
+        if (!existingButton) {
+            const container = document.querySelector("#line-graph-container");
+            container.appendChild(downloadButton);
+        }
+    }
 
     dataTypeDropdown.addEventListener('click', event => {
         const selectedItem = event.target.closest('.dropdown-item');
@@ -784,7 +832,6 @@ document.addEventListener("DOMContentLoaded", function() {
             saveFilterValues();
         }
     });
-    
 
     const dataTypeSelect = document.getElementById("data-type");
     dataTypeSelect.addEventListener('change', renderChart);
@@ -819,3 +866,61 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 });
+
+
+function downloadGraphAsImage() {
+    const graphContainer = document.getElementById("line-graph-container");
+    const downloadButton = document.getElementById("download-button");
+
+    // Calculate the dynamic margins based on the graph's dimensions and positioning
+    const graphBoundingBox = graphContainer.getBoundingClientRect();
+    const svgElement = graphContainer.querySelector("svg");
+    const svgBoundingBox = svgElement.getBoundingClientRect();
+
+    // Calculate the margin differences
+    const marginLeft = svgBoundingBox.left - graphBoundingBox.left + 80;  // Adjust if needed based on your graph
+    const marginTop = svgBoundingBox.top - graphBoundingBox.top + 12;     // Adjust if needed based on your graph
+
+    // Create an image element for the logo
+    const logoImage = document.createElement("img");
+    logoImage.src = "images/rtci_full_logo.png"; // Path to your logo
+    logoImage.style.position = "absolute";
+    logoImage.style.top = `${marginTop}px`; // Position based on dynamic margin calculation
+    logoImage.style.left = `${marginLeft}px`; // Position based on dynamic margin calculation
+    logoImage.style.width = "90px"; // Adjust size relative to container width
+    logoImage.style.height = "auto"; // Maintain aspect ratio
+    logoImage.style.opacity = "0.5"; // Opacity as in your SVG
+
+    // Append the logo image to the graph container temporarily
+    graphContainer.appendChild(logoImage);
+
+    // Temporarily hide the download button
+    downloadButton.style.display = "none";
+
+    // Wait for fonts to be ready before capturing
+    document.fonts.ready.then(function() {
+        html2canvas(graphContainer, {
+            useCORS: true,
+            backgroundColor: "#ffffff", // Ensure white background
+            logging: true, // Enable logging for debugging purposes
+            scale: 2 // Increase scale for higher resolution
+        }).then(canvas => {
+            // Convert canvas to PNG format
+            const imgURI = canvas.toDataURL("image/png");
+
+            const link = document.createElement("a");
+            link.setAttribute("href", imgURI);
+            link.setAttribute("download", "graph_screenshot.png");
+            link.click();
+
+            // Restore the download button and remove the logo image after the image is captured
+            downloadButton.style.display = "";
+            graphContainer.removeChild(logoImage);
+        }).catch(error => {
+            console.error("Error capturing the graph as a screenshot:", error);
+            // Restore the download button and remove the logo image in case of an error
+            downloadButton.style.display = "";
+            graphContainer.removeChild(logoImage);
+        });
+    });
+}

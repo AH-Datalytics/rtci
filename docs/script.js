@@ -46,7 +46,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
     
-
     // Helper functions (createDropdownOption, createSearchableDropdown, etc.)
     function createDropdownOption(value, text, dropdown, button) {
         const option = document.createElement("div");
@@ -464,42 +463,64 @@ document.addEventListener("DOMContentLoaded", function() {
         const lineThickness = Math.max(Math.min(width * 0.005, 2.5), 1);
         const dotSize = Math.max(Math.min(width * 0.005, 2.5), 1);
 
-        const line = svg.append("path")
-            .datum(filteredData)
+        // Define the line function
+        const line = d3.line()
+            .curve(d3.curveCatmullRom.alpha(0.5))
+            .x(d => x(d.date))
+            .y(d => y(d.value));
+
+        // Filtered data to remove any NA values and create segments
+        const filteredSegments = [];
+        let currentSegment = [];
+
+        filteredData.forEach((d, i) => {
+            if (!isNaN(d.value)) {
+                currentSegment.push(d);
+            } else if (currentSegment.length > 0) {
+                filteredSegments.push(currentSegment);
+                currentSegment = [];
+            }
+        });
+
+        if (currentSegment.length > 0) {
+            filteredSegments.push(currentSegment);
+        }
+
+        // Append multiple paths to represent the line with breaks for NA values
+        svg.selectAll(".line-segment")
+            .data(filteredSegments)
+            .enter().append("path")
+            .attr("class", "line-segment")
             .attr("fill", "none")
             .attr("stroke", "#2d5ef9")
             .attr("stroke-width", lineThickness)
-            .attr("d", d3.line()
-                .curve(d3.curveCatmullRom.alpha(0.5))
-                .x(d => x(d.date))
-                .y(d => y(d.value))
-            );
+            .attr("d", line)
+            .each(function(d, i) {
+                if (filtersChanged) {
+                    const totalLength = this.getTotalLength();
+                    d3.select(this)
+                        .attr("stroke-dasharray", totalLength + " " + totalLength)
+                        .attr("stroke-dashoffset", totalLength)
+                        .transition()
+                        .delay(i * 500) // Stagger the animations based on the segment index
+                        .duration(1000)
+                        .ease(d3.easeLinear)
+                        .attr("stroke-dashoffset", 0);
+                }
+            });
 
-        if (filtersChanged) {
-            line.attr("stroke-dasharray", function() { 
-                    return this.getTotalLength(); 
-                })
-                .attr("stroke-dashoffset", function() { 
-                    return this.getTotalLength();
-                })
-                .transition()
-                .duration(1000)
-                .ease(d3.easeLinear)
-                .attr("stroke-dashoffset", 0);
-        }
-
-        const selectedDataType = dataTypeBtn.dataset.value;
-
-        const formatComma = d3.format(",");
-
+        // Tooltip logic
         const tooltip = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0)
             .style("font-family", "'Roboto Condensed', Arial, sans-serif");
 
+        // Conditional rendering based on selected data type
+        const selectedDataType = dataTypeBtn.dataset.value;
+
         if (selectedDataType === "count") {
             const dots = svg.selectAll("circle")
-                .data(filteredData)
+                .data(filteredData.filter(d => !isNaN(d.value)))
                 .enter().append("circle")
                 .attr("cx", d => x(d.date))
                 .attr("cy", d => y(d.value))
@@ -510,57 +531,45 @@ document.addEventListener("DOMContentLoaded", function() {
             if (filtersChanged) {
                 dots.attr("r", 0)
                     .transition()
-                    .delay(1000)
+                    .delay(1000) // Ensure dots appear after the lines are drawn
                     .duration(100)
                     .ease(d3.easeLinear)
                     .attr("r", dotSize);
             }
 
             dots.on("mouseover", function(event, d) {
-                d3.select(this).attr("fill", "#f28106");
+                    d3.select(this).attr("fill", "#f28106");
 
-                tooltip.transition()
-                    .duration(0)
-                    .style("opacity", .9);
-                tooltip.html(`<strong>Agency:</strong> ${d.agency_full}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Total:</strong> ${formatComma(d.value)}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
-                    .style("left", (event.pageX + 5) + "px")
-                    .style("top", (event.pageY - 28) + "px");
-            })
-            .on("mousemove", function(event) {
-                tooltip.style("left", (event.pageX + 5) + "px")
-                    .style("top", (event.pageY - 28) + "px");
-            })
-            .on("mouseout", function() {
-                d3.select(this).attr("fill", "#2d5ef9");
-                tooltip.transition()
-                    .duration(500)
-                    .style("opacity", 0);
-            });
-        } else {
-            const path = svg.append("path")
-                .datum(filteredData)
-                .attr("fill", "none")
-                .attr("stroke", "#2d5ef9")
-                .attr("stroke-width", lineThickness)
-                .attr("d", d3.line()
-                    .curve(d3.curveCatmullRom.alpha(0.5))
-                    .x(d => x(d.date))
-                    .y(d => y(d.value))
-                )
-                .style("cursor", "pointer")
+                    tooltip.transition()
+                        .duration(0)
+                        .style("opacity", .9);
+                    tooltip.html(`<strong>Agency:</strong> ${d.agency_full}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Total:</strong> ${abbreviateNumber(d.value)}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
+                        .style("left", (event.pageX + 5) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
                 .on("mousemove", function(event) {
-                    const [mouseX, mouseY] = d3.pointer(event);
+                    tooltip.style("left", (event.pageX + 5) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mouseout", function() {
+                    d3.select(this).attr("fill", "#2d5ef9");
+                    tooltip.transition()
+                        .duration(500)
+                        .style("opacity", 0);
+                });
+        } else {
+            svg.selectAll(".line-segment")
+                .on("mousemove", function(event, d) {
+                    const [mouseX] = d3.pointer(event);
                     const xDate = x.invert(mouseX);
                     const closestData = filteredData.reduce((a, b) => {
                         return Math.abs(b.date - xDate) < Math.abs(a.date - xDate) ? b : a;
                     });
-                    const xPos = x(closestData.date);
-                    const yPos = y(closestData.value);
-        
+
                     tooltip.transition()
                         .duration(0)
                         .style("opacity", .9);
-                    tooltip.html(`<strong>Agency:</strong> ${closestData.agency_full}<br><strong>Crime Type:</strong> ${closestData.crime_type}<br><strong>12 Month Sum:</strong> ${formatComma(closestData.value)}<br><strong>Through:</strong> ${d3.timeFormat("%B %Y")(closestData.date)}`)
+                    tooltip.html(`<strong>Agency:</strong> ${closestData.agency_full}<br><strong>Crime Type:</strong> ${closestData.crime_type}<br><strong>12 Month Sum:</strong> ${abbreviateNumber(closestData.value)}<br><strong>Through:</strong> ${d3.timeFormat("%B %Y")(closestData.date)}`)
                         .style("left", (event.pageX + 5) + "px")
                         .style("top", (event.pageY - 28) + "px");
                 })
@@ -569,23 +578,14 @@ document.addEventListener("DOMContentLoaded", function() {
                         .duration(500)
                         .style("opacity", 0);
                 });
-        
-            if (filtersChanged) {
-                path.attr("stroke-dasharray", function() { 
-                    return this.getTotalLength(); 
-                })
-                .attr("stroke-dashoffset", function() { 
-                    return this.getTotalLength();
-                })
-                .transition()
-                .duration(750)
-                .ease(d3.easeLinear)
-                .attr("stroke-dashoffset", 0);
-            }
         }
 
         filtersChanged = false;
 
+        appendSourceAndCaption(svg, width, height, filteredData, margin);
+    }
+
+    function appendSourceAndCaption(svg, width, height, filteredData, margin) {
         const agencyFull = filteredData[0].agency_full;
         const stateUcrLink = filteredData[0].state_ucr_link;
         let sourceText;
@@ -621,9 +621,9 @@ document.addEventListener("DOMContentLoaded", function() {
         const agencyCount = filteredData[0].agency_count || "N/A";
 
         const captionGroup = svg.append("g")
-        .attr("transform", `translate(0, ${height + margin.bottom - 10})`)
-        .attr("text-anchor", "start")
-        .attr("class", "caption-group");
+            .attr("transform", `translate(0, ${height + margin.bottom - 10})`)
+            .attr("text-anchor", "start")
+            .attr("class", "caption-group");
 
         const captionTextElement = captionGroup.append("text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
@@ -648,25 +648,25 @@ document.addEventListener("DOMContentLoaded", function() {
             .style("fill", "#f28106");
 
         // Function to adjust caption position based on screen size
-    function adjustCaptionForMobile() {
-        const isMobile = window.innerWidth <= 600; // Adjust for screens 600px or less
+        function adjustCaptionForMobile() {
+            const isMobile = window.innerWidth <= 600; // Adjust for screens 600px or less
 
-        if (isMobile) {
-            // For mobile view, adjust the translate value
-            captionGroup.attr("transform", `translate(-60, ${height + margin.bottom - 10})`);
-            sourceGroup.attr("transform", `translate(${width + 20}, ${height + margin.bottom - 10})`);
-        } else {
-            // For non-mobile view, use the standard translate value
-            captionGroup.attr("transform", `translate(0, ${height + margin.bottom - 10})`);
-            sourceGroup.attr("transform", `translate(${width}, ${height + margin.bottom - 10})`);
+            if (isMobile) {
+                // For mobile view, adjust the translate value
+                captionGroup.attr("transform", `translate(-60, ${height + margin.bottom - 10})`);
+                sourceGroup.attr("transform", `translate(${width + 20}, ${height + margin.bottom - 10})`);
+            } else {
+                // For non-mobile view, use the standard translate value
+                captionGroup.attr("transform", `translate(0, ${height + margin.bottom - 10})`);
+                sourceGroup.attr("transform", `translate(${width}, ${height + margin.bottom - 10})`);
+            }
         }
-    }
 
-    // Initial adjustment
-    adjustCaptionForMobile();
+        // Initial adjustment
+        adjustCaptionForMobile();
 
-    // Adjust on window resize
-    window.addEventListener('resize', adjustCaptionForMobile);
+        // Adjust on window resize
+        window.addEventListener('resize', adjustCaptionForMobile);
     }
 
     function downloadFilteredData(filteredData) {
@@ -790,27 +790,25 @@ document.addEventListener("DOMContentLoaded", function() {
         }, 100); // Adding a slight delay
     });
 
-
     downloadMenu.appendChild(downloadDataOption);
     downloadMenu.appendChild(downloadImageOption);
     downloadButton.appendChild(downloadMenu);
 
-   // Toggle the dropdown menu on download button click
-downloadButton.addEventListener("click", function(event) {
-    event.stopPropagation();
-    const isMenuVisible = downloadMenu.style.display === "block";
-    closeAllDropdowns();
-    downloadMenu.style.display = isMenuVisible ? "none" : "block";
-});
+    // Toggle the dropdown menu on download button click
+    downloadButton.addEventListener("click", function(event) {
+        event.stopPropagation();
+        const isMenuVisible = downloadMenu.style.display === "block";
+        closeAllDropdowns();
+        downloadMenu.style.display = isMenuVisible ? "none" : "block";
+    });
 
-// Global event listener to close the dropdown menu when clicking outside
-document.addEventListener("click", function(event) {
-    // Check if the click was outside the download button or the dropdown menu
-    if (!downloadButton.contains(event.target) && !downloadMenu.contains(event.target)) {
-        downloadMenu.style.display = "none"; // Close the dropdown menu
-    }
-});
-
+    // Global event listener to close the dropdown menu when clicking outside
+    document.addEventListener("click", function(event) {
+        // Check if the click was outside the download button or the dropdown menu
+        if (!downloadButton.contains(event.target) && !downloadMenu.contains(event.target)) {
+            downloadMenu.style.display = "none"; // Close the dropdown menu
+        }
+    });
 
     // Function to ensure the button doesn't get re-added
     function ensureDownloadButtonIsFunctional() {

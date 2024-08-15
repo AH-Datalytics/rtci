@@ -143,7 +143,12 @@ final_sample_long <- final_sample_long %>%
 
 
 
+## PRE LAUNCH: REMOVE STATE FULL SAMPLES 
+full_states <- final_sample_long %>%
+  filter((agency_name == "Full Sample" & state_name != "Nationwide"))
 
+final_sample_long <- final_sample_long %>%
+  filter(!(agency_name == "Full Sample" & state_name != "Nationwide"))
 
 
 # Print the first few rows of the cleaned data with all columns
@@ -210,7 +215,7 @@ final_dataset <- final_dataset %>%
   mutate(Percent_Change = ifelse((YTD == 0 & PrevYTD == 0 & is.na(Percent_Change)), 0, Percent_Change))
 
 final_dataset <- final_dataset %>% 
-  mutate(Percent_Change = ifelse(Percent_Change == "Inf", 1000, Percent_Change))
+  mutate(Percent_Change = ifelse(Percent_Change == "Inf", 9999, Percent_Change))
 
 # Audit 
 na_percents <- final_dataset %>% filter(is.na(Percent_Change) | Percent_Change == "Inf") 
@@ -279,6 +284,10 @@ final_sample <- final_sample %>%
 # Month formatting
 final_sample <- final_sample %>% 
   mutate(month_year = paste(month(date, label = TRUE, abbr = FALSE), year(date), sep = " "))
+
+## PRE LAUNCH: REMOVE STATE FULL SAMPLES 
+final_sample <- final_sample %>%
+  filter(!(agency_name == "Full Sample" & state_name != "Nationwide"))
 
 
 write.csv(final_sample, "../docs/app_data/by_agency_table.csv", row.names = FALSE)

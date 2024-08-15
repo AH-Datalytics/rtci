@@ -646,6 +646,27 @@ document.addEventListener("DOMContentLoaded", function() {
             .text(agencyCount)
             .attr("dx", "0em")
             .style("fill", "#f28106");
+
+        // Function to adjust caption position based on screen size
+    function adjustCaptionForMobile() {
+        const isMobile = window.innerWidth <= 600; // Adjust for screens 600px or less
+
+        if (isMobile) {
+            // For mobile view, adjust the translate value
+            captionGroup.attr("transform", `translate(-60, ${height + margin.bottom - 10})`);
+            sourceGroup.attr("transform", `translate(${width + 20}, ${height + margin.bottom - 10})`);
+        } else {
+            // For non-mobile view, use the standard translate value
+            captionGroup.attr("transform", `translate(0, ${height + margin.bottom - 10})`);
+            sourceGroup.attr("transform", `translate(${width}, ${height + margin.bottom - 10})`);
+        }
+    }
+
+    // Initial adjustment
+    adjustCaptionForMobile();
+
+    // Adjust on window resize
+    window.addEventListener('resize', adjustCaptionForMobile);
     }
 
     function downloadFilteredData(filteredData) {

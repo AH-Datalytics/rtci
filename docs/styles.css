@@ -101,7 +101,7 @@ html, body {
 
 #graph-kpis-container {
     display: flex;
-    width: 97%;
+    width: 98%;
     justify-content: space-between;
     align-items: flex-start; /* Align items to the start to ensure the tab-navigation is at the top */
     margin-top: 2rem;
@@ -114,7 +114,7 @@ html, body {
     font-family: 'Roboto Condensed', Arial, sans-serif;
     font-size: 3vw;
     text-align: center;
-    margin-top: 2rem;
+    margin-top: 0rem;
 }
 
 .filters-container {

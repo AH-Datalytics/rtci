@@ -213,6 +213,20 @@ length(unique(combined_df$city_state))
 #351 agencies
 length(unique(combined_df$`Agency Name`))
 ```
+what's wrong with the allen's of the world
+```{r}
+# Ensure NA's are explicitly marked as NA in designated columns
+cdf <- combined_df %>%
+  mutate(
+    Murder = ifelse(is.na(Murder), NA, Murder),
+    Rape = ifelse(is.na(Rape), NA, Rape),
+    Robbery = ifelse(is.na(Robbery), NA, Robbery),
+    `Aggravated Assault`= ifelse(is.na(`Aggravated Assault`), NA, `Aggravated Assault`),
+    Burglary = ifelse(is.na(Burglary), NA, Burglary),
+    Theft = ifelse(is.na(Theft), NA, Theft),
+    `Motor Vehicle Theft` = ifelse(is.na(`Motor Vehicle Theft`),NA, `Motor Vehicle Theft`)
+  )
+```
 create variables for audit
 ```{r}
 # Get the current date
@@ -246,7 +260,7 @@ cat("Three Months Previous - Year:", three_months_previous_year, "Month:", three
 drop everything from current year/month and current year/previous month
 ```{r}
 # Filter out observations with the current month and year or previous month and year
-cdf <- combined_df %>%
+cdf <- cdf %>%
   filter(
     !(Year == current_year & Month == current_month) |
     !(Year == current_year & Month == previous_month_month)
@@ -277,8 +291,8 @@ print(na_three_months_previous)
 without non-reporters for 45 day lag month //first month is June
 ```{r}
 # First need to create a df from na_two_months_previous 
-non_reporters <- na_two_months_previous %>%
-  filter(is.na(Murder))
+non_reporters <- na_two_months_previous 
+#%>%filter(is.na(Murder))
 
 # Get unique values from the column in the separate dataframe
 remove_agencies <- unique(non_reporters$city_state)
@@ -308,14 +322,14 @@ cdf1 <- merge(cdf, cdf_vcpc, by = c("city_state", "Month", "Year"), all.x = TRUE
 add population figures for nationwide descriptors
 ```{r}
 #read in the ref_df file
-ref_df <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\Ben and Jeff working files\\final_sourcing.csv")
+ref_df <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data\\final_sourcing.csv")
 
 
 #make a city_state column
-ref_df <- ref_df %>% mutate(city_state = paste(Agency.Name, state, sep = ", "))
+ref_df <- ref_df %>% mutate(city_state = paste(Agency, State, sep = ", "))
 
 #slim it down for now
-ref_df1 <- ref_df %>% select(city_state, population)
+ref_df1 <- ref_df %>% select(city_state, Population)
 
 cdf_vcpc_nats <- merge(cdf_vcpc_nats, ref_df1, by = "city_state", all.x = TRUE)
 ```
@@ -329,6 +343,7 @@ cdf2 <- cdf1 %>%
 cdf_vcpc_nats <- cdf_vcpc_nats %>%
   mutate(`Violent Crime` = vio_crime,
           `Property Crime` = prop_crime,
+          Population = as.numeric(Population),
            agency_num = 1) %>%
            select(-city_state, -vio_crime, -prop_crime)
 ```
@@ -346,7 +361,7 @@ nationwide_counts <- cdf_vcpc_nats %>%
     `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
     `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
     `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
-    `Population Total` = sum(population, na.rm = TRUE),
+    `Population Total` = sum(Population, na.rm = TRUE),
     Agency_num = sum(agency_num, na.rm = TRUE),
     .groups = 'drop'
   )
@@ -450,15 +465,13 @@ remove non-current reporter
 ```{r}
 #replace population values with Population values
 colSums(is.na(df_w_ref))
-df_w_ref$population <- ifelse(is.na(df_w_ref$population), df_w_ref$`Population Total`, df_w_ref$population)
+df_w_ref$Population <- ifelse(is.na(df_w_ref$Population), df_w_ref$`Population Total`, df_w_ref$Population)
 colSums(is.na(df_w_ref))
 
 df_w_ref$Agency_num <- ifelse(is.na(df_w_ref$Agency_num), 1, df_w_ref$Agency_num)
 colSums(is.na(df_w_ref))
 
 ```
-
-
 write it out!
 ```{r}
 # Specify the folder path
@@ -488,6 +501,9 @@ file_path1 <- file.path(folder_path1, "non_reporters_june_2024.csv")
 write.csv(non_reporters, file = file_path1, row.names = FALSE)
 
 ```
+
+
+
 
 ##rapid city through march 2024; 
 

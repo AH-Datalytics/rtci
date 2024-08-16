@@ -678,7 +678,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function downloadFilteredData(filteredData) {
         const selectedDataType = dataTypeBtn.dataset.value;
-        const headers = ["agency_name", "state_name", "date", "crime_type", "number_of_agencies"];
+        const headers = ["agency_name", "state_name", "date", "crime_type", "number_of_agencies", "population_covered_fbi"];
 
         const dataColumn = selectedDataType === "count" ? "count" : "mvs_12mo";
         headers.push(dataColumn);
@@ -694,18 +694,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 d3.timeFormat("%Y-%m-%d")(d.date),
                 d.crime_type,
                 hasAgencyCount ? d.number_of_agencies : "N/A",
-                d.value
-            ];
-            csvRows.push(row.join(","));
-        });
-        
-        filteredData.forEach(d => {
-            const row = [
-                d.agency_name,
-                d.state_name,
-                d3.timeFormat("%Y-%m-%d")(d.date),
-                d.crime_type,
-                hasAgencyCount ? d.number_of_agencies : "N/A",
+                d.population || "N/A",  // Adding population to the row
                 d.value
             ];
             csvRows.push(row.join(","));

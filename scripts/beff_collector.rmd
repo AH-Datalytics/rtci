@@ -260,12 +260,12 @@ audit 2 and 3 months
 # Filter records with any NA values for two months previous
 na_two_months_previous <- cdf %>%
   filter(Month == two_months_previous_month & Year == two_months_previous_year) %>%
-  filter(rowSums(is.na(.)) > 0)
+  filter(if_any(everything(), is.na))
 
 # Filter records with any NA values for three months previous
 na_three_months_previous <- cdf %>%
   filter(Month == three_months_previous_month & Year == three_months_previous_year) %>%
-  filter(rowSums(is.na(.)) > 0)
+  filter(if_any(everything(), is.na))
 
 # Print the data frames
 print("Records with NA values two months previous:")
@@ -281,10 +281,10 @@ non_reporters <- na_two_months_previous %>%
   filter(is.na(Murder))
 
 # Get unique values from the column in the separate dataframe
-remove_agencies <- unique(non_reporters$`Agency Name`)
+remove_agencies <- unique(non_reporters$city_state)
 
 # Filter out rows where Agency_Name is in the list of values_to_remove
-cdf_nwcounts<- cdf %>% filter(!`Agency Name` %in% remove_agencies)
+cdf_nwcounts<- cdf %>% filter(!city_state %in% remove_agencies)
 ```
 vc/pc groupings
 ```{r}
@@ -303,19 +303,34 @@ cdf_vcpc <- cdf_vcpc %>% select(city_state, vio_crime, prop_crime, Year, Month)
 ```
 join to main dataframe
 ```{r}
-cdf1 <- merge(cdf, cdf_vcpc, by = c("city_state", "Month", "Year"))
+cdf1 <- merge(cdf, cdf_vcpc, by = c("city_state", "Month", "Year"), all.x = TRUE)
+```
+add population figures for nationwide descriptors
+```{r}
+#read in the ref_df file
+ref_df <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\Ben and Jeff working files\\final_sourcing.csv")
+
+
+#make a city_state column
+ref_df <- ref_df %>% mutate(city_state = paste(Agency.Name, state, sep = ", "))
+
+#slim it down for now
+ref_df1 <- ref_df %>% select(city_state, population)
+
+cdf_vcpc_nats <- merge(cdf_vcpc_nats, ref_df1, by = "city_state", all.x = TRUE)
 ```
 drop cdf1 extra columns after fixing
 ```{r}
 cdf2 <- cdf1 %>%
   mutate(`Violent Crime` = vio_crime,
-          `Property Crime` = prop_crime ) %>%
+          `Property Crime` = prop_crime, ) %>%
             select(-city_state, -vio_crime, -prop_crime)
 
 cdf_vcpc_nats <- cdf_vcpc_nats %>%
   mutate(`Violent Crime` = vio_crime,
-          `Property Crime` = prop_crime ) %>%
-            select(-city_state, -vio_crime, -prop_crime)
+          `Property Crime` = prop_crime,
+           agency_num = 1) %>%
+           select(-city_state, -vio_crime, -prop_crime)
 ```
 calculate and add nationwide counts
 ```{r}
@@ -331,6 +346,8 @@ nationwide_counts <- cdf_vcpc_nats %>%
     `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
     `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
     `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
+    `Population Total` = sum(population, na.rm = TRUE),
+    Agency_num = sum(agency_num, na.rm = TRUE),
     .groups = 'drop'
   )
 
@@ -372,6 +389,11 @@ sc1 <- state_counts %>%
 #join state counts with agency names to sample
 cdf3 <- bind_rows(cdf2, sc1)
 head(cdf3)
+
+# city state unique id
+length(unique(cdf3$city_state))
+# duplicate agency names
+length(unique(cdf3$`Agency Name`))
 ```
 get mvs_12mo for all crime categories and groupings
 ```{r}
@@ -409,12 +431,12 @@ add the reference file for links and the result
 ```{r}
 #name of file to merge: OUTPUT_Participating Agencies Reference File
 # Read the reference file and the wide dataset
-ref_df <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\Ben and Jeff working files\\OUTPUT_Participating Agencies Reference File.csv")
+#ref_df <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\Ben and Jeff working files\\OUTPUT_Participating Agencies Reference File.csv")
 
 # cleave off that silliness
-ref_df <- ref_df %>% mutate(city_state = paste(Agency.Name, state, sep = ", "))
+#ref_df <- ref_df %>% mutate(city_state = paste(Agency.Name, state, sep = ", "))
 
-head(ref_df)
+#head(ref_df)
 #of obs in sample 27,373
 ```
 join ref to sample
@@ -424,6 +446,19 @@ df_w_ref <- df_mvs_12mo1 %>%
 
 #of obs 27,373!
 ```
+remove non-current reporter
+```{r}
+#replace population values with Population values
+colSums(is.na(df_w_ref))
+df_w_ref$population <- ifelse(is.na(df_w_ref$population), df_w_ref$`Population Total`, df_w_ref$population)
+colSums(is.na(df_w_ref))
+
+df_w_ref$Agency_num <- ifelse(is.na(df_w_ref$Agency_num), 1, df_w_ref$Agency_num)
+colSums(is.na(df_w_ref))
+
+```
+
+
 write it out!
 ```{r}
 # Specify the folder path
@@ -437,4 +472,91 @@ write.csv(df_w_ref, file = file_path, row.names = FALSE)
 
 # Write the data frame to the data folder in Github repo
 write.csv(df_w_ref, "data/final_sample.csv")
+```
+
+audit lists - 2 tables - non-reporters removed and non-reporters 2 months
+```{r}
+write.csv(na_two_months_previous, "scripts/auditing/na_two_months.csv")
+write.csv(non_reporters, "scripts/auditing/non_reporters.csv")
+
+#updated
+folder_path1 <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation"
+
+# Create the full file path
+file_path1 <- file.path(folder_path1, "non_reporters_june_2024.csv")
+
+write.csv(non_reporters, file = file_path1, row.names = FALSE)
+
+```
+
+##rapid city through march 2024; 
+
+## a little auditing
+```{r}
+# Filter for the specified city_state values
+target_cities <- c("Kettering, OH", "Allen, TX", "Hamilton, OH", "Mission, TX", 
+                   "Youngstown, OH", "Carrollton, TX", "Rapid City, SD", 
+                   "Blue Springs, MO", "Malden, MA", "Bethlehem, PA", 
+                   "Sioux Falls, SD")
+
+filtered_data <- df_w_ref %>%
+  filter(city_state %in% target_cities)
+
+# Subset to the highest year and highest associated month for each unique city_state
+result_data <- filtered_data %>%
+  group_by(city_state) %>%
+  filter(Year == max(Year)) %>%
+  filter(Month == max(Month)) %>%
+  ungroup()
+```
+
+```{r}
+#need ggplot
+library(ggplot2)
+
+# Calculate mean and standard error for each month
+summary_data <- cdf %>%
+  # Create a date column by concatenating Year and Month, and converting to Date object
+  mutate(date = as.Date(paste(Year, Month, "01", sep = "-"), format = "%Y-%m-%d")) %>%
+  # Group by the date
+  group_by(date) %>%
+  # Calculate the summary statistics
+  summarise(
+    mean_crime = mean(Theft, na.rm = TRUE),  # Handle NA values if necessary
+    sd_crime = sd(Theft, na.rm = TRUE),      # Handle NA values if necessary
+    n = n(),
+    sem = sd_crime / sqrt(n)  # Standard Error of the Mean
+  )
+
+summary_data_sub <- summary_data %>% filter(year(date) == 2023)
+
+library(ggplot2)
+library(dplyr)
+
+# Assuming `summary_data` is already created as per the previous code
+
+# Plotting with a smoother and enhanced aesthetics
+ggplot(summary_data_sub, aes(x = date, y = mean_crime)) +
+  # Add a smooth line (LOESS or GAM)
+  geom_smooth(method = "loess", se = FALSE, color = "blue", size = 1) +
+  
+  # Add points to represent mean crime counts
+  geom_point(color = "darkred", size = 2) +
+  
+  # Add error bars with enhanced aesthetics
+  geom_errorbar(aes(ymin = mean_crime - sem, ymax = mean_crime + sem), 
+                width = 10, color = "darkred", alpha = 0.6) +
+  
+  # Customize the plot's appearance
+  labs(title = "Monthly Crime Counts with Error Bars",
+       subtitle = "Including Standard Error Bars and LOESS Smoothing",
+       x = "Date",
+       y = "Mean Theft Count") +
+  theme_minimal(base_size = 15) +  # Minimal theme with larger base text size
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),  # Centered title
+    plot.subtitle = element_text(hjust = 0.5),
+    axis.text.x = element_text(angle = 45, hjust = 1)  # Rotated x-axis labels for better readability
+  )
+
 ```

@@ -277,3 +277,34 @@ thead th {
         max-height: 83vh;
     }
 }
+
+
+#download-container {
+    display: flex;
+    justify-content: flex-end; /* Align the button to the right */
+    margin-bottom: 10px; /* Add some space below the download button */
+}
+
+.download-button {
+    background-color: white;
+    color: #00333a;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-size: 0.9vw;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.download-button i {
+    margin-right: 5px;
+}
+
+.download-button:hover {
+    background-color: #f0f0f0;
+    color: #2d5df96d;
+}

@@ -228,4 +228,68 @@ document.addEventListener("DOMContentLoaded", function() {
     window.navigateTo = function(page) {
         window.location.href = page;
     };
+
+    // Function to convert table data to CSV and trigger download
+    function downloadCSV(data, filename) {
+        if (!data || !data.length) {
+            console.error("No data available for download.");
+            return;
+        }
+    
+        const headers = [
+            "month_year",
+            "agency_name",
+            "state_name",
+            "violent_crime",
+            "murder",
+            "rape",
+            "robbery",
+            "aggravated_assault",
+            "property_crime",
+            "burglary",
+            "theft",
+            "motor_vehicle_theft"
+        ];
+        const csvData = [headers.join(",")];
+    
+        data.forEach(row => {
+            const values = [
+                `"${row.month_year}"`,
+                `"${row.agency_name}"`,
+                `"${row.state_name}"`,
+                `${row.violent_crime}`,
+                `${row.murder}`,
+                `${row.rape}`,
+                `${row.robbery}`,
+                `${row.aggravated_assault}`,
+                `${row.property_crime}`,
+                `${row.burglary}`,
+                `${row.theft}`,
+                `${row.motor_vehicle_theft}`
+            ];
+            csvData.push(values.join(","));
+        });
+    
+        const csvString = csvData.join("\n");
+        const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.setAttribute("download", filename);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+    
+
+    // Event listener for download button
+    document.getElementById("table-download").addEventListener("click", function() {
+        const selectedState = stateBtn.textContent;
+        const selectedAgency = agencyBtn.textContent;
+
+        if (selectedState !== "State" && selectedAgency !== "Agency") {
+            const filteredData = allData.filter(row => row.state_name === selectedState && row.agency_name === selectedAgency);
+            downloadCSV(filteredData, `${selectedAgency}_${selectedState}_Filtered.csv`);
+        }
+    });
+
 });

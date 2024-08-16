@@ -691,7 +691,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const row = [
                 d.agency_name,
                 d.state_name,
-                d3.timeFormat("%Y-%m-%d")(d.date),
+                d3.timeFormat("%B %Y")(d.date),
                 d.crime_type,
                 hasAgencyCount ? d.number_of_agencies : "N/A",
                 d.population || "N/A",  // Adding population to the row

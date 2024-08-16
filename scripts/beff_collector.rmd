@@ -308,14 +308,14 @@ cdf1 <- merge(cdf, cdf_vcpc, by = c("city_state", "Month", "Year"), all.x = TRUE
 add population figures for nationwide descriptors
 ```{r}
 #read in the ref_df file
-ref_df <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\Ben and Jeff working files\\final_sourcing.csv")
+ref_df <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data\\final_sourcing.csv")
 
 
 #make a city_state column
-ref_df <- ref_df %>% mutate(city_state = paste(Agency.Name, state, sep = ", "))
+ref_df <- ref_df %>% mutate(city_state = paste(Agency, State, sep = ", "))
 
 #slim it down for now
-ref_df1 <- ref_df %>% select(city_state, population)
+ref_df1 <- ref_df %>% select(city_state, Population)
 
 cdf_vcpc_nats <- merge(cdf_vcpc_nats, ref_df1, by = "city_state", all.x = TRUE)
 ```

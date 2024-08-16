@@ -623,7 +623,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .text("source.");
 
         const population = abbreviateNumberForCaption(filteredData[0].population);
-        const agencyCount = filteredData[0].agency_count || "N/A";
+        const agencyCount = filteredData[0].number_of_agencies || "N/A";
 
         const captionGroup = svg.append("g")
             .attr("transform", `translate(0, ${height + margin.bottom - 10})`)
@@ -641,16 +641,18 @@ document.addEventListener("DOMContentLoaded", function() {
         captionTextElement.append("tspan")
             .text(population)
             .attr("dx", "0em")
-            .style("fill", "#f28106");
+            .style("fill", "#f28106")
+            .style("font-weight", "bold");
 
         captionTextElement.append("tspan")
-            .text("Number of Agencies : ")
+            .text("Number of Agencies: ")
             .attr("dx", "1.5em");
 
         captionTextElement.append("tspan")
             .text(agencyCount)
             .attr("dx", "0em")
-            .style("fill", "#f28106");
+            .style("fill", "#f28106")
+            .style("font-weight", "bold");
 
         // Function to adjust caption position based on screen size
         function adjustCaptionForMobile() {
@@ -685,6 +687,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const hasAgencyCount = filteredData.length > 0 && filteredData[0].hasOwnProperty("number_of_agencies");
 
+        filteredData.forEach(d => {
+            const row = [
+                d.agency_name,
+                d.state_name,
+                d3.timeFormat("%Y-%m-%d")(d.date),
+                d.crime_type,
+                hasAgencyCount ? d.number_of_agencies : "N/A",
+                d.value
+            ];
+            csvRows.push(row.join(","));
+        });
+        
         filteredData.forEach(d => {
             const row = [
                 d.agency_name,

@@ -502,7 +502,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         .attr("stroke-dasharray", totalLength + " " + totalLength)
                         .attr("stroke-dashoffset", totalLength)
                         .transition()
-                        .delay(i * 500) // Stagger the animations based on the segment index
+                        .delay(i * 1500) // Stagger the animations based on the segment index
                         .duration(1000)
                         .ease(d3.easeLinear)
                         .attr("stroke-dashoffset", 0);
@@ -528,14 +528,18 @@ document.addEventListener("DOMContentLoaded", function() {
                 .attr("fill", "#2d5ef9")
                 .style("cursor", "pointer");
 
-            if (filtersChanged) {
-                dots.attr("r", 0)
-                    .transition()
-                    .delay(1000) // Ensure dots appear after the lines are drawn
-                    .duration(100)
-                    .ease(d3.easeLinear)
-                    .attr("r", dotSize);
-            }
+                if (filtersChanged) {
+                    const totalSegments = filteredSegments.length;
+                    const totalAnimationTime = ((totalSegments - 1) * 1500) + 1000;
+                
+                    dots.attr("r", 0)
+                        .transition()
+                        .delay(totalAnimationTime) // Delay until after all line segments are drawn
+                        .duration(100)
+                        .ease(d3.easeLinear)
+                        .attr("r", dotSize);
+                }
+                
 
             dots.on("mouseover", function(event, d) {
                     d3.select(this).attr("fill", "#f28106");

@@ -142,6 +142,9 @@ final_sample_long <- final_sample_long %>%
   filter(!(state_name %in% states_with_full_sample & agency_name == "Full Sample"))
 
 
+# Add in source for full samples (nationwide and states, eventually)
+final_sample_long$state_ucr_link[final_sample_long$state_name == "Nationwide"] <- "https://realtimecrstg.wpenginepowered.com/how-does-this-work/#sources"
+
 
 ## PRE LAUNCH: REMOVE STATE FULL SAMPLES 
 full_states <- final_sample_long %>%

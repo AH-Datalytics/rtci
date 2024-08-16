@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function() {
             crimeType: "Murders",
             state: "Nationwide",
             agency: "Full Sample",
-            dataType: "count"
+            dataType: "mvs_12mo"
         };
     
         retrieveFilterValues(defaultFilters);

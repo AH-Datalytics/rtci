@@ -53,7 +53,7 @@ final_sample <- final_sample %>%
          burglary, theft, motor_vehicle_theft, property_crime,
          murder_mvs_12mo, rape_mvs_12mo, robbery_mvs_12mo, aggravated_assault_mvs_12mo, violent_crime_mvs_12mo,
          burglary_mvs_12mo, theft_mvs_12mo, motor_vehicle_theft_mvs_12mo, property_crime_mvs_12mo, 
-         population, population_grouping, source_link)
+         population, population_grouping, source_link, agency_num)
 
 
 
@@ -78,31 +78,32 @@ final_sample_long_mvs <- final_sample %>%
 # Combine counts and mvs_12mo data
 final_sample_long <- final_sample_long_counts %>%
   left_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "location_full", "crime_type",
-                                          "population", "population_grouping", "source_link"))
+                                          "population", "population_grouping", "source_link", "agency_num"))
 
 # Audit merge
 final_sample_left <- final_sample_long_counts %>%
   left_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "location_full", "crime_type",
-                                          "population", "population_grouping", "source_link"))
+                                          "population", "population_grouping", "source_link", "agency_num"))
 
 final_sample_inner <- final_sample_long_counts %>%
   inner_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "location_full", "crime_type",
-                                           "population", "population_grouping", "source_link"))
+                                           "population", "population_grouping", "source_link", "agency_num"))
 
 final_sample_full <- final_sample_long_counts %>%
   full_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "location_full", "crime_type",
-                                          "population", "population_grouping", "source_link"))
+                                          "population", "population_grouping", "source_link", "agency_num"))
 
 
 
 # Rename state_ucr_link
 final_sample_long <- final_sample_long %>%
-  rename(state_ucr_link = source_link)
+  rename(state_ucr_link = source_link,
+         number_of_agencies = agency_num)
 
 # Final arrangement of columns
 final_sample_long <- final_sample_long %>%
   select(date, state_ucr_link, agency_name, state_name, agency_full, location_full, population, crime_type, count, mvs_12mo,
-         population_grouping)
+         population_grouping, number_of_agencies)
 
 # Capitalize crime types before printing and writing
 final_sample_long <- final_sample_long %>%
@@ -141,6 +142,9 @@ states_with_full_sample <- final_sample_long %>%
 final_sample_long <- final_sample_long %>%
   filter(!(state_name %in% states_with_full_sample & agency_name == "Full Sample"))
 
+
+# Add in source for full samples (nationwide and states, eventually)
+final_sample_long$state_ucr_link[final_sample_long$state_name == "Nationwide"] <- "https://realtimecrstg.wpenginepowered.com/how-does-this-work/#sources"
 
 
 ## PRE LAUNCH: REMOVE STATE FULL SAMPLES 

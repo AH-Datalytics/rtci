@@ -623,7 +623,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .text("source.");
 
         const population = abbreviateNumberForCaption(filteredData[0].population);
-        const agencyCount = filteredData[0].agency_count || "N/A";
+        const agencyCount = filteredData[0].number_of_agencies || "N/A";
 
         const captionGroup = svg.append("g")
             .attr("transform", `translate(0, ${height + margin.bottom - 10})`)
@@ -641,16 +641,18 @@ document.addEventListener("DOMContentLoaded", function() {
         captionTextElement.append("tspan")
             .text(population)
             .attr("dx", "0em")
-            .style("fill", "#f28106");
+            .style("fill", "#f28106")
+            .style("font-weight", "bold");
 
         captionTextElement.append("tspan")
-            .text("Number of Agencies : ")
+            .text("Number of Agencies: ")
             .attr("dx", "1.5em");
 
         captionTextElement.append("tspan")
             .text(agencyCount)
             .attr("dx", "0em")
-            .style("fill", "#f28106");
+            .style("fill", "#f28106")
+            .style("font-weight", "bold");
 
         // Function to adjust caption position based on screen size
         function adjustCaptionForMobile() {
@@ -676,7 +678,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function downloadFilteredData(filteredData) {
         const selectedDataType = dataTypeBtn.dataset.value;
-        const headers = ["agency_name", "state_name", "date", "crime_type", "number_of_agencies"];
+        const headers = ["agency_name", "state_name", "date", "crime_type", "number_of_agencies", "population_covered_fbi"];
 
         const dataColumn = selectedDataType === "count" ? "count" : "mvs_12mo";
         headers.push(dataColumn);
@@ -692,6 +694,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 d3.timeFormat("%Y-%m-%d")(d.date),
                 d.crime_type,
                 hasAgencyCount ? d.number_of_agencies : "N/A",
+                d.population || "N/A",  // Adding population to the row
                 d.value
             ];
             csvRows.push(row.join(","));

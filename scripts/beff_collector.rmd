@@ -350,8 +350,16 @@ cdf_vcpc_nats <- cdf_vcpc_nats %>%
           `Property Crime` = prop_crime,
           Population = as.numeric(Population),
            agency_num = 1) %>%
-           select(-city_state, -vio_crime, -prop_crime)
+           select(-vio_crime, -prop_crime)
 ```
+prepare a dataframe of all component agencies into sample
+```{r}
+sample_cities <- cdf_vcpc_nats %>%
+  group_by(city_state) %>%
+  slice(1) %>%
+  ungroup()
+```
+
 calculate and add nationwide counts
 ```{r}
 nationwide_counts <- cdf_vcpc_nats %>%
@@ -505,8 +513,6 @@ audit lists - 2 tables - non-reporters removed and non-reporters 2 months
 ```{r}
 write.csv(na_two_months_previous, "scripts/auditing/na_two_months.csv")
 write.csv(non_reporters, "scripts/auditing/non_reporters.csv")
-write.csv(remove_agencies, "scripts/auditing/remove_agencies.csv")
-
 
 #updated
 folder_path1 <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation"

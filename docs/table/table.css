@@ -206,7 +206,7 @@ thead th {
     right: 2px;
     top: -32px; /* Adjust this to align with the top of the table */
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
 }
 
 .view-button {
@@ -282,7 +282,8 @@ thead th {
 #download-container {
     display: flex;
     justify-content: flex-end; /* Align the button to the right */
-    margin-bottom: 10px; /* Add some space below the download button */
+    margin-bottom: 0px; /* Add some space below the download button */
+    width: 100%; /* Ensure it spans the full width of the container */
 }
 
 .download-button {
@@ -298,6 +299,9 @@ thead th {
     display: flex;
     align-items: center;
     transition: background-color 0.3s, color 0.3s;
+    position: absolute;
+    right: 200px;
+    top: -32px; /* Adjust this to align with the top of the table */
 }
 
 .download-button i {

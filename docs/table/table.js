@@ -1,4 +1,17 @@
 document.addEventListener("DOMContentLoaded", function() {
+
+    // Define the sortTable function
+    function sortTable(data) {
+        return data.slice().sort((a, b) => {
+            if (currentSortKey === "agency_full" || currentSortKey === "crime_type") {
+                return currentSortOrder === "asc" ? a[currentSortKey].localeCompare(b[currentSortKey]) : b[currentSortKey].localeCompare(a[currentSortKey]);
+            } else {
+                return currentSortOrder === "asc" ? a[currentSortKey] - b[currentSortKey] : b[currentSortKey] - a[currentSortKey];
+            }
+        });
+    }
+
+    // The rest of your code
     const crimeTypeSelect = document.getElementById("crime-type-dropdown");
     const sortKeySelect = document.getElementById("sort-key-dropdown");
     const sortOrderSelect = document.getElementById("sort-order-dropdown");
@@ -16,7 +29,6 @@ document.addEventListener("DOMContentLoaded", function() {
             d.YTD = +d.YTD;
             d.PrevYTD = +d.PrevYTD;
             d.Percent_Change = +d.Percent_Change;
-            // No need to format the date here as we are using the Month_Through column directly
         });
 
         allData = data;
@@ -42,18 +54,7 @@ document.addEventListener("DOMContentLoaded", function() {
             crimeTypeSelect.appendChild(option);
         });
 
-
         setSelectedClass(crimeTypeSelect, crimeTypeBtn.dataset.value || "Murders");
-
-        function sortTable(data) {
-            return data.slice().sort((a, b) => {
-                if (currentSortKey === "agency_full" || currentSortKey === "crime_type") {
-                    return currentSortOrder === "asc" ? a[currentSortKey].localeCompare(b[currentSortKey]) : b[currentSortKey].localeCompare(a[currentSortKey]);
-                } else {
-                    return currentSortOrder === "asc" ? a[currentSortKey] - b[currentSortKey] : b[currentSortKey] - a[currentSortKey];
-                }
-            });
-        }
 
         function populateFullSampleTable() {
             const crimeType = crimeTypeBtn.dataset.value || "Murders";
@@ -167,6 +168,48 @@ document.addEventListener("DOMContentLoaded", function() {
     toggleDropdown(crimeTypeBtn, crimeTypeSelect);
     toggleDropdown(sortKeyBtn, sortKeySelect);
     toggleDropdown(sortOrderBtn, sortOrderSelect);
+
+    // Function to convert table data to CSV and trigger download
+    function downloadCSV(data, filename) {
+        if (!data || !data.length) {
+            console.error("No data available for download.");
+            return;
+        }
+    
+        const headers = ["agency_full", "crime_type", "YTD", "PrevYTD", "Percent_Change", "months_covered"];
+        const csvData = [headers.join(",")];
+    
+        data.forEach(row => {
+            const values = [
+                `"${row.agency_full}"`,
+                `"${row.crime_type}"`,
+                `${row.YTD}`,
+                `${row.PrevYTD}`,
+                `${row.Percent_Change.toFixed(2)}%`,
+                `"Jan - ${row.Month_Through}"`
+            ];
+            csvData.push(values.join(","));
+        });
+    
+        const csvString = csvData.join("\n");
+        const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.setAttribute("download", filename);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+    
+
+    // Event listener for download button
+    document.getElementById("table-download").addEventListener("click", function() {
+        const crimeType = crimeTypeBtn.dataset.value || "Murders";
+        let filteredData = allData.filter(d => d.crime_type === crimeType);
+        filteredData = sortTable(filteredData);
+        console.log(filteredData);  // Check if data is correct
+        downloadCSV(filteredData, `${crimeType}_YTD_Report.csv`);
+    });    
 });
 
 function navigateTo(page) {

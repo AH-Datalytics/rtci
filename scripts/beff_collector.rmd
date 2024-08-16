@@ -266,18 +266,23 @@ cdf <- cdf %>%
     !(Year == current_year & Month == previous_month_month)
   )
 
+undesirables <- cdf %>%
+  filter(
+    is.na(Murder)
+  )
+
 # Print the result
 head(cdf)
 ```
 audit 2 and 3 months
 ```{r}
 # Filter records with any NA values for two months previous
-na_two_months_previous <- cdf %>%
+na_two_months_previous <- undesirables %>%
   filter(Month == two_months_previous_month & Year == two_months_previous_year) %>%
   filter(if_any(everything(), is.na))
 
 # Filter records with any NA values for three months previous
-na_three_months_previous <- cdf %>%
+na_three_months_previous <- undesirables %>%
   filter(Month == three_months_previous_month & Year == three_months_previous_year) %>%
   filter(if_any(everything(), is.na))
 
@@ -295,10 +300,10 @@ non_reporters <- na_two_months_previous
 #%>%filter(is.na(Murder))
 
 # Get unique values from the column in the separate dataframe
-remove_agencies <- unique(non_reporters$city_state)
+remove_agencies <- unique(undesirables$city_state)
 
 # Filter out rows where Agency_Name is in the list of values_to_remove
-cdf_nwcounts<- cdf %>% filter(!city_state %in% remove_agencies)
+cdf_nwcounts <- cdf %>% filter(!city_state %in% remove_agencies)
 ```
 vc/pc groupings
 ```{r}
@@ -475,11 +480,20 @@ remove non-current reporter
 colSums(is.na(df_w_ref))
 df_w_ref$Population <- ifelse(is.na(df_w_ref$Population), df_w_ref$`Population Total`, df_w_ref$Population)
 colSums(is.na(df_w_ref))
-
 df_w_ref$Agency_num <- ifelse(is.na(df_w_ref$Agency_num), 1, df_w_ref$Agency_num)
 colSums(is.na(df_w_ref))
 
 ```
+clean up schema for oscar
+```{r}
+final_data <- df_w_ref %>%
+  rename(
+    State = State.x,
+    State_ref = State.y
+  )
+```
+
+
 write it out!
 ```{r}
 # Specify the folder path
@@ -489,29 +503,24 @@ folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Cr
 file_path <- file.path(folder_path, "final_sample.csv")
 
 # Write the data frame to a .csv file
-write.csv(df_w_ref, file = file_path, row.names = FALSE)
+write.csv(final_data, file = file_path, row.names = FALSE)
 
 # Write the data frame to the data folder in Github repo
-write.csv(df_w_ref, "data/final_sample.csv")
+write.csv(final_data, "data/final_sample.csv")
 ```
 
 audit lists - 2 tables - non-reporters removed and non-reporters 2 months
 ```{r}
 write.csv(na_two_months_previous, "scripts/auditing/na_two_months.csv")
 write.csv(non_reporters, "scripts/auditing/non_reporters.csv")
-<<<<<<< Updated upstream
-=======
-write.csv(remove_agencies, "scripts/auditing/remove_agencies.csv")
-write.csv(sample_cities, "data/sample_cities.csv")
->>>>>>> Stashed changes
 
 #updated
 folder_path1 <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation"
 
 # Create the full file path
-file_path1 <- file.path(folder_path1, "non_reporters_june_2024.csv")
+file_path1 <- file.path(folder_path1, "remove_agencies_june_2024.csv")
 
-write.csv(non_reporters, file = file_path1, row.names = FALSE)
+write.csv(remove_agencies, file = file_path1, row.names = FALSE)
 
 ```
 

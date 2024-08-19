@@ -355,6 +355,14 @@ add population figures for nationwide descriptors
 #read in the ref_df file
 ref_df <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data\\final_sourcing.csv")
 
+#a few names to fix Colerain ==> Colerain Township,
+                    Green => Green Township;
+                    North Bergen => North Bergen Township;
+                    St Paul => St. Paul;
+                    St Cloud => St. Cloud
+                    West Chester => Westchester;
+
+
 
 #make a city_state column
 ref_df <- ref_df %>% mutate(city_state = paste(Agency, State, sep = ", "))
@@ -492,6 +500,8 @@ remove non-current reporter
 colSums(is.na(df_w_ref))
 df_w_ref$Population <- ifelse(is.na(df_w_ref$Population), df_w_ref$`Population Total`, df_w_ref$Population)
 colSums(is.na(df_w_ref))
+
+#fix non-nationwide sample values for viz
 df_w_ref$Agency_num <- ifelse(is.na(df_w_ref$Agency_num), 1, df_w_ref$Agency_num)
 colSums(is.na(df_w_ref))
 
@@ -500,6 +510,7 @@ df_w_ref <- df_w_ref %>% select(-`Population Total`)
 ```
 clean up schema for oscar
 ```{r}
+#keep in both state fields for eventual auditing purposes (check merge success)
 final_data <- df_w_ref %>%
   rename(
     State = State.x,
@@ -508,11 +519,13 @@ final_data <- df_w_ref %>%
 ```
 remove bad month for june if all na
 ```{r}
+#this ensure that the YTD figures are apples to apples and not understate %change
 final_data1 <- final_data %>%
   filter(!(Year == two_months_previous_year & Month == two_months_previous_month & is.na(Murder)))
 ```
 add a time stamp column
 ```{r}
+# For the careful but forgetful few
 final_data1$Last.Updated <- Sys.Date()
 ```
 write it out!
@@ -531,24 +544,19 @@ write.csv(final_data, "data/final_sample.csv", row.names = FALSE)
 ```
 audit lists - 2 tables - non-reporters removed and non-reporters 2 months
 ```{r}
+# Punch out all auditing tables. the first two sum to the third. pop missing is another barrel of monkeys
 write.csv(undesirables_na, "scripts/auditing/na_two_months.csv", row.names = FALSE)
 write.csv(undesirables_recency, "scripts/auditing/no_data_past_two_months.csv", row.names = FALSE)
 write.csv(non_reporters, "scripts/auditing/non_reporters.csv", row.names = FALSE)
 write.csv(pop_missing, "scripts/auditing/pop_missing.csv", row.names = FALSE)
 
-#updated
+# File Path for Jeff local
 folder_path1 <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation"
 
 # Create the full file path - for jeff
 file_path1 <- file.path(folder_path1, "remove_agencies_june_2024.csv")
 write.csv(remove_agencies, file = file_path1, row.names = FALSE)
 ```
-
-
-
-
-##rapid city through march 2024; 
-
 ## a little auditing
 ```{r}
 # Filter for the specified city_state values
@@ -567,7 +575,7 @@ result_data <- filtered_data %>%
   filter(Month == max(Month)) %>%
   ungroup()
 ```
-
+quick example of error bar creation - just need new min/max values and sd to report and we're good to viz
 ```{r}
 #need ggplot
 library(ggplot2)
@@ -618,7 +626,6 @@ ggplot(summary_data_sub, aes(x = date, y = mean_crime)) +
   )
 
 ```
-
 let's take a look at all the population-less records
 ```{r}
 pop_missing <- final_data1 %>%

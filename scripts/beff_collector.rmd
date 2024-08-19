@@ -293,6 +293,31 @@ print(na_two_months_previous)
 print("Records with NA values three months previous:")
 print(na_three_months_previous)
 ```
+new filter for finding non-reporters without current blank records
+```{r}
+## Step 1: Identify the most recent observation for each agency
+most_recent_obs <- cdf %>%
+  group_by(`Agency Name`) %>%
+  slice_max(order_by = as.Date(paste(Year, Month, "01", sep = "-")), n = 1) %>%
+  ungroup()
+
+# Step 2: Filter agencies that last reported before two months ago
+undesirables_recency <- most_recent_obs %>%
+  filter(Month < two_months_previous_month & Year == two_months_previous_year)
+
+# Step 3: Filter records from two months ago with any NA values
+undesirables_na <- most_recent_obs %>%
+  filter(Year == two_months_previous_year & 
+         Month == two_months_previous_month & 
+         rowSums(is.na(.)) > 0)
+
+# Step 4: Combine the results
+undesirables <- bind_rows(undesirables_recency, undesirables_na)
+
+# Step 5: Remove duplicates by 'city_state' column
+undesirables <- undesirables %>%
+  distinct(city_state, .keep_all = TRUE)
+```
 without non-reporters for 45 day lag month //first month is June
 ```{r}
 # First need to create a df from na_two_months_previous 
@@ -455,24 +480,10 @@ length(unique(df_mvs_12mo1$city_state))
 # duplicate agency names
 length(unique(df_mvs_12mo1$`Agency Name`))
 ```
-add the reference file for links and the result
-```{r}
-#name of file to merge: OUTPUT_Participating Agencies Reference File
-# Read the reference file and the wide dataset
-#ref_df <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\Ben and Jeff working files\\OUTPUT_Participating Agencies Reference File.csv")
-
-# cleave off that silliness
-#ref_df <- ref_df %>% mutate(city_state = paste(Agency.Name, state, sep = ", "))
-
-#head(ref_df)
-#of obs in sample 27,373
-```
 join ref to sample
 ```{r}
 df_w_ref <- df_mvs_12mo1 %>%
   left_join(ref_df, by = "city_state")
-
-#of obs 27,373!
 ```
 remove non-current reporter
 ```{r}
@@ -483,6 +494,8 @@ colSums(is.na(df_w_ref))
 df_w_ref$Agency_num <- ifelse(is.na(df_w_ref$Agency_num), 1, df_w_ref$Agency_num)
 colSums(is.na(df_w_ref))
 
+#drop population total column after values are transferred to population
+df_w_ref <- df_w_ref %>% select(-`Population Total`)
 ```
 clean up schema for oscar
 ```{r}
@@ -492,6 +505,20 @@ final_data <- df_w_ref %>%
     State_ref = State.y
   )
 ```
+remove bad month for june if all na
+```{r}
+final_data1 <- final_data %>%
+  filter(!(Year == two_months_previous_year & Month == two_months_previous_month & is.na(Murder)))
+```
+add a time stamp column
+```{r}
+final_data1$Last.Updated <- Sys.Date()
+```
+drop population total
+```{r}
+
+```
+
 
 
 write it out!
@@ -506,7 +533,7 @@ file_path <- file.path(folder_path, "final_sample.csv")
 write.csv(final_data, file = file_path, row.names = FALSE)
 
 # Write the data frame to the data folder in Github repo
-write.csv(final_data, "data/final_sample.csv")
+write.csv(final_data, "data/final_sample.csv", row.names = FALSE)
 ```
 
 audit lists - 2 tables - non-reporters removed and non-reporters 2 months

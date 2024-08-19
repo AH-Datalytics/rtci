@@ -3,6 +3,7 @@ title: "ben/jeff collector"
 output: github_document
 started: "07-23-2024"
 updated: "08-09-2024"
+updated: "08-19-2024"
 ---
 read in the data from the ben/jeff folder
 ```{r}
@@ -14,10 +15,12 @@ library(zoo)
 ```
 directory path where the BEFF files are stored
 ```{r}
+# local file path
 data_dir <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work"
 
 file_paths <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
 
+# List of crime types we are working with
 crime_types <- c("Agency Name",
                  "Murder", "Rape", "Robbery",
                  "Aggravated Assault", "Burglary", 
@@ -40,6 +43,7 @@ get_csv_info <- function(file) {
 # Apply the function to each CSV file and combine the results into a single dataframe
 csv_info_df <- map_df(file_paths, get_csv_info)
 
+# Take a quick look
 head(csv_info_df)
 ```
 read everything in, extract the month/year and do the initial processing
@@ -80,11 +84,10 @@ read_csvs <- function(folder_path) {
   return(df_list)
 }
 
+# read'er in
 ldf <- read_csvs(data_dir)
 
-# Print the names of the data frames in the list to verify
-#print(names(ldf))
-
+# Take'er look
 head(ldf[1])
 ```
 let's get the unique number of agencies at the beginning
@@ -102,6 +105,7 @@ total_agency_raw <- sum(unlist(unique_agency_counts))
 # Print the results
 head(total_agency_raw)
 ##332 as of this writing this and counting...why do we lose agencies at the end?
+##journal entry 547 - we now have 353 agencies and counting
 ```
 format everything
 ```{r}
@@ -130,7 +134,10 @@ format_cols <- function(df) {
   return(df)
 }
 
+# Apply to all dataframes in the list
 ldf1 <- lapply(ldf, format_cols)
+
+# What do we see
 head(ldf1[1])
 ```
 how many agencies are in the component files /no duplicates this way/
@@ -138,11 +145,12 @@ how many agencies are in the component files /no duplicates this way/
 # Apply the function to each dataframe in the list and store the results
 unique_agency_counts1 <- map(ldf1, get_unique_agency_count)
 
+# what is the sum of all those raw counts
 total_agency_raw1 <- sum(unlist(unique_agency_counts1))
 
 # Print the results
 head(total_agency_raw1)
-##332 as of this writing this and counting...why do we lose agencies at the end?
+#353 matches up
 ```
 next...standardize the columns
 ```{r}
@@ -181,7 +189,7 @@ total_agency_raw2 <- sum(unlist(unique_agency_counts2))
 
 # Print the results
 head(total_agency_raw2)
-##332 as of this writing this and counting...why do we lose agencies at the end?
+#353 on the money
 ```
 still have a few odd column names
 ```{r}
@@ -293,6 +301,31 @@ print(na_two_months_previous)
 print("Records with NA values three months previous:")
 print(na_three_months_previous)
 ```
+new filter for finding non-reporters without current blank records
+```{r}
+## Step 1: Identify the most recent observation for each agency
+most_recent_obs <- cdf %>%
+  group_by(`Agency Name`) %>%
+  slice_max(order_by = as.Date(paste(Year, Month, "01", sep = "-")), n = 1) %>%
+  ungroup()
+
+# Step 2: Filter agencies that last reported before two months ago
+undesirables_recency <- most_recent_obs %>%
+  filter(Month < two_months_previous_month & Year == two_months_previous_year)
+
+# Step 3: Filter records from two months ago with any NA values
+undesirables_na <- most_recent_obs %>%
+  filter(Year == two_months_previous_year & 
+         Month == two_months_previous_month & 
+         rowSums(is.na(.)) > 0)
+
+# Step 4: Combine the results
+undesirables <- bind_rows(undesirables_recency, undesirables_na)
+
+# Step 5: Remove duplicates by 'city_state' column
+undesirables <- undesirables %>%
+  distinct(city_state, .keep_all = TRUE)
+```
 without non-reporters for 45 day lag month //first month is June
 ```{r}
 # First need to create a df from na_two_months_previous 
@@ -328,6 +361,14 @@ add population figures for nationwide descriptors
 ```{r}
 #read in the ref_df file
 ref_df <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data\\final_sourcing.csv")
+
+#a few names to fix Colerain ==> Colerain Township,
+                    Green => Green Township;
+                    North Bergen => North Bergen Township;
+                    St Paul => St. Paul;
+                    St Cloud => St. Cloud
+                    West Chester => Westchester;
+
 
 
 #make a city_state column
@@ -455,24 +496,10 @@ length(unique(df_mvs_12mo1$city_state))
 # duplicate agency names
 length(unique(df_mvs_12mo1$`Agency Name`))
 ```
-add the reference file for links and the result
-```{r}
-#name of file to merge: OUTPUT_Participating Agencies Reference File
-# Read the reference file and the wide dataset
-#ref_df <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\Ben and Jeff working files\\OUTPUT_Participating Agencies Reference File.csv")
-
-# cleave off that silliness
-#ref_df <- ref_df %>% mutate(city_state = paste(Agency.Name, state, sep = ", "))
-
-#head(ref_df)
-#of obs in sample 27,373
-```
 join ref to sample
 ```{r}
 df_w_ref <- df_mvs_12mo1 %>%
   left_join(ref_df, by = "city_state")
-
-#of obs 27,373!
 ```
 remove non-current reporter
 ```{r}
@@ -480,20 +507,34 @@ remove non-current reporter
 colSums(is.na(df_w_ref))
 df_w_ref$Population <- ifelse(is.na(df_w_ref$Population), df_w_ref$`Population Total`, df_w_ref$Population)
 colSums(is.na(df_w_ref))
+
+#fix non-nationwide sample values for viz
 df_w_ref$Agency_num <- ifelse(is.na(df_w_ref$Agency_num), 1, df_w_ref$Agency_num)
 colSums(is.na(df_w_ref))
 
+#drop population total column after values are transferred to population
+df_w_ref <- df_w_ref %>% select(-`Population Total`)
 ```
 clean up schema for oscar
 ```{r}
+#keep in both state fields for eventual auditing purposes (check merge success)
 final_data <- df_w_ref %>%
   rename(
     State = State.x,
     State_ref = State.y
   )
 ```
-
-
+remove bad month for june if all na
+```{r}
+#this ensure that the YTD figures are apples to apples and not understate %change
+final_data1 <- final_data %>%
+  filter(!(Year == two_months_previous_year & Month == two_months_previous_month & is.na(Murder)))
+```
+add a time stamp column
+```{r}
+# For the careful but forgetful few
+final_data1$Last.Updated <- current_date
+```
 write it out!
 ```{r}
 # Specify the folder path
@@ -506,29 +547,23 @@ file_path <- file.path(folder_path, "final_sample.csv")
 write.csv(final_data, file = file_path, row.names = FALSE)
 
 # Write the data frame to the data folder in Github repo
-write.csv(final_data, "data/final_sample.csv")
+write.csv(final_data, "data/final_sample.csv", row.names = FALSE)
 ```
-
 audit lists - 2 tables - non-reporters removed and non-reporters 2 months
 ```{r}
-write.csv(na_two_months_previous, "scripts/auditing/na_two_months.csv")
-write.csv(non_reporters, "scripts/auditing/non_reporters.csv")
+# Punch out all auditing tables. the first two sum to the third. pop missing is another barrel of monkeys
+write.csv(undesirables_na, "scripts/auditing/na_two_months.csv", row.names = FALSE)
+write.csv(undesirables_recency, "scripts/auditing/no_data_past_two_months.csv", row.names = FALSE)
+write.csv(non_reporters, "scripts/auditing/non_reporters.csv", row.names = FALSE)
+write.csv(pop_missing, "scripts/auditing/pop_missing.csv", row.names = FALSE)
 
-#updated
+# File Path for Jeff local
 folder_path1 <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation"
 
-# Create the full file path
+# Create the full file path - for jeff
 file_path1 <- file.path(folder_path1, "remove_agencies_june_2024.csv")
-
 write.csv(remove_agencies, file = file_path1, row.names = FALSE)
-
 ```
-
-
-
-
-##rapid city through march 2024; 
-
 ## a little auditing
 ```{r}
 # Filter for the specified city_state values
@@ -547,7 +582,7 @@ result_data <- filtered_data %>%
   filter(Month == max(Month)) %>%
   ungroup()
 ```
-
+quick example of error bar creation - just need new min/max values and sd to report and we're good to viz
 ```{r}
 #need ggplot
 library(ggplot2)
@@ -567,9 +602,6 @@ summary_data <- cdf %>%
   )
 
 summary_data_sub <- summary_data %>% filter(year(date) == 2023)
-
-library(ggplot2)
-library(dplyr)
 
 # Assuming `summary_data` is already created as per the previous code
 
@@ -597,4 +629,10 @@ ggplot(summary_data_sub, aes(x = date, y = mean_crime)) +
     axis.text.x = element_text(angle = 45, hjust = 1)  # Rotated x-axis labels for better readability
   )
 
+```
+let's take a look at all the population-less records
+```{r}
+pop_missing <- final_data1 %>%
+  filter(is.na(Population)) %>%
+  distinct(city_state, .keep_all = TRUE)
 ```

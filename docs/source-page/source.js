@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (col === "population") {
                     td.textContent = parseInt(row[col]).toLocaleString(); // Format population with commas
                 } else if (col === "source_link") {
-                    td.innerHTML = `<a href="${row[col]}" target="_blank">Click here</a>`;
+                    td.innerHTML = `<a href="${row[col]}" target="_blank">Click Here</a>`;
                 } else {
                     td.textContent = row[col];
                 }

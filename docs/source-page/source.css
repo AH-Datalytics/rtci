@@ -55,7 +55,7 @@
 }
 
 .table-container td a:hover {
-    text-decoration: none;
+    color: #2d5df96d;
 }
 
 /* Row hover effect */

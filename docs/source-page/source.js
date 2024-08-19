@@ -7,10 +7,10 @@ function loadSourceData(stateFilter = null, agencyFilter = null) {
         // Filter data based on state and agency
         let filteredData = data;
         if (stateFilter) {
-            filteredData = filteredData.filter(d => d.state === stateFilter);
+            filteredData = filteredData.filter(d => d.state_name === stateFilter);
         }
         if (agencyFilter) {
-            filteredData = filteredData.filter(d => d.agency_full === agencyFilter);
+            filteredData = filteredData.filter(d => d.agency_name === agencyFilter);
         }
 
         // Create the table element
@@ -68,7 +68,15 @@ function populateDropdowns(data, selectedState) {
     const agencyDropdown = d3.select("#agency-dropdown");
 
     // Populate state dropdown
-    const states = [...new Set(data.map(d => d.state))];
+    let states = [...new Set(data.map(d => d.state_name))];
+
+    // Sort states alphabetically, but place "Nationwide" at the top
+    states = states.sort((a, b) => {
+        if (a === "Nationwide") return -1;
+        if (b === "Nationwide") return 1;
+        return a.localeCompare(b);
+    });
+
     stateDropdown.html('');
     stateDropdown.selectAll("div")
         .data(states)
@@ -79,11 +87,16 @@ function populateDropdowns(data, selectedState) {
         .on("click", function(event, d) {
             setFilterText(d, ''); // Clear agency filter
             loadSourceData(d); // Reload data with state filter
+            closeDropdowns(); // Close dropdown after selection
         });
 
     // Populate agency dropdown based on selected state
     if (selectedState) {
-        const agencies = [...new Set(data.filter(d => d.state === selectedState).map(d => d.agency_full))];
+        let agencies = [...new Set(data.filter(d => d.state_name === selectedState).map(d => d.agency_name))];
+
+        // Sort agencies alphabetically
+        agencies = agencies.sort((a, b) => a.localeCompare(b));
+
         agencyDropdown.html('');
         agencyDropdown.selectAll("div")
             .data(agencies)
@@ -94,6 +107,7 @@ function populateDropdowns(data, selectedState) {
             .on("click", function(event, d) {
                 setFilterText(selectedState, d); // Update filter sentence
                 loadSourceData(selectedState, d); // Reload data with both filters
+                closeDropdowns(); // Close dropdown after selection
             });
     } else {
         agencyDropdown.html('<div class="dropdown-item">Select a state first</div>');
@@ -106,7 +120,28 @@ function setFilterText(state, agency) {
     document.getElementById('agency-btn').textContent = agency || 'Agency';
 }
 
+// Function to close all dropdowns
+function closeDropdowns() {
+    d3.selectAll('.dropdown-menu').classed('show', false);
+}
+
 // Initial load actions
 document.addEventListener('DOMContentLoaded', function() {
     loadSourceData(); // Load data without filters initially
+
+    // Add event listeners to dropdown buttons to toggle dropdown visibility
+    d3.select('#state-btn').on('click', function() {
+        d3.select('#state-dropdown').classed('show', !d3.select('#state-dropdown').classed('show'));
+    });
+    
+    d3.select('#agency-btn').on('click', function() {
+        d3.select('#agency-dropdown').classed('show', !d3.select('#agency-dropdown').classed('show'));
+    });
+
+    // Close dropdowns if clicking outside
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.dropdown-btn')) {
+            closeDropdowns();
+        }
+    });
 });

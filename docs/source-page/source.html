@@ -6,6 +6,7 @@
     <title>Source Table</title>
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="source.css">
+    <link rel="stylesheet" href="../table/table.css"> <!-- Linking to table.css for shared styles -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
@@ -28,7 +29,22 @@
             </div>
         </div>
         <div id="source-table-container" class="table-container">
-            <!-- The source table will be dynamically populated here -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Agency</th>
+                        <th>Population</th>
+                        <th>Number of Agencies</th>
+                        <th>Source Type</th>
+                        <th>Source Method</th>
+                        <th>Most Recent Data</th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+                <tbody id="source-table-body">
+                    <!-- The source table will be dynamically populated here -->
+                </tbody>
+            </table>
         </div>
     </div>
     <script src="source.js"></script>

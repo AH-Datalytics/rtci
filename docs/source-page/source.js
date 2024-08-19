@@ -1,147 +1,249 @@
-// Function to load and populate the source data table
-function loadSourceData(stateFilter = null, agencyFilter = null) {
-    d3.csv("../app_data/sources.csv").then(function(data) {
-        const tableContainer = d3.select("#source-table-container");
-        tableContainer.html(''); // Clear any existing table
+document.addEventListener("DOMContentLoaded", function() {
+    const dataPath = "../app_data/sources.csv";
+    const tableBody = document.getElementById("source-table-container");
+    const agencyBtn = document.getElementById("agency-btn");
+    const stateBtn = document.getElementById("state-btn");
+    const agencyDropdown = document.getElementById("agency-dropdown");
+    const stateDropdown = document.getElementById("state-dropdown");
 
-        // Filter data based on state and agency
-        let filteredData = data;
-        if (stateFilter) {
-            filteredData = filteredData.filter(d => d.state_name === stateFilter);
-        }
-        if (agencyFilter) {
-            filteredData = filteredData.filter(d => d.agency_name === agencyFilter);
-        }
+    let allData = [];
+    let filteredAgencies = [];
 
-        // Create the table element
-        const table = tableContainer.append("table");
-        const thead = table.append("thead");
-        const tbody = table.append("tbody");
-        
-        // Define the columns with correct CSV column names
-        const columns = [
-            { display: "Agency", key: "agency_full" }, 
-            { display: "Population", key: "population" }, 
-            { display: "Number of Agencies", key: "agency_num" }, 
-            { display: "Source Type", key: "source_type" }, 
-            { display: "Source Method", key: "source_method" }, 
-            { display: "Most Recent Data", key: "most_recent_month" }, 
-            { display: "Link", key: "source_link" }
-        ];
+    // Default filter values
+    const defaultFilters = {
+        state: "Nationwide",
+        agency: "Full Sample"
+    };
 
-        // Append the header row
-        thead.append("tr")
-            .selectAll("th")
-            .data(columns)
-            .enter()
-            .append("th")
-            .text(function(column) { return column.display; });
-
-        // Append rows to the table body
-        const rows = tbody.selectAll("tr")
-            .data(filteredData)
-            .enter()
-            .append("tr");
-
-        // Append cells to each row
-        rows.selectAll("td")
-            .data(function(row) {
-                return columns.map(function(column) {
-                    if (column.key === "source_link") {
-                        return `<a href="${row[column.key]}" target="_blank">Click here</a>`;
-                    }
-                    return row[column.key];
-                });
-            })
-            .enter()
-            .append("td")
-            .html(function(d) { return d; });
-
-        // Update the dropdowns
-        populateDropdowns(data, stateFilter);
-    });
-}
-
-// Populate state and agency dropdowns
-function populateDropdowns(data, selectedState) {
-    const stateDropdown = d3.select("#state-dropdown");
-    const agencyDropdown = d3.select("#agency-dropdown");
-
-    // Populate state dropdown
-    let states = [...new Set(data.map(d => d.state_name))];
-
-    // Sort states alphabetically, but place "Nationwide" at the top
-    states = states.sort((a, b) => {
-        if (a === "Nationwide") return -1;
-        if (b === "Nationwide") return 1;
-        return a.localeCompare(b);
+    // Load data
+    d3.csv(dataPath).then(data => {
+        allData = data;  // Store all data for filtering
+        retrieveFilterValues(defaultFilters);
+        const initialData = data.filter(row => row.agency_name === agencyBtn.textContent && row.state_name === stateBtn.textContent);
+        formatAndPopulateTable(initialData);
+        populateFilters(data);
+    }).catch(error => {
+        console.error("Error loading the CSV data:", error);
     });
 
-    stateDropdown.html('');
-    stateDropdown.selectAll("div")
-        .data(states)
-        .enter()
-        .append("div")
-        .attr("class", "dropdown-item")
-        .text(d => d)
-        .on("click", function(event, d) {
-            setFilterText(d, ''); // Clear agency filter
-            loadSourceData(d); // Reload data with state filter
-            closeDropdowns(); // Close dropdown after selection
+    function formatAndPopulateTable(data) {
+        tableBody.innerHTML = "";  // Clear any existing content
+    
+        // Create a table element
+        const table = document.createElement("table");
+    
+        // Create the table headers
+        const headers = ["Agency", "Population", "Number of Agencies", "Source Type", "Source Method", "Most Recent Data", "Link"];
+        const thead = document.createElement("thead");
+        const headerRow = document.createElement("tr");
+    
+        headers.forEach(header => {
+            const th = document.createElement("th");
+            th.textContent = header;
+            headerRow.appendChild(th);
+        });
+    
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+    
+        // Create the table body
+        const tbody = document.createElement("tbody");
+    
+        data.forEach(row => {
+            const tr = document.createElement("tr");
+    
+            const columns = ["agency_full", "population", "agency_num", "source_type", "source_method", "most_recent_month", "source_link"];
+    
+            columns.forEach(col => {
+                const td = document.createElement("td");
+                if (col === "source_link") {
+                    td.innerHTML = `<a href="${row[col]}" target="_blank">Click here</a>`;
+                } else {
+                    td.textContent = row[col];
+                }
+                tr.appendChild(td);
+            });
+    
+            tbody.appendChild(tr);
+        });
+    
+        table.appendChild(tbody);
+        tableBody.appendChild(table);
+    }
+    
+
+    function populateFilters(data) {
+        let states = [...new Set(data.map(row => row.state_name))];
+    
+        // Remove "Nationwide" from the list if it exists
+        const nationwideIndex = states.indexOf("Nationwide");
+        if (nationwideIndex > -1) {
+            states.splice(nationwideIndex, 1);  // Remove "Nationwide" from its original position
+        }
+    
+        // Sort the remaining states alphabetically
+        states.sort();
+    
+        // Add "Nationwide" back at the beginning of the list
+        states.unshift("Nationwide");
+    
+        // Create the dropdown with the ordered list
+        createSearchableDropdown(stateDropdown, stateBtn, states);
+    }
+
+    function updateAgencyFilter(state) {
+        let agencies = [...new Set(allData.filter(row => row.state_name === state).map(row => row.agency_name))];
+    
+        // Check if "Full Sample" exists
+        const fullSampleIndex = agencies.indexOf("Full Sample");
+        if (fullSampleIndex > -1) {
+            agencies.splice(fullSampleIndex, 1);  // Remove "Full Sample" from its original position
+            agencies.sort();  // Sort the remaining agencies alphabetically
+            agencies.unshift("Full Sample");  // Add "Full Sample" back at the top
+        } else {
+            agencies.sort();  // Just sort if "Full Sample" doesn't exist
+        }
+    
+        createSearchableDropdown(agencyDropdown, agencyBtn, agencies);
+    
+        const savedFilters = JSON.parse(sessionStorage.getItem('sourceTableFilters'));
+        const savedAgency = savedFilters ? savedFilters.agency : null;
+    
+        // Default to "Full Sample" if available, otherwise saved agency or first agency
+        if (agencies.includes(savedAgency)) {
+            agencyBtn.textContent = savedAgency;
+        } else if (agencies.length > 0) {
+            agencyBtn.textContent = agencies[0];
+        } else {
+            agencyBtn.textContent = "Agency";
+        }
+
+        // Automatically filter the table after setting the agency
+        filterData();
+
+        // Ensure only the saved agency is bolded
+        const items = agencyDropdown.querySelectorAll('.dropdown-item');
+        items.forEach(item => item.classList.remove('selected'));
+        const agencyOption = agencyDropdown.querySelector(`[data-value="${agencyBtn.textContent}"]`);
+        if (agencyOption) agencyOption.classList.add('selected');
+    }
+
+    function filterData() {
+        const selectedState = stateBtn.textContent;
+        const selectedAgency = agencyBtn.textContent;
+
+        if (selectedState !== "State" && selectedAgency !== "Agency") {
+            const filteredData = allData.filter(row => row.state_name === selectedState && row.agency_name === selectedAgency);
+            formatAndPopulateTable(filteredData);
+        }
+    }
+
+    // Toggle dropdown visibility with only one open at a time
+    function closeAllDropdowns() {
+        const dropdownMenus = document.querySelectorAll(".dropdown-menu");
+        dropdownMenus.forEach(menu => menu.classList.remove("show"));
+    }
+
+    function toggleDropdown(button, dropdown) {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation();
+            closeAllDropdowns();
+            dropdown.classList.toggle("show");
         });
 
-    // Populate agency dropdown based on selected state
-    if (selectedState) {
-        let agencies = [...new Set(data.filter(d => d.state_name === selectedState).map(d => d.agency_name))];
+        document.addEventListener('click', function() {
+            closeAllDropdowns();
+        });
 
-        // Sort agencies alphabetically
-        agencies = agencies.sort((a, b) => a.localeCompare(b));
-
-        agencyDropdown.html('');
-        agencyDropdown.selectAll("div")
-            .data(agencies)
-            .enter()
-            .append("div")
-            .attr("class", "dropdown-item")
-            .text(d => d)
-            .on("click", function(event, d) {
-                setFilterText(selectedState, d); // Update filter sentence
-                loadSourceData(selectedState, d); // Reload data with both filters
-                closeDropdowns(); // Close dropdown after selection
-            });
-    } else {
-        agencyDropdown.html('<div class="dropdown-item">Select a state first</div>');
+        dropdown.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
     }
-}
 
-// Function to update the filter sentence
-function setFilterText(state, agency) {
-    document.getElementById('state-btn').textContent = state || 'State';
-    document.getElementById('agency-btn').textContent = agency || 'Agency';
-}
+    toggleDropdown(stateBtn, stateDropdown);
+    toggleDropdown(agencyBtn, agencyDropdown);
 
-// Function to close all dropdowns
-function closeDropdowns() {
-    d3.selectAll('.dropdown-menu').classed('show', false);
-}
+    // Search functionality for dropdowns
+    function createSearchableDropdown(dropdown, button, options) {
+        const searchInput = document.createElement("input");
+        searchInput.type = "text";
+        searchInput.placeholder = "Search...";
+        searchInput.className = "dropdown-search";
 
-// Initial load actions
-document.addEventListener('DOMContentLoaded', function() {
-    loadSourceData(); // Load data without filters initially
+        dropdown.innerHTML = "";
+        dropdown.appendChild(searchInput);
 
-    // Add event listeners to dropdown buttons to toggle dropdown visibility
-    d3.select('#state-btn').on('click', function() {
-        d3.select('#state-dropdown').classed('show', !d3.select('#state-dropdown').classed('show'));
-    });
-    
-    d3.select('#agency-btn').on('click', function() {
-        d3.select('#agency-dropdown').classed('show', !d3.select('#agency-dropdown').classed('show'));
-    });
+        function filterOptions() {
+            const filter = searchInput.value.toLowerCase();
+            const filteredOptions = options.filter(option => option.toLowerCase().includes(filter));
 
-    // Close dropdowns if clicking outside
-    document.addEventListener('click', function(event) {
-        if (!event.target.closest('.dropdown-btn')) {
-            closeDropdowns();
+            const existingItems = dropdown.querySelectorAll(".dropdown-item");
+            existingItems.forEach(item => item.remove());
+
+            filteredOptions.forEach(option => {
+                const dropdownOption = createDropdownOption(option, option, dropdown, button);
+                dropdown.appendChild(dropdownOption);
+            });
         }
-    });
+
+        searchInput.addEventListener("input", filterOptions);
+
+        options.forEach(option => {
+            const dropdownOption = createDropdownOption(option, option, dropdown, button);
+            dropdown.appendChild(dropdownOption);
+        });
+
+        // Add 'selected' class to the current filter value
+        const selectedOption = dropdown.querySelector(`[data-value="${button.textContent}"]`);
+        if (selectedOption) selectedOption.classList.add('selected');
+    }
+
+    function createDropdownOption(value, text, dropdown, button) {
+        const option = document.createElement("div");
+        option.className = "dropdown-item";
+        option.dataset.value = value;
+        option.textContent = text;
+
+        if (button.textContent === value) {
+            option.classList.add('selected');
+        }
+
+        option.addEventListener('click', function() {
+            const items = dropdown.querySelectorAll('.dropdown-item');
+            items.forEach(item => item.classList.remove('selected'));
+            option.classList.add('selected');
+            button.textContent = text;
+            dropdown.classList.remove("show");
+
+            if (button === stateBtn) {
+                updateAgencyFilter(value);
+            } else {
+                filterData();
+            }
+
+            saveFilterValues(); // Save filter values whenever a filter changes
+        });
+
+        return option;
+    }
+
+    function saveFilterValues() {
+        const filters = {
+            state: stateBtn.textContent,
+            agency: agencyBtn.textContent
+        };
+        sessionStorage.setItem('sourceTableFilters', JSON.stringify(filters));
+    }
+
+    function retrieveFilterValues(defaultFilters) {
+        const savedFilters = JSON.parse(sessionStorage.getItem('sourceTableFilters')) || defaultFilters;
+
+        stateBtn.textContent = savedFilters.state;
+        agencyBtn.textContent = savedFilters.agency;
+
+        const stateOption = stateDropdown.querySelector(`[data-value="${savedFilters.state}"]`);
+        if (stateOption) stateOption.classList.add('selected');
+
+        updateAgencyFilter(savedFilters.state);
+    }
 });

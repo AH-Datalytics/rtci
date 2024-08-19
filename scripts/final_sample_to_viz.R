@@ -223,6 +223,30 @@ sources <- sources %>%
 sources <- sources %>% 
   rename(most_recent_month = month_year)
 
+
+## Create Agency Full List ----
+sample_cities <- read_csv("../data/sample_cities.csv")
+
+sample_cities <- sample_cities %>% 
+  rename(state_abbr = State)
+
+# Map state abbreviations to full state names
+state_names <- data.frame(state_abbr = state.abb, state_name = state.name)
+
+dc <- c("DC", "District of Columbia")
+
+state_names <- rbind(state_names, dc)
+
+sample_cities <- sample_cities %>%
+  left_join(state_names, by = "state_abbr")
+
+sample_cities <- sample_cities %>% 
+  mutate(agency_full = paste(`Agency Name`, state_name, sep = ", "))
+
+
+# Create the new column in sources
+sources$in_national_sample <- sources$agency_full %in% sample_cities$agency_full
+
 write.csv(sources, "../docs/app_data/sources.csv", row.names = FALSE)
 
 

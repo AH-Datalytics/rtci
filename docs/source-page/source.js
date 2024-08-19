@@ -9,19 +9,15 @@ document.addEventListener("DOMContentLoaded", function() {
     let allData = [];
     let filteredAgencies = [];
 
-    // Default filter values
-    const defaultFilters = {
-        state: "Nationwide",
-        agency: "Full Sample"
-    };
-
     // Load data
     d3.csv(dataPath).then(data => {
         allData = data;  // Store all data for filtering
-        retrieveFilterValues(defaultFilters);
-        const initialData = data.filter(row => row.agency_name === agencyBtn.textContent && row.state_name === stateBtn.textContent);
-        formatAndPopulateTable(initialData);
         populateFilters(data);
+        displayNationalSample();  // Display rows where in_national_sample is TRUE on page load
+
+        // Set the filter labels to "Nationwide" and "Full Sample" on page load
+        stateBtn.textContent = "Nationwide";
+        agencyBtn.textContent = "Full Sample";
     }).catch(error => {
         console.error("Error loading the CSV data:", error);
     });
@@ -33,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const table = document.createElement("table");
     
         // Create the table headers
-        const headers = ["Agency", "Population", "Number of Agencies", "Source Type", "Source Method", "Most Recent Data", "Link"];
+        const headers = ["Agency", "Population", "Number of Agencies", "Source Type", "Source Method", "Most Recent Data", "Primary Link"];
         const thead = document.createElement("thead");
         const headerRow = document.createElement("tr");
     
@@ -71,7 +67,6 @@ document.addEventListener("DOMContentLoaded", function() {
         tableBody.appendChild(table);
     }
     
-
     function populateFilters(data) {
         let states = [...new Set(data.map(row => row.state_name))];
     
@@ -91,53 +86,60 @@ document.addEventListener("DOMContentLoaded", function() {
         createSearchableDropdown(stateDropdown, stateBtn, states);
     }
 
-    function updateAgencyFilter(state) {
-        let agencies = [...new Set(allData.filter(row => row.state_name === state).map(row => row.agency_name))];
-    
-        // Check if "Full Sample" exists
-        const fullSampleIndex = agencies.indexOf("Full Sample");
-        if (fullSampleIndex > -1) {
-            agencies.splice(fullSampleIndex, 1);  // Remove "Full Sample" from its original position
-            agencies.sort();  // Sort the remaining agencies alphabetically
-            agencies.unshift("Full Sample");  // Add "Full Sample" back at the top
-        } else {
-            agencies.sort();  // Just sort if "Full Sample" doesn't exist
-        }
-    
-        createSearchableDropdown(agencyDropdown, agencyBtn, agencies);
-    
-        const savedFilters = JSON.parse(sessionStorage.getItem('sourceTableFilters'));
-        const savedAgency = savedFilters ? savedFilters.agency : null;
-    
-        // Default to "Full Sample" if available, otherwise saved agency or first agency
-        if (agencies.includes(savedAgency)) {
-            agencyBtn.textContent = savedAgency;
-        } else if (agencies.length > 0) {
-            agencyBtn.textContent = agencies[0];
-        } else {
-            agencyBtn.textContent = "Agency";
-        }
-
-        // Automatically filter the table after setting the agency
-        filterData();
-
-        // Ensure only the saved agency is bolded
-        const items = agencyDropdown.querySelectorAll('.dropdown-item');
-        items.forEach(item => item.classList.remove('selected'));
-        const agencyOption = agencyDropdown.querySelector(`[data-value="${agencyBtn.textContent}"]`);
-        if (agencyOption) agencyOption.classList.add('selected');
+    function displayNationalSample() {
+        const filteredData = allData.filter(row => row.in_national_sample === "TRUE");
+        formatAndPopulateTable(filteredData);
     }
 
+    function updateAgencyFilter(state) {
+        if (state === "Nationwide" && agencyBtn.textContent === "Full Sample") {
+            displayNationalSample();
+        } else {
+            let agencies = [...new Set(allData.filter(row => row.state_name === state).map(row => row.agency_name))];
+    
+            const fullSampleIndex = agencies.indexOf("Full Sample");
+            if (fullSampleIndex > -1) {
+                agencies.splice(fullSampleIndex, 1);
+                agencies.sort();
+                agencies.unshift("Full Sample");
+            } else {
+                agencies.sort();
+            }
+    
+            createSearchableDropdown(agencyDropdown, agencyBtn, agencies);
+    
+            const savedFilters = JSON.parse(sessionStorage.getItem('sourceTableFilters'));
+            const savedAgency = savedFilters ? savedFilters.agency : null;
+    
+            if (agencies.includes(savedAgency)) {
+                agencyBtn.textContent = savedAgency;
+            } else if (agencies.length > 0) {
+                agencyBtn.textContent = agencies[0];
+            } else {
+                agencyBtn.textContent = "Agency";
+            }
+    
+            filterData();
+    
+            const items = agencyDropdown.querySelectorAll('.dropdown-item');
+            items.forEach(item => item.classList.remove('selected'));
+            const agencyOption = agencyDropdown.querySelector(`[data-value="${agencyBtn.textContent}"]`);
+            if (agencyOption) agencyOption.classList.add('selected');
+        }
+    }
+    
     function filterData() {
         const selectedState = stateBtn.textContent;
         const selectedAgency = agencyBtn.textContent;
-
-        if (selectedState !== "State" && selectedAgency !== "Agency") {
+    
+        if (selectedState === "Nationwide" && selectedAgency === "Full Sample") {
+            displayNationalSample();
+        } else if (selectedState !== "State" && selectedAgency !== "Agency") {
             const filteredData = allData.filter(row => row.state_name === selectedState && row.agency_name === selectedAgency);
             formatAndPopulateTable(filteredData);
         }
     }
-
+    
     // Toggle dropdown visibility with only one open at a time
     function closeAllDropdowns() {
         const dropdownMenus = document.querySelectorAll(".dropdown-menu");
@@ -233,17 +235,5 @@ document.addEventListener("DOMContentLoaded", function() {
             agency: agencyBtn.textContent
         };
         sessionStorage.setItem('sourceTableFilters', JSON.stringify(filters));
-    }
-
-    function retrieveFilterValues(defaultFilters) {
-        const savedFilters = JSON.parse(sessionStorage.getItem('sourceTableFilters')) || defaultFilters;
-
-        stateBtn.textContent = savedFilters.state;
-        agencyBtn.textContent = savedFilters.agency;
-
-        const stateOption = stateDropdown.querySelector(`[data-value="${savedFilters.state}"]`);
-        if (stateOption) stateOption.classList.add('selected');
-
-        updateAgencyFilter(savedFilters.state);
     }
 });

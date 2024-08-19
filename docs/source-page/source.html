@@ -4,15 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Source Table</title>
-    <link rel="stylesheet" href="../styles.css"> <!-- Base styles -->
-    <link rel="stylesheet" href="source.css"> <!-- Specific styles for this page -->
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="source.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
     <div id="source-container" class="source-container">
-        <div class="filter-container">
-            <span>Source for <span id="filter-item">___</span> in <span id="filter-location">____</span></span>
+        <div id="filters-container" class="filters-container">
+            <span>Show me sources for</span>
+            <div class="dropdown">
+                <div id="state-btn" class="dropdown-btn">State</div>
+                <div id="state-dropdown" class="dropdown-menu">
+                    <!-- Options will be dynamically populated -->
+                </div>
+            </div>
+            <span>in</span>
+            <div class="dropdown">
+                <div id="agency-btn" class="dropdown-btn">Agency</div>
+                <div id="agency-dropdown" class="dropdown-menu">
+                    <!-- Options will be dynamically populated -->
+                </div>
+            </div>
         </div>
         <div id="source-table-container" class="table-container">
             <!-- The source table will be dynamically populated here -->

@@ -4,7 +4,7 @@
 
 #source-table-container {
     height: fit-content;
-    max-height: 100vh;
+    max-height: 80vh;
 }
 
 
@@ -24,24 +24,23 @@
 /* Table styling */
 .table-container table {
     width: 100%;
-    height: 100%;
     border-collapse: collapse;
     background-color: #ffffff;
     border-radius: 8px;
-    overflow: hidden;
+    overflow: auto;
     flex-grow: 1;
 }
 
-.table-container th {
+/* Ensure the table header stays sticky at the top */
+.table-container thead th {
+    position: sticky !important;
+    top: 0;
+    z-index: 1; /* Ensure the header stays on top during scroll */
+    background-color: #00333a; /* Match header background color */
+    color: white; /* Header text color */
     padding: 10px;
     text-align: left;
     font-family: 'Roboto Condensed', Arial, sans-serif;
-}
-
-.table-container th {
-    background-color: #00333a;
-    color: white;
-    position: sticky;
     border-bottom: 1px solid #00333a;
 }
 
@@ -82,4 +81,20 @@
     .table-container td a {
         font-size: 1.5vw;
     }
+}
+
+
+/* Number of Agencies Box */
+.agencies-num-box {
+    text-align: right;
+    font-size: 1.2vw;
+    color: #00333a;
+    margin-bottom: 10px;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-weight: 400;
+}
+
+.agencies-num-box strong {
+    color: #f28106; /* Orange color */
+    font-weight: bold; /* Bold */
 }

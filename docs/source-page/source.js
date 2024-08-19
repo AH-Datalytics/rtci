@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const stateBtn = document.getElementById("state-btn");
     const agencyDropdown = document.getElementById("agency-dropdown");
     const stateDropdown = document.getElementById("state-dropdown");
+    const agenciesNumBox = document.getElementById("agencies-num-box");
 
     let allData = [];
     let filteredAgencies = [];
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Set the filter labels to "Nationwide" and "Full Sample" on page load
         stateBtn.textContent = "Nationwide";
         agencyBtn.textContent = "Full Sample";
+        updateAgenciesNumBox(allData.filter(row => row.in_national_sample === "TRUE").length);
     }).catch(error => {
         console.error("Error loading the CSV data:", error);
     });
@@ -25,11 +27,14 @@ document.addEventListener("DOMContentLoaded", function() {
     function formatAndPopulateTable(data) {
         tableBody.innerHTML = "";  // Clear any existing content
     
+        // Sort data by population (biggest to smallest)
+        data.sort((a, b) => b.population - a.population);
+    
         // Create a table element
         const table = document.createElement("table");
     
         // Create the table headers
-        const headers = ["Agency", "Population", "Number of Agencies", "Source Type", "Source Method", "Most Recent Data", "Primary Link"];
+        const headers = ["Agency", "Population Covered", "Source Type", "Source Method", "Most Recent Data", "Primary Link"];
         const thead = document.createElement("thead");
         const headerRow = document.createElement("tr");
     
@@ -48,11 +53,13 @@ document.addEventListener("DOMContentLoaded", function() {
         data.forEach(row => {
             const tr = document.createElement("tr");
     
-            const columns = ["agency_full", "population", "agency_num", "source_type", "source_method", "most_recent_month", "source_link"];
+            const columns = ["agency_full", "population", "source_type", "source_method", "most_recent_month", "source_link"];
     
             columns.forEach(col => {
                 const td = document.createElement("td");
-                if (col === "source_link") {
+                if (col === "population") {
+                    td.textContent = parseInt(row[col]).toLocaleString(); // Format population with commas
+                } else if (col === "source_link") {
                     td.innerHTML = `<a href="${row[col]}" target="_blank">Click here</a>`;
                 } else {
                     td.textContent = row[col];
@@ -66,6 +73,7 @@ document.addEventListener("DOMContentLoaded", function() {
         table.appendChild(tbody);
         tableBody.appendChild(table);
     }
+    
     
     function populateFilters(data) {
         let states = [...new Set(data.map(row => row.state_name))];
@@ -89,6 +97,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function displayNationalSample() {
         const filteredData = allData.filter(row => row.in_national_sample === "TRUE");
         formatAndPopulateTable(filteredData);
+        updateAgenciesNumBox(filteredData.length);
     }
 
     function updateAgencyFilter(state) {
@@ -137,7 +146,12 @@ document.addEventListener("DOMContentLoaded", function() {
         } else if (selectedState !== "State" && selectedAgency !== "Agency") {
             const filteredData = allData.filter(row => row.state_name === selectedState && row.agency_name === selectedAgency);
             formatAndPopulateTable(filteredData);
+            updateAgenciesNumBox(filteredData.length);
         }
+    }
+
+    function updateAgenciesNumBox(count) {
+        agenciesNumBox.innerHTML = `Number of Agencies: <strong>${count}</strong>`;
     }
     
     // Toggle dropdown visibility with only one open at a time

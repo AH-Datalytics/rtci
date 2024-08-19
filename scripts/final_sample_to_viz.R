@@ -14,7 +14,7 @@ final_sample <- final_sample %>%
 
 # Keep the first "state" column and remove the other "state" column
 final_sample <- final_sample %>%
-  select(-state_2, -state_abbr, -agency_name_2)
+  select(-state_ref, -agency)
 
 # Rename column state to state_abbr
 final_sample <- final_sample %>%
@@ -53,7 +53,9 @@ final_sample <- final_sample %>%
          burglary, theft, motor_vehicle_theft, property_crime,
          murder_mvs_12mo, rape_mvs_12mo, robbery_mvs_12mo, aggravated_assault_mvs_12mo, violent_crime_mvs_12mo,
          burglary_mvs_12mo, theft_mvs_12mo, motor_vehicle_theft_mvs_12mo, property_crime_mvs_12mo, 
-         population, population_grouping, source_link, agency_num)
+         population, 
+         # population_grouping, 
+         source_link, agency_num, source_type, source_method)
 
 
 
@@ -78,20 +80,28 @@ final_sample_long_mvs <- final_sample %>%
 # Combine counts and mvs_12mo data
 final_sample_long <- final_sample_long_counts %>%
   left_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "location_full", "crime_type",
-                                          "population", "population_grouping", "source_link", "agency_num"))
+                                          "population",
+                                          # "population_grouping",
+                                          "source_link", "agency_num"))
 
 # Audit merge
 final_sample_left <- final_sample_long_counts %>%
   left_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "location_full", "crime_type",
-                                          "population", "population_grouping", "source_link", "agency_num"))
+                                          "population",
+                                          # "population_grouping",
+                                          "source_link", "agency_num"))
 
 final_sample_inner <- final_sample_long_counts %>%
   inner_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "location_full", "crime_type",
-                                           "population", "population_grouping", "source_link", "agency_num"))
+                                           "population", 
+                                           # "population_grouping", 
+                                           "source_link", "agency_num"))
 
 final_sample_full <- final_sample_long_counts %>%
   full_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "location_full", "crime_type",
-                                          "population", "population_grouping", "source_link", "agency_num"))
+                                          "population", 
+                                          # "population_grouping", 
+                                          "source_link", "agency_num"))
 
 
 
@@ -103,7 +113,8 @@ final_sample_long <- final_sample_long %>%
 # Final arrangement of columns
 final_sample_long <- final_sample_long %>%
   select(date, state_ucr_link, agency_name, state_name, agency_full, location_full, population, crime_type, count, mvs_12mo,
-         population_grouping, number_of_agencies)
+         # population_grouping, 
+         number_of_agencies)
 
 # Capitalize crime types before printing and writing
 final_sample_long <- final_sample_long %>%
@@ -162,6 +173,57 @@ print(head(final_sample_long), width = Inf)
 write.csv(final_sample_long, "../docs/app_data/viz_data.csv", row.names = FALSE)
 
 
+
+# Source Page Data ----------------------------------------------------------------------------
+sources <- final_sample 
+
+# Assuming your dataframe is named df and your date column is named date_column
+sources$month_year <- format(as.Date(sources$date), "%B %Y")
+
+# Select columns that do not start with any of the specified crime types
+sources <- sources %>% select(-starts_with("murder"),
+                              -starts_with("rape"),
+                              -starts_with("robbery"),
+                              -starts_with("aggravated_assault"),
+                              -starts_with("violent_crime"),
+                              -starts_with("burglary"),
+                              -starts_with("theft"),
+                              -starts_with("motor_vehicle_theft"),
+                              -starts_with("property_crime"))
+
+# Fix State Full Sample Agency Naming
+sources <- sources %>% 
+  mutate(agency_name = ifelse(str_detect(agency_name, "Full Sample"), "Full Sample", agency_name))
+
+
+# Remove Full Sample agencies for states where there is just one agency
+
+# Step 1: Identify states (excluding "Nationwide") where there are exactly two agencies, one of which is "Full Sample"
+sources_with_full_sample <- sources %>%
+  filter(state_name != "Nationwide") %>%
+  group_by(state_name) %>%
+  filter(n_distinct(agency_name) == 2 & "Full Sample" %in% agency_name) %>%
+  pull(state_name) %>%
+  unique()
+
+# Step 2: Filter out the "Full Sample" agency for those states
+sources <- sources %>%
+  filter(!(state_name %in% sources_with_full_sample & agency_name == "Full Sample"))
+
+## PRE LAUNCH: REMOVE STATE FULL SAMPLES 
+sources <- sources %>%
+  filter(!(agency_name == "Full Sample" & state_name != "Nationwide"))
+
+# Group by agency_full and filter to keep only the row with the latest date
+sources <- sources %>%
+  group_by(agency_full) %>%
+  filter(date == max(date)) %>%
+  ungroup()
+
+sources <- sources %>% 
+  rename(most_recent_month = month_year)
+
+write.csv(sources, "../docs/app_data/sources.csv", row.names = FALSE)
 
 
 # Make New Data for Table Page ----------------------------------------------------------------

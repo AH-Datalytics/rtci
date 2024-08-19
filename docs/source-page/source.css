@@ -1,0 +1,40 @@
+/* Additional or overriding styles specific to the source table page */
+
+/* Ensure the main container aligns with the overall layout */
+.source-container {
+    width: 95%;
+    height: 90vh;
+    margin: 1rem auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background-color: white; /* Ensure the background is consistent */
+}
+
+/* Specific styling for the filter sentence */
+.filter-container {
+    text-align: center;
+    margin: 1rem 0;
+    font-size: 1.5vw;
+    color: #00333a;
+}
+
+/* Table container styling */
+.table-container {
+    width: 100%;
+    height: calc(100% - 3rem); /* Adjust the height based on the filter height */
+    overflow-y: auto;
+    padding: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .filter-container {
+        font-size: 2.5vw;
+    }
+    .table-container {
+        padding: 0.5rem;
+    }
+}

@@ -317,7 +317,7 @@ undesirables_recency <- most_recent_obs %>%
 undesirables_na <- most_recent_obs %>%
   filter(Year == two_months_previous_year & 
          Month == two_months_previous_month & 
-         rowSums(is.na(.)) > 0)
+         is.na(Murder))
 
 # Step 4: Combine the results
 undesirables <- bind_rows(undesirables_recency, undesirables_na)
@@ -635,4 +635,11 @@ let's take a look at all the population-less records
 pop_missing <- final_data1 %>%
   filter(is.na(Population)) %>%
   distinct(city_state, .keep_all = TRUE)
+```
+
+
+```{r}
+df_unique_population <- final_data1 %>%
+  group_by(city_state) %>%
+  summarise(total_population = sum(Population, na.rm = TRUE))
 ```

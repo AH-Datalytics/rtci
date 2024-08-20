@@ -8,6 +8,7 @@ updated: "08-19-2024"
 read in the data from the ben/jeff folder
 ```{r}
 library(tidyverse)
+library(magrittr)
 library(dplyr)
 library(readr)
 library(stringr)
@@ -370,14 +371,8 @@ add population figures for nationwide descriptors
 #read in the ref_df file
 ref_df <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data\\final_sourcing.csv")
 
-#a few names to fix Colerain ==> Colerain Township,
-                    Green => Green Township;
-                    North Bergen => North Bergen Township;
-                    St Paul => St. Paul;
-                    St Cloud => St. Cloud
-                    West Chester => Westchester;
-
-
+#a few names to fix Colerain, Colerain Township,,Green,Green Township;,North Bergen, 
+#North Bergen Township; St Paul, St. Paul; St Cloud, CloudWest Chester, Westchester.
 
 #make a city_state column
 ref_df <- ref_df %>% mutate(city_state = paste(Agency, State, sep = ", "))
@@ -476,6 +471,7 @@ get mvs_12mo for all crime categories and groupings
 ```{r}
 # Function to calculate 12-month cumulative sum 
 mvs_12mo <- function(df) {
+  require(magrittr)
   df <- df %>%
     arrange(Year, Month) %>%
     group_by(`Agency Name`, State) %>%

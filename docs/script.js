@@ -330,52 +330,13 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
 
-    function updateKPIBox3(filteredData) {
+    function updateKPIBox3() {
+        const kpiBox1 = document.getElementById("kpi-box1").textContent;
+        const kpiBox2 = document.getElementById("kpi-box2").textContent;
         const kpiBox3 = document.getElementById("kpi-box3");
     
-        const mostRecentDate = d3.max(filteredData, d => d.date);
-        const mostRecentYear = mostRecentDate ? mostRecentDate.getFullYear() : null;
-        const mostRecentMonth = mostRecentDate ? mostRecentDate.getMonth() + 1 : null;
-    
-        const startDateCurrentYear = new Date(mostRecentYear, 0, 1);
-        const endDateCurrentYear = new Date(mostRecentYear, mostRecentMonth, 0);
-        const startDatePrevYear = new Date(mostRecentYear - 1, 0, 1);
-        const endDatePrevYear = new Date(mostRecentYear - 1, mostRecentMonth, 0);
-    
-        const ytdDataCurrentYear = filteredData.filter(d =>
-            d.date >= startDateCurrentYear && d.date <= endDateCurrentYear
-        );
-    
-        const ytdDataPrevYear = filteredData.filter(d =>
-            d.date >= startDatePrevYear && d.date <= endDatePrevYear
-        );
-    
-        // Check for missing or invalid data in current year
-        const expectedMonthsCurrentYear = new Set(Array.from({ length: mostRecentMonth }, (_, i) => i + 1));
-        const availableMonthsCurrentYear = new Set();
-    
-        ytdDataCurrentYear.forEach(d => {
-            if (d.count !== null && d.count !== undefined && !isNaN(d.count)) {
-                availableMonthsCurrentYear.add(d.date.getMonth() + 1);
-            }
-        });
-    
-        const missingMonthsCurrentYear = [...expectedMonthsCurrentYear].filter(month => !availableMonthsCurrentYear.has(month));
-    
-        // Check for missing or invalid data in previous year
-        const expectedMonthsPrevYear = new Set(Array.from({ length: mostRecentMonth }, (_, i) => i + 1));
-        const availableMonthsPrevYear = new Set();
-    
-        ytdDataPrevYear.forEach(d => {
-            if (d.count !== null && d.count !== undefined && !isNaN(d.count)) {
-                availableMonthsPrevYear.add(d.date.getMonth() + 1);
-            }
-        });
-    
-        const missingMonthsPrevYear = [...expectedMonthsPrevYear].filter(month => !availableMonthsPrevYear.has(month));
-    
-        // If any month is missing or has invalid data in either year, display "Missing data"
-        if (missingMonthsCurrentYear.length > 0 || missingMonthsPrevYear.length > 0) {
+        // Check if KPI Box 1 or KPI Box 2 contains "Missing data"
+        if (kpiBox1.includes("Missing data") || kpiBox2.includes("Missing data")) {
             kpiBox3.innerHTML = `
                 <h2>% Change in ${crimeTypeBtn.textContent} YTD</h2>
                 <p>Missing data.</p>
@@ -383,18 +344,23 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
     
-        const ytdSumCurrentYear = d3.sum(ytdDataCurrentYear, d => d.count);
-        const ytdSumPrevYear = d3.sum(ytdDataPrevYear, d => d.count);
+        // Extract numeric values from KPI Box 1 and KPI Box 2
+        const ytdSumCurrentYear = parseFloat(kpiBox1.match(/(\d[\d,]*)/)[0].replace(/,/g, ''));
+        const ytdSumPrevYear = parseFloat(kpiBox2.match(/(\d[\d,]*)/)[0].replace(/,/g, ''));
     
+        // Calculate the percentage change
         const percentChange = ((ytdSumCurrentYear - ytdSumPrevYear) / ytdSumPrevYear) * 100;
         const formattedPercentChange = isNaN(percentChange) ? "N/A" : `${percentChange.toFixed(1)}%`;
     
+        // Update KPI Box 3 with the calculated percent change
         kpiBox3.innerHTML = `
             <h2>% Change in ${crimeTypeBtn.textContent} YTD</h2>
-            <p>Jan '${mostRecentYear.toString().slice(-2)} - ${d3.timeFormat("%B")(mostRecentDate)} '${mostRecentYear.toString().slice(-2)} vs. Jan '${(mostRecentYear - 1).toString().slice(-2)} - ${d3.timeFormat("%B")(new Date(mostRecentYear - 1, mostRecentMonth - 1, 1))} '${(mostRecentYear - 1).toString().slice(-2)}</p>
+            <p>Jan '${new Date().getFullYear().toString().slice(-2)} - ${d3.timeFormat("%B")(new Date())} vs. Jan '${(new Date().getFullYear() - 1).toString().slice(-2)} - ${d3.timeFormat("%B")(new Date(new Date().setFullYear(new Date().getFullYear() - 1)))} </p>
             <p><strong>${formattedPercentChange}</strong></p>
         `;
     }
+    
+    
     
     
     function abbreviateNumber(value) {

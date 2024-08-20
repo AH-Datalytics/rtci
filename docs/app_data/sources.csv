@@ -70,7 +70,7 @@
 2024-06-01,"Cincinnati","Ohio","Cincinnati, Ohio","Cincinnati, Ohio",307761,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",TRUE
 2024-06-01,"Cleveland","Ohio","Cleveland, Ohio","Cleveland, Ohio",363764,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",TRUE
 2024-06-01,"Coeur D Alene","Idaho","Coeur D Alene, Idaho","Coeur D Alene, Idaho",57061,"https://nibrs.isp.idaho.gov/CrimeInIdaho/AdvancedSearch/AdvancedSearch",1,"State UCR","Open Source","June 2024",TRUE
-2024-06-01,"Colerain Township","Ohio","Colerain Township, Ohio","Colerain Township, Ohio",NA,NA,1,NA,NA,"June 2024",TRUE
+2024-06-01,"Colerain Township","Ohio","Colerain Township, Ohio","Colerain Township, Ohio",58548,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",TRUE
 2024-06-01,"College Station","Texas","College Station, Texas","College Station, Texas",121618,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Colorado Springs","Colorado","Colorado Springs, Colorado","Colorado Springs, Colorado",487728,"https://coloradocrimestats.state.co.us/public/View/dispview.aspx",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Columbia","Missouri","Columbia, Missouri","Columbia, Missouri",127862,"https://showmecrime.mo.gov/",1,"State UCR","Open Source","June 2024",TRUE
@@ -135,7 +135,7 @@
 2024-06-01,"Grand Rapids","Michigan","Grand Rapids, Michigan","Grand Rapids, Michigan",196662,"https://www.arcgis.com/apps/dashboards/2b465330658f48d4998f5701a91d6ec7",1,"Agency RMS","Open Source","June 2024",TRUE
 2024-06-01,"Grapevine","Texas","Grapevine, Texas","Grapevine, Texas",50988,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Greeley","Colorado","Greeley, Colorado","Greeley, Colorado",109258,"https://coloradocrimestats.state.co.us/public/View/dispview.aspx",1,"State UCR","Open Source","June 2024",TRUE
-2024-06-01,"Green Township","Ohio","Green Township, Ohio","Green Township, Ohio",NA,NA,1,NA,NA,"June 2024",TRUE
+2024-06-01,"Green Township","Ohio","Green Township, Ohio","Green Township, Ohio",59568,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",TRUE
 2024-06-01,"Greensboro","North Carolina","Greensboro, North Carolina","Greensboro, North Carolina",298719,"https://data.greensboro-nc.gov/pages/385998aa22e940999b05b6c3b6dcad03",1,"Agency RMS","Open Source","June 2024",TRUE
 2024-06-01,"Greenwich","Connecticut","Greenwich, Connecticut","Greenwich, Connecticut",63631,"https://ct.beyond2020.com/ct_public/Dim/dimension.aspx",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Gresham","Oregon","Gresham, Oregon","Gresham, Oregon",111590,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",FALSE
@@ -235,7 +235,7 @@
 2024-06-01,"Newton","Massachusetts","Newton, Massachusetts","Newton, Massachusetts",86710,"https://www.mass.gov/crime-statistics",1,"State UCR","Provided by State UCR Program","June 2024",FALSE
 2024-06-01,"Norfolk","Virginia","Norfolk, Virginia","Norfolk, Virginia",233419,"https://vsp.virginia.gov/",1,"State UCR","Provided by State UCR Program","June 2024",FALSE
 2024-06-01,"Normal","Illinois","Normal, Illinois","Normal, Illinois",53613,"https://ilucr.nibrs.com/AdvancedSearch/AdvancedSearch",1,"State UCR","Open Source","June 2024",FALSE
-2024-06-01,"North Bergen Township","New Jersey","North Bergen Township, New Jersey","North Bergen Township, New Jersey",NA,NA,1,NA,NA,"June 2024",TRUE
+2024-06-01,"North Bergen Township","New Jersey","North Bergen Township, New Jersey","North Bergen Township, New Jersey",58378,"http://www.northbergenpolice.com/report/datasets/crime-statistics/",1,"Agency Aggregated","Open Source","June 2024",TRUE
 2024-06-01,"North Las Vegas","Nevada","North Las Vegas, Nevada","North Las Vegas, Nevada",284422,"https://nevadacrimestats.nv.gov/public/View/dispview.aspx",1,"State UCR","Open Source","June 2024",FALSE
 2024-06-01,"North Richland Hills","Texas","North Richland Hills, Texas","North Richland Hills, Texas",70108,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Norwalk","Connecticut","Norwalk, Connecticut","Norwalk, Connecticut",91414,"https://ct.beyond2020.com/ct_public/Dim/dimension.aspx",1,"State UCR","Open Source","June 2024",TRUE
@@ -309,8 +309,8 @@
 2024-06-01,"St Joseph","Missouri","St Joseph, Missouri","St Joseph, Missouri",70918,"https://showmecrime.mo.gov/",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"St Louis","Missouri","St Louis, Missouri","St Louis, Missouri",286053,"https://showmecrime.mo.gov/",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"St Peters","Missouri","St Peters, Missouri","St Peters, Missouri",58584,"https://showmecrime.mo.gov/",1,"State UCR","Open Source","June 2024",FALSE
-2024-06-01,"St. Cloud","Minnesota","St. Cloud, Minnesota","St. Cloud, Minnesota",NA,NA,1,NA,NA,"June 2024",TRUE
-2024-06-01,"St. Paul","Minnesota","St. Paul, Minnesota","St. Paul, Minnesota",NA,NA,1,NA,NA,"June 2024",TRUE
+2024-06-01,"St. Cloud","Minnesota","St. Cloud, Minnesota","St. Cloud, Minnesota",68925,"https://cde.state.mn.us/CrimesAgainstPerson/CrimesAgainstPerson",1,"State UCR","Open Source","June 2024",TRUE
+2024-06-01,"St. Paul","Minnesota","St. Paul, Minnesota","St. Paul, Minnesota",277533,"https://cde.state.mn.us/CrimesAgainstPerson/CrimesAgainstPerson",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Stamford","Connecticut","Stamford, Connecticut","Stamford, Connecticut",136936,"https://ct.beyond2020.com/ct_public/Dim/dimension.aspx",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"State College","Pennsylvania","State College, Pennsylvania","State College, Pennsylvania",55998,"https://www.ucr.pa.gov/PAUCRSPUBLIC/SRSReport/CrimeTrends",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Stockton","California","Stockton, California","Stockton, California",323501,"https://www.stocktonca.gov/services/police_department/police_news___information/statistical_reports.php#outer-629",1,"Agency Aggregated","Open Source","June 2024",TRUE
@@ -340,7 +340,7 @@
 2024-06-01,"Warwick","Rhode Island","Warwick, Rhode Island","Warwick, Rhode Island",82966,"https://riucr.nibrs.com/AdvancedSearch/AdvancedSearch",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Washington","District of Columbia","Washington, District of Columbia","Washington, District of Columbia",671803,"https://crimecards.dc.gov/",1,"Agency RMS","Open Source","June 2024",TRUE
 2024-06-01,"Waterbury","Connecticut","Waterbury, Connecticut","Waterbury, Connecticut",113464,"https://ct.beyond2020.com/ct_public/Dim/dimension.aspx",1,"State UCR","Open Source","June 2024",TRUE
-2024-06-01,"West Chester Township","Ohio","West Chester Township, Ohio","West Chester Township, Ohio",NA,NA,1,NA,NA,"June 2024",FALSE
+2024-06-01,"West Chester Township","Ohio","West Chester Township, Ohio","West Chester Township, Ohio",62374,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",FALSE
 2024-06-01,"West Hartford","Connecticut","West Hartford, Connecticut","West Hartford, Connecticut",63934,"https://ct.beyond2020.com/ct_public/Dim/dimension.aspx",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"West Haven","Connecticut","West Haven, Connecticut","West Haven, Connecticut",55133,"https://ct.beyond2020.com/ct_public/Dim/dimension.aspx",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Westminster","Colorado","Westminster, Colorado","Westminster, Colorado",112844,"https://coloradocrimestats.state.co.us/public/View/dispview.aspx",1,"State UCR","Open Source","June 2024",TRUE
@@ -352,4 +352,4 @@
 2024-06-01,"York","Pennsylvania","York, Pennsylvania","York, Pennsylvania",44901,"https://www.ucr.pa.gov/PAUCRSPUBLIC/SRSReport/CrimeTrends",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Youngstown","Ohio","Youngstown, Ohio","Youngstown, Ohio",59944,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",FALSE
 2024-06-01,"Yuma","Arizona","Yuma, Arizona","Yuma, Arizona",98164,"https://azcrimestatistics.azdps.gov/",1,"State UCR","Open Source","June 2024",TRUE
-2024-06-01,"Full Sample","Nationwide","Full Sample, Nationwide","Full Sample, Nationwide",68705950,NA,275,NA,NA,"June 2024",FALSE
+2024-06-01,"Full Sample","Nationwide","Full Sample, Nationwide","Full Sample, Nationwide",64025112,NA,274,NA,NA,"June 2024",FALSE

@@ -259,7 +259,7 @@ sources$in_national_sample <- sources$agency_full %in% sample_cities$agency_full
 write.csv(sources, "../docs/app_data/sources.csv", row.names = FALSE)
 
 
-# Make New Data for Table Page ----------------------------------------------------------------
+# Make New Data for Full Sample Table Page ----------------------------------------------------------------
 
 # Step 1: Read the dataset
 full_table_data <- final_sample_long
@@ -279,14 +279,14 @@ calculate_ytd_data <- function(data, agency, most_recent_date) {
            year(date) == most_recent_year,
            month(date) <= most_recent_month) %>%
     group_by(crime_type) %>%
-    summarise(YTD = sum(count, na.rm = TRUE))
+    summarise(YTD = sum(count, na.rm = FALSE))
   
   prev_ytd_data <- data %>%
     filter(agency_full == agency,
            year(date) == (most_recent_year - 1),
            month(date) <= most_recent_month) %>%
     group_by(crime_type) %>%
-    summarise(PrevYTD = sum(count, na.rm = TRUE))
+    summarise(PrevYTD = sum(count, na.rm = FALSE))
   
   combined_data <- ytd_data %>%
     left_join(prev_ytd_data, by = "crime_type") %>%
@@ -317,11 +317,15 @@ final_dataset <- final_dataset %>%
   mutate(Percent_Change = ifelse(Percent_Change == "Inf", 9999, Percent_Change))
 
 # Audit 
-na_percents <- final_dataset %>% filter(is.na(Percent_Change) | Percent_Change == "Inf") 
+na_percents <- final_dataset %>% filter(is.na(Percent_Change) | Percent_Change == "Inf" | is.na(YTD) | is.na(PrevYTD)) 
+
+na_kpi_agencies <- unique(na_percents$agency_full)
 
 # Remove NAs in PrevYTD
-final_dataset <- final_dataset %>% 
-  filter(!is.na(PrevYTD))
+final_dataset <- final_dataset %>%
+  filter(!is.na(PrevYTD),
+         !is.na(YTD),
+         !is.na(Percent_Change))
 
 # Step 7: Reformat Month Column
 # Assuming final_dataset has a column named Date_Through in date format

@@ -563,7 +563,10 @@ audit lists - 2 tables - non-reporters removed and non-reporters 2 months
 write.csv(undesirables_na, "scripts/auditing/na_two_months.csv", row.names = FALSE)
 write.csv(undesirables_recency, "scripts/auditing/no_data_past_two_months.csv", row.names = FALSE)
 write.csv(non_reporters, "scripts/auditing/non_reporters.csv", row.names = FALSE)
-#write.csv(pop_missing, "scripts/auditing/pop_missing.csv", row.names = FALSE)
+
+# Sourcing Table
+write.csv(sample_cities, "data/sample_cities.csv", row.names = FALSE)
+
 
 # File Path for Jeff local
 folder_path1 <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation"

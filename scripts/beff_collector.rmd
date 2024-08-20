@@ -567,6 +567,7 @@ write.csv(non_reporters, "scripts/auditing/non_reporters.csv", row.names = FALSE
 # Sourcing Table
 write.csv(sample_cities, "data/sample_cities.csv", row.names = FALSE)
 
+
 # File Path for Jeff local
 folder_path1 <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation"
 

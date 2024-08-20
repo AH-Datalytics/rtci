@@ -29,7 +29,7 @@
 2024-06-01,"Bellevue","Nebraska","Bellevue, Nebraska","Bellevue, Nebraska",63178,"https://crimestats.ne.gov/public/View/RSReport.aspx?ReportId=1082",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Bend","Oregon","Bend, Oregon","Bend, Oregon",104649,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",FALSE
 2024-06-01,"Bensalem","Pennsylvania","Bensalem, Pennsylvania","Bensalem, Pennsylvania",62782,"https://www.ucr.pa.gov/PAUCRSPUBLIC/SRSReport/CrimeTrends",1,"State UCR","Open Source","June 2024",TRUE
-2024-06-01,"Bethlehem","Pennsylvania","Bethlehem, Pennsylvania","Bethlehem, Pennsylvania",101658,"https://www.ucr.pa.gov/PAUCRSPUBLIC/SRSReport/CrimeTrends",1,"State UCR","Open Source","June 2024",TRUE
+2024-06-01,"Bethlehem","Pennsylvania","Bethlehem, Pennsylvania","Bethlehem, Pennsylvania",75619,"https://www.ucr.pa.gov/PAUCRSPUBLIC/SRSReport/CrimeTrends",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Blaine","Minnesota","Blaine, Minnesota","Blaine, Minnesota",71368,"https://cde.state.mn.us/CrimesAgainstPerson/CrimesAgainstPerson",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Bloomington","Minnesota","Bloomington, Minnesota","Bloomington, Minnesota",88745,"https://cde.state.mn.us/CrimesAgainstPerson/CrimesAgainstPerson",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Blue Springs","Missouri","Blue Springs, Missouri","Blue Springs, Missouri",60093,"https://showmecrime.mo.gov/",1,"State UCR","Open Source","June 2024",FALSE
@@ -140,7 +140,7 @@
 2024-06-01,"Greenwich","Connecticut","Greenwich, Connecticut","Greenwich, Connecticut",63631,"https://ct.beyond2020.com/ct_public/Dim/dimension.aspx",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Gresham","Oregon","Gresham, Oregon","Gresham, Oregon",111590,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",FALSE
 2024-06-01,"Hamden","Connecticut","Hamden, Connecticut","Hamden, Connecticut",60831,"https://ct.beyond2020.com/ct_public/Dim/dimension.aspx",1,"State UCR","Open Source","June 2024",TRUE
-2024-06-01,"Hamilton","Ohio","Hamilton, Ohio","Hamilton, Ohio",89957,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",FALSE
+2024-06-01,"Hamilton","Ohio","Hamilton, Ohio","Hamilton, Ohio",62536,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",FALSE
 2024-06-01,"Hampton","Virginia","Hampton, Virginia","Hampton, Virginia",138843,"https://vsp.virginia.gov/",1,"State UCR","Provided by State UCR Program","June 2024",FALSE
 2024-06-01,"Harlingen","Texas","Harlingen, Texas","Harlingen, Texas",72047,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Harrisburg","Pennsylvania","Harrisburg, Pennsylvania","Harrisburg, Pennsylvania",50201,"https://www.ucr.pa.gov/PAUCRSPUBLIC/SRSReport/CrimeTrends",1,"State UCR","Open Source","June 2024",TRUE
@@ -303,7 +303,7 @@
 2024-06-01,"Springfield","Illinois","Springfield, Illinois","Springfield, Illinois",112549,"https://ilucr.nibrs.com/AdvancedSearch/AdvancedSearch",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Springfield","Massachusetts","Springfield, Massachusetts","Springfield, Massachusetts",155046,"https://www.mass.gov/crime-statistics",1,"State UCR","Provided by State UCR Program","June 2024",TRUE
 2024-06-01,"Springfield","Missouri","Springfield, Missouri","Springfield, Missouri",169822,"https://showmecrime.mo.gov/",1,"State UCR","Open Source","June 2024",TRUE
-2024-06-01,"Springfield","Ohio","Springfield, Ohio","Springfield, Ohio",94088,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",TRUE
+2024-06-01,"Springfield","Ohio","Springfield, Ohio","Springfield, Ohio",58725,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",TRUE
 2024-06-01,"Springfield","Oregon","Springfield, Oregon","Springfield, Oregon",62217,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",FALSE
 2024-06-01,"St Charles","Missouri","St Charles, Missouri","St Charles, Missouri",71079,"https://showmecrime.mo.gov/",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"St Joseph","Missouri","St Joseph, Missouri","St Joseph, Missouri",70918,"https://showmecrime.mo.gov/",1,"State UCR","Open Source","June 2024",TRUE
@@ -352,4 +352,4 @@
 2024-06-01,"York","Pennsylvania","York, Pennsylvania","York, Pennsylvania",44901,"https://www.ucr.pa.gov/PAUCRSPUBLIC/SRSReport/CrimeTrends",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Youngstown","Ohio","Youngstown, Ohio","Youngstown, Ohio",59944,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",FALSE
 2024-06-01,"Yuma","Arizona","Yuma, Arizona","Yuma, Arizona",98164,"https://azcrimestatistics.azdps.gov/",1,"State UCR","Open Source","June 2024",TRUE
-2024-06-01,"Full Sample","Nationwide","Full Sample, Nationwide","Full Sample, Nationwide",64025112,NA,274,NA,NA,"June 2024",FALSE
+2024-06-01,"Full Sample","Nationwide","Full Sample, Nationwide","Full Sample, Nationwide",70229678,NA,286,NA,NA,"June 2024",FALSE

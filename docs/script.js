@@ -220,25 +220,54 @@ document.addEventListener("DOMContentLoaded", function() {
             d.date.getMonth() + 1 <= mostRecentMonth
         );
     
+        // Log the ytdData to inspect for invalid entries
+        console.log('YTD Data:', ytdData);
+    
+        // Check for missing or invalid data
+        const expectedMonths = new Set(Array.from({ length: mostRecentMonth }, (_, i) => i + 1));
+        const availableMonths = new Set();
+    
+        ytdData.forEach(d => {
+            if (d.count !== null && d.count !== undefined && !isNaN(d.count)) {
+                availableMonths.add(d.date.getMonth() + 1);
+            }
+        });
+    
+        const missingMonths = [...expectedMonths].filter(month => !availableMonths.has(month));
+    
+        console.log('Expected Months:', expectedMonths);
+        console.log('Available Months:', availableMonths);
+        console.log('Missing Months:', missingMonths);
+    
+        // If any month is missing or has invalid data, display "Missing data"
+        if (missingMonths.length > 0) {
+            kpiBox1.innerHTML = `
+                <h2>Year to Date ${crimeTypeBtn.textContent}</h2>
+                <p>Missing data.</p>
+            `;
+            return;
+        }
+    
         const ytdSum = d3.sum(ytdData, d => d.count);
         const formattedYtdSum = d3.format(",")(ytdSum);
     
-        const selectedCrimeType = crimeTypeBtn.textContent;
-    
         if (filteredData.length === 0 || filteredData.every(d => isNaN(d.value))) {
             kpiBox1.innerHTML = `
-                <h2>Year to Date ${selectedCrimeType}</h2>
+                <h2>Year to Date ${crimeTypeBtn.textContent}</h2>
                 <p>Missing data.</p>
             `;
             return;
         }
     
         kpiBox1.innerHTML = `
-            <h2>Year to Date ${selectedCrimeType}</h2>
+            <h2>Year to Date ${crimeTypeBtn.textContent}</h2>
             <p>Jan '${mostRecentYear.toString().slice(-2)} through ${d3.timeFormat("%B")(mostRecentDate)} '${mostRecentYear.toString().slice(-2)}</p>
             <p><strong>${formattedYtdSum}</strong></p>
         `;
     }
+    
+    
+    
 
     function updateKPIBox2(filteredData) {
         const kpiBox2 = document.getElementById("kpi-box2");
@@ -254,25 +283,52 @@ document.addEventListener("DOMContentLoaded", function() {
             d.date >= startDatePrevYear && d.date <= endDatePrevYear
         );
     
+        // Log the ytdDataPrevYear to inspect for invalid entries
+        console.log('Previous YTD Data:', ytdDataPrevYear);
+    
+        // Check for missing or invalid data
+        const expectedMonthsPrevYear = new Set(Array.from({ length: mostRecentMonth }, (_, i) => i + 1));
+        const availableMonthsPrevYear = new Set();
+    
+        ytdDataPrevYear.forEach(d => {
+            if (d.count !== null && d.count !== undefined && !isNaN(d.count)) {
+                availableMonthsPrevYear.add(d.date.getMonth() + 1);
+            }
+        });
+    
+        const missingMonthsPrevYear = [...expectedMonthsPrevYear].filter(month => !availableMonthsPrevYear.has(month));
+    
+        console.log('Expected Months Prev Year:', expectedMonthsPrevYear);
+        console.log('Available Months Prev Year:', availableMonthsPrevYear);
+        console.log('Missing Months Prev Year:', missingMonthsPrevYear);
+    
+        // If any month is missing or has invalid data, display "Missing data"
+        if (missingMonthsPrevYear.length > 0) {
+            kpiBox2.innerHTML = `
+                <h2>Previous YTD ${crimeTypeBtn.textContent}</h2>
+                <p>Missing data.</p>
+            `;
+            return;
+        }
+    
         const ytdSumPrevYear = d3.sum(ytdDataPrevYear, d => d.count);
         const formattedYtdSumPrevYear = d3.format(",")(ytdSumPrevYear);
     
-        const selectedCrimeType = crimeTypeBtn.textContent;
-    
-        if (filteredData.length === 0 || filteredData.every(d => isNaN(d.value))) {
+        if (ytdDataPrevYear.length === 0 || ytdDataPrevYear.every(d => isNaN(d.value))) {
             kpiBox2.innerHTML = `
-                <h2>Previous YTD ${selectedCrimeType}</h2>
+                <h2>Previous YTD ${crimeTypeBtn.textContent}</h2>
                 <p>Missing data.</p>
             `;
             return;
         }
     
         kpiBox2.innerHTML = `
-            <h2>Previous YTD ${selectedCrimeType}</h2>
+            <h2>Previous YTD ${crimeTypeBtn.textContent}</h2>
             <p>Jan '${(mostRecentYear - 1).toString().slice(-2)} through ${d3.timeFormat("%B")(new Date(mostRecentYear - 1, mostRecentMonth - 1, 1))} '${(mostRecentYear - 1).toString().slice(-2)}</p>
             <p><strong>${formattedYtdSumPrevYear}</strong></p>
         `;
     }
+    
 
     function updateKPIBox3(filteredData) {
         const kpiBox3 = document.getElementById("kpi-box3");
@@ -294,28 +350,52 @@ document.addEventListener("DOMContentLoaded", function() {
             d.date >= startDatePrevYear && d.date <= endDatePrevYear
         );
     
+        // Check for missing or invalid data in current year
+        const expectedMonthsCurrentYear = new Set(Array.from({ length: mostRecentMonth }, (_, i) => i + 1));
+        const availableMonthsCurrentYear = new Set();
+    
+        ytdDataCurrentYear.forEach(d => {
+            if (d.count !== null && d.count !== undefined && !isNaN(d.count)) {
+                availableMonthsCurrentYear.add(d.date.getMonth() + 1);
+            }
+        });
+    
+        const missingMonthsCurrentYear = [...expectedMonthsCurrentYear].filter(month => !availableMonthsCurrentYear.has(month));
+    
+        // Check for missing or invalid data in previous year
+        const expectedMonthsPrevYear = new Set(Array.from({ length: mostRecentMonth }, (_, i) => i + 1));
+        const availableMonthsPrevYear = new Set();
+    
+        ytdDataPrevYear.forEach(d => {
+            if (d.count !== null && d.count !== undefined && !isNaN(d.count)) {
+                availableMonthsPrevYear.add(d.date.getMonth() + 1);
+            }
+        });
+    
+        const missingMonthsPrevYear = [...expectedMonthsPrevYear].filter(month => !availableMonthsPrevYear.has(month));
+    
+        // If any month is missing or has invalid data in either year, display "Missing data"
+        if (missingMonthsCurrentYear.length > 0 || missingMonthsPrevYear.length > 0) {
+            kpiBox3.innerHTML = `
+                <h2>% Change in ${crimeTypeBtn.textContent} YTD</h2>
+                <p>Missing data.</p>
+            `;
+            return;
+        }
+    
         const ytdSumCurrentYear = d3.sum(ytdDataCurrentYear, d => d.count);
         const ytdSumPrevYear = d3.sum(ytdDataPrevYear, d => d.count);
     
         const percentChange = ((ytdSumCurrentYear - ytdSumPrevYear) / ytdSumPrevYear) * 100;
         const formattedPercentChange = isNaN(percentChange) ? "N/A" : `${percentChange.toFixed(1)}%`;
     
-        const selectedCrimeType = crimeTypeBtn.textContent;
-    
-        if (filteredData.length === 0 || filteredData.every(d => isNaN(d.value))) {
-            kpiBox3.innerHTML = `
-                <h2>% Change in ${selectedCrimeType} YTD</h2>
-                <p>Missing data.</p>
-            `;
-            return;
-        }
-    
         kpiBox3.innerHTML = `
-            <h2>% Change in ${selectedCrimeType} YTD</h2>
+            <h2>% Change in ${crimeTypeBtn.textContent} YTD</h2>
             <p>Jan '${mostRecentYear.toString().slice(-2)} - ${d3.timeFormat("%B")(mostRecentDate)} '${mostRecentYear.toString().slice(-2)} vs. Jan '${(mostRecentYear - 1).toString().slice(-2)} - ${d3.timeFormat("%B")(new Date(mostRecentYear - 1, mostRecentMonth - 1, 1))} '${(mostRecentYear - 1).toString().slice(-2)}</p>
             <p><strong>${formattedPercentChange}</strong></p>
         `;
     }
+    
     
     function abbreviateNumber(value) {
         if (value >= 1e6) {
@@ -547,7 +627,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     tooltip.transition()
                         .duration(0)
                         .style("opacity", .9);
-                    tooltip.html(`<strong>Agency:</strong> ${d.agency_full}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Total:</strong> ${d3.format(",")(d.value)}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
+                    tooltip.html(`<strong>Agency:</strong> ${d.agency_abbr}<br><strong>Crime Type:</strong> ${d.crime_type}<br><strong>Total:</strong> ${d3.format(",")(d.value)}<br><strong>Date:</strong> ${d3.timeFormat("%B %Y")(d.date)}`)
                         .style("left", (event.pageX + 5) + "px")
                         .style("top", (event.pageY - 28) + "px");
                 })

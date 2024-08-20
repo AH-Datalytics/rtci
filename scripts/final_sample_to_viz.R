@@ -44,11 +44,12 @@ final_sample <- final_sample %>%
 # Create 'agency_full' and 'location_full' columns
 final_sample <- final_sample %>%
   mutate(agency_full = str_c(agency_name, ", ", state_name),
-         location_full = str_c(agency_name, ", ", state_name))
+         location_full = str_c(agency_name, ", ", state_name),
+         agency_abbr = str_c(agency_name, ", ", state_abbr))
 
 # Select relevant columns
 final_sample <- final_sample %>%
-  select(date, agency_name, state_name, agency_full, location_full, 
+  select(date, agency_name, state_name, agency_full, agency_abbr, location_full, 
          murder, rape, robbery, aggravated_assault, violent_crime, 
          burglary, theft, motor_vehicle_theft, property_crime,
          murder_mvs_12mo, rape_mvs_12mo, robbery_mvs_12mo, aggravated_assault_mvs_12mo, violent_crime_mvs_12mo,
@@ -79,26 +80,26 @@ final_sample_long_mvs <- final_sample %>%
 
 # Combine counts and mvs_12mo data
 final_sample_long <- final_sample_long_counts %>%
-  left_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "location_full", "crime_type",
+  left_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "agency_abbr", "location_full", "crime_type",
                                           "population",
                                           # "population_grouping",
                                           "source_link", "agency_num"))
 
 # Audit merge
 final_sample_left <- final_sample_long_counts %>%
-  left_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "location_full", "crime_type",
+  left_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "agency_abbr", "location_full", "crime_type",
                                           "population",
                                           # "population_grouping",
                                           "source_link", "agency_num"))
 
 final_sample_inner <- final_sample_long_counts %>%
-  inner_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "location_full", "crime_type",
+  inner_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "agency_abbr", "location_full", "crime_type",
                                            "population", 
                                            # "population_grouping", 
                                            "source_link", "agency_num"))
 
 final_sample_full <- final_sample_long_counts %>%
-  full_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "location_full", "crime_type",
+  full_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "agency_abbr", "location_full", "crime_type",
                                           "population", 
                                           # "population_grouping", 
                                           "source_link", "agency_num"))
@@ -112,7 +113,7 @@ final_sample_long <- final_sample_long %>%
 
 # Final arrangement of columns
 final_sample_long <- final_sample_long %>%
-  select(date, state_ucr_link, agency_name, state_name, agency_full, location_full, population, crime_type, count, mvs_12mo,
+  select(date, state_ucr_link, agency_name, state_name, agency_full, agency_abbr, location_full, population, crime_type, count, mvs_12mo,
          # population_grouping, 
          number_of_agencies)
 
@@ -164,6 +165,14 @@ full_states <- final_sample_long %>%
 
 final_sample_long <- final_sample_long %>%
   filter(!(agency_name == "Full Sample" & state_name != "Nationwide"))
+
+
+# Fix Agency Abbr Column for Tooltip
+final_sample_long$agency_abbr <- ifelse(
+  final_sample_long$state_name == "Nationwide",
+  final_sample_long$agency_full,
+  final_sample_long$agency_abbr
+)
 
 
 # Print the first few rows of the cleaned data with all columns

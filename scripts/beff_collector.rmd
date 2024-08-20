@@ -319,8 +319,16 @@ undesirables_na <- most_recent_obs %>%
          Month == two_months_previous_month & 
          is.na(Murder))
 
+# Step 3a: Filter records that are missing historical data
+undesirables_missing_historical <- cdf %>%
+  filter(Year <= two_months_previous_year &
+         Month < two_months_previous_month &
+         is.na(Murder))
+
+missing_murder_data_records <- df %>%
+  filter(date > two_months_ago & is.na(murder_data))
 # Step 4: Combine the results
-undesirables <- bind_rows(undesirables_recency, undesirables_na)
+undesirables <- bind_rows(undesirables_recency, undesirables_na, undesirables_missing_historical)
 
 # Step 5: Remove duplicates by 'city_state' column
 undesirables <- undesirables %>%
@@ -555,7 +563,7 @@ audit lists - 2 tables - non-reporters removed and non-reporters 2 months
 write.csv(undesirables_na, "scripts/auditing/na_two_months.csv", row.names = FALSE)
 write.csv(undesirables_recency, "scripts/auditing/no_data_past_two_months.csv", row.names = FALSE)
 write.csv(non_reporters, "scripts/auditing/non_reporters.csv", row.names = FALSE)
-write.csv(pop_missing, "scripts/auditing/pop_missing.csv", row.names = FALSE)
+#write.csv(pop_missing, "scripts/auditing/pop_missing.csv", row.names = FALSE)
 
 # File Path for Jeff local
 folder_path1 <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation"
@@ -564,6 +572,9 @@ folder_path1 <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time C
 file_path1 <- file.path(folder_path1, "remove_agencies_june_2024.csv")
 write.csv(remove_agencies, file = file_path1, row.names = FALSE)
 ```
+
+
+
 ## a little auditing
 ```{r}
 # Filter for the specified city_state values

@@ -1,6 +1,6 @@
 "date","agency_name","state_name","agency_full","location_full","population","source_link","agency_num","source_type","source_method","most_recent_month","in_national_sample"
-2024-03-01,"Rapid City","South Dakota","Rapid City, South Dakota","Rapid City, South Dakota",78063,"https://sdcrime.nibrs.com/AdvancedSearch/AdvancedSearch",1,"State UCR","Open Source","March 2024",TRUE
-2024-05-01,"Sioux Falls","South Dakota","Sioux Falls, South Dakota","Sioux Falls, South Dakota",199879,"https://sdcrime.nibrs.com/AdvancedSearch/AdvancedSearch",1,"State UCR","Open Source","May 2024",TRUE
+2024-03-01,"Rapid City","South Dakota","Rapid City, South Dakota","Rapid City, South Dakota",78063,"https://sdcrime.nibrs.com/AdvancedSearch/AdvancedSearch",1,"State UCR","Open Source","March 2024",FALSE
+2024-05-01,"Sioux Falls","South Dakota","Sioux Falls, South Dakota","Sioux Falls, South Dakota",199879,"https://sdcrime.nibrs.com/AdvancedSearch/AdvancedSearch",1,"State UCR","Open Source","May 2024",FALSE
 2024-06-01,"Abilene","Texas","Abilene, Texas","Abilene, Texas",125186,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Abington","Pennsylvania","Abington, Pennsylvania","Abington, Pennsylvania",58432,"https://www.ucr.pa.gov/PAUCRSPUBLIC/SRSReport/CrimeTrends",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Akron","Ohio","Akron, Ohio","Akron, Ohio",188534,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",TRUE
@@ -27,7 +27,7 @@
 2024-06-01,"Beaumont","Texas","Beaumont, Texas","Beaumont, Texas",110898,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Beaverton","Oregon","Beaverton, Oregon","Beaverton, Oregon",98991,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",FALSE
 2024-06-01,"Bellevue","Nebraska","Bellevue, Nebraska","Bellevue, Nebraska",63178,"https://crimestats.ne.gov/public/View/RSReport.aspx?ReportId=1082",1,"State UCR","Open Source","June 2024",TRUE
-2024-06-01,"Bend","Oregon","Bend, Oregon","Bend, Oregon",104649,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",FALSE
+2024-06-01,"Bend","Oregon","Bend, Oregon","Bend, Oregon",104649,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Bensalem","Pennsylvania","Bensalem, Pennsylvania","Bensalem, Pennsylvania",62782,"https://www.ucr.pa.gov/PAUCRSPUBLIC/SRSReport/CrimeTrends",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Bethlehem","Pennsylvania","Bethlehem, Pennsylvania","Bethlehem, Pennsylvania",75619,"https://www.ucr.pa.gov/PAUCRSPUBLIC/SRSReport/CrimeTrends",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Blaine","Minnesota","Blaine, Minnesota","Blaine, Minnesota",71368,"https://cde.state.mn.us/CrimesAgainstPerson/CrimesAgainstPerson",1,"State UCR","Open Source","June 2024",TRUE
@@ -51,7 +51,7 @@
 2024-06-01,"Burnsville","Minnesota","Burnsville, Minnesota","Burnsville, Minnesota",63361,"https://cde.state.mn.us/CrimesAgainstPerson/CrimesAgainstPerson",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Caldwell","Idaho","Caldwell, Idaho","Caldwell, Idaho",66940,"https://nibrs.isp.idaho.gov/CrimeInIdaho/AdvancedSearch/AdvancedSearch",1,"State UCR","Open Source","June 2024",FALSE
 2024-06-01,"Cambridge","Massachusetts","Cambridge, Massachusetts","Cambridge, Massachusetts",117044,"https://www.mass.gov/crime-statistics",1,"State UCR","Provided by State UCR Program","June 2024",TRUE
-2024-06-01,"Canton","Ohio","Canton, Ohio","Canton, Ohio",70070,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",FALSE
+2024-06-01,"Canton","Ohio","Canton, Ohio","Canton, Ohio",70070,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",TRUE
 2024-06-01,"Carlsbad","California","Carlsbad, California","Carlsbad, California",115531,"https://crimestats.arjis.org/default.aspx",1,"Agency Aggregated","Open Source","June 2024",TRUE
 2024-06-01,"Carrollton","Texas","Carrollton, Texas","Carrollton, Texas",133610,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",FALSE
 2024-06-01,"Casa Grande","Arizona","Casa Grande, Arizona","Casa Grande, Arizona",61271,"https://azcrimestatistics.azdps.gov/",1,"State UCR","Open Source","June 2024",TRUE
@@ -80,7 +80,7 @@
 2024-06-01,"Conroe","Texas","Conroe, Texas","Conroe, Texas",98623,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Coon Rapids","Minnesota","Coon Rapids, Minnesota","Coon Rapids, Minnesota",63181,"https://cde.state.mn.us/CrimesAgainstPerson/CrimesAgainstPerson",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Corpus Christi","Texas","Corpus Christi, Texas","Corpus Christi, Texas",317694,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
-2024-06-01,"Corvallis","Oregon","Corvallis, Oregon","Corvallis, Oregon",60031,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",FALSE
+2024-06-01,"Corvallis","Oregon","Corvallis, Oregon","Corvallis, Oregon",60031,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Cranston","Rhode Island","Cranston, Rhode Island","Cranston, Rhode Island",82205,"https://riucr.nibrs.com/AdvancedSearch/AdvancedSearch",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Cuyahoga Falls","Ohio","Cuyahoga Falls, Ohio","Cuyahoga Falls, Ohio",50607,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",FALSE
 2024-06-01,"Dallas","Texas","Dallas, Texas","Dallas, Texas",1286121,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
@@ -92,7 +92,7 @@
 2024-06-01,"Des Plaines","Illinois","Des Plaines, Illinois","Des Plaines, Illinois",58425,"https://ilucr.nibrs.com/AdvancedSearch/AdvancedSearch",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Desoto","Texas","Desoto, Texas","Desoto, Texas",55956,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Detroit","Michigan","Detroit, Michigan","Detroit, Michigan",626757,"https://data.detroitmi.gov/datasets/rms-crime-incidents",1,"Agency RMS","Open Source","June 2024",TRUE
-2024-06-01,"Dublin","Ohio","Dublin, Ohio","Dublin, Ohio",48799,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",FALSE
+2024-06-01,"Dublin","Ohio","Dublin, Ohio","Dublin, Ohio",48799,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",TRUE
 2024-06-01,"Duluth","Minnesota","Duluth, Minnesota","Duluth, Minnesota",86144,"https://cde.state.mn.us/CrimesAgainstPerson/CrimesAgainstPerson",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Dunwoody","Georgia","Dunwoody, Georgia","Dunwoody, Georgia",50271,"https://www.dunwoodyga.gov/police/crime-info-stats/crime-comparison",1,"Agency Aggregated","Open Source","June 2024",TRUE
 2024-06-01,"Durham","North Carolina","Durham, North Carolina","Durham, North Carolina",286377,"https://www.durhamnc.gov/Archive.aspx?AMID=195",1,"Agency Aggregated","Open Source","June 2024",TRUE
@@ -107,7 +107,7 @@
 2024-06-01,"Erie","Pennsylvania","Erie, Pennsylvania","Erie, Pennsylvania",93363,"https://www.ucr.pa.gov/PAUCRSPUBLIC/SRSReport/CrimeTrends",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Escondido","California","Escondido, California","Escondido, California",150072,"https://crimestats.arjis.org/default.aspx",1,"Agency Aggregated","Open Source","June 2024",TRUE
 2024-06-01,"Euclid","Ohio","Euclid, Ohio","Euclid, Ohio",48344,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",TRUE
-2024-06-01,"Eugene","Oregon","Eugene, Oregon","Eugene, Oregon",175390,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",FALSE
+2024-06-01,"Eugene","Oregon","Eugene, Oregon","Eugene, Oregon",175390,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Euless","Texas","Euless, Texas","Euless, Texas",59901,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Evanston","Illinois","Evanston, Illinois","Evanston, Illinois",76259,"https://ilucr.nibrs.com/AdvancedSearch/AdvancedSearch",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Everett","Massachusetts","Everett, Massachusetts","Everett, Massachusetts",48340,"https://www.mass.gov/crime-statistics",1,"State UCR","Provided by State UCR Program","June 2024",FALSE
@@ -138,7 +138,7 @@
 2024-06-01,"Green Township","Ohio","Green Township, Ohio","Green Township, Ohio",59568,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",TRUE
 2024-06-01,"Greensboro","North Carolina","Greensboro, North Carolina","Greensboro, North Carolina",298719,"https://data.greensboro-nc.gov/pages/385998aa22e940999b05b6c3b6dcad03",1,"Agency RMS","Open Source","June 2024",TRUE
 2024-06-01,"Greenwich","Connecticut","Greenwich, Connecticut","Greenwich, Connecticut",63631,"https://ct.beyond2020.com/ct_public/Dim/dimension.aspx",1,"State UCR","Open Source","June 2024",TRUE
-2024-06-01,"Gresham","Oregon","Gresham, Oregon","Gresham, Oregon",111590,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",FALSE
+2024-06-01,"Gresham","Oregon","Gresham, Oregon","Gresham, Oregon",111590,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Hamden","Connecticut","Hamden, Connecticut","Hamden, Connecticut",60831,"https://ct.beyond2020.com/ct_public/Dim/dimension.aspx",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Hamilton","Ohio","Hamilton, Ohio","Hamilton, Ohio",62536,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",FALSE
 2024-06-01,"Hampton","Virginia","Hampton, Virginia","Hampton, Virginia",138843,"https://vsp.virginia.gov/",1,"State UCR","Provided by State UCR Program","June 2024",FALSE
@@ -148,7 +148,7 @@
 2024-06-01,"Hartford","Connecticut","Hartford, Connecticut","Hartford, Connecticut",120196,"https://ct.beyond2020.com/ct_public/Dim/dimension.aspx",1,"State UCR","Open Source","June 2024",FALSE
 2024-06-01,"Haverhill","Massachusetts","Haverhill, Massachusetts","Haverhill, Massachusetts",67359,"https://www.mass.gov/crime-statistics",1,"State UCR","Provided by State UCR Program","June 2024",TRUE
 2024-06-01,"Henderson","Nevada","Henderson, Nevada","Henderson, Nevada",325332,"https://nevadacrimestats.nv.gov/public/View/dispview.aspx",1,"State UCR","Open Source","June 2024",TRUE
-2024-06-01,"Hillsboro","Oregon","Hillsboro, Oregon","Hillsboro, Oregon",106345,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",FALSE
+2024-06-01,"Hillsboro","Oregon","Hillsboro, Oregon","Hillsboro, Oregon",106345,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Honolulu","Hawaii","Honolulu, Hawaii","Honolulu, Hawaii",994799,"https://www.honolulupd.org/dashboard/crime-by-category/",1,"Agency Aggregated","Open Source","June 2024",TRUE
 2024-06-01,"Houston","Texas","Houston, Texas","Houston, Texas",2276533,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Idaho Falls","Idaho","Idaho Falls, Idaho","Idaho Falls, Idaho",68162,"https://nibrs.isp.idaho.gov/CrimeInIdaho/AdvancedSearch/AdvancedSearch",1,"State UCR","Open Source","June 2024",TRUE
@@ -202,7 +202,7 @@
 2024-06-01,"Mcallen","Texas","Mcallen, Texas","Mcallen, Texas",145510,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Mckinney","Texas","Mckinney, Texas","Mckinney, Texas",208415,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Medford","Massachusetts","Medford, Massachusetts","Medford, Massachusetts",64122,"https://www.mass.gov/crime-statistics",1,"State UCR","Provided by State UCR Program","June 2024",FALSE
-2024-06-01,"Medford","Oregon","Medford, Oregon","Medford, Oregon",86876,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",FALSE
+2024-06-01,"Medford","Oregon","Medford, Oregon","Medford, Oregon",86876,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Memphis","Tennessee","Memphis, Tennessee","Memphis, Tennessee",624944,"https://app.powerbigov.us/view?r=eyJrIjoiZjg3NmFjZGQtODdjNS00ODA0LWIyYzktY2U5ODY1ZTQwN2I0IiwidCI6IjQxNjQ3NTYxLTY1MzctNDQyMy05NmE5LTg1OWU4OWY4OTE5ZiJ9",1,"Agency Aggregated","Open Source","June 2024",TRUE
 2024-06-01,"Meriden","Connecticut","Meriden, Connecticut","Meriden, Connecticut",60332,"https://ct.beyond2020.com/ct_public/Dim/dimension.aspx",1,"State UCR","Open Source","June 2024",FALSE
 2024-06-01,"Meridian","Idaho","Meridian, Idaho","Meridian, Idaho",132522,"https://nibrs.isp.idaho.gov/CrimeInIdaho/AdvancedSearch/AdvancedSearch",1,"State UCR","Open Source","June 2024",TRUE
@@ -282,7 +282,7 @@
 2024-06-01,"Rockwall","Texas","Rockwall, Texas","Rockwall, Texas",51724,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Round Rock","Texas","Round Rock, Texas","Round Rock, Texas",127349,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Rowlett","Texas","Rowlett, Texas","Rowlett, Texas",65196,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
-2024-06-01,"Salem","Oregon","Salem, Oregon","Salem, Oregon",179661,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",FALSE
+2024-06-01,"Salem","Oregon","Salem, Oregon","Salem, Oregon",179661,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Salt Lake City","Utah","Salt Lake City, Utah","Salt Lake City, Utah",201373,"https://slcpd.com/open-data/crimestatistics/",1,"Agency Aggregated","Open Source","June 2024",TRUE
 2024-06-01,"San Angelo","Texas","San Angelo, Texas","San Angelo, Texas",99243,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"San Antonio","Texas","San Antonio, Texas","San Antonio, Texas",1465608,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
@@ -304,7 +304,7 @@
 2024-06-01,"Springfield","Massachusetts","Springfield, Massachusetts","Springfield, Massachusetts",155046,"https://www.mass.gov/crime-statistics",1,"State UCR","Provided by State UCR Program","June 2024",TRUE
 2024-06-01,"Springfield","Missouri","Springfield, Missouri","Springfield, Missouri",169822,"https://showmecrime.mo.gov/",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Springfield","Ohio","Springfield, Ohio","Springfield, Ohio",58725,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",TRUE
-2024-06-01,"Springfield","Oregon","Springfield, Oregon","Springfield, Oregon",62217,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",FALSE
+2024-06-01,"Springfield","Oregon","Springfield, Oregon","Springfield, Oregon",62217,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"St Charles","Missouri","St Charles, Missouri","St Charles, Missouri",71079,"https://showmecrime.mo.gov/",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"St Joseph","Missouri","St Joseph, Missouri","St Joseph, Missouri",70918,"https://showmecrime.mo.gov/",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"St Louis","Missouri","St Louis, Missouri","St Louis, Missouri",286053,"https://showmecrime.mo.gov/",1,"State UCR","Open Source","June 2024",TRUE
@@ -324,7 +324,7 @@
 2024-06-01,"Temple","Texas","Temple, Texas","Temple, Texas",88484,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Texas City","Texas","Texas City, Texas","Texas City, Texas",56311,"https://txucr.nibrs.com/Report/NIBRSMonthlyCrimeSummaryReport",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Thornton","Colorado","Thornton, Colorado","Thornton, Colorado",143055,"https://coloradocrimestats.state.co.us/public/View/dispview.aspx",1,"State UCR","Open Source","June 2024",TRUE
-2024-06-01,"Tigard","Oregon","Tigard, Oregon","Tigard, Oregon",56550,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",FALSE
+2024-06-01,"Tigard","Oregon","Tigard, Oregon","Tigard, Oregon",56550,"https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Tinley Park","Illinois","Tinley Park, Illinois","Tinley Park, Illinois",53973,"https://ilucr.nibrs.com/AdvancedSearch/AdvancedSearch",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Toledo","Ohio","Toledo, Ohio","Toledo, Ohio",266984,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",TRUE
 2024-06-01,"Tracy","California","Tracy, California","Tracy, California",97219,"https://tracypd.com/crime-mapping",1,"Agency Aggregated","Open Source","June 2024",TRUE

@@ -367,13 +367,23 @@ document.addEventListener("DOMContentLoaded", function() {
     
         const formattedPercentChange = isNaN(percentChange) ? "N/A" : `${percentChange.toFixed(1)}%`;
     
-        // Update KPI Box 3 with the calculated percent change
+        // Extract and format the date ranges from KPI Box 1 and KPI Box 2
+        let dateRangeCurrentYear = kpiBox1.querySelector('p:nth-of-type(1)').textContent;
+        let dateRangePrevYear = kpiBox2.querySelector('p:nth-of-type(1)').textContent;
+    
+        // Replace "through" with "-"
+        dateRangeCurrentYear = dateRangeCurrentYear.replace("through", "-");
+        dateRangePrevYear = dateRangePrevYear.replace("through", "-");
+    
+        // Update KPI Box 3 with the calculated percent change and formatted date range
         kpiBox3.innerHTML = `
             <h2>% Change in ${crimeTypeBtn.textContent} YTD</h2>
-            <p>Jan '${new Date().getFullYear().toString().slice(-2)} - ${d3.timeFormat("%B")(new Date())} vs. Jan '${(new Date().getFullYear() - 1).toString().slice(-2)} - ${d3.timeFormat("%B")(new Date(new Date().setFullYear(new Date().getFullYear() - 1)))} </p>
+            <p>${dateRangeCurrentYear} vs. ${dateRangePrevYear}</p>
             <p><strong>${formattedPercentChange}</strong></p>
         `;
     }
+    
+    
     
     
     

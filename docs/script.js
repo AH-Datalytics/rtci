@@ -510,6 +510,8 @@ document.addEventListener("DOMContentLoaded", function() {
         const labelFontSize = Math.max(Math.min(height * 0.05, window.innerWidth * 0.02, 16), 14);
 
         const selectedCrimeType = crimeTypeBtn.textContent;
+        const chosenDataType = dataTypeBtn.textContent;
+
 
         function getTextWidth(text, font) {
             const canvas = document.createElement('canvas');
@@ -521,16 +523,26 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const maxYLabelWidth = Math.max(...yAxisGroup.selectAll(".tick text").nodes().map(node => node.getBBox().width));
 
-        svg.append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", -margin.left - maxYLabelWidth + 35)
-            .attr("x", -height / 2)
-            .attr("dy", "1em")
-            .style("text-anchor", "middle")
-            .style("font-family", "'Roboto Condensed', Arial, sans-serif")
-            .style("font-size", `${labelFontSize}px`)
-            .attr("fill", "#00333a")
-            .text(`Reported ${selectedCrimeType}`);
+        const yAxisLabel = svg.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", -margin.left - maxYLabelWidth + 35)
+    .attr("x", -height / 2)
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .style("font-family", "'Roboto Condensed', Arial, sans-serif")
+    .style("font-size", `${labelFontSize}px`)
+    .attr("fill", "#00333a");
+
+// Append the crime type with normal font weight
+yAxisLabel.append("tspan")
+    .style("font-weight", "normal")
+    .text(`Reported ${selectedCrimeType} `);
+
+// Append the data type with font weight 300
+yAxisLabel.append("tspan")
+    .style("font-weight", "300")
+    .text(`(${chosenDataType})`);
+
 
         svg.selectAll(".tick text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")

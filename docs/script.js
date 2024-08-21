@@ -510,6 +510,8 @@ document.addEventListener("DOMContentLoaded", function() {
         const labelFontSize = Math.max(Math.min(height * 0.05, window.innerWidth * 0.02, 16), 14);
 
         const selectedCrimeType = crimeTypeBtn.textContent;
+        const chosenDataType = dataTypeBtn.textContent;
+
 
         function getTextWidth(text, font) {
             const canvas = document.createElement('canvas');
@@ -521,7 +523,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const maxYLabelWidth = Math.max(...yAxisGroup.selectAll(".tick text").nodes().map(node => node.getBBox().width));
 
-        svg.append("text")
+        const yAxisLabel = svg.append("text")
             .attr("transform", "rotate(-90)")
             .attr("y", -margin.left - maxYLabelWidth + 35)
             .attr("x", -height / 2)
@@ -529,8 +531,24 @@ document.addEventListener("DOMContentLoaded", function() {
             .style("text-anchor", "middle")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("font-size", `${labelFontSize}px`)
-            .attr("fill", "#00333a")
-            .text(`Reported ${selectedCrimeType}`);
+            .attr("fill", "#00333a");
+
+            // Determine the label based on the selected data type
+            let dataTypeLabel;
+            if (chosenDataType === "Monthly Totals") {
+                dataTypeLabel = "Per Month";
+            } else if (chosenDataType === "12 Month Rolling Sum") {
+                dataTypeLabel = "Rolling Over 12 Months";
+            }
+
+            // Append the crime type 
+            yAxisLabel.append("tspan")
+                .text(`Reported ${selectedCrimeType} `);
+
+            // Append the data type
+            yAxisLabel.append("tspan")
+                .text(`${dataTypeLabel}`);
+
 
         svg.selectAll(".tick text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")

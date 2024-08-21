@@ -331,12 +331,12 @@ document.addEventListener("DOMContentLoaded", function() {
     
 
     function updateKPIBox3() {
-        const kpiBox1 = document.getElementById("kpi-box1").textContent;
-        const kpiBox2 = document.getElementById("kpi-box2").textContent;
+        const kpiBox1 = document.getElementById("kpi-box1");
+        const kpiBox2 = document.getElementById("kpi-box2");
         const kpiBox3 = document.getElementById("kpi-box3");
     
-        // Check if KPI Box 1 or KPI Box 2 contains "Missing data"
-        if (kpiBox1.includes("Missing data") || kpiBox2.includes("Missing data")) {
+        // Check if either KPI Box 1 or KPI Box 2 contains "Missing data"
+        if (kpiBox1.textContent.includes("Missing data") || kpiBox2.textContent.includes("Missing data")) {
             kpiBox3.innerHTML = `
                 <h2>% Change in ${crimeTypeBtn.textContent} YTD</h2>
                 <p>Missing data.</p>
@@ -344,12 +344,27 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
     
-        // Extract numeric values from KPI Box 1 and KPI Box 2
-        const ytdSumCurrentYear = parseFloat(kpiBox1.match(/(\d[\d,]*)/)[0].replace(/,/g, ''));
-        const ytdSumPrevYear = parseFloat(kpiBox2.match(/(\d[\d,]*)/)[0].replace(/,/g, ''));
+        // Extract the numeric value from the <strong> elements
+        const ytdSumCurrentYear = parseFloat(kpiBox1.querySelector('strong').textContent.replace(/,/g, ''));
+        const ytdSumPrevYear = parseFloat(kpiBox2.querySelector('strong').textContent.replace(/,/g, ''));
+    
+        // Debugging: Log extracted values to ensure correctness
+        console.log('YTD Sum Current Year:', ytdSumCurrentYear);
+        console.log('YTD Sum Previous Year:', ytdSumPrevYear);
+    
+        // Verify if extracted values are numbers
+        if (isNaN(ytdSumCurrentYear) || isNaN(ytdSumPrevYear)) {
+            kpiBox3.innerHTML = `
+                <h2>% Change in ${crimeTypeBtn.textContent} YTD</h2>
+                <p>Error in data extraction.</p>
+            `;
+            return;
+        }
     
         // Calculate the percentage change
         const percentChange = ((ytdSumCurrentYear - ytdSumPrevYear) / ytdSumPrevYear) * 100;
+        console.log('Calculated Percent Change:', percentChange);
+    
         const formattedPercentChange = isNaN(percentChange) ? "N/A" : `${percentChange.toFixed(1)}%`;
     
         // Update KPI Box 3 with the calculated percent change
@@ -359,6 +374,11 @@ document.addEventListener("DOMContentLoaded", function() {
             <p><strong>${formattedPercentChange}</strong></p>
         `;
     }
+    
+    
+    
+    
+    
     
     
     

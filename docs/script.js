@@ -524,30 +524,30 @@ document.addEventListener("DOMContentLoaded", function() {
         const maxYLabelWidth = Math.max(...yAxisGroup.selectAll(".tick text").nodes().map(node => node.getBBox().width));
 
         const yAxisLabel = svg.append("text")
-    .attr("transform", "rotate(-90)")
-    .attr("y", -margin.left - maxYLabelWidth + 35)
-    .attr("x", -height / 2)
-    .attr("dy", "1em")
-    .style("text-anchor", "middle")
-    .style("font-family", "'Roboto Condensed', Arial, sans-serif")
-    .style("font-size", `${labelFontSize}px`)
-    .attr("fill", "#00333a");
+            .attr("transform", "rotate(-90)")
+            .attr("y", -margin.left - maxYLabelWidth + 35)
+            .attr("x", -height / 2)
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .style("font-family", "'Roboto Condensed', Arial, sans-serif")
+            .style("font-size", `${labelFontSize}px`)
+            .attr("fill", "#00333a");
 
-    // Determine the label based on the selected data type
-    let dataTypeLabel;
-    if (chosenDataType === "Monthly Totals") {
-        dataTypeLabel = "Per Month";
-    } else if (chosenDataType === "12 Month Rolling Sum") {
-        dataTypeLabel = "Rolling Over 12 Months";
-    }
+            // Determine the label based on the selected data type
+            let dataTypeLabel;
+            if (chosenDataType === "Monthly Totals") {
+                dataTypeLabel = "Per Month";
+            } else if (chosenDataType === "12 Month Rolling Sum") {
+                dataTypeLabel = "Rolling Over 12 Months";
+            }
 
-    // Append the crime type 
-    yAxisLabel.append("tspan")
-        .text(`Reported ${selectedCrimeType} `);
+            // Append the crime type 
+            yAxisLabel.append("tspan")
+                .text(`Reported ${selectedCrimeType} `);
 
-    // Append the data type
-    yAxisLabel.append("tspan")
-        .text(`${dataTypeLabel}`);
+            // Append the data type
+            yAxisLabel.append("tspan")
+                .text(`${dataTypeLabel}`);
 
 
         svg.selectAll(".tick text")

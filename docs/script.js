@@ -533,15 +533,21 @@ document.addEventListener("DOMContentLoaded", function() {
     .style("font-size", `${labelFontSize}px`)
     .attr("fill", "#00333a");
 
-// Append the crime type with normal font weight
-yAxisLabel.append("tspan")
-    .style("font-weight", "normal")
-    .text(`Reported ${selectedCrimeType} `);
+    // Determine the label based on the selected data type
+    let dataTypeLabel;
+    if (chosenDataType === "Monthly Totals") {
+        dataTypeLabel = "Per Month";
+    } else if (chosenDataType === "12 Month Rolling Sum") {
+        dataTypeLabel = "Rolling Over 12 Months";
+    }
 
-// Append the data type with font weight 300
-yAxisLabel.append("tspan")
-    .style("font-weight", "300")
-    .text(`(${chosenDataType})`);
+    // Append the crime type 
+    yAxisLabel.append("tspan")
+        .text(`Reported ${selectedCrimeType} `);
+
+    // Append the data type
+    yAxisLabel.append("tspan")
+        .text(`${dataTypeLabel}`);
 
 
         svg.selectAll(".tick text")

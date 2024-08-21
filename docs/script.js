@@ -640,7 +640,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     tooltip.transition()
                         .duration(0)
                         .style("opacity", .9);
-                    tooltip.html(`<strong>Agency:</strong> ${closestData.agency_full}<br><strong>Crime Type:</strong> ${closestData.crime_type}<br><strong>12 Month Sum:</strong> ${d3.format(",")(closestData.value)}<br><strong>Through:</strong> ${d3.timeFormat("%B %Y")(closestData.date)}`)
+                    tooltip.html(`<strong>Agency:</strong> ${closestData.agency_abbr}<br><strong>Crime Type:</strong> ${closestData.crime_type}<br><strong>12 Month Sum:</strong> ${d3.format(",")(closestData.value)}<br><strong>Through:</strong> ${d3.timeFormat("%B %Y")(closestData.date)}`)
                         .style("left", (event.pageX + 5) + "px")
                         .style("top", (event.pageY - 28) + "px");
                 })

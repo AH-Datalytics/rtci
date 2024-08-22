@@ -6,7 +6,7 @@ body, html {
 
 .download-container {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     margin: 0;
     font-family: 'Roboto Condensed', sans-serif;
@@ -29,3 +29,9 @@ body, html {
 .download-button:hover {
     background-color: #f28106;
 }
+
+.download-button i {
+    margin-left: 8px; /* Adjust spacing between text and icon */
+}
+
+

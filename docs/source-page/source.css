@@ -7,9 +7,11 @@
     max-height: 80vh;
 }
 
+
 /* Container styling */
 .table-container {
     width: 100%;
+    height: 150vh;
     overflow-y: auto;
     background-color: white;
     border-radius: 8px;
@@ -18,6 +20,7 @@
     flex-direction: column;
 }
 
+
 /* Table styling */
 .table-container table {
     width: 100%;
@@ -25,23 +28,25 @@
     background-color: #ffffff;
     border-radius: 8px;
     overflow: auto;
+    flex-grow: 1;
 }
 
-/* Ensure the table header (now rows) stays styled */
-.table-container th {
-    background-color: #00333a;
-    color: white;
+/* Ensure the table header stays sticky at the top */
+.table-container thead th {
+    position: sticky !important;
+    top: 0;
+    z-index: 1; /* Ensure the header stays on top during scroll */
+    background-color: #00333a; /* Match header background color */
+    color: white; /* Header text color */
     padding: 10px;
     text-align: left;
     font-family: 'Roboto Condensed', Arial, sans-serif;
     border-bottom: 1px solid #00333a;
-    width: 25%; /* Adjust the width as necessary */
 }
 
 .table-container td {
     color: #00333a;
     text-align: left;
-    padding: 10px;
 }
 
 .table-container td a {
@@ -50,7 +55,7 @@
 }
 
 .table-container td a:hover {
-    text-decoration: underline;
+    color: #2d5df96d;
 }
 
 /* Row hover effect */
@@ -76,4 +81,20 @@
     .table-container td a {
         font-size: 1.5vw;
     }
+}
+
+
+/* Number of Agencies Box */
+.agencies-num-box {
+    text-align: right;
+    font-size: 1.2vw;
+    color: #00333a;
+    margin-bottom: 10px;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-weight: 400;
+}
+
+.agencies-num-box strong {
+    color: #f28106; /* Orange color */
+    font-weight: bold; /* Bold */
 }

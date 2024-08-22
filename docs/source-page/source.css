@@ -9,6 +9,8 @@
     overflow-y: auto;
     border-radius: 8px;
     display: flex;
+    min-height: 40vh;
+    max-height: 40vh;
     max-width: 50vw;
 }
 
@@ -17,7 +19,7 @@
     overflow-y: auto;
     background-color: white;
     border-radius: 8px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Adjusting table cells */
@@ -51,6 +53,16 @@
 
 .table-container tbody tr:last-child td {
     border-bottom: none; /* Remove the bottom border of the last row */
+}
+
+.table-container td a {
+    color: #2d5ef9;
+    text-decoration: none;
+}
+
+.table-container td a:hover {
+    color: #2d5df96d;
+    text-decoration: none;
 }
 
 /* Responsive adjustments */

@@ -14,54 +14,80 @@ document.addEventListener("DOMContentLoaded", function() {
         allData = data;  // Store all data for filtering
         console.log(allData);  // Log the data to see if it’s loading correctly
         populateFilters(data);
+        createStaticHeaders();  // Ensure headers are always displayed
         filterData();  // Automatically filter data based on initial dropdown values
     }).catch(error => {
         console.error("Error loading the CSV data:", error);
     });
 
-    function formatAndPopulateTable(data) {
-        const tableBody = document.getElementById("source-table-body");
-        tableBody.innerHTML = "";  // Clear any existing content
-    
-        data.forEach(row => {
-            const headers = [
-                "Agency",
-                "Population Covered",
-                "Source Type",
-                "Source Method",
-                "Most Recent Data",
-                "Primary Link"
-            ];
-            
-            const columns = [
-                row.agency_full,
-                parseInt(row.population).toLocaleString(),
-                row.source_type,
-                row.source_method,
-                row.most_recent_month,
-                `<a href="${row.source_link}" target="_blank">Click Here</a>`
-            ];
-    
-            // For each header/data pair, create a new row
-            headers.forEach((header, index) => {
-                const tr = document.createElement("tr");
-    
-                const th = document.createElement("td");
-                th.textContent = header;
-                th.style.fontWeight = "bold"; // Ensure headers are bold
-                th.style.backgroundColor = "#00333a"; // Background color to match header style
-                th.style.color = "white"; // White text for headers
-                tr.appendChild(th);
-    
-                const td = document.createElement("td");
-                td.innerHTML = columns[index];
-                tr.appendChild(td);
-    
-                tableBody.appendChild(tr);
-            });
+    // Function to create and insert static headers
+    function createStaticHeaders() {
+        tableBody.innerHTML = ""; // Clear any existing content
+
+        const headers = [
+            { label: "Agency", key: "agency_full" },
+            { label: "Population Covered", key: "population" },
+            { label: "Source Type", key: "source_type" },
+            { label: "Source Method", key: "source_method" },
+            { label: "Most Recent Data", key: "most_recent_month" },
+            { label: "Primary Link", key: "source_link" }
+        ];
+
+        headers.forEach(header => {
+            const tr = document.createElement("tr");
+
+            const th = document.createElement("td");
+            th.textContent = header.label;
+            th.style.fontWeight = "bold";
+            th.style.backgroundColor = "#00333a";
+            th.style.color = "white";
+            tr.appendChild(th);
+
+            const td = document.createElement("td");
+            td.textContent = ''; // Empty by default, data will fill this
+            tr.appendChild(td);
+
+            tableBody.appendChild(tr);
         });
     }
-    
+
+    // Function to populate the data rows
+    function populateDataRows(data) {
+        const rows = tableBody.querySelectorAll("tr");
+
+        rows.forEach((row, index) => {
+            const td = row.querySelectorAll("td")[1]; // Select the data cell
+
+            switch (index) {
+                case 0:
+                    td.textContent = data.length > 0 ? data[0].agency_full : '';
+                    break;
+                case 1:
+                    td.textContent = data.length > 0 ? parseInt(data[0].population).toLocaleString() : '';
+                    break;
+                case 2:
+                    td.textContent = data.length > 0 ? data[0].source_type : '';
+                    break;
+                case 3:
+                    td.textContent = data.length > 0 ? data[0].source_method : '';
+                    break;
+                case 4:
+                    td.textContent = data.length > 0 ? data[0].most_recent_month : '';
+                    break;
+                case 5:
+                    td.innerHTML = data.length > 0 ? `<a href="${data[0].source_link}" target="_blank">Click Here</a>` : '';
+                    break;
+                default:
+                    td.textContent = '';
+            }
+        });
+    }
+
+    // Function to update table based on the selected filter
+    function updateTable(data) {
+        createStaticHeaders(); // Ensure headers are present
+        populateDataRows(data); // Populate rows with data or leave empty
+    }
 
     function populateFilters(data) {
         let states = [...new Set(data.map(row => row.state_name))];
@@ -101,39 +127,48 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     
         filterData();
-    
-        const items = agencyDropdown.querySelectorAll('.dropdown-item');
-        items.forEach(item => item.classList.remove('selected'));
-        const agencyOption = agencyDropdown.querySelector(`[data-value="${agencyBtn.textContent}"]`);
-        if (agencyOption) agencyOption.classList.add('selected');
+        boldSelectedAgency();
     }
-    
+
+    function boldSelectedAgency() {
+        const items = document.querySelectorAll('.dropdown-item');
+        items.forEach(item => {
+            if (item.textContent === agencyBtn.textContent) {
+                item.style.fontWeight = 'bold';
+            } else {
+                item.style.fontWeight = 'normal';
+            }
+        });
+    }
+
     function filterData() {
         const selectedState = stateBtn.textContent;
         const selectedAgency = agencyBtn.textContent;
     
         if (selectedState !== "State" && selectedAgency !== "Agency") {
             const filteredData = allData.filter(row => row.state_name === selectedState && row.agency_name === selectedAgency);
-            formatAndPopulateTable(filteredData);
+            updateTable(filteredData);
             updateAgenciesNumBox(filteredData.length);
+        } else {
+            updateTable([]); // Show empty table with headers only
         }
     }
 
     function updateAgenciesNumBox(count) {
         agenciesNumBox.innerHTML = `Number of Agencies: <strong>${count}</strong>`;
     }
-    
+
     // Toggle dropdown visibility with only one open at a time
     function closeAllDropdowns() {
         const dropdownMenus = document.querySelectorAll(".dropdown-menu");
-        dropdownMenus.forEach(menu => menu.classList.remove("show"));
+        dropdownMenus.forEach(menu => menu.classList.remove('show'));
     }
 
     function toggleDropdown(button, dropdown) {
         button.addEventListener('click', function(event) {
             event.stopPropagation();
             closeAllDropdowns();
-            dropdown.classList.toggle("show");
+            dropdown.classList.toggle('show');
         });
 
         document.addEventListener('click', function() {
@@ -169,6 +204,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 const dropdownOption = createDropdownOption(option, option, dropdown, button);
                 dropdown.appendChild(dropdownOption);
             });
+
+            boldSelectedAgency(); // Ensure selected agency is bolded
         }
 
         searchInput.addEventListener("input", filterOptions);
@@ -190,13 +227,13 @@ document.addEventListener("DOMContentLoaded", function() {
         option.textContent = text;
 
         if (button.textContent === value) {
-            option.classList.add('selected');
+            option.style.fontWeight = 'bold';
         }
 
         option.addEventListener('click', function() {
             const items = dropdown.querySelectorAll('.dropdown-item');
-            items.forEach(item => item.classList.remove('selected'));
-            option.classList.add('selected');
+            items.forEach(item => item.style.fontWeight = 'normal'); // Reset all to normal
+            option.style.fontWeight = 'bold'; // Bold the selected one
             button.textContent = text;
             dropdown.classList.remove("show");
 

@@ -8,6 +8,10 @@ library(stringr)
 # Load Data
 final_sample <- read_csv("../data/final_sample.csv")
 
+# Write to app_data folder to mirror exactly what is in the data folder
+write.csv(final_sample, "../docs/app_data/final_sample.csv", row.names = FALSE)
+
+
 # Clean column names to make them unique
 final_sample <- final_sample %>%
   clean_names()

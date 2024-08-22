@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     const dataPath = "../app_data/sources.csv";
-    const tableBody = document.getElementById("source-table-container");
+    const tableBody = document.getElementById("source-table-body");
     const agencyBtn = document.getElementById("agency-btn");
     const stateBtn = document.getElementById("state-btn");
     const agencyDropdown = document.getElementById("agency-dropdown");
@@ -8,73 +8,61 @@ document.addEventListener("DOMContentLoaded", function() {
     const agenciesNumBox = document.getElementById("agencies-num-box");
 
     let allData = [];
-    let filteredAgencies = [];
 
     // Load data
     d3.csv(dataPath).then(data => {
         allData = data;  // Store all data for filtering
+        console.log(allData);  // Log the data to see if it’s loading correctly
         populateFilters(data);
-        displayNationalSample();  // Display rows where in_national_sample is TRUE on page load
-
-        // Set the filter labels to "Nationwide" and "Full Sample" on page load
-        stateBtn.textContent = "Nationwide";
-        agencyBtn.textContent = "Full Sample";
-        updateAgenciesNumBox(allData.filter(row => row.in_national_sample === "TRUE").length);
+        filterData();  // Automatically filter data based on initial dropdown values
     }).catch(error => {
         console.error("Error loading the CSV data:", error);
     });
 
     function formatAndPopulateTable(data) {
+        const tableBody = document.getElementById("source-table-body");
         tableBody.innerHTML = "";  // Clear any existing content
     
-        // Sort data by population (biggest to smallest)
-        data.sort((a, b) => b.population - a.population);
-    
-        // Create a table element
-        const table = document.createElement("table");
-    
-        // Create the table headers
-        const headers = ["Agency", "Population Covered", "Source Type", "Source Method", "Most Recent Data", "Primary Link"];
-        const thead = document.createElement("thead");
-        const headerRow = document.createElement("tr");
-    
-        headers.forEach(header => {
-            const th = document.createElement("th");
-            th.textContent = header;
-            headerRow.appendChild(th);
-        });
-    
-        thead.appendChild(headerRow);
-        table.appendChild(thead);
-    
-        // Create the table body
-        const tbody = document.createElement("tbody");
-    
         data.forEach(row => {
-            const tr = document.createElement("tr");
+            const headers = [
+                "Agency",
+                "Population Covered",
+                "Source Type",
+                "Source Method",
+                "Most Recent Data",
+                "Primary Link"
+            ];
+            
+            const columns = [
+                row.agency_full,
+                parseInt(row.population).toLocaleString(),
+                row.source_type,
+                row.source_method,
+                row.most_recent_month,
+                `<a href="${row.source_link}" target="_blank">Click Here</a>`
+            ];
     
-            const columns = ["agency_full", "population", "source_type", "source_method", "most_recent_month", "source_link"];
+            // For each header/data pair, create a new row
+            headers.forEach((header, index) => {
+                const tr = document.createElement("tr");
     
-            columns.forEach(col => {
+                const th = document.createElement("td");
+                th.textContent = header;
+                th.style.fontWeight = "bold"; // Ensure headers are bold
+                th.style.backgroundColor = "#00333a"; // Background color to match header style
+                th.style.color = "white"; // White text for headers
+                tr.appendChild(th);
+    
                 const td = document.createElement("td");
-                if (col === "population") {
-                    td.textContent = parseInt(row[col]).toLocaleString(); // Format population with commas
-                } else if (col === "source_link") {
-                    td.innerHTML = `<a href="${row[col]}" target="_blank">Click Here</a>`;
-                } else {
-                    td.textContent = row[col];
-                }
+                td.innerHTML = columns[index];
                 tr.appendChild(td);
+    
+                tableBody.appendChild(tr);
             });
-    
-            tbody.appendChild(tr);
         });
-    
-        table.appendChild(tbody);
-        tableBody.appendChild(table);
     }
     
-    
+
     function populateFilters(data) {
         let states = [...new Set(data.map(row => row.state_name))];
     
@@ -94,56 +82,37 @@ document.addEventListener("DOMContentLoaded", function() {
         createSearchableDropdown(stateDropdown, stateBtn, states);
     }
 
-    function displayNationalSample() {
-        const filteredData = allData.filter(row => row.in_national_sample === "TRUE");
-        formatAndPopulateTable(filteredData);
-        updateAgenciesNumBox(filteredData.length);
-    }
-
     function updateAgencyFilter(state) {
-        if (state === "Nationwide" && agencyBtn.textContent === "Full Sample") {
-            displayNationalSample();
+        let agencies = [...new Set(allData.filter(row => row.state_name === state).map(row => row.agency_name))];
+    
+        agencies.sort();
+    
+        createSearchableDropdown(agencyDropdown, agencyBtn, agencies);
+    
+        const savedFilters = JSON.parse(sessionStorage.getItem('sourceTableFilters'));
+        const savedAgency = savedFilters ? savedFilters.agency : null;
+    
+        if (agencies.includes(savedAgency)) {
+            agencyBtn.textContent = savedAgency;
+        } else if (agencies.length > 0) {
+            agencyBtn.textContent = agencies[0];
         } else {
-            let agencies = [...new Set(allData.filter(row => row.state_name === state).map(row => row.agency_name))];
-    
-            const fullSampleIndex = agencies.indexOf("Full Sample");
-            if (fullSampleIndex > -1) {
-                agencies.splice(fullSampleIndex, 1);
-                agencies.sort();
-                agencies.unshift("Full Sample");
-            } else {
-                agencies.sort();
-            }
-    
-            createSearchableDropdown(agencyDropdown, agencyBtn, agencies);
-    
-            const savedFilters = JSON.parse(sessionStorage.getItem('sourceTableFilters'));
-            const savedAgency = savedFilters ? savedFilters.agency : null;
-    
-            if (agencies.includes(savedAgency)) {
-                agencyBtn.textContent = savedAgency;
-            } else if (agencies.length > 0) {
-                agencyBtn.textContent = agencies[0];
-            } else {
-                agencyBtn.textContent = "Agency";
-            }
-    
-            filterData();
-    
-            const items = agencyDropdown.querySelectorAll('.dropdown-item');
-            items.forEach(item => item.classList.remove('selected'));
-            const agencyOption = agencyDropdown.querySelector(`[data-value="${agencyBtn.textContent}"]`);
-            if (agencyOption) agencyOption.classList.add('selected');
+            agencyBtn.textContent = "Agency";
         }
+    
+        filterData();
+    
+        const items = agencyDropdown.querySelectorAll('.dropdown-item');
+        items.forEach(item => item.classList.remove('selected'));
+        const agencyOption = agencyDropdown.querySelector(`[data-value="${agencyBtn.textContent}"]`);
+        if (agencyOption) agencyOption.classList.add('selected');
     }
     
     function filterData() {
         const selectedState = stateBtn.textContent;
         const selectedAgency = agencyBtn.textContent;
     
-        if (selectedState === "Nationwide" && selectedAgency === "Full Sample") {
-            displayNationalSample();
-        } else if (selectedState !== "State" && selectedAgency !== "Agency") {
+        if (selectedState !== "State" && selectedAgency !== "Agency") {
             const filteredData = allData.filter(row => row.state_name === selectedState && row.agency_name === selectedAgency);
             formatAndPopulateTable(filteredData);
             updateAgenciesNumBox(filteredData.length);

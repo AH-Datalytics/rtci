@@ -8,24 +8,22 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    width: 100vw;
     margin: 0;
     font-family: 'Roboto Condensed', sans-serif;
 }
 
 .download-button {
-    width: 98%;
-    height: 95%;
     background-color: #2d5ef9;
     color: white;
     border: none;
-    font-size: 5vw;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    border-radius: 8px;
+    border-radius: 3px;
     font-family: 'Roboto Condensed', sans-serif;
-    box-shadow: 0 0px 20px rgba(0, 0, 0, 0.2);
+    font-weight: 700;
+    padding: 0.8em 1.15em;
+    font-size: 1rem;
+    line-height: 1.2;
 }
 
 .download-button:hover {

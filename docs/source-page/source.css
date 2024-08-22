@@ -9,9 +9,9 @@
     overflow-y: auto;
     border-radius: 8px;
     display: flex;
-    min-height: 85vh;
-    max-height: 90vh;
-    max-width: 98vw;
+    min-height: 40vh;
+    max-height: 40vh;
+    max-width: 50vw;
 }
 
 /* Adjusting the table container */
@@ -26,7 +26,7 @@
 .table-container td {
     color: #00333a;
     text-align: left;
-    font-size: 2.5vw; /* Adjusted font size for better fit */
+    font-size: 1.5vw; /* Adjusted font size for better fit */
 }
 
 /* Header (left side) cells */

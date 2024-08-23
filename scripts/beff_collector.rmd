@@ -449,7 +449,7 @@ rape_df <- converted_df %>%
 final table!
 ```{r}
 # Step 3: Create a final dataframe with the names of the dataframes and the number of records in each
-final_df <- data.frame(
+samp_penalty <- data.frame(
   DataFrame_Name = c("burglary_df", "robbery_df", "agga_df", "theft_df", "mtv_df", "murder_df", "rape_df"),
   Record_Count = c(nrow(burglary_df), nrow(robbery_df), nrow(agga_df), nrow(theft_df), nrow(mtv_df), nrow(murder_df), nrow(rape_df))
 )
@@ -479,14 +479,12 @@ head(nationwide_counts)
 ```
 add the nationwide counts to the sample once it's working
 ```{r}
+# Add values for agency name field so we can bind
 nationwide_counts$`Agency Name` <- "Nationwide Count"
 
+# also need state values and column
 nationwide_counts$State <- "All Agencies"
 ```
-
-
-
-
 bind the nationwide counts to the bottom
 ```{r}
 cdf2 <- bind_rows(cdf2, nationwide_counts)

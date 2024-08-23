@@ -8,9 +8,10 @@
     overflow-y: auto;
     border-radius: 8px;
     display: flex;
-    min-height: 40vh;
-    max-height: 40vh;
-    max-width: 50vw;
+    min-height: 350px;
+    max-height: 350px;
+    width: 50%;
+    max-width: 100%;
 }
 
 /* Adjusting the table container */
@@ -25,7 +26,7 @@
 .table-container td {
     color: #00333a;
     text-align: left;
-    font-size: 1.5vw; /* Adjusted font size for better fit */
+    font-size: 18px; /* Adjusted font size for better fit */
 }
 
 /* Header (left side) cells */
@@ -65,11 +66,29 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
-    .table-container td {
-        font-size: 1.5vw;
+@media (max-width: 800px) {
+    .filters-container {
+        font-size: 14px;
     }
-    .table-container td a {
-        font-size: 1.5vw;
+
+    .dropdown-btn {
+        font-size: 14px;
+        padding: 3px;
+        border-radius: 6px;
+    }
+    
+    .table-container td {
+        font-size: 14px;
+        padding: 0.5em;
+    }
+
+    #source-table-container {
+        overflow-y: auto;
+        border-radius: 8px;
+        display: flex;
+        min-height: 350px;
+        max-height: 350px;
+        width: 98%;
+        max-width: 100%;
     }
 }

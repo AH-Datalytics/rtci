@@ -10,6 +10,7 @@ body, html {
     align-items: center;
     margin: 0;
     font-family: 'Roboto Condensed', sans-serif;
+    overflow: hidden;
 }
 
 .download-button {

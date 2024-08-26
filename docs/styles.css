@@ -110,7 +110,7 @@ html, body {
 }
 
 .rtci-header {
-    color: #f28106;
+    color: #00333a;
     font-family: 'Roboto Condensed', Arial, sans-serif;
     font-size: 3vw;
     text-align: center;
@@ -271,7 +271,7 @@ html, body {
 }
 
 .kpi-box {
-    background-color: #f28106;
+    background-color: #00333a;
     color: white;
     font-family: 'Roboto Condensed', Arial, sans-serif;
     font-size: 2vw;
@@ -299,6 +299,7 @@ html, body {
 
 .kpi-box p strong {
     font-size: 2em;
+    color: #f28106;
 }
 
 .kpi-box:last-child {

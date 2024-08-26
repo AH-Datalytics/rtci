@@ -309,7 +309,7 @@ html, body {
     position: absolute;
     text-align: left;
     padding: 5px;
-    background: #f28106;
+    background: white;
     border: 1px solid #ccc;
     border-radius: 4px;
     pointer-events: none;

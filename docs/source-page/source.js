@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     const dataPath = "../app_data/sources.csv";
-    const tableBody = document.getElementById("source-table-container");
+    const tableBody = document.getElementById("source-table-body");
     const agencyBtn = document.getElementById("agency-btn");
     const stateBtn = document.getElementById("state-btn");
     const agencyDropdown = document.getElementById("agency-dropdown");
@@ -8,73 +8,87 @@ document.addEventListener("DOMContentLoaded", function() {
     const agenciesNumBox = document.getElementById("agencies-num-box");
 
     let allData = [];
-    let filteredAgencies = [];
 
     // Load data
     d3.csv(dataPath).then(data => {
         allData = data;  // Store all data for filtering
+        console.log(allData);  // Log the data to see if it’s loading correctly
         populateFilters(data);
-        displayNationalSample();  // Display rows where in_national_sample is TRUE on page load
-
-        // Set the filter labels to "Nationwide" and "Full Sample" on page load
-        stateBtn.textContent = "Nationwide";
-        agencyBtn.textContent = "Full Sample";
-        updateAgenciesNumBox(allData.filter(row => row.in_national_sample === "TRUE").length);
+        createStaticHeaders();  // Ensure headers are always displayed
+        filterData();  // Automatically filter data based on initial dropdown values
     }).catch(error => {
         console.error("Error loading the CSV data:", error);
     });
 
-    function formatAndPopulateTable(data) {
-        tableBody.innerHTML = "";  // Clear any existing content
-    
-        // Sort data by population (biggest to smallest)
-        data.sort((a, b) => b.population - a.population);
-    
-        // Create a table element
-        const table = document.createElement("table");
-    
-        // Create the table headers
-        const headers = ["Agency", "Population Covered", "Source Type", "Source Method", "Most Recent Data", "Primary Link"];
-        const thead = document.createElement("thead");
-        const headerRow = document.createElement("tr");
-    
+    // Function to create and insert static headers
+    function createStaticHeaders() {
+        tableBody.innerHTML = ""; // Clear any existing content
+
+        const headers = [
+            { label: "Agency", key: "agency_full" },
+            { label: "Population Covered", key: "population" },
+            { label: "Source Type", key: "source_type" },
+            { label: "Source Method", key: "source_method" },
+            { label: "Most Recent Data", key: "most_recent_month" },
+            { label: "Primary Link", key: "source_link" }
+        ];
+
         headers.forEach(header => {
-            const th = document.createElement("th");
-            th.textContent = header;
-            headerRow.appendChild(th);
-        });
-    
-        thead.appendChild(headerRow);
-        table.appendChild(thead);
-    
-        // Create the table body
-        const tbody = document.createElement("tbody");
-    
-        data.forEach(row => {
             const tr = document.createElement("tr");
-    
-            const columns = ["agency_full", "population", "source_type", "source_method", "most_recent_month", "source_link"];
-    
-            columns.forEach(col => {
-                const td = document.createElement("td");
-                if (col === "population") {
-                    td.textContent = parseInt(row[col]).toLocaleString(); // Format population with commas
-                } else if (col === "source_link") {
-                    td.innerHTML = `<a href="${row[col]}" target="_blank">Click Here</a>`;
-                } else {
-                    td.textContent = row[col];
-                }
-                tr.appendChild(td);
-            });
-    
-            tbody.appendChild(tr);
+
+            const th = document.createElement("td");
+            th.textContent = header.label;
+            th.style.fontWeight = "bold";
+            th.style.backgroundColor = "#00333a";
+            th.style.color = "white";
+            tr.appendChild(th);
+
+            const td = document.createElement("td");
+            td.textContent = ''; // Empty by default, data will fill this
+            tr.appendChild(td);
+
+            tableBody.appendChild(tr);
         });
-    
-        table.appendChild(tbody);
-        tableBody.appendChild(table);
     }
-    
-    
+
+    // Function to populate the data rows
+    function populateDataRows(data) {
+        const rows = tableBody.querySelectorAll("tr");
+
+        rows.forEach((row, index) => {
+            const td = row.querySelectorAll("td")[1]; // Select the data cell
+
+            switch (index) {
+                case 0:
+                    td.textContent = data.length > 0 ? data[0].agency_full : '';
+                    break;
+                case 1:
+                    td.textContent = data.length > 0 ? parseInt(data[0].population).toLocaleString() : '';
+                    break;
+                case 2:
+                    td.textContent = data.length > 0 ? data[0].source_type : '';
+                    break;
+                case 3:
+                    td.textContent = data.length > 0 ? data[0].source_method : '';
+                    break;
+                case 4:
+                    td.textContent = data.length > 0 ? data[0].most_recent_month : '';
+                    break;
+                case 5:
+                    td.innerHTML = data.length > 0 ? `<a href="${data[0].source_link}" target="_blank">Click Here</a>` : '';
+                    break;
+                default:
+                    td.textContent = '';
+            }
+        });
+    }
+
+    // Function to update table based on the selected filter
+    function updateTable(data) {
+        createStaticHeaders(); // Ensure headers are present
+        populateDataRows(data); // Populate rows with data or leave empty
+    }
+
     function populateFilters(data) {
         let states = [...new Set(data.map(row => row.state_name))];
     
@@ -94,77 +108,67 @@ document.addEventListener("DOMContentLoaded", function() {
         createSearchableDropdown(stateDropdown, stateBtn, states);
     }
 
-    function displayNationalSample() {
-        const filteredData = allData.filter(row => row.in_national_sample === "TRUE");
-        formatAndPopulateTable(filteredData);
-        updateAgenciesNumBox(filteredData.length);
+    function updateAgencyFilter(state) {
+        let agencies = [...new Set(allData.filter(row => row.state_name === state).map(row => row.agency_name))];
+    
+        agencies.sort();
+    
+        createSearchableDropdown(agencyDropdown, agencyBtn, agencies);
+    
+        const savedFilters = JSON.parse(sessionStorage.getItem('sourceTableFilters'));
+        const savedAgency = savedFilters ? savedFilters.agency : null;
+    
+        if (agencies.includes(savedAgency)) {
+            agencyBtn.textContent = savedAgency;
+        } else if (agencies.length > 0) {
+            agencyBtn.textContent = agencies[0];
+        } else {
+            agencyBtn.textContent = "Agency";
+        }
+    
+        filterData();
+        boldSelectedAgency();
     }
 
-    function updateAgencyFilter(state) {
-        if (state === "Nationwide" && agencyBtn.textContent === "Full Sample") {
-            displayNationalSample();
-        } else {
-            let agencies = [...new Set(allData.filter(row => row.state_name === state).map(row => row.agency_name))];
-    
-            const fullSampleIndex = agencies.indexOf("Full Sample");
-            if (fullSampleIndex > -1) {
-                agencies.splice(fullSampleIndex, 1);
-                agencies.sort();
-                agencies.unshift("Full Sample");
+    function boldSelectedAgency() {
+        const items = document.querySelectorAll('.dropdown-item');
+        items.forEach(item => {
+            if (item.textContent === agencyBtn.textContent) {
+                item.style.fontWeight = 'bold';
             } else {
-                agencies.sort();
+                item.style.fontWeight = 'normal';
             }
-    
-            createSearchableDropdown(agencyDropdown, agencyBtn, agencies);
-    
-            const savedFilters = JSON.parse(sessionStorage.getItem('sourceTableFilters'));
-            const savedAgency = savedFilters ? savedFilters.agency : null;
-    
-            if (agencies.includes(savedAgency)) {
-                agencyBtn.textContent = savedAgency;
-            } else if (agencies.length > 0) {
-                agencyBtn.textContent = agencies[0];
-            } else {
-                agencyBtn.textContent = "Agency";
-            }
-    
-            filterData();
-    
-            const items = agencyDropdown.querySelectorAll('.dropdown-item');
-            items.forEach(item => item.classList.remove('selected'));
-            const agencyOption = agencyDropdown.querySelector(`[data-value="${agencyBtn.textContent}"]`);
-            if (agencyOption) agencyOption.classList.add('selected');
-        }
+        });
     }
-    
+
     function filterData() {
         const selectedState = stateBtn.textContent;
         const selectedAgency = agencyBtn.textContent;
     
-        if (selectedState === "Nationwide" && selectedAgency === "Full Sample") {
-            displayNationalSample();
-        } else if (selectedState !== "State" && selectedAgency !== "Agency") {
+        if (selectedState !== "State" && selectedAgency !== "Agency") {
             const filteredData = allData.filter(row => row.state_name === selectedState && row.agency_name === selectedAgency);
-            formatAndPopulateTable(filteredData);
+            updateTable(filteredData);
             updateAgenciesNumBox(filteredData.length);
+        } else {
+            updateTable([]); // Show empty table with headers only
         }
     }
 
     function updateAgenciesNumBox(count) {
         agenciesNumBox.innerHTML = `Number of Agencies: <strong>${count}</strong>`;
     }
-    
+
     // Toggle dropdown visibility with only one open at a time
     function closeAllDropdowns() {
         const dropdownMenus = document.querySelectorAll(".dropdown-menu");
-        dropdownMenus.forEach(menu => menu.classList.remove("show"));
+        dropdownMenus.forEach(menu => menu.classList.remove('show'));
     }
 
     function toggleDropdown(button, dropdown) {
         button.addEventListener('click', function(event) {
             event.stopPropagation();
             closeAllDropdowns();
-            dropdown.classList.toggle("show");
+            dropdown.classList.toggle('show');
         });
 
         document.addEventListener('click', function() {
@@ -200,6 +204,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 const dropdownOption = createDropdownOption(option, option, dropdown, button);
                 dropdown.appendChild(dropdownOption);
             });
+
+            boldSelectedAgency(); // Ensure selected agency is bolded
         }
 
         searchInput.addEventListener("input", filterOptions);
@@ -221,13 +227,13 @@ document.addEventListener("DOMContentLoaded", function() {
         option.textContent = text;
 
         if (button.textContent === value) {
-            option.classList.add('selected');
+            option.style.fontWeight = 'bold';
         }
 
         option.addEventListener('click', function() {
             const items = dropdown.querySelectorAll('.dropdown-item');
-            items.forEach(item => item.classList.remove('selected'));
-            option.classList.add('selected');
+            items.forEach(item => item.style.fontWeight = 'normal'); // Reset all to normal
+            option.style.fontWeight = 'bold'; // Bold the selected one
             button.textContent = text;
             dropdown.classList.remove("show");
 

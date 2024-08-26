@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const agenciesNumBox = document.getElementById("agencies-num-box");
 
     let allData = [];
+    let currentSortColumn = '';
+    let currentSortOrder = 'asc';
 
     // Load data
     d3.csv(dataPath).then(data => {
@@ -17,20 +19,31 @@ document.addEventListener("DOMContentLoaded", function() {
     function formatAndPopulateTable(data) {
         tableBody.innerHTML = "";  // Clear any existing content
     
-        // Sort data by population (biggest to smallest)
-        data.sort((a, b) => b.population - a.population);
-    
         // Create a table element
         const table = document.createElement("table");
     
         // Create the table headers
-        const headers = ["Agency", "Population Covered", "Source Type", "Source Method", "Most Recent Data", "Primary Link"];
+        const headers = [
+            { label: "Agency", key: "agency_full" },
+            { label: "Population Covered", key: "population" },
+            { label: "Source Type", key: "source_type" },
+            { label: "Source Method", key: "source_method" },
+            { label: "Most Recent Data", key: "most_recent_month" },
+            { label: "Primary Link", key: "source_link" }
+        ];
+
         const thead = document.createElement("thead");
         const headerRow = document.createElement("tr");
-    
+
         headers.forEach(header => {
             const th = document.createElement("th");
-            th.textContent = header;
+            th.textContent = header.label;
+
+            // Add click event listener for sorting
+            th.addEventListener('click', () => {
+                sortTableByColumn(header.key);
+            });
+
             headerRow.appendChild(th);
         });
     
@@ -42,18 +55,19 @@ document.addEventListener("DOMContentLoaded", function() {
     
         data.forEach(row => {
             const tr = document.createElement("tr");
-    
-            const columns = ["agency_full", "population", "source_type", "source_method", "most_recent_month", "source_link"];
-    
-            columns.forEach(col => {
+
+            headers.forEach(header => {
                 const td = document.createElement("td");
-                if (col === "population") {
-                    td.textContent = parseInt(row[col]).toLocaleString(); // Format population with commas
-                } else if (col === "source_link") {
-                    td.innerHTML = `<a href="${row[col]}" target="_blank">Click Here</a>`;
+                const value = row[header.key];
+                
+                if (header.key === "population") {
+                    td.textContent = parseInt(value).toLocaleString(); // Format population with commas
+                } else if (header.key === "source_link") {
+                    td.innerHTML = `<a href="${value}" target="_blank">Click Here</a>`;
                 } else {
-                    td.textContent = row[col];
+                    td.textContent = value;
                 }
+                
                 tr.appendChild(td);
             });
     
@@ -73,5 +87,41 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function updateAgenciesNumBox(count) {
         agenciesNumBox.innerHTML = `Number of Agencies: <strong>${count}</strong>`;
+    }
+
+    // Function to sort the table by a specific column
+    function sortTableByColumn(columnKey) {
+        if (currentSortColumn === columnKey) {
+            // Toggle the sort order if the same column is clicked
+            currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
+        } else {
+            // Set the new sort column and default to ascending order
+            currentSortColumn = columnKey;
+            currentSortOrder = 'asc';
+        }
+
+        const filteredData = allData.filter(row => row.in_national_sample === "TRUE");
+
+        // Sort the filtered data
+        filteredData.sort((a, b) => {
+            let aValue = a[columnKey];
+            let bValue = b[columnKey];
+
+            if (columnKey === 'population') {
+                // Convert population to integers for numerical sorting
+                aValue = parseInt(aValue);
+                bValue = parseInt(bValue);
+            } else {
+                // For non-numerical columns, sort by string comparison
+                aValue = aValue.toLowerCase();
+                bValue = bValue.toLowerCase();
+            }
+
+            if (aValue < bValue) return currentSortOrder === 'asc' ? -1 : 1;
+            if (aValue > bValue) return currentSortOrder === 'asc' ? 1 : -1;
+            return 0;
+        });
+
+        formatAndPopulateTable(filteredData);
     }
 });

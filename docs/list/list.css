@@ -98,3 +98,9 @@
     color: #f28106; /* Orange color */
     font-weight: bold; /* Bold */
 }
+
+
+/* Change cursor to pointer when hovering over table headers */
+.table-container th {
+    cursor: pointer;
+}

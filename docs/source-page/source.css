@@ -1,0 +1,98 @@
+#source-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#source-table-container {
+    overflow-y: auto;
+    border-radius: 8px;
+    display: flex;
+    min-height: 350px;
+    max-height: 350px;
+    width: 50%;
+    max-width: 100%;
+}
+
+/* Adjusting the table container */
+.table-container {
+    overflow-y: auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Adjusting table cells */
+.table-container td {
+    color: #00333a;
+    text-align: left;
+    font-size: 18px; /* Adjusted font size for better fit */
+}
+
+/* Header (left side) cells */
+.table-container td:first-child {
+    background-color: #00333a; /* Match header background color */
+    color: white;
+    font-weight: bold;
+    width: 25%; /* Adjusted width */
+    min-width: 10px; /* Ensures a minimum width */
+    white-space: nowrap; /* Prevents wrapping */
+}
+
+/* Data cells */
+.table-container td:last-child {
+    width: 75%; /* Adjusted width to take up remaining space */
+    font-weight: 300;
+}
+
+/* Reducing the height of each row */
+.table-container tr {
+    height:fit-content; /* Allow rows to adjust based on content */
+}
+
+
+.table-container tbody tr:last-child td {
+    border-bottom: none; /* Remove the bottom border of the last row */
+}
+
+.table-container td a {
+    color: #2d5ef9;
+    text-decoration: none;
+}
+
+.table-container td a:hover {
+    color: #2d5df96d;
+    text-decoration: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 800px) {
+    .filters-container {
+        font-size: 14px;
+    }
+
+    .dropdown-btn {
+        font-size: 14px;
+        padding: 3px;
+        border-radius: 6px;
+    }
+    
+    .table-container td {
+        font-size: 14px;
+        padding: 0.5em;
+    }
+
+    #source-table-container {
+        overflow-y: auto;
+        border-radius: 8px;
+        display: flex;
+        min-height: 350px;
+        max-height: 350px;
+        width: 98%;
+        max-width: 100%;
+    }
+}
+
+.dropdown-menu {
+    max-height: 300px; /* Set the maximum height for the dropdown menu */
+}

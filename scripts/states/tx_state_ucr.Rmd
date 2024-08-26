@@ -1,0 +1,202 @@
+---
+title: "texas ucr processing"
+output: pdf_document
+date: "2024-04-19"
+updated: "2024-05-03"
+updated: "2024-07-11"
+updated: "2024-07-23"
+---
+```{r}
+library(readxl)
+library(tidyverse)
+library(stringr)
+```
+these are monthly files so let's read them all in using a list command
+```{r}
+folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Texas\\State UCR"
+
+# List all Excel files in the directory
+file_list <- list.files(path = folder_path, pattern = "\\.xlsx$", full.names = TRUE)
+
+# Function to process each file
+process_file <- function(file_path) {
+  # Read the first sheet from the Excel file
+  df <- read_excel(file_path, sheet = 1)
+  
+  # Extract the year-month from the file name
+  file_name <- basename(file_path)
+  year_month <- sub("_.*", "", file_name)  # Remove everything after the underscore
+  
+  # Extract year and month separately
+  year <- substr(year_month, 1, 4)
+  month <- substr(year_month, 6, 7)
+  
+  # Create new columns for year and month
+  df$Year <- as.integer(year)
+  df$Month <- as.integer(month)
+  
+  # Optionally, set names or other metadata
+  df_name <- paste("data", year, month, sep = "_")
+  assign(df_name, df, envir = .GlobalEnv)
+  
+  return(df)
+}
+
+# Apply the function to each file and store the results in a list
+dataframes <- as.list(lapply(file_list, process_file))
+```
+what does the top look like
+```{r}
+head(dataframes[1])
+```
+drop first rows and column row
+```{r}
+remove_rows_and_columns <- function(df) {
+  df <- df[-c(1:4, ncol(df)), ]
+  return(df)
+}
+
+# Apply the function to each dataframe in the list
+list_of_dataframes_trimmed <- lapply(dataframes, remove_rows_and_columns)
+
+#make a new vector
+ldf1 <- list_of_dataframes_trimmed
+head(ldf1[1])
+```
+rename columns
+#ORI Number	AgencyName	Murder	Rape	Robbery	Assault	Burglary	Larceny	Auto Theft	Arson	Human Trafficking	Total	Population	Months
+```{r}
+#list of column names
+col_names <- c("ORI Number", "Agency Name", 
+              "Murder",	
+              "Rape",	
+              "Robbery",	
+              "Agg Assault",	
+              "Burglary",	
+              "Larceny",	
+              "MVT",	
+              "Arson",
+              "Human Trafficking",
+              "Total",
+              "Population",
+              "Months",
+              "Year",
+              "Month"
+              )
+
+#apply the function
+ldf2 <- lapply(ldf1, setNames, col_names)
+ldf2[1]
+```
+remove unnecessary columns
+```{r}
+columns_to_remove <- c("ORI Number", "Human Trafficking",
+              "Total",
+              "Population",
+              "Months")
+
+# Function to remove columns from a data frame and apply to each dataframe in a list
+remove_columns_and_apply <- function(df_list, column_names) {
+  modified_dataframes <- lapply(df_list, function(df) df[, !names(df) %in% column_names, drop = FALSE])
+  return(modified_dataframes)
+}
+
+# Apply the function to the list of data frames
+modified_dataframes <- remove_columns_and_apply(ldf2, columns_to_remove)
+```
+row bind the list together
+```{r}
+combined_df <- do.call(rbind, modified_dataframes)
+```
+agency = character; count fields = numeric; month/ year = numeric 1-12; 2022-2024
+```{r}
+# Directly specify conversions without altering first column initially
+final_df <- combined_df %>%
+  mutate(`Agency Name` = as.character(`Agency Name`), # Ensure first column remains character
+         across(-`Agency Name`, as.numeric)) # Convert all other columns to numeric
+
+```
+add a column for State, drop the Agency Name == NA obs's and then we're done.
+```{r}
+# Specify the value for the "State" column
+state_value <- "Texas"
+
+# Add the "State" column to the data frame
+final_df$State <- state_value
+
+# Remove rows where any column has the text "NA"
+final_df <- final_df[final_df$`Agency Name` != "NA", ]
+
+# Drop the last row - it's empty and NA text?
+final_df <- final_df[-nrow(final_df), ]
+```
+clean up the agency names/city names
+remove if: "CO SO"; "MARSHALS OFFICE";
+           "UNIVERSITY MEDICAL CENTER PD"; "UNIVERSITY OF NORTH TEXAS HEALTH SCIENCE CENTER PD";
+           "DALLAS BAPTIST UNIVERSITY PD"; "UNIVERSITY OF DALLAS PD"
+
+capitalize first character in each word found in the string - after removing PD, etc.
+
+```{r}
+# Remove obs for county sheriff's and marshal's offices
+fdf1 <- final_df[!grepl("CO SO$", final_df$`Agency Name`) & !grepl("MARSHALS OFFICE$", final_df$`Agency Name`), ]
+
+#ditch NA from previous headers and universityies
+unis <- c("NA",
+                       "UNIVERSITY MEDICAL CENTER PD", 
+                       "UNIVERSITY OF NORTH TEXAS HEALTH SCIENCE CENTER PD",
+                       "DALLAS BAPTIST UNIVERSITY PD", 
+                       "UNIVERSITY OF DALLAS PD", "TX A&M UNIV INTERNATIONAL PD")
+
+fdf2 <- fdf1[!fdf1$`Agency Name` %in% unis, ]
+```
+let's drop 
+
+```{r}
+# List of allowed city names
+allowed_cities <- c("HOUSTON", "SAN ANTONIO", "DALLAS", "AUSTIN", "FORT WORTH", "EL PASO",
+                    "ARLINGTON", "CORPUS CHRISTI", "PLANO", "LUBBOCK", "LAREDO", "IRVING",
+                    "GARLAND", "FRISCO", "MCKINNEY", "AMARILLO", "GRAND PRAIRIE", "BROWNSVILLE",
+                    "KILLEEN", "DENTON", "MESQUITE", "PASADENA", "MCALLEN", "WACO", "CARROLLTON",
+                    "MIDLAND", "ROUND ROCK", "PEARLAND", "ABILENE", "COLLEGE STATION", "LEAGUE CITY",
+                    "RICHARDSON", "LEWISVILLE", "BEAUMONT", "ODESSA", "TYLER", "ALLEN", "SUGAR LAND",
+                    "NEW BRAUNFELS", "EDINBURG", "WICHITA FALLS", "SAN ANGELO", "CONROE", "TEMPLE",
+                    "BRYAN", "MISSION", "GEORGETOWN", "LONGVIEW", "BAYTOWN", "PHARR", "CEDAR PARK",
+                    "FLOWER MOUND", "MANSFIELD", "MISSOURI CITY", "LEANDER", "HARLINGEN",
+                    "NORTH RICHLAND HILLS", "SAN MARCOS", "PFLUGERVILLE", "ROWLETT", "VICTORIA",
+                    "WYLIE", "EULESS", "KYLE", "TEXAS CITY", "DESOTO", "PORT ARTHUR", "BURLESON",
+                    "LITTLE ELM", "GALVESTON", "ROCKWALL", "GRAPEVINE")
+
+# Create a pattern to match any of theds allowed city names
+pattern <- paste(allowed_cities, collapse = "|")
+
+# Function to check if any city name is in the agency name
+contains_city_name <- function(agency_name, cities) {
+  for (city in cities) {
+    if (grepl(city, agency_name, ignore.case = TRUE)) {
+      return(TRUE)
+    }
+  }
+  return(FALSE)
+}
+
+#
+fdf3 <- fdf2[sapply(fdf2$`Agency Name`, contains_city_name, cities = allowed_cities), ]
+
+# Display the filtered data frame
+head(fdf3)
+```
+drop the agnecy name == 
+
+write it out- still needs to be transformed
+```{r}
+# Specify the folder path
+folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Texas\\Formatted Data"
+
+# Create the full file path
+file_path <- file.path(folder_path, "tx_jan22_present.csv")
+
+# Write the data frame to a .csv file
+write.csv(fdf2, file = file_path, row.names = FALSE)
+```
+

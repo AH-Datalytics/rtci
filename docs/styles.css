@@ -1,0 +1,639 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+}
+
+.tab-navigation {
+    display: flex;
+    position: absolute;
+    top: -35px; /* Adjust this value as needed to position it correctly */
+    left: 0;
+    margin-bottom: 10px;
+}
+
+.tab-link {
+    background-color: #e2e0e0;
+    border: none;
+    padding: 5px 10px; /* Adjust padding for smaller tabs */
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-size: 1em; /* Adjust font size for smaller text */
+    border-radius: 10px; /* Increase border-radius for rounder tabs */
+    margin-right: 5px; /* Add space between tabs */
+    text-decoration: none; /* Remove underline */
+    color: white;
+}
+
+
+.tab-link:hover {
+    background-color: #b5b3b3;
+}
+
+.tab-link.active {
+    background-color: #00333a;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-link:visited {
+    color: white;
+    text-decoration: none; /* Ensure underline is removed */
+}
+
+/* Buttons for Table and Map Pages */
+.nav-buttons {
+    display: flex;
+    justify-content: center; /* Adjust as needed */
+    margin-bottom: 10px;
+}
+
+.nav-button {
+    background-color: #e2e0e0; /* Same as .tab-link */
+    border: none;
+    color: white;
+    padding: 5px 10px; /* Same as .tab-link */
+    text-align: center;
+    text-decoration: none; /* Remove underline */
+    display: inline-block;
+    font-size: 1em; /* Same as .tab-link */
+    margin: 4px 2px; /* Adjust as needed */
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 10px; /* Same as .tab-link */
+    font-family: 'Roboto Condensed', Arial, sans-serif; /* Same as .tab-link */
+}
+
+.nav-button:hover {
+    background-color: #b5b3b3; /* Same as .tab-link:hover */
+}
+
+.nav-button.active {
+    background-color: #00333a; /* Same as .tab-link.active */
+    color: white;
+}
+
+/* Existing styles for the RTCI Dashboard */
+
+#rtci-dashboard, #rtci-table, #rtci-map {
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+#graph-kpis-container {
+    display: flex;
+    width: 98.5%;
+    justify-content: space-between;
+    align-items: flex-start; /* Align items to the start to ensure the tab-navigation is at the top */
+    margin-top: 2rem;
+    height: 68%;
+    position: relative; /* Ensure this is relative so the tab-navigation can be positioned absolutely within it */
+}
+
+.rtci-header {
+    color: #f28106;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-size: 3vw;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+.filters-container {
+    color: #00333a;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-size: 1.5vw;
+    text-align: center;
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-btn {
+    background-color: white;
+    color: #2d5ef9;
+    padding: 2px 3px; /* Top/Bottom padding is 2px, Left/Right padding is 3px */
+    font-size: 1.5vw;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 0.1vw solid white;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.dropdown-btn:hover {
+    border: 0.1vw solid #f0f0f0;
+    background-color: #f0f0f0;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-btn i {
+    margin-left: 10px;
+    display: none;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 10vw;
+    max-height: 50vh; /* Set the maximum height for the dropdown menu */
+    overflow-y: auto; /* Enable vertical scrolling */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1001;
+    border-radius: 8px;
+    font-size: 1vw;
+    left: 50%; /* Position from the left of the button */
+    transform: translateX(-50%); /* Center the dropdown */
+    cursor: pointer;
+    padding-top: 0.3px;
+}
+
+.dropdown-menu .dropdown-item {
+    color: #00333a;
+    padding: 0.2rem;
+    margin-right: 0px;
+    padding-right: 0px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #f1f1f1;
+    color: #f28106;
+}
+
+.dropdown-item.selected {
+    font-weight: bold;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-search {
+    width: 8vw; /* Adjust width to account for padding */
+    height: 2vw; /* Adjust width to account for padding */
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 8px 8px 2px 8px; /* Adjust margin to keep padding consistent */
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    z-index: 1002;
+    font-size: 1vw;
+}
+
+/* Style the scrollbar for WebKit browsers */
+.dropdown-menu::-webkit-scrollbar {
+    width: 1vw; /* Width of the scrollbar */
+    border-radius: 8px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Background of the scrollbar track */
+    border-radius: 8px; /* Rounded corners for the track */
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the scrollbar thumb */
+    border-radius: 8px; /* Rounded corners for the thumb */
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Darker color on hover */
+}
+
+/* Style the scrollbar for Firefox */
+.dropdown-menu {
+    scrollbar-width: thin; /* Thin scrollbar */
+    scrollbar-color: #888 #f1f1f1; /* Thumb and track colors */
+}
+
+/* Style the focus outline for the search bar */
+.dropdown-search:focus {
+    outline: 0.02rem solid #2d5df96d; /* Outline color and width */
+    border-color: #2d5df96d; /* Border color */
+    border-width: 0.02rem;
+    z-index: 1009;
+}
+
+/* Line Graph and Kpis Styles */
+.rtci-line-graph {
+    width: 110%;
+    height: 100%;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+.kpi-container {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    height: 100%;
+    justify-content: space-between;
+    padding-left: 1rem;
+}
+
+.kpi-box {
+    background-color: #f28106;
+    color: white;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-size: 2vw;
+    text-align: center;
+    margin-bottom: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.kpi-box h2 {
+    font-size: 0.75em;
+    padding-top: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.kpi-box p {
+    font-size: 0.5em;
+    margin: 0.2rem;
+}
+
+.kpi-box p strong {
+    font-size: 2em;
+}
+
+.kpi-box:last-child {
+    margin-bottom: 0;
+}
+
+.tooltip {
+    position: absolute;
+    text-align: left;
+    padding: 5px;
+    background: #f28106;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    pointer-events: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    color: #00333a;
+    opacity: 0.9;
+    font-size: 0.8em;
+    z-index: 1001;
+}
+
+#download-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: white;
+    color: #00333a;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-size: 0.9vw;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+}
+
+#download-button i {
+    margin-right: 5px;
+}
+
+#download-button:hover {
+    background-color: #f0f0f0;
+    color:  #2d5df96d;
+}
+
+#line-graph-container {
+    position: relative;
+}
+
+#download-button .dropdown-menu .dropdown-item {
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+/* Style the dropdown menu container */
+#download-button .dropdown-menu {
+    padding: 0px; /* Reduce padding */
+    margin: 0;
+    min-width: 100% !important; /* Use !important to enforce the width */
+    width: 100%; /* Set a fixed width */
+    box-sizing: border-box; /* Ensures padding is included in width */
+    background-color: #f9f9f9;
+    display: inline-block; /* or inline-block */
+    flex-direction: column;
+    align-items: center; /* Center items if using flexbox */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+
+/* Style the individual dropdown items */
+#download-button .dropdown-item {
+    color: #00333a;
+    padding: 3px;
+    font-size: 0.9vw;
+}
+
+/* Add a hover effect to dropdown items */
+#download-button .dropdown-item:hover {
+    color: #f28106;
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
+
+@media (max-width: 1000px) {
+    .dropdown-btn {
+        border-radius: 6px;
+    }
+
+    .dropdown-menu {
+        border-radius: 6px;
+    }
+}
+
+@media (max-width: 600px) {
+    #rtci-dashboard {
+        height: 265vh;
+    }
+
+    .rtci-header {
+        font-size: 3vw;
+    }
+
+    .filters-container {
+        font-size: 2.15vw;
+        gap: 0.25rem;
+    }
+
+    .dropdown-btn {
+        font-size: 2.15vw;
+        border-radius: 4px;
+        padding: 3px;
+    }
+
+    .dropdown-menu {
+        border-radius: 4px;
+        font-size: 2.15vw;
+        min-width: 16vw;
+    }
+
+    .dropdown-search {
+        width: 14vw;
+        font-size: 2.15vw;
+        height: 4vw;
+        margin: 1px 4px 1px 4px; /* Adjust margin to keep padding consistent */
+    }   
+
+    .graph-kpis-container {
+        flex-direction: column;
+        align-items: center;
+        width: 95%;
+        height: auto;
+        margin-top: 1rem;
+    }
+
+    .rtci-line-graph {
+        width: 100%;
+        height: 122vh;
+        margin-bottom: 0.5rem;
+    }
+
+    .kpi-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: stretch;
+        padding: 0;
+        margin: 0;
+    }
+
+    .kpi-box {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0.25rem;
+        padding-top: 0.4rem;
+        padding-bottom: 0.8rem;
+        font-size: 2vw;
+        text-align: center;
+        background-color: #f28106;
+        color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        height: 5%;
+    }
+
+    .kpi-box:first-child {
+        margin-left: 0;
+    }
+
+    .kpi-box:last-child {
+        margin-right: 0;
+    }
+
+    .kpi-box h2 {
+        font-size: 1em;
+    }
+
+    .kpi-box p {
+        font-size: 0.75em;
+    }
+
+    .kpi-box p strong {
+        font-size: 2em;
+    }
+
+    .tooltip {
+        font-size: 0.4em;
+        padding: 3px;
+    }
+
+    #download-button {
+        font-size: 1.5vw;
+        padding: 4px 8px;
+    }
+
+    /* Style the individual dropdown items */
+    #download-button .dropdown-item {
+        font-size: 1.5vw;
+    }
+}
+
+/* Some extra mobile phone styling */
+@media (max-width: 500px) {
+    #download-button {
+        padding: 3px 6px;
+        border-radius: 3px
+    }
+
+    .filters-container {
+        font-size: 2.25vw;
+    }
+
+    .dropdown-btn {
+        font-size: 2.25vw;
+        padding: 0.15em;
+    }
+
+    .dropdown-menu {
+        border-radius: 4px;
+        font-size: 2.25vw;
+        min-width: 22vw;
+    }
+
+    .dropdown-search {
+        width: 18vw;
+        font-size: 2.25vw;
+        height: 4vw;
+    }   
+}
+
+/* Styles for the caption and source link graph */
+
+.caption-group text {
+    font-size: 14px;
+}
+
+.source-link {
+    fill: #2d5ef9;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.source-link:hover {
+    fill: #2d5df96d;
+}
+
+@media (max-width: 1200px) {
+    .caption-group text {
+        font-size: 12px;
+    }
+
+    .source-link {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .caption-group text {
+        font-size: 10px;
+    }
+
+    .source-link {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 850px) {
+    .caption-group text {
+        font-size: 8px;
+    }
+
+    .source-link {
+        font-size: 8px;
+    }
+}
+
+@media (max-width: 700px) {
+    .caption-group text {
+        font-size: 6px;
+    }
+
+    .source-link {
+        font-size: 6px;
+    }
+}
+
+@media (max-width: 600px) {
+    .caption-group text {
+        font-size: 8px;
+    }
+
+    .source-link {
+        font-size: 8px;
+    }
+}
+
+@media (max-width: 500px) {
+    .caption-group text {
+        font-size: 7px;
+    }
+
+    .source-link {
+        font-size: 7px;
+    }
+}
+
+
+/* Styles for the axis font */
+
+.axis-text {
+    font-size: 13px !important;
+}
+
+@media (max-width: 800px) {
+    .axis-text {
+        font-size: 11px !important;
+    }
+}
+
+/* Media Queries for Responsive Design for tab buttons*/
+@media (max-width: 550px) {
+    .tab-link, .nav-button {
+        font-size: 2.25vw; /* Adjust font size for smaller screens */
+        padding: 0.9vw 1.8vw; /* Adjust padding for smaller screens */
+        border-radius: 6px;
+        margin-bottom: 0;
+        margin-right: 3px;
+    }
+
+    .tab-navigation {
+        top: -25px; /* Adjust this value to move tabs closer to the graph */
+    }
+}

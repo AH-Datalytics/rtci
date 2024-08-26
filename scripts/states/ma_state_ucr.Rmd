@@ -1,0 +1,286 @@
+---
+title: "massachussets ucr processing"
+output: pdf_document
+date: "2024-06-17"
+---
+
+load libraries
+```{r}
+library(tidyverse)
+library(readr)
+library(lubridate)
+library(readxl)
+
+data_dir <- ("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Massachusetts\\State UCR")
+
+# List all Excel files in the directory
+file_list <- list.files(path = data_dir, pattern = "\\.xlsx$", full.names = TRUE)
+
+# Function to read and process each file
+process_file <- function(file_name) {
+  # Read the first sheet from the Excel file
+  df <- read_excel(file_name, sheet = 2)
+  
+  return(df)
+}
+
+# Apply the function to each file and store results in a list of data frames
+ldf <- lapply(file_list, process_file)
+```
+take a look and make notes on edits
+```{r}
+head(ldf[1])
+```
+trim the first four rows; 
+we need column 1 + every 8 columns first one being 1 + 2:8, etc. 
+```{r}
+library(lubridate)
+library(dplyr)
+library(readxl)
+
+# Function to process a single dataframe
+process_dataframe <- function(df) {
+  # Find the row with "Summary Date" in the first column
+  summary_date_row <- which(df[[1]] == "Summary Date")
+  
+  # Set the column names with the values found in the "Summary Date" row
+  new_colnames <- as.character(df[summary_date_row, ])
+  colnames(df) <- new_colnames
+  
+  # Function to check if a string conforms to "%b %Y"
+  is_valid_date <- function(date_string) {
+    !is.na(parse_date_time(date_string, orders = "%b %Y"))
+  }
+  
+  # Start with column 2
+  for (i in 2:ncol(df)) {
+    if (is_valid_date(df[summary_date_row, i])) {
+      # If the value conforms to date format, format it as a date
+      colnames(df)[i] <- as.character(parse_date_time(df[summary_date_row, i], orders = "%b %Y"))
+    } else {
+      # If the value does not conform to date format, assign the column name of the preceding column
+      colnames(df)[i] <- colnames(df)[i - 1]
+    }
+  }
+  
+  # Remove the "Summary Date" row
+  df <- df[-summary_date_row, ]
+  
+  return(df)
+}
+
+# Apply the process_dataframe function to each dataframe in the list
+ldf1 <- lapply(ldf, process_dataframe)
+
+# Display the modified dataframes
+lapply(ldf1, head)
+
+```
+let's see how we did....nailed it!
+```{r}
+# Function to get column names of each dataframe in the list
+get_column_names <- function(df) {
+  colnames(df)
+}
+
+# Apply the function to each dataframe in the list
+column_names_list <- lapply(ldf1, get_column_names)
+
+# Print the column names for each dataframe
+print(column_names_list)
+##column names now associate the count/crime type with a time frame that 
+##can be attributed to an agency. all good.
+```
+create separate dataframes for each observed month
+```{r}
+# Function to process a single dataframe
+process_dataframe1 <- function(df) {
+  # Initialize a list to store the resulting dataframes
+  result_dfs <- list()
+  
+  # Get the unique column names except the first column
+  unique_colnames <- unique(colnames(df)[-1])
+  
+  # Loop through each unique column name
+  for (colname in unique_colnames) {
+    # Find indices of the columns with the same name
+    same_name_indices <- which(colnames(df) == colname)
+    
+    # Create a new dataframe with column 1 and all columns with the same name
+    new_df <- df[, c(1, same_name_indices)]
+    
+    # Add the new dataframe to the result list
+    result_dfs[[colname]] <- new_df
+  }
+  
+  return(result_dfs)
+}
+
+# Apply the function to each dataframe in the list
+processed_lists1 <- lapply(ldf1, process_dataframe1)
+
+# Combine the results into a single list
+ldf2<- do.call(c, processed_lists1)
+
+# Display the first dataframe in the new list for verification
+head(ldf2[[1]])
+```
+remove the erroneous rows from each dataframe, create the date column,
+and row combine now that they all have the same column names
+```{r}
+# Function to process a single dataframe
+process_dataframe2 <- function(df) {
+  # Create a new vector "colnames1" and store the values of row 4
+  colnames1 <- as.character(df[4, ])
+  
+  # Remove rows 1, 2, 3, and 5
+  df <- df[-c(1, 2, 3, 5), ]
+  
+  # Reset row numbers
+  rownames(df) <- NULL
+  
+  # Create a new column named "Date" where every value is the same as the name of column 2
+  df$Date <- colnames(df)[2]
+  
+  # Set the new column names as the values in vector colnames1
+  colnames(df) <- colnames1
+  
+  # Change the name of column 1 to "Agency.Name"
+  colnames(df)[1] <- "Agency.Name"
+  
+  return(df)
+}
+
+# Apply the function to each dataframe in the list
+ldf3<- lapply(ldf2, process_dataframe2)
+
+# Combine all dataframes into a single dataframe
+combined_df <- bind_rows(ldf3)
+
+# Display the combined dataframe
+head(combined_df)
+```
+further formatting
+```{r}
+# Process the dataframe
+df_formatting <- function(df) {
+  # Rename column 10 to "Date"
+  colnames(df)[10] <- "Date"
+  
+  # Format "Date" column as date
+  df$Date <- parse_date_time(df$Date, orders = "%Y-%m-%d", quiet = TRUE)
+  
+  # Remove rows with the value "Summary Offense" in column "Agency.Name"
+  df <- df %>% filter(`Agency.Name` != "Summary Offense")
+  
+  # Convert NA's to 0's for columns 2:9 and format as numeric
+  df[2:9] <- df[2:9] %>% mutate_all(~replace(., is.na(.), 0)) %>% mutate_all(as.numeric)
+  
+  # Create "Year" column based on "Date" column
+  df$Year <- year(df$Date)
+  
+  # Create numeric "Month" column based on "Date" column
+  df$Month <- month(df$Date)
+  
+  # Drop the "Date" column
+  df <- df %>% select(-Date)
+  
+  return(df)
+}
+
+# Apply the function to the dataframe
+cdf1 <- df_formatting(combined_df)
+# Display the processed dataframe
+head(cdf1)
+
+```
+
+drop unnecessary columns
+create new columns and order them
+Murder and Nonnegligent Manslaughter, Forcible Rape, Aggravated Assault, Arson, Burglary/Breaking & Entering, Theft From Motor Vehicle
+Purse-snatching + Shoplifting + Theft from Building + Theft From Coin Operated Machine or Device + Theft From Motor Vehicle + Theft of Motor Vehicle Parts/Accessories + All Other Larceny
+```{r}
+# New column names
+  final_col_names <- c("Agency Name", "Murder", "Rape", "Robbery",
+                       "Agg Assault", "Burglary", "Larceny", "MVT", "Arson", "Year", "Month")
+  # Rename the columns
+  names(cdf1) <- final_col_names
+```
+make the base dataset to join back to that accounts for non-reporting months
+```{r}
+# Using expand.grid to generate all combinations of unique values from three columns
+all_combinations <- expand.grid(
+  'Agency Name' = unique(cdf1$`Agency Name`),
+  Year = unique(cdf1$Year),
+  Month = unique(cdf1$Month)
+)
+```
+join the combined df to this base dataset - now we know if data is missing for certain agencies for certain months - rather than just calculating the counts based on whether an agency reported a crime in that time period
+```{r}
+# Join the data frames
+joined_df <- merge(all_combinations, cdf1, by = c("Agency Name", "Year", "Month"), all.x = TRUE)
+
+# View the result
+print(joined_df)
+```
+are all time periods and agencies accounted for? should have an equal number of each in terms of records
+```{r}
+# Counting frequency of each value in Column1
+freq_Column1 <- table(joined_df$`Agency Name`)
+print("Frequency of Column1:")
+print(freq_Column1)
+
+# Counting frequency of each value in Column2
+freq_Column2 <- table(joined_df$Year)
+print("Frequency of Column2:")
+print(freq_Column2)
+
+# Counting frequency of each value in Column3
+freq_Column3 <- table(joined_df$Month)
+print("Frequency of Column3:")
+print(freq_Column3)
+####we are all set. consistent number of records for each unique value in column now.
+```
+did we create some NA's?
+```{r}
+colSums(is.na(joined_df))
+```
+change NA to NR
+```{r}
+# Replace NA in all columns except 'AgencyName', 'Year', and 'Month' with "NR"
+final_df <- joined_df %>%
+  mutate_if(!names(.) %in% c("Agency Name", "Year", "Month"), ~ifelse(is.na(.), "NR", .))
+
+# View the modified DataFrame
+print(final_df)
+```
+reorder columns and done
+```{r}
+# Specified order for the columns
+column_order <- c("Agency Name", "Murder", "Rape", "Robbery", 
+                  "Agg Assault", "Burglary", "Larceny", "MVT", "Arson",
+                  "Year", "Month")
+
+# Reorder columns based on the specified order
+final_df <- final_df[, column_order]
+```
+add a column for State and then we're done.
+```{r}
+# Specify the value for the "State" column
+state_value <- "Massachusetts"
+
+# Add the "State" column to the data frame
+final_df$State <- state_value
+```
+
+write it out!
+```{r}
+# Specify the folder path
+folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Massachusetts\\Formatted Data"
+
+# Create the full file path
+file_path <- file.path(folder_path, "ma_jan23_present.csv")
+
+# Write the data frame to a .csv file
+write.csv(final_df, file = file_path, row.names = FALSE)
+```

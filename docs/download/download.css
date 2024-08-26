@@ -1,0 +1,40 @@
+body, html {
+    margin: 0;
+    height: 100%;
+    font-family: 'Roboto Condensed', sans-serif;
+    overflow: hidden;
+}
+
+.download-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0;
+    font-family: 'Roboto Condensed', sans-serif;
+    overflow: hidden;
+}
+
+.download-button {
+    background-color: #2d5ef9;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 3px;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: 700;
+    padding: 0.8em 1.15em;
+    font-size: 1rem;
+    line-height: 1.2;
+    overflow: hidden;
+}
+
+.download-button:hover {
+    background-color: #f28106;
+}
+
+.download-button i {
+    margin-left: 8px; /* Adjust spacing between text and icon */
+}
+
+

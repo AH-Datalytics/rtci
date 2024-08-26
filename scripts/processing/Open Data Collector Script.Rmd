@@ -1,0 +1,115 @@
+---
+title: "open data collector script
+output: pdf_document
+date: "2024-04-22"
+---
+```{r}
+library(tidyverse)
+library(stringr)
+```
+make a list of all directory paths
+#(E.G.,"C:\OneDrive\OneDrive - ahdatalytics.com\Clients\Real Time Crime Index\Open Source Data\Texas\Formatted Data")
+```{r}
+#get all directory names and save as a list
+directory_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\"
+
+#First, collect all folder names in the directory and its sub directories
+all_folder_names <- list.dirs(directory_path, recursive = TRUE, full.names = FALSE)
+
+#list of all state names
+valid_folder_names <- c(
+  "Alabama", "Alaska", "Arizona", "Arkansas", "California", 
+  "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", 
+  "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", 
+  "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", 
+  "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", 
+  "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", 
+  "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", 
+  "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", 
+  "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", 
+  "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
+)
+
+#existing_folders
+existing_folders <- all_folder_names[all_folder_names %in% valid_folder_names]
+
+#create directories folder prefix
+prefix <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\"
+
+#now suffix
+suffix <- "\\Formatted Data"
+
+# List of values
+values <- existing_folders
+
+# Combine the prefix with each value in the list
+directories <- paste(prefix, values, suffix, sep = "")
+
+# Initialize an empty list to store the data frames
+extracted_data <- list()
+```
+check for and collect .csv file from each directory
+```{r}
+# Iterate over each directory
+for (directory in directories) {
+  # List .csv files in the directory
+  csv_files <- list.files(path = directory, pattern = "\\.csv$", full.names = TRUE)
+  
+  # Check if any .csv files are found
+  if (length(csv_files) > 0) {
+    # Read in the .csv file and store it in the list
+    extracted_data[[directory]] <- read.csv(csv_files[1])  # Assuming only one .csv file per directory
+  } else {
+    # Print a message if no .csv files are found in the directory
+    cat("No .csv files found in directory:", directory, "\n")
+  }
+}
+```
+combine list of csv's into master dataset
+```{r}
+# Function to convert character columns to numeric where applicable, excluding specific columns
+convert_to_numeric <- function(df, exclude_cols) {
+  # Select columns to be converted
+  cols_to_convert <- setdiff(names(df), exclude_cols)
+  
+  df[, cols_to_convert] <- lapply(df[, cols_to_convert], function(col) {
+    if (is.character(col)) {
+      as.numeric(col)
+    } else {
+      col
+    }
+  })
+  
+  return(df)
+}
+
+# Specify columns to exclude
+exclude_cols <- c("State", "Agency.Name")
+
+# Apply the conversion function to each data frame in the list
+ed1 <- lapply(extracted_data, convert_to_numeric, exclude_cols)
+
+# Combine data frames with missing columns filled with NA
+combined_df <- bind_rows(ed1)
+
+# Display the combined data frame
+head(combined_df)
+```
+fix the row.names issue first before writing out
+```{r}
+row.names(combined_df) <- NULL
+```
+save output to viz folder - update output path
+C:\OneDrive\OneDrive - ahdatalytics.com\Clients\Real Time Crime Index\Open Source Data\Collected Sample Data
+```{r}
+folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data"
+
+# Create the full file path
+file_path <- file.path(folder_path, "rtci_sample_extracted.csv")
+
+# Write the data frame to a .csv file
+write.csv(combined_df, file = file_path, row.names = FALSE)
+
+# Also write the df to GitHub repo in the deploy/shiny_web_app folder
+#write.csv(combined_df, "../deploy/shiny_web_app/rtci_sample_extracted.csv", row.names = FALSE)
+```

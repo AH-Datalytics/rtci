@@ -101,6 +101,10 @@
 
 
 /* Change cursor to pointer when hovering over table headers */
-.table-container th {
+.table-container th span {
     cursor: pointer;
+}
+
+.table-container th span:hover {
+    color: #f28106;
 }

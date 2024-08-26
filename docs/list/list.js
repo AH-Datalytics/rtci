@@ -37,13 +37,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
         headers.forEach(header => {
             const th = document.createElement("th");
-            th.textContent = header.label;
+
+            // Wrap the header text in a <span> for better control
+            const span = document.createElement("span");
+            span.textContent = header.label;
+            span.style.cursor = 'pointer'; // Set cursor to pointer only on the text
 
             // Add click event listener for sorting
-            th.addEventListener('click', () => {
+            span.addEventListener('click', () => {
                 sortTableByColumn(header.key);
             });
 
+            th.appendChild(span); // Append the span to the header cell
             headerRow.appendChild(th);
         });
     

@@ -66,7 +66,6 @@
 }
 
 .dropdown-menu {
-    min-width: 10vw;
     max-height: 300px; /* Set the maximum height for the dropdown menu */
     font-size: 1vw;
     left: 50%; /* Position from the left of the button */
@@ -87,6 +86,7 @@
 
     .dropdown-menu {
         font-size: 12px;
+        min-width: 23vw;
     }
     
     .table-container td {

@@ -16,13 +16,13 @@ alt = "less"
 data <- cleaned_data %>%
   rename(
     Agg.Assault = `Aggravated Assault`,
-    Agency.Name = `Agency Name`,
+    #Agency.Name = `Agency Name`,
     MVT = `Motor Vehicle Theft`
   )
 
 # narrow it down further
 data <- data %>% 
-          select(Month, Year, Agency.Name,
+          select(Month, Year, city_state,
                   Murder, Agg.Assault, Rape,
                    Burglary, Robbery, MVT, Theft)
 
@@ -145,7 +145,7 @@ clean_crime_data <- function(data, crime_columns) {
 
 data <- clean_crime_data(data, count_fields)
 
-metrics_allpd <- function(data, agency = 'Agency.Name', cf = count_fields, month = 'Month', year = 'Year', flagp = 0.001) {
+metrics_allpd <- function(data, agency = 'city_state', cf = count_fields, month = 'Month', year = 'Year', flagp = 0.001) {
   # Drop rows with NA in any of the specified fields
   data <- data %>% 
     filter(!is.na(!!sym(agency)) & !is.na(!!sym(month)) & !is.na(!!sym(year)) & rowSums(is.na(data[cf])) == 0)
@@ -192,7 +192,7 @@ metrics_allpd <- function(data, agency = 'Agency.Name', cf = count_fields, month
   return(df_flagged[, c("pds", 'Total', 'Note')])
 }
 
-results2 <- metrics_allpd(data)
+results3 <- metrics_allpd(data)
 
 
 #write out a dataframe to review
@@ -203,7 +203,7 @@ folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Cr
 file_path <- file.path(folder_path, "wheeler_audit_agency_review.csv")
 
 # Write the data frame locally to jeff
-write.csv(results2, file = file_path, row.names = FALSE)
+write.csv(results3, file = file_path, row.names = FALSE)
 
 # Write the data frame to the data folder in Github repo
-write.csv(results2, "scripts/auditing/wheeler_audit_agency_review.csv")
+write.csv(results3, "scripts/auditing/wheeler_audit_agency_review.csv")

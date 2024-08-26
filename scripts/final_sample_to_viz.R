@@ -260,6 +260,14 @@ sample_cities <- sample_cities %>%
 # Create the new column in sources
 sources$in_national_sample <- sources$agency_full %in% sample_cities$agency_full
 
+# Change values for nationwide full sample 
+sources <- sources %>% 
+  mutate(source_type = ifelse(agency_full == "Full Sample, Nationwide", "Aggregate", source_type),
+         source_method = ifelse(agency_full == "Full Sample, Nationwide", "All agencies with complete data through most recent month.", source_method),
+         source_link = ifelse(agency_full == "Full Sample, Nationwide", "https://ah-datalytics.github.io/rtci/list/list.html", source_link)
+         )
+
+
 write.csv(sources, "../docs/app_data/sources.csv", row.names = FALSE)
 
 

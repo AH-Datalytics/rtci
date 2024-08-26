@@ -75,7 +75,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     td.textContent = data.length > 0 ? data[0].most_recent_month : '';
                     break;
                 case 5:
-                    td.innerHTML = data.length > 0 ? `<a href="${data[0].source_link}" target="_blank">Click Here</a>` : '';
+                    if (data.length > 0 && data[0].agency_full === "Full Sample, Nationwide") {
+                        td.innerHTML = `<a href="${data[0].source_link}" target="_blank">Click for full list of agencies in current national sample.</a>`;
+                    } else {
+                        td.innerHTML = data.length > 0 ? `<a href="${data[0].source_link}" target="_blank">Click Here</a>` : '';
+                    }
                     break;
                 default:
                     td.textContent = '';

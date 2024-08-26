@@ -92,3 +92,7 @@
         max-width: 100%;
     }
 }
+
+.dropdown-menu {
+    max-height: 300px; /* Set the maximum height for the dropdown menu */
+}

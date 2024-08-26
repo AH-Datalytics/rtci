@@ -353,4 +353,4 @@
 2024-06-01,"York","Pennsylvania","York, Pennsylvania","York, PA","York, Pennsylvania",44901,"https://www.ucr.pa.gov/PAUCRSPUBLIC/SRSReport/CrimeTrends",1,"State UCR","Open Source","June 2024",TRUE
 2024-06-01,"Youngstown","Ohio","Youngstown, Ohio","Youngstown, OH","Youngstown, Ohio",59944,"https://ocjs.ohio.gov/",1,"State UCR","Provided by State UCR Program","June 2024",FALSE
 2024-06-01,"Yuma","Arizona","Yuma, Arizona","Yuma, AZ","Yuma, Arizona",98164,"https://azcrimestatistics.azdps.gov/",1,"State UCR","Open Source","June 2024",TRUE
-2024-06-01,"Full Sample","Nationwide","Full Sample, Nationwide","Full Sample, All Agencies","Full Sample, Nationwide",70423851,NA,288,NA,NA,"June 2024",FALSE
+2024-06-01,"Full Sample","Nationwide","Full Sample, Nationwide","Full Sample, All Agencies","Full Sample, Nationwide",70423851,"https://ah-datalytics.github.io/rtci/list/list.html",288,"Aggregate","All Agencies With Complete Data Through Most Recent Month","June 2024",FALSE

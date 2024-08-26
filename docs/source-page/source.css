@@ -65,6 +65,14 @@
     text-decoration: none;
 }
 
+.dropdown-menu {
+    min-width: 10vw;
+    max-height: 300px; /* Set the maximum height for the dropdown menu */
+    font-size: 1vw;
+    left: 50%; /* Position from the left of the button */
+    cursor: pointer;
+}
+
 /* Responsive adjustments */
 @media (max-width: 800px) {
     .filters-container {
@@ -75,6 +83,10 @@
         font-size: 14px;
         padding: 3px;
         border-radius: 6px;
+    }
+
+    .dropdown-menu {
+        font-size: 12px;
     }
     
     .table-container td {

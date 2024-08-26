@@ -405,7 +405,6 @@ sample_cities <- cdf_vcpc_nats %>%
 ```
 what is our na situation? want to update sample figures
 ```{r}
-
 ctypes <- c("Murder", "Rape", "Robbery",
                  "Aggravated Assault", "Burglary", 
                  "Theft", "Motor Vehicle Theft")
@@ -419,7 +418,6 @@ now let's further break it down
 # Step 1: Subset the dataframe to include only agencies with at least one value > 1 across the specified columns
 subset_df <- na_count_table %>%
   filter(if_any(all_of(ctypes), ~ . > 1))
-
 ```
 
 ```{r}
@@ -454,7 +452,6 @@ samp_penalty <- data.frame(
   Record_Count = c(nrow(burglary_df), nrow(robbery_df), nrow(agga_df), nrow(theft_df), nrow(mtv_df), nrow(murder_df), nrow(rape_df))
 )
 ```
-
 calculate and add nationwide counts
 ```{r}
 nationwide_counts <- cdf_vcpc_nats %>%
@@ -473,7 +470,6 @@ nationwide_counts <- cdf_vcpc_nats %>%
     Agency_num = sum(agency_num, na.rm = TRUE),
     .groups = 'drop'
   )
-
 # Display the aggregate level dataframe
 head(nationwide_counts)
 ```
@@ -587,6 +583,70 @@ remove bad month for june if all na
 final_data1 <- final_data %>%
   filter(!(Year == two_months_previous_year & Month == two_months_previous_month & is.na(Murder)))
 ```
+remove missing months consecutively from current month
+-scottsdale issue
+-drop months if all everything
+```{r}
+crime_data <- final_data1 %>%
+  mutate(date = as.Date(paste(Year, Month, "01", sep = "-"), format = "%Y-%m-%d"))
+
+# Initialize a dataframe to store removed observations
+removed_observations <- data.frame()
+
+# Get the list of unique agencies
+unique_agencies <- unique(crime_data$`Agency Name`)
+
+# Initialize an empty dataframe to store the cleaned data
+cleaned_data <- data.frame()
+
+# Loop over each agency
+for (agency in unique_agencies) {
+  
+  # Subset data for the current agency
+  agency_data <- subset(crime_data, `Agency Name` == agency)
+  
+  # Sort the data by date in descending order
+  agency_data <- agency_data[order(agency_data$date, decreasing = TRUE), ]
+  
+  # Loop through the data month by month
+  remove_flag <- TRUE
+  i <- 1
+  while (i <= nrow(agency_data)) {
+    
+    # Check if all crime types in the specified columns are NA
+    if (remove_flag && all(is.na(agency_data[i, ctypes]))) {
+      
+      # Add the observation to the removed_observations dataframe
+      removed_observations <- rbind(removed_observations, agency_data[i, ])
+      
+      # Remove the observation from the original data
+      agency_data <- agency_data[-i, ]
+      
+    } else {
+      # Once a non-NA value is found, stop further removals for this agency
+      remove_flag <- FALSE
+      i <- i + 1
+    }
+  }
+  
+  # Restore the original order of the agency_data
+  agency_data <- agency_data[order(agency_data$date, decreasing = FALSE), ]
+  
+  # Append the cleaned data back to the main cleaned_data dataframe
+  cleaned_data <- rbind(cleaned_data, agency_data)
+}
+
+# Restore the original order of the removed_observations
+removed_observations <- removed_observations[order(removed_observations$date, decreasing = FALSE), ]
+
+# Subset to a different dataframe
+subset_removed <- removed_observations
+
+head(subset_removed)
+```
+
+
+
 add a time stamp column
 ```{r}
 # For the careful but forgetful few

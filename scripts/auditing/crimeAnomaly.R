@@ -13,14 +13,23 @@ prior_ytd <- 5 # if you have more data it averages multiple prior years for the 
 alt = "less"
 
 # Rename columns
-data <- df_mvs_12mo %>%
+data <- cleaned_data %>%
   rename(
     Agg.Assault = `Aggravated Assault`,
     Agency.Name = `Agency Name`,
     MVT = `Motor Vehicle Theft`
   )
 
-#drop na obs
+# narrow it down further
+data <- data %>% 
+          select(Month, Year, Agency.Name,
+                  Murder, Agg.Assault, Rape,
+                   Burglary, Robbery, MVT, Theft)
+
+#drop row names
+row.names(data) <- NULL
+
+# drop NA's
 data <- na.omit(data)
 
 # This function looks at cumulative year to date stats
@@ -191,10 +200,10 @@ results2 <- metrics_allpd(data)
 folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation"
 
 # Create the full file path
-file_path <- file.path(folder_path, "rtci_sample_review_agencies.csv")
+file_path <- file.path(folder_path, "wheeler_audit_agency_review.csv")
 
-# Write the data frame to a .csv file
+# Write the data frame locally to jeff
 write.csv(results2, file = file_path, row.names = FALSE)
 
 # Write the data frame to the data folder in Github repo
-write.csv(results2, "data\\rtci_sample_review_agencies.csv")
+write.csv(results2, "scripts/auditing/wheeler_audit_agency_review.csv")

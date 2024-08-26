@@ -644,9 +644,6 @@ subset_removed <- removed_observations
 
 head(subset_removed)
 ```
-
-
-
 add a time stamp column
 ```{r}
 # For the careful but forgetful few

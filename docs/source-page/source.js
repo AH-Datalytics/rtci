@@ -23,41 +23,44 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to create and insert static headers
     function createStaticHeaders() {
         tableBody.innerHTML = ""; // Clear any existing content
-
+    
         const headers = [
             { label: "Agency", key: "agency_full" },
             { label: "Population Covered", key: "population" },
             { label: "Source Type", key: "source_type" },
             { label: "Source Method", key: "source_method" },
             { label: "Most Recent Data", key: "most_recent_month" },
+            { label: "In Current National Sample?", key: "in_national_sample" }, // New row for "In National Sample?"
             { label: "Primary Link", key: "source_link" }
         ];
-
+    
         headers.forEach(header => {
             const tr = document.createElement("tr");
-
+    
             const th = document.createElement("td");
             th.textContent = header.label;
             th.style.fontWeight = "bold";
             th.style.backgroundColor = "#00333a";
             th.style.color = "white";
             tr.appendChild(th);
-
+    
             const td = document.createElement("td");
-            td.textContent = ''; // Empty by default, data will fill this
+            td.textContent = ''; // Default blank value
             tr.appendChild(td);
-
+    
             tableBody.appendChild(tr);
         });
     }
+    
+    
 
     // Function to populate the data rows
     function populateDataRows(data) {
         const rows = tableBody.querySelectorAll("tr");
-
+    
         rows.forEach((row, index) => {
             const td = row.querySelectorAll("td")[1]; // Select the data cell
-
+    
             switch (index) {
                 case 0:
                     td.textContent = data.length > 0 ? data[0].agency_full : '';
@@ -75,6 +78,15 @@ document.addEventListener("DOMContentLoaded", function() {
                     td.textContent = data.length > 0 ? data[0].most_recent_month : '';
                     break;
                 case 5:
+                    if (data.length > 0 && stateBtn.textContent === "Nationwide") {
+                        td.textContent = "N/A";
+                    } else if (data.length > 0) {
+                        td.textContent = data[0].in_national_sample === "TRUE" ? "Yes" : "No";
+                    } else {
+                        td.textContent = ''; // Default to blank
+                    }
+                    break;
+                case 6:
                     if (data.length > 0 && data[0].agency_full === "Full Sample, Nationwide") {
                         td.innerHTML = `<a href="${data[0].source_link}" target="_blank">Click for full list of agencies in current national sample.</a>`;
                     } else {
@@ -86,12 +98,16 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
+    
+    
 
     // Function to update table based on the selected filter
     function updateTable(data) {
         createStaticHeaders(); // Ensure headers are present
         populateDataRows(data); // Populate rows with data or leave empty
     }
+    
+    
 
     function populateFilters(data) {
         let states = [...new Set(data.map(row => row.state_name))];

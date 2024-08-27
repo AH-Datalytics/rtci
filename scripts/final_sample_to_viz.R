@@ -326,10 +326,10 @@ final_dataset <- final_dataset %>%
   mutate(Percent_Change = ifelse((YTD == 0 & PrevYTD == 0 & is.na(Percent_Change)), 0, Percent_Change))
 
 final_dataset <- final_dataset %>% 
-  mutate(Percent_Change = ifelse(Percent_Change == "Inf", 9999, Percent_Change))
+  mutate(Percent_Change = ifelse(Percent_Change == "Inf", "Undefined", Percent_Change))
 
 # Audit 
-na_percents <- final_dataset %>% filter(is.na(Percent_Change) | Percent_Change == "Inf" | is.na(YTD) | is.na(PrevYTD)) 
+na_percents <- final_dataset %>% filter(is.na(Percent_Change) | Percent_Change == "Undefined" | is.na(YTD) | is.na(PrevYTD)) 
 
 na_kpi_agencies <- unique(na_percents$agency_full)
 

@@ -1,24 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-    // Define the sortTable function
-    function sortTable(data) {
-        return data.slice().sort((a, b) => {
-            if (currentSortKey === "agency_full" || currentSortKey === "crime_type") {
-                return currentSortOrder === "asc" ? a[currentSortKey].localeCompare(b[currentSortKey]) : b[currentSortKey].localeCompare(a[currentSortKey]);
-            } else {
-                return currentSortOrder === "asc" ? a[currentSortKey] - b[currentSortKey] : b[currentSortKey] - a[currentSortKey];
-            }
-        });
-    }
-
-    // The rest of your code
     const crimeTypeSelect = document.getElementById("crime-type-dropdown");
-    const sortKeySelect = document.getElementById("sort-key-dropdown");
-    const sortOrderSelect = document.getElementById("sort-order-dropdown");
-
     const crimeTypeBtn = document.getElementById("crime-type-btn");
-    const sortKeyBtn = document.getElementById("sort-key-btn");
-    const sortOrderBtn = document.getElementById("sort-order-btn");
 
     let allData;
     let currentSortKey = "YTD";
@@ -56,85 +39,119 @@ document.addEventListener("DOMContentLoaded", function() {
 
         setSelectedClass(crimeTypeSelect, crimeTypeBtn.dataset.value || "Murders");
 
-        function populateFullSampleTable() {
-            const crimeType = crimeTypeBtn.dataset.value || "Murders";
-            let filteredData = allData.filter(d => d.crime_type === crimeType);
-
-            filteredData = sortTable(filteredData);
-
-            const tableBody = document.getElementById("full-sample-table-body");
-            tableBody.innerHTML = "";
-
-            const formatNumber = d3.format(","); // Formatter for numbers with commas
-
-            filteredData.forEach(d => {
-                const row = tableBody.insertRow();
-                
-                const cell0 = row.insertCell(0);
-                cell0.textContent = d.agency_full;
-                if (currentSortKey === "agency_full") cell0.classList.add('bold');
-                
-                const cell1 = row.insertCell(1);
-                cell1.textContent = d.crime_type;
-                if (currentSortKey === "crime_type") cell1.classList.add('bold');
-                
-                const cell2 = row.insertCell(2);
-                cell2.textContent = formatNumber(d.YTD);
-                if (currentSortKey === "YTD") cell2.classList.add('bold');
-                
-                const cell3 = row.insertCell(3);
-                cell3.textContent = formatNumber(d.PrevYTD);
-                if (currentSortKey === "PrevYTD") cell3.classList.add('bold');
-                
-                const cell4 = row.insertCell(4);
-                cell4.textContent = d.Percent_Change.toFixed(1) + '%';
-
-                if (d.Percent_Change > 0) {
-                    cell4.style.color = '#f28106';  // Positive change
-                } else if (d.Percent_Change < 0) {
-                    cell4.style.color = '#2d5ef9';  // Negative change
-                } else {
-                    cell4.style.color = '#00333a';  // No change
-                }
-
-                if (currentSortKey === "Percent_Change") cell4.classList.add('bold');
-
-                const cell5 = row.insertCell(5);
-                cell5.textContent = `January - ${d.Month_Through}`;
-                if (currentSortKey === "Month_Through") cell5.classList.add('bold');
-            });
-        }
-
-        sortKeySelect.querySelectorAll(".dropdown-item").forEach(item => {
-            if (item.dataset.value === currentSortKey) {
-                item.classList.add("selected");
-            }
-            item.addEventListener("click", function() {
-                currentSortKey = this.dataset.value;
-                sortKeyBtn.textContent = this.textContent;
-                sortKeySelect.classList.remove("show");
-                populateFullSampleTable();
-                setSelectedClass(sortKeySelect, currentSortKey);
-            });
-        });
-
-        sortOrderSelect.querySelectorAll(".dropdown-item").forEach(item => {
-            if (item.dataset.value === currentSortOrder) {
-                item.classList.add("selected");
-            }
-            item.addEventListener("click", function() {
-                currentSortOrder = this.dataset.value;
-                sortOrderBtn.textContent = this.textContent;
-                sortOrderSelect.classList.remove("show");
-                populateFullSampleTable();
-                setSelectedClass(sortOrderSelect, currentSortOrder);
-            });
-        });
-
         populateFullSampleTable();
+        addSortingListeners(); // Add sorting listeners to column headers
+        updateSortedColumnClass(currentSortKey); // Set default sort column and arrow on load
     }).catch(error => {
         console.error("Error loading the CSV file:", error);
     });
+
+    function populateFullSampleTable() {
+        const crimeType = crimeTypeBtn.dataset.value || "Murders";
+        let filteredData = allData.filter(d => d.crime_type === crimeType);
+
+        filteredData = sortTable(filteredData);
+
+        const tableBody = document.getElementById("full-sample-table-body");
+        tableBody.innerHTML = "";
+
+        const formatNumber = d3.format(","); // Formatter for numbers with commas
+
+        filteredData.forEach(d => {
+            const row = tableBody.insertRow();
+            
+            const cell0 = row.insertCell(0);
+            cell0.textContent = d.agency_full;
+            
+            const cell1 = row.insertCell(1);
+            cell1.textContent = d.crime_type;
+            
+            const cell2 = row.insertCell(2);
+            cell2.textContent = formatNumber(d.YTD);
+            
+            const cell3 = row.insertCell(3);
+            cell3.textContent = formatNumber(d.PrevYTD);
+            
+            const cell4 = row.insertCell(4);
+            cell4.textContent = d.Percent_Change.toFixed(1) + '%';
+
+            if (d.Percent_Change > 0) {
+                cell4.style.color = '#f28106';  // Positive change
+            } else if (d.Percent_Change < 0) {
+                cell4.style.color = '#2d5ef9';  // Negative change
+            } else {
+                cell4.style.color = '#00333a';  // No change
+            }
+
+            const cell5 = row.insertCell(5);
+            cell5.textContent = `January - ${d.Month_Through}`;
+        });
+    }
+
+    function sortTable(data) {
+        return data.slice().sort((a, b) => {
+            let aValue = a[currentSortKey];
+            let bValue = b[currentSortKey];
+
+            if (currentSortKey === "YTD" || currentSortKey === "PrevYTD" || currentSortKey === "Percent_Change") {
+                return currentSortOrder === "asc" ? aValue - bValue : bValue - aValue;
+            } else {
+                return currentSortOrder === "asc" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+            }
+        });
+    }
+
+    function addSortingListeners() {
+        document.querySelectorAll('th span.sortable').forEach((span) => {
+            // Define specific keys for each column based on header text
+            const keyMapping = {
+                "Agency": "agency_full",
+                "Crime Type": "crime_type",
+                "Year to Date": "YTD",
+                "Previous YTD": "PrevYTD",
+                "% Change": "Percent_Change"
+            };
+
+            const columnKey = keyMapping[span.textContent.trim()];
+            if (columnKey) {
+                span.dataset.key = columnKey; // Store the key in the dataset for future reference
+                span.style.cursor = 'pointer'; // Indicate it's clickable
+
+                span.addEventListener('click', () => {
+                    if (currentSortKey === columnKey) {
+                        // Toggle sort order if the same column is clicked
+                        currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        // Set the new sort column and default to descending order
+                        currentSortKey = columnKey;
+                        currentSortOrder = 'desc';
+                    }
+                    populateFullSampleTable(); // Re-populate the table with the new sorting
+                    updateSortedColumnClass(columnKey); // Update column header with arrow
+                });
+            }
+        });
+    }
+
+    function updateSortedColumnClass(columnKey) {
+        // Clear the sorting indicators and remove any existing arrow spans
+        document.querySelectorAll('th span.sortable').forEach(span => {
+            span.classList.remove('sorted');
+            span.querySelectorAll('.arrow').forEach(arrow => arrow.remove()); // Remove all arrow elements
+            span.style.color = ''; // Reset color
+        });
+    
+        // Add the sorting indicator to the current column
+        const sortedHeader = document.querySelector(`th span.sortable[data-key="${columnKey}"]`);
+        if (sortedHeader) {
+            sortedHeader.classList.add('sorted');
+            sortedHeader.style.color = '#00333a'; // Set the color to #00333a
+            const arrow = document.createElement('span');
+            arrow.classList.add('arrow');
+            arrow.textContent = currentSortOrder === 'asc' ? ' ▲' : ' ▼';
+            sortedHeader.appendChild(arrow);
+        }
+    }
 
     function toggleDropdown(button, dropdown) {
         button.addEventListener('click', function(event) {
@@ -166,8 +183,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     toggleDropdown(crimeTypeBtn, crimeTypeSelect);
-    toggleDropdown(sortKeyBtn, sortKeySelect);
-    toggleDropdown(sortOrderBtn, sortOrderSelect);
 
     // Function to convert table data to CSV and trigger download
     function downloadCSV(data, filename) {
@@ -175,10 +190,10 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error("No data available for download.");
             return;
         }
-    
+
         const headers = ["agency_full", "crime_type", "YTD", "PrevYTD", "Percent_Change", "months_covered"];
         const csvData = [headers.join(",")];
-    
+
         data.forEach(row => {
             const values = [
                 `"${row.agency_full}"`,
@@ -190,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function() {
             ];
             csvData.push(values.join(","));
         });
-    
+
         const csvString = csvData.join("\n");
         const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement("a");
@@ -200,18 +215,21 @@ document.addEventListener("DOMContentLoaded", function() {
         link.click();
         document.body.removeChild(link);
     }
-    
 
     // Event listener for download button
     document.getElementById("table-download").addEventListener("click", function() {
         const crimeType = crimeTypeBtn.dataset.value || "Murders";
         let filteredData = allData.filter(d => d.crime_type === crimeType);
         filteredData = sortTable(filteredData);
-        console.log(filteredData);  // Check if data is correct
         downloadCSV(filteredData, `${crimeType}_YTD_Report.csv`);
-    });    
-});
+    });
 
-function navigateTo(page) {
-    window.location.href = page;
-}
+    // Event listener for the "By Month" button
+    document.getElementById("by-agency-btn").addEventListener('click', function() {
+        navigateTo('by-agency.html');  // Adjust the file name as needed
+    });
+
+    function navigateTo(page) {
+        window.location.href = page;
+    }
+});

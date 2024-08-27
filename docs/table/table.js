@@ -49,14 +49,14 @@ document.addEventListener("DOMContentLoaded", function() {
     function populateFullSampleTable() {
         const crimeType = crimeTypeBtn.dataset.value || "Murders";
         let filteredData = allData.filter(d => d.crime_type === crimeType);
-
+    
         filteredData = sortTable(filteredData);
-
+    
         const tableBody = document.getElementById("full-sample-table-body");
         tableBody.innerHTML = "";
-
+    
         const formatNumber = d3.format(","); // Formatter for numbers with commas
-
+    
         filteredData.forEach(d => {
             const row = tableBody.insertRow();
             
@@ -73,45 +73,44 @@ document.addEventListener("DOMContentLoaded", function() {
             cell3.textContent = formatNumber(d.PrevYTD);
             
             const cell4 = row.insertCell(4);
-            cell4.textContent = d.Percent_Change.toFixed(1) + '%';
-
-            if (d.Percent_Change > 0) {
-                cell4.style.color = '#f28106';  // Positive change
-            } else if (d.Percent_Change < 0) {
-                cell4.style.color = '#2d5ef9';  // Negative change
+            if (isNaN(d.Percent_Change) || d.Percent_Change === "Undefined") {  
+                cell4.textContent = "Undefined";
+                cell4.style.color = '#f28106';  // Use orange color for undefined indicating a positive situation
             } else {
-                cell4.style.color = '#00333a';  // No change
+                cell4.textContent = d.Percent_Change.toFixed(1) + '%';
+                if (d.Percent_Change > 0) {
+                    cell4.style.color = '#f28106';  // Positive change
+                } else if (d.Percent_Change < 0) {
+                    cell4.style.color = '#2d5ef9';  // Negative change
+                } else {
+                    cell4.style.color = '#00333a';  // No change
+                }
             }
-
+    
             const cell5 = row.insertCell(5);
             cell5.textContent = `January - ${d.Month_Through}`;
         });
     }
+    
 
     function sortTable(data) {
         return data.slice().sort((a, b) => {
             let aValue = a[currentSortKey];
             let bValue = b[currentSortKey];
     
-            // Check if sorting by Percent_Change
             if (currentSortKey === "Percent_Change") {
-                // Handle 'Undefined' as a special case
-                if (aValue === "Undefined") return 1;  // Push 'Undefined' to the bottom
-                if (bValue === "Undefined") return -1; // Push 'Undefined' to the bottom
-    
-                return currentSortOrder === "asc" ? aValue - bValue : bValue - aValue;
+                if (aValue === "Undefined" || isNaN(aValue)) return 1; // "Undefined" or NaN always at the bottom
+                if (bValue === "Undefined" || isNaN(bValue)) return -1; // "Undefined" or NaN always at the bottom
+                if ((aValue === "Undefined" || isNaN(aValue)) && (bValue === "Undefined" || isNaN(bValue))) return 0;
             }
     
-            // Handle numeric columns
-            if (currentSortKey === "YTD" || currentSortKey === "PrevYTD") {
+            if (currentSortKey === "YTD" || currentSortKey === "PrevYTD" || currentSortKey === "Percent_Change") {
                 return currentSortOrder === "asc" ? aValue - bValue : bValue - aValue;
+            } else {
+                return currentSortOrder === "asc" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
             }
-    
-            // Handle text columns
-            return currentSortOrder === "asc" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
         });
     }
-    
     
 
     function addSortingListeners() {

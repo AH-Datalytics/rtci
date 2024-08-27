@@ -108,3 +108,9 @@
 .table-container th span:hover {
     color: #f28106;
 }
+
+/* Style for the sorted column header */
+.table-container th span.sorted {
+    color: #f28106; /* Orange color */
+}
+

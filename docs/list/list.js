@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const thead = document.createElement("thead");
         const headerRow = document.createElement("tr");
 
-        headers.forEach(header => {
+        headers.forEach((header, index) => {
             const th = document.createElement("th");
 
             // Wrap the header text in a <span> for better control
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Add click event listener for sorting
             span.addEventListener('click', () => {
-                sortTableByColumn(header.key);
+                sortTableByColumn(header.key, index); // Pass the index as well
             });
 
             th.appendChild(span); // Append the span to the header cell
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Function to sort the table by a specific column
-    function sortTableByColumn(columnKey) {
+    function sortTableByColumn(columnKey, headerIndex) {
         if (currentSortColumn === columnKey) {
             // Toggle the sort order if the same column is clicked
             currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
@@ -128,5 +128,17 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         formatAndPopulateTable(filteredData);
+        highlightSortedColumn(headerIndex); // Highlight the sorted column by index
+    }
+
+    function highlightSortedColumn(headerIndex) {
+        // Remove the highlight from all header cells
+        document.querySelectorAll(".table-container th span").forEach(span => {
+            span.classList.remove("sorted");
+        });
+
+        // Highlight the currently sorted column
+        const sortedHeader = document.querySelectorAll(".table-container th span")[headerIndex];
+        sortedHeader.classList.add("sorted");
     }
 });

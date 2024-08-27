@@ -7,7 +7,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const stateDropdown = document.getElementById("state-dropdown");
 
     let allData = [];
-    let filteredAgencies = [];
+    let currentSortColumn = '';
+    let currentSortOrder = 'asc';
 
     // Default filter values
     const defaultFilters = {
@@ -20,9 +21,10 @@ document.addEventListener("DOMContentLoaded", function() {
         allData = data;  // Store all data for filtering
         retrieveFilterValues(defaultFilters);
         const initialData = data.filter(row => row.agency_name === agencyBtn.textContent && row.state_name === stateBtn.textContent);
-        initialData.sort((a, b) => new Date(b.date) - new Date(a.date));
+        initialData.sort((a, b) => new Date(b.month_year) - new Date(a.month_year)); // Initially sort by date
         formatAndPopulateTable(initialData);
         populateFilters(data);
+        addSortingListeners(); // Add sorting listeners after populating table
     }).catch(error => {
         console.error("Error loading the CSV data:", error);
     });
@@ -49,6 +51,68 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    // Function to sort the table by a specific column
+    function sortTableByColumn(columnKey) {
+        if (currentSortColumn === columnKey) {
+            // Toggle the sort order if the same column is clicked
+            currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
+        } else {
+            // Set the new sort column and default to ascending order
+            currentSortColumn = columnKey;
+            currentSortOrder = 'asc';
+        }
+
+        const filteredData = allData.filter(row => row.agency_name === agencyBtn.textContent && row.state_name === stateBtn.textContent);
+
+        // Sort the filtered data
+        filteredData.sort((a, b) => {
+            let aValue = a[columnKey];
+            let bValue = b[columnKey];
+
+            if (columnKey === 'month_year') {
+                // Convert month_year to Date objects for sorting
+                aValue = new Date(aValue);
+                bValue = new Date(bValue);
+            } else if (["aggravated_assault", "burglary", "motor_vehicle_theft", "murder", "rape", "robbery", "theft", "property_crime", "violent_crime"].includes(columnKey)) {
+                // Convert numerical columns to integers for numerical sorting
+                aValue = parseInt(aValue);
+                bValue = parseInt(bValue);
+            } else {
+                // For non-numerical columns, sort by string comparison
+                aValue = aValue.toLowerCase();
+                bValue = bValue.toLowerCase();
+            }
+
+            if (aValue < bValue) return currentSortOrder === 'asc' ? -1 : 1;
+            if (aValue > bValue) return currentSortOrder === 'asc' ? 1 : -1;
+            return 0;
+        });
+
+        formatAndPopulateTable(filteredData);
+        updateSortedColumnClass(columnKey);
+    }
+
+    // Add event listeners to header spans for sorting
+    function addSortingListeners() {
+        document.querySelectorAll('.blue-header-table th span').forEach(span => {
+            const columnKey = span.dataset.key; // Ensure the span has a data-key attribute corresponding to the column
+            span.style.cursor = 'pointer'; // Change cursor to pointer on hover
+            span.addEventListener('click', () => sortTableByColumn(columnKey));
+        });
+    }
+
+    // Function to update the sorted column class
+    function updateSortedColumnClass(columnKey) {
+        // Remove 'sorted' class from all header spans
+        document.querySelectorAll('.blue-header-table th span').forEach(span => {
+            span.classList.remove('sorted');
+        });
+
+        // Add 'sorted' class to the currently sorted column
+        document.querySelector(`.blue-header-table th span[data-key="${columnKey}"]`).classList.add('sorted');
+    }
+
+    // Populate filters
     function populateFilters(data) {
         let states = [...new Set(data.map(row => row.state_name))];
     
@@ -111,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (selectedState !== "State" && selectedAgency !== "Agency") {
             const filteredData = allData.filter(row => row.state_name === selectedState && row.agency_name === selectedAgency);
-            filteredData.sort((a, b) => new Date(b.date) - new Date(a.date));
+            filteredData.sort((a, b) => new Date(b.month_year) - new Date(a.month_year));
             formatAndPopulateTable(filteredData);
         }
     }
@@ -279,7 +343,6 @@ document.addEventListener("DOMContentLoaded", function() {
         link.click();
         document.body.removeChild(link);
     }
-    
 
     // Event listener for download button
     document.getElementById("table-download").addEventListener("click", function() {

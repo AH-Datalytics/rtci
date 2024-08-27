@@ -96,42 +96,43 @@ document.addEventListener("DOMContentLoaded", function() {
         agenciesNumBox.innerHTML = `Number of Agencies: <strong>${count}</strong>`;
     }
 
-    // Function to sort the table by a specific column
     function sortTableByColumn(columnKey, headerIndex) {
         if (currentSortColumn === columnKey) {
             // Toggle the sort order if the same column is clicked
-            currentSortOrder = currentSortOrder === 'asc' ? 'asc' : 'desc';
+            currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
         } else {
             // Set the new sort column and default to ascending order
             currentSortColumn = columnKey;
             currentSortOrder = 'asc';
         }
-
-        const filteredData = allData.filter(row => row.in_national_sample === "TRUE");
-
+    
         // Sort the filtered data
+        const filteredData = allData.filter(row => row.in_national_sample === "TRUE");
         filteredData.sort((a, b) => {
             let aValue = a[columnKey];
             let bValue = b[columnKey];
-
+    
             if (columnKey === 'population') {
-                // Convert population to integers for numerical sorting
                 aValue = parseInt(aValue);
                 bValue = parseInt(bValue);
             } else {
-                // For non-numerical columns, sort by string comparison
                 aValue = aValue.toLowerCase();
                 bValue = bValue.toLowerCase();
             }
-
+    
             if (aValue < bValue) return currentSortOrder === 'asc' ? -1 : 1;
             if (aValue > bValue) return currentSortOrder === 'asc' ? 1 : -1;
             return 0;
         });
-
+    
         formatAndPopulateTable(filteredData);
-        highlightSortedColumn(headerIndex); // Highlight the sorted column by index
+        highlightSortedColumn(headerIndex);
     }
+    
+    // Initial load logic
+    currentSortOrder = 'asc'; // Explicitly set sort order to ascending
+    sortTableByColumn(currentSortColumn, 0); // Apply default sort to "Agency" column
+    
 
     function highlightSortedColumn(headerIndex) {
         // Remove the highlight and arrow from all header cells

@@ -488,33 +488,33 @@ head(cdf2)
 ```
 calculate and add state counts
 ```{r}
-state_counts <- cdf_vcpc_nats %>%
-  group_by(Year, Month, State) %>%
-  summarise(
-    Murder= sum(Murder, na.rm = TRUE),
-    Rape= sum(Rape, na.rm = TRUE),
-    Robbery= sum(Robbery, na.rm = TRUE),
-    `Aggravated Assault`= sum(`Aggravated Assault`, na.rm = TRUE),
-    Burglary= sum(Burglary, na.rm = TRUE),
-    Theft = sum(Theft, na.rm = TRUE),
-    `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
-    `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
-    `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
-    .groups = 'drop'
-  )
+#state_counts <- cdf_vcpc_nats %>%
+ # group_by(Year, Month, State) %>%
+  #summarise(
+   # Murder= sum(Murder, na.rm = TRUE),
+    #Rape= sum(Rape, na.rm = TRUE),
+    #Robbery= sum(Robbery, na.rm = TRUE),
+    #`Aggravated Assault`= sum(`Aggravated Assault`, na.rm = TRUE),
+    #Burglary= sum(Burglary, na.rm = TRUE),
+    #Theft = sum(Theft, na.rm = TRUE),
+    #`Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
+    #`Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
+    #`Property Crime` = sum(`Property Crime`, na.rm = TRUE),
+    #.groups = 'drop'
+ # )
 
 # Concatenate "State, Full Sample" for each observation
-sc1 <- state_counts %>%
-  mutate(`Agency Name` = paste(State, "Full Sample", sep = ", "))
+#sc1 <- state_counts %>%
+ # mutate(`Agency Name` = paste(State, "Full Sample", sep = ", "))
 
 #join state counts with agency names to sample
-cdf3 <- bind_rows(cdf2, sc1)
-head(cdf3)
+#cdf3 <- bind_rows(cdf2, sc1)
+#head(cdf3)
 
 # city state unique id
-length(unique(cdf3$city_state))
+#length(unique(cdf3$city_state))
 # duplicate agency names
-length(unique(cdf3$`Agency Name`))
+#length(unique(cdf3$`Agency Name`))
 ```
 get mvs_12mo for all crime categories and groupings
 ```{r}
@@ -532,7 +532,7 @@ mvs_12mo <- function(df) {
 }
 
 # Apply the function to the single dataframe
-df_mvs_12mo1 <- mvs_12mo(cdf3)
+df_mvs_12mo1 <- mvs_12mo(cdf2)
 
 # Print the result to verify
 head(df_mvs_12mo1)

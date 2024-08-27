@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         formatAndPopulateTable(filteredData);
-        updateSortedColumnClass(columnKey);
+        updateSortedColumnClass(columnKey); // Update sorted column with arrows
     }
 
     // Add event listeners to header spans for sorting
@@ -101,16 +101,24 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Function to update the sorted column class
+    // Function to update the sorted column class and add arrows
     function updateSortedColumnClass(columnKey) {
-        // Remove 'sorted' class from all header spans
+        // Remove 'sorted' class and arrows from all header spans
         document.querySelectorAll('.blue-header-table th span').forEach(span => {
             span.classList.remove('sorted');
+            // Reset the span's inner HTML to just the text content without any arrows
+            span.innerHTML = span.textContent.replace(/ ▲| ▼/g, ''); // Removes any existing arrow
         });
-
-        // Add 'sorted' class to the currently sorted column
-        document.querySelector(`.blue-header-table th span[data-key="${columnKey}"]`).classList.add('sorted');
+    
+        // Add 'sorted' class and the appropriate arrow to the currently sorted column
+        const sortedHeader = document.querySelector(`.blue-header-table th span[data-key="${columnKey}"]`);
+        sortedHeader.classList.add('sorted');
+    
+        // Add the correct arrow based on the sort order
+        const arrow = currentSortOrder === 'asc' ? ' ▲' : ' ▼';
+        sortedHeader.innerHTML += arrow;
     }
+    
 
     // Populate filters
     function populateFilters(data) {

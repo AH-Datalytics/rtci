@@ -647,7 +647,7 @@ head(subset_removed)
 add a time stamp column
 ```{r}
 # For the careful but forgetful few
-final_data1$Last.Updated <- current_date
+cleaned_data$Last.Updated <- current_date
 ```
 write it out!
 ```{r}
@@ -658,10 +658,10 @@ folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Cr
 file_path <- file.path(folder_path, "final_sample.csv")
 
 # Write the data frame to a .csv file
-write.csv(final_data1, file = file_path, row.names = FALSE)
+write.csv(cleaned_data, file = file_path, row.names = FALSE)
 
 # Write the data frame to the data folder in Github repo
-write.csv(final_data1, "data/final_sample.csv", row.names = FALSE)
+write.csv(cleaned_data, "data/final_sample.csv", row.names = FALSE)
 ```
 audit lists - 2 tables - non-reporters removed and non-reporters 2 months
 ```{r}
@@ -680,6 +680,8 @@ folder_path1 <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time C
 # Create the full file path - for jeff
 file_path1 <- file.path(folder_path1, "remove_agencies_june_2024.csv")
 write.csv(remove_agencies, file = file_path1, row.names = FALSE)
+file_path2 <- file.path(folder_path1, "jample_08272024.csv")
+write.csv(cleaned_data, file = file_path2, row.names = FALSE)
 ```
 
 

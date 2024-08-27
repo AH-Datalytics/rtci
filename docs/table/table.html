@@ -23,24 +23,7 @@
                         <!-- Options will be dynamically populated -->
                     </div>
                 </div>
-                <span>sorted by</span>
-                <div class="dropdown">
-                    <div id="sort-key-btn" class="dropdown-btn">Year to Date</div>
-                    <div id="sort-key-dropdown" class="dropdown-menu">
-                        <div class="dropdown-item" data-value="YTD">Year to Date</div>
-                        <div class="dropdown-item" data-value="PrevYTD">Previous YTD</div>
-                        <div class="dropdown-item" data-value="Percent_Change">% Change</div>
-                        <div class="dropdown-item" data-value="agency_full">Agency</div>
-                    </div>
-                </div>
-                <span>in</span>
-                <div class="dropdown">
-                    <div id="sort-order-btn" class="dropdown-btn">Descending Order</div>
-                    <div id="sort-order-dropdown" class="dropdown-menu">
-                        <div class="dropdown-item" data-value="desc">Descending Order</div>
-                        <div class="dropdown-item" data-value="asc">Ascending Order</div>
-                    </div>
-                </div>
+                
             </div>
             <div class="rtci-table-container">
                 <!-- Add this above the table view buttons -->
@@ -62,14 +45,14 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Agency</th>
-                                <th>Crime Type</th>
-                                <th title="January through the most recent month with available data in the current year.">Year to Date</th>
-                                <th title="Identical month range as YTD, one year prior.">Previous YTD</th>
-                                <th>% Change</th>
+                                <th><span class="sortable">Agency</span></th>
+                                <th><span class="sortable">Crime Type</span></th>
+                                <th><span class="sortable">Year to Date</span></th>
+                                <th><span class="sortable">Previous YTD</span></th>
+                                <th><span class="sortable">% Change</span></th>
                                 <th>Months Covered</th>
                             </tr>
-                        </thead>
+                        </thead>                        
                         <tbody id="full-sample-table-body">
                             <!-- Data will be dynamically populated -->
                         </tbody>

@@ -318,3 +318,26 @@ thead th {
     }
 }
 
+
+
+/* Change the color of header text to orange when hovered */
+.blue-header-table th span.sorted { 
+    color: #00333a; 
+}
+
+.blue-header-table th span:hover { 
+    color: #00333a; 
+}
+
+th span.sortable {
+    cursor: pointer;
+    color: inherit; /* Inherit the default color */
+}
+
+th span.sortable:hover {
+    color: #00333a;
+}
+
+th span.sortable.sorted {
+    color: #00333a;
+}

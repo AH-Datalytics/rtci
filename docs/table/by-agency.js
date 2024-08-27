@@ -7,7 +7,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const stateDropdown = document.getElementById("state-dropdown");
 
     let allData = [];
-    let filteredAgencies = [];
+    let currentSortColumn = 'month_year'; // Set default sort column here
+    let currentSortOrder = 'desc'; // Set default sort order here
+    let currentHeaderIndex = 0; // Track the currently sorted column index
 
     // Default filter values
     const defaultFilters = {
@@ -19,10 +21,9 @@ document.addEventListener("DOMContentLoaded", function() {
     d3.csv(dataPath).then(data => {
         allData = data;  // Store all data for filtering
         retrieveFilterValues(defaultFilters);
-        const initialData = data.filter(row => row.agency_name === agencyBtn.textContent && row.state_name === stateBtn.textContent);
-        initialData.sort((a, b) => new Date(b.date) - new Date(a.date));
-        formatAndPopulateTable(initialData);
+        filterData(); // Apply the default filter and sorting on load
         populateFilters(data);
+        addSortingListeners(); // Add sorting listeners after populating table
     }).catch(error => {
         console.error("Error loading the CSV data:", error);
     });
@@ -49,28 +50,103 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    // Function to sort the table by a specific column
+    function sortTableByColumn(columnKey, headerIndex) {
+        if (currentSortColumn === columnKey) {
+            // Toggle the sort order if the same column is clicked by the user
+            currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
+        } else {
+            // Set the new sort column and start with descending order
+            currentSortColumn = columnKey;
+            currentSortOrder = 'desc'; // Default to descending order on new column sort
+        }
+
+        currentHeaderIndex = headerIndex; // Track the current sorted column index
+
+        const filteredData = allData.filter(row => row.state_name === stateBtn.textContent && row.agency_name === agencyBtn.textContent);
+        applyCurrentSort(filteredData); // Apply sorting
+    }
+
+    // Apply the current sorting without toggling (used in filtering)
+    function applyCurrentSort(data) {
+        data.sort((a, b) => {
+            let aValue = a[currentSortColumn];
+            let bValue = b[currentSortColumn];
+    
+            // Handle date sorting specifically
+            if (currentSortColumn === 'month_year') {
+                aValue = new Date(aValue);
+                bValue = new Date(bValue);
+            } else if (["aggravated_assault", "burglary", "motor_vehicle_theft", "murder", "rape", "robbery", "theft", "property_crime", "violent_crime"].includes(currentSortColumn)) {
+                // Convert crime columns to integers for numerical sorting
+                aValue = parseInt(aValue);
+                bValue = parseInt(bValue);
+            } else {
+                // Treat other columns as strings
+                aValue = aValue.toLowerCase();
+                bValue = bValue.toLowerCase();
+            }
+    
+            if (aValue < bValue) return currentSortOrder === 'asc' ? -1 : 1;
+            if (aValue > bValue) return currentSortOrder === 'asc' ? 1 : -1;
+            return 0;
+        });
+    
+        formatAndPopulateTable(data);
+        updateSortedColumnClass(currentSortColumn); // Keep the current sorted column highlighted
+    }
+    
+
+    // Add event listeners to header spans for sorting
+    function addSortingListeners() {
+        document.querySelectorAll('.blue-header-table th span').forEach((span, index) => {
+            const columnKey = span.dataset.key; // Ensure the span has a data-key attribute corresponding to the column
+            span.style.cursor = 'pointer'; // Change cursor to pointer on hover
+            span.addEventListener('click', () => sortTableByColumn(columnKey, index));
+        });
+    }
+
+    // Function to update the sorted column class and add arrows
+    function updateSortedColumnClass(columnKey) {
+        // Remove 'sorted' class and arrows from all header spans
+        document.querySelectorAll('.blue-header-table th span').forEach(span => {
+            span.classList.remove('sorted');
+            // Reset the span's inner HTML to just the text content without any arrows
+            span.innerHTML = span.textContent.replace(/ ▲| ▼/g, ''); // Removes any existing arrow
+        });
+
+        // Add 'sorted' class and the appropriate arrow to the currently sorted column
+        const sortedHeader = document.querySelector(`.blue-header-table th span[data-key="${columnKey}"]`);
+        sortedHeader.classList.add('sorted');
+
+        // Add the correct arrow based on the sort order
+        const arrow = currentSortOrder === 'asc' ? ' ▲' : ' ▼';
+        sortedHeader.innerHTML += arrow;
+    }
+
+    // Populate filters
     function populateFilters(data) {
         let states = [...new Set(data.map(row => row.state_name))];
-    
+
         // Remove "Nationwide" from the list if it exists
         const nationwideIndex = states.indexOf("Nationwide");
         if (nationwideIndex > -1) {
             states.splice(nationwideIndex, 1);  // Remove "Nationwide" from its original position
         }
-    
+
         // Sort the remaining states alphabetically
         states.sort();
-    
+
         // Add "Nationwide" back at the beginning of the list
         states.unshift("Nationwide");
-    
+
         // Create the dropdown with the ordered list
         createSearchableDropdown(stateDropdown, stateBtn, states);
     }
 
     function updateAgencyFilter(state) {
         let agencies = [...new Set(allData.filter(row => row.state_name === state).map(row => row.agency_name))];
-    
+
         // Check if "Full Sample" exists
         const fullSampleIndex = agencies.indexOf("Full Sample");
         if (fullSampleIndex > -1) {
@@ -80,12 +156,12 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
             agencies.sort();  // Just sort if "Full Sample" doesn't exist
         }
-    
+
         createSearchableDropdown(agencyDropdown, agencyBtn, agencies);
-    
+
         const savedFilters = JSON.parse(sessionStorage.getItem('byAgencyTableFilters'));
         const savedAgency = savedFilters ? savedFilters.agency : null;
-    
+
         // Default to "Full Sample" if available, otherwise saved agency or first agency
         if (agencies.includes(savedAgency)) {
             agencyBtn.textContent = savedAgency;
@@ -111,8 +187,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (selectedState !== "State" && selectedAgency !== "Agency") {
             const filteredData = allData.filter(row => row.state_name === selectedState && row.agency_name === selectedAgency);
-            filteredData.sort((a, b) => new Date(b.date) - new Date(a.date));
-            formatAndPopulateTable(filteredData);
+
+            // Sort the filtered data using the current sort column and order without toggling
+            applyCurrentSort(filteredData);
         }
     }
 
@@ -235,7 +312,7 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error("No data available for download.");
             return;
         }
-    
+
         const headers = [
             "month_year",
             "agency_name",
@@ -251,7 +328,7 @@ document.addEventListener("DOMContentLoaded", function() {
             "motor_vehicle_theft"
         ];
         const csvData = [headers.join(",")];
-    
+
         data.forEach(row => {
             const values = [
                 `"${row.month_year}"`,
@@ -269,7 +346,7 @@ document.addEventListener("DOMContentLoaded", function() {
             ];
             csvData.push(values.join(","));
         });
-    
+
         const csvString = csvData.join("\n");
         const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement("a");
@@ -279,7 +356,6 @@ document.addEventListener("DOMContentLoaded", function() {
         link.click();
         document.body.removeChild(link);
     }
-    
 
     // Event listener for download button
     document.getElementById("table-download").addEventListener("click", function() {

@@ -160,7 +160,7 @@ final_sample_long <- final_sample_long %>%
 
 
 # Add in source for full samples (nationwide and states, eventually)
-final_sample_long$state_ucr_link[final_sample_long$state_name == "Nationwide"] <- "https://realtimecrstg.wpenginepowered.com/how-does-this-work/#sources"
+final_sample_long$state_ucr_link[final_sample_long$state_name == "Nationwide"] <- "https://ah-datalytics.github.io/rtci/list/list.html"
 
 
 ## PRE LAUNCH: REMOVE STATE FULL SAMPLES 

@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let allData = [];
     let currentSortColumn = '';
     let currentSortOrder = 'asc';
+    let currentHeaderIndex = null; // To track the currently sorted column
 
     // Load data
     d3.csv(dataPath).then(data => {
@@ -72,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 } else {
                     td.textContent = value;
                 }
-                
+
                 tr.appendChild(td);
             });
     
@@ -132,13 +133,18 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function highlightSortedColumn(headerIndex) {
-        // Remove the highlight from all header cells
+        // Remove the highlight and arrow from all header cells
         document.querySelectorAll(".table-container th span").forEach(span => {
             span.classList.remove("sorted");
+            span.innerHTML = span.textContent; // Remove any existing arrows
         });
 
         // Highlight the currently sorted column
         const sortedHeader = document.querySelectorAll(".table-container th span")[headerIndex];
         sortedHeader.classList.add("sorted");
+
+        // Add the arrow based on the current sort order
+        const arrow = currentSortOrder === 'asc' ? ' ▲' : ' ▼';
+        sortedHeader.innerHTML += arrow;
     }
 });

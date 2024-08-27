@@ -7,8 +7,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const stateDropdown = document.getElementById("state-dropdown");
 
     let allData = [];
-    let currentSortColumn = '';
-    let currentSortOrder = 'asc';
+    let currentSortColumn = 'month_year'; // Set default sort column here
+    let currentSortOrder = 'desc'; // Set default sort order here
 
     // Default filter values
     const defaultFilters = {
@@ -20,9 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
     d3.csv(dataPath).then(data => {
         allData = data;  // Store all data for filtering
         retrieveFilterValues(defaultFilters);
-        const initialData = data.filter(row => row.agency_name === agencyBtn.textContent && row.state_name === stateBtn.textContent);
-        initialData.sort((a, b) => new Date(b.month_year) - new Date(a.month_year)); // Initially sort by date
-        formatAndPopulateTable(initialData);
+        filterData(); // Apply the default filter and sorting on load
         populateFilters(data);
         addSortingListeners(); // Add sorting listeners after populating table
     }).catch(error => {
@@ -109,16 +107,15 @@ document.addEventListener("DOMContentLoaded", function() {
             // Reset the span's inner HTML to just the text content without any arrows
             span.innerHTML = span.textContent.replace(/ ▲| ▼/g, ''); // Removes any existing arrow
         });
-    
+
         // Add 'sorted' class and the appropriate arrow to the currently sorted column
         const sortedHeader = document.querySelector(`.blue-header-table th span[data-key="${columnKey}"]`);
         sortedHeader.classList.add('sorted');
-    
+
         // Add the correct arrow based on the sort order
         const arrow = currentSortOrder === 'asc' ? ' ▲' : ' ▼';
         sortedHeader.innerHTML += arrow;
     }
-    
 
     // Populate filters
     function populateFilters(data) {
@@ -183,8 +180,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (selectedState !== "State" && selectedAgency !== "Agency") {
             const filteredData = allData.filter(row => row.state_name === selectedState && row.agency_name === selectedAgency);
-            filteredData.sort((a, b) => new Date(b.month_year) - new Date(a.month_year));
-            formatAndPopulateTable(filteredData);
+            sortTableByColumn(currentSortColumn); // Apply sorting
         }
     }
 

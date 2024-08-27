@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const agenciesNumBox = document.getElementById("agencies-num-box");
 
     let allData = [];
-    let currentSortColumn = '';
-    let currentSortOrder = 'asc';
+    let currentSortColumn = 'agency_full'; // Set default sort column
+    let currentSortOrder = 'asc'; // Set default sort order
     let currentHeaderIndex = null; // To track the currently sorted column
 
     // Load data
@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
         allData = data;  // Store all data for filtering
         displayNationalSample();  // Display rows where in_national_sample is TRUE on page load
         updateAgenciesNumBox(allData.filter(row => row.in_national_sample === "TRUE").length);
+        sortTableByColumn(currentSortColumn, 0); // Default sort by "Agency" on load, assuming it's the first column
     }).catch(error => {
         console.error("Error loading the CSV data:", error);
     });
@@ -99,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function sortTableByColumn(columnKey, headerIndex) {
         if (currentSortColumn === columnKey) {
             // Toggle the sort order if the same column is clicked
-            currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
+            currentSortOrder = currentSortOrder === 'asc' ? 'asc' : 'desc';
         } else {
             // Set the new sort column and default to ascending order
             currentSortColumn = columnKey;

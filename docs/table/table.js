@@ -92,14 +92,27 @@ document.addEventListener("DOMContentLoaded", function() {
         return data.slice().sort((a, b) => {
             let aValue = a[currentSortKey];
             let bValue = b[currentSortKey];
-
-            if (currentSortKey === "YTD" || currentSortKey === "PrevYTD" || currentSortKey === "Percent_Change") {
+    
+            // Check if sorting by Percent_Change
+            if (currentSortKey === "Percent_Change") {
+                // Handle 'Undefined' as a special case
+                if (aValue === "Undefined") return 1;  // Push 'Undefined' to the bottom
+                if (bValue === "Undefined") return -1; // Push 'Undefined' to the bottom
+    
                 return currentSortOrder === "asc" ? aValue - bValue : bValue - aValue;
-            } else {
-                return currentSortOrder === "asc" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
             }
+    
+            // Handle numeric columns
+            if (currentSortKey === "YTD" || currentSortKey === "PrevYTD") {
+                return currentSortOrder === "asc" ? aValue - bValue : bValue - aValue;
+            }
+    
+            // Handle text columns
+            return currentSortOrder === "asc" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
         });
     }
+    
+    
 
     function addSortingListeners() {
         document.querySelectorAll('th span.sortable').forEach((span) => {

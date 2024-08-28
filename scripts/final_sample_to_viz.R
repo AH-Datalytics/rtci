@@ -398,7 +398,7 @@ final_sample <- final_sample %>%
 
 # Month formatting
 final_sample <- final_sample %>% 
-  mutate(month_year = paste(month(date, label = TRUE, abbr = FALSE), year(date), sep = " "))
+  mutate(month_year = paste(month(date, label = TRUE, abbr = TRUE), year(date), sep = " "))
 
 ## PRE LAUNCH: REMOVE STATE FULL SAMPLES 
 final_sample <- final_sample %>%

@@ -88,7 +88,33 @@ document.addEventListener("DOMContentLoaded", function() {
             }
     
             const cell5 = row.insertCell(5);
-            cell5.textContent = `January - ${d.Month_Through}`;
+
+                const startMonth = "January"; // Replace with the actual start month if it's not fixed
+                const endMonth = d.Month_Through;
+                const dateThrough = new Date(d.Date_Through); // Parse the date string
+                const year = dateThrough.getFullYear(); // Extract the year from the date
+
+                // Function to abbreviate the month names
+                function abbreviateMonth(month) {
+                    const monthNames = {
+                        "January": "Jan",
+                        "February": "Feb",
+                        "March": "Mar",
+                        "April": "Apr",
+                        "May": "May",
+                        "June": "Jun",
+                        "July": "Jul",
+                        "August": "Aug",
+                        "September": "Sep",
+                        "October": "Oct",
+                        "November": "Nov",
+                        "December": "Dec"
+                    };
+                    return monthNames[month] || month;
+                }
+
+                cell5.textContent = `${abbreviateMonth(startMonth)} - ${abbreviateMonth(endMonth)} ${year}`;
+
         });
     }
     

@@ -1,4 +1,4 @@
-# rtci
-Real-time Crime Index Main Repo
+# RTCI
+Real-time Crime Index Repository
 
-This is the repository for the RTCI project. Find R scripts for cleaning and merging the data in scripts, sourcing new data via API or webscrape in source, and any public data in data folders. 
+Data, scripts for cleaning and sourcing data, and code that built the dyanmic applications on the website (https://realtimecrimeindex.com/) can be found here. Pre-processed data is in the Data folder, scripts for merging and cleaning the sample are in Scripts (broken down by subtype), and eventually, data scrapers or sourcing code will live in Source. The Docs folder contains the HTML, CSS, and Javascript that build the dynamic components of the Real-Time Crime Index, broken down by page. Please reach out if you have any questions regarding how to use the repository, or feedback on the RTCI itself (rtci@ahdatalytics.com). Since we believe in the RTCI as a public good, and value user input, feel free to fork the repository and offer suggestions to improve our product.

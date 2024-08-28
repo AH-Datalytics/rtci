@@ -363,6 +363,7 @@ write.csv(final_dataset, "../docs/app_data/full_table_data.csv", row.names = FAL
 final_sample <- final_sample %>% 
   select(date,
          agency_name,
+         agency_abbr,
          state_name,
          agency_full,
          aggravated_assault,
@@ -375,6 +376,7 @@ final_sample <- final_sample %>%
          violent_crime,
          property_crime
          )
+
 
 # Fix State Full Sample Agency Naming
 final_sample <- final_sample %>% 
@@ -403,6 +405,12 @@ final_sample <- final_sample %>%
 ## PRE LAUNCH: REMOVE STATE FULL SAMPLES 
 final_sample <- final_sample %>%
   filter(!(agency_name == "Full Sample" & state_name != "Nationwide"))
+
+
+final_sample <- final_sample %>% 
+  mutate(state_abbr = if_else(state_name == "Nationwide", 
+                              "Nationwide", 
+                              substr(agency_abbr, nchar(agency_abbr) - 1, nchar(agency_abbr))))
 
 
 write.csv(final_sample, "../docs/app_data/by_agency_table.csv", row.names = FALSE)

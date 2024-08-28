@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
         data.forEach(row => {
             const tr = document.createElement("tr");
 
-            ["month_year", "agency_name", "state_name", "violent_crime", "murder", "rape", "robbery", "aggravated_assault", "property_crime", "burglary", "theft", "motor_vehicle_theft"].forEach(col => {
+            ["month_year", "agency_name", "state_abbr", "violent_crime", "murder", "rape", "robbery", "aggravated_assault", "property_crime", "burglary", "theft", "motor_vehicle_theft"].forEach(col => {
                 const td = document.createElement("td");
                 if (["aggravated_assault", "burglary", "motor_vehicle_theft", "murder", "rape", "robbery", "theft", "property_crime", "violent_crime"].includes(col)) {
                     td.textContent = formatNumber(row[col]); // Format with commas

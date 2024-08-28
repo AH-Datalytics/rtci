@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // Define specific keys for each column based on header text
             const keyMapping = {
                 "Agency": "agency_full",
-                "Year to Date": "YTD",
+                "YTD": "YTD",
                 "Previous YTD": "PrevYTD",
                 "% Change": "Percent_Change"
             };

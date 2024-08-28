@@ -516,6 +516,16 @@ calculate and add state counts
 # duplicate agency names
 #length(unique(cdf3$`Agency Name`))
 ```
+Puerto Rico data fold in
+C:\OneDrive\OneDrive - ahdatalytics.com\Clients\Real Time Crime Index\Agencies\Puerto Rico
+
+
+
+
+
+
+
+
 get mvs_12mo for all crime categories and groupings
 ```{r}
 # Function to calculate 12-month cumulative sum 

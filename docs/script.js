@@ -261,9 +261,10 @@ document.addEventListener("DOMContentLoaded", function() {
     
         kpiBox1.innerHTML = `
             <h2>Year to Date ${crimeTypeBtn.textContent}</h2>
-            <p>Jan '${mostRecentYear.toString().slice(-2)} through ${d3.timeFormat("%B")(mostRecentDate)} '${mostRecentYear.toString().slice(-2)}</p>
+            <p>Jan - ${d3.timeFormat("%b")(mostRecentDate)} ${mostRecentYear}</p>
             <p><strong>${formattedYtdSum}</strong></p>
         `;
+
     }
     
     
@@ -324,9 +325,10 @@ document.addEventListener("DOMContentLoaded", function() {
     
         kpiBox2.innerHTML = `
             <h2>Previous YTD ${crimeTypeBtn.textContent}</h2>
-            <p>Jan '${(mostRecentYear - 1).toString().slice(-2)} through ${d3.timeFormat("%B")(new Date(mostRecentYear - 1, mostRecentMonth - 1, 1))} '${(mostRecentYear - 1).toString().slice(-2)}</p>
+            <p>Jan - ${d3.timeFormat("%b")(endDatePrevYear)} ${mostRecentYear - 1}</p>
             <p><strong>${formattedYtdSumPrevYear}</strong></p>
         `;
+
     }
     
 
@@ -384,11 +386,11 @@ document.addEventListener("DOMContentLoaded", function() {
         // Update KPI Box 3 with the calculated percent change and formatted date range
         kpiBox3.innerHTML = `
             <h2>% Change in ${crimeTypeBtn.textContent} YTD</h2>
-            <p>${dateRangeCurrentYear} vs. ${dateRangePrevYear}</p>
             <p><strong>${formattedPercentChange}</strong></p>
         `;
     }
-    
+
+
     
     
     

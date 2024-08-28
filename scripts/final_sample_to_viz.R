@@ -410,7 +410,10 @@ final_sample <- final_sample %>%
 final_sample <- final_sample %>% 
   mutate(state_abbr = if_else(state_name == "Nationwide", 
                               "Nationwide", 
-                              substr(agency_abbr, nchar(agency_abbr) - 1, nchar(agency_abbr))))
+                              substr(agency_abbr, nchar(agency_abbr) - 1, nchar(agency_abbr))),
+         agency_abbr = if_else(state_name == "Nationwide", 
+                               "Full Sample, Nationwide",
+                               agency_abbr))
 
 
 write.csv(final_sample, "../docs/app_data/by_agency_table.csv", row.names = FALSE)

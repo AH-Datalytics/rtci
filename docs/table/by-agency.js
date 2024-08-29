@@ -325,7 +325,8 @@ document.addEventListener("DOMContentLoaded", function() {
             "property_crime",
             "burglary",
             "theft",
-            "motor_vehicle_theft"
+            "motor_vehicle_theft",
+            "Last Updated"
         ];
         const csvData = [headers.join(",")];
 
@@ -342,7 +343,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 `${row.property_crime}`,
                 `${row.burglary}`,
                 `${row.theft}`,
-                `${row.motor_vehicle_theft}`
+                `${row.motor_vehicle_theft}`,
+                `${row["Last Updated"]}` // Add the "Last Updated" value here
             ];
             csvData.push(values.join(","));
         });

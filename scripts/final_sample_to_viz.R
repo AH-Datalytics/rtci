@@ -1,3 +1,5 @@
+# Setup ---------------------------------------------------------------------------------------
+
 # Load Libraries
 library(tidyverse)
 library(lubridate)
@@ -5,12 +7,50 @@ library(datasets)
 library(janitor)
 library(stringr)
 
+# Get the current date and time
+last_updated <- format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")
+
 # Load Data
 final_sample <- read_csv("../data/final_sample.csv")
 
-# Write to app_data folder to mirror exactly what is in the data folder
-write.csv(final_sample, "../docs/app_data/final_sample.csv", row.names = FALSE)
 
+# Download Button Data ------------------------------------------------------------------------
+final_sample_download <- final_sample 
+
+# Light Cleaning
+final_sample_download <- final_sample_download %>%
+  mutate(`Last Updated` = last_updated,
+         date = format(as.Date(date), "%B %Y")) %>% 
+  select(!(Last.Updated | Agency | State_ref)) %>% 
+  rename(FBI.Population = Population,
+         Number.of.Agencies = Agency_num,
+         Agency_State = city_state,
+         Agency = `Agency Name`,
+         Date = date) %>% 
+  select(Month, Year, Date, Agency, State, Agency_State, Murder, Rape, Robbery, `Aggravated Assault`, Burglary, Theft, 
+         `Motor Vehicle Theft`, `Violent Crime`, `Property Crime`, Murder_mvs_12mo, Burglary_mvs_12mo, 
+         Rape_mvs_12mo, Robbery_mvs_12mo, `Aggravated Assault_mvs_12mo`, `Motor Vehicle Theft_mvs_12mo`, Theft_mvs_12mo, 
+         `Violent Crime_mvs_12mo`, `Property Crime_mvs_12mo`, Source.Link, Source.Type, Source.Method, 
+         FBI.Population, Number.of.Agencies, Latitude, Longitude, Comment, `Last Updated`)
+
+# Format Our National Sample 
+final_sample_download <- final_sample_download %>%
+  mutate(State = ifelse(Agency == "Nationwide Count", "Nationwide", State),
+         Agency = ifelse(Agency == "Nationwide Count", "Full Sample", Agency),
+         Agency_State = ifelse(Agency == "Full Sample" & State == "Nationwide", "Full Sample, Nationwide", Agency_State),
+         Source.Link = ifelse(Agency == "Full Sample" & State == "Nationwide", "https://ah-datalytics.github.io/rtci/list/list.html", Source.Link),
+         Source.Type = ifelse(Agency == "Full Sample" & State == "Nationwide", "Aggregate", Source.Type),
+         Source.Method = ifelse(Agency == "Full Sample" & State == "Nationwide", "All agencies with complete data through most recent month.", Source.Method))
+
+
+
+
+# Write to app_data folder for full download
+write.csv(final_sample_download, "../docs/app_data/final_sample.csv", row.names = FALSE)
+
+
+
+# Graph Data ----------------------------------------------------------------------------------
 
 # Clean column names to make them unique
 final_sample <- final_sample %>%
@@ -178,6 +218,9 @@ final_sample_long$agency_abbr <- ifelse(
   final_sample_long$agency_abbr
 )
 
+# Add the "Last Updated" column to final_sample_long
+final_sample_long <- final_sample_long %>%
+  mutate(`Last Updated` = last_updated)
 
 # Print the first few rows of the cleaned data with all columns
 print(head(final_sample_long), width = Inf)
@@ -267,6 +310,9 @@ sources <- sources %>%
          source_link = ifelse(agency_full == "Full Sample, Nationwide", "https://ah-datalytics.github.io/rtci/list/list.html", source_link)
          )
 
+# Add the "Last Updated" column to sources
+sources <- sources %>%
+  mutate(`Last Updated` = last_updated)
 
 write.csv(sources, "../docs/app_data/sources.csv", row.names = FALSE)
 
@@ -340,9 +386,8 @@ final_dataset <- final_dataset %>%
          !is.na(Percent_Change))
 
 # Step 7: Reformat Month Column
-# Assuming final_dataset has a column named Date_Through in date format
 final_dataset <- final_dataset %>% 
-  mutate(Month_Through = as.character(month(Date_Through, label = TRUE, abbr = FALSE)))
+  mutate(Month_Through = format(Date_Through, "%b %Y"))
 
 # Remove State Full Samples
 # Filter out rows where "agency_full" contains "Full Sample" unless it also contains "Nationwide"
@@ -352,6 +397,10 @@ final_dataset <- final_dataset %>%
 
 # View the final dataset
 print(final_dataset)
+
+# Add the "Last Updated" column to final_dataset
+final_dataset <- final_dataset %>%
+  mutate(`Last Updated` = last_updated)
 
 # Write the final_sample_long data frame to viz_data.csv
 write.csv(final_dataset, "../docs/app_data/full_table_data.csv", row.names = FALSE)
@@ -415,6 +464,9 @@ final_sample <- final_sample %>%
                                "Full Sample, Nationwide",
                                agency_abbr))
 
+# Add the "Last Updated" column to final_sample
+final_sample <- final_sample %>%
+  mutate(`Last Updated` = last_updated)
 
 write.csv(final_sample, "../docs/app_data/by_agency_table.csv", row.names = FALSE)
 

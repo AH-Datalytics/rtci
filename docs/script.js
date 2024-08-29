@@ -775,14 +775,14 @@ document.addEventListener("DOMContentLoaded", function() {
     function downloadFilteredData(filteredData) {
         const selectedDataType = dataTypeBtn.dataset.value;
         const headers = ["agency_name", "state_name", "date", "crime_type", "number_of_agencies", "population_covered_fbi"];
-
-        const dataColumn = selectedDataType === "count" ? "count" : "mvs_12mo";
-        headers.push(dataColumn);
-
+    
+        const dataColumn = selectedDataType === "count" ? "monthly_total" : "mvs_12mo";
+        headers.push(dataColumn, "Last Updated"); // Add "Last Updated" at the end
+    
         const csvRows = [headers.join(",")];
-
+    
         const hasAgencyCount = filteredData.length > 0 && filteredData[0].hasOwnProperty("number_of_agencies");
-
+    
         filteredData.forEach(d => {
             const row = [
                 d.agency_name,
@@ -791,22 +791,24 @@ document.addEventListener("DOMContentLoaded", function() {
                 d.crime_type,
                 hasAgencyCount ? d.number_of_agencies : "N/A",
                 d.population || "N/A",  // Adding population to the row
-                d.value
+                d.value,
+                d["Last Updated"] // Move "Last Updated" to the end
             ];
             csvRows.push(row.join(","));
         });
-
+    
         const csvContent = "data:text/csv;charset=utf-8," + csvRows.join("\n");
-
+    
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
         link.setAttribute("download", "filtered_data.csv");
-
+    
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
     }
+    
 
     function saveFilterValues() {
         const filters = {

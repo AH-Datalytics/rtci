@@ -1,29 +1,39 @@
-name: "Merge pull request from development to production"
+name: Render R Markdown and Push New Files
 
 on:
-  push:
-    branches:
-      - "development"
-
-permissions:
-  contents: write
-  pull-requests: write
+  schedule:
+    - cron: "0 5 * * *" # Runs every day at 5 AM
+  workflow_dispatch: # Allows for manual triggering
 
 jobs:
-  merge:
-    name: "Merge pull request from development to production"
+  render_rmarkdown_and_push:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3  # Ensure this is the latest version
-        with:
-          fetch-depth: 0  # Optional, you can remove this if it's causing issues
 
-      - name: Run auto-merge-action
-        id: run-auto-merge-action
-        uses: yyoshiki41/auto-merge-action@v1
-        with:
-          github-token: ${{ secrets.PAT_DAVE }}
-          base: production
-          head: development
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up R
+      uses: r-lib/actions/setup-r@v2
+      with:
+        r-version: '4.x'
+
+    - name: Install R dependencies
+      run: |
+        Rscript -e 'install.packages(c("rmarkdown", "knitr"))'
+        # Install any other packages required by your Rmd file
+        Rscript -e 'install.packages(c("dplyr", "ggplot2","boot", "tidyverse", "magrittr", "readr", "stringr", "zoo" ))' 
+    
+    - name: Render the R Markdown file
+      run: |
+        Rscript -e 'rmarkdown::render("beff_collector.Rmd")'
+
+    - name: Create new branch with date
+      run: |
+        NEW_BRANCH="output-branch-$(date +%Y-%m-%d)"
+        git checkout -b $NEW_BRANCH
+    
+    - name: Add and commit new files
+      run: |
+        git add .
+        git commit -m "Automated commit with rendered files from R Markdown on $(date +%Y-%m-%d)"

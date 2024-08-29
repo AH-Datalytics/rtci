@@ -1,0 +1,39 @@
+name: Merge Development to Production
+
+on:
+    schedule:
+      - cron: '59 23 14 * *'  # Runs at 11:59 PM on the 14th of every month
+    workflow_dispatch:  # Allows manual triggering for testing
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout development branch
+      uses: actions/checkout@v2
+      with:
+        ref: development
+
+    - name: Checkout production branch
+      run: |
+        git fetch origin production
+        git checkout -b production origin/production
+
+    - name: Copy specific files from development to production
+      run: |
+        cp data/final_sample.csv data/sample_cities.csv scripts/auditing/crimeAnomaly.R scripts/beff_collector.rmd scripts/final_sample_to_viz.R .gitattributes .gitignore README.md
+        cd ../production
+        git add data/final_sample.csv data/sample_cities.csv scripts/auditing/crimeAnomaly.R scripts/beff_collector.rmd scripts/final_sample_to_viz.R .gitattributes .gitignore README.md
+        git commit -m "Automated merge of selected data and auditing files from development to production"
+
+    - name: Copy all files from a directory
+      run: |
+          cp docs/*
+          cd ../production
+          git add .
+          git commit -m "Automated merge of all files from docs -the app- directory in development to production"
+    
+    - name: Push changes to production branch
+      run: |
+        git push origin production

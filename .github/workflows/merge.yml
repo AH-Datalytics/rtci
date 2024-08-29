@@ -1,4 +1,4 @@
-name: Merge Development to Production
+name: Pulling Development into Production
 
 on:
     schedule:
@@ -10,30 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout development branch
+    # Step 1: Checkout production branch
+    - name: Checkout production branch
       uses: actions/checkout@v2
       with:
-        ref: development
+        ref: production  # Checkout the production branch
 
-    - name: Checkout production branch
+    # Step 2: Pull specific files from development into production
+    - name: Pull specific files from development
       run: |
-        git fetch origin production
-        git checkout -b production origin/production
-
-    - name: Copy specific files from development to production
-      run: |
-        cp data/final_sample.csv data/sample_cities.csv scripts/auditing/crimeAnomaly.R scripts/beff_collector.rmd scripts/final_sample_to_viz.R .gitattributes .gitignore README.md
-        cd ../production
-        git add data/final_sample.csv data/sample_cities.csv scripts/auditing/crimeAnomaly.R scripts/beff_collector.rmd scripts/final_sample_to_viz.R .gitattributes .gitignore README.md
-        git commit -m "Automated merge of selected data and auditing files from development to production"
-
-    - name: Copy all files from a directory
-      run: |
-          cp docs/*
-          cd ../production
-          git add .
-          git commit -m "Automated merge of all files from docs -the app- directory in development to production"
-    
-    - name: Push changes to production branch
-      run: |
-        git push origin production
+        git pull origin development -- docs/* data/final_sample.csv data/sample_cities.csv scripts/auditing/crimeAnomaly.R scripts/beff_collector.rmd scripts/final_sample_to_viz.R .gitattributes .gitignore README.md

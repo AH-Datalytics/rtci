@@ -19,4 +19,5 @@ jobs:
     # Step 2: Pull specific files from development into production
     - name: Pull specific files from development
       run: |
-        git pull origin development
+          git config pull.rebase false  # Set the pull behavior to merge
+          git pull origin development --no-rebase  # Pull changes from development branch

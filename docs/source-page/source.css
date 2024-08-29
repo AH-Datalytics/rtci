@@ -95,4 +95,19 @@
 
 .dropdown-menu {
     max-height: 300px; /* Set the maximum height for the dropdown menu */
+    min-width: 11vw;
+}
+
+.dropdown-search {
+    width: 10vw;
+}
+
+@media (max-width: 600px) {
+    .dropdown-menu {
+        min-width: 25vw;
+    }
+
+    .dropdown-search {
+        width: 24vw;
+    }
 }

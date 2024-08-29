@@ -4,7 +4,7 @@
   uses: yyoshiki41/auto-merge-action@v1.0.0
   with:
     # Your GITHUB_TOKEN
-    github-token: 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
+    github-token: 
     # The branch into which you want your code merged.
     base: production
     # The branch that contains commits for your pull request.

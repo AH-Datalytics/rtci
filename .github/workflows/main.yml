@@ -1,0 +1,29 @@
+name: "[chore] Merge pull request from development to production"
+
+on:
+  push:
+    branches:
+      - "development"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  merge:
+    name: "[chore] Merge pull request from development to production"
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Run auto-merge-action
+        id: run-auto-merge-action
+        uses: yyoshiki41/auto-merge-action@v1
+        with:
+          github-token: ${{ secrets.PAT_dave }}
+          base: production
+          head: development

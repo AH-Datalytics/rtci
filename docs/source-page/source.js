@@ -146,9 +146,10 @@ document.addEventListener("DOMContentLoaded", function() {
             agencyBtn.textContent = "Agency";
         }
     
+        boldSelectedAgency(); // Ensure bolding happens after setting the agency
         filterData();
-        boldSelectedAgency();
     }
+    
 
     function boldSelectedAgency() {
         const items = document.querySelectorAll('.dropdown-item');
@@ -160,6 +161,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
+    
 
     function filterData() {
         const selectedState = stateBtn.textContent;

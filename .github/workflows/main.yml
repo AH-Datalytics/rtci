@@ -24,7 +24,7 @@ jobs:
         id: run-auto-merge-action
         uses: yyoshiki41/auto-merge-action@v1
         with:
-          github-token: ${{ secrets.PAT_dave }}
+          github-token: ${{ secrets.PAT_DAVE }}
           base: production
           head: development
 

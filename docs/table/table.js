@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     return monthNames[month] || month;
                 }
 
-                cell5.textContent = `${abbreviateMonth(startMonth)} - ${abbreviateMonth(endMonth)} ${year}`;
+                cell5.textContent = `${abbreviateMonth(startMonth)} - ${abbreviateMonth(endMonth)}`;
 
         });
     }
@@ -228,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        const headers = ["agency_full", "crime_type", "YTD", "PrevYTD", "Percent_Change", "months_covered"];
+        const headers = ["agency_full", "crime_type", "YTD", "PrevYTD", "Percent_Change", "YTD_Range", "Last Updated"];
         const csvData = [headers.join(",")];
 
         data.forEach(row => {
@@ -238,7 +238,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 `${row.YTD}`,
                 `${row.PrevYTD}`,
                 `${row.Percent_Change.toFixed(2)}%`,
-                `"Jan - ${row.Month_Through}"`
+                `"Jan - ${row.Month_Through}"`,
+                `${row["Last Updated"]}` // Add the "Last Updated" value here
             ];
             csvData.push(values.join(","));
         });

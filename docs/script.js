@@ -776,7 +776,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const selectedDataType = dataTypeBtn.dataset.value;
         const headers = ["agency_name", "state_name", "date", "crime_type", "number_of_agencies", "population_covered_fbi"];
     
-        const dataColumn = selectedDataType === "count" ? "monthly_total" : "mvs_12mo";
+        const dataColumn = selectedDataType === "count" ? "monthly_total" : "12mo_rolling_sum";
         headers.push(dataColumn, "Last Updated"); // Add "Last Updated" at the end
     
         const csvRows = [headers.join(",")];

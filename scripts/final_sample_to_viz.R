@@ -22,7 +22,7 @@ final_sample_download <- final_sample_download %>%
   mutate(`Last Updated` = last_updated,
          date = format(as.Date(date), "%B %Y")) %>% 
   select(!(Last.Updated | Agency | State_ref)) %>% 
-  rename(FBI.Population = Population,
+  rename(FBI.Population.Covered = Population,
          Number.of.Agencies = Agency_num,
          Agency_State = city_state,
          Agency = `Agency Name`,
@@ -31,7 +31,7 @@ final_sample_download <- final_sample_download %>%
          `Motor Vehicle Theft`, `Violent Crime`, `Property Crime`, Murder_mvs_12mo, Burglary_mvs_12mo, 
          Rape_mvs_12mo, Robbery_mvs_12mo, `Aggravated Assault_mvs_12mo`, `Motor Vehicle Theft_mvs_12mo`, Theft_mvs_12mo, 
          `Violent Crime_mvs_12mo`, `Property Crime_mvs_12mo`, Source.Link, Source.Type, Source.Method, 
-         FBI.Population, Number.of.Agencies, Latitude, Longitude, Comment, `Last Updated`)
+         FBI.Population.Covered, Number.of.Agencies, Latitude, Longitude, Comment, `Last Updated`)
 
 # Format Our National Sample 
 final_sample_download <- final_sample_download %>%

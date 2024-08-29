@@ -1,0 +1,22 @@
+name: Pulling Development into Production
+
+on:
+    schedule:
+      - cron: '59 23 14 * *'  # Runs at 11:59 PM on the 14th of every month
+    workflow_dispatch:  # Allows manual triggering for testing
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout production branch
+    - name: Checkout production branch
+      uses: actions/checkout@v2
+      with:
+        ref: production  # Checkout the production branch
+
+    # Step 2: Pull specific files from development into production
+    - name: Pull specific files from development
+      run: |
+        git pull origin development -- docs/* data/final_sample.csv data/sample_cities.csv scripts/auditing/crimeAnomaly.R scripts/beff_collector.rmd scripts/final_sample_to_viz.R .gitattributes .gitignore README.md

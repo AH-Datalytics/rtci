@@ -518,7 +518,13 @@ calculate and add state counts
 ```
 Puerto Rico data fold in
 C:\OneDrive\OneDrive - ahdatalytics.com\Clients\Real Time Crime Index\Agencies\Puerto Rico
+```{r}
+# Read in PR data
+#pr <- read.csv("C:/OneDrive/OneDrive - ahdatalytics.com/Clients/Real Time Crime Index/Agencies/Puerto Rico/Crime for Major Cities (English) (1).csv")
 
+#Month
+
+```
 
 
 

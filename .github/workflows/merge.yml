@@ -19,4 +19,4 @@ jobs:
     # Step 2: Pull specific files from development into production
     - name: Pull specific files from development
       run: |
-        git pull origin development -- docs/* data/final_sample.csv data/sample_cities.csv scripts/auditing/crimeAnomaly.R scripts/beff_collector.rmd scripts/final_sample_to_viz.R .gitattributes .gitignore README.md
+        git pull origin development -- docs/* data/final_sample.csv data/sample_cities.csv scripts/auditing/crimeAnomaly.R scripts/beff_collector.rmd scripts/final_sample_to_viz.R README.md

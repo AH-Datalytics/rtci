@@ -20,4 +20,4 @@ jobs:
     - name: Pull specific files from development
       run: |
           git config pull.rebase false  # Set the pull behavior to merge
-          git pull origin development --no-rebase  # Pull changes from development branch
+          git pull origin development --no-rebase --allow-unrelated-histories  # Allow merging unrelated histories

@@ -37,3 +37,8 @@ jobs:
       run: |
         git add .
         git commit -m "Automated commit with rendered files from R Markdown on $(date +%Y-%m-%d)"
+    
+    - name: Push to new branch
+      run: |
+        NEW_BRANCH="output-branch-$(date +%Y-%m-%d)"
+        git push origin $NEW_BRANCH

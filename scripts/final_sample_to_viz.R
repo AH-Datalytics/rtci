@@ -307,7 +307,8 @@ sources$in_national_sample <- sources$agency_full %in% sample_cities$agency_full
 sources <- sources %>% 
   mutate(source_type = ifelse(agency_full == "Full Sample, Nationwide", "Aggregate", source_type),
          source_method = ifelse(agency_full == "Full Sample, Nationwide", "All agencies with complete data through most recent month.", source_method),
-         source_link = ifelse(agency_full == "Full Sample, Nationwide", "https://ah-datalytics.github.io/rtci/list/list.html", source_link)
+         source_link = ifelse(agency_full == "Full Sample, Nationwide", "https://ah-datalytics.github.io/rtci/list/list.html", source_link),
+         agency_abbr = ifelse(agency_full == "Full Sample, Nationwide", "Full Sample, Nationwide", agency_abbr)
          )
 
 # Add the "Last Updated" column to sources

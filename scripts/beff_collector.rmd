@@ -232,7 +232,22 @@ cdf <- combined_df %>%
 create variables for audit
 ```{r}
 # Get the current date
-current_date <- Sys.Date()
+update_current_date <- function() {
+  today <- Sys.Date()
+  day_of_month <- as.integer(format(today, "%d"))
+  
+  if (day_of_month >= 15) {
+    current_date <<- today
+  } else {
+    current_date <<- seq(today, length = 2, by = "-1 month")[2]
+  }
+}
+
+# Run the function to set current_date
+update_current_date()
+
+# To demonstrate:
+print(current_date)  # prints the calculated date
 
 # Extract the current year and month
 current_year <- year(current_date)
@@ -264,7 +279,7 @@ drop everything from current year/month and current year/previous month
 # Filter out observations with the current month and year or previous month and current year
 cdf <- cdf %>%
   filter(
-    !(Year == current_year & Month == current_month) |
+    !(Year == current_year & Month == current_month) &
     !(Year == current_year & Month == previous_month_month)
   )
 ```

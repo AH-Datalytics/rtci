@@ -481,6 +481,10 @@ remove missing months consecutively from current month
 -scottsdale issue
 -drop months if all everything
 ```{r}
+# Need a list of crime type names to check for below
+ctypes <- c("Murder", "Rape", "Robbery", "Aggravated Assault", "Burglary", 
+                "Theft", "Motor Vehicle Theft")
+
 crime_data <- final_data1 %>%
   mutate(date = as.Date(paste(Year, Month, "01", sep = "-"), format = "%Y-%m-%d"))
 

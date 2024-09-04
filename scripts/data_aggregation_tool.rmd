@@ -591,7 +591,7 @@ head(subset_removed)
 add a time stamp column
 ```{r}
 # For the careful but forgetful few
-cleaned_data$Last.Updated <- current_date
+cleaned_data$Last.Updated <- Sys.Date()
 ```
 prepare a dataframe of all component agencies into sample for sourcing table
 ```{r}

@@ -403,9 +403,55 @@ nationwide_counts$`Agency Name` <- "Nationwide Count"
 # also need state values and column
 nationwide_counts$State <- "All Agencies"
 ```
+create population groupings and then generate 
+<100k, 100k to 250k, 250-1mi, million +
+pop groupings for within nationwide
+```{r}
+# Separate data into different population groups
+population_groups <- cdf_vcpc_nats %>%
+  mutate(Population_Group = case_when(
+    Population < 100000 ~ "<100k",
+    Population >= 100000 & Population < 250000 ~ "100k-250k",
+    Population >= 250000 & Population < 1000000 ~ "250k-1mn",
+    Population >= 1000000 ~ "1mn+"
+  ))
+
+# Summarize by population group, year, and month
+nationwide_subsets <- population_groups %>%
+  group_by(Year, Month, Population_Group) %>%
+  summarise(
+    Murder = sum(Murder, na.rm = TRUE),
+    Rape = sum(Rape, na.rm = TRUE),
+    Robbery = sum(Robbery, na.rm = TRUE),
+    `Aggravated Assault` = sum(`Aggravated Assault`, na.rm = TRUE),
+    Burglary = sum(Burglary, na.rm = TRUE),
+    Theft = sum(Theft, na.rm = TRUE),
+    `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
+    `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
+    `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
+    `Population Total` = sum(Population, na.rm = TRUE),
+    Agency_num = sum(agency_num, na.rm = TRUE),
+    .groups = 'drop'
+  )
+
+# Separate out each population group if needed
+group_100k <- nationwide_counts %>% filter(Population_Group == "<100k")
+group_100k_250k <- nationwide_counts %>% filter(Population_Group == "100k-250k")
+group_250k_1mil <- nationwide_counts %>% filter(Population_Group == "250k-1mi")
+group_1mil <- nationwide_counts %>% filter(Population_Group == "1mi+")
+```
+add the nationwide counts to the sample for the viz
+```{r}
+# Add values for agency name field so we can bind
+nationwide_subsets1 <- nationwide_subsets %>%
+                        rename(`Agency Name` = Population_Group)
+
+# also need state values and column
+nationwide_subsets1$State <- "All Agencies in Grouping"
+```
 bind the nationwide counts to the bottom
 ```{r}
-cdf2 <- bind_rows(cdf2, nationwide_counts)
+cdf2 <- bind_rows(cdf2, nationwide_counts, nationwide_subsets1)
 head(cdf2)
 ```
 get mvs_12mo for all crime categories and groupings

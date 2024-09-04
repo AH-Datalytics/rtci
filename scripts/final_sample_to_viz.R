@@ -471,4 +471,3 @@ final_sample <- final_sample %>%
 
 write.csv(final_sample, "../docs/app_data/by_agency_table.csv", row.names = FALSE)
 
-

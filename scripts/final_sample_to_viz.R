@@ -14,6 +14,8 @@ last_updated <- format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")
 final_sample <- read_csv("../data/final_sample.csv")
 
 
+
+
 # Download Button Data ------------------------------------------------------------------------
 final_sample_download <- final_sample 
 
@@ -46,7 +48,7 @@ final_sample_download <- final_sample_download %>%
 
 
 # Write to app_data folder for full download
-write.csv(final_sample_download, "../docs/app_data/final_sample.csv", row.names = FALSE)
+# write.csv(final_sample_download, "../docs/app_data/final_sample.csv", row.names = FALSE)
 
 
 
@@ -84,6 +86,13 @@ final_sample <- final_sample %>%
   mutate(agency_name = ifelse(agency_name == "Nationwide Count", "Full Sample", agency_name),
          state_name = ifelse(agency_name == "Full Sample", "Nationwide", state_name))
   
+# Pop Group Naming
+final_sample <- final_sample %>%
+  mutate(
+    agency_name = ifelse(state_abbr == "All Agencies in Grouping", paste("Population of", agency_name), agency_name),
+    state_name = ifelse(state_abbr == "All Agencies in Grouping", "Nationwide", state_name)
+  )
+
 
 # Create 'agency_full' and 'location_full' columns
 final_sample <- final_sample %>%

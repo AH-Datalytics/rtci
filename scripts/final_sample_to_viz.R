@@ -48,7 +48,7 @@ final_sample_download <- final_sample_download %>%
 
 
 # Write to app_data folder for full download
-# write.csv(final_sample_download, "../docs/app_data/final_sample.csv", row.names = FALSE)
+write.csv(final_sample_download, "../docs/app_data/final_sample.csv", row.names = FALSE)
 
 
 
@@ -89,7 +89,7 @@ final_sample <- final_sample %>%
 # Pop Group Naming
 final_sample <- final_sample %>%
   mutate(
-    agency_name = ifelse(state_abbr == "All Agencies in Grouping", paste("Population of", agency_name), agency_name),
+    agency_name = ifelse(state_abbr == "All Agencies in Grouping", paste("Cities of", agency_name), agency_name),
     state_name = ifelse(state_abbr == "All Agencies in Grouping", "Nationwide", state_name)
   )
 

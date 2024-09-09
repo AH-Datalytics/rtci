@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
             d.YTD = +d.YTD;
             d.PrevYTD = +d.PrevYTD;
             d.Percent_Change = +d.Percent_Change;
+            d.population = +d.population; // Add population parsing
         });
 
         allData = data;
@@ -63,62 +64,63 @@ document.addEventListener("DOMContentLoaded", function() {
             const cell0 = row.insertCell(0);
             cell0.textContent = d.agency_full;
             
-            const cell1 = row.insertCell(1);
-            cell1.textContent = d.crime_type;
+            const cell1 = row.insertCell(1); // Add Population column
+            cell1.textContent = formatNumber(d.population);
             
             const cell2 = row.insertCell(2);
-            cell2.textContent = formatNumber(d.YTD);
+            cell2.textContent = d.crime_type;
             
             const cell3 = row.insertCell(3);
-            cell3.textContent = formatNumber(d.PrevYTD);
+            cell3.textContent = formatNumber(d.YTD);
             
             const cell4 = row.insertCell(4);
+            cell4.textContent = formatNumber(d.PrevYTD);
+            
+            const cell5 = row.insertCell(5);
             if (isNaN(d.Percent_Change) || d.Percent_Change === "Undefined") {  
-                cell4.textContent = "Undefined";
-                cell4.style.color = '#f28106';  // Use orange color for undefined indicating a positive situation
+                cell5.textContent = "Undefined";
+                cell5.style.color = '#f28106';  // Use orange color for undefined indicating a positive situation
             } else {
-                cell4.textContent = d.Percent_Change.toFixed(1) + '%';
+                cell5.textContent = d.Percent_Change.toFixed(1) + '%';
                 if (d.Percent_Change > 0) {
-                    cell4.style.color = '#f28106';  // Positive change
+                    cell5.style.color = '#f28106';  // Positive change
                 } else if (d.Percent_Change < 0) {
-                    cell4.style.color = '#2d5ef9';  // Negative change
+                    cell5.style.color = '#2d5ef9';  // Negative change
                 } else {
-                    cell4.style.color = '#00333a';  // No change
+                    cell5.style.color = '#00333a';  // No change
                 }
             }
     
-            const cell5 = row.insertCell(5);
+            const cell6 = row.insertCell(6);
 
-                const startMonth = "January"; // Replace with the actual start month if it's not fixed
-                const endMonth = d.Month_Through;
-                const dateThrough = new Date(d.Date_Through); // Parse the date string
-                const year = dateThrough.getFullYear(); // Extract the year from the date
+            const startMonth = "January"; // Replace with the actual start month if it's not fixed
+            const endMonth = d.Month_Through;
+            const dateThrough = new Date(d.Date_Through); // Parse the date string
+            const year = dateThrough.getFullYear(); // Extract the year from the date
 
-                // Function to abbreviate the month names
-                function abbreviateMonth(month) {
-                    const monthNames = {
-                        "January": "Jan",
-                        "February": "Feb",
-                        "March": "Mar",
-                        "April": "Apr",
-                        "May": "May",
-                        "June": "Jun",
-                        "July": "Jul",
-                        "August": "Aug",
-                        "September": "Sep",
-                        "October": "Oct",
-                        "November": "Nov",
-                        "December": "Dec"
-                    };
-                    return monthNames[month] || month;
-                }
-
-                cell5.textContent = `${abbreviateMonth(startMonth)} - ${abbreviateMonth(endMonth)}`;
-
+            cell6.textContent = `${abbreviateMonth(startMonth)} - ${abbreviateMonth(endMonth)}`;
         });
     }
-    
 
+    // Function to abbreviate month names
+    function abbreviateMonth(month) {
+        const monthNames = {
+            "January": "Jan",
+            "February": "Feb",
+            "March": "Mar",
+            "April": "Apr",
+            "May": "May",
+            "June": "Jun",
+            "July": "Jul",
+            "August": "Aug",
+            "September": "Sep",
+            "October": "Oct",
+            "November": "Nov",
+            "December": "Dec"
+        };
+        return monthNames[month] || month;
+    }
+    
     function sortTable(data) {
         return data.slice().sort((a, b) => {
             let aValue = a[currentSortKey];
@@ -130,20 +132,19 @@ document.addEventListener("DOMContentLoaded", function() {
                 if ((aValue === "Undefined" || isNaN(aValue)) && (bValue === "Undefined" || isNaN(bValue))) return 0;
             }
     
-            if (currentSortKey === "YTD" || currentSortKey === "PrevYTD" || currentSortKey === "Percent_Change") {
+            if (currentSortKey === "YTD" || currentSortKey === "PrevYTD" || currentSortKey === "Percent_Change" || currentSortKey === "population") { // Add population sorting
                 return currentSortOrder === "asc" ? aValue - bValue : bValue - aValue;
             } else {
                 return currentSortOrder === "asc" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
             }
         });
     }
-    
 
     function addSortingListeners() {
         document.querySelectorAll('th span.sortable').forEach((span) => {
-            // Define specific keys for each column based on header text
             const keyMapping = {
                 "Agency": "agency_full",
+                "Population Covered": "population", // Add population mapping
                 "YTD": "YTD",
                 "Previous YTD": "PrevYTD",
                 "% Change": "Percent_Change"
@@ -151,38 +152,34 @@ document.addEventListener("DOMContentLoaded", function() {
 
             const columnKey = keyMapping[span.textContent.trim()];
             if (columnKey) {
-                span.dataset.key = columnKey; // Store the key in the dataset for future reference
-                span.style.cursor = 'pointer'; // Indicate it's clickable
+                span.dataset.key = columnKey;
+                span.style.cursor = 'pointer';
 
                 span.addEventListener('click', () => {
                     if (currentSortKey === columnKey) {
-                        // Toggle sort order if the same column is clicked
                         currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
                     } else {
-                        // Set the new sort column and default to descending order
                         currentSortKey = columnKey;
                         currentSortOrder = 'desc';
                     }
-                    populateFullSampleTable(); // Re-populate the table with the new sorting
-                    updateSortedColumnClass(columnKey); // Update column header with arrow
+                    populateFullSampleTable();
+                    updateSortedColumnClass(columnKey);
                 });
             }
         });
     }
 
     function updateSortedColumnClass(columnKey) {
-        // Clear the sorting indicators and remove any existing arrow spans
         document.querySelectorAll('th span.sortable').forEach(span => {
             span.classList.remove('sorted');
-            span.querySelectorAll('.arrow').forEach(arrow => arrow.remove()); // Remove all arrow elements
-            span.style.color = ''; // Reset color
+            span.querySelectorAll('.arrow').forEach(arrow => arrow.remove());
+            span.style.color = '';
         });
     
-        // Add the sorting indicator to the current column
         const sortedHeader = document.querySelector(`th span.sortable[data-key="${columnKey}"]`);
         if (sortedHeader) {
             sortedHeader.classList.add('sorted');
-            sortedHeader.style.color = '#00333a'; // Set the color to #00333a
+            sortedHeader.style.color = '#00333a';
             const arrow = document.createElement('span');
             arrow.classList.add('arrow');
             arrow.textContent = currentSortOrder === 'asc' ? ' ▲' : ' ▼';
@@ -221,25 +218,25 @@ document.addEventListener("DOMContentLoaded", function() {
 
     toggleDropdown(crimeTypeBtn, crimeTypeSelect);
 
-    // Function to convert table data to CSV and trigger download
     function downloadCSV(data, filename) {
         if (!data || !data.length) {
             console.error("No data available for download.");
             return;
         }
 
-        const headers = ["agency_full", "crime_type", "YTD", "PrevYTD", "Percent_Change", "YTD_Range", "Last Updated"];
+        const headers = ["agency_full", "population", "crime_type", "YTD", "PrevYTD", "Percent_Change", "YTD_Range", "Last Updated"];
         const csvData = [headers.join(",")];
 
         data.forEach(row => {
             const values = [
                 `"${row.agency_full}"`,
+                `${row.population}`, // Add population to download
                 `"${row.crime_type}"`,
                 `${row.YTD}`,
                 `${row.PrevYTD}`,
                 `${row.Percent_Change.toFixed(2)}%`,
                 `"Jan - ${row.Month_Through}"`,
-                `${row["Last Updated"]}` // Add the "Last Updated" value here
+                `${row["Last Updated"]}`
             ];
             csvData.push(values.join(","));
         });
@@ -254,7 +251,6 @@ document.addEventListener("DOMContentLoaded", function() {
         document.body.removeChild(link);
     }
 
-    // Event listener for download button
     document.getElementById("table-download").addEventListener("click", function() {
         const crimeType = crimeTypeBtn.dataset.value || "Murders";
         let filteredData = allData.filter(d => d.crime_type === crimeType);
@@ -262,9 +258,8 @@ document.addEventListener("DOMContentLoaded", function() {
         downloadCSV(filteredData, `${crimeType}_YTD_Report.csv`);
     });
 
-    // Event listener for the "By Month" button
     document.getElementById("by-agency-btn").addEventListener('click', function() {
-        navigateTo('by-agency.html');  // Adjust the file name as needed
+        navigateTo('by-agency.html');
     });
 
     function navigateTo(page) {

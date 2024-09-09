@@ -1,5 +1,4 @@
 # Setup ---------------------------------------------------------------------------------------
-
 # Load Libraries
 library(tidyverse)
 library(lubridate)
@@ -12,6 +11,8 @@ last_updated <- format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")
 
 # Load Data
 final_sample <- read_csv("../data/final_sample.csv")
+
+
 
 
 # Download Button Data ------------------------------------------------------------------------
@@ -33,16 +34,29 @@ final_sample_download <- final_sample_download %>%
          `Violent Crime_mvs_12mo`, `Property Crime_mvs_12mo`, Source.Link, Source.Type, Source.Method, 
          FBI.Population.Covered, Number.of.Agencies, Latitude, Longitude, Comment, `Last Updated`)
 
+# Pop Group Naming
+final_sample_download <- final_sample_download %>%
+  mutate(
+    Agency = ifelse(State == "All Agencies in Grouping", paste("Cities of", Agency), Agency),
+    State = ifelse(State == "All Agencies in Grouping", "Nationwide", State),
+  )
+
+# Edit Pop Group Naming Further
+final_sample_download <- final_sample_download %>%
+  mutate(Agency = str_replace_all(Agency, 
+                                  c("Cities of 100k-250k" = "Cities of 100K - 250K",
+                                    "Cities of 1mn+" = "Cities of 1M",
+                                    "Cities of 250k-1mn" = "Cities of 250K - 1M",
+                                    "Cities of <100k" = "Cities of < 100K")))
+
 # Format Our National Sample 
 final_sample_download <- final_sample_download %>%
   mutate(State = ifelse(Agency == "Nationwide Count", "Nationwide", State),
          Agency = ifelse(Agency == "Nationwide Count", "Full Sample", Agency),
-         Agency_State = ifelse(Agency == "Full Sample" & State == "Nationwide", "Full Sample, Nationwide", Agency_State),
-         Source.Link = ifelse(Agency == "Full Sample" & State == "Nationwide", "https://ah-datalytics.github.io/rtci/list/list.html", Source.Link),
-         Source.Type = ifelse(Agency == "Full Sample" & State == "Nationwide", "Aggregate", Source.Type),
-         Source.Method = ifelse(Agency == "Full Sample" & State == "Nationwide", "All agencies with complete data through most recent month.", Source.Method))
-
-
+         Agency_State = ifelse(State == "Nationwide", paste(Agency, "Nationwide", sep = ", "), Agency_State),
+         Source.Link = ifelse(State == "Nationwide", "https://ah-datalytics.github.io/rtci/list/list.html", Source.Link),
+         Source.Type = ifelse(State == "Nationwide", "Aggregate", Source.Type),
+         Source.Method = ifelse(State == "Nationwide", "All agencies with complete data through most recent month.", Source.Method))
 
 
 # Write to app_data folder for full download
@@ -84,6 +98,21 @@ final_sample <- final_sample %>%
   mutate(agency_name = ifelse(agency_name == "Nationwide Count", "Full Sample", agency_name),
          state_name = ifelse(agency_name == "Full Sample", "Nationwide", state_name))
   
+# Pop Group Naming
+final_sample <- final_sample %>%
+  mutate(
+    agency_name = ifelse(state_abbr == "All Agencies in Grouping", paste("Cities of", agency_name), agency_name),
+    state_name = ifelse(state_abbr == "All Agencies in Grouping", "Nationwide", state_name)
+  )
+
+# Edit Pop Group Naming Further
+final_sample <- final_sample %>%
+  mutate(agency_name = str_replace_all(agency_name, 
+                                       c("Cities of 100k-250k" = "Cities of 100K - 250K",
+                                         "Cities of 1mn+" = "Cities of 1M",
+                                         "Cities of 250k-1mn" = "Cities of 250K - 1M",
+                                         "Cities of <100k" = "Cities of < 100K")))
+
 
 # Create 'agency_full' and 'location_full' columns
 final_sample <- final_sample %>%
@@ -309,7 +338,11 @@ sources <- sources %>%
          source_method = ifelse(agency_full == "Full Sample, Nationwide", "All agencies with complete data through most recent month.", source_method),
          source_link = ifelse(agency_full == "Full Sample, Nationwide", "https://ah-datalytics.github.io/rtci/list/list.html", source_link),
          agency_abbr = ifelse(agency_full == "Full Sample, Nationwide", "Full Sample, Nationwide", agency_abbr)
-         )
+         ) 
+
+# Remove Pop Grouping Agencies for Nationwide
+sources <- sources %>% 
+  filter(!(state_name == "Nationwide" & agency_name != "Full Sample"))
 
 # Add the "Last Updated" column to sources
 sources <- sources %>%
@@ -395,13 +428,23 @@ final_dataset <- final_dataset %>%
 final_dataset <- final_dataset %>%
   filter(!(str_detect(agency_full, "Full Sample") & !str_detect(agency_full, "Nationwide")))
 
-
 # View the final dataset
 print(final_dataset)
 
 # Add the "Last Updated" column to final_dataset
 final_dataset <- final_dataset %>%
   mutate(`Last Updated` = last_updated)
+
+# Add population back in
+# Extract unique agency and population pairs
+agency_population <- final_sample_long %>%
+  select(agency_full, population) %>%
+  distinct()
+
+# Merge population data into final_dataset
+final_dataset <- final_dataset %>%
+  left_join(agency_population, by = "agency_full")
+
 
 # Write the final_sample_long data frame to viz_data.csv
 write.csv(final_dataset, "../docs/app_data/full_table_data.csv", row.names = FALSE)
@@ -462,7 +505,7 @@ final_sample <- final_sample %>%
                               "Nationwide", 
                               substr(agency_abbr, nchar(agency_abbr) - 1, nchar(agency_abbr))),
          agency_abbr = if_else(state_name == "Nationwide", 
-                               "Full Sample, Nationwide",
+                               agency_full,
                                agency_abbr))
 
 # Add the "Last Updated" column to final_sample

@@ -338,7 +338,11 @@ sources <- sources %>%
          source_method = ifelse(agency_full == "Full Sample, Nationwide", "All agencies with complete data through most recent month.", source_method),
          source_link = ifelse(agency_full == "Full Sample, Nationwide", "https://ah-datalytics.github.io/rtci/list/list.html", source_link),
          agency_abbr = ifelse(agency_full == "Full Sample, Nationwide", "Full Sample, Nationwide", agency_abbr)
-         )
+         ) 
+
+# Remove Pop Grouping Agencies for Nationwide
+sources <- sources %>% 
+  filter(!(state_name == "Nationwide" & agency_name != "Full Sample"))
 
 # Add the "Last Updated" column to sources
 sources <- sources %>%

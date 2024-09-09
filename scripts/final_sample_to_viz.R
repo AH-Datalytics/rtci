@@ -428,13 +428,23 @@ final_dataset <- final_dataset %>%
 final_dataset <- final_dataset %>%
   filter(!(str_detect(agency_full, "Full Sample") & !str_detect(agency_full, "Nationwide")))
 
-
 # View the final dataset
 print(final_dataset)
 
 # Add the "Last Updated" column to final_dataset
 final_dataset <- final_dataset %>%
   mutate(`Last Updated` = last_updated)
+
+# Add population back in
+# Extract unique agency and population pairs
+agency_population <- final_sample_long %>%
+  select(agency_full, population) %>%
+  distinct()
+
+# Merge population data into final_dataset
+final_dataset <- final_dataset %>%
+  left_join(agency_population, by = "agency_full")
+
 
 # Write the final_sample_long data frame to viz_data.csv
 write.csv(final_dataset, "../docs/app_data/full_table_data.csv", row.names = FALSE)

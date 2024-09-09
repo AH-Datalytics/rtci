@@ -163,14 +163,24 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateAgencyFilter(data, selectedState) {
         let agencies = [...new Set(data.filter(d => d.state_name === selectedState).map(d => d.agency_name))];
     
+        // Define the desired sort order for Nationwide agencies
+        const nationwideAgencyOrder = [
+            "Full Sample", 
+            "Cities of 1M+", 
+            "Cities of 250K - 1M", 
+            "Cities of 100K - 250K", 
+            "Cities of < 100K"
+        ];
+    
         // Check if "Full Sample" exists
-        const fullSampleIndex = agencies.indexOf("Full Sample");
-        if (fullSampleIndex > -1) {
-            agencies.splice(fullSampleIndex, 1);  // Remove "Full Sample" from its original position
-            agencies.sort();  // Sort the remaining agencies alphabetically
-            agencies.unshift("Full Sample");  // Add "Full Sample" back at the top
+        const isNationwide = (selectedState === "Nationwide");
+        if (isNationwide) {
+            // Sort agencies based on the predefined order, keeping others sorted alphabetically
+            agencies = agencies.filter(agency => nationwideAgencyOrder.includes(agency)).sort((a, b) => {
+                return nationwideAgencyOrder.indexOf(a) - nationwideAgencyOrder.indexOf(b);
+            });
         } else {
-            agencies.sort();  // Just sort if "Full Sample" doesn't exist
+            agencies.sort(); // Alphabetically sort agencies for other states
         }
     
         createSearchableDropdown(agencySelect, agencyBtn, agencies);
@@ -191,6 +201,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         renderChart();
     }
+    
 
     function filterData(data) {
         const selectedCrimeType = crimeTypeBtn.dataset.value;

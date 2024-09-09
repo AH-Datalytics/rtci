@@ -495,7 +495,7 @@ final_sample <- final_sample %>%
                               "Nationwide", 
                               substr(agency_abbr, nchar(agency_abbr) - 1, nchar(agency_abbr))),
          agency_abbr = if_else(state_name == "Nationwide", 
-                               "Full Sample, Nationwide",
+                               agency_full,
                                agency_abbr))
 
 # Add the "Last Updated" column to final_sample

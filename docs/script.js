@@ -381,10 +381,17 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
             percentChange = ((ytdSumCurrentYear - ytdSumPrevYear) / ytdSumPrevYear) * 100;
         }
-
+    
         console.log('Calculated Percent Change:', percentChange);
     
-        const formattedPercentChange = isNaN(percentChange) ? "Undefined." : `${percentChange.toFixed(1)}%`;
+        let formattedPercentChange;
+        if (isNaN(percentChange)) {
+            formattedPercentChange = "Undefined.";
+        } else if (percentChange > 0) {
+            formattedPercentChange = `+${percentChange.toFixed(1)}%`; // Add plus sign for positive change
+        } else {
+            formattedPercentChange = `${percentChange.toFixed(1)}%`;
+        }
     
         // Extract and format the date ranges from KPI Box 1 and KPI Box 2
         let dateRangeCurrentYear = kpiBox1.querySelector('p:nth-of-type(1)').textContent;

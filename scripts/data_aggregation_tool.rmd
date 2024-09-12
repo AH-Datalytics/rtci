@@ -189,6 +189,34 @@ ldf3 <- lapply(ldf2, function(df) {
 
 head(ldf3[1])
 ```
+stop the process if there is a dataframe that does not have each of the acceptable names and print
+```{r}
+# Initialize an empty list to store the names of dataframes with missing columns
+df_missing_columns <- list()
+
+# Function to check if a dataframe has all the acceptable column names
+check_columns <- function(df, df_name, acceptable_names) {
+  missing_cols <- setdiff(acceptable_names, colnames(df))
+  if (length(missing_cols) > 0) {
+    df_missing_columns[[df_name]] <- missing_cols  # Add to the list if columns are missing
+  }
+}
+
+# Loop through the dataframes and check each one
+for (df_name in names(ldf3)) {
+  check_columns(ldf3[[df_name]], df_name, acceptable_names)
+}
+
+# Review the dataframes that are missing columns
+if (length(df_missing_columns) > 0) {
+  print("The following dataframes are missing columns:")
+  print(df_missing_columns)
+} else {
+  print("All dataframes have the required columns.")
+}
+```
+
+
 combine and check it out
 ```{r}
 # combine everything together 

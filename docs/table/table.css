@@ -354,6 +354,6 @@ th span.sortable.sorted {
     }
 
     .tab-navigation {
-        top: -25px; /* Adjust this value to move tabs closer to the graph */
+        top: -24px; /* Adjust this value to move tabs closer to the graph */
     }
 }

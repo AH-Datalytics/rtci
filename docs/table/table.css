@@ -348,7 +348,7 @@ th span.sortable.sorted {
     .tab-link, .nav-button {
         font-size: 3vw; /* Adjust font size for smaller screens */
         padding: 0.9vw 1.8vw; /* Adjust padding for smaller screens */
-        border-radius: 4px;
+        border-radius: 5px;
         margin-bottom: 0;
         margin-right: 3px;
     }

@@ -645,7 +645,6 @@ html, body {
         flex-wrap: wrap; /* Wrap the content to fit into two lines */
         justify-content: center;
         font-size: 3.5vw; /* Keep the font size larger for readability */
-        gap: 0.5rem;
         max-width: 90%; /* Adjust to take up most of the screen width */
     }
 
@@ -674,10 +673,19 @@ html, body {
         font-size: 3.5vw; /* Ensure dropdowns are still readable */
     }
 
+    .dropdown-menu {
+        font-size: 3vw; /* Ensure dropdown items are still readable */
+        min-width: 27vw; /* Adjust width to fit smaller screens */
+        border-radius: 6px;
+    }
+
+    .dropdown-search {
+        width: 22vw;
+        font-size: 3vw;
+        height: 6vw;
+    }   
 
     .rtci-line-graph {
         height: 102vh;
     }
-
-    
 }

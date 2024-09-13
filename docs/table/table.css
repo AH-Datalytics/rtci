@@ -299,14 +299,15 @@ thead th {
 
 @media (max-width: 500px) {
     .view-buttons {
-        top: -20px;
-        gap: 0.1rem;
+        top: -22px;
+        gap: 0.2rem;
     }
     
     .view-button {
-        font-size: 2vw;
-        padding: 0.3em;
+        font-size: 2.5vw;
+        padding: 0.35em;
         border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     }
  
 }

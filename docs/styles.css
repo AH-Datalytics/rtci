@@ -688,4 +688,29 @@ html, body {
     .rtci-line-graph {
         height: 102vh;
     }
+
+    .kpi-box {
+        height: 7%;
+    }
+
+    .kpi-box h2 {
+        font-size: 1.3em;
+    }
+
+    .kpi-box p {
+        font-size: 1.1em;
+    }
+
+    .kpi-box p strong {
+        font-size: 2em;
+    }
+
+    .caption-group text {
+        font-size: 9px;
+    }
+
+    .source-link {
+        font-size: 9px;
+    }
+    
 }

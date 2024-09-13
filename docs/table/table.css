@@ -313,8 +313,8 @@ thead th {
 
 @media (max-width: 600px) {
     .table-container {
-        height: 83vh;
-        max-height: 83vh;
+        height: 78vh;
+        max-height: 78vh;
     }
 }
 

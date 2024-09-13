@@ -639,7 +639,7 @@ html, body {
 }
 
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
     .filters-container {
         display: flex;
         flex-wrap: wrap; /* Wrap the content to fit into two lines */

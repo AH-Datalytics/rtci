@@ -706,5 +706,15 @@ html, body {
     }
 
 
-    
+    .tab-link, .nav-button {
+        font-size: 2.75vw; /* Adjust font size for smaller screens */
+        padding: 0.9vw 1.8vw; /* Adjust padding for smaller screens */
+        border-radius: 4px;
+        margin-bottom: 0;
+        margin-right: 3px;
+    }
+
+    .tab-navigation {
+        top: -22px; /* Adjust this value to move tabs closer to the graph */
+    }
 }

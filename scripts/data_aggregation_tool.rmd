@@ -482,6 +482,55 @@ bind the nationwide counts to the bottom
 cdf2 <- bind_rows(cdf2, nationwide_counts, nationwide_subsets1)
 head(cdf2)
 ```
+sneak in the PR data and get 12mo mvsums
+```{r}
+pr <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Agencies\\Puerto Rico\\Crime for Major Cities (English) (2).csv")
+```
+clean up reshape
+```{r}
+# Reshape into wide format
+wide_pr <- pr %>%
+  pivot_wider(names_from = PBI_CRIMEN_codigo, values_from = PBI_CRIMEN_Crime_Count
+, values_fill = 0)
+
+# View the reshaped data
+head(wide_pr)
+```
+make some new columns
+```{r}
+# Aggregating specific columns
+# 09A - murder;11a-c rape;12o robbery,13a agg assault; 220 burglary;23a-h theft;240 mvt
+pr_counts <- wide_pr %>%
+  mutate(
+    Murder = `09A`, 
+    Rape = `11A`, #no B and C reported   
+    Robbery = `120`,
+    `Aggravated Assault` = `13A`,
+    Burglary = `220`,
+    Theft = `23A` + `23B` + `23C` + `23D` + `23E` + `23F` + `23G` + `23H`,
+    `Motor Vehicle Theft` = `240`
+  )
+
+```
+fix remaining columns and select out 
+```{r}
+# Rename municipality column and convert month to numeric
+pr_counts <- pr_counts %>%
+  rename(`Agency Name` = Municipalities_Name_1,
+          Year = Date_Date_Year) %>%   # Rename municipality column
+  mutate(Month = match(Date_Date_Month, month.name))   # Convert month to numeric
+
+#provisional title
+pr_counts$State <- "Puerto Rico"
+
+#make sure we only have the columns that the rest of the dataset has
+pr_counts <- pr_counts %>% select(acceptable_names)
+```
+
+bind to the end
+```{r}
+cdf2 <- bind_rows(cdf2, pr_counts)
+```
 get mvs_12mo for all crime categories and groupings
 ```{r}
 # Function to calculate 12-month cumulative sum 
@@ -628,6 +677,10 @@ sample_cities <- cdf_vcpc_nats %>%
   slice(1) %>%
   ungroup()
 ```
+
+
+
+
 write it out!
 ```{r}
 # Specify the folder path
@@ -659,3 +712,4 @@ folder_path1 <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time C
 file_path1 <- file.path(folder_path1, "jample.csv")
 write.csv(cleaned_data, file = file_path1, row.names = FALSE)
 ```
+

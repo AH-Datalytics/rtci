@@ -403,7 +403,7 @@ html, body {
     }
 
     .rtci-header {
-        font-size: 3vw;
+        font-size: 5vw;
     }
 
     .filters-container {
@@ -635,5 +635,86 @@ html, body {
 
     .tab-navigation {
         top: -25px; /* Adjust this value to move tabs closer to the graph */
+    }
+}
+
+
+@media (max-width: 600px) {
+    .filters-container {
+        display: flex;
+        flex-wrap: wrap; /* Wrap the content to fit into two lines */
+        justify-content: center;
+        font-size: 3.5vw; /* Keep the font size larger for readability */
+        max-width: 90%; /* Adjust to take up most of the screen width */
+    }
+
+    .filters-container span, .filters-container .dropdown {
+        flex-basis: auto; /* Let elements take their natural width */
+        display: inline-block;
+        text-align: center;
+    }
+
+    /* Ensure the elements wrap into two lines */
+    .filters-container span:nth-child(1),
+    .filters-container .dropdown:nth-child(2),
+    .filters-container span:nth-child(3),
+    .filters-container .dropdown:nth-child(4) {
+        width: auto; /* Allow elements to adjust width dynamically */
+    }
+
+    .filters-container span:nth-child(5),
+    .filters-container .dropdown:nth-child(6),
+    .filters-container span:nth-child(7),
+    .filters-container .dropdown:nth-child(8) {
+        width: auto; /* Allow elements to adjust width dynamically */
+    }
+
+    .dropdown-btn {
+        font-size: 3.5vw; /* Ensure dropdowns are still readable */
+    }
+
+    .dropdown-menu {
+        font-size: 3vw; /* Ensure dropdown items are still readable */
+        min-width: 27vw; /* Adjust width to fit smaller screens */
+        border-radius: 6px;
+    }
+
+    .dropdown-search {
+        width: 22vw;
+        font-size: 3vw;
+        height: 6vw;
+    }   
+
+    .rtci-line-graph {
+        height: 102vh;
+    }
+
+    .kpi-box {
+        height: 7%;
+    }
+
+    .kpi-box h2 {
+        font-size: 1.3em;
+    }
+
+    .kpi-box p {
+        font-size: 1.1em;
+    }
+
+    .kpi-box p strong {
+        font-size: 2em;
+    }
+
+
+    .tab-link, .nav-button {
+        font-size: 3vw; /* Adjust font size for smaller screens */
+        padding: 0.9vw 1.8vw; /* Adjust padding for smaller screens */
+        border-radius: 5px;
+        margin-bottom: 0;
+        margin-right: 3px;
+    }
+
+    .tab-navigation {
+        top: -24px; /* Adjust this value to move tabs closer to the graph */
     }
 }

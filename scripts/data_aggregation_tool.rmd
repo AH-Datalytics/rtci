@@ -165,18 +165,22 @@ standardize_columns <- function(df, all_columns) {
 # Apply the standardize_columns function to each dataframe in the list
 ldf2 <- lapply(ldf1, standardize_columns, all_columns = all_columns)
 
-#change column names where they don't match - larceny to theft - this seems to be a consistent refrain
-rename_larceny_to_theft <- function(df) {
-  if ("Larceny" %in% names(df)) {
-    names(df)[names(df) == "Larceny"] <- "Theft"
-  }
-  return(df)
-}
-
-# apply the function and take a look at the column names real quick
-ldf2 <- lapply(ldf2, rename_larceny_to_theft)
+#make sure we're good
 head(ldf2[1])
 #still have those few .csv's we saw get read in earlier that have the extra empty columns
+```
+another check that after formatting we still have the same number of agencies before binding
+```{r}
+# Apply the function to each dataframe in the list and store the results
+unique_agency_counts2 <- map(ldf2, get_unique_agency_count)
+
+# what is the sum of all those raw counts
+total_agency_raw2 <- sum(unlist(unique_agency_counts2))
+
+# Print the results
+head(total_agency_raw2)
+#353 matches up
+#356 matches up!
 ```
 get rid of the extra blank lgl formatted columns that plague our data
 ```{r}
@@ -188,6 +192,19 @@ ldf3 <- lapply(ldf2, function(df) {
 })
 
 head(ldf3[1])
+```
+another check that after formatting we still have the same number of agencies before binding
+```{r}
+# Apply the function to each dataframe in the list and store the results
+unique_agency_counts3 <- map(ldf3, get_unique_agency_count)
+
+# what is the sum of all those raw counts
+total_agency_raw3 <- sum(unlist(unique_agency_counts3))
+
+# Print the results
+head(total_agency_raw3)
+#353 matches up
+#356 matches up!
 ```
 stop the process if there is a dataframe that does not have each of the acceptable names and print
 ```{r}
@@ -215,14 +232,12 @@ if (length(df_missing_columns) > 0) {
   print("All dataframes have the required columns.")
 }
 ```
-
-
 combine and check it out
 ```{r}
 # combine everything together 
-combined_df <- do.call(rbind, ldf3)
+combined_df <- bind_rows(ldf3)
 
-# get rid of the resulting row.names - thank you very much
+# Step 2: Reset row names
 rownames(combined_df) <- NULL
 
 #select out acceptable columns and take a look just to make sure
@@ -463,10 +478,10 @@ nationwide_subsets <- population_groups %>%
   )
 
 # Separate out each population group if needed
-group_100k <- nationwide_counts %>% filter(Population_Group == "<100k")
-group_100k_250k <- nationwide_counts %>% filter(Population_Group == "100k-250k")
-group_250k_1mil <- nationwide_counts %>% filter(Population_Group == "250k-1mi")
-group_1mil <- nationwide_counts %>% filter(Population_Group == "1mi+")
+group_100k <- nationwide_subsets %>% filter(Population_Group == "<100k")
+group_100k_250k <- nationwide_subsets %>% filter(Population_Group == "100k-250k")
+group_250k_1mil <- nationwide_subsets %>% filter(Population_Group == "250k-1mi")
+group_1mil <- nationwide_subsets %>% filter(Population_Group == "1mi+")
 ```
 add the nationwide counts to the sample for the viz
 ```{r}
@@ -482,54 +497,54 @@ bind the nationwide counts to the bottom
 cdf2 <- bind_rows(cdf2, nationwide_counts, nationwide_subsets1)
 head(cdf2)
 ```
-sneak in the PR data and get 12mo mvsums
+#sneak in the PR data and get 12mo mvsums
 ```{r}
-pr <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Agencies\\Puerto Rico\\Crime for Major Cities (English) (2).csv")
+#pr <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Agencies\\Puerto Rico\\Crime for Major Cities (English) (2).csv")
 ```
-clean up reshape
+#clean up reshape
 ```{r}
 # Reshape into wide format
-wide_pr <- pr %>%
-  pivot_wider(names_from = PBI_CRIMEN_codigo, values_from = PBI_CRIMEN_Crime_Count
-, values_fill = 0)
+#wide_pr <- pr %>%
+#  pivot_wider(names_from = PBI_CRIMEN_codigo, values_from = PBI_CRIMEN_Crime_Count,
+# values_fill = 0)
 
 # View the reshaped data
-head(wide_pr)
+#head(wide_pr)
 ```
-make some new columns
+#make some new columns
 ```{r}
 # Aggregating specific columns
 # 09A - murder;11a-c rape;12o robbery,13a agg assault; 220 burglary;23a-h theft;240 mvt
-pr_counts <- wide_pr %>%
-  mutate(
-    Murder = `09A`, 
-    Rape = `11A`, #no B and C reported   
-    Robbery = `120`,
-    `Aggravated Assault` = `13A`,
-    Burglary = `220`,
-    Theft = `23A` + `23B` + `23C` + `23D` + `23E` + `23F` + `23G` + `23H`,
-    `Motor Vehicle Theft` = `240`
-  )
+#pr_counts <- wide_pr %>%
+#  mutate(
+ #   Murder = `09A`, 
+  #  Rape = `11A`, #no B and C reported   
+  #  Robbery = `120`,
+  #  `Aggravated Assault` = `13A`,
+  #  Burglary = `220`,
+  #  Theft = `23A` + `23B` + `23C` + `23D` + `23E` + `23F` + `23G` + `23H`,
+  #  `Motor Vehicle Theft` = `240`
+  #)
 
 ```
 fix remaining columns and select out 
 ```{r}
 # Rename municipality column and convert month to numeric
-pr_counts <- pr_counts %>%
-  rename(`Agency Name` = Municipalities_Name_1,
-          Year = Date_Date_Year) %>%   # Rename municipality column
-  mutate(Month = match(Date_Date_Month, month.name))   # Convert month to numeric
+#pr_counts <- pr_counts %>%
+#  rename(`Agency Name` = Municipalities_Name_1,
+#          Year = Date_Date_Year) %>%   # Rename municipality column
+#  mutate(Month = match(Date_Date_Month, month.name))   # Convert month to numeric
 
 #provisional title
-pr_counts$State <- "Puerto Rico"
+#pr_counts$State <- "Puerto Rico"
 
 #make sure we only have the columns that the rest of the dataset has
-pr_counts <- pr_counts %>% select(acceptable_names)
+#pr_counts <- pr_counts %>% select(acceptable_names)
 ```
 
 bind to the end
 ```{r}
-cdf2 <- bind_rows(cdf2, pr_counts)
+#cdf2 <- bind_rows(cdf2, pr_counts)
 ```
 get mvs_12mo for all crime categories and groupings
 ```{r}
@@ -677,10 +692,6 @@ sample_cities <- cdf_vcpc_nats %>%
   slice(1) %>%
   ungroup()
 ```
-
-
-
-
 write it out!
 ```{r}
 # Specify the folder path
@@ -705,11 +716,15 @@ write.csv(remove_agencies, "scripts/auditing/agencies_removed_from_sample.csv", 
 
 # Sample Cities file for Sourcing table base
 write.csv(sample_cities, "data/sample_cities.csv", row.names = FALSE)
+file_path3 <- file.path(folder_path1, "sample_cities.csv" )
+write.csv(sample_cities, file = file_path3, row.names = FALSE)
 
 # File Path for Jeff local
 folder_path1 <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation"
 # Create the full file path - for jeff
 file_path1 <- file.path(folder_path1, "jample.csv")
 write.csv(cleaned_data, file = file_path1, row.names = FALSE)
+#write out the list for jeff
+file_path2 <- file.path(folder_path1, "cities_list_current.csv" )
+write.csv(unique_city_state_df, file = file_path2, row.names = FALSE)
 ```
-

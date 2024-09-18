@@ -19,7 +19,7 @@ library(ggplot2)
 directory path where the BEFF files are stored
 ```{r}
 # sharepoint endpoint where the individual datasets are stored
-data_dir <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\Next Month's Update"
+data_dir <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work"
 ```
 describe all the csv's coming in - just a general snippet to take a look at the raw data format
 ```{r}

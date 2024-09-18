@@ -724,7 +724,4 @@ folder_path1 <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time C
 # Create the full file path - for jeff
 file_path1 <- file.path(folder_path1, "jample.csv")
 write.csv(cleaned_data, file = file_path1, row.names = FALSE)
-#write out the list for jeff
-file_path2 <- file.path(folder_path1, "cities_list_current.csv" )
-write.csv(unique_city_state_df, file = file_path2, row.names = FALSE)
 ```

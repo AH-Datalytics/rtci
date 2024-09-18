@@ -1,0 +1,19 @@
+---
+title: "versioning audit"
+output: github_document
+---
+
+bring in the previous sample and the current sample
+```{r}
+
+```
+let's do it in chunks? 
+```{r}
+nats <- 
+agencies <-
+pop_groups <-
+```
+start with nats
+```{r}
+
+```

@@ -5,15 +5,31 @@ output: github_document
 
 bring in the previous sample and the current sample
 ```{r}
-
+#current locations of sample files for June and July 2024
+previous_samp <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation\\sample_cities_2024_06.csv")
+current_samp <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation\\sample_cities_2024_07.csv")
 ```
-let's do it in chunks? 
+start with agencies - who is new and who is getting removed
 ```{r}
-nats <- 
-agencies <-
-pop_groups <-
-```
-start with nats
-```{r}
+# Dataframes with unique values of "city_state" from both current and previous data
+unique_current <- data.frame(city_state = unique(current_samp$city_state))
+unique_previous <- data.frame(city_state = unique(previous_samp$city_state))
 
+# Not in the current sample but was in the previous sample
+previous_no_current <- setdiff(unique_previous$city_state, unique_current$city_state)
+
+# Not in the previous sample but now in the current sample
+current_no_previous <- setdiff(unique_current$city_state, unique_previous$city_state)
+
+# Common to both dataframes
+common_to_both <- intersect(unique_current$city_state, unique_previous$city_state)
+
+# Create a summary table
+summary_table <- data.frame(
+  Category = c("Unique to Current", "Unique to Previous", "Common to Both"),
+  Count = c(length(current_no_previous), length(previous_no_current), length(common_to_both))
+)
+
+# View the summary table
+summary_table
 ```

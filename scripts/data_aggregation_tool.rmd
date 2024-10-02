@@ -19,7 +19,7 @@ library(ggplot2)
 directory path where the BEFF files are stored
 ```{r}
 # sharepoint endpoint where the individual datasets are stored
-data_dir <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work"
+data_dir <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\July 2024"
 ```
 describe all the csv's coming in - just a general snippet to take a look at the raw data format
 ```{r}
@@ -438,6 +438,60 @@ nationwide_counts <- cdf_vcpc_nats %>%
 # Display the aggregate level dataframe
 head(nationwide_counts)
 ```
+create per capita measures for all agencies
+```{r}
+agency_per_capita <- cdf_vcpc_nats %>%
+  group_by(Year, Month) %>%
+  summarise(
+    Murder_100k = (Murder / Population) * 100000,
+    Rape_100k = (Rape / Population) * 100000,
+    Robbery_100k = (Robbery / Population) * 100000,
+    `Aggravated Assault_100k` = (`Aggravated Assault` / Population) * 100000,
+    Burglary_100k = (Burglary / Population) * 100000,
+    Theft_100k = (Theft / Population) * 100000,
+    `Motor Vehicle Theft_100k` = (`Motor Vehicle Theft` / Population) * 100000,
+    `Violent Crime_100k` = (`Violent Crime` / Population) * 100000,
+    `Property Crime_100k` = (`Property Crime` / Population) * 100000,
+    .groups = 'drop'
+  )
+
+# Display the aggregate level dataframe
+head(agency_per_capita)
+```
+nationwide per capita figures
+```{r}
+# Aggregate crime counts and population at the national level by Year and Month
+nationwide_counts1 <- cdf_vcpc_nats %>%
+  group_by(Year, Month) %>%
+  summarise(
+    Total_Murder = sum(Murder, na.rm = TRUE),
+    Total_Rape = sum(Rape, na.rm = TRUE),
+    Total_Robbery = sum(Robbery, na.rm = TRUE),
+    Total_Aggravated_Assault = sum(`Aggravated Assault`, na.rm = TRUE),
+    Total_Burglary = sum(Burglary, na.rm = TRUE),
+    Total_Theft = sum(Theft, na.rm = TRUE),
+    Total_Motor_Vehicle_Theft = sum(`Motor Vehicle Theft`, na.rm = TRUE),
+    Total_Violent_Crime = sum(`Violent Crime`, na.rm = TRUE),
+    Total_Property_Crime = sum(`Property Crime`, na.rm = TRUE),
+    Total_Population = sum(Population, na.rm = TRUE),
+    .groups = 'drop'
+  ) %>%
+  # Calculate per capita rates per 100k population
+  mutate(
+    Murder_100k = (Total_Murder / Total_Population) * 100000,
+    Rape_100k = (Total_Rape / Total_Population) * 100000,
+    Robbery_100k = (Total_Robbery / Total_Population) * 100000,
+    `Aggravated Assault_100k` = (Total_Aggravated_Assault / Total_Population) * 100000,
+    Burglary_100k = (Total_Burglary / Total_Population) * 100000,
+    Theft_100k = (Total_Theft / Total_Population) * 100000,
+    `Motor Vehicle Theft_100k` = (Total_Motor_Vehicle_Theft / Total_Population) * 100000,
+    `Violent Crime_100k` = (Total_Violent_Crime / Total_Population) * 100000,
+    `Property Crime_100k` = (Total_Property_Crime / Total_Population) * 100000
+  )
+
+# Display the aggregated and scaled dataframe
+head(nationwide_counts1)
+```
 add the nationwide counts to the sample for the viz
 ```{r}
 # Add values for agency name field so we can bind
@@ -722,6 +776,6 @@ write.csv(sample_cities, file = file_path3, row.names = FALSE)
 # File Path for Jeff local
 folder_path1 <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation"
 # Create the full file path - for jeff
-file_path1 <- file.path(folder_path1, "jample.csv")
+file_path1 <- file.path(folder_path1, "july_2024_sample.csv")
 write.csv(cleaned_data, file = file_path1, row.names = FALSE)
 ```

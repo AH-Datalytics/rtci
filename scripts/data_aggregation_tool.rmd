@@ -438,60 +438,6 @@ nationwide_counts <- cdf_vcpc_nats %>%
 # Display the aggregate level dataframe
 head(nationwide_counts)
 ```
-create per capita measures for all agencies
-```{r}
-agency_per_capita <- cdf_vcpc_nats %>%
-  group_by(Year, Month) %>%
-  summarise(
-    Murder_100k = (Murder / Population) * 100000,
-    Rape_100k = (Rape / Population) * 100000,
-    Robbery_100k = (Robbery / Population) * 100000,
-    `Aggravated Assault_100k` = (`Aggravated Assault` / Population) * 100000,
-    Burglary_100k = (Burglary / Population) * 100000,
-    Theft_100k = (Theft / Population) * 100000,
-    `Motor Vehicle Theft_100k` = (`Motor Vehicle Theft` / Population) * 100000,
-    `Violent Crime_100k` = (`Violent Crime` / Population) * 100000,
-    `Property Crime_100k` = (`Property Crime` / Population) * 100000,
-    .groups = 'drop'
-  )
-
-# Display the aggregate level dataframe
-head(agency_per_capita)
-```
-nationwide per capita figures
-```{r}
-# Aggregate crime counts and population at the national level by Year and Month
-nationwide_counts1 <- cdf_vcpc_nats %>%
-  group_by(Year, Month) %>%
-  summarise(
-    Total_Murder = sum(Murder, na.rm = TRUE),
-    Total_Rape = sum(Rape, na.rm = TRUE),
-    Total_Robbery = sum(Robbery, na.rm = TRUE),
-    Total_Aggravated_Assault = sum(`Aggravated Assault`, na.rm = TRUE),
-    Total_Burglary = sum(Burglary, na.rm = TRUE),
-    Total_Theft = sum(Theft, na.rm = TRUE),
-    Total_Motor_Vehicle_Theft = sum(`Motor Vehicle Theft`, na.rm = TRUE),
-    Total_Violent_Crime = sum(`Violent Crime`, na.rm = TRUE),
-    Total_Property_Crime = sum(`Property Crime`, na.rm = TRUE),
-    Total_Population = sum(Population, na.rm = TRUE),
-    .groups = 'drop'
-  ) %>%
-  # Calculate per capita rates per 100k population
-  mutate(
-    Murder_100k = (Total_Murder / Total_Population) * 100000,
-    Rape_100k = (Total_Rape / Total_Population) * 100000,
-    Robbery_100k = (Total_Robbery / Total_Population) * 100000,
-    `Aggravated Assault_100k` = (Total_Aggravated_Assault / Total_Population) * 100000,
-    Burglary_100k = (Total_Burglary / Total_Population) * 100000,
-    Theft_100k = (Total_Theft / Total_Population) * 100000,
-    `Motor Vehicle Theft_100k` = (Total_Motor_Vehicle_Theft / Total_Population) * 100000,
-    `Violent Crime_100k` = (Total_Violent_Crime / Total_Population) * 100000,
-    `Property Crime_100k` = (Total_Property_Crime / Total_Population) * 100000
-  )
-
-# Display the aggregated and scaled dataframe
-head(nationwide_counts1)
-```
 add the nationwide counts to the sample for the viz
 ```{r}
 # Add values for agency name field so we can bind
@@ -499,6 +445,85 @@ nationwide_counts$`Agency Name` <- "Nationwide Count"
 
 # also need state values and column
 nationwide_counts$State <- "All Agencies"
+```
+state sums - only agencies included in sample
+```{r}
+# Aggregate crime counts and population at the national level by Year and Month
+state_vars <- cdf_vcpc_nats %>%
+  group_by(Year, Month, State) %>%
+  summarise(
+    Murder = sum(Murder, na.rm = TRUE),
+    Rape = sum(Rape, na.rm = TRUE),
+    Robbery = sum(Robbery, na.rm = TRUE),
+    `Aggravated Assault` = sum(`Aggravated Assault`, na.rm = TRUE),
+    Burglary = sum(Burglary, na.rm = TRUE),
+    Theft = sum(Theft, na.rm = TRUE),
+    `Motor_Vehicle_Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
+    `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
+    `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
+    `Population Total` = sum(Population, na.rm = TRUE),
+    Agency_num = sum(agency_num, na.rm = TRUE),
+    .groups = 'drop'
+  )
+```
+add the nationwide counts to the sample for the viz
+```{r}
+# Add values for agency name field so we can bind
+state_vars$`Agency Name` <- "State Sample Counts"
+```
+create per capita measures for all agencies
+```{r}
+#agency_per_capita <- cdf_vcpc_nats %>%
+ # group_by(Year, Month) %>%
+  #summarise(
+   # Murder_100k = (Murder / Population) * 100000,
+    #Rape_100k = (Rape / Population) * 100000,
+    #Robbery_100k = (Robbery / Population) * 100000,
+    #`Aggravated Assault_100k` = (`Aggravated Assault` / Population) * 100000,
+    #Burglary_100k = (Burglary / Population) * 100000,
+    #Theft_100k = (Theft / Population) * 100000,
+    #`Motor Vehicle Theft_100k` = (`Motor Vehicle Theft` / Population) * 100000,
+    #`Violent Crime_100k` = (`Violent Crime` / Population) * 100000,
+    #`Property Crime_100k` = (`Property Crime` / Population) * 100000,
+    #.groups = 'drop'
+  #)
+
+# Display the aggregate level dataframe
+#head(agency_per_capita)
+```
+nationwide per capita figures
+```{r}
+# Aggregate crime counts and population at the national level by Year and Month
+#nationwide_counts2 <- cdf_vcpc_nats %>%
+  #group_by(Year, Month) %>%
+  #summarise(
+    #Total_Murder = sum(Murder, na.rm = TRUE),
+    #Total_Rape = sum(Rape, na.rm = TRUE),
+    #Total_Robbery = sum(Robbery, na.rm = TRUE),
+    #Total_Aggravated_Assault = sum(`Aggravated Assault`, na.rm = TRUE),
+    #Total_Burglary = sum(Burglary, na.rm = TRUE),
+    #Total_Theft = sum(Theft, na.rm = TRUE),
+    #Total_Motor_Vehicle_Theft = sum(`Motor Vehicle Theft`, na.rm = TRUE),
+    #Total_Violent_Crime = sum(`Violent Crime`, na.rm = TRUE),
+    #Total_Property_Crime = sum(`Property Crime`, na.rm = TRUE),
+    #Total_Population = sum(Population, na.rm = TRUE),
+   # .groups = 'drop'
+  #)##%>%
+  # Calculate per capita rates per 100k population
+ # mutate(
+  #  Murder_100k = (Total_Murder / Total_Population) * 100000,
+   # Rape_100k = (Total_Rape / Total_Population) * 100000,
+    #Robbery_100k = (Total_Robbery / Total_Population) * 100000,
+    #`Aggravated Assault_100k` = (Total_Aggravated_Assault / Total_Population) * 100000,
+    #Burglary_100k = (Total_Burglary / Total_Population) * 100000,
+    #Theft_100k = (Total_Theft / Total_Population) * 100000,
+    #`Motor Vehicle Theft_100k` = (Total_Motor_Vehicle_Theft / Total_Population) * 100000,
+    #`Violent Crime_100k` = (Total_Violent_Crime / Total_Population) * 100000,
+    #`Property Crime_100k` = (Total_Property_Crime / Total_Population) * 100000
+ # )
+
+# Display the aggregated and scaled dataframe
+#head(nationwide_counts2)
 ```
 create population groupings and then generate 
 <100k, 100k to 250k, 250-1mi, million +
@@ -548,57 +573,55 @@ nationwide_subsets1$State <- "All Agencies in Grouping"
 ```
 bind the nationwide counts to the bottom
 ```{r}
-cdf2 <- bind_rows(cdf2, nationwide_counts, nationwide_subsets1)
+cdf2 <- bind_rows(cdf2, nationwide_counts, nationwide_subsets1, state_vars)
 head(cdf2)
 ```
 #sneak in the PR data and get 12mo mvsums
 ```{r}
-#pr <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Agencies\\Puerto Rico\\Crime for Major Cities (English) (2).csv")
+pr <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Agencies\\Puerto Rico\\Crime for Major Cities (English) (2).csv")
 ```
 #clean up reshape
 ```{r}
-# Reshape into wide format
-#wide_pr <- pr %>%
-#  pivot_wider(names_from = PBI_CRIMEN_codigo, values_from = PBI_CRIMEN_Crime_Count,
-# values_fill = 0)
+#Reshape into wide format
+wide_pr <- pr %>%
+  pivot_wider(names_from = PBI_CRIMEN_codigo, values_from = PBI_CRIMEN_Crime_Count,
+ values_fill = 0)
 
-# View the reshaped data
 #head(wide_pr)
 ```
 #make some new columns
 ```{r}
-# Aggregating specific columns
+#Aggregating specific columns
 # 09A - murder;11a-c rape;12o robbery,13a agg assault; 220 burglary;23a-h theft;240 mvt
-#pr_counts <- wide_pr %>%
-#  mutate(
- #   Murder = `09A`, 
-  #  Rape = `11A`, #no B and C reported   
-  #  Robbery = `120`,
-  #  `Aggravated Assault` = `13A`,
-  #  Burglary = `220`,
-  #  Theft = `23A` + `23B` + `23C` + `23D` + `23E` + `23F` + `23G` + `23H`,
-  #  `Motor Vehicle Theft` = `240`
-  #)
+pr_counts <- wide_pr %>%
+  mutate(
+    Murder = `09A`, 
+    Rape = `11A`, #no B and C reported   
+    Robbery = `120`,
+    `Aggravated Assault` = `13A`,
+    Burglary = `220`,
+    Theft = `23A` + `23B` + `23C` + `23D` + `23E` + `23F` + `23G` + `23H`,
+    `Motor Vehicle Theft` = `240`
+  )
 
 ```
 fix remaining columns and select out 
 ```{r}
-# Rename municipality column and convert month to numeric
-#pr_counts <- pr_counts %>%
-#  rename(`Agency Name` = Municipalities_Name_1,
-#          Year = Date_Date_Year) %>%   # Rename municipality column
-#  mutate(Month = match(Date_Date_Month, month.name))   # Convert month to numeric
+#Rename municipality column and convert month to numeric
+pr_counts <- pr_counts %>%
+  rename(`Agency Name` = Municipalities_Name_1,
+          Year = Date_Date_Year) %>%   # Rename municipality column
+  mutate(Month = match(Date_Date_Month, month.name))   # Convert month to numeric
 
 #provisional title
-#pr_counts$State <- "Puerto Rico"
+pr_counts$State <- "Puerto Rico"
 
 #make sure we only have the columns that the rest of the dataset has
-#pr_counts <- pr_counts %>% select(acceptable_names)
+pr_counts <- pr_counts %>% select(acceptable_names)
 ```
-
 bind to the end
 ```{r}
-#cdf2 <- bind_rows(cdf2, pr_counts)
+cdf3 <- bind_rows(cdf2, pr_counts)
 ```
 get mvs_12mo for all crime categories and groupings
 ```{r}
@@ -616,7 +639,7 @@ mvs_12mo <- function(df) {
 }
 
 # Apply the function to the single dataframe
-df_mvs_12mo1 <- mvs_12mo(cdf2)
+df_mvs_12mo1 <- mvs_12mo(cdf3)
 
 # Print the result to verify
 head(df_mvs_12mo1)

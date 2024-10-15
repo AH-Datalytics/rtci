@@ -254,7 +254,7 @@ final_sample_long <- final_sample_long %>%
 final_sample_long$state_ucr_link[final_sample_long$state_name == "Nationwide"] <- "https://ah-datalytics.github.io/rtci/list/list.html"
 
 
-## PRE LAUNCH: REMOVE STATE FULL SAMPLES 
+## Post Launch -- include state samples
 full_states <- final_sample_long %>%
   filter((agency_name == "Full Sample" & state_name != "Nationwide"))
 
@@ -317,7 +317,7 @@ sources <- sources %>%
 # sources <- sources %>%
 #   filter(!(state_name %in% sources_with_full_sample & agency_name == "Full Sample"))
 
-## PRE LAUNCH: REMOVE STATE FULL SAMPLES 
+## REMOVE STATE FULL SAMPLES 
 sources <- sources %>%
   filter(!(agency_name == "State Sample Counts"))
 
@@ -517,10 +517,12 @@ final_sample <- final_sample %>%
 final_sample <- final_sample %>% 
   mutate(month_year = paste(month(date, label = TRUE, abbr = TRUE), year(date), sep = " "))
 
-## PRE LAUNCH: REMOVE STATE FULL SAMPLES 
-final_sample <- final_sample %>%
-  filter(!(agency_name == "Full Sample" & state_name != "Nationwide"))
+## REMOVE STATE FULL SAMPLES 
+# final_sample <- final_sample %>%
+#   filter(!(agency_name == "Full Sample" & state_name != "Nationwide"))
 
+final_sample <- final_sample %>%
+  filter(!(agency_name == "State Sample Counts"))
 
 final_sample <- final_sample %>% 
   mutate(state_abbr = if_else(state_name == "Nationwide", 

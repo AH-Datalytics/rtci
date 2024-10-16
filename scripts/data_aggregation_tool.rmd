@@ -19,7 +19,7 @@ library(ggplot2)
 directory path where the BEFF files are stored
 ```{r}
 # sharepoint endpoint where the individual datasets are stored
-data_dir <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\July 2024"
+data_dir <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\August 2024"
 ```
 describe all the csv's coming in - just a general snippet to take a look at the raw data format
 ```{r}
@@ -86,6 +86,16 @@ ldf <- read_csvs(data_dir)
 
 # Take'er look
 head(ldf[1])
+```
+remove PR at this stage and add directly later so it's not included in the estimates
+```{r}
+# Name of the dataframe to remove
+remove_df <- "Puerto_Rico_Aggregated_Since_2017"
+
+# Remove the dataframe by filtering the list based on the name
+ldf <- ldf[!names(ldf) %in% remove_df]
+
+names(ldf)
 ```
 let's get the unique number of agencies at the beginning
 ```{r}
@@ -391,12 +401,21 @@ add population figures for nationwide descriptors
 ```{r}
 #read in the ref_df file from sharepoint
 ref_df <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data\\final_sourcing.csv")
+ref_pop <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\FBI Agency Participation Data\\2023 Participation.csv")
 
 #make a city_state column for matching
 ref_df <- ref_df %>% mutate(city_state = paste(Agency, State, sep = ", "))
+ref_pop <- ref_pop %>% 
+              select(pub_agency_name, state_abbr, population) %>%
+              mutate(city_state = paste(pub_agency_name, state_abbr, sep = ", ")) %>%
+              rename(pop23 = population) %>%
+              filter(!is.na(pop23) & pop23 >0) 
+
+#merge the new figures 
+ref_df1 <- merge(ref_df, ref_pop, by = "city_state", all.x = TRUE)
 
 #slim it down for now
-ref_df1 <- ref_df %>% select(city_state, Population)
+ref_df1 <- ref_df %>% select(city_state, Population, pop23)
 
 # add population data merging by city/state col
 cdf_vcpc_nats <- merge(cdf_vcpc_nats, ref_df1, by = "city_state", all.x = TRUE)
@@ -577,6 +596,17 @@ cdf2 <- bind_rows(cdf2, nationwide_counts, nationwide_subsets1, state_vars)
 head(cdf2)
 ```
 #sneak in the PR data and get 12mo mvsums
+add PR data
+fix remaining columns and select out 
+```{r}
+pr_dat <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\August 2024\\Puerto_Rico_Aggregated_Since_2017.csv")
+#make sure we only have the columns that the rest of the dataset has
+pr_dat <- pr_dat %>% select(acceptable_names)
+```
+bind to the end
+```{r}
+cdf3 <- bind_rows(cdf2, pr_dat)
+```
 get mvs_12mo for all crime categories and groupings
 ```{r}
 # Function to calculate 12-month cumulative sum 
@@ -612,6 +642,7 @@ length(unique(df_mvs_12mo1$city_state))
 # duplicate agency names
 length(unique(df_mvs_12mo1$`Agency Name`))
 ```
+
 join ref to sample
 ```{r}
 df_w_ref <- df_mvs_12mo1 %>%
@@ -760,69 +791,53 @@ write.csv(cleaned_data, file = file_path1, row.names = FALSE)
 
 
 PR Data for before release
-
 ```{r}
-pr <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Agencies\\Puerto Rico\\Crime for Major Cities (English) (2).csv")
+pr <- read.csv("C:\\Users\\daveh\\Downloads\\Crime for Major Cities (English) August2024.csv")
 ```
 #clean up reshape
 ```{r}
-# Create a complete combination of municipalities, years, and months
-complete_data <- pr %>%
-  distinct(Date_Date_Year, Date_Date_Month, Municipalities_Name_1) %>%
-  expand(Municipalities_Name_1, Date_Date_Year, Date_Date_Month)
+# Load necessary libraries
+library(dplyr)
+library(tidyr)
 
-# Join the original dataset to this complete grid
-merged_data <- complete_data %>%
-  left_join(pr, by = c("Municipalities_Name_1", "Date_Date_Year", "Date_Date_Month"))
+# Group by municipality, year, month, and crime code, then sum the crime counts
+crime_summary <- pr  %>%
+  group_by(Municipalities_Name_1, Date_Date_Year, Date_Date_Month, PBI_CRIMEN_codigo) %>%
+  summarise(Total_Crime_Count = sum(PBI_CRIMEN_Crime_Count, na.rm = TRUE)) %>%
+  ungroup()
 
-# Pivot PBI_CRIMEN_codigo into columns, filling in missing values with 0
-pivoted_data <- merged_data %>%
-  pivot_wider(names_from = PBI_CRIMEN_codigo, 
-              values_from = PBI_CRIMEN_Crime_Count, 
-              values_fill = list(PBI_CRIMEN_Crime_Count = 0))
+# Pivot the table to a wide format, with one column for each crime code
+wide_pr <- crime_summary %>%
+  pivot_wider(names_from = PBI_CRIMEN_codigo, values_from = Total_Crime_Count, values_fill = 0)
 
-head(pivoted_data)
-
-# Create a table summarizing the count of each crime type
-crime_counts <- pr %>%
-  group_by(PBI_CRIMEN_codigo) %>%
-  summarise(total_count = sum(PBI_CRIMEN_Crime_Count, na.rm = TRUE))
-
-# View the summary table
-head(crime_counts)
-
-```
-#make some new columns
-```{r}
-#Aggregating specific columns
-# 09A - murder;11a-c rape;12o robbery,13a agg assault; 220 burglary;23a-h theft;240 mvt
+# Create new columns for crime counts by combining relevant crime codes
 pr_counts <- wide_pr %>%
   mutate(
     Murder = `09A`, 
-    Rape = `11A`, #no B and C reported   
+    Rape = `11A`, # no B and C reported   
     Robbery = `120`,
     `Aggravated Assault` = `13A`,
     Burglary = `220`,
-    Theft = `23A` + `23B` + `23C` + `23D` + `23E` + `23F` + `23G` + `23H`,
-    `Motor Vehicle Theft` = `240`
+    Theft = coalesce(`23A`, 0) + coalesce(`23B`, 0) + coalesce(`23C`, 0) + coalesce(`23D`, 0) +
+            coalesce(`23E`, 0) + coalesce(`23F`, 0) + coalesce(`23G`, 0) + coalesce(`23H`, 0),
+    `Motor Vehicle Theft` = `240`,
+    State = "Puerto Rico"
   )
 
-```
-fix remaining columns and select out 
-```{r}
-#Rename municipality column and convert month to numeric
-pr_counts <- pr_counts %>%
-  rename(`Agency Name` = Municipalities_Name_1,
-          Year = Date_Date_Year) %>%   # Rename municipality column
-  mutate(Month = match(Date_Date_Month, month.name))   # Convert month to numeric
+#select and rename columns
+pr_counts <- pr_counts %>% 
+              mutate(`Agency Name` = Municipalities_Name_1,
+                      Year = Date_Date_Year,
+                      Month = Date_Date_Month) %>%
+                      select(`Agency Name`, Murder, Rape, Robbery,
+                      `Aggravated Assault`, Burglary, Theft, `Motor Vehicle Theft`,
+                      Year, Month, State)
 
-#provisional title
-pr_counts$State <- "Puerto Rico"
 
-#make sure we only have the columns that the rest of the dataset has
-pr_counts <- pr_counts %>% select(acceptable_names)
-```
-bind to the end
-```{r}
-cdf3 <- bind_rows(cdf2, pr_counts)
+# View the resulting dataframe
+head(pr_counts)
+
+# Optionally, save the new wide dataframe with calculated columns to a CSV
+write.csv(pr_counts, "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\August 2024\\Puerto_Rico_Aggregated_Since_2017.csv", row.names = FALSE)
+
 ```

@@ -26,7 +26,8 @@ document.addEventListener("DOMContentLoaded", function() {
     
         // Create the table headers
         const headers = [
-            { label: "Agency", key: "agency_full" },
+            { label: "Agency", key: "agency_name" },  // Now using agency_name
+            { label: "State", key: "state_name" },    // Added state_name
             { label: "Population Covered", key: "population" },
             { label: "Source Type", key: "source_type" },
             { label: "Source Method", key: "source_method" },

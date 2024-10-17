@@ -161,8 +161,12 @@ document.addEventListener("DOMContentLoaded", function() {
             agencies = agencies.filter(agency => nationwideAgencyOrder.includes(agency))
                                .sort((a, b) => nationwideAgencyOrder.indexOf(a) - nationwideAgencyOrder.indexOf(b));
         } else {
-            // Sort agencies alphabetically for other states
-            agencies.sort();
+            // Ensure "Full Sample" is at the top if it exists for other states
+            agencies = agencies.sort((a, b) => {
+                if (a === "Full Sample") return -1; // Move "Full Sample" to the top
+                if (b === "Full Sample") return 1;
+                return a.localeCompare(b); // Sort the rest alphabetically
+            });
         }
     
         createSearchableDropdown(agencyDropdown, agencyBtn, agencies);

@@ -532,8 +532,29 @@ final_sample <- final_sample %>%
 # final_sample <- final_sample %>%
 #   filter(!(agency_name == "Full Sample" & state_name != "Nationwide"))
 
+# Correct state full sample naming
 final_sample <- final_sample %>%
-  filter(!(agency_name == "State Sample Counts"))
+  mutate(agency_name = ifelse(agency_name == "State Sample Counts", "Full Sample", agency_name),
+         agency_abbr = ifelse(agency_name == "Full Sample" & state_name != "Nationwide", 
+                              paste(agency_name, substr(agency_abbr, nchar(agency_abbr) - 1, nchar(agency_abbr)), sep = ", "),
+                              agency_abbr),
+         agency_full = ifelse(agency_name == "Full Sample" & state_name != "Nationwide", 
+                              paste(agency_name, state_name, sep = ", "),
+                              agency_full)
+         )
+
+## Remove Full Sample agencies for states where there is just one agency
+# Step 1: Identify states (excluding "Nationwide") where there are exactly two agencies, one of which is "Full Sample"
+states_with_full_sample <- final_sample %>%
+  filter(state_name != "Nationwide") %>%
+  group_by(state_name) %>%
+  filter(n_distinct(agency_name) == 2 & "Full Sample" %in% agency_name) %>%
+  pull(state_name) %>%
+  unique()
+
+# Step 2: Filter out the "Full Sample" agency for those states
+final_sample <- final_sample %>%
+  filter(!(state_name %in% states_with_full_sample & agency_name == "Full Sample"))
 
 final_sample <- final_sample %>% 
   mutate(state_abbr = if_else(state_name == "Nationwide", 

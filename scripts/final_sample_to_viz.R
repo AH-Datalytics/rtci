@@ -13,7 +13,12 @@ last_updated <- format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")
 final_sample <- read_csv("../data/final_sample.csv")
 
 
-
+# August data population column cleaning
+final_sample <- final_sample %>%
+  mutate(pop23 = ifelse(str_detect(State, "All Agencies") | `Agency Name` == "State Sample Counts", Population, pop23)) %>%
+  select(-Population) %>%
+  mutate(Population = pop23) %>%
+  select(-pop23)
 
 # Download Button Data ------------------------------------------------------------------------
 final_sample_download <- final_sample 

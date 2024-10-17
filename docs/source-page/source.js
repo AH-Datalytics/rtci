@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
             { label: "Source Type", key: "source_type" },
             { label: "Source Method", key: "source_method" },
             { label: "Most Recent Data", key: "most_recent_month" },
-            { label: "In Current National or State Samples?", key: "in_national_sample" }, // New row for "In National Sample?"
+            { label: "In Current National and State Sample?", key: "in_national_sample" }, // New row for "In National Sample?"
             { label: "Primary Link", key: "source_link" }
         ];
     
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     break;
                 case 6:
                     if (data.length > 0 && data[0].agency_full === "Full Sample, Nationwide") {
-                        td.innerHTML = `<a href="${data[0].source_link}" target="_blank">Click for full list of agencies in current national or state samples.</a>`;
+                        td.innerHTML = `<a href="${data[0].source_link}" target="_blank">Click for full list of agencies in current national and state samples.</a>`;
                     } else {
                         td.innerHTML = data.length > 0 ? `<a href="${data[0].source_link}" target="_blank">Click Here</a>` : '';
                     }

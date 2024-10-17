@@ -187,6 +187,19 @@ html, body {
     display: block;
 }
 
+/* Style for master headings in the dropdown */
+.master-heading {
+    font-size: 1.2em; /* Make the font size bigger */
+    font-weight: 300;
+    padding-top: 0.5em; /* Add some space above */
+    border-bottom: 1px solid #00333a2d; /* Optional: Add a separator line below */
+}
+
+/* Style specifically for the second master heading "Property Crimes" */
+.second-master-heading {
+    margin-top: 0.5em; /* Add more space above */
+}
+
 .dropdown-menu .dropdown-item:hover {
     background-color: #f1f1f1;
     color: #f28106;

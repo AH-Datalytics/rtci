@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-
     const crimeTypeSelect = document.getElementById("crime-type-dropdown");
     const crimeTypeBtn = document.getElementById("crime-type-btn");
 
@@ -17,24 +16,50 @@ document.addEventListener("DOMContentLoaded", function() {
 
         allData = data;
 
-        const severityOrder = ["Violent Crimes", "Murders", "Rapes", "Robberies", "Aggravated Assaults", "Property Crimes", "Burglaries", "Thefts", "Motor Vehicle Thefts"];
-        const crimeTypes = severityOrder.filter(crimeType => data.some(d => d.crime_type === crimeType));
+        // Define crime types with master heading indicators
+        const severityOrder = [
+            { value: "Violent Crimes", isMaster: true },
+            { value: "Murders", isMaster: false },
+            { value: "Rapes", isMaster: false },
+            { value: "Robberies", isMaster: false },
+            { value: "Aggravated Assaults", isMaster: false },
+            { value: "Property Crimes", isMaster: true },
+            { value: "Burglaries", isMaster: false },
+            { value: "Thefts", isMaster: false },
+            { value: "Motor Vehicle Thefts", isMaster: false }
+        ];
 
-        crimeTypes.forEach(crimeType => {
+        // Populate the dropdown with the crime types
+        severityOrder.forEach(crimeTypeObj => {
             const option = document.createElement("div");
             option.className = "dropdown-item";
-            option.dataset.value = crimeType;
-            option.textContent = crimeType;
-            if (crimeType === crimeTypeBtn.dataset.value) {
+
+            // Add specific styling class for master headings
+            if (crimeTypeObj.isMaster) {
+                option.classList.add("master-heading");
+                // Specifically add a different class for "Property Crimes"
+                if (crimeTypeObj.value === "Property Crimes") {
+                    option.classList.add("second-master-heading");
+                }
+            }
+
+            option.dataset.value = crimeTypeObj.value;
+            option.textContent = crimeTypeObj.value;
+
+            // Pre-select the default crime type
+            if (crimeTypeObj.value === crimeTypeBtn.dataset.value) {
                 option.classList.add("selected");
             }
+
+            // Add click event listener for the dropdown item
             option.addEventListener('click', function() {
-                crimeTypeBtn.textContent = crimeType;
-                crimeTypeBtn.dataset.value = crimeType;
+                crimeTypeBtn.textContent = crimeTypeObj.value;
+                crimeTypeBtn.dataset.value = crimeTypeObj.value;
                 crimeTypeSelect.classList.remove("show");
                 populateFullSampleTable();
-                setSelectedClass(crimeTypeSelect, crimeType);
+                setSelectedClass(crimeTypeSelect, crimeTypeObj.value);
             });
+
             crimeTypeSelect.appendChild(option);
         });
 
@@ -46,6 +71,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }).catch(error => {
         console.error("Error loading the CSV file:", error);
     });
+
+
 
     function populateFullSampleTable() {
         const crimeType = crimeTypeBtn.dataset.value || "Murders";

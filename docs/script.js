@@ -47,21 +47,26 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
     // Helper functions (createDropdownOption, createSearchableDropdown, etc.)
-    function createDropdownOption(value, text, dropdown, button) {
+    function createDropdownOption(value, text, dropdown, button, isMasterHeading = false) {
         const option = document.createElement("div");
         option.className = "dropdown-item";
         option.dataset.value = value;
         option.textContent = text;
-
+    
+        // Apply the special class for master headings
+        if (isMasterHeading) {
+            option.classList.add("master-heading");
+        }
+    
         if (button.dataset.value === value) {
             option.classList.add('selected');
         }
-
+    
         option.addEventListener('click', function() {
             if (button.dataset.value !== value) {
                 filtersChanged = true; // Set the flag to true when a filter is changed
             }
-
+    
             const items = dropdown.querySelectorAll('.dropdown-item');
             items.forEach(item => item.classList.remove('selected'));
             option.classList.add('selected');
@@ -69,13 +74,13 @@ document.addEventListener("DOMContentLoaded", function() {
             button.dataset.value = value;
             button.appendChild(document.createElement('i')).className = "fas fa-caret-down";
             dropdown.classList.remove("show");
-
+    
             if (button === stateBtn) {
                 updateAgencyFilter(allData, value);
             } else {
                 renderChart();
             }
-
+    
             saveFilterValues();
         });
         return option;
@@ -113,7 +118,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Define functions for handling data filtering and rendering
     function updateFilters(data) {
-        const severityOrder = ["Violent Crimes", "Murders", "Rapes", "Robberies", "Aggravated Assaults", "Property Crimes", "Burglaries", "Thefts", "Motor Vehicle Thefts"];
+        const severityOrder = [
+            { value: "Violent Crimes", isMaster: true },
+            { value: "Murders", isMaster: false },
+            { value: "Rapes", isMaster: false },
+            { value: "Robberies", isMaster: false },
+            { value: "Aggravated Assaults", isMaster: false },
+            { value: "Property Crimes", isMaster: true },
+            { value: "Burglaries", isMaster: false },
+            { value: "Thefts", isMaster: false },
+            { value: "Motor Vehicle Thefts", isMaster: false }
+        ];        
         const crimeTypes = severityOrder.filter(crimeType => data.some(d => d.crime_type === crimeType));
     
         let states = [...new Set(data.map(d => d.state_name))];
@@ -134,10 +149,16 @@ document.addEventListener("DOMContentLoaded", function() {
         createSearchableDropdown(stateSelect, stateBtn, states);
     
         crimeTypeSelect.innerHTML = "";
-        crimeTypes.forEach(crimeType => {
-            const option = createDropdownOption(crimeType, crimeType, crimeTypeSelect, crimeTypeBtn);
+        severityOrder.forEach((crimeType, index) => {
+            const option = createDropdownOption(crimeType.value, crimeType.value, crimeTypeSelect, crimeTypeBtn, crimeType.isMaster);
+            
+            // Add a specific class for the second master heading "Property Crimes"
+            if (crimeType.value === "Property Crimes") {
+                option.classList.add("second-master-heading");
+            }
+
             crimeTypeSelect.appendChild(option);
-        });
+    });
     
         const dataTypes = [
             { value: "count", text: "Monthly Totals" },

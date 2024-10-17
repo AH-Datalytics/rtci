@@ -377,6 +377,11 @@ remove_agencies <- unique(undesirables$city_state)
 # Filter out rows where city_state is in the list of values_to_remove
 cdf_nwcounts <- cdf %>% filter(!city_state %in% remove_agencies)
 ```
+remove duplicates - schaumburg and tracy problem
+```{r}
+cdf_nwcounts <- distinct(cdf_nwcounts)
+```
+
 vc/pc groupings
 ```{r}
 # Add new columns for violent and property crime
@@ -401,21 +406,15 @@ add population figures for nationwide descriptors
 ```{r}
 #read in the ref_df file from sharepoint
 ref_df <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data\\final_sourcing.csv")
-ref_pop <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\FBI Agency Participation Data\\2023 Participation.csv")
 
 #make a city_state column for matching
 ref_df <- ref_df %>% mutate(city_state = paste(Agency, State, sep = ", "))
-ref_pop <- ref_pop %>% 
-              select(pub_agency_name, state_abbr, population) %>%
-              mutate(city_state = paste(pub_agency_name, state_abbr, sep = ", ")) %>%
-              rename(pop23 = population) %>%
-              filter(!is.na(pop23) & pop23 >0) 
 
 #merge the new figures 
-ref_df1 <- merge(ref_df, ref_pop, by = "city_state", all.x = TRUE)
+ref_df1 <- merge(ref_df, by = "city_state", all.x = TRUE)
 
 #slim it down for now
-ref_df1 <- ref_df %>% select(city_state, Population, pop23)
+ref_df1 <- ref_df %>% select(city_state, pop23)
 
 # add population data merging by city/state col
 cdf_vcpc_nats <- merge(cdf_vcpc_nats, ref_df1, by = "city_state", all.x = TRUE)
@@ -429,16 +428,32 @@ cdf2 <- cdf1 %>%
             select(-city_state, -vio_crime, -prop_crime)
 
 #same for table used for sample calcs + format pop var and create counter for agency # calc
-cdf_vcpc_nats <- cdf_vcpc_nats %>%
+cdf_vcpc_nats_usa <- cdf_vcpc_nats %>%
   mutate(`Violent Crime` = vio_crime,
           `Property Crime` = prop_crime,
-          Population = as.numeric(Population),
-           agency_num = 1) %>%
+          Population = as.numeric(pop23)) %>%
            select(-vio_crime, -prop_crime)
+
+           #same for table used for sample calcs + format pop var and create counter for agency # calc
+cdf_vcpc_nats_states <- cdf_vcpc_nats %>%
+  mutate(`Violent Crime` = vio_crime,
+          `Property Crime` = prop_crime,
+          Population = as.numeric(pop23),
+          Agency_num =1) %>%
+           select(-vio_crime, -prop_crime)
+```
+```{r}
+# Calculate the number of unique values in the city_state column
+num_unique_city_state <- cdf_vcpc_nats_usa %>%
+  summarise(unique_count = n_distinct(city_state)) %>%
+  pull(unique_count)
+
+# View the result
+print(num_unique_city_state)
 ```
 calculate and add nationwide counts
 ```{r}
-nationwide_counts <- cdf_vcpc_nats %>%
+nationwide_counts <- cdf_vcpc_nats_usa %>%
   group_by(Year, Month) %>%
   summarise(
     Murder= sum(Murder, na.rm = TRUE),
@@ -451,7 +466,6 @@ nationwide_counts <- cdf_vcpc_nats %>%
     `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
     `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
     `Population Total` = sum(Population, na.rm = TRUE),
-    Agency_num = sum(agency_num, na.rm = TRUE),
     .groups = 'drop'
   )
 # Display the aggregate level dataframe
@@ -462,13 +476,16 @@ add the nationwide counts to the sample for the viz
 # Add values for agency name field so we can bind
 nationwide_counts$`Agency Name` <- "Nationwide Count"
 
+#add the new counter figure
+nationwide_counts$Agency_num <- num_unique_city_state
+
 # also need state values and column
 nationwide_counts$State <- "All Agencies"
 ```
 state sums - only agencies included in sample
 ```{r}
 # Aggregate crime counts and population at the national level by Year and Month
-state_vars <- cdf_vcpc_nats %>%
+state_vars <- cdf_vcpc_nats_states %>%
   group_by(Year, Month, State) %>%
   summarise(
     Murder = sum(Murder, na.rm = TRUE),
@@ -481,7 +498,7 @@ state_vars <- cdf_vcpc_nats %>%
     `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
     `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
     `Population Total` = sum(Population, na.rm = TRUE),
-    Agency_num = sum(agency_num, na.rm = TRUE),
+    Agency_num = sum(Agency_num, na.rm = TRUE),
     .groups = 'drop'
   )
 ```
@@ -549,7 +566,7 @@ create population groupings and then generate
 pop groupings for within nationwide
 ```{r}
 # Separate data into different population groups
-population_groups <- cdf_vcpc_nats %>%
+population_groups <- cdf_vcpc_nats_states %>%
   mutate(Population_Group = case_when(
     Population < 100000 ~ "<100k",
     Population >= 100000 & Population < 250000 ~ "100k-250k",
@@ -571,7 +588,7 @@ nationwide_subsets <- population_groups %>%
     `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
     `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
     `Population Total` = sum(Population, na.rm = TRUE),
-    Agency_num = sum(agency_num, na.rm = TRUE),
+    Agency_num = sum(Agency_num, na.rm = TRUE),
     .groups = 'drop'
   )
 
@@ -600,6 +617,12 @@ add PR data
 fix remaining columns and select out 
 ```{r}
 pr_dat <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\August 2024\\Puerto_Rico_Aggregated_Since_2017.csv")
+
+#fix names
+pr_dat <- pr_dat %>% rename(`Aggravated Assault` = Aggravated.Assault,
+                             `Motor Vehicle Theft` = Motor.Vehicle.Theft,
+                              `Agency Name` = Agency.Name     )
+
 #make sure we only have the columns that the rest of the dataset has
 pr_dat <- pr_dat %>% select(acceptable_names)
 ```
@@ -623,7 +646,7 @@ mvs_12mo <- function(df) {
 }
 
 # Apply the function to the single dataframe
-df_mvs_12mo1 <- mvs_12mo(cdf2)
+df_mvs_12mo1 <- mvs_12mo(cdf3)
 
 # Print the result to verify
 head(df_mvs_12mo1)
@@ -642,7 +665,6 @@ length(unique(df_mvs_12mo1$city_state))
 # duplicate agency names
 length(unique(df_mvs_12mo1$`Agency Name`))
 ```
-
 join ref to sample
 ```{r}
 df_w_ref <- df_mvs_12mo1 %>%
@@ -839,5 +861,36 @@ head(pr_counts)
 
 # Optionally, save the new wide dataframe with calculated columns to a CSV
 write.csv(pr_counts, "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\August 2024\\Puerto_Rico_Aggregated_Since_2017.csv", row.names = FALSE)
+
+```
+
+```{r}
+# 1. Create a new dataframe with unique values of 'agency_name' from cdf_vcpc_nats
+unique_agency_names <- cdf_vcpc_nats %>%
+  select(`Agency Name`) %>%
+  distinct()
+
+# 2. Create a new dataframe with unique values of 'city_state' from cdf_vcpc_nats
+unique_city_states <- cdf_vcpc_nats %>%
+  select(city_state) %>%
+  distinct()
+
+# 3. Perform an anti-join between sample_cities and unique_agency_names (find records unique to sample_cities)
+unique_to_sample_agencies <- sample_cities %>%
+  anti_join(unique_agency_names, by = c("Agency Name"))
+
+
+# 4. Perform an anti-join between sample_cities and unique_city_states (find records unique to sample_cities)
+unique_to_sample_city_states <- sample_cities %>%
+  anti_join(unique_city_states, by = c("city_state"))
+
+# View the results
+print(unique_to_sample_agencies)
+print(unique_to_sample_city_states)
+```
+
+
+find the schaumbergs and tracy's
+```{r}
 
 ```

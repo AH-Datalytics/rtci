@@ -58,6 +58,16 @@ final_sample_download <- final_sample_download %>%
          Source.Type = ifelse(State == "Nationwide", "Aggregate", Source.Type),
          Source.Method = ifelse(State == "Nationwide", "All agencies with complete data through most recent month.", Source.Method))
 
+# Format Our State Samples 
+final_sample_download <- final_sample_download %>%
+  mutate(Agency_State = ifelse(Agency == "State Sample Counts", paste("Full Sample", State, sep = ", "), Agency_State),
+         Source.Link = ifelse(Agency == "State Sample Counts", "https://ah-datalytics.github.io/rtci/list/list.html", Source.Link),
+         Source.Type = ifelse(Agency == "State Sample Counts", "Aggregate", Source.Type),
+         Source.Method = ifelse(Agency == "State Sample Counts", "All agencies in state with complete data through most recent month.", Source.Method),
+         Agency = ifelse(Agency == "State Sample Counts", "Full Sample", Agency))
+
+
+
 
 # Write to app_data folder for full download
 write.csv(final_sample_download, "../docs/app_data/final_sample.csv", row.names = FALSE)
@@ -205,13 +215,25 @@ final_sample_long <- final_sample_long %>%
 
 # Fix State Full Sample Agency Naming
 final_sample_long <- final_sample_long %>% 
-  mutate(agency_name = ifelse(str_detect(agency_name, "Full Sample"), "Full Sample", agency_name))
+  mutate(
+    agency_abbr = ifelse(
+      str_detect(agency_name, "State Sample Counts"), 
+      str_replace(agency_abbr, "State Sample Counts", "Full Sample"), 
+      agency_abbr
+    ),
+    agency_full = ifelse(
+      str_detect(agency_name, "State Sample Counts"), 
+      str_replace(agency_full, "State Sample Counts", "Full Sample"), 
+      agency_full
+    ),
+    agency_name = ifelse(
+      str_detect(agency_name, "State Sample Counts"), 
+      "Full Sample", 
+      agency_name
+    )
+  )
 
-# Fix Agency_Full Column
-final_sample_long <- final_sample_long %>%
-  mutate(agency_full = ifelse(str_detect(agency_full, "^[A-Z]{2}, "), 
-                              str_sub(agency_full, 5, nchar(agency_full)),
-                              agency_full))
+
 
 # Remove Full Sample agencies for states where there is just one agency
 
@@ -232,12 +254,12 @@ final_sample_long <- final_sample_long %>%
 final_sample_long$state_ucr_link[final_sample_long$state_name == "Nationwide"] <- "https://ah-datalytics.github.io/rtci/list/list.html"
 
 
-## PRE LAUNCH: REMOVE STATE FULL SAMPLES 
+## Post Launch -- include state samples
 full_states <- final_sample_long %>%
   filter((agency_name == "Full Sample" & state_name != "Nationwide"))
 
-final_sample_long <- final_sample_long %>%
-  filter(!(agency_name == "Full Sample" & state_name != "Nationwide"))
+# final_sample_long <- final_sample_long %>%
+#   filter(!(agency_name == "Full Sample" & state_name != "Nationwide"))
 
 
 # Fix Agency Abbr Column for Tooltip
@@ -282,22 +304,22 @@ sources <- sources %>%
 
 
 # Remove Full Sample agencies for states where there is just one agency
+# 
+# # Step 1: Identify states (excluding "Nationwide") where there are exactly two agencies, one of which is "Full Sample"
+# sources_with_full_sample <- sources %>%
+#   filter(state_name != "Nationwide") %>%
+#   group_by(state_name) %>%
+#   filter(n_distinct(agency_name) == 2 & "Full Sample" %in% agency_name) %>%
+#   pull(state_name) %>%
+#   unique()
+# 
+# # Step 2: Filter out the "Full Sample" agency for those states
+# sources <- sources %>%
+#   filter(!(state_name %in% sources_with_full_sample & agency_name == "Full Sample"))
 
-# Step 1: Identify states (excluding "Nationwide") where there are exactly two agencies, one of which is "Full Sample"
-sources_with_full_sample <- sources %>%
-  filter(state_name != "Nationwide") %>%
-  group_by(state_name) %>%
-  filter(n_distinct(agency_name) == 2 & "Full Sample" %in% agency_name) %>%
-  pull(state_name) %>%
-  unique()
-
-# Step 2: Filter out the "Full Sample" agency for those states
+## REMOVE STATE FULL SAMPLES 
 sources <- sources %>%
-  filter(!(state_name %in% sources_with_full_sample & agency_name == "Full Sample"))
-
-## PRE LAUNCH: REMOVE STATE FULL SAMPLES 
-sources <- sources %>%
-  filter(!(agency_name == "Full Sample" & state_name != "Nationwide"))
+  filter(!(agency_name == "State Sample Counts"))
 
 # Group by agency_full and filter to keep only the row with the latest date
 sources <- sources %>%
@@ -495,10 +517,12 @@ final_sample <- final_sample %>%
 final_sample <- final_sample %>% 
   mutate(month_year = paste(month(date, label = TRUE, abbr = TRUE), year(date), sep = " "))
 
-## PRE LAUNCH: REMOVE STATE FULL SAMPLES 
-final_sample <- final_sample %>%
-  filter(!(agency_name == "Full Sample" & state_name != "Nationwide"))
+## REMOVE STATE FULL SAMPLES 
+# final_sample <- final_sample %>%
+#   filter(!(agency_name == "Full Sample" & state_name != "Nationwide"))
 
+final_sample <- final_sample %>%
+  filter(!(agency_name == "State Sample Counts"))
 
 final_sample <- final_sample %>% 
   mutate(state_abbr = if_else(state_name == "Nationwide", 

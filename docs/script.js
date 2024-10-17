@@ -172,16 +172,12 @@ document.addEventListener("DOMContentLoaded", function() {
             "Cities of < 100K"
         ];
     
-        // Check if "Full Sample" exists
-        const isNationwide = (selectedState === "Nationwide");
-        if (isNationwide) {
-            // Sort agencies based on the predefined order, keeping others sorted alphabetically
-            agencies = agencies.filter(agency => nationwideAgencyOrder.includes(agency)).sort((a, b) => {
-                return nationwideAgencyOrder.indexOf(a) - nationwideAgencyOrder.indexOf(b);
-            });
-        } else {
-            agencies.sort(); // Alphabetically sort agencies for other states
-        }
+        // Check if "Full Sample" exists and move it to the top for all states
+    agencies = agencies.sort((a, b) => {
+        if (a === "Full Sample") return -1; // Move "Full Sample" to the top
+        if (b === "Full Sample") return 1;
+        return a.localeCompare(b); // Alphabetically sort remaining agencies
+    });
     
         createSearchableDropdown(agencySelect, agencyBtn, agencies);
     

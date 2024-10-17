@@ -256,7 +256,8 @@ final_sample_long <- final_sample_long %>%
 
 
 # Add in source for full samples (nationwide and states, eventually)
-final_sample_long$state_ucr_link[final_sample_long$state_name == "Nationwide"] <- "https://ah-datalytics.github.io/rtci/list/list.html"
+final_sample_long$state_ucr_link[final_sample_long$state_name == "Nationwide" | 
+                                   final_sample_long$agency_name == "Full Sample"] <- "https://ah-datalytics.github.io/rtci/list/list.html"
 
 
 ## Post Launch -- include state samples

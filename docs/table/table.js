@@ -61,45 +61,52 @@ document.addEventListener("DOMContentLoaded", function() {
         filteredData.forEach(d => {
             const row = tableBody.insertRow();
             
+            // Split agency_full into agency_name and state_name
+            const [agency_name, state_name] = d.agency_full.split(", ").map(s => s.trim());
+            
+            // Populate Agency Name
             const cell0 = row.insertCell(0);
-            cell0.textContent = d.agency_full;
+            cell0.textContent = agency_name;  // Use the split agency_name
             
-            const cell1 = row.insertCell(1); // Add Population column
-            cell1.textContent = formatNumber(d.population);
+            // Populate State Name
+            const cell1 = row.insertCell(1);
+            cell1.textContent = state_name;   // Use the split state_name
             
+            // Populate Population
             const cell2 = row.insertCell(2);
-            cell2.textContent = d.crime_type;
-            
+            cell2.textContent = formatNumber(d.population);
+        
+            // Populate Crime Type
             const cell3 = row.insertCell(3);
-            cell3.textContent = formatNumber(d.YTD);
-            
+            cell3.textContent = d.crime_type;
+        
+            // Populate YTD
             const cell4 = row.insertCell(4);
-            cell4.textContent = formatNumber(d.PrevYTD);
-            
+            cell4.textContent = formatNumber(d.YTD);
+        
+            // Populate Previous YTD
             const cell5 = row.insertCell(5);
-            if (isNaN(d.Percent_Change) || d.Percent_Change === "Undefined") {  
-                cell5.textContent = "Undefined";
-                cell5.style.color = '#f28106';  // Use orange color for undefined indicating a positive situation
-            } else {
-                cell5.textContent = d.Percent_Change.toFixed(1) + '%';
-                if (d.Percent_Change > 0) {
-                    cell5.style.color = '#f28106';  // Positive change
-                } else if (d.Percent_Change < 0) {
-                    cell5.style.color = '#2d5ef9';  // Negative change
-                } else {
-                    cell5.style.color = '#00333a';  // No change
-                }
-            }
-    
+            cell5.textContent = formatNumber(d.PrevYTD);
+        
+            // Populate Percent Change
             const cell6 = row.insertCell(6);
-
+            if (isNaN(d.Percent_Change) || d.Percent_Change === "Undefined") {  
+                cell6.textContent = "Undefined";
+                cell6.style.color = '#f28106';
+            } else {
+                cell6.textContent = d.Percent_Change.toFixed(1) + '%';
+                cell6.style.color = d.Percent_Change > 0 ? '#f28106' : (d.Percent_Change < 0 ? '#2d5ef9' : '#00333a');
+            }
+        
+            // Populate YTD Range
+            const cell7 = row.insertCell(7);
             const startMonth = "January"; // Replace with the actual start month if it's not fixed
             const endMonth = d.Month_Through;
-            const dateThrough = new Date(d.Date_Through); // Parse the date string
-            const year = dateThrough.getFullYear(); // Extract the year from the date
-
-            cell6.textContent = `${abbreviateMonth(startMonth)} - ${abbreviateMonth(endMonth)}`;
+            const dateThrough = new Date(d.Date_Through);
+            const year = dateThrough.getFullYear();
+            cell7.textContent = `${abbreviateMonth(startMonth)} - ${abbreviateMonth(endMonth)}`;
         });
+        
     }
 
     // Function to abbreviate month names
@@ -126,6 +133,13 @@ document.addEventListener("DOMContentLoaded", function() {
             let aValue = a[currentSortKey];
             let bValue = b[currentSortKey];
     
+            // Handle sorting for state_name by splitting agency_full
+        if (currentSortKey === "state_name") {
+            const aState = a.agency_full.split(", ")[1]?.trim();
+            const bState = b.agency_full.split(", ")[1]?.trim();
+            return currentSortOrder === "asc" ? aState.localeCompare(bState) : bState.localeCompare(aState);
+        }
+        
             if (currentSortKey === "Percent_Change") {
                 if (aValue === "Undefined" || isNaN(aValue)) return 1; // "Undefined" or NaN always at the bottom
                 if (bValue === "Undefined" || isNaN(bValue)) return -1; // "Undefined" or NaN always at the bottom
@@ -144,6 +158,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll('th span.sortable').forEach((span) => {
             const keyMapping = {
                 "Agency": "agency_full",
+                "State": "state_name",   // Add the new state_name mapping
                 "Population Covered": "population", // Add population mapping
                 "YTD": "YTD",
                 "Previous YTD": "PrevYTD",

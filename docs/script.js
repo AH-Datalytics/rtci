@@ -703,88 +703,102 @@ document.addEventListener("DOMContentLoaded", function() {
     function appendSourceAndCaption(svg, width, height, filteredData, margin) {
         const agencyFull = filteredData[0].agency_full;
         const stateUcrLink = filteredData[0].state_ucr_link;
-        let sourceText;
-
-        if (agencyFull.endsWith("s")) {
-            sourceText = `${agencyFull}' primary`;
-        } else {
-            sourceText = `${agencyFull}'s primary`;
+        let sourceText, linkText;
+    
+        // Function to handle the apostrophe logic
+        function getApostropheText(name) {
+            if (name.endsWith('s')) {
+                return `${name}'`;  // Use single apostrophe if name ends with 's'
+            } else {
+                return `${name}'s`; // Otherwise, use 's for names not ending in 's'
+            }
         }
-
+    
+        // Check if state is "Nationwide" or agency is "Full Sample"
+        if (filteredData[0].state_name === "Nationwide" || filteredData[0].agency_name === "Full Sample") {
+            sourceText = `${getApostropheText(agencyFull)} composite`;  // Apostrophe logic for "composite agencies"
+            linkText = "agencies";  // Use "agencies" as the hyperlink text
+        } else {
+            // Default text when it's not "Nationwide" or "Full Sample"
+            sourceText = `${getApostropheText(agencyFull)} primary`;  // Apostrophe logic for "primary source"
+            linkText = "source";  // Use "source" as the hyperlink text
+        }
+    
         const sourceGroup = svg.append("g")
             .attr("transform", `translate(${width}, ${height + margin.bottom - 10})`)
             .attr("text-anchor", "end");
-
+    
         const sourceTextElement = sourceGroup.append("text")
             .attr("class", "source-link")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a");
-
+    
+        // Append the first part of the source text
         sourceTextElement.append("tspan")
-            .text(sourceText)
+            .text(sourceText)  // No space added here
             .style("cursor", "text");
-
+    
+        // Append the hyperlinked text (either "agencies" or "source")
         sourceTextElement.append("tspan")
             .attr("text-anchor", "start")
-            .attr("dx", "0.2em")
+            .attr("dx", "0.2em")  // Adds a slight space between the two words
             .attr("class", "source-link")
             .style("cursor", "pointer")
             .on("click", function() { window.open(stateUcrLink, "_blank"); })
-            .text("source.");
-
+            .text(linkText + ".");  // Append the period here
+    
         const population = abbreviateNumberForCaption(filteredData[0].population);
         const agencyCount = filteredData[0].number_of_agencies || "N/A";
-
+    
         const captionGroup = svg.append("g")
             .attr("transform", `translate(0, ${height + margin.bottom - 10})`)
             .attr("text-anchor", "start")
             .attr("class", "caption-group");
-
+    
         const captionTextElement = captionGroup.append("text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a");
-
+    
         captionTextElement.append("tspan")
             .text("Population Covered: ")
             .attr("x", 0);
-
+    
         captionTextElement.append("tspan")
             .text(population)
             .attr("dx", "0em")
             .style("fill", "#f28106")
             .style("font-weight", "bold");
-
+    
         captionTextElement.append("tspan")
             .text("Number of Agencies: ")
             .attr("dx", "1.5em");
-
+    
         captionTextElement.append("tspan")
             .text(agencyCount)
             .attr("dx", "0em")
             .style("fill", "#f28106")
             .style("font-weight", "bold");
-
-        // Function to adjust caption position based on screen size
+    
+        // Adjust caption for mobile
         function adjustCaptionForMobile() {
             const isMobile = window.innerWidth <= 600; // Adjust for screens 600px or less
-
+    
             if (isMobile) {
-                // For mobile view, adjust the translate value
                 captionGroup.attr("transform", `translate(-60, ${height + margin.bottom - 10})`);
                 sourceGroup.attr("transform", `translate(${width + 20}, ${height + margin.bottom - 10})`);
             } else {
-                // For non-mobile view, use the standard translate value
                 captionGroup.attr("transform", `translate(0, ${height + margin.bottom - 10})`);
                 sourceGroup.attr("transform", `translate(${width}, ${height + margin.bottom - 10})`);
             }
         }
-
-        // Initial adjustment
+    
         adjustCaptionForMobile();
-
-        // Adjust on window resize
         window.addEventListener('resize', adjustCaptionForMobile);
     }
+    
+    
+    
+    
 
     function downloadFilteredData(filteredData) {
         const selectedDataType = dataTypeBtn.dataset.value;

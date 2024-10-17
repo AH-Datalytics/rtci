@@ -101,8 +101,9 @@ final_sample <- final_sample %>%
 state_names <- data.frame(state_abbr = state.abb, state_name = state.name)
 
 dc <- c("DC", "District of Columbia")
+pr <- c("PR", "Puerto Rico")
 
-state_names <- rbind(state_names, dc)
+state_names <- rbind(state_names, dc, pr)
 
 final_sample <- final_sample %>%
   left_join(state_names, by = "state_abbr")
@@ -347,8 +348,9 @@ sample_cities <- sample_cities %>%
 state_names <- data.frame(state_abbr = state.abb, state_name = state.name)
 
 dc <- c("DC", "District of Columbia")
+pr <- c("PR", "Puerto Rico")
 
-state_names <- rbind(state_names, dc)
+state_names <- rbind(state_names, dc, pr)
 
 sample_cities <- sample_cities %>%
   left_join(state_names, by = "state_abbr")
@@ -472,6 +474,9 @@ agency_population <- final_sample_long %>%
 # Merge population data into final_dataset
 final_dataset <- final_dataset %>%
   left_join(agency_population, by = "agency_full")
+
+final_dataset <- final_dataset %>% 
+  mutate(population = ifelse(is.na(population), "Unknown", population))
 
 
 # Write the final_sample_long data frame to viz_data.csv

@@ -74,7 +74,12 @@ document.addEventListener("DOMContentLoaded", function() {
             
             // Populate Population
             const cell2 = row.insertCell(2);
-            cell2.textContent = formatNumber(d.population);
+            if (isNaN(d.population) || d.population === "Unknown") {
+                cell2.textContent = "Unknown" // Display "Unknown"
+                cell2.style.color = 'lightgrey'; // Optionally style the "Unknown", "NA", or NaN value
+            } else {
+                cell2.textContent = formatNumber(d.population);
+            }
         
             // Populate Crime Type
             const cell3 = row.insertCell(3);
@@ -139,11 +144,18 @@ document.addEventListener("DOMContentLoaded", function() {
             const bState = b.agency_full.split(", ")[1]?.trim();
             return currentSortOrder === "asc" ? aState.localeCompare(bState) : bState.localeCompare(aState);
         }
-        
+
             if (currentSortKey === "Percent_Change") {
                 if (aValue === "Undefined" || isNaN(aValue)) return 1; // "Undefined" or NaN always at the bottom
                 if (bValue === "Undefined" || isNaN(bValue)) return -1; // "Undefined" or NaN always at the bottom
                 if ((aValue === "Undefined" || isNaN(aValue)) && (bValue === "Undefined" || isNaN(bValue))) return 0;
+            }
+
+            if (currentSortKey === "population") {
+                if (aValue === "Unknown" || isNaN(aValue)) return 1; // "Unknown" or NaN always at the bottom
+                if (bValue === "Unknown" || isNaN(bValue)) return -1; // "Unknown" or NaN always at the bottom
+                if ((aValue === "Unknown" || isNaN(aValue)) && (bValue === "Unknown" || isNaN(bValue))) return 0;
+                return currentSortOrder === "asc" ? aValue - bValue : bValue - aValue;
             }
     
             if (currentSortKey === "YTD" || currentSortKey === "PrevYTD" || currentSortKey === "Percent_Change" || currentSortKey === "population") { // Add population sorting

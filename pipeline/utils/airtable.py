@@ -22,7 +22,12 @@ def get_records_from_sheet(logger, sheet_name, formula=None):
     return [d["fields"] for d in records]
 
 
-def insert_to_airtable_sheet(logger, sheet_name, to_insert, typecast=True):
+def insert_to_airtable_sheet(
+    logger, sheet_name, to_insert, upsert=True, keys=None, typecast=True
+):
     worker = get_airtable_sheet(sheet_name)
-    worker.batch_create(to_insert, typecast=typecast)
+    if upsert:
+        worker.batch_upsert(to_insert, key_fields=keys, typecast=typecast)
+    else:
+        worker.batch_create(to_insert, typecast=typecast)
     logger.info(f"Inserted {len(to_insert)} records into Airtable {sheet_name}")

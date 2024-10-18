@@ -5,12 +5,9 @@ import sys
 
 from datetime import datetime as dt
 from functools import reduce
-from time import sleep
 
 sys.path.append("../utils")
 from airtable import get_records_from_sheet
-from parallelize import thread
-from requests_configs import mount_session
 from super import Scraper
 
 
@@ -47,6 +44,7 @@ class Illinois(Scraper):
             for d in get_records_from_sheet(
                 self.logger, "Metadata", formula="{state}='Illinois'"
             )
+            if d["ori"] != "ILCPD0000"
         ]
 
         # get list of input values from website
@@ -62,6 +60,7 @@ class Illinois(Scraper):
 
         results = list()
         for agency in agencies:
+            self.logger.info(f"scraping {agency[0]}")
             results.extend(self.get_agency(agency))
         return results
 

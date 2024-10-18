@@ -5,7 +5,7 @@
 *.idea*
 
 # Privacy and security
-pipeline/.env
+.env
 
 # Packages
 *__pycache__*
@@ -20,4 +20,3 @@ pipeline/.env
 .vscode/
 /.vs
 rtci.code-workspace
-.env

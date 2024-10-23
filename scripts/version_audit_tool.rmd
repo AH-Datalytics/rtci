@@ -33,3 +33,63 @@ summary_table <- data.frame(
 # View the summary table
 summary_table
 ```
+more auditing checks - pueblo, co rape trend fix
+```{r}
+# Example dataframe
+# Assume `crime_data` has columns: year, month, `Agency Name`, crime_type1, crime_type2, ..., crime_typeN
+
+library(dplyr)
+library(zoo) # for rolling averages
+
+# Group by year, month, and `Agency Name`
+grouped_data <- cleaned_data %>%
+  arrange(`Agency Name`, Year, Month) %>%
+  group_by(`Agency Name`)
+
+# Initialize empty dataframes for the three criteria
+df1 <- data.frame()  # Dataframe for condition 1
+df2 <- data.frame()  # Placeholder for future condition 2
+df3 <- data.frame()  # Placeholder for future condition 3
+
+# Initialize empty data frame to store results
+df1 <- data.frame()
+
+# Define a single crime type to test
+crime_type <- "Rape"
+
+# Iterate over each agency
+for (agency in unique(cleaned_data$`Agency Name`)) {
+  # Filter records for this agency
+  agency_data <- grouped_data %>% filter(`Agency Name` == agency)
+  
+  # Create a time series of crime counts for the specific crime type
+  agency_crime_data <- agency_data %>%
+    select(Year, Month, `Agency Name`, !!sym(crime_type)) %>%
+    arrange(Year, Month)
+
+  # Calculate the 12-month rolling average for this crime type
+  agency_crime_data <- agency_crime_data %>%
+    mutate(rolling_avg_12m = rollmean(!!sym(crime_type), 12, fill = NA, align = "right"))
+
+  # Condition 1: current value is 50% higher than the rolling 12-month average
+  agency_crime_data_condition1 <- agency_crime_data %>%
+    filter(!!sym(crime_type) > rolling_avg_12m * 1.5)
+
+  # Append to df1 if the condition is met
+  if (nrow(agency_crime_data_condition1) > 0) {
+    df1 <- rbind(df1, agency_crime_data_condition1)
+  }
+
+  # Placeholder logic for condition 2 and 3 (to be defined later)
+  # df2 <- rbind(df2, <condition 2 logic here>)
+  # df3 <- rbind(df3, <condition 3 logic here>)
+}
+
+# View the results
+df1
+# Resulting dataframes:
+ #df1 -> records where the 12-month rolling average is 50% greater than the most recent value
+# df2, df3 -> placeholders for further conditions
+
+
+```

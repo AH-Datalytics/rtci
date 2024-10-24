@@ -1,3 +1,5 @@
+name: server-repo-update
+
 on:
   push:
     branches:

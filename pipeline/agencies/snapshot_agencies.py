@@ -7,19 +7,21 @@ from logger import create_logger
 from time import time
 
 
-logger = create_logger()
+class Snapshot:
+    def __init__(self):
+        self.logger = create_logger()
+
+    def run(self):
+        records = get_records_from_sheet(self.logger, "Metadata")
+        self.logger.info(f"sample record: {records[0]}")
+
+        snapshot_json(
+            logger=self.logger,
+            json_data=records,
+            path="airtable/",
+            timestamp=int(time()),
+        )
 
 
-# retrieve airtable data
-records = get_records_from_sheet(logger, "Metadata")
-
-
-# stash as json in aws
-logger.info("sample record:")
-logger.info(f"{records[0]}")
-snapshot_json(
-    logger=logger,
-    json_data=records,
-    path="airtable/",
-    timestamp=int(time()),
-)
+if __name__ == "__main__":
+    Snapshot().run()

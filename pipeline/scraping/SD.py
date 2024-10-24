@@ -12,20 +12,29 @@ from parallelize import thread
 from super import Scraper
 
 
-class Texas(Scraper):
+class SouthDakota(Scraper):
     def __init__(self):
         super().__init__()
-        self.path = "tx/"
+        self.path = "SD/"
         self.agency_list_url = (
-            "https://txucr.nibrs.com/SRSReport/GetSRSReportByValues?ReportType=Agency"
+            "https://sdcrime.nibrs.com/Report/GetReportByValues?ReportType=Agency"
         )
-        self.data_url = "https://txucr.nibrs.com/SRSReport/GetCrimeTrends?"
+        self.data_url = "https://sdcrime.nibrs.com/Report/GetCrimeTrends?"
         self.payload = {
             "ReportType": "Agency",
-            "StartDate": "01/01/2017",
-            "EndDate": "08/31/2024",
-            "OffenseIDs": "P1",
+            "startDate": "012017",
+            "endDate": "082024",
             "DrillDownReportIDs": -1,
+            "IsGroupAOffense": True,
+        }
+        self.offense_ids = {
+            "09A": "murder",
+            "11A,11B,11C": "rape",
+            "120": "robbery",
+            "13A": "aggravated_assault",
+            "220": "burglary",
+            "23A,23B,23C,23D,23E,23F,23G,23H": "theft",
+            "240": "motor_vehicle_theft",
         }
 
     def scrape(self):
@@ -33,7 +42,7 @@ class Texas(Scraper):
         agencies = [
             d["ori"]
             for d in get_records_from_sheet(
-                self.logger, "Metadata", formula="{state}='Texas'"
+                self.logger, "Metadata", formula="{state}='South Dakota'"
             )
         ]
 
@@ -55,28 +64,31 @@ class Texas(Scraper):
         agency, value = agency
         payload = self.payload.copy()
         payload.update({"ReportIDs": value})
-        r = requests.get(self.data_url, params=payload)
-        j = json.loads(r.text)
-
-        dates = [dt.strptime(d, "%Y/%b") for d in j["periodlist"]]
-        crimes = j["crimeList"]
 
         out = list()
-        for c in crimes:
-            out.append(pd.DataFrame({"dates": dates, c["name"]: c["data"]}))
-        df = reduce(lambda df1, df2: pd.merge(df1, df2, on="dates"), out)
-        df = df.rename(
-            columns={
-                "dates": "Date",
-                "Murder and Nonnegligent Homicide": "Murder",
-                "Larceny - Theft": "Theft",
-            }
-        )
-        df = df.drop(columns=["Manslaughter by Negligence"])
-        df["ori"] = agency
+        for offense in self.offense_ids:
+            payload.update({"OffenseIDs": offense})
+            r = requests.get(self.data_url, params=payload)
+            j = json.loads(r.text)
 
-        df.columns = df.columns.str.lower()
-        df.columns = df.columns.str.replace(" ", "_")
+            dates = [dt.strptime(d, "%Y/%b") for d in j["periodlist"]]
+            crimes = j["crimeList"]
+            assert len(crimes) == 1
+            crimes = crimes[0]
+
+            if crimes["data"]:
+                out.append(
+                    pd.DataFrame(
+                        {"date": dates, self.offense_ids[offense]: crimes["data"]}
+                    )
+                )
+            else:
+                out.append(
+                    pd.DataFrame({"date": dates, self.offense_ids[offense]: None})
+                )
+
+        df = reduce(lambda df1, df2: pd.merge(df1, df2, on="date"), out)
+        df["ori"] = agency
 
         df = df.set_index("date")
         for crime in self.crimes:
@@ -92,4 +104,4 @@ class Texas(Scraper):
         return df.to_dict("records")
 
 
-Texas().run()
+SouthDakota().run()

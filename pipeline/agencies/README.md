@@ -1,7 +1,4 @@
 ***
-[TODO: Wrap all in `__main__` funcs and make scripts 1 and 2
-a single script with arguments]
-
 [TODO: Set up scheduler for `snapshot_agencies.py`]
 ***
 
@@ -10,45 +7,54 @@ a single script with arguments]
 The `agencies/` directory establishes the set of 
 agency entities for which crime stats are sampled.
 
+From an external source list of thousands of agencies,
+the following criteria are used to reduce to a reasonable
+set:
+
+1. Use the latest `data_year` (currently `2023`).
+2. Only keep records with `agency_type = "City"`.
+3. Only keep locales with `population >= 40_000`.
+
+After filtering, this data is matched to the existing
+`RTCI` dataset, and a series of manual cleaning operations
+are conducted (e.g., `"St Charles" -> "St. Charles"`).
+
+Once 100% matching is achieved, data are interacted with
+Airtable.
+
 ***
 
-**Sources**
+**Source**
 
-*1. City Populations*
+*1. External participation file*
 
-`Jeff Asher <jasher@ahdatalytics.com>` receives an 
-Excel file `Populations for RTCI.xlsx` via email 
-from the FBI with annual populations per city.Municipalities with populations `< 50,000`
-are excluded from the sample.
+`Jeff Asher <jasher@ahdatalytics.com>` receives a CSV
+file `CDE Participation 2000-{YYYY}.csv` via email 
+from the FBI, which is stashed to AWS S3 (`rtci/sources/`).
 
-The most recent file includes `2023` estimates for 
-`859` cities meeting the above criterion.
+The most recent file includes `2023` estimates.
 
-*2. Included agencies*
+*2. Internal included agencies file*
 
-The most recent `rtci/data/final_sample.csv` CSV file
+The most recent `final_sample.csv` CSV file
 can be used to determine the preexisting set of agencies
-that have been included in the sample by the RTCI team.
+that have been included in the sample by the RTCI team
+(this is also stashed to AWS S3).
 
 ***
 
 **Scripts**
 
-There are three basic actions executed in this directory:
+There are two basic actions executed in this directory:
 
-1. `update_agencies.py` takes the `Populations for RTCI.xlsx`
+1. `update_agencies.py` takes the `CDE Participation 2000-{YYYY}.csv`
 set of cities (including populations) and left-merges the 
 set of distinct agencies (including sourcing metadata) 
 from the `final_sample.csv` set of agencies. The output is 
 upserted into the Airtable base/table `RTCI:Metadata`.
 
 
-2. `update_pops.py` takes the `Populations for RTCI.xlsx`
-file and simply updates population data in the existing
-Airtable base/table `RTCI:Metadata`
-
-
-3. `snapshot_agencies.py` snapshots the current Airtable
+2. `snapshot_agencies.py` snapshots the current Airtable
 base/table `RTCI:Metadata` as a JSON file to AWS as
 `sample-rtci/airtable/{timestamp}.json`
 

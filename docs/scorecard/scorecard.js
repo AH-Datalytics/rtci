@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const dataPath = "../app_data/by_agency_table.csv"; // Update this path if necessary
+    const dataPath = "../app_data/by_agency_table.csv";
     let allData = [];
     let selectedState = "State";
     let selectedAgency = "Agency";
@@ -16,14 +16,12 @@ document.addEventListener("DOMContentLoaded", function () {
         allData = data;
         console.log("Data loaded:", data); // Log to confirm data load
         populateDropdowns(data);
-        updateYearHeaders(); // Set dynamic year headers in the scorecard
+        updateYearHeaders();
     }).catch(error => console.error("Error loading data:", error));
 
     function populateDropdowns(data) {
         const states = [...new Set(data.map(row => row.state_name))].sort();
         createSearchableDropdown("state-dropdown", "state-btn", states, true);
-
-        // Initialize with empty agencies until state is selected
         createSearchableDropdown("agency-dropdown", "agency-btn", [], false);
     }
 
@@ -31,25 +29,20 @@ document.addEventListener("DOMContentLoaded", function () {
         const dropdown = document.getElementById(dropdownId);
         const button = document.getElementById(buttonId);
 
-        // Create search input for the dropdown
         const searchInput = document.createElement("input");
         searchInput.type = "text";
         searchInput.placeholder = "Search...";
         searchInput.className = "dropdown-search";
 
-        dropdown.innerHTML = ""; // Clear existing options
+        dropdown.innerHTML = "";
         dropdown.appendChild(searchInput);
 
-        // Filter function to dynamically display options
         function filterOptions() {
             const filter = searchInput.value.toLowerCase();
             const filteredOptions = options.filter(option => option.toLowerCase().includes(filter));
-
-            // Clear current options
             const existingItems = dropdown.querySelectorAll(".dropdown-item");
             existingItems.forEach(item => item.remove());
 
-            // Append new options based on filter
             filteredOptions.forEach(option => {
                 const item = document.createElement("div");
                 item.className = "dropdown-item";
@@ -60,11 +53,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     if (isState) {
                         selectedState = option;
-                        updateAgencyDropdown(selectedState); // Update agency options based on state
+                        updateAgencyDropdown(selectedState);
                     } else {
                         selectedAgency = option;
                     }
-                    updateFilterSentence(); // Update sentence only once selections are complete
+                    updateFilterSentence();
                     filterAndDisplayData();
                 });
                 dropdown.appendChild(item);
@@ -72,9 +65,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         searchInput.addEventListener("input", filterOptions);
-        filterOptions(); // Initialize with all options
+        filterOptions();
 
-        // Toggle dropdown visibility
         button.addEventListener("click", function (event) {
             event.stopPropagation();
             closeAllDropdowns();
@@ -107,51 +99,72 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
             if (filteredData.length > 0) {
-                console.log("Filtered data:", filteredData); // Log to verify filtered data
-                const crimeData = calculateAggregates(filteredData);
+                console.log("Filtered data:", filteredData);
+                const mostRecentMonth = getMostRecentMonth(filteredData);
+                const crimeData = calculateAggregates(filteredData, mostRecentMonth);
                 renderScorecard(crimeData);
             }
         }
     }
 
-    function calculateAggregates(data) {
-        const crimeTypes = [
-            "aggravated_assault", "burglary", "motor_vehicle_theft", "murder", "rape", "robbery", "theft"
+    function getMostRecentMonth(data) {
+        const dates = data.map(row => new Date(row.date));
+        const mostRecentDate = new Date(Math.max(...dates));
+        return mostRecentDate.getMonth() + 1;
+    }
+
+    function calculateAggregates(data, endMonth) {
+        const crimeGroups = [
+            { type: "violent_crime", label: "Violent Crime", subtypes: ["murder", "rape", "robbery", "aggravated_assault"] },
+            { type: "property_crime", label: "Property Crime", subtypes: ["burglary", "theft", "motor_vehicle_theft"] }
         ];
 
         const result = [];
 
-        crimeTypes.forEach(crime => {
-            const yearCounts = {};
+        crimeGroups.forEach(({ type, label, subtypes }) => {
+            let overallCounts = { twoPrev: 0, onePrev: 0, current: 0 };
+            const typeResults = subtypes.map(crime => {
+                const yearCounts = getYearlyCounts(data, crime, endMonth);
+                overallCounts.twoPrev += yearCounts.twoPrev;
+                overallCounts.onePrev += yearCounts.onePrev;
+                overallCounts.current += yearCounts.current;
 
-            data.forEach(row => {
-                const year = new Date(row.date).getFullYear();
-                if (!yearCounts[year]) yearCounts[year] = 0;
-                yearCounts[year] += parseInt(row[crime]) || 0;
+                return {
+                    crime: formatCrimeType(crime),
+                    counts: yearCounts,
+                    isOverall: false
+                };
             });
 
-            const twoPrev = yearCounts[yearLabels.twoPrev] || 0;
-            const onePrev = yearCounts[yearLabels.onePrev] || 0;
-            const current = yearCounts[yearLabels.current] || 0;
-
-            const fullYearChange = calculatePercentChange(onePrev, twoPrev);
-            const ytdChangeTwoPrevCurrent = calculatePercentChange(current, twoPrev);
-            const ytdChangeOnePrevCurrent = calculatePercentChange(current, onePrev);
-
-            result.push({
-                crime: formatCrimeType(crime),
-                fullYear: { twoPrev, onePrev, fullYearChange },
-                ytd: { twoPrev, onePrev, current, ytdChangeTwoPrevCurrent, ytdChangeOnePrevCurrent }
-            });
+            result.push({ crime: label, counts: overallCounts, isOverall: true });
+            result.push(...typeResults);
         });
 
         return result;
     }
 
+    function getYearlyCounts(data, crime, endMonth) {
+        const yearCounts = { twoPrev: 0, onePrev: 0, current: 0 };
+
+        data.forEach(row => {
+            const date = new Date(row.date);
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+
+            if (month <= endMonth) {
+                if (year === yearLabels.twoPrev) yearCounts.twoPrev += parseInt(row[crime]) || 0;
+                else if (year === yearLabels.onePrev) yearCounts.onePrev += parseInt(row[crime]) || 0;
+                else if (year === yearLabels.current) yearCounts.current += parseInt(row[crime]) || 0;
+            }
+        });
+
+        return yearCounts;
+    }
+
     function calculatePercentChange(newVal, oldVal) {
-        if (oldVal === 0) return newVal === 0 ? 0 : 100;
+        if (oldVal === 0) return newVal === 0 ? "0%" : "+100%";
         const change = (((newVal - oldVal) / oldVal) * 100).toFixed(1);
-        return (change > 0 ? "+" : "") + change; // Add "+" for positive changes
+        return (change > 0 ? "+" : "") + change + "%";
     }
 
     function formatCrimeType(crime) {
@@ -160,25 +173,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function renderScorecard(data) {
         const tbody = document.getElementById("scorecard-body");
-        tbody.innerHTML = ""; // Clear previous content
+        tbody.innerHTML = "";
 
         data.forEach(item => {
+            const { crime, counts, isOverall } = item;
+            const fontWeight = isOverall ? "bold" : "normal";
+            const fontSize = isOverall ? "1.2em" : "1em";
+
             const row = document.createElement("tr");
             row.innerHTML = `
-                <td>${item.crime}</td>
-                <td>${item.fullYear.twoPrev}</td>
-                <td>${item.fullYear.onePrev}</td>
-                <td style="color: ${getColor(item.fullYear.fullYearChange)};">
-                    ${item.fullYear.fullYearChange}%
+                <td style="font-weight: ${fontWeight}; font-size: ${fontSize};">${crime}</td>
+                <td>${counts.twoPrev}</td>
+                <td>${counts.onePrev}</td>
+                <td style="color: ${getColor(calculatePercentChange(counts.onePrev, counts.twoPrev))};">
+                    ${calculatePercentChange(counts.onePrev, counts.twoPrev)}
                 </td>
-                <td>${item.ytd.twoPrev}</td>
-                <td>${item.ytd.onePrev}</td>
-                <td>${item.ytd.current}</td>
-                <td style="color: ${getColor(item.ytd.ytdChangeTwoPrevCurrent)};">
-                    ${item.ytd.ytdChangeTwoPrevCurrent}%
+                <td>${counts.twoPrev}</td>
+                <td>${counts.onePrev}</td>
+                <td>${counts.current}</td>
+                <td style="color: ${getColor(calculatePercentChange(counts.current, counts.twoPrev))};">
+                    ${calculatePercentChange(counts.current, counts.twoPrev)}
                 </td>
-                <td style="color: ${getColor(item.ytd.ytdChangeOnePrevCurrent)};">
-                    ${item.ytd.ytdChangeOnePrevCurrent}%
+                <td style="color: ${getColor(calculatePercentChange(counts.current, counts.onePrev))};">
+                    ${calculatePercentChange(counts.current, counts.onePrev)}
                 </td>
             `;
             tbody.appendChild(row);
@@ -186,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function getColor(value) {
-        return value.startsWith("+") ? "#f28106" : "#2d5ef9"; // Orange for positive, blue for negative
+        return value.startsWith("+") ? "#f28106" : "#2d5ef9";
     }
 
     function updateYearHeaders() {
@@ -195,11 +212,11 @@ document.addEventListener("DOMContentLoaded", function () {
             <th style="background-color: #00333a; color: white;">${yearLabels.twoPrev}</th>
             <th style="background-color: #00333a; color: white;">${yearLabels.onePrev}</th>
             <th style="background-color: #00333a; color: white;">% Change ${yearLabels.twoPrev}-${yearLabels.onePrev}</th>
-            <th style="background-color: #00333a; color: white;">${yearLabels.twoPrev}</th>
-            <th style="background-color: #00333a; color: white;">${yearLabels.onePrev}</th>
-            <th style="background-color: #00333a; color: white;">${yearLabels.current}</th>
-            <th style="background-color: #00333a; color: white;">% Change ${yearLabels.twoPrev}-${yearLabels.current}</th>
-            <th style="background-color: #00333a; color: white;">% Change ${yearLabels.onePrev}-${yearLabels.current}</th>
+            <th style="background-color: #00333a; color: white;">${yearLabels.twoPrev} (YTD)</th>
+            <th style="background-color: #00333a; color: white;">${yearLabels.onePrev} (YTD)</th>
+            <th style="background-color: #00333a; color: white;">${yearLabels.current} (YTD)</th>
+            <th style="background-color: #00333a; color: white;">% Change ${yearLabels.twoPrev}-${yearLabels.current} (YTD)</th>
+            <th style="background-color: #00333a; color: white;">% Change ${yearLabels.onePrev}-${yearLabels.current} (YTD)</th>
         `;
     }
 });

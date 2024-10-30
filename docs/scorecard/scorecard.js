@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Load data
     d3.csv(dataPath).then(data => {
         allData = data;
-        console.log("Data loaded:", data); // Log to confirm data load
+        console.log("Data loaded:", data);
         populateDropdowns(data);
         updateYearHeaders();
     }).catch(error => console.error("Error loading data:", error));
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateFilterSentence() {
         document.getElementById("filters-container").querySelector("span").textContent =
-            `Show me the reported crime scorecard for ${selectedState} for ${selectedAgency}`;
+            `Show me the reported crime scorecard of`;
     }
 
     function filterAndDisplayData() {
@@ -114,27 +114,20 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function calculateAggregates(data, endMonth) {
-        const crimeGroups = [
+        const crimeTypes = [
             { type: "violent_crime", label: "Violent Crime", subtypes: ["murder", "rape", "robbery", "aggravated_assault"] },
             { type: "property_crime", label: "Property Crime", subtypes: ["burglary", "theft", "motor_vehicle_theft"] }
         ];
 
         const result = [];
 
-        crimeGroups.forEach(({ type, label, subtypes }) => {
-            let overallCounts = { twoPrev: 0, onePrev: 0, current: 0 };
-            const typeResults = subtypes.map(crime => {
-                const yearCounts = getYearlyCounts(data, crime, endMonth);
-                overallCounts.twoPrev += yearCounts.twoPrev;
-                overallCounts.onePrev += yearCounts.onePrev;
-                overallCounts.current += yearCounts.current;
-
-                return {
-                    crime: formatCrimeType(crime),
-                    counts: yearCounts,
-                    isOverall: false
-                };
-            });
+        crimeTypes.forEach(({ type, label, subtypes }) => {
+            const overallCounts = getYearlyCounts(data, type, endMonth, true);
+            const typeResults = subtypes.map(crime => ({
+                crime: formatCrimeType(crime),
+                counts: getYearlyCounts(data, crime, endMonth, false),
+                isOverall: false
+            }));
 
             result.push({ crime: label, counts: overallCounts, isOverall: true });
             result.push(...typeResults);
@@ -143,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return result;
     }
 
-    function getYearlyCounts(data, crime, endMonth) {
+    function getYearlyCounts(data, crime, endMonth, isOverall) {
         const yearCounts = { twoPrev: 0, onePrev: 0, current: 0 };
 
         data.forEach(row => {
@@ -151,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const year = date.getFullYear();
             const month = date.getMonth() + 1;
 
-            if (month <= endMonth) {
+            if (month <= endMonth && month >= 1) { // Only consider months from January to endMonth
                 if (year === yearLabels.twoPrev) yearCounts.twoPrev += parseInt(row[crime]) || 0;
                 else if (year === yearLabels.onePrev) yearCounts.onePrev += parseInt(row[crime]) || 0;
                 else if (year === yearLabels.current) yearCounts.current += parseInt(row[crime]) || 0;

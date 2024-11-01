@@ -1,21 +1,81 @@
 /* Add a right border to the last Full Year column */
-#scorecard-table thead th:nth-child(4) {
+#scorecard-table thead th:nth-child(6) {
     border-right: 1px dotted #00333a83; /* Adjust the color and width as needed */
 }
 
 /* Optional: You might also want to add the same style for the tbody cells to keep the border consistent */
-#scorecard-table tbody td:nth-child(4) {
+#scorecard-table tbody td:nth-child(6) {
     border-right: 1px dotted #00333a83;
 }
 
 /* Specific styles for the header cells in scorecard table */
 #scorecard-table thead th {
-    background-color: #00333a !important;  /* Override any existing background */
+    background-color: #00333a ;  /* Override any existing background */
 }
 
 /* Center-align only the second column in the scorecard table */
 #scorecard-table th:nth-child(2),
 #scorecard-table td:nth-child(2) {
     text-align: center;
+}
+
+
+
+/* Trackers Container Styling */
+#trackers-container {
+    padding-bottom: 20px;
+    padding-left: 20px;
+}
+
+
+#trackers-container p {
+    margin: 0 20px 5px 0; /* Space each tracker item */
+    font-size: 1.1vw;
+    color: #00333a; /* Darker color for text */
+}
+
+#trackers-container p strong {
+    font-weight: 700;
+    color: #00333a /* Accent color for tracker labels */
+}
+
+
+
+#trackers-container span {
+    font-weight: 300;
+    color: #f28106;
+}
+
+
+/* Special styling for agency name */
+#trackers-container .tracker-agency-name {
+    color: #2d5ef9; /* Ensures this color applies only to .tracker-agency-name within #trackers-container */
+    font-weight: bold;
+}
+
+
+
+@media (max-width: 800px) {
+    #scorecard-table th, td {
+        font-size: 2vw;
+    }
+
+    #trackers-container p {
+        font-size: 3vw;
+    }
+}
+
+#trackers-container {
+    background-color: #f5f5f557; /* Light grey background */
+    padding: 5px; /* Add some padding inside the box */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    margin-bottom: 20px; /* Space below the trackers container */
+    max-width:300px; /* Adjust width as needed */
+    margin: 0 auto 10px 20px; /* Center the container and add bottom margin */
+}
+
+#trackers-container p {
+    margin: 5px 0; /* Adjust spacing between lines */
 }
 

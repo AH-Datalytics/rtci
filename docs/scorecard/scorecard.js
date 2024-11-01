@@ -144,13 +144,25 @@ document.addEventListener("DOMContentLoaded", function () {
     function filterAndDisplayData() {
         if (selectedState && selectedAgency) {
             const filteredData = allData.filter(row => row.state_name === selectedState && row.agency_name === selectedAgency);
-
+    
             if (filteredData.length > 0) {
+                // Calculate the previous year
+                const previousYear = currentYear - 1;
+    
+                // Populate the trackers with dynamic previous year for population
+                document.getElementById("tracker-agency").innerHTML = `<span class="tracker-agency-name">${selectedAgency}, ${selectedState} </span>`;
+                document.getElementById("tracker-source-type").textContent = filteredData[0].source_type || 'N/A';
+                document.getElementById("tracker-source-method").textContent = filteredData[0].source_method || 'N/A';
+                document.getElementById("tracker-population").innerHTML = `<strong>${previousYear} Population:</strong> ${filteredData[0].population ? parseInt(filteredData[0].population).toLocaleString() : 'N/A'}`;
+                document.getElementById("tracker-ytd-range").textContent = filteredData[0].ytd_month_range || 'N/A';
+    
                 console.log("Filtered data:", filteredData);
                 renderScorecard(filteredData);
             }
         }
     }
+    
+    
 
     function renderScorecard(data) {
         const tbody = document.getElementById("scorecard-body");
@@ -158,36 +170,33 @@ document.addEventListener("DOMContentLoaded", function () {
     
         // Define the order for crime types based on severity
         const crimeOrder = [
-            { crime: "Violent Crime", isHeader: true },
+            { crime: "violent_crime", isHeader: true },
             { crime: "murder", isHeader: false },
             { crime: "rape", isHeader: false },
             { crime: "robbery", isHeader: false },
             { crime: "aggravated_assault", isHeader: false },
-            { crime: "Property Crime", isHeader: true },
+            { crime: "property_crime", isHeader: true },
             { crime: "burglary", isHeader: false },
             { crime: "theft", isHeader: false },
             { crime: "motor_vehicle_theft", isHeader: false }
         ];
     
-        // Sort data based on the defined order
+        // Loop through crimeOrder to display each type, formatted
         crimeOrder.forEach(orderItem => {
-            const filteredData = data.filter(row => formatCrimeType(row.crime_type).toLowerCase() === orderItem.crime.toLowerCase());
+            const filteredData = data.filter(row => row.crime_type.toLowerCase() === orderItem.crime.toLowerCase());
+    
+            // Log if a specific crime type isn't showing up
+            if (filteredData.length === 0) console.log(`Missing data for crime type: ${orderItem.crime}`);
     
             filteredData.forEach(row => {
                 const isHeader = orderItem.isHeader;
                 const fontWeight = isHeader ? "bold" : "normal";
-                const fontSize = isHeader ? "1.2em" : "1em";
+                const fontSize = isHeader ? "1.2em" : "1.1em";
                 const color = isHeader ? "#00333a" : ""; // Color for headers
     
                 const rowElement = document.createElement("tr");
                 rowElement.innerHTML = `
                     <td style="font-weight: ${fontWeight}; font-size: ${fontSize}; color: ${color};">${formatCrimeType(row.crime_type)}</td>
-                    <td>${formatNumber(row.two_years_prior_full)}</td>
-                    <td>${formatNumber(row.previous_year_full)}</td>
-                    <td style="color: ${getColor(row.two_years_prior_previous_year_full_pct_change)};">
-                        ${formatPercentage(row.two_years_prior_previous_year_full_pct_change)}
-                    </td>
-                    <td>${row.ytd_month_range.replace(/ \d{4}$/, '') || 'N/A'}</td>
                     <td>${formatNumber(row.two_years_prior_ytd)}</td>
                     <td>${formatNumber(row.previous_year_ytd)}</td>
                     <td>${formatNumber(row.current_year_ytd)}</td>
@@ -197,11 +206,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     <td style="color: ${getColor(row.previous_year_current_year_ytd_pct_change)};">
                         ${formatPercentage(row.previous_year_current_year_ytd_pct_change)}
                     </td>
+                    <td>${formatNumber(row.two_years_prior_full)}</td>
+                    <td>${formatNumber(row.previous_year_full)}</td>
+                    <td style="color: ${getColor(row.two_years_prior_previous_year_full_pct_change)};">
+                        ${formatPercentage(row.two_years_prior_previous_year_full_pct_change)}
+                    </td>
                 `;
                 tbody.appendChild(rowElement);
             });
         });
     }
+    
     
     // Helper function to format numbers with commas
     function formatNumber(value) {
@@ -229,19 +244,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     
     function updateYearHeaders() {
-    document.querySelector("#scorecard-table thead tr:nth-child(1)").innerHTML = `
-        <th style="background-color: #00333a; color: white;"></th>
-        <th style="background-color: #00333a; color: white;">${yearLabels.twoPrev} (Full Year)</th>
-        <th style="background-color: #00333a; color: white;">${yearLabels.onePrev} (Full Year)</th>
-        <th style="background-color: #00333a; color: white;">% Change ${yearLabels.twoPrev}-${yearLabels.onePrev} (Full Year)</th>
-        <th style="background-color: #00333a; color: white;">YTD Range</th>
-        <th style="background-color: #00333a; color: white;">${yearLabels.twoPrev} (YTD)</th>
-        <th style="background-color: #00333a; color: white;">${yearLabels.onePrev} (YTD)</th>
-        <th style="background-color: #00333a; color: white;">${yearLabels.current} (YTD)</th>
-        <th style="background-color: #00333a; color: white;">% Change ${yearLabels.twoPrev}-${yearLabels.current} (YTD)</th>
-        <th style="background-color: #00333a; color: white;">% Change ${yearLabels.onePrev}-${yearLabels.current} (YTD)</th>
-    `;
-}
+        document.querySelector("#scorecard-table thead tr:nth-child(1)").innerHTML = `
+            <th style="background-color: #00333a; color: white;"></th>
+            <th style="background-color: #00333a; color: white;">${yearLabels.twoPrev} (YTD)</th>
+            <th style="background-color: #00333a; color: white;">${yearLabels.onePrev} (YTD)</th>
+            <th style="background-color: #00333a; color: white;">${yearLabels.current} (YTD)</th>
+            <th style="background-color: #00333a; color: white;">% Change ${yearLabels.twoPrev}-${yearLabels.current} (YTD)</th>
+            <th style="background-color: #00333a; color: white;">% Change ${yearLabels.onePrev}-${yearLabels.current} (YTD)</th>
+            <th style="background-color: #00333a; color: white;">${yearLabels.twoPrev} (Full Year)</th>
+            <th style="background-color: #00333a; color: white;">${yearLabels.onePrev} (Full Year)</th>
+            <th style="background-color: #00333a; color: white;">% Change ${yearLabels.twoPrev}-${yearLabels.onePrev} (Full Year)</th>
+        `;
+    }
+    
 
 
     function closeAllDropdowns() {

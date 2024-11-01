@@ -43,6 +43,14 @@
                 </div>
                 <!-- Scorecard table -->
                 <div class="table-container">
+                         <!-- Trackers Container (below tabs, above table) -->
+                    <div id="trackers-container" style="margin-top: 20px; text-align: left;">
+                        <p><strong>Agency:</strong> <span id="tracker-agency"></span></p>
+                        <p><strong>Source Type:</strong> <span id="tracker-source-type"></span></p>
+                        <p><strong>Source Method:</strong> <span id="tracker-source-method"></span></p>
+                        <p><strong></strong> <span id="tracker-population"></span></p>
+                        <p><strong>Year to Date Range:</strong> <span id="tracker-ytd-range"></span></p>
+                    </div>
                     <table id="scorecard-table">
                         <thead>
                             <tr>
@@ -50,7 +58,6 @@
                                 <th id="two-prev-full-year"></th>
                                 <th id="prev-full-year"></th>
                                 <th id="curr-full-year"></th>
-                                <th id="ytd-range"></th>
                                 <th id="two-prev-ytd"></th>
                                 <th id="prev-ytd"></th>
                                 <th id="curr-ytd"></th>

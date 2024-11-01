@@ -1,8 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
     const dataPath = "../app_data/scorecard.csv";
     let allData = [];
-    let selectedState = "State";
-    let selectedAgency = "Agency";
+    
+    // Set default values for state and agency
+    let selectedState = "Nationwide";
+    let selectedAgency = "Full Sample";
     
     // Define years as strings for dynamic labeling
     const currentYear = new Date().getFullYear();
@@ -18,6 +20,13 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Data loaded:", data);
         populateDropdowns(data);
         updateYearHeaders();
+        
+        // Set the dropdowns to the default values
+        document.getElementById("state-btn").textContent = selectedState;
+        document.getElementById("agency-btn").textContent = selectedAgency;
+
+        // Trigger filtering and display of data with default values
+        filterAndDisplayData();
     }).catch(error => console.error("Error loading data:", error));
 
     function populateDropdowns(data) {
@@ -79,9 +88,26 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function updateAgencyDropdown(state) {
-        const agencies = [...new Set(allData.filter(row => row.state_name === state).map(row => row.agency_name))].sort();
+        // Get unique agencies for the selected state
+        let agencies = [...new Set(allData.filter(row => row.state_name === state).map(row => row.agency_name))].sort();
+        
+        // Move "Full Sample" to the top if it exists
+        const fullSampleIndex = agencies.indexOf("Full Sample");
+        if (fullSampleIndex !== -1) {
+            agencies.splice(fullSampleIndex, 1); // Remove "Full Sample" from its current position
+            agencies.unshift("Full Sample"); // Add it to the beginning of the array
+        }
+    
+        // Create the dropdown with "Full Sample" as the first option
         createSearchableDropdown("agency-dropdown", "agency-btn", agencies, false);
+        
+        // If state is "Nationwide," set the agency to "Full Sample" by default
+        if (state === "Nationwide") {
+            selectedAgency = "Full Sample";
+            document.getElementById("agency-btn").textContent = "Full Sample";
+        }
     }
+    
 
     function closeAllDropdowns() {
         const dropdownMenus = document.querySelectorAll(".dropdown-menu");
@@ -94,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function filterAndDisplayData() {
-        if (selectedState !== "State" && selectedAgency !== "Agency") {
+        if (selectedState && selectedAgency) {
             const filteredData = allData.filter(row =>
                 row.state_name === selectedState && row.agency_name === selectedAgency
             );
@@ -119,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td style="color: ${getColor(row.two_years_prior_previous_year_full_pct_change)};">
                     ${formatPercentage(row.two_years_prior_previous_year_full_pct_change)}
                 </td>
-                <td>${row.ytd_month_range || 'N/A'}</td>
+                <td>${row.ytd_month_range.replace(/ \d{4}$/, '') || 'N/A'}</td> <!-- Remove year from YTD range -->
                 <td>${row.two_years_prior_ytd || 'N/A'}</td>
                 <td>${row.previous_year_ytd || 'N/A'}</td>
                 <td>${row.current_year_ytd || 'N/A'}</td>

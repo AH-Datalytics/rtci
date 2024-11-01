@@ -594,34 +594,42 @@ data_long <- data %>%
     values_to = "count"
   )
 
-# Calculate the most recent year and month for each agency
+# Calculate the most recent year for each agency
 most_recent_year_data <- data_long %>%
   group_by(agency_name) %>%
   summarise(
     most_recent_year = max(year, na.rm = TRUE)
   )
 
-# Filter data to include only rows from each agency's most recent year
-data_filtered <- data_long %>%
-  inner_join(most_recent_year_data, by = "agency_name") %>%
-  filter(year == most_recent_year)
+# Get the current maximum year across all agencies
+max_year <- max(most_recent_year_data$most_recent_year, na.rm = TRUE)
+
+# Filter to include only agencies with data in the max year (most recent year)
+agencies_with_current_year_data <- most_recent_year_data %>%
+  filter(most_recent_year == max_year) %>%
+  pull(agency_name)
+
+# Filter data_long to include only rows from agencies with data in the most recent year
+data_long <- data_long %>%
+  filter(agency_name %in% agencies_with_current_year_data)
 
 # Calculate the most recent month in the most recent year for each agency
-most_recent_month_data <- data_filtered %>%
+most_recent_month_data <- data_long %>%
+  filter(year == max_year) %>%
   group_by(agency_name) %>%
   summarise(
     most_recent_month = max(month(date), na.rm = TRUE),
-    most_recent_year = unique(most_recent_year)
+    most_recent_year = unique(year)
   ) %>%
   mutate(
     most_recent_month_name = month.abb[most_recent_month],
-    ytd_month_range = paste0("Jan-", most_recent_month_name, " ", most_recent_year)  # Include year in the range
+    ytd_month_range = paste0("Jan", " ", "-", " ", most_recent_month_name, " ",  most_recent_year)  # Include only months in the range
   )
 
-# Join `most_recent_month_data` with `data_filtered` to include `ytd_month_range`
+# Join `most_recent_month_data` with `data_long` to include `ytd_month_range`
 data_filtered <- data_long %>%
   inner_join(most_recent_month_data, by = "agency_name") %>%
-  filter((year < most_recent_year) | 
+  filter((year < most_recent_year) |
            (year == most_recent_year & month(date) <= most_recent_month))
 
 # Define the years of interest based on the latest available year in the dataset
@@ -667,6 +675,7 @@ summary_data <- summary_data %>%
     "two_years_prior_current_year_ytd_pct_change", "previous_year_current_year_ytd_pct_change"
   ))
 
-# Save the data as a CSV file to the app_data directory
-write_csv(summary_data, "../docs/app_data/scorecard.csv")
+# Save the final dataset
+write.csv(summary_data, "../docs/app_data/scorecard.csv", row.names = FALSE)
+
 

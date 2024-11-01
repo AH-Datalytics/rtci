@@ -1,14 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const dataPath = "../app_data/by_agency_table.csv";
+    const dataPath = "../app_data/scorecard.csv";
     let allData = [];
     let selectedState = "State";
     let selectedAgency = "Agency";
     
+    // Define years as strings for dynamic labeling
     const currentYear = new Date().getFullYear();
-    const yearLabels = { 
-        twoPrev: currentYear - 2, 
-        onePrev: currentYear - 1, 
-        current: currentYear 
+    const yearLabels = {
+        twoPrev: (currentYear - 2).toString(), 
+        onePrev: (currentYear - 1).toString(), 
+        current: currentYear.toString()
     };
 
     // Load data
@@ -89,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateFilterSentence() {
         document.getElementById("filters-container").querySelector("span").textContent =
-            `Show me the reported crime scorecard of`;
+            `Show me the reported crime scorecard for`;
     }
 
     function filterAndDisplayData() {
@@ -100,103 +101,51 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (filteredData.length > 0) {
                 console.log("Filtered data:", filteredData);
-                const mostRecentMonth = getMostRecentMonth(filteredData);
-                const crimeData = calculateAggregates(filteredData, mostRecentMonth);
-                renderScorecard(crimeData);
+                renderScorecard(filteredData);
             }
         }
-    }
-
-    function getMostRecentMonth(data) {
-        const dates = data.map(row => new Date(row.date));
-        const mostRecentDate = new Date(Math.max(...dates));
-        return mostRecentDate.getMonth() + 1;
-    }
-
-    function calculateAggregates(data, endMonth) {
-        const crimeTypes = [
-            { type: "violent_crime", label: "Violent Crime", subtypes: ["murder", "rape", "robbery", "aggravated_assault"] },
-            { type: "property_crime", label: "Property Crime", subtypes: ["burglary", "theft", "motor_vehicle_theft"] }
-        ];
-
-        const result = [];
-
-        crimeTypes.forEach(({ type, label, subtypes }) => {
-            const overallCounts = getYearlyCounts(data, type, endMonth, true);
-            const typeResults = subtypes.map(crime => ({
-                crime: formatCrimeType(crime),
-                counts: getYearlyCounts(data, crime, endMonth, false),
-                isOverall: false
-            }));
-
-            result.push({ crime: label, counts: overallCounts, isOverall: true });
-            result.push(...typeResults);
-        });
-
-        return result;
-    }
-
-    function getYearlyCounts(data, crime, endMonth, isOverall) {
-        const yearCounts = { twoPrev: 0, onePrev: 0, current: 0 };
-
-        data.forEach(row => {
-            const date = new Date(row.date);
-            const year = date.getFullYear();
-            const month = date.getMonth() + 1;
-
-            if (month <= endMonth && month >= 1) { // Only consider months from January to endMonth
-                if (year === yearLabels.twoPrev) yearCounts.twoPrev += parseInt(row[crime]) || 0;
-                else if (year === yearLabels.onePrev) yearCounts.onePrev += parseInt(row[crime]) || 0;
-                else if (year === yearLabels.current) yearCounts.current += parseInt(row[crime]) || 0;
-            }
-        });
-
-        return yearCounts;
-    }
-
-    function calculatePercentChange(newVal, oldVal) {
-        if (oldVal === 0) return newVal === 0 ? "0%" : "+100%";
-        const change = (((newVal - oldVal) / oldVal) * 100).toFixed(1);
-        return (change > 0 ? "+" : "") + change + "%";
-    }
-
-    function formatCrimeType(crime) {
-        return crime.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
     }
 
     function renderScorecard(data) {
         const tbody = document.getElementById("scorecard-body");
         tbody.innerHTML = "";
 
-        data.forEach(item => {
-            const { crime, counts, isOverall } = item;
-            const fontWeight = isOverall ? "bold" : "normal";
-            const fontSize = isOverall ? "1.2em" : "1em";
-
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td style="font-weight: ${fontWeight}; font-size: ${fontSize};">${crime}</td>
-                <td>${counts.twoPrev}</td>
-                <td>${counts.onePrev}</td>
-                <td style="color: ${getColor(calculatePercentChange(counts.onePrev, counts.twoPrev))};">
-                    ${calculatePercentChange(counts.onePrev, counts.twoPrev)}
+        data.forEach(row => {
+            const rowElement = document.createElement("tr");
+            rowElement.innerHTML = `
+                <td>${formatCrimeType(row.crime_type)}</td>
+                <td>${row.two_years_prior_full || 'N/A'}</td>
+                <td>${row.previous_year_full || 'N/A'}</td>
+                <td style="color: ${getColor(row.two_years_prior_previous_year_full_pct_change)};">
+                    ${formatPercentage(row.two_years_prior_previous_year_full_pct_change)}
                 </td>
-                <td>${counts.twoPrev}</td>
-                <td>${counts.onePrev}</td>
-                <td>${counts.current}</td>
-                <td style="color: ${getColor(calculatePercentChange(counts.current, counts.twoPrev))};">
-                    ${calculatePercentChange(counts.current, counts.twoPrev)}
+                <td>${row.ytd_month_range || 'N/A'}</td>
+                <td>${row.two_years_prior_ytd || 'N/A'}</td>
+                <td>${row.previous_year_ytd || 'N/A'}</td>
+                <td>${row.current_year_ytd || 'N/A'}</td>
+                <td style="color: ${getColor(row.two_years_prior_current_year_ytd_pct_change)};">
+                    ${formatPercentage(row.two_years_prior_current_year_ytd_pct_change)}
                 </td>
-                <td style="color: ${getColor(calculatePercentChange(counts.current, counts.onePrev))};">
-                    ${calculatePercentChange(counts.current, counts.onePrev)}
+                <td style="color: ${getColor(row.previous_year_current_year_ytd_pct_change)};">
+                    ${formatPercentage(row.previous_year_current_year_ytd_pct_change)}
                 </td>
             `;
-            tbody.appendChild(row);
+            tbody.appendChild(rowElement);
         });
     }
 
+    function formatCrimeType(crimeType) {
+        return crimeType.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+    }
+
+    function formatPercentage(value) {
+        return value ? `${parseFloat(value).toFixed(1)}%` : 'N/A';
+    }
+
     function getColor(value) {
-        return value.startsWith("+") ? "#f28106" : "#2d5ef9";
+        const parsedValue = parseFloat(value);
+        if (isNaN(parsedValue)) return '#000'; // Default color for N/A or undefined values
+        return parsedValue > 0 ? "#f28106" : "#2d5ef9";
     }
 
     function updateYearHeaders() {
@@ -205,6 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <th style="background-color: #00333a; color: white;">${yearLabels.twoPrev}</th>
             <th style="background-color: #00333a; color: white;">${yearLabels.onePrev}</th>
             <th style="background-color: #00333a; color: white;">% Change ${yearLabels.twoPrev}-${yearLabels.onePrev}</th>
+            <th style="background-color: #00333a; color: white;">YTD Range</th>
             <th style="background-color: #00333a; color: white;">${yearLabels.twoPrev} (YTD)</th>
             <th style="background-color: #00333a; color: white;">${yearLabels.onePrev} (YTD)</th>
             <th style="background-color: #00333a; color: white;">${yearLabels.current} (YTD)</th>

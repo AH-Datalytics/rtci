@@ -50,7 +50,6 @@
 /* Special styling for agency name */
 #trackers-container .tracker-agency-name {
     color: #2d5ef9; /* Ensures this color applies only to .tracker-agency-name within #trackers-container */
-    font-weight: bold;
 }
 
 

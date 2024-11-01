@@ -1,16 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
     const dataPath = "../app_data/scorecard.csv";
     let allData = [];
-    
-    // Set default values for state and agency
-    let selectedState = "Nationwide";
-    let selectedAgency = "Full Sample";
-    
-    // Define years as strings for dynamic labeling
+    let selectedState = "Nationwide"; // Default state to "Nationwide"
+    let selectedAgency = "Full Sample"; // Default agency to "Full Sample"
+
     const currentYear = new Date().getFullYear();
     const yearLabels = {
-        twoPrev: (currentYear - 2).toString(), 
-        onePrev: (currentYear - 1).toString(), 
+        twoPrev: (currentYear - 2).toString(),
+        onePrev: (currentYear - 1).toString(),
         current: currentYear.toString()
     };
 
@@ -18,21 +15,33 @@ document.addEventListener("DOMContentLoaded", function () {
     d3.csv(dataPath).then(data => {
         allData = data;
         console.log("Data loaded:", data);
-        populateDropdowns(data);
+        populateFilters(allData);
         updateYearHeaders();
-        
-        // Set the dropdowns to the default values
-        document.getElementById("state-btn").textContent = selectedState;
-        document.getElementById("agency-btn").textContent = selectedAgency;
-
-        // Trigger filtering and display of data with default values
-        filterAndDisplayData();
+        setDefaultFilters(); // Set default filter values on load
+        filterAndDisplayData(); // Display default data for "Nationwide" and "Full Sample"
     }).catch(error => console.error("Error loading data:", error));
 
-    function populateDropdowns(data) {
-        const states = [...new Set(data.map(row => row.state_name))].sort();
+    function populateFilters(data) {
+        let states = [...new Set(data.map(row => row.state_name))].sort();
+        
+        // Ensure "Nationwide" is always the first option
+        const nationwideIndex = states.indexOf("Nationwide");
+        if (nationwideIndex !== -1) {
+            states.splice(nationwideIndex, 1);
+            states.unshift("Nationwide");
+        }
+        
         createSearchableDropdown("state-dropdown", "state-btn", states, true);
         createSearchableDropdown("agency-dropdown", "agency-btn", [], false);
+    }
+
+    function setDefaultFilters() {
+        // Set "Nationwide" and "Full Sample" as defaults on page load
+        document.getElementById("state-btn").textContent = "Nationwide";
+        document.getElementById("agency-btn").textContent = "Full Sample";
+        selectedState = "Nationwide";
+        selectedAgency = "Full Sample";
+        updateAgencyDropdown(selectedState); // Populate agency dropdown for "Nationwide"
     }
 
     function createSearchableDropdown(dropdownId, buttonId, options, isState) {
@@ -54,30 +63,15 @@ document.addEventListener("DOMContentLoaded", function () {
             existingItems.forEach(item => item.remove());
 
             filteredOptions.forEach(option => {
-                const item = document.createElement("div");
-                item.className = "dropdown-item";
-                item.textContent = option;
-                item.addEventListener("click", () => {
-                    button.textContent = option;
-                    dropdown.classList.remove("show");
-
-                    if (isState) {
-                        selectedState = option;
-                        updateAgencyDropdown(selectedState);
-                    } else {
-                        selectedAgency = option;
-                    }
-                    updateFilterSentence();
-                    filterAndDisplayData();
-                });
-                dropdown.appendChild(item);
+                const dropdownOption = createDropdownOption(option, dropdown, button, isState);
+                dropdown.appendChild(dropdownOption);
             });
         }
 
         searchInput.addEventListener("input", filterOptions);
         filterOptions();
 
-        button.addEventListener("click", function (event) {
+        button.addEventListener("click", event => {
             event.stopPropagation();
             closeAllDropdowns();
             dropdown.classList.toggle("show");
@@ -87,43 +81,69 @@ document.addEventListener("DOMContentLoaded", function () {
         dropdown.addEventListener("click", event => event.stopPropagation());
     }
 
+    function createDropdownOption(optionText, dropdown, button, isState) {
+        const option = document.createElement("div");
+        option.className = "dropdown-item";
+        option.textContent = optionText;
+
+        // Bold the selected option
+        if ((isState && optionText === selectedState) || (!isState && optionText === selectedAgency)) {
+            option.classList.add('selected'); // Add bold styling to selected item
+        }
+
+        option.addEventListener("click", () => {
+            const items = dropdown.querySelectorAll('.dropdown-item');
+            items.forEach(item => item.classList.remove('selected'));
+            option.classList.add('selected');
+
+            button.textContent = optionText;
+            dropdown.classList.remove("show");
+
+            if (isState) {
+                selectedState = optionText;
+                updateAgencyDropdown(selectedState);
+            } else {
+                selectedAgency = optionText;
+            }
+            filterAndDisplayData();
+        });
+
+        return option;
+    }
+
     function updateAgencyDropdown(state) {
         // Get unique agencies for the selected state
         let agencies = [...new Set(allData.filter(row => row.state_name === state).map(row => row.agency_name))].sort();
-        
-        // Move "Full Sample" to the top if it exists
-        const fullSampleIndex = agencies.indexOf("Full Sample");
-        if (fullSampleIndex !== -1) {
-            agencies.splice(fullSampleIndex, 1); // Remove "Full Sample" from its current position
-            agencies.unshift("Full Sample"); // Add it to the beginning of the array
-        }
     
-        // Create the dropdown with "Full Sample" as the first option
-        createSearchableDropdown("agency-dropdown", "agency-btn", agencies, false);
-        
-        // If state is "Nationwide," set the agency to "Full Sample" by default
         if (state === "Nationwide") {
-            selectedAgency = "Full Sample";
-            document.getElementById("agency-btn").textContent = "Full Sample";
+            const nationwideOrder = ["Full Sample", "Cities of 1M+", "Cities of 250K - 1M", "Cities of 100K - 250K", "Cities of < 100K"];
+            agencies = agencies.filter(agency => nationwideOrder.includes(agency))
+                               .sort((a, b) => nationwideOrder.indexOf(a) - nationwideOrder.indexOf(b));
+        } else {
+            agencies = agencies.sort((a, b) => (a === "Full Sample" ? -1 : b === "Full Sample" ? 1 : a.localeCompare(b)));
+        }
+    
+        createSearchableDropdown("agency-dropdown", "agency-btn", agencies, false);
+    
+        // Automatically select and display the first agency in the list, and bold it
+        if (agencies.length > 0) {
+            selectedAgency = agencies[0];
+            document.getElementById("agency-btn").textContent = selectedAgency;
+    
+            // Bold the first agency in the dropdown
+            const dropdown = document.getElementById("agency-dropdown");
+            const items = dropdown.querySelectorAll('.dropdown-item');
+            items.forEach(item => item.classList.remove('selected')); // Remove bolding from all items
+            items[0].classList.add('selected'); // Bold the first item
+    
+            filterAndDisplayData(); // Filter and display data for the selected state and the first agency
         }
     }
     
-
-    function closeAllDropdowns() {
-        const dropdownMenus = document.querySelectorAll(".dropdown-menu");
-        dropdownMenus.forEach(menu => menu.classList.remove("show"));
-    }
-
-    function updateFilterSentence() {
-        document.getElementById("filters-container").querySelector("span").textContent =
-            `Show me the reported crime scorecard for`;
-    }
 
     function filterAndDisplayData() {
         if (selectedState && selectedAgency) {
-            const filteredData = allData.filter(row =>
-                row.state_name === selectedState && row.agency_name === selectedAgency
-            );
+            const filteredData = allData.filter(row => row.state_name === selectedState && row.agency_name === selectedAgency);
 
             if (filteredData.length > 0) {
                 console.log("Filtered data:", filteredData);
@@ -135,45 +155,79 @@ document.addEventListener("DOMContentLoaded", function () {
     function renderScorecard(data) {
         const tbody = document.getElementById("scorecard-body");
         tbody.innerHTML = "";
-
-        data.forEach(row => {
-            const rowElement = document.createElement("tr");
-            rowElement.innerHTML = `
-                <td>${formatCrimeType(row.crime_type)}</td>
-                <td>${row.two_years_prior_full || 'N/A'}</td>
-                <td>${row.previous_year_full || 'N/A'}</td>
-                <td style="color: ${getColor(row.two_years_prior_previous_year_full_pct_change)};">
-                    ${formatPercentage(row.two_years_prior_previous_year_full_pct_change)}
-                </td>
-                <td>${row.ytd_month_range.replace(/ \d{4}$/, '') || 'N/A'}</td> <!-- Remove year from YTD range -->
-                <td>${row.two_years_prior_ytd || 'N/A'}</td>
-                <td>${row.previous_year_ytd || 'N/A'}</td>
-                <td>${row.current_year_ytd || 'N/A'}</td>
-                <td style="color: ${getColor(row.two_years_prior_current_year_ytd_pct_change)};">
-                    ${formatPercentage(row.two_years_prior_current_year_ytd_pct_change)}
-                </td>
-                <td style="color: ${getColor(row.previous_year_current_year_ytd_pct_change)};">
-                    ${formatPercentage(row.previous_year_current_year_ytd_pct_change)}
-                </td>
-            `;
-            tbody.appendChild(rowElement);
+    
+        // Define the order for crime types based on severity
+        const crimeOrder = [
+            { crime: "Violent Crime", isHeader: true },
+            { crime: "murder", isHeader: false },
+            { crime: "rape", isHeader: false },
+            { crime: "robbery", isHeader: false },
+            { crime: "aggravated_assault", isHeader: false },
+            { crime: "Property Crime", isHeader: true },
+            { crime: "burglary", isHeader: false },
+            { crime: "theft", isHeader: false },
+            { crime: "motor_vehicle_theft", isHeader: false }
+        ];
+    
+        // Sort data based on the defined order
+        crimeOrder.forEach(orderItem => {
+            const filteredData = data.filter(row => formatCrimeType(row.crime_type).toLowerCase() === orderItem.crime.toLowerCase());
+    
+            filteredData.forEach(row => {
+                const isHeader = orderItem.isHeader;
+                const fontWeight = isHeader ? "bold" : "normal";
+                const fontSize = isHeader ? "1.2em" : "1em";
+                const color = isHeader ? "#00333a" : ""; // Color for headers
+    
+                const rowElement = document.createElement("tr");
+                rowElement.innerHTML = `
+                    <td style="font-weight: ${fontWeight}; font-size: ${fontSize}; color: ${color};">${formatCrimeType(row.crime_type)}</td>
+                    <td>${formatNumber(row.two_years_prior_full)}</td>
+                    <td>${formatNumber(row.previous_year_full)}</td>
+                    <td style="color: ${getColor(row.two_years_prior_previous_year_full_pct_change)};">
+                        ${formatPercentage(row.two_years_prior_previous_year_full_pct_change)}
+                    </td>
+                    <td>${row.ytd_month_range.replace(/ \d{4}$/, '') || 'N/A'}</td>
+                    <td>${formatNumber(row.two_years_prior_ytd)}</td>
+                    <td>${formatNumber(row.previous_year_ytd)}</td>
+                    <td>${formatNumber(row.current_year_ytd)}</td>
+                    <td style="color: ${getColor(row.two_years_prior_current_year_ytd_pct_change)};">
+                        ${formatPercentage(row.two_years_prior_current_year_ytd_pct_change)}
+                    </td>
+                    <td style="color: ${getColor(row.previous_year_current_year_ytd_pct_change)};">
+                        ${formatPercentage(row.previous_year_current_year_ytd_pct_change)}
+                    </td>
+                `;
+                tbody.appendChild(rowElement);
+            });
         });
     }
-
+    
+    // Helper function to format numbers with commas
+    function formatNumber(value) {
+        return value ? parseInt(value).toLocaleString() : 'N/A';
+    }
+    
     function formatCrimeType(crimeType) {
         return crimeType.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
     }
-
+    
     function formatPercentage(value) {
         return value ? `${parseFloat(value).toFixed(1)}%` : 'N/A';
     }
-
+    
     function getColor(value) {
         const parsedValue = parseFloat(value);
         if (isNaN(parsedValue)) return '#000'; // Default color for N/A or undefined values
         return parsedValue > 0 ? "#f28106" : "#2d5ef9";
     }
 
+    
+
+
+
+    
+    
     function updateYearHeaders() {
         document.querySelector("#scorecard-table thead tr:nth-child(2)").innerHTML = `
             <th style="background-color: #00333a; color: white;"></th>
@@ -188,4 +242,10 @@ document.addEventListener("DOMContentLoaded", function () {
             <th style="background-color: #00333a; color: white;">% Change ${yearLabels.onePrev}-${yearLabels.current} (YTD)</th>
         `;
     }
+
+    function closeAllDropdowns() {
+        const dropdownMenus = document.querySelectorAll(".dropdown-menu");
+        dropdownMenus.forEach(menu => menu.classList.remove("show"));
+    }
 });
+

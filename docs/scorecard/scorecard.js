@@ -226,22 +226,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    
+
     
     function updateYearHeaders() {
-        document.querySelector("#scorecard-table thead tr:nth-child(2)").innerHTML = `
-            <th style="background-color: #00333a; color: white;"></th>
-            <th style="background-color: #00333a; color: white;">${yearLabels.twoPrev}</th>
-            <th style="background-color: #00333a; color: white;">${yearLabels.onePrev}</th>
-            <th style="background-color: #00333a; color: white;">% Change ${yearLabels.twoPrev}-${yearLabels.onePrev}</th>
-            <th style="background-color: #00333a; color: white;">YTD Range</th>
-            <th style="background-color: #00333a; color: white;">${yearLabels.twoPrev} (YTD)</th>
-            <th style="background-color: #00333a; color: white;">${yearLabels.onePrev} (YTD)</th>
-            <th style="background-color: #00333a; color: white;">${yearLabels.current} (YTD)</th>
-            <th style="background-color: #00333a; color: white;">% Change ${yearLabels.twoPrev}-${yearLabels.current} (YTD)</th>
-            <th style="background-color: #00333a; color: white;">% Change ${yearLabels.onePrev}-${yearLabels.current} (YTD)</th>
-        `;
-    }
+    document.querySelector("#scorecard-table thead tr:nth-child(1)").innerHTML = `
+        <th style="background-color: #00333a; color: white;"></th>
+        <th style="background-color: #00333a; color: white;">${yearLabels.twoPrev} (Full Year)</th>
+        <th style="background-color: #00333a; color: white;">${yearLabels.onePrev} (Full Year)</th>
+        <th style="background-color: #00333a; color: white;">% Change ${yearLabels.twoPrev}-${yearLabels.onePrev} (Full Year)</th>
+        <th style="background-color: #00333a; color: white;">YTD Range</th>
+        <th style="background-color: #00333a; color: white;">${yearLabels.twoPrev} (YTD)</th>
+        <th style="background-color: #00333a; color: white;">${yearLabels.onePrev} (YTD)</th>
+        <th style="background-color: #00333a; color: white;">${yearLabels.current} (YTD)</th>
+        <th style="background-color: #00333a; color: white;">% Change ${yearLabels.twoPrev}-${yearLabels.current} (YTD)</th>
+        <th style="background-color: #00333a; color: white;">% Change ${yearLabels.onePrev}-${yearLabels.current} (YTD)</th>
+    `;
+}
+
 
     function closeAllDropdowns() {
         const dropdownMenus = document.querySelectorAll(".dropdown-menu");

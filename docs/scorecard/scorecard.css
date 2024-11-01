@@ -1,0 +1,10 @@
+/* Add a right border to the last Full Year column */
+#scorecard-table thead th:nth-child(4) {
+    border-right: 1px dotted #00333a83; /* Adjust the color and width as needed */
+}
+
+/* Optional: You might also want to add the same style for the tbody cells to keep the border consistent */
+#scorecard-table tbody td:nth-child(4) {
+    border-right: 1px dotted #00333a83;
+}
+

@@ -8,3 +8,14 @@
     border-right: 1px dotted #00333a83;
 }
 
+/* Specific styles for the header cells in scorecard table */
+#scorecard-table thead th {
+    background-color: #00333a !important;  /* Override any existing background */
+}
+
+/* Center-align only the second column in the scorecard table */
+#scorecard-table th:nth-child(2),
+#scorecard-table td:nth-child(2) {
+    text-align: center;
+}
+

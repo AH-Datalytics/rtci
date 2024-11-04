@@ -587,6 +587,12 @@ unique_cities <- map %>%
 unique_cities_coords <- unique_cities %>%
   geocode(city = agency_name, state = state_name, method = 'osm') 
 
+# Add back population 
+unique_cities_coords <- unique_cities_coords %>%
+  left_join(map %>% select(agency_name, state_name, population), 
+            by = c("agency_name", "state_name")) %>%
+  distinct()  # Keep only unique rows
+
 # Save the results to a CSV
 write.csv(unique_cities_coords, "../docs/app_data/cities_coordinates.csv", row.names = FALSE)
 

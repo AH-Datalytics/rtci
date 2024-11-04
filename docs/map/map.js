@@ -18,10 +18,15 @@ d3.csv("../app_data/cities_coordinates.csv").then(data => {
         // Check if latitude and longitude are valid numbers
         console.log(`Lat: ${lat}, Lon: ${lon}`);
         
-        // Add a marker for each city with a popup
+        // Add a circle marker for each city with custom styling
         if (!isNaN(lat) && !isNaN(lon)) { // Only add marker if lat/lon are valid
-            L.marker([lat, lon]).addTo(map)
-                .bindPopup(`<b>${city.agency_name}, ${city.state_name}</b>`);
+            L.circleMarker([lat, lon], {
+                radius: 10,              // Size of the circle marker
+                color: NaN,         // Border color
+                fillColor: "black",     // Fill color
+                fillOpacity: 0.25       // 75% transparency
+            }).addTo(map)
+              .bindPopup(`<b>${city.agency_name}, ${city.state_name}</b>`);
         } else {
             console.warn(`Invalid coordinates for ${city.agency_name}, ${city.state_name}`);
         }

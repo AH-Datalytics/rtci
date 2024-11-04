@@ -11,6 +11,8 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     <link rel="icon" href="../images/rtci.ico">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
     <div id="dashboard" class="tab-content active">
@@ -26,19 +28,24 @@
                         <i class="fas fa-download"></i> &nbsp;&nbsp;Download Map
                     </button>
                 </div>
-                
+
                 <div class="tab-navigation">
                     <a href="../index.html" class="tab-link">Graph</a>
                     <a href="../table/table.html" class="tab-link">Tables</a>
                     <a href="map.html" class="tab-link active">Map</a>
-                    <!-- <a href="../map/map.html" class="tab-link">Map</a> -->
                 </div>
                 <div id="by-agency-table" class="table-container active">
+                    
+                    <!-- ADD IN DIV FOR MAP HERE!!! -->
+                    <div id="map"></div>
                     
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="map.js"></script>
 </body>
 </html>

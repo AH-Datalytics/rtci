@@ -16,6 +16,25 @@ function getRadius(population, zoom) {
     return baseRadius * zoomFactor;
 }
 
+// Add a greyed-out overlay for non-RTCI states
+fetch("../app_data/non_rtci_states.json")
+    .then(response => response.json())
+    .then(nonRtciStatesData => {
+        // Style for non-RTCI states to appear greyed out
+        function style() {
+            return {
+                fillColor: "#e0e0e0",
+                weight: 0,
+                color: null,
+                fillOpacity: 0.5
+            };
+        }
+
+        // Add the non-RTCI states to the map
+        L.geoJson(nonRtciStatesData, { style: style }).addTo(map);
+    })
+    .catch(error => console.error("Error loading non-RTCI states data:", error));
+
 // Load city coordinates with population and sample data and add markers
 d3.csv("../app_data/cities_coordinates.csv").then(data => {
     data.forEach(city => {
@@ -43,7 +62,7 @@ d3.csv("../app_data/cities_coordinates.csv").then(data => {
 
             marker.bindPopup(`<b>${city.agency_name}, ${city.state_name}</b><br>Population: ${formattedPopulation}`);
 
-            // Show popup and change color to orange on hover
+            // Show popup and change color to dark grey on hover
             marker.on('mouseover', function () {
                 this.openPopup();
                 this.setStyle({ fillColor: "#00333a" }); // Change on hover

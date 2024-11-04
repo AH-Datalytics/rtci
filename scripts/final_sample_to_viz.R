@@ -6,6 +6,7 @@ library(datasets)
 library(janitor)
 library(stringr)
 library(tidygeocoder)
+library(sf)
 
 # Get the current date and time
 last_updated <- format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")
@@ -604,4 +605,20 @@ unique_cities_coords <- unique_cities_coords %>%
 
 # Save the results to a CSV
 write.csv(unique_cities_coords, "../docs/app_data/cities_coordinates.csv", row.names = FALSE)
+
+# Load your RTCI cities data to extract unique states
+rtci_data <- read.csv("../docs/app_data/cities_coordinates.csv")  # Update path as necessary
+rtci_states <- unique(rtci_data$state_name)  # Extract unique states
+
+# Load the U.S. states GeoJSON file
+us_states <- st_read("../docs/app_data/us-states.json")  # Update path to your GeoJSON file
+
+# Filter the GeoDataFrame to include only states in the RTCI project
+rtci_states_gdf <- us_states %>% filter(name %in% rtci_states)
+
+# Filter to get only the states NOT in the RTCI project
+non_rtci_states_gdf <- us_states %>% filter(!(name %in% rtci_states))
+
+# Save the filtered GeoDataFrame as a new GeoJSON file for non-RTCI states
+st_write(non_rtci_states_gdf, "../docs/app_data/non_rtci_states.json", driver = "GeoJSON")
 

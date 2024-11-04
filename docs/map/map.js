@@ -20,20 +20,24 @@ function getRadius(population, zoom) {
 fetch("../app_data/non_rtci_states.json")
     .then(response => response.json())
     .then(nonRtciStatesData => {
-        // Style for non-RTCI states to appear greyed out
+        // Style for non-RTCI states to appear greyed out and disable interactivity
         function style() {
             return {
-                fillColor: "#e0e0e0",
+                fillColor: "grey",
                 weight: 0,
                 color: null,
                 fillOpacity: 0.5
             };
         }
 
-        // Add the non-RTCI states to the map
-        L.geoJson(nonRtciStatesData, { style: style }).addTo(map);
+        // Add the non-RTCI states to the map with interactivity disabled
+        L.geoJson(nonRtciStatesData, {
+            style: style,
+            interactive: false  // Disable interaction on non-RTCI states
+        }).addTo(map);
     })
     .catch(error => console.error("Error loading non-RTCI states data:", error));
+
 
 // Load city coordinates with population and sample data and add markers
 d3.csv("../app_data/cities_coordinates.csv").then(data => {

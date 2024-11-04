@@ -5,27 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RTCI Map</title>
     <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../table/table.css">
     <link rel="stylesheet" href="map.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     <link rel="icon" href="../images/rtci.ico">
 </head>
 <body>
-    <div id="map" class="tab-content active">
-        <h1 class="rtci-header">Map</h1>
-        <div id="map-container">
-            <div class="nav-buttons">
-                <button class="nav-button" onclick="navigateTo('../index.html')">Graph</button>
-                <button class="nav-button" onclick="navigateTo('../table/table.html')">Table</button>
-                <button class="nav-button active" onclick="navigateTo('map.html')">Map</button>
+    <div id="dashboard" class="tab-content active">
+        <div id="rtci-dashboard" class="rtci-container">
+            <h1 class="rtci-header">Real-Time Crime Index Participation Map</h1>
+            <div id="filters-container" class="filters-container">
+                <span>Explore RTCI participation and crime trends geographically:</span>
             </div>
-            <h1 class="coming-soon">Coming Soon!</h1>
+            <div class="rtci-table-container">
+                <!-- Add this above the table view buttons -->
+                <div id="download-container">
+                    <button id="table-download" class="download-button">
+                        <i class="fas fa-download"></i> &nbsp;&nbsp;Download Data
+                    </button>
+                </div>
+                
+                <div class="tab-navigation">
+                    <a href="../index.html" class="tab-link">Graph</a>
+                    <a href="../table/table.html" class="tab-link">Tables</a>
+                    <a href="map.html" class="tab-link active">Map</a>
+                    <!-- <a href="../map/map.html" class="tab-link">Map</a> -->
+                </div>
+                <div id="by-agency-table" class="table-container active">
+                    
+                </div>
+            </div>
         </div>
     </div>
-    <script>
-        function navigateTo(page) {
-            window.location.href = page;
-        }
-    </script>
     <script src="map.js"></script>
 </body>
 </html>

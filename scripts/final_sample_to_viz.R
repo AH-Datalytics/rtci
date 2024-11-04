@@ -587,10 +587,19 @@ unique_cities <- map %>%
 unique_cities_coords <- unique_cities %>%
   geocode(city = agency_name, state = state_name, method = 'osm') 
 
-# Add back population 
+
+# Rename columns in sample_cities to match those in unique_cities_coords and map
+sample_cities <- sample_cities %>%
+  rename(agency_name = `Agency Name`, state_name = `state_name`) %>%
+  mutate(national_sample = TRUE) %>%  # Add a column to indicate national sample
+  select(agency_name, state_name, national_sample)
+
+# Add back population data and national sample status
 unique_cities_coords <- unique_cities_coords %>%
   left_join(map %>% select(agency_name, state_name, population), 
             by = c("agency_name", "state_name")) %>%
+  left_join(sample_cities, by = c("agency_name", "state_name")) %>%
+  mutate(national_sample = if_else(is.na(national_sample), FALSE, national_sample)) %>% # Set FALSE if NA
   distinct()  # Keep only unique rows
 
 # Save the results to a CSV

@@ -16,12 +16,16 @@ function getRadius(population, zoom) {
     return baseRadius * zoomFactor;
 }
 
-// Load city coordinates with population data and add markers
+// Load city coordinates with population and sample data and add markers
 d3.csv("../app_data/cities_coordinates.csv").then(data => {
     data.forEach(city => {
         const lat = parseFloat(city.lat);  
         const lon = parseFloat(city.long);  
         const population = parseInt(city.population);
+        const isNationalSample = city.national_sample === "TRUE"; // Check sample status
+
+        // Determine initial marker color based on sample status
+        const fillColor = isNationalSample ? "#2d5ef9" : "#f28106";
 
         // Calculate initial radius based on the current zoom level
         const radius = getRadius(population, map.getZoom());
@@ -30,8 +34,8 @@ d3.csv("../app_data/cities_coordinates.csv").then(data => {
             const marker = L.circleMarker([lat, lon], {
                 radius: radius,
                 color: null,
-                fillColor: "black",
-                fillOpacity: 0.5
+                fillColor: fillColor,
+                fillOpacity: 0.75
             }).addTo(map);
 
             // Format population with commas if available
@@ -42,13 +46,13 @@ d3.csv("../app_data/cities_coordinates.csv").then(data => {
             // Show popup and change color to orange on hover
             marker.on('mouseover', function () {
                 this.openPopup();
-                this.setStyle({ fillColor: "#f28106" }); // Change to orange on hover
+                this.setStyle({ fillColor: "#00333a" }); // Change on hover
             });
 
-            // Reset color to black when no longer hovering
+            // Reset color to original on mouse out
             marker.on('mouseout', function () {
                 this.closePopup();
-                this.setStyle({ fillColor: "black" }); // Reset to black
+                this.setStyle({ fillColor: fillColor }); // Reset to initial color
             });
 
             // Save the marker for resizing
@@ -65,3 +69,16 @@ map.on('zoomend', () => {
         marker.setRadius(newRadius);
     });
 });
+
+// Add a legend to the map
+const legend = L.control({ position: 'topright' });
+
+legend.onAdd = function () {
+    const div = L.DomUtil.create('div', 'info legend');
+    div.innerHTML += `<h4>National and State Samples</h4>`;
+    div.innerHTML += `<i style="background: #2d5ef9"></i> Included<br>`;
+    div.innerHTML += `<i style="background: #f28106"></i> Excluded<br>`;
+    return div;
+};
+
+legend.addTo(map);

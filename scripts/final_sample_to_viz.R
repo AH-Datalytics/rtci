@@ -5,6 +5,7 @@ library(lubridate)
 library(datasets)
 library(janitor)
 library(stringr)
+library(tidygeocoder)
 
 # Get the current date and time
 last_updated <- format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")
@@ -569,4 +570,23 @@ final_sample <- final_sample %>%
   mutate(`Last Updated` = last_updated)
 
 write.csv(final_sample, "../docs/app_data/by_agency_table.csv", row.names = FALSE)
+
+
+
+# Map data ------------------------------------------------------------------------------------
+
+map <- read_csv("../docs/app_data/viz_data.csv")
+
+# Generate a unique list of cities
+unique_cities <- map %>%
+  select(agency_name, state_name) %>%  # Select city and state columns
+  distinct()                           # Remove duplicates
+
+
+# Geocode each unique city using OpenStreetMap
+unique_cities_coords <- unique_cities %>%
+  geocode(city = agency_name, state = state_name, method = 'osm') 
+
+# Save the results to a CSV
+write.csv(unique_cities_coords, "../docs/app_data/cities_coordinates.csv", row.names = FALSE)
 

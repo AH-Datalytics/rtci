@@ -621,4 +621,15 @@ non_rtci_states_gdf <- us_states %>% filter(!(name %in% rtci_states))
 
 # Save the filtered GeoDataFrame as a new GeoJSON file for non-RTCI states
 st_write(non_rtci_states_gdf, "../docs/app_data/non_rtci_states.json", driver = "GeoJSON")
+st_write(rtci_states_gdf, "../docs/app_data/rtci_states.json", driver = "GeoJSON")
+
+
+# Load the world countries GeoJSON file
+world_countries <- st_read("../docs/app_data/countries.geo.json")  # Update path to your downloaded GeoJSON
+
+# Filter to get only the countries NOT in the RTCI project
+non_rtci_countries <- world_countries %>% filter(!(name %in% c("United States of America", "Puerto Rico")))
+
+# Save the filtered GeoDataFrame as a new GeoJSON file for non-RTCI countries
+st_write(non_rtci_countries, "../docs/app_data/non_rtci_countries.geo.json", driver = "GeoJSON")
 

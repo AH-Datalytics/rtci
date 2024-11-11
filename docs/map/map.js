@@ -16,28 +16,47 @@ function getRadius(population, zoom) {
     return baseRadius * zoomFactor;
 }
 
-// Add a greyed-out overlay for non-RTCI states
+/* 
+// OPTIONAL: Add a global grey overlay for non-RTCI countries
+fetch("../app_data/non_rtci_countries.geo.json") // Path to the filtered non-RTCI countries file
+    .then(response => response.json())
+    .then(nonRtciCountriesData => {
+        // Style for non-RTCI countries to appear greyed out
+        function nonRtciCountryStyle() {
+            return {
+                fillColor: "#c0c0c0",
+                weight: 0,
+                color: "blue",
+                fillOpacity: 0.4
+            };
+        }
+
+        // Add the non-RTCI countries layer to the map
+        L.geoJson(nonRtciCountriesData, { style: nonRtciCountryStyle, interactive: false }).addTo(map);
+    })
+    .catch(error => console.error("Error loading non-RTCI countries data:", error));
+*/
+
+/* 
+// OPTIONAL: Add a greyed-out overlay for non-RTCI U.S. states
 fetch("../app_data/non_rtci_states.json")
     .then(response => response.json())
     .then(nonRtciStatesData => {
-        // Style for non-RTCI states to appear greyed out and disable interactivity
-        function style() {
+        // Style for non-RTCI states within the U.S.
+        function nonRtciStateStyle() {
             return {
-                fillColor: "grey",
+                fillColor: "#c0c0c0",
                 weight: 0,
                 color: null,
                 fillOpacity: 0.5
             };
         }
 
-        // Add the non-RTCI states to the map with interactivity disabled
-        L.geoJson(nonRtciStatesData, {
-            style: style,
-            interactive: false  // Disable interaction on non-RTCI states
-        }).addTo(map);
+        // Add the non-RTCI states layer on top of the world countries layer
+        L.geoJson(nonRtciStatesData, { style: nonRtciStateStyle, interactive: false }).addTo(map);
     })
     .catch(error => console.error("Error loading non-RTCI states data:", error));
-
+*/
 
 // Load city coordinates with population and sample data and add markers
 d3.csv("../app_data/cities_coordinates.csv").then(data => {
@@ -58,7 +77,7 @@ d3.csv("../app_data/cities_coordinates.csv").then(data => {
                 radius: radius,
                 color: null,
                 fillColor: fillColor,
-                fillOpacity: 0.75
+                fillOpacity: 0.65
             }).addTo(map);
 
             // Format population with commas if available

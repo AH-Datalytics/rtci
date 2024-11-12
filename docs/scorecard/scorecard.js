@@ -196,21 +196,21 @@ document.addEventListener("DOMContentLoaded", function () {
     
                 const rowElement = document.createElement("tr");
                 rowElement.innerHTML = `
-                    <td style="font-weight: ${fontWeight}; font-size: ${fontSize}; color: ${color};">${formatCrimeType(row.crime_type)}</td>
-                    <td>${formatNumber(row.two_years_prior_ytd)}</td>
-                    <td>${formatNumber(row.previous_year_ytd)}</td>
-                    <td>${formatNumber(row.current_year_ytd)}</td>
-                    <td style="color: ${getColor(row.two_years_prior_current_year_ytd_pct_change)};">
-                        ${formatPercentage(row.two_years_prior_current_year_ytd_pct_change)}
-                    </td>
-                    <td style="color: ${getColor(row.previous_year_current_year_ytd_pct_change)};">
-                        ${formatPercentage(row.previous_year_current_year_ytd_pct_change)}
-                    </td>
-                    <td>${formatNumber(row.two_years_prior_full)}</td>
-                    <td>${formatNumber(row.previous_year_full)}</td>
-                    <td style="color: ${getColor(row.two_years_prior_previous_year_full_pct_change)};">
-                        ${formatPercentage(row.two_years_prior_previous_year_full_pct_change)}
-                    </td>
+                <td style="font-weight: ${fontWeight}; font-size: ${fontSize}; color: ${color};">${formatCrimeType(row.crime_type)}</td>
+                <td>${formatNumber(row.current_year_ytd)}</td>
+                <td>${formatNumber(row.previous_year_ytd)}</td>
+                <td>${formatNumber(row.two_years_prior_ytd)}</td>
+                <td style="color: ${getColor(row.previous_year_current_year_ytd_pct_change)};">
+                    ${formatPercentage(row.previous_year_current_year_ytd_pct_change)}
+                </td>
+                <td style="color: ${getColor(row.two_years_prior_current_year_ytd_pct_change)};">
+                    ${formatPercentage(row.two_years_prior_current_year_ytd_pct_change)}
+                </td>
+                <td>${formatNumber(row.previous_year_full)}</td>
+                <td>${formatNumber(row.two_years_prior_full)}</td>
+                <td style="color: ${getColor(row.two_years_prior_previous_year_full_pct_change)};">
+                    ${formatPercentage(row.two_years_prior_previous_year_full_pct_change)}
+                </td>
                 `;
                 tbody.appendChild(rowElement);
             });
@@ -246,16 +246,17 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateYearHeaders() {
         document.querySelector("#scorecard-table thead tr:nth-child(1)").innerHTML = `
             <th style="background-color: #00333a; color: white;"></th>
-            <th style="background-color: #00333a; color: white;">${yearLabels.twoPrev} (YTD)</th>
-            <th style="background-color: #00333a; color: white;">${yearLabels.onePrev} (YTD)</th>
             <th style="background-color: #00333a; color: white;">${yearLabels.current} (YTD)</th>
-            <th style="background-color: #00333a; color: white;">% Change ${yearLabels.twoPrev}-${yearLabels.current} (YTD)</th>
+            <th style="background-color: #00333a; color: white;">${yearLabels.onePrev} (YTD)</th>
+            <th style="background-color: #00333a; color: white;">${yearLabels.twoPrev} (YTD)</th>
             <th style="background-color: #00333a; color: white;">% Change ${yearLabels.onePrev}-${yearLabels.current} (YTD)</th>
-            <th style="background-color: #00333a; color: white;">${yearLabels.twoPrev} (Full Year)</th>
+            <th style="background-color: #00333a; color: white;">% Change ${yearLabels.twoPrev}-${yearLabels.current} (YTD)</th>
             <th style="background-color: #00333a; color: white;">${yearLabels.onePrev} (Full Year)</th>
+            <th style="background-color: #00333a; color: white;">${yearLabels.twoPrev} (Full Year)</th>
             <th style="background-color: #00333a; color: white;">% Change ${yearLabels.twoPrev}-${yearLabels.onePrev} (Full Year)</th>
         `;
     }
+    
     
 
 

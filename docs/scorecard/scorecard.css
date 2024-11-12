@@ -21,35 +21,30 @@
 
 
 
-/* Trackers Container Styling */
+/* Trackers Container Styling as a thin line below the table */
 #trackers-container {
-    padding-bottom: 20px;
-    padding-left: 20px;
-}
-
-
-#trackers-container p {
-    margin: 0 20px 5px 0; /* Space each tracker item */
-    font-size: 1.1vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px; /* Padding for a thin look */
+    background-color: #f5f5f557; /* Light grey background */
+    border-radius: 5px; /* Subtle rounded corners */
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    font-size: 1.5rem; /* Adjust font size for a streamlined look */
     color: #00333a; /* Darker color for text */
 }
 
-#trackers-container p strong {
-    font-weight: 700;
-    color: #00333a /* Accent color for tracker labels */
-}
-
-
-
+/* Style for the tracker text */
 #trackers-container span {
-    font-weight: 300;
-    color: #f28106;
+    color: #00333a;
 }
 
+#trackers-container strong {
+    color: #00333a; /* Accent color for labels */
+}
 
-/* Special styling for agency name */
 #trackers-container .tracker-agency-name {
-    color: #2d5ef9; /* Ensures this color applies only to .tracker-agency-name within #trackers-container */
+    color: #2d5ef9; /* Blue color specifically for agency name */
 }
 
 
@@ -64,17 +59,30 @@
     }
 }
 
-#trackers-container {
-    background-color: #f5f5f557; /* Light grey background */
-    padding: 5px; /* Add some padding inside the box */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
-    margin-bottom: 20px; /* Space below the trackers container */
-    max-width:300px; /* Adjust width as needed */
-    margin: 0 auto 10px 20px; /* Center the container and add bottom margin */
-}
+
 
 #trackers-container p {
-    margin: 5px 0; /* Adjust spacing between lines */
+    margin: 0 0 0 0; /* Adjust spacing between lines */
 }
 
+#trackers-container span {
+    font-weight: 300;
+    color: #f28106;
+}
+
+
+/* Reset rounded corners for the first and last header cells */
+#scorecard-table thead th:first-child {
+    border-top-left-radius: 0; /* Remove top-left rounded corner */
+}
+
+#scorecard-table thead th:last-child {
+    border-top-right-radius: 0; /* Remove top-right rounded corner */
+}
+
+
+#trackers-container #rtci-logo {
+    max-width: 100px; /* Adjust the size as needed */
+    align-self: center; /* Center-aligns vertically within the container */
+    margin-left: 30px;
+}

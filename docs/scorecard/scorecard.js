@@ -151,9 +151,9 @@ document.addEventListener("DOMContentLoaded", function () {
     
                 // Populate the trackers with dynamic previous year for population
                 document.getElementById("tracker-agency").innerHTML = `<span class="tracker-agency-name">${selectedAgency}, ${selectedState} </span>`;
-                document.getElementById("tracker-source-type").textContent = filteredData[0].source_type || 'N/A';
-                document.getElementById("tracker-source-method").textContent = filteredData[0].source_method || 'N/A';
-                document.getElementById("tracker-population").innerHTML = `<strong>${previousYear} Population:</strong> ${filteredData[0].population ? parseInt(filteredData[0].population).toLocaleString() : 'N/A'}`;
+               // document.getElementById("tracker-source-type").textContent = filteredData[0].source_type || 'N/A';
+               // document.getElementById("tracker-source-method").textContent = filteredData[0].source_method || 'N/A';
+               // document.getElementById("tracker-population").innerHTML = `<strong>${previousYear} Population:</strong> ${filteredData[0].population ? parseInt(filteredData[0].population).toLocaleString() : 'N/A'}`;
                 document.getElementById("tracker-ytd-range").textContent = filteredData[0].ytd_month_range || 'N/A';
     
                 console.log("Filtered data:", filteredData);

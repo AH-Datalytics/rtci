@@ -194,11 +194,23 @@ document.addEventListener("DOMContentLoaded", function() {
         ];
     
         // Check if "Full Sample" exists and move it to the top for all states
-    agencies = agencies.sort((a, b) => {
-        if (a === "Full Sample") return -1; // Move "Full Sample" to the top
-        if (b === "Full Sample") return 1;
-        return a.localeCompare(b); // Alphabetically sort remaining agencies
-    });
+    // Sort agencies based on the custom order if they are in the nationwide list
+agencies.sort((a, b) => {
+    const indexA = nationwideAgencyOrder.indexOf(a);
+    const indexB = nationwideAgencyOrder.indexOf(b);
+
+    // If both agencies are in the nationwide order, use that order
+    if (indexA !== -1 && indexB !== -1) {
+        return indexA - indexB;
+    }
+    // If only one is in the nationwide order, it should come first
+    if (indexA !== -1) return -1;
+    if (indexB !== -1) return 1;
+
+    // Otherwise, sort alphabetically
+    return a.localeCompare(b);
+});
+
     
         createSearchableDropdown(agencySelect, agencyBtn, agencies);
     

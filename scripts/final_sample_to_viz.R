@@ -574,6 +574,7 @@ write.csv(final_sample, "../docs/app_data/by_agency_table.csv", row.names = FALS
 
 
 
+
 # Map data ------------------------------------------------------------------------------------
 
 map <- read_csv("../docs/app_data/viz_data.csv")
@@ -632,4 +633,114 @@ non_rtci_countries <- world_countries %>% filter(!(name %in% c("United States of
 
 # Save the filtered GeoDataFrame as a new GeoJSON file for non-RTCI countries
 st_write(non_rtci_countries, "../docs/app_data/non_rtci_countries.geo.json", driver = "GeoJSON")
+
+
+
+
+
+# Scorecard Dataframe -------------------------------------------------------------------------
+
+# Load the data from the specified path
+data <- read.csv("../docs/app_data/by_agency_table.csv")
+
+# Convert the 'date' column to Date type
+data$date <- as.Date(data$date, format = "%Y-%m-%d")
+
+# Remove any rows with NA dates
+data <- data %>% filter(!is.na(date))
+
+# Extract the year from the 'date' column
+data <- data %>% mutate(year = year(date))
+
+# Reshape the data from wide to long format to handle each crime type
+data_long <- data %>%
+  pivot_longer(
+    cols = c(aggravated_assault, burglary, motor_vehicle_theft, murder, rape, robbery, theft, violent_crime, property_crime),
+    names_to = "crime_type",
+    values_to = "count"
+  )
+
+# Calculate the most recent year for each agency
+most_recent_year_data <- data_long %>%
+  group_by(agency_name) %>%
+  summarise(
+    most_recent_year = max(year, na.rm = TRUE)
+  )
+
+# Get the current maximum year across all agencies
+max_year <- max(most_recent_year_data$most_recent_year, na.rm = TRUE)
+
+# Filter to include only agencies with data in the max year (most recent year)
+agencies_with_current_year_data <- most_recent_year_data %>%
+  filter(most_recent_year == max_year) %>%
+  pull(agency_name)
+
+# Filter data_long to include only rows from agencies with data in the most recent year
+data_long <- data_long %>%
+  filter(agency_name %in% agencies_with_current_year_data)
+
+# Calculate the most recent month in the most recent year for each agency
+most_recent_month_data <- data_long %>%
+  filter(year == max_year) %>%
+  group_by(agency_name) %>%
+  summarise(
+    most_recent_month = max(month(date), na.rm = TRUE),
+    most_recent_year = unique(year)
+  ) %>%
+  mutate(
+    most_recent_month_name = month.abb[most_recent_month],
+    ytd_month_range = paste0("Jan", " ", "-", " ", most_recent_month_name, " ",  most_recent_year)  # Include only months in the range
+  )
+
+# Join `most_recent_month_data` with `data_long` to include `ytd_month_range`
+data_filtered <- data_long %>%
+  inner_join(most_recent_month_data, by = "agency_name") %>%
+  filter((year < most_recent_year) |
+           (year == most_recent_year & month(date) <= most_recent_month))
+
+# Define the years of interest based on the latest available year in the dataset
+current_year <- max(data$year, na.rm = TRUE)
+previous_year <- current_year - 1
+two_years_prior <- current_year - 2
+
+# Summarize full-year and YTD data for each crime type and agency, including most recent month info
+summary_data <- data_filtered %>%
+  filter(year %in% c(two_years_prior, previous_year, current_year)) %>%
+  group_by(agency_name, state_name, crime_type, year) %>%
+  summarise(
+    full_year_total = sum(count, na.rm = TRUE),
+    ytd_total = sum(count[month(date) <= most_recent_month], na.rm = TRUE)
+  ) %>%
+  ungroup() %>%
+  pivot_wider(
+    names_from = year,
+    values_from = c(full_year_total, ytd_total),
+    names_glue = "{.value}_{year}"
+  ) %>%
+  left_join(most_recent_month_data %>% select(agency_name, most_recent_month_name, ytd_month_range), by = "agency_name")
+
+# Calculate percent changes with updated column names using `get(paste0(...))`
+summary_data <- summary_data %>%
+  mutate(
+    two_years_prior_previous_year_full_pct_change = (get(paste0("full_year_total_", previous_year)) - get(paste0("full_year_total_", two_years_prior))) / get(paste0("full_year_total_", two_years_prior)) * 100,
+    two_years_prior_current_year_ytd_pct_change = (get(paste0("ytd_total_", current_year)) - get(paste0("ytd_total_", two_years_prior))) / get(paste0("ytd_total_", two_years_prior)) * 100,
+    previous_year_current_year_ytd_pct_change = (get(paste0("ytd_total_", current_year)) - get(paste0("ytd_total_", previous_year))) / get(paste0("ytd_total_", previous_year)) * 100
+  ) %>%
+  select(
+    agency_name, state_name, crime_type, ytd_month_range,
+    paste0("full_year_total_", two_years_prior), paste0("full_year_total_", previous_year), 
+    two_years_prior_previous_year_full_pct_change,
+    paste0("ytd_total_", two_years_prior), paste0("ytd_total_", previous_year), paste0("ytd_total_", current_year), 
+    two_years_prior_current_year_ytd_pct_change, previous_year_current_year_ytd_pct_change
+  ) %>%
+  rename_with(~ c(
+    "agency_name", "state_name", "crime_type", "ytd_month_range",
+    "two_years_prior_full", "previous_year_full",
+    "two_years_prior_previous_year_full_pct_change",
+    "two_years_prior_ytd", "previous_year_ytd", "current_year_ytd",
+    "two_years_prior_current_year_ytd_pct_change", "previous_year_current_year_ytd_pct_change"
+  ))
+
+# Save the final dataset
+write.csv(summary_data, "../docs/app_data/scorecard.csv", row.names = FALSE)
 

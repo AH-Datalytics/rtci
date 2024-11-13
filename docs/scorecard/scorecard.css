@@ -1,0 +1,88 @@
+/* Add a right border to the last Full Year column */
+#scorecard-table thead th:nth-child(6) {
+    border-right: 1px dotted #00333a83; /* Adjust the color and width as needed */
+}
+
+/* Optional: You might also want to add the same style for the tbody cells to keep the border consistent */
+#scorecard-table tbody td:nth-child(6) {
+    border-right: 1px dotted #00333a83;
+}
+
+/* Specific styles for the header cells in scorecard table */
+#scorecard-table thead th {
+    background-color: #00333a ;  /* Override any existing background */
+}
+
+/* Center-align only the second column in the scorecard table */
+#scorecard-table th:nth-child(2),
+#scorecard-table td:nth-child(2) {
+    text-align: center;
+}
+
+
+
+/* Trackers Container Styling as a thin line below the table */
+#trackers-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px; /* Padding for a thin look */
+    background-color: #f5f5f557; /* Light grey background */
+    border-radius: 5px; /* Subtle rounded corners */
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    font-size: 1.5rem; /* Adjust font size for a streamlined look */
+    color: #00333a; /* Darker color for text */
+}
+
+/* Style for the tracker text */
+#trackers-container span {
+    color: #00333a;
+}
+
+#trackers-container strong {
+    color: #00333a; /* Accent color for labels */
+}
+
+#trackers-container .tracker-agency-name {
+    color: #2d5ef9; /* Blue color specifically for agency name */
+}
+
+
+
+@media (max-width: 800px) {
+    #scorecard-table th, td {
+        font-size: 2vw;
+    }
+
+    #trackers-container p {
+        font-size: 3vw;
+    }
+}
+
+
+
+#trackers-container p {
+    margin: 0 0 0 0; /* Adjust spacing between lines */
+}
+
+#trackers-container span {
+    font-weight: 300;
+    color: #f28106;
+}
+
+
+/* Reset rounded corners for the first and last header cells */
+#scorecard-table thead th:first-child {
+    border-top-left-radius: 0; /* Remove top-left rounded corner */
+}
+
+#scorecard-table thead th:last-child {
+    border-top-right-radius: 0; /* Remove top-right rounded corner */
+}
+
+
+#trackers-container #rtci-logo {
+    max-width: 100px; /* Adjust the size as needed */
+    align-self: center; /* Center-aligns vertically within the container */
+    margin-left: 30px;
+}

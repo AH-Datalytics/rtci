@@ -1,13 +1,13 @@
 .filters-container {
-  margin-bottom: 1.5rem; /* change as needed for tab alignment */
+  margin-bottom: 1.4rem; /* change as needed for tab alignment */
 }
 
 
 
 
 #map {
-    width: 99.5%;  /* Adjust this percentage as needed */
-    height: 98%; /* Adjust this percentage as needed */
+    width: 100%;  /* Adjust this percentage as needed */
+    height: 100%; /* Adjust this percentage as needed */
     border-radius: 8px;
     position: absolute;
     top: 50%;

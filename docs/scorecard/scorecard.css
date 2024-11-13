@@ -108,6 +108,5 @@
         display: block; /* Enables table to behave like a scrollable block element */
         overflow-x: auto; /* Adds horizontal scrolling */
         width: 100%; /* Ensures it spans full width for consistent appearance */
-        white-space: nowrap; /* Prevent wrapping for table content */
     }
 }

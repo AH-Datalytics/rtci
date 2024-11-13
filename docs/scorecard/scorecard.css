@@ -86,3 +86,11 @@
     align-self: center; /* Center-aligns vertically within the container */
     margin-left: 30px;
 }
+
+
+/* Force smaller font for the crime type cells on mobile */
+@media (max-width: 800px) {
+    #scorecard-table tbody tr td:first-child {
+        font-size: 0.8em !important; /* Adjust as needed and enforce with !important */
+    }
+}

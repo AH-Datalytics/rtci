@@ -91,6 +91,30 @@
 /* Force smaller font for the crime type cells on mobile */
 @media (max-width: 800px) {
     #scorecard-table tbody tr td:first-child {
-        font-size: 0.8em !important; /* Adjust as needed and enforce with !important */
+        font-size: 0.6em !important; /* Adjust as needed and enforce with !important */
     }
+}
+
+/* Make the tracker container as wide as the table on mobile */
+@media (max-width: 800px) {
+    #trackers-container {
+        box-sizing: border-box; /* Ensures padding doesn't add to width */
+        width:inherit ;
+        padding-left: 0.1em; 
+        padding-right: 0.1em;
+
+    }
+}
+
+
+/* Limit scrolling to the scorecard table, not the container */
+.table-container {
+    overflow: hidden; /* Prevents scrolling on the container */
+    width: 100%; /* Full width for layout consistency */
+}
+
+#scorecard-table {
+    display: block; /* Enables table to behave like a scrollable block element */
+    overflow-x: auto; /* Adds horizontal scrolling */
+    width: 100%; /* Ensures it spans full width for consistent appearance */
 }

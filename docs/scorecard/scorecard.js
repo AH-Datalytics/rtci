@@ -21,6 +21,16 @@ document.addEventListener("DOMContentLoaded", function () {
         filterAndDisplayData(); // Display default data for "Nationwide" and "Full Sample"
     }).catch(error => console.error("Error loading data:", error));
 
+    // Function to adjust the width of the tracker container
+    function adjustTrackerWidth() {
+        const trackerContainer = document.getElementById("trackers-container");
+        const scorecardTable = document.getElementById("scorecard-table");
+        trackerContainer.style.width = `${scorecardTable.scrollWidth}px`;
+    }
+
+    // Re-adjust width on window resize
+    window.addEventListener("resize", adjustTrackerWidth);
+
     function populateFilters(data) {
         let states = [...new Set(data.map(row => row.state_name))].sort();
         

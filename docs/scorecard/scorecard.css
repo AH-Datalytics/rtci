@@ -10,7 +10,7 @@
 
 /* Specific styles for the header cells in scorecard table */
 #scorecard-table thead th {
-    background-color: #00333a ;  /* Override any existing background */
+    background-color: #00333a;  /* Override any existing background */
 }
 
 /* Center-align only the second column in the scorecard table */
@@ -18,8 +18,6 @@
 #scorecard-table td:nth-child(2) {
     text-align: center;
 }
-
-
 
 /* Trackers Container Styling as a thin line below the table */
 #trackers-container {
@@ -47,8 +45,7 @@
     color: #2d5ef9; /* Blue color specifically for agency name */
 }
 
-
-
+/* General mobile styles */
 @media (max-width: 800px) {
     #scorecard-table th, td {
         font-size: 2vw;
@@ -59,17 +56,16 @@
     }
 }
 
-
-
+/* Remove margin for tracker container paragraphs */
 #trackers-container p {
     margin: 0 0 0 0; /* Adjust spacing between lines */
 }
 
+/* Style for highlighted text within tracker container */
 #trackers-container span {
     font-weight: 300;
     color: #f28106;
 }
-
 
 /* Reset rounded corners for the first and last header cells */
 #scorecard-table thead th:first-child {
@@ -80,7 +76,7 @@
     border-top-right-radius: 0; /* Remove top-right rounded corner */
 }
 
-
+/* Logo in tracker container */
 #trackers-container #rtci-logo {
     max-width: 100px; /* Adjust the size as needed */
     align-self: center; /* Center-aligns vertically within the container */
@@ -98,23 +94,20 @@
 /* Make the tracker container as wide as the table on mobile */
 @media (max-width: 800px) {
     #trackers-container {
-        box-sizing: border-box; /* Ensures padding doesn't add to width */
-        width:inherit ;
         padding-left: 0.1em; 
         padding-right: 0.1em;
-
+        overflow: hidden;
     }
-}
 
+    /* Limit scrolling to the scorecard table, not the container */
+    .table-container {
+        overflow: hidden; /* Prevents scrolling on the container */
+    }
 
-/* Limit scrolling to the scorecard table, not the container */
-.table-container {
-    overflow: hidden; /* Prevents scrolling on the container */
-    width: 100%; /* Full width for layout consistency */
-}
-
-#scorecard-table {
-    display: block; /* Enables table to behave like a scrollable block element */
-    overflow-x: auto; /* Adds horizontal scrolling */
-    width: 100%; /* Ensures it spans full width for consistent appearance */
+    #scorecard-table {
+        display: block; /* Enables table to behave like a scrollable block element */
+        overflow-x: auto; /* Adds horizontal scrolling */
+        width: 100%; /* Ensures it spans full width for consistent appearance */
+        white-space: nowrap; /* Prevent wrapping for table content */
+    }
 }

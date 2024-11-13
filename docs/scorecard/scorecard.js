@@ -274,5 +274,40 @@ document.addEventListener("DOMContentLoaded", function () {
         const dropdownMenus = document.querySelectorAll(".dropdown-menu");
         dropdownMenus.forEach(menu => menu.classList.remove("show"));
     }
+
+    function downloadTableAsCSV() {
+        const table = document.getElementById("scorecard-table");
+        let csvContent = "";
+        
+        // Extract header row
+        const headerCells = table.querySelectorAll("thead th");
+        const headerRow = Array.from(headerCells).map(cell => `"${cell.textContent.trim()}"`).join(",");
+        csvContent += headerRow + "\n";
+        
+        // Extract table rows
+        const rows = table.querySelectorAll("tbody tr");
+        rows.forEach(row => {
+            const rowData = Array.from(row.querySelectorAll("td")).map(cell => `"${cell.textContent.trim()}"`).join(",");
+            csvContent += rowData + "\n";
+        });
+    
+        // Get agency and state names for dynamic filename
+        const agencyName = document.getElementById("agency-btn").textContent.trim().replace(/\s+/g, "_");
+        const stateName = document.getElementById("state-btn").textContent.trim().replace(/\s+/g, "_");
+        const fileName = `${agencyName}_${stateName}_overview.csv`;
+    
+        // Create a downloadable blob and trigger download
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+    
+    document.getElementById("table-download").addEventListener("click", downloadTableAsCSV);
+    
+
 });
 

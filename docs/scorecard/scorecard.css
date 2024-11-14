@@ -32,6 +32,13 @@
     color: #00333a; /* Darker color for text */
 }
 
+/* Adjust logo styling for consistent positioning */
+#trackers-container #rtci-logo {
+    max-width: 100px; /* Adjust size as needed */
+    margin-left: 20px;
+    margin-right: 1em;
+}
+
 /* Style for the tracker text */
 #trackers-container span {
     color: #00333a;
@@ -76,12 +83,7 @@
     border-top-right-radius: 0; /* Remove top-right rounded corner */
 }
 
-/* Logo in tracker container */
-#trackers-container #rtci-logo {
-    max-width: 100px; /* Adjust the size as needed */
-    align-self: center; /* Center-aligns vertically within the container */
-    margin-left: 30px;
-}
+
 
 
 /* Force smaller font for the crime type cells on mobile */
@@ -91,12 +93,23 @@
     }
 }
 
+
+.table-container {
+    overflow-x: hidden; /* Adds horizontal scrolling */
+}
+
+
 /* Make the tracker container as wide as the table on mobile */
 @media (max-width: 800px) {
     #trackers-container {
         padding-left: 0.1em; 
         padding-right: 0.1em;
         overflow: hidden;
+    }
+
+    #trackers-container #rtci-logo {
+        margin-left: 0;
+        margin-right: 0;
     }
 
     /* Limit scrolling to the scorecard table, not the container */
@@ -110,3 +123,4 @@
         width: 100%; /* Ensures it spans full width for consistent appearance */
     }
 }
+

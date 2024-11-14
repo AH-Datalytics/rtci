@@ -34,8 +34,8 @@
 
 /* Adjust logo styling for consistent positioning */
 #trackers-container #rtci-logo {
-    max-width: 100px; /* Adjust size as needed */
-    margin-left: 20px;
+    max-width: 5em; /* Adjust size as needed */
+    margin-left: 1em;
     margin-right: 1em;
 }
 

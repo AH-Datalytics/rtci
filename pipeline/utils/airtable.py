@@ -22,6 +22,13 @@ def get_records_from_sheet(logger, sheet_name, formula=None):
     return [d["fields"] for d in records]
 
 
+def clear_sheet(logger, sheet_name):
+    worker = get_airtable_sheet(sheet_name)
+    records = [r["id"] for r in worker.all()]
+    logger.info(f"Found {len(records)} in Airtable {sheet_name} to delete")
+    worker.batch_delete(records)
+
+
 def insert_to_airtable_sheet(
     logger, sheet_name, to_insert, upsert=True, keys=None, typecast=True
 ):

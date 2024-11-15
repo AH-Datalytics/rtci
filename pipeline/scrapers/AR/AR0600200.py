@@ -1,7 +1,7 @@
 import requests
 import sys
 
-sys.path.append("../utils")
+sys.path.append("../../utils")
 from super import Scraper
 
 

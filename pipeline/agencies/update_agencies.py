@@ -1,10 +1,8 @@
-import numpy as np
 import pandas as pd
 import sys
-import us
 
 sys.path.append("../utils")
-from airtable import get_records_from_sheet, insert_to_airtable_sheet
+from airtable import clear_sheet, get_records_from_sheet, insert_to_airtable_sheet
 from logger import create_logger
 
 
@@ -15,7 +13,9 @@ class Agencies:
     def __init__(self, arguments):
         self.logger = create_logger()
         self.args = arguments
-        self.aws_dest = "https://sample-rtci.s3.us-east-1.amazonaws.com/sources/"
+        self.aws_dest = (
+            "https://sample-rtci.s3.us-east-1.amazonaws.com/sources/agencies/"
+        )
         self.external_src = pd.read_csv(
             self.aws_dest + "CDE+Participation+2000-2023.csv"
         )
@@ -62,12 +62,17 @@ class Agencies:
         )
         assert len(dataset[dataset["Agency Name"].notna()]) == len(self.internal_src)
 
+        # as of 2024-11-13, jeff indicated we can keep the threshold at 50_000 for now
+        dataset = dataset[dataset["population"] > 50_000]
+
         dataset = self.prep_dataset(dataset)
         records = dataset.to_dict("records")
         agencies_to_insert = [{"fields": d} for d in records]
 
         self.logger.info(f"sample record: {records[0]}")
         if not self.args.test:
+            if self.args.clear:
+                clear_sheet(logger=logger, sheet_name="Metadata")
             insert_to_airtable_sheet(
                 logger=logger,
                 sheet_name="Metadata",
@@ -140,6 +145,13 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
+        "-c",
+        "--clear",
+        action="store_true",
+        help="""If flagged, delete Airtable sheet.""",
+    )
+    parser.add_argument(
+        "-t",
         "--test",
         action="store_true",
         help="""If flagged, do not interact with Airtable.""",

@@ -1,0 +1,26 @@
+# Version: "3.9"
+
+
+services:
+
+  scrape-dev:
+
+    build:
+      context: .
+      dockerfile: pipeline/dockerfiles/Dockerfile
+
+    container_name: scrape-dev
+
+    image: scrape-dev
+
+    # Volumes below bind local paths to container paths.
+    # Note: individual SSH directory paths must be specified in individual .env files.
+    volumes:
+      - ./:/rtci
+      # - ${_SSH_PATH}:/root/.ssh
+      - "~/.gitconfig:/etc/gitconfig"
+
+    command: tail -F anything
+
+    profiles:
+      - scrape-dev

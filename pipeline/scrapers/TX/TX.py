@@ -6,18 +6,20 @@ import sys
 from datetime import datetime as dt
 from functools import reduce
 
-sys.path.append("../utils")
+sys.path.append("../../utils")
 from airtable import get_records_from_sheet
 from parallelize import thread
 from super import Scraper
 
 
-class Pennsylvania(Scraper):
+class Texas(Scraper):
     def __init__(self):
         super().__init__()
-        self.path = "PA/"
-        self.agency_list_url = "https://www.ucr.pa.gov/PAUCRSPublic/SRSReport/GetReportByValues?ReportType=Agency"
-        self.data_url = "https://www.ucr.pa.gov/PAUCRSPublic/SRSReport/GetCrimeTrends?"
+        self.path = "/"
+        self.agency_list_url = (
+            "https://txucr.nibrs.com/SRSReport/GetSRSReportByValues?ReportType=Agency"
+        )
+        self.data_url = "https://txucr.nibrs.com/SRSReport/GetCrimeTrends?"
         self.payload = {
             "ReportType": "Agency",
             "StartDate": "01/01/2017",
@@ -31,9 +33,8 @@ class Pennsylvania(Scraper):
         agencies = [
             d["ori"]
             for d in get_records_from_sheet(
-                self.logger, "Metadata", formula="{state}='Pennsylvania'"
+                self.logger, "Metadata", formula="{state}='Texas'"
             )
-            if d["ori"] != "PAPPD0000"
         ]
 
         # get list of input values from website
@@ -47,11 +48,8 @@ class Pennsylvania(Scraper):
             for agency in agencies
         ]
 
-        results = list()
-        for agency in agencies:
-            self.logger.info(f"scraping {agency[0]}")
-            results.extend(self.get_agency(agency))
-        return results
+        all_agencies = thread(self.get_agency, agencies)
+        return all_agencies
 
     def get_agency(self, agency):
         agency, value = agency
@@ -95,4 +93,4 @@ class Pennsylvania(Scraper):
         return df.to_dict("records")
 
 
-Pennsylvania().run()
+Texas().run()

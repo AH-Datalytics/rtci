@@ -16,14 +16,21 @@ library(stringr)
 library(zoo)
 library(ggplot2)
 ```
-directory path where the BEFF files are stored
+directory path where the data files are stored
 ```{r}
 # sharepoint endpoint where the individual datasets are stored
-data_dir <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\August 2024"
+# update with new month folder at the end
+data_dir <- file.path("C:", "OneDrive", "OneDrive - ahdatalytics.com", "Clients", "Real Time Crime Index", "Open Source Data", "_Ben and Jeff work", "September 2024")
+
+# Get a list of all CSV file paths within the directory (each source of data)
+file_paths <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
+
+#check it out
+head(file_paths)
 ```
 describe all the csv's coming in - just a general snippet to take a look at the raw data format
 ```{r}
-# Function to get information about each CSV file
+# Function to get info on each CSV file
 get_csv_info <- function(file) {
   df <- read_csv(file)
   data.frame(
@@ -33,9 +40,6 @@ get_csv_info <- function(file) {
     column_formats = paste(sapply(df, class), collapse = ", ")
   )
 }
-
-# get a list of all the names and convert to file paths so we can run the function
-file_paths <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
 
 # Apply the function to each CSV file and combine the results into a single dataframe
 csv_info_df <- map_df(file_paths, get_csv_info)
@@ -155,8 +159,6 @@ total_agency_raw1 <- sum(unlist(unique_agency_counts1))
 
 # Print the results
 head(total_agency_raw1)
-#353 matches up
-#356 matches up!
 ```
 next...standardize the columns
 ```{r}
@@ -616,15 +618,30 @@ head(cdf2)
 add PR data
 fix remaining columns and select out 
 ```{r}
-pr_dat <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\August 2024\\Puerto_Rico_Aggregated_Since_2017.csv")
+# File path
+pr_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\August 2024\\Puerto_Rico_Aggregated_Since_2017.csv"
 
-#fix names
-pr_dat <- pr_dat %>% rename(`Aggravated Assault` = Aggravated.Assault,
-                             `Motor Vehicle Theft` = Motor.Vehicle.Theft,
-                              `Agency Name` = Agency.Name     )
+# Read CSV
+pr_dat <- read.csv(pr_path)
 
-#make sure we only have the columns that the rest of the dataset has
-pr_dat <- pr_dat %>% select(acceptable_names)
+# Fix names
+pr_dat <- pr_dat %>%
+  rename(
+    `Aggravated Assault` = Aggravated.Assault,
+    `Motor Vehicle Theft` = Motor.Vehicle.Theft,
+    `Agency Name` = Agency.Name
+  )
+
+# Map month names to numeric values
+pr_dat <- pr_dat %>%
+  mutate(Month = match(Month, month.name))
+
+pr_dat <- pr_dat %>%
+  select(all_of(acceptable_names))
+
+# Preview the final data
+head(pr_dat)
+
 ```
 bind to the end
 ```{r}
@@ -798,23 +815,23 @@ write.csv(undesirables_na_historical, "scripts/auditing/missing_historical.csv",
 write.csv(undesirables_recency, "scripts/auditing/no_reported_data_past_two_months.csv", row.names = FALSE)
 write.csv(remove_agencies, "scripts/auditing/agencies_removed_from_sample.csv", row.names = FALSE)
 
-# Sample Cities file for Sourcing table base
-write.csv(sample_cities, "data/sample_cities.csv", row.names = FALSE)
-file_path3 <- file.path(folder_path1, "sample_cities.csv" )
-write.csv(sample_cities, file = file_path3, row.names = FALSE)
-
 # File Path for Jeff local
 folder_path1 <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation"
 # Create the full file path - for jeff
-file_path1 <- file.path(folder_path1, "july_2024_sample.csv")
+file_path1 <- file.path(folder_path1, "sample_aug_2024.csv")
 write.csv(cleaned_data, file = file_path1, row.names = FALSE)
+
+# Sample Cities file for Sourcing table base
+write.csv(sample_cities, "data/sample_cities.csv", row.names = FALSE)
+file_path3 <- file.path(folder_path1, "sample_cities_2024_09.csv" )
+write.csv(sample_cities, file = file_path3, row.names = FALSE)
 ```
 
 
 
 PR Data for before release
 ```{r}
-pr <- read.csv("C:\\Users\\daveh\\Downloads\\Crime for Major Cities (English) August2024.csv")
+pr <- read.csv("C:\\Users\\daveh\\Downloads\\Crime for Major Cities (English) September2024.csv")
 ```
 #clean up reshape
 ```{r}
@@ -860,7 +877,7 @@ pr_counts <- pr_counts %>%
 head(pr_counts)
 
 # Optionally, save the new wide dataframe with calculated columns to a CSV
-write.csv(pr_counts, "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\August 2024\\Puerto_Rico_Aggregated_Since_2017.csv", row.names = FALSE)
+write.csv(pr_counts, "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\September 2024\\Puerto_Rico_Aggregated_Since_2017.csv", row.names = FALSE)
 
 ```
 

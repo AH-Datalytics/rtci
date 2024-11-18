@@ -575,66 +575,6 @@ write.csv(final_sample, "../docs/app_data/by_agency_table.csv", row.names = FALS
 
 
 
-# Map data ------------------------------------------------------------------------------------
-
-map <- read_csv("../docs/app_data/viz_data.csv")
-
-# Generate a unique list of cities
-unique_cities <- map %>%
-  select(agency_name, state_name) %>%  # Select city and state columns
-  distinct()                           # Remove duplicates
-
-
-# Geocode each unique city using OpenStreetMap
-unique_cities_coords <- unique_cities %>%
-  geocode(city = agency_name, state = state_name, method = 'osm') 
-
-
-# Rename columns in sample_cities to match those in unique_cities_coords and map
-sample_cities <- sample_cities %>%
-  rename(agency_name = `Agency Name`, state_name = `state_name`) %>%
-  mutate(national_sample = TRUE) %>%  # Add a column to indicate national sample
-  select(agency_name, state_name, national_sample)
-
-# Add back population data and national sample status
-unique_cities_coords <- unique_cities_coords %>%
-  left_join(map %>% select(agency_name, state_name, population), 
-            by = c("agency_name", "state_name")) %>%
-  left_join(sample_cities, by = c("agency_name", "state_name")) %>%
-  mutate(national_sample = if_else(is.na(national_sample), FALSE, national_sample)) %>% # Set FALSE if NA
-  distinct()  # Keep only unique rows
-
-# Save the results to a CSV
-write.csv(unique_cities_coords, "../docs/app_data/cities_coordinates.csv", row.names = FALSE)
-
-# Load your RTCI cities data to extract unique states
-rtci_data <- read.csv("../docs/app_data/cities_coordinates.csv")  # Update path as necessary
-rtci_states <- unique(rtci_data$state_name)  # Extract unique states
-
-# Load the U.S. states GeoJSON file
-us_states <- st_read("../docs/app_data/us-states.json")  # Update path to your GeoJSON file
-
-# Filter the GeoDataFrame to include only states in the RTCI project
-rtci_states_gdf <- us_states %>% filter(name %in% rtci_states)
-
-# Filter to get only the states NOT in the RTCI project
-non_rtci_states_gdf <- us_states %>% filter(!(name %in% rtci_states))
-
-# Save the filtered GeoDataFrame as a new GeoJSON file for non-RTCI states
-st_write(non_rtci_states_gdf, "../docs/app_data/non_rtci_states.json", driver = "GeoJSON")
-st_write(rtci_states_gdf, "../docs/app_data/rtci_states.json", driver = "GeoJSON")
-
-
-# Load the world countries GeoJSON file
-world_countries <- st_read("../docs/app_data/countries.geo.json")  # Update path to your downloaded GeoJSON
-
-# Filter to get only the countries NOT in the RTCI project
-non_rtci_countries <- world_countries %>% filter(!(name %in% c("United States of America", "Puerto Rico")))
-
-# Save the filtered GeoDataFrame as a new GeoJSON file for non-RTCI countries
-st_write(non_rtci_countries, "../docs/app_data/non_rtci_countries.geo.json", driver = "GeoJSON")
-
-
 
 
 
@@ -743,4 +683,68 @@ summary_data <- summary_data %>%
 
 # Save the final dataset
 write.csv(summary_data, "../docs/app_data/scorecard.csv", row.names = FALSE)
+
+
+
+
+
+# Map data ------------------------------------------------------------------------------------
+
+map <- read_csv("../docs/app_data/viz_data.csv")
+
+# Generate a unique list of cities
+unique_cities <- map %>%
+  select(agency_name, state_name) %>%  # Select city and state columns
+  distinct()                           # Remove duplicates
+
+
+# # Geocode each unique city using OpenStreetMap
+# unique_cities_coords <- unique_cities %>%
+#   geocode(city = agency_name, state = state_name, method = 'osm')
+
+
+# Rename columns in sample_cities to match those in unique_cities_coords and map
+sample_cities <- sample_cities %>%
+  rename(agency_name = `Agency Name`, state_name = `state_name`) %>%
+  mutate(national_sample = TRUE) %>%  # Add a column to indicate national sample
+  select(agency_name, state_name, national_sample)
+
+# Add back population data and national sample status
+unique_cities_coords <- unique_cities_coords %>%
+  left_join(map %>% select(agency_name, state_name, population), 
+            by = c("agency_name", "state_name")) %>%
+  left_join(sample_cities, by = c("agency_name", "state_name")) %>%
+  mutate(national_sample = if_else(is.na(national_sample), FALSE, national_sample)) %>% # Set FALSE if NA
+  distinct()  # Keep only unique rows
+
+# Save the results to a CSV
+write.csv(unique_cities_coords, "../docs/app_data/cities_coordinates.csv", row.names = FALSE)
+
+# Load your RTCI cities data to extract unique states
+rtci_data <- read.csv("../docs/app_data/cities_coordinates.csv")  # Update path as necessary
+rtci_states <- unique(rtci_data$state_name)  # Extract unique states
+
+# Load the U.S. states GeoJSON file
+us_states <- st_read("../docs/app_data/us-states.json")  # Update path to your GeoJSON file
+
+# Filter the GeoDataFrame to include only states in the RTCI project
+rtci_states_gdf <- us_states %>% filter(name %in% rtci_states)
+
+# Filter to get only the states NOT in the RTCI project
+non_rtci_states_gdf <- us_states %>% filter(!(name %in% rtci_states))
+
+# Save the filtered GeoDataFrame as a new GeoJSON file for non-RTCI states
+st_write(non_rtci_states_gdf, "../docs/app_data/non_rtci_states.json", driver = "GeoJSON")
+st_write(rtci_states_gdf, "../docs/app_data/rtci_states.json", driver = "GeoJSON")
+
+
+# Load the world countries GeoJSON file
+world_countries <- st_read("../docs/app_data/countries.geo.json")  # Update path to your downloaded GeoJSON
+
+# Filter to get only the countries NOT in the RTCI project
+non_rtci_countries <- world_countries %>% filter(!(name %in% c("United States of America", "Puerto Rico")))
+
+# Save the filtered GeoDataFrame as a new GeoJSON file for non-RTCI countries
+st_write(non_rtci_countries, "../docs/app_data/non_rtci_countries.geo.json", driver = "GeoJSON")
+
 

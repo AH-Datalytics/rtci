@@ -681,6 +681,9 @@ summary_data <- summary_data %>%
     "two_years_prior_current_year_ytd_pct_change", "previous_year_current_year_ytd_pct_change"
   ))
 
+summary_data <- summary_data %>% 
+  mutate(state_name = ifelse(is.na(state_name), "Puerto Rico", state_name))
+
 # Save the final dataset
 write.csv(summary_data, "../docs/app_data/scorecard.csv", row.names = FALSE)
 

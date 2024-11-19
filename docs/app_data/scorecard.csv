@@ -17,15 +17,15 @@
 "Abington","Pennsylvania","robbery","Jan - Sep 2024",35,21,-40,23,14,20,-13.0434782608696,42.8571428571429
 "Abington","Pennsylvania","theft","Jan - Sep 2024",1018,1217,19.5481335952849,739,875,799,8.1190798376184,-8.68571428571429
 "Abington","Pennsylvania","violent_crime","Jan - Sep 2024",81,52,-35.8024691358025,57,37,52,-8.7719298245614,40.5405405405405
-"Aguadilla",NA,"aggravated_assault","Jan - Nov 2024",81,61,-24.6913580246914,76,57,85,11.8421052631579,49.1228070175439
-"Aguadilla",NA,"burglary","Jan - Nov 2024",48,57,18.75,45,54,24,-46.6666666666667,-55.5555555555556
-"Aguadilla",NA,"motor_vehicle_theft","Jan - Nov 2024",10,14,40,9,13,16,77.7777777777778,23.0769230769231
-"Aguadilla",NA,"murder","Jan - Nov 2024",9,3,-66.6666666666667,8,3,6,-25,100
-"Aguadilla",NA,"property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
-"Aguadilla",NA,"rape","Jan - Nov 2024",10,7,-30,10,6,9,-10,50
-"Aguadilla",NA,"robbery","Jan - Nov 2024",7,9,28.5714285714286,7,8,12,71.4285714285714,50
-"Aguadilla",NA,"theft","Jan - Nov 2024",113,140,23.8938053097345,97,129,99,2.06185567010309,-23.2558139534884
-"Aguadilla",NA,"violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"Aguadilla","Puerto Rico","aggravated_assault","Jan - Nov 2024",81,61,-24.6913580246914,76,57,85,11.8421052631579,49.1228070175439
+"Aguadilla","Puerto Rico","burglary","Jan - Nov 2024",48,57,18.75,45,54,24,-46.6666666666667,-55.5555555555556
+"Aguadilla","Puerto Rico","motor_vehicle_theft","Jan - Nov 2024",10,14,40,9,13,16,77.7777777777778,23.0769230769231
+"Aguadilla","Puerto Rico","murder","Jan - Nov 2024",9,3,-66.6666666666667,8,3,6,-25,100
+"Aguadilla","Puerto Rico","property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"Aguadilla","Puerto Rico","rape","Jan - Nov 2024",10,7,-30,10,6,9,-10,50
+"Aguadilla","Puerto Rico","robbery","Jan - Nov 2024",7,9,28.5714285714286,7,8,12,71.4285714285714,50
+"Aguadilla","Puerto Rico","theft","Jan - Nov 2024",113,140,23.8938053097345,97,129,99,2.06185567010309,-23.2558139534884
+"Aguadilla","Puerto Rico","violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
 "Akron","Ohio","aggravated_assault","Jan - Jul 2024",1148,1224,6.62020905923345,661,703,664,0.453857791225416,-5.54765291607397
 "Akron","Ohio","burglary","Jan - Jul 2024",1030,934,-9.32038834951456,608,527,427,-29.7697368421053,-18.9753320683112
 "Akron","Ohio","motor_vehicle_theft","Jan - Jul 2024",909,1015,11.6611661166117,491,576,468,-4.68431771894094,-18.75
@@ -116,15 +116,15 @@
 "Apple Valley","Minnesota","robbery","Jan - Sep 2024",9,13,44.4444444444444,7,11,6,-14.2857142857143,-45.4545454545455
 "Apple Valley","Minnesota","theft","Jan - Sep 2024",798,928,16.2907268170426,617,723,638,3.40356564019449,-11.7565698478562
 "Apple Valley","Minnesota","violent_crime","Jan - Sep 2024",132,133,0.757575757575758,86,106,76,-11.6279069767442,-28.3018867924528
-"Arecibo",NA,"aggravated_assault","Jan - Nov 2024",75,106,41.3333333333333,73,101,99,35.6164383561644,-1.98019801980198
-"Arecibo",NA,"burglary","Jan - Nov 2024",56,76,35.7142857142857,52,71,78,50,9.85915492957746
-"Arecibo",NA,"motor_vehicle_theft","Jan - Nov 2024",26,19,-26.9230769230769,22,15,26,18.1818181818182,73.3333333333333
-"Arecibo",NA,"murder","Jan - Nov 2024",11,8,-27.2727272727273,11,7,11,0,57.1428571428571
-"Arecibo",NA,"property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
-"Arecibo",NA,"rape","Jan - Nov 2024",7,9,28.5714285714286,6,9,7,16.6666666666667,-22.2222222222222
-"Arecibo",NA,"robbery","Jan - Nov 2024",18,21,16.6666666666667,16,16,25,56.25,56.25
-"Arecibo",NA,"theft","Jan - Nov 2024",92,145,57.6086956521739,81,128,105,29.6296296296296,-17.96875
-"Arecibo",NA,"violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"Arecibo","Puerto Rico","aggravated_assault","Jan - Nov 2024",75,106,41.3333333333333,73,101,99,35.6164383561644,-1.98019801980198
+"Arecibo","Puerto Rico","burglary","Jan - Nov 2024",56,76,35.7142857142857,52,71,78,50,9.85915492957746
+"Arecibo","Puerto Rico","motor_vehicle_theft","Jan - Nov 2024",26,19,-26.9230769230769,22,15,26,18.1818181818182,73.3333333333333
+"Arecibo","Puerto Rico","murder","Jan - Nov 2024",11,8,-27.2727272727273,11,7,11,0,57.1428571428571
+"Arecibo","Puerto Rico","property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"Arecibo","Puerto Rico","rape","Jan - Nov 2024",7,9,28.5714285714286,6,9,7,16.6666666666667,-22.2222222222222
+"Arecibo","Puerto Rico","robbery","Jan - Nov 2024",18,21,16.6666666666667,16,16,25,56.25,56.25
+"Arecibo","Puerto Rico","theft","Jan - Nov 2024",92,145,57.6086956521739,81,128,105,29.6296296296296,-17.96875
+"Arecibo","Puerto Rico","violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
 "Arlington","Texas","aggravated_assault","Jan - Sep 2024",1649,1394,-15.4639175257732,1354,1060,1009,-25.480059084195,-4.81132075471698
 "Arlington","Texas","burglary","Jan - Sep 2024",1028,1250,21.5953307392996,782,880,784,0.255754475703325,-10.9090909090909
 "Arlington","Texas","motor_vehicle_theft","Jan - Sep 2024",1250,1628,30.24,946,1113,1309,38.3720930232558,17.6100628930818
@@ -467,15 +467,15 @@
 "Burnsville","Minnesota","robbery","Jan - Sep 2024",26,18,-30.7692307692308,19,14,7,-63.1578947368421,-50
 "Burnsville","Minnesota","theft","Jan - Sep 2024",1284,1074,-16.3551401869159,1025,812,795,-22.4390243902439,-2.0935960591133
 "Burnsville","Minnesota","violent_crime","Jan - Sep 2024",173,168,-2.89017341040462,132,143,106,-19.6969696969697,-25.8741258741259
-"Caguas",NA,"aggravated_assault","Jan - Nov 2024",140,131,-6.42857142857143,135,116,99,-26.6666666666667,-14.6551724137931
-"Caguas",NA,"burglary","Jan - Nov 2024",128,111,-13.28125,116,99,80,-31.0344827586207,-19.1919191919192
-"Caguas",NA,"motor_vehicle_theft","Jan - Nov 2024",76,80,5.26315789473684,69,73,102,47.8260869565217,39.7260273972603
-"Caguas",NA,"murder","Jan - Nov 2024",17,23,35.2941176470588,15,23,12,-20,-47.8260869565217
-"Caguas",NA,"property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
-"Caguas",NA,"rape","Jan - Nov 2024",13,10,-23.0769230769231,13,8,13,0,62.5
-"Caguas",NA,"robbery","Jan - Nov 2024",67,85,26.865671641791,63,76,61,-3.17460317460317,-19.7368421052632
-"Caguas",NA,"theft","Jan - Nov 2024",525,518,-1.33333333333333,474,489,361,-23.8396624472574,-26.1758691206544
-"Caguas",NA,"violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"Caguas","Puerto Rico","aggravated_assault","Jan - Nov 2024",140,131,-6.42857142857143,135,116,99,-26.6666666666667,-14.6551724137931
+"Caguas","Puerto Rico","burglary","Jan - Nov 2024",128,111,-13.28125,116,99,80,-31.0344827586207,-19.1919191919192
+"Caguas","Puerto Rico","motor_vehicle_theft","Jan - Nov 2024",76,80,5.26315789473684,69,73,102,47.8260869565217,39.7260273972603
+"Caguas","Puerto Rico","murder","Jan - Nov 2024",17,23,35.2941176470588,15,23,12,-20,-47.8260869565217
+"Caguas","Puerto Rico","property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"Caguas","Puerto Rico","rape","Jan - Nov 2024",13,10,-23.0769230769231,13,8,13,0,62.5
+"Caguas","Puerto Rico","robbery","Jan - Nov 2024",67,85,26.865671641791,63,76,61,-3.17460317460317,-19.7368421052632
+"Caguas","Puerto Rico","theft","Jan - Nov 2024",525,518,-1.33333333333333,474,489,361,-23.8396624472574,-26.1758691206544
+"Caguas","Puerto Rico","violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
 "Caldwell","Idaho","aggravated_assault","Jan - Mar 2024",206,177,-14.0776699029126,44,52,46,4.54545454545455,-11.5384615384615
 "Caldwell","Idaho","burglary","Jan - Mar 2024",101,72,-28.7128712871287,34,13,15,-55.8823529411765,15.3846153846154
 "Caldwell","Idaho","motor_vehicle_theft","Jan - Mar 2024",135,70,-48.1481481481481,37,25,14,-62.1621621621622,-44
@@ -512,15 +512,15 @@
 "Carlsbad","California","robbery","Jan - Sep 2024",47,55,17.0212765957447,34,41,29,-14.7058823529412,-29.2682926829268
 "Carlsbad","California","theft","Jan - Sep 2024",1487,1483,-0.268997982515131,1112,1171,995,-10.5215827338129,-15.0298889837745
 "Carlsbad","California","violent_crime","Jan - Sep 2024",233,267,14.5922746781116,166,204,167,0.602409638554217,-18.1372549019608
-"Carolina",NA,"aggravated_assault","Jan - Nov 2024",228,226,-0.87719298245614,204,209,245,20.0980392156863,17.2248803827751
-"Carolina",NA,"burglary","Jan - Nov 2024",133,137,3.00751879699248,117,125,127,8.54700854700855,1.6
-"Carolina",NA,"motor_vehicle_theft","Jan - Nov 2024",172,145,-15.6976744186047,164,123,139,-15.2439024390244,13.0081300813008
-"Carolina",NA,"murder","Jan - Nov 2024",36,24,-33.3333333333333,32,21,18,-43.75,-14.2857142857143
-"Carolina",NA,"property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
-"Carolina",NA,"rape","Jan - Nov 2024",35,23,-34.2857142857143,35,21,31,-11.4285714285714,47.6190476190476
-"Carolina",NA,"robbery","Jan - Nov 2024",84,69,-17.8571428571429,80,63,62,-22.5,-1.58730158730159
-"Carolina",NA,"theft","Jan - Nov 2024",848,717,-15.4481132075472,783,647,668,-14.6871008939974,3.24574961360124
-"Carolina",NA,"violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"Carolina","Puerto Rico","aggravated_assault","Jan - Nov 2024",228,226,-0.87719298245614,204,209,245,20.0980392156863,17.2248803827751
+"Carolina","Puerto Rico","burglary","Jan - Nov 2024",133,137,3.00751879699248,117,125,127,8.54700854700855,1.6
+"Carolina","Puerto Rico","motor_vehicle_theft","Jan - Nov 2024",172,145,-15.6976744186047,164,123,139,-15.2439024390244,13.0081300813008
+"Carolina","Puerto Rico","murder","Jan - Nov 2024",36,24,-33.3333333333333,32,21,18,-43.75,-14.2857142857143
+"Carolina","Puerto Rico","property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"Carolina","Puerto Rico","rape","Jan - Nov 2024",35,23,-34.2857142857143,35,21,31,-11.4285714285714,47.6190476190476
+"Carolina","Puerto Rico","robbery","Jan - Nov 2024",84,69,-17.8571428571429,80,63,62,-22.5,-1.58730158730159
+"Carolina","Puerto Rico","theft","Jan - Nov 2024",848,717,-15.4481132075472,783,647,668,-14.6871008939974,3.24574961360124
+"Carolina","Puerto Rico","violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
 "Carrollton","Texas","aggravated_assault","Jan - Sep 2024",179,153,-14.5251396648045,147,107,98,-33.3333333333333,-8.41121495327103
 "Carrollton","Texas","burglary","Jan - Sep 2024",272,211,-22.4264705882353,199,169,160,-19.5979899497487,-5.32544378698225
 "Carrollton","Texas","motor_vehicle_theft","Jan - Sep 2024",216,259,19.9074074074074,167,194,217,29.940119760479,11.8556701030928
@@ -1628,15 +1628,15 @@
 "Gresham","Oregon","robbery","Jan - Sep 2024",133,100,-24.812030075188,99,74,67,-32.3232323232323,-9.45945945945946
 "Gresham","Oregon","theft","Jan - Sep 2024",1733,1782,2.82746682054241,1282,1297,1227,-4.29017160686427,-5.39707016191211
 "Gresham","Oregon","violent_crime","Jan - Sep 2024",442,363,-17.8733031674208,332,267,320,-3.6144578313253,19.8501872659176
-"Guaynabo",NA,"aggravated_assault","Jan - Nov 2024",38,47,23.6842105263158,36,44,35,-2.77777777777778,-20.4545454545455
-"Guaynabo",NA,"burglary","Jan - Nov 2024",38,53,39.4736842105263,38,49,30,-21.0526315789474,-38.7755102040816
-"Guaynabo",NA,"motor_vehicle_theft","Jan - Nov 2024",37,36,-2.7027027027027,34,33,44,29.4117647058824,33.3333333333333
-"Guaynabo",NA,"murder","Jan - Nov 2024",12,8,-33.3333333333333,11,7,4,-63.6363636363636,-42.8571428571429
-"Guaynabo",NA,"property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
-"Guaynabo",NA,"rape","Jan - Nov 2024",4,3,-25,3,3,5,66.6666666666667,66.6666666666667
-"Guaynabo",NA,"robbery","Jan - Nov 2024",19,23,21.0526315789474,17,21,13,-23.5294117647059,-38.0952380952381
-"Guaynabo",NA,"theft","Jan - Nov 2024",202,192,-4.95049504950495,185,176,153,-17.2972972972973,-13.0681818181818
-"Guaynabo",NA,"violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"Guaynabo","Puerto Rico","aggravated_assault","Jan - Nov 2024",38,47,23.6842105263158,36,44,35,-2.77777777777778,-20.4545454545455
+"Guaynabo","Puerto Rico","burglary","Jan - Nov 2024",38,53,39.4736842105263,38,49,30,-21.0526315789474,-38.7755102040816
+"Guaynabo","Puerto Rico","motor_vehicle_theft","Jan - Nov 2024",37,36,-2.7027027027027,34,33,44,29.4117647058824,33.3333333333333
+"Guaynabo","Puerto Rico","murder","Jan - Nov 2024",12,8,-33.3333333333333,11,7,4,-63.6363636363636,-42.8571428571429
+"Guaynabo","Puerto Rico","property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"Guaynabo","Puerto Rico","rape","Jan - Nov 2024",4,3,-25,3,3,5,66.6666666666667,66.6666666666667
+"Guaynabo","Puerto Rico","robbery","Jan - Nov 2024",19,23,21.0526315789474,17,21,13,-23.5294117647059,-38.0952380952381
+"Guaynabo","Puerto Rico","theft","Jan - Nov 2024",202,192,-4.95049504950495,185,176,153,-17.2972972972973,-13.0681818181818
+"Guaynabo","Puerto Rico","violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
 "Hamden","Connecticut","aggravated_assault","Jan - Aug 2024",159,298,87.4213836477987,110,187,203,84.5454545454545,8.55614973262032
 "Hamden","Connecticut","burglary","Jan - Aug 2024",111,133,19.8198198198198,71,83,97,36.6197183098592,16.8674698795181
 "Hamden","Connecticut","motor_vehicle_theft","Jan - Aug 2024",232,498,114.655172413793,126,369,304,141.269841269841,-17.6151761517615
@@ -2771,15 +2771,15 @@
 "Pocatello","Idaho","robbery","Jan - Sep 2024",5,17,240,5,13,6,20,-53.8461538461538
 "Pocatello","Idaho","theft","Jan - Sep 2024",566,642,13.4275618374558,416,468,448,7.69230769230769,-4.27350427350427
 "Pocatello","Idaho","violent_crime","Jan - Sep 2024",184,157,-14.6739130434783,132,107,114,-13.6363636363636,6.54205607476635
-"Ponce",NA,"aggravated_assault","Jan - Nov 2024",126,187,48.4126984126984,116,168,176,51.7241379310345,4.76190476190476
-"Ponce",NA,"burglary","Jan - Nov 2024",84,55,-34.5238095238095,77,52,64,-16.8831168831169,23.0769230769231
-"Ponce",NA,"motor_vehicle_theft","Jan - Nov 2024",26,28,7.69230769230769,24,26,37,54.1666666666667,42.3076923076923
-"Ponce",NA,"murder","Jan - Nov 2024",13,19,46.1538461538462,12,17,18,50,5.88235294117647
-"Ponce",NA,"property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
-"Ponce",NA,"rape","Jan - Nov 2024",10,17,70,10,17,16,60,-5.88235294117647
-"Ponce",NA,"robbery","Jan - Nov 2024",50,31,-38,49,29,25,-48.9795918367347,-13.7931034482759
-"Ponce",NA,"theft","Jan - Nov 2024",387,386,-0.258397932816538,352,356,304,-13.6363636363636,-14.6067415730337
-"Ponce",NA,"violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"Ponce","Puerto Rico","aggravated_assault","Jan - Nov 2024",126,187,48.4126984126984,116,168,176,51.7241379310345,4.76190476190476
+"Ponce","Puerto Rico","burglary","Jan - Nov 2024",84,55,-34.5238095238095,77,52,64,-16.8831168831169,23.0769230769231
+"Ponce","Puerto Rico","motor_vehicle_theft","Jan - Nov 2024",26,28,7.69230769230769,24,26,37,54.1666666666667,42.3076923076923
+"Ponce","Puerto Rico","murder","Jan - Nov 2024",13,19,46.1538461538462,12,17,18,50,5.88235294117647
+"Ponce","Puerto Rico","property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"Ponce","Puerto Rico","rape","Jan - Nov 2024",10,17,70,10,17,16,60,-5.88235294117647
+"Ponce","Puerto Rico","robbery","Jan - Nov 2024",50,31,-38,49,29,25,-48.9795918367347,-13.7931034482759
+"Ponce","Puerto Rico","theft","Jan - Nov 2024",387,386,-0.258397932816538,352,356,304,-13.6363636363636,-14.6067415730337
+"Ponce","Puerto Rico","violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
 "Port Arthur","Texas","aggravated_assault","Jan - Sep 2024",321,318,-0.934579439252336,253,234,232,-8.300395256917,-0.854700854700855
 "Port Arthur","Texas","burglary","Jan - Sep 2024",273,254,-6.95970695970696,213,184,168,-21.1267605633803,-8.69565217391304
 "Port Arthur","Texas","motor_vehicle_theft","Jan - Sep 2024",115,176,53.0434782608696,88,138,96,9.09090909090909,-30.4347826086957
@@ -3068,15 +3068,15 @@
 "San Jose","California","robbery","Jan - Sep 2024",1264,1287,1.81962025316456,941,941,997,5.95111583421892,5.95111583421892
 "San Jose","California","theft","Jan - Sep 2024",15010,12948,-13.7375083277815,11104,9198,10481,-5.61059077809798,13.9486844966297
 "San Jose","California","violent_crime","Jan - Sep 2024",5046,5645,11.8707887435593,3826,4250,4077,6.56037637219028,-4.07058823529412
-"San Juan",NA,"aggravated_assault","Jan - Nov 2024",506,599,18.3794466403162,464,557,504,8.62068965517241,-9.51526032315978
-"San Juan",NA,"burglary","Jan - Nov 2024",488,409,-16.1885245901639,448,379,333,-25.6696428571429,-12.1372031662269
-"San Juan",NA,"motor_vehicle_theft","Jan - Nov 2024",955,595,-37.696335078534,875,536,702,-19.7714285714286,30.9701492537313
-"San Juan",NA,"murder","Jan - Nov 2024",126,89,-29.3650793650794,118,85,65,-44.9152542372881,-23.5294117647059
-"San Juan",NA,"property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
-"San Juan",NA,"rape","Jan - Nov 2024",61,55,-9.83606557377049,56,51,70,25,37.2549019607843
-"San Juan",NA,"robbery","Jan - Nov 2024",304,313,2.96052631578947,282,296,296,4.9645390070922,0
-"San Juan",NA,"theft","Jan - Nov 2024",2453,2220,-9.49857317570322,2214,2038,2102,-5.05871725383921,3.14033366045142
-"San Juan",NA,"violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"San Juan","Puerto Rico","aggravated_assault","Jan - Nov 2024",506,599,18.3794466403162,464,557,504,8.62068965517241,-9.51526032315978
+"San Juan","Puerto Rico","burglary","Jan - Nov 2024",488,409,-16.1885245901639,448,379,333,-25.6696428571429,-12.1372031662269
+"San Juan","Puerto Rico","motor_vehicle_theft","Jan - Nov 2024",955,595,-37.696335078534,875,536,702,-19.7714285714286,30.9701492537313
+"San Juan","Puerto Rico","murder","Jan - Nov 2024",126,89,-29.3650793650794,118,85,65,-44.9152542372881,-23.5294117647059
+"San Juan","Puerto Rico","property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"San Juan","Puerto Rico","rape","Jan - Nov 2024",61,55,-9.83606557377049,56,51,70,25,37.2549019607843
+"San Juan","Puerto Rico","robbery","Jan - Nov 2024",304,313,2.96052631578947,282,296,296,4.9645390070922,0
+"San Juan","Puerto Rico","theft","Jan - Nov 2024",2453,2220,-9.49857317570322,2214,2038,2102,-5.05871725383921,3.14033366045142
+"San Juan","Puerto Rico","violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
 "San Marcos","Texas","aggravated_assault","Jan - Sep 2024",294,219,-25.5102040816327,228,157,115,-49.5614035087719,-26.7515923566879
 "San Marcos","Texas","burglary","Jan - Sep 2024",212,242,14.1509433962264,156,202,136,-12.8205128205128,-32.6732673267327
 "San Marcos","Texas","motor_vehicle_theft","Jan - Sep 2024",222,226,1.8018018018018,159,161,224,40.8805031446541,39.1304347826087
@@ -3410,24 +3410,24 @@
 "Tinley Park","Illinois","robbery","Jan - Sep 2024",20,21,5,17,15,12,-29.4117647058824,-20
 "Tinley Park","Illinois","theft","Jan - Sep 2024",551,506,-8.16696914700544,419,382,367,-12.4105011933174,-3.92670157068063
 "Tinley Park","Illinois","violent_crime","Jan - Sep 2024",45,64,42.2222222222222,35,46,41,17.1428571428571,-10.8695652173913
-"Toa Alta",NA,"aggravated_assault","Jan - Nov 2024",31,37,19.3548387096774,30,30,41,36.6666666666667,36.6666666666667
-"Toa Alta",NA,"burglary","Jan - Nov 2024",32,14,-56.25,32,13,16,-50,23.0769230769231
-"Toa Alta",NA,"motor_vehicle_theft","Jan - Nov 2024",31,19,-38.7096774193548,28,18,23,-17.8571428571429,27.7777777777778
-"Toa Alta",NA,"murder","Jan - Nov 2024",7,3,-57.1428571428571,7,3,10,42.8571428571429,233.333333333333
-"Toa Alta",NA,"property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
-"Toa Alta",NA,"rape","Jan - Nov 2024",5,5,0,5,5,2,-60,-60
-"Toa Alta",NA,"robbery","Jan - Nov 2024",11,14,27.2727272727273,10,12,13,30,8.33333333333333
-"Toa Alta",NA,"theft","Jan - Nov 2024",98,73,-25.5102040816327,79,68,75,-5.06329113924051,10.2941176470588
-"Toa Alta",NA,"violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
-"Toa Baja",NA,"aggravated_assault","Jan - Nov 2024",69,63,-8.69565217391304,62,53,63,1.61290322580645,18.8679245283019
-"Toa Baja",NA,"burglary","Jan - Nov 2024",70,60,-14.2857142857143,68,57,44,-35.2941176470588,-22.8070175438596
-"Toa Baja",NA,"motor_vehicle_theft","Jan - Nov 2024",111,98,-11.7117117117117,105,95,81,-22.8571428571429,-14.7368421052632
-"Toa Baja",NA,"murder","Jan - Nov 2024",14,12,-14.2857142857143,13,11,13,0,18.1818181818182
-"Toa Baja",NA,"property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
-"Toa Baja",NA,"rape","Jan - Nov 2024",11,5,-54.5454545454545,11,4,7,-36.3636363636364,75
-"Toa Baja",NA,"robbery","Jan - Nov 2024",29,39,34.4827586206897,27,34,31,14.8148148148148,-8.82352941176471
-"Toa Baja",NA,"theft","Jan - Nov 2024",296,321,8.44594594594595,272,291,236,-13.2352941176471,-18.9003436426117
-"Toa Baja",NA,"violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"Toa Alta","Puerto Rico","aggravated_assault","Jan - Nov 2024",31,37,19.3548387096774,30,30,41,36.6666666666667,36.6666666666667
+"Toa Alta","Puerto Rico","burglary","Jan - Nov 2024",32,14,-56.25,32,13,16,-50,23.0769230769231
+"Toa Alta","Puerto Rico","motor_vehicle_theft","Jan - Nov 2024",31,19,-38.7096774193548,28,18,23,-17.8571428571429,27.7777777777778
+"Toa Alta","Puerto Rico","murder","Jan - Nov 2024",7,3,-57.1428571428571,7,3,10,42.8571428571429,233.333333333333
+"Toa Alta","Puerto Rico","property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"Toa Alta","Puerto Rico","rape","Jan - Nov 2024",5,5,0,5,5,2,-60,-60
+"Toa Alta","Puerto Rico","robbery","Jan - Nov 2024",11,14,27.2727272727273,10,12,13,30,8.33333333333333
+"Toa Alta","Puerto Rico","theft","Jan - Nov 2024",98,73,-25.5102040816327,79,68,75,-5.06329113924051,10.2941176470588
+"Toa Alta","Puerto Rico","violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"Toa Baja","Puerto Rico","aggravated_assault","Jan - Nov 2024",69,63,-8.69565217391304,62,53,63,1.61290322580645,18.8679245283019
+"Toa Baja","Puerto Rico","burglary","Jan - Nov 2024",70,60,-14.2857142857143,68,57,44,-35.2941176470588,-22.8070175438596
+"Toa Baja","Puerto Rico","motor_vehicle_theft","Jan - Nov 2024",111,98,-11.7117117117117,105,95,81,-22.8571428571429,-14.7368421052632
+"Toa Baja","Puerto Rico","murder","Jan - Nov 2024",14,12,-14.2857142857143,13,11,13,0,18.1818181818182
+"Toa Baja","Puerto Rico","property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"Toa Baja","Puerto Rico","rape","Jan - Nov 2024",11,5,-54.5454545454545,11,4,7,-36.3636363636364,75
+"Toa Baja","Puerto Rico","robbery","Jan - Nov 2024",29,39,34.4827586206897,27,34,31,14.8148148148148,-8.82352941176471
+"Toa Baja","Puerto Rico","theft","Jan - Nov 2024",296,321,8.44594594594595,272,291,236,-13.2352941176471,-18.9003436426117
+"Toa Baja","Puerto Rico","violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
 "Toledo","Ohio","aggravated_assault","Jan - Sep 2024",2323,2456,5.72535514421007,1793,1861,1681,-6.24651422197435,-9.67221923696937
 "Toledo","Ohio","burglary","Jan - Sep 2024",1505,1337,-11.1627906976744,1140,980,955,-16.2280701754386,-2.55102040816327
 "Toledo","Ohio","motor_vehicle_theft","Jan - Sep 2024",1156,1518,31.3148788927336,843,1022,916,8.65954922894425,-10.3718199608611
@@ -3446,15 +3446,15 @@
 "Tracy","California","robbery","Jan - Sep 2024",58,77,32.7586206896552,39,54,62,58.974358974359,14.8148148148148
 "Tracy","California","theft","Jan - Sep 2024",1112,1116,0.359712230215827,845,815,830,-1.77514792899408,1.84049079754601
 "Tracy","California","violent_crime","Jan - Sep 2024",289,245,-15.2249134948097,221,193,218,-1.35746606334842,12.9533678756477
-"Trujillo Alto",NA,"aggravated_assault","Jan - Nov 2024",70,65,-7.14285714285714,66,61,82,24.2424242424242,34.4262295081967
-"Trujillo Alto",NA,"burglary","Jan - Nov 2024",40,47,17.5,37,42,35,-5.4054054054054,-16.6666666666667
-"Trujillo Alto",NA,"motor_vehicle_theft","Jan - Nov 2024",36,32,-11.1111111111111,33,30,29,-12.1212121212121,-3.33333333333333
-"Trujillo Alto",NA,"murder","Jan - Nov 2024",20,14,-30,17,13,7,-58.8235294117647,-46.1538461538462
-"Trujillo Alto",NA,"property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
-"Trujillo Alto",NA,"rape","Jan - Nov 2024",5,11,120,5,10,4,-20,-60
-"Trujillo Alto",NA,"robbery","Jan - Nov 2024",22,16,-27.2727272727273,20,15,14,-30,-6.66666666666667
-"Trujillo Alto",NA,"theft","Jan - Nov 2024",124,168,35.4838709677419,114,150,146,28.0701754385965,-2.66666666666667
-"Trujillo Alto",NA,"violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"Trujillo Alto","Puerto Rico","aggravated_assault","Jan - Nov 2024",70,65,-7.14285714285714,66,61,82,24.2424242424242,34.4262295081967
+"Trujillo Alto","Puerto Rico","burglary","Jan - Nov 2024",40,47,17.5,37,42,35,-5.4054054054054,-16.6666666666667
+"Trujillo Alto","Puerto Rico","motor_vehicle_theft","Jan - Nov 2024",36,32,-11.1111111111111,33,30,29,-12.1212121212121,-3.33333333333333
+"Trujillo Alto","Puerto Rico","murder","Jan - Nov 2024",20,14,-30,17,13,7,-58.8235294117647,-46.1538461538462
+"Trujillo Alto","Puerto Rico","property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"Trujillo Alto","Puerto Rico","rape","Jan - Nov 2024",5,11,120,5,10,4,-20,-60
+"Trujillo Alto","Puerto Rico","robbery","Jan - Nov 2024",22,16,-27.2727272727273,20,15,14,-30,-6.66666666666667
+"Trujillo Alto","Puerto Rico","theft","Jan - Nov 2024",124,168,35.4838709677419,114,150,146,28.0701754385965,-2.66666666666667
+"Trujillo Alto","Puerto Rico","violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
 "Tucson","Arizona","aggravated_assault","Jan - Sep 2024",2391,2303,-3.68046842325387,1820,1716,1897,4.23076923076923,10.5477855477855
 "Tucson","Arizona","burglary","Jan - Sep 2024",2988,2407,-19.4444444444444,2247,1818,1666,-25.8566978193146,-8.36083608360836
 "Tucson","Arizona","motor_vehicle_theft","Jan - Sep 2024",2527,2868,13.4942619707163,1904,1899,2234,17.3319327731092,17.6408636124276
@@ -3500,15 +3500,15 @@
 "Vallejo","California","robbery","Jan - Sep 2024",361,336,-6.92520775623269,277,249,232,-16.2454873646209,-6.82730923694779
 "Vallejo","California","theft","Jan - Sep 2024",3213,3531,9.89729225023343,2289,2659,2819,23.1542158147663,6.01729973674314
 "Vallejo","California","violent_crime","Jan - Sep 2024",1207,929,-23.0323115161558,925,722,677,-26.8108108108108,-6.23268698060942
-"Vega Baja",NA,"aggravated_assault","Jan - Nov 2024",45,53,17.7777777777778,41,50,61,48.780487804878,22
-"Vega Baja",NA,"burglary","Jan - Nov 2024",56,48,-14.2857142857143,50,43,30,-40,-30.2325581395349
-"Vega Baja",NA,"motor_vehicle_theft","Jan - Nov 2024",37,27,-27.027027027027,31,24,23,-25.8064516129032,-4.16666666666667
-"Vega Baja",NA,"murder","Jan - Nov 2024",14,5,-64.2857142857143,13,5,7,-46.1538461538462,40
-"Vega Baja",NA,"property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
-"Vega Baja",NA,"rape","Jan - Nov 2024",4,3,-25,3,3,3,0,0
-"Vega Baja",NA,"robbery","Jan - Nov 2024",20,44,120,17,41,23,35.2941176470588,-43.9024390243902
-"Vega Baja",NA,"theft","Jan - Nov 2024",181,193,6.62983425414365,159,171,135,-15.0943396226415,-21.0526315789474
-"Vega Baja",NA,"violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"Vega Baja","Puerto Rico","aggravated_assault","Jan - Nov 2024",45,53,17.7777777777778,41,50,61,48.780487804878,22
+"Vega Baja","Puerto Rico","burglary","Jan - Nov 2024",56,48,-14.2857142857143,50,43,30,-40,-30.2325581395349
+"Vega Baja","Puerto Rico","motor_vehicle_theft","Jan - Nov 2024",37,27,-27.027027027027,31,24,23,-25.8064516129032,-4.16666666666667
+"Vega Baja","Puerto Rico","murder","Jan - Nov 2024",14,5,-64.2857142857143,13,5,7,-46.1538461538462,40
+"Vega Baja","Puerto Rico","property_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
+"Vega Baja","Puerto Rico","rape","Jan - Nov 2024",4,3,-25,3,3,3,0,0
+"Vega Baja","Puerto Rico","robbery","Jan - Nov 2024",20,44,120,17,41,23,35.2941176470588,-43.9024390243902
+"Vega Baja","Puerto Rico","theft","Jan - Nov 2024",181,193,6.62983425414365,159,171,135,-15.0943396226415,-21.0526315789474
+"Vega Baja","Puerto Rico","violent_crime","Jan - Nov 2024",0,0,NA,0,0,0,NA,NA
 "Victoria","Texas","aggravated_assault","Jan - Sep 2024",169,176,4.14201183431953,118,138,138,16.9491525423729,0
 "Victoria","Texas","burglary","Jan - Sep 2024",269,270,0.371747211895911,176,207,145,-17.6136363636364,-29.951690821256
 "Victoria","Texas","motor_vehicle_theft","Jan - Sep 2024",77,77,0,60,54,71,18.3333333333333,31.4814814814815

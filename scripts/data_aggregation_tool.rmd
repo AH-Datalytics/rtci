@@ -636,8 +636,19 @@ pr_dat <- pr_dat %>%
 pr_dat <- pr_dat %>%
   mutate(Month = match(Month, month.name))
 
+# new state column to match the rest
+pr_dat$State <- "PR"
+
 pr_dat <- pr_dat %>%
   select(all_of(acceptable_names))
+
+#remove months outside sample period
+# Filter out observations with the current month and year or previous month and current year
+pr_dat <- pr_dat %>%
+  filter(
+    !(Year == current_year & Month == current_month) &
+    !(Year == current_year & Month == previous_month_month)
+  )
 
 # Preview the final data
 head(pr_dat)

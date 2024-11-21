@@ -18,15 +18,39 @@ library(ggplot2)
 ```
 directory path where the data files are stored
 ```{r}
-# sharepoint endpoint where the individual datasets are stored
-# update with new month folder at the end
-data_dir <- file.path("C:", "OneDrive", "OneDrive - ahdatalytics.com", "Clients", "Real Time Crime Index", "Open Source Data", "_Ben and Jeff work", "September 2024")
+library(here)
 
-# Get a list of all CSV file paths within the directory (each source of data)
+# Dynamically locate OneDrive directory
+onedrive_mac <- "~/Library/CloudStorage/OneDrive-ahdatalytics.com"
+onedrive_win <- file.path(Sys.getenv("USERPROFILE"), "OneDrive - ahdatalytics.com")
+
+if (dir.exists(onedrive_mac)) {
+  onedrive_dir <- normalizePath(onedrive_mac)
+} else if (dir.exists(onedrive_win)) {
+  onedrive_dir <- normalizePath(onedrive_win)
+} else {
+  stop("OneDrive directory not found.")
+}
+
+# Define the raw data directory with the correct relative path from OneDrive
+data_dir <- file.path(
+  onedrive_dir,
+  "Clients",
+  "Real Time Crime Index",
+  "Open Source Data",
+  "_Ben and Jeff work",
+  "September 2024"
+)
+
+# Check the full path to ensure it's correct
+print(data_dir)
+
+# Get a list of all CSV file paths within the directory
 file_paths <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
 
-#check it out
+# Check the files
 head(file_paths)
+
 ```
 describe all the csv's coming in - just a general snippet to take a look at the raw data format
 ```{r}
@@ -407,19 +431,43 @@ cdf1 <- merge(cdf, cdf_vcpc, by = c("city_state", "Month", "Year"), all.x = TRUE
 add population figures for nationwide descriptors
 ```{r}
 #read in the ref_df file from sharepoint
-ref_df <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data\\final_sourcing.csv")
+# Dynamically locate OneDrive directory
+onedrive_mac <- "~/Library/CloudStorage/OneDrive-ahdatalytics.com"
+onedrive_win <- file.path(Sys.getenv("USERPROFILE"), "OneDrive - ahdatalytics.com")
 
-#make a city_state column for matching
+if (dir.exists(onedrive_mac)) {
+  onedrive_dir <- normalizePath(onedrive_mac)
+} else if (dir.exists(onedrive_win)) {
+  onedrive_dir <- normalizePath(onedrive_win)
+} else {
+  stop("OneDrive directory not found.")
+}
+
+# Define the path to the ref_df file
+ref_df_path <- file.path(
+  onedrive_dir,
+  "Clients",
+  "Real Time Crime Index",
+  "Open Source Data",
+  "Collected Sample Data",
+  "final_sourcing.csv"
+)
+
+# Read in the ref_df file
+ref_df <- read.csv(ref_df_path)
+
+# Make a city_state column for matching
 ref_df <- ref_df %>% mutate(city_state = paste(Agency, State, sep = ", "))
 
-#merge the new figures 
-ref_df1 <- merge(ref_df, by = "city_state", all.x = TRUE)
+# Merge the new figures
+# ref_df1 <- merge(ref_df, by = "city_state", all.x = TRUE)
 
-#slim it down for now
+# Slim it down for now
 ref_df1 <- ref_df %>% select(city_state, pop23)
 
-# add population data merging by city/state col
+# Add population data merging by city/state col
 cdf_vcpc_nats <- merge(cdf_vcpc_nats, ref_df1, by = "city_state", all.x = TRUE)
+
 ```
 drop cdf1 extra columns after fixing
 ```{r}
@@ -618,8 +666,28 @@ head(cdf2)
 add PR data
 fix remaining columns and select out 
 ```{r}
-# File path
-pr_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\August 2024\\Puerto_Rico_Aggregated_Since_2017.csv"
+# Dynamically locate OneDrive directory
+onedrive_mac <- "~/Library/CloudStorage/OneDrive-ahdatalytics.com"
+onedrive_win <- file.path(Sys.getenv("USERPROFILE"), "OneDrive - ahdatalytics.com")
+
+if (dir.exists(onedrive_mac)) {
+  onedrive_dir <- normalizePath(onedrive_mac)
+} else if (dir.exists(onedrive_win)) {
+  onedrive_dir <- normalizePath(onedrive_win)
+} else {
+  stop("OneDrive directory not found.")
+}
+
+# Define the path to the Puerto Rico data file
+pr_path <- file.path(
+  onedrive_dir,
+  "Clients",
+  "Real Time Crime Index",
+  "Open Source Data",
+  "_Ben and Jeff work",
+  "August 2024",
+  "Puerto_Rico_Aggregated_Since_2017.csv"
+)
 
 # Read CSV
 pr_dat <- read.csv(pr_path)
@@ -636,14 +704,14 @@ pr_dat <- pr_dat %>%
 pr_dat <- pr_dat %>%
   mutate(Month = match(Month, month.name))
 
-# new state column to match the rest
+# Add new state column to match the rest
 pr_dat$State <- "PR"
 
+# Select only the acceptable columns
 pr_dat <- pr_dat %>%
   select(all_of(acceptable_names))
 
-#remove months outside sample period
-# Filter out observations with the current month and year or previous month and current year
+# Remove months outside the sample period
 pr_dat <- pr_dat %>%
   filter(
     !(Year == current_year & Month == current_month) &
@@ -806,14 +874,15 @@ sample_cities <- cdf_vcpc_nats %>%
 ```
 write it out!
 ```{r}
-# Specify the folder path
-folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data"
-
-# Create the full file path
-file_path <- file.path(folder_path, "final_sample.csv")
-
-# Write the data frame to a .csv file
-write.csv(cleaned_data, file = file_path, row.names = FALSE)
+# TEMPORARILY COMMENTING THIS OUT SO IT DOESN'T WRITE TO THE ONEDRIVE WHILE IN PRACTICE MODE -- OSCAR
+# # Specify the folder path
+# folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data"
+# 
+# # Create the full file path
+# file_path <- file.path(folder_path, "final_sample.csv")
+# 
+# # Write the data frame to a .csv file
+# write.csv(cleaned_data, file = file_path, row.names = FALSE)
 
 # Write the data frame to the data folder in Github repo
 write.csv(cleaned_data, "data/final_sample.csv", row.names = FALSE)

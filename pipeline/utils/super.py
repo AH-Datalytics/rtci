@@ -69,6 +69,8 @@ class Scraper:
 
         # produce 12-month rolling sums per crime
         for crime in self.crimes:
+            if crime not in df.columns:
+                df[crime] = None
             df[f"{crime}_mvs_12mo"] = (
                 df.sort_values(by=["ori", "date"])
                 .groupby("ori")[crime]
@@ -83,7 +85,13 @@ class Scraper:
         # add run time metadata field
         df["last_updated"] = self.run_time
 
+        pd.set_option("display.max_columns", 100)
+        pd.set_option("display.max_rows", 500)
+
+        # check on column counts
         assert len(df.keys()) == 18
+
+        # print(df)
 
         return df.to_dict("records")
 

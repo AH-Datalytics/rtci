@@ -64,8 +64,14 @@ class Richmond(Scraper):
 
         # format data
         df = pd.DataFrame(data)
-        df = df.fillna(0)
-        df[list(self.crimes.keys())] = df[list(self.crimes.keys())].astype(int)
+
+        # note: usually we do not fill missing values with 0s,
+        # but in this case values are counts from running through
+        # the full set of incidents, so if there's a systematically
+        # missing field, we'll have to pick it up later in audit
+        df[list(self.crimes.keys())] = (
+            df[list(self.crimes.keys())].fillna(0).astype(int)
+        )
 
         return df.to_dict("records")
 

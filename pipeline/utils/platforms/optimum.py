@@ -51,6 +51,7 @@ class Optimum(Scraper):
                 # note: this includes agencies that are not included
                 # in the existing RTCI sample (audited out for missing data, etc.);
                 # to include only those matching the `final_sample.csv` file, use:
+                #
                 # formula=f"AND({{state}}='{self.state_full_name}',NOT({{agency_rtci}}=''))",
             )
             if d["ori"] not in self.exclude_oris
@@ -105,7 +106,7 @@ class Optimum(Scraper):
                 out.append(pd.DataFrame({"date": dates, crime: crimes["data"]}))
             else:
                 self.logger.warning(f"no data for {agency}:{crime}")
-                out.append(pd.DataFrame({"date": dates, crime: 0}))
+                out.append(pd.DataFrame({"date": dates, crime: None}))
 
         df = reduce(lambda df1, df2: pd.merge(df1, df2, on="date"), out)
         df["ori"] = agency
@@ -126,10 +127,6 @@ class Optimum(Scraper):
         )
 
         j = json.loads(r.text)
-
-        print(payload)
-        print(j)
-        print()
 
         # result is JSON with an error message
         assert not ("Result" in j and j["Result"] == "ERROR")

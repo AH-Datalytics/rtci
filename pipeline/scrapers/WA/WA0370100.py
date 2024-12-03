@@ -1,3 +1,4 @@
+import pandas as pd
 import requests
 import sys
 
@@ -12,16 +13,40 @@ class WA0370100(Scraper):
         super().__init__()
         self.oris = ["WA0370100"]
         self.url = "https://police.cob.org/pircrimestatistics/CallsForm.aspx"
-        self.years = list(range(2020, self.last.year + 1))
+        self.years = list(range(self.first.year, self.last.year + 1))
+        self.mapping = {
+            "Homicide": "murder",
+            # None: "rape",
+            "Robbery": "robbery",
+            # None: "aggravated_assault",
+            "Burglary (Residential)": "burglary",
+            "Theft": "theft",
+            "Auto Theft": "motor_vehicle_theft",
+        }
 
     def scrape(self):
+        records = list()
+
         # get url to grab nc form info value and initial asp params
         r = requests.get(self.url)
         soup = bS(r.text, "lxml")
         nc = soup.find("input", {"name": "__ncforminfo"})["value"]
         states = self.get_states(soup)
 
+        # update set of years based on what's provided on the site
+        self.years = sorted(
+            [
+                int(option["value"])
+                for option in soup.find("select", {"id": "ddlFromYear"}).find_all(
+                    "option"
+                )
+            ]
+        )
+        assert self.years[-1] == self.last.year
+
         for year in self.years:
+            self.logger.info(f"collecting {year}...")
+
             data = {
                 "ddlFromYear": year,
                 "ddlNeighborhood": 99,
@@ -40,12 +65,26 @@ class WA0370100(Scraper):
                 [td.text.strip() for td in tr.find_all("td")]
                 for tr in table.find_all("tr")[1:]
             ]
+            df = pd.DataFrame([dict(zip(headers, row)) for row in rows])
+
+            # format data
+            df = (
+                df[df["Reported Incidents"].isin(self.mapping)]
+                .set_index("Reported Incidents")
+                .transpose()
+                .reset_index()
+                .rename_axis(None, axis=1)
+                .rename(columns={"index": "month", **self.mapping})
+            )
+
+            df["month"] = pd.to_datetime(df["month"], format="%b").dt.month
+            df["year"] = year
+            records.extend(df.to_dict("records"))
 
             # update asp params from year results page
             states = self.get_states(soup)
 
-            print(headers)
-            print(rows[0])
+        return records
 
     @staticmethod
     def get_states(soup):

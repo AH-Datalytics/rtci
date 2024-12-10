@@ -38,7 +38,7 @@ fetch("../app_data/non_rtci_countries.geo.json") // Path to the filtered non-RTC
     .catch(error => console.error("Error loading non-RTCI countries data:", error));
 */
 
-
+/*
 // OPTIONAL: Add a greyed-out overlay for non-RTCI U.S. states
 fetch("../app_data/non_rtci_states.json")
     .then(response => response.json())
@@ -57,7 +57,7 @@ fetch("../app_data/non_rtci_states.json")
         L.geoJson(nonRtciStatesData, { style: nonRtciStateStyle, interactive: false }).addTo(map);
     })
     .catch(error => console.error("Error loading non-RTCI states data:", error));
-
+*/
 
 // Load city coordinates with population and sample data and add markers
 d3.csv("../app_data/cities_coordinates.csv").then(data => {
@@ -120,9 +120,9 @@ legend.onAdd = function () {
     const div = L.DomUtil.create('div', 'info legend');
 
     // Add color legend for national sample status
-    div.innerHTML += `<h4>In National & State Samples?</h4>`;
-    div.innerHTML += `<i style="background: #2d5ef9"></i> Yes<br>`;
-    div.innerHTML += `<i style="background: #f28106"></i> No<br>`;
+    div.innerHTML += `<h4>Included in National & State Samples?</h4>`;
+    div.innerHTML += `<i style="background: #2d5ef9"></i> Yes, has complete data.<br>`;
+    div.innerHTML += `<i style="background: #f28106"></i> No, incomplete data.<br>`;
 
     // Add a sentence about size
     div.innerHTML += `<p style="padding-bottom: 0px; margin-bottom: 0px; font-size: 12px;">*Markers sized by population</p>`;

@@ -2,9 +2,10 @@
 const map = L.map('map').setView([37.7749, -95.7129], 4); // Centered on the U.S. with a zoom level of 4
 
 // Add a tile layer to the map (OpenStreetMap tiles)
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
 }).addTo(map);
+
 
 // Store markers for easy access when updating size
 const markers = [];
@@ -37,7 +38,7 @@ fetch("../app_data/non_rtci_countries.geo.json") // Path to the filtered non-RTC
     .catch(error => console.error("Error loading non-RTCI countries data:", error));
 */
 
-/* 
+
 // OPTIONAL: Add a greyed-out overlay for non-RTCI U.S. states
 fetch("../app_data/non_rtci_states.json")
     .then(response => response.json())
@@ -56,7 +57,7 @@ fetch("../app_data/non_rtci_states.json")
         L.geoJson(nonRtciStatesData, { style: nonRtciStateStyle, interactive: false }).addTo(map);
     })
     .catch(error => console.error("Error loading non-RTCI states data:", error));
-*/
+
 
 // Load city coordinates with population and sample data and add markers
 d3.csv("../app_data/cities_coordinates.csv").then(data => {
@@ -77,7 +78,7 @@ d3.csv("../app_data/cities_coordinates.csv").then(data => {
                 radius: radius,
                 color: null,
                 fillColor: fillColor,
-                fillOpacity: 0.65
+                fillOpacity: 0.6
             }).addTo(map);
 
             // Format population with commas if available
@@ -117,9 +118,15 @@ const legend = L.control({ position: 'topright' });
 
 legend.onAdd = function () {
     const div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += `<h4>National and State Samples</h4>`;
-    div.innerHTML += `<i style="background: #2d5ef9"></i> Included<br>`;
-    div.innerHTML += `<i style="background: #f28106"></i> Excluded<br>`;
+
+    // Add color legend for national sample status
+    div.innerHTML += `<h4>In National & State Samples?</h4>`;
+    div.innerHTML += `<i style="background: #2d5ef9"></i> Yes<br>`;
+    div.innerHTML += `<i style="background: #f28106"></i> No<br>`;
+
+    // Add a sentence about size
+    div.innerHTML += `<p style="padding-bottom: 0px; margin-bottom: 0px; font-size: 12px;">*Markers sized by population</p>`;
+
     return div;
 };
 

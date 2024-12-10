@@ -30,7 +30,8 @@
     margin: 0;
     padding: 0;
     font-weight: bold;
-    color: #00333a
+    color: #00333a;
+    text-wrap: wrap;
 }
 .info.legend i {
     width: 18px;

@@ -731,3 +731,18 @@ html, body {
         top: -24px; /* Adjust this value to move tabs closer to the graph */
     }
 }
+
+@media (max-width: 600px) {
+    .tab-link span {
+        display: none; /* Hide the text */
+    }
+
+    .tab-link i {
+        margin: 0; /* Remove extra margin if any */
+    }
+
+    .tab-link {
+        padding: 0.9vw; /* Adjust padding for smaller space */
+        font-size: 4vw; /* Ensure icons are visible */
+    }
+}

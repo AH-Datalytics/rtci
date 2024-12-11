@@ -147,7 +147,7 @@ function updateLegend() {
     
         // Add a sentence about size
         div.innerHTML += `<p style="padding-bottom: 0px; margin-bottom: 0px; font-size: 12px;">*Markers sized by population.</p>`;
-        div.innerHTML += `<p style="margin-top: 0px; padding-top: 0px; padding-bottom: 0px; margin-bottom: 0px; font-size: 12px;">**<span style="color: #2d5ef9;">National sample</span> covers ${formattedIncludedPopulation} total population.</p>`;
+        div.innerHTML += `<p style="margin-top: 0px; padding-top: 0px; padding-bottom: 0px; margin-bottom: 0px; font-size: 12px;">**National sample covers ${formattedIncludedPopulation} total population.</p>`;
         
     
         return div;

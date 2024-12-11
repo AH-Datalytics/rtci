@@ -9,6 +9,10 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
 
 // Store markers for easy access when updating size
 const markers = [];
+let includedCount = 0; // Count for included in the sample
+let excludedCount = 0; // Count for excluded from the sample
+let includedPopulation = 0; // Total population for included agencies
+let excludedPopulation = 0; // Total population for excluded agencies
 
 // Function to calculate radius based on population and zoom level
 function getRadius(population, zoom) {
@@ -67,6 +71,15 @@ d3.csv("../app_data/cities_coordinates.csv").then(data => {
         const population = parseInt(city.population);
         const isNationalSample = city.national_sample === "TRUE"; // Check sample status
 
+         // Increment the counters based on sample status
+         if (isNationalSample) {
+            includedCount++;
+            includedPopulation += (!isNaN(population) ? population : 0); // Add only valid population
+        } else {
+            excludedCount++;
+            excludedPopulation += (!isNaN(population) ? population : 0); // Add only valid population
+        }
+
         // Determine initial marker color based on sample status
         const fillColor = isNationalSample ? "#2d5ef9" : "#f28106";
 
@@ -102,6 +115,9 @@ d3.csv("../app_data/cities_coordinates.csv").then(data => {
             markers.push({ marker, population });
         }
     });
+    
+    // Update the legend after data is processed
+    updateLegend();
 }).catch(error => console.error("Error loading city data:", error));
 
 // Listen for zoom changes and resize markers accordingly
@@ -113,21 +129,30 @@ map.on('zoomend', () => {
     });
 });
 
-// Add a legend to the map
-const legend = L.control({ position: 'topright' });
+// Function to update the legend dynamically
+function updateLegend() {
+    const legend = L.control({ position: 'topright' });
 
-legend.onAdd = function () {
-    const div = L.DomUtil.create('div', 'info legend');
+    legend.onAdd = function () {
+        const div = L.DomUtil.create('div', 'info legend');
 
-    // Add color legend for national sample status
-    div.innerHTML += `<h4>Included in National & State Samples?</h4>`;
-    div.innerHTML += `<i style="background: #2d5ef9"></i> Yes, has complete data.<br>`;
-    div.innerHTML += `<i style="background: #f28106"></i> No, incomplete data.<br>`;
+        // Format populations to two decimals and add "M"
+        const formattedIncludedPopulation = (includedPopulation / 1_000_000).toFixed(2) + "M";
+        const formattedExcludedPopulation = (excludedPopulation / 1_000_000).toFixed(2) + "M";
+    
+        // Add color legend for national sample status with italic counts and total population
+        div.innerHTML += `<h4>Included in National & State Samples?</h4>`;
+        div.innerHTML += `<i style="background: #2d5ef9"></i> Yes, has complete data <span>(${includedCount})</span>.<br>`;
+        div.innerHTML += `<i style="background: #f28106"></i> No, incomplete data <span>(${excludedCount})</span>.<br>`;
+    
+        // Add a sentence about size
+        div.innerHTML += `<p style="padding-bottom: 0px; margin-bottom: 0px; font-size: 12px;">*Markers sized by population.</p>`;
+        div.innerHTML += `<p style="margin-top: 0px; padding-top: 0px; padding-bottom: 0px; margin-bottom: 0px; font-size: 12px;">**<span style="color: #2d5ef9;">National sample</span> covers ${formattedIncludedPopulation} total population.</p>`;
+        
+    
+        return div;
+    };
+    
 
-    // Add a sentence about size
-    div.innerHTML += `<p style="padding-bottom: 0px; margin-bottom: 0px; font-size: 12px;">*Markers sized by population</p>`;
-
-    return div;
-};
-
-legend.addTo(map);
+    legend.addTo(map);
+}

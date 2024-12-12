@@ -97,10 +97,13 @@ d3.csv("../app_data/cities_coordinates.csv").then(data => {
             // Format population with commas if available
             const formattedPopulation = !isNaN(population) ? population.toLocaleString() : "Data not available";
 
-            marker.bindPopup(
-                `<b>${city.agency_name}, ${city.state_name}</b><br>Population: ${formattedPopulation}<br>Source Method: <a href="${city.state_ucr_link}">${city.source_method}</a>`,
-                { className: 'custom-popup' } // Add custom class
-            );
+            // Bind popup
+            marker.bindPopup(`
+                <b>${city.agency_name}, ${city.state_name}</b><br>
+                Population: ${formattedPopulation}<br>
+                Source Method: <a href="${city.state_ucr_link}" target="_blank"> ${city.source_method}</a>
+            `);
+
             
             
             // Show popup and change color to dark teal on hover

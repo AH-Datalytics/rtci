@@ -150,6 +150,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
     
+    // Helper function to format population
+    function formatPopulation(value) {
+        if (value >= 1_000_000) {
+            return (value / 1_000_000).toFixed(2) + 'M'; // Format as millions with 2 decimals
+        } else if (value >= 1_000) {
+            return Math.round(value / 1_000) + 'K'; // Format as thousands with no decimals
+        } else {
+            return value.toString(); // Use raw value for smaller numbers
+        }
+    }
+
 
     function filterAndDisplayData() {
         if (selectedState && selectedAgency) {
@@ -163,7 +174,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("tracker-agency").innerHTML = `<span class="tracker-agency-name">${selectedAgency}, ${selectedState} </span>`;
                // document.getElementById("tracker-source-type").textContent = filteredData[0].source_type || 'N/A';
                // document.getElementById("tracker-source-method").textContent = filteredData[0].source_method || 'N/A';
-               // document.getElementById("tracker-population").innerHTML = `<strong>${previousYear} Population:</strong> ${filteredData[0].population ? parseInt(filteredData[0].population).toLocaleString() : 'N/A'}`;
+               document.getElementById("tracker-population").innerHTML = `<strong>Population:</strong> ${
+                filteredData[0].population
+                    ? formatPopulation(filteredData[0].population)
+                    : 'N/A'
+            } (${filteredData[0].number_of_agencies} ${
+                filteredData[0].number_of_agencies === "1" ? 'agency' : 'agencies'
+            })`;
+            
                 document.getElementById("tracker-ytd-range").textContent = filteredData[0].ytd_month_range || 'N/A';
     
                 console.log("Filtered data:", filteredData);

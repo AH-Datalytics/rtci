@@ -684,6 +684,21 @@ summary_data <- summary_data %>%
 # summary_data <- summary_data %>% 
 #   mutate(state_name = ifelse(is.na(state_name), "Puerto Rico", state_name))
 
+viz_data <- read_csv("../docs/app_data/viz_data.csv")
+
+# Preprocess viz_data to keep only relevant columns and ensure distinct rows
+viz_data_processed <- viz_data %>%
+  select(agency_name, state_name, population, number_of_agencies) %>%
+  distinct()
+
+summary_data <-  summary_data %>%
+  left_join(
+    viz_data_processed,
+    by = c("agency_name", "state_name") # Join on agency_name and state_name
+  ) %>%
+  mutate(last_updated = last_updated)
+
+
 # Save the final dataset
 write.csv(summary_data, "../docs/app_data/scorecard.csv", row.names = FALSE)
 

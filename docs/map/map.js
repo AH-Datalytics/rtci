@@ -99,7 +99,7 @@ d3.csv("../app_data/cities_coordinates.csv").then(data => {
 
             marker.bindPopup(`<b>${city.agency_name}, ${city.state_name}</b><br>Population: ${formattedPopulation}<br>Source Method: <a href="${city.state_ucr_link}">${city.source_method}</a>`);
 
-            // Show popup and change color to dark grey on hover
+            // Show popup and change color to dark teal on hover
             marker.on('mouseover', function () {
                 this.openPopup();
                 this.setStyle({ fillColor: "#00333a" }); // Change on hover

@@ -71,8 +71,8 @@ d3.csv("../app_data/cities_coordinates.csv").then(data => {
         const population = parseInt(city.population);
         const isNationalSample = city.national_sample === "TRUE"; // Check sample status
 
-         // Increment the counters based on sample status
-         if (isNationalSample) {
+          // Increment the counters based on sample status
+          if (isNationalSample) {
             includedCount++;
             includedPopulation += (!isNaN(population) ? population : 0); // Add only valid population
         } else {
@@ -97,7 +97,7 @@ d3.csv("../app_data/cities_coordinates.csv").then(data => {
             // Format population with commas if available
             const formattedPopulation = !isNaN(population) ? population.toLocaleString() : "Data not available";
 
-            marker.bindPopup(`<b>${city.agency_name}, ${city.state_name}</b><br>Population: ${formattedPopulation}`);
+            marker.bindPopup(`<b>${city.agency_name}, ${city.state_name}</b><br>Population: ${formattedPopulation}<br>Source Method: <a href="${city.state_ucr_link}">${city.source_method}</a>`);
 
             // Show popup and change color to dark grey on hover
             marker.on('mouseover', function () {

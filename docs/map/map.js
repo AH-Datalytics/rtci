@@ -97,19 +97,64 @@ d3.csv("../app_data/cities_coordinates.csv").then(data => {
             // Format population with commas if available
             const formattedPopulation = !isNaN(population) ? population.toLocaleString() : "Data not available";
 
-            marker.bindPopup(`<b>${city.agency_name}, ${city.state_name}</b><br>Population: ${formattedPopulation}<br>Source Method: <a href="${city.state_ucr_link}">${city.source_method}</a>`);
-
+            marker.bindPopup(
+                `<b>${city.agency_name}, ${city.state_name}</b><br>Population: ${formattedPopulation}<br>Source Method: <a href="${city.state_ucr_link}">${city.source_method}</a>`
+            );
+            
             // Show popup and change color to dark teal on hover
             marker.on('mouseover', function () {
-                this.openPopup();
-                this.setStyle({ fillColor: "#00333a" }); // Change on hover
+                // Close any clicked marker's popup and reset its color
+                markers.forEach(({ marker }) => {
+                    if (marker.isClicked) {
+                        marker.isClicked = false; // Reset clicked state
+                        marker.setStyle({ fillColor: fillColor }); // Reset color to default
+                        marker.closePopup(); // Close its popup
+                    }
+                });
+            
+                if (!this.isClicked) { // Only change color and open popup if not clicked
+                    this.setStyle({ fillColor: "#00333a" });
+                    this.openPopup(); // Show popup temporarily
+                }
             });
-
-            // Reset color to original on mouse out
+            
             marker.on('mouseout', function () {
-                this.closePopup();
-                this.setStyle({ fillColor: fillColor }); // Reset to initial color
+                if (!this.isClicked) { // Reset color and close popup only if not clicked
+                    this.setStyle({ fillColor: fillColor });
+                    this.closePopup(); // Hide the popup
+                }
             });
+            
+            // Handle marker click
+            marker.on('click', function (e) {
+                // Close all other popups and reset their styles
+                markers.forEach(({ marker }) => {
+                    if (marker.isClicked) {
+                        marker.isClicked = false; // Reset clicked state
+                        marker.setStyle({ fillColor: fillColor }); // Reset color
+                        marker.closePopup(); // Close popup
+                    }
+                });
+            
+                // Activate the clicked marker
+                this.isClicked = true; // Mark this marker as clicked
+                this.setStyle({ fillColor: "#00333a" }); // Retain hover color
+                this.openPopup(); // Ensure the popup stays open
+            });
+            
+            // Close all popups when clicking outside markers
+            map.on('click', function (e) {
+                if (!e.originalEvent.target.classList.contains('leaflet-popup-content')) { // Ignore clicks inside popups
+                    markers.forEach(({ marker }) => {
+                        if (marker.isClicked) {
+                            marker.isClicked = false; // Reset clicked state
+                            marker.closePopup(); // Close popup
+                            marker.setStyle({ fillColor: fillColor }); // Reset color
+                        }
+                    });
+                }
+            });
+            
 
             // Save the marker for resizing
             markers.push({ marker, population });

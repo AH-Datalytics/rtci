@@ -5,6 +5,7 @@ started: "07-23-2024"
 updated: "08-09-2024"
 updated: "08-19-2024"
 finalish version: "08-30-2024"
+last upate: "12-13-2024"
 ---
 read in the data from the ben/jeff folder
 ```{r}
@@ -39,7 +40,7 @@ data_dir <- file.path(
   "Real Time Crime Index",
   "Open Source Data",
   "_Ben and Jeff work",
-  "September 2024"
+  "October 2024"
 )
 
 # Check the full path to ensure it's correct
@@ -315,7 +316,7 @@ update_current_date <- function() {
   today <- Sys.Date()
   day_of_month <- as.integer(format(today, "%d"))
   
-  if (day_of_month >= 15) {
+  if (day_of_month >= 10) {
     current_date <<- today
   } else {
     current_date <<- seq(today, length = 2, by = "-1 month")[2]
@@ -668,7 +669,7 @@ fix remaining columns and select out
 ```{r}
 # Dynamically locate OneDrive directory
 onedrive_mac <- "~/Library/CloudStorage/OneDrive-ahdatalytics.com"
-onedrive_win <- file.path(Sys.getenv("USERPROFILE"), "OneDrive - ahdatalytics.com")
+onedrive_win <- file.path(Sys.getenv("OneDrive"), "OneDrive - ahdatalytics.com")
 
 if (dir.exists(onedrive_mac)) {
   onedrive_dir <- normalizePath(onedrive_mac)
@@ -680,12 +681,12 @@ if (dir.exists(onedrive_mac)) {
 
 # Define the path to the Puerto Rico data file
 pr_path <- file.path(
-  onedrive_dir,
+  #onedrive_dir,
   "Clients",
   "Real Time Crime Index",
   "Open Source Data",
   "_Ben and Jeff work",
-  "August 2024",
+  "October 2024",
   "Puerto_Rico_Aggregated_Since_2017.csv"
 )
 
@@ -720,7 +721,6 @@ pr_dat <- pr_dat %>%
 
 # Preview the final data
 head(pr_dat)
-
 ```
 bind to the end
 ```{r}
@@ -911,7 +911,7 @@ write.csv(sample_cities, file = file_path3, row.names = FALSE)
 
 PR Data for before release
 ```{r}
-pr <- read.csv("C:\\Users\\daveh\\Downloads\\Crime for Major Cities (English) September2024.csv")
+pr <- read.csv("C:\\Users\\daveh\\Downloads\\Crime for Major Cities (English) October2024.csv")
 ```
 #clean up reshape
 ```{r}
@@ -957,7 +957,7 @@ pr_counts <- pr_counts %>%
 head(pr_counts)
 
 # Optionally, save the new wide dataframe with calculated columns to a CSV
-write.csv(pr_counts, "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\September 2024\\Puerto_Rico_Aggregated_Since_2017.csv", row.names = FALSE)
+write.csv(pr_counts, "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\October 2024\\Puerto_Rico_Aggregated_Since_2017.csv", row.names = FALSE)
 
 ```
 
@@ -986,8 +986,7 @@ print(unique_to_sample_agencies)
 print(unique_to_sample_city_states)
 ```
 
-
-find the schaumbergs and tracy's
+initial scrapes
 ```{r}
-
+scrape_all<- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation\\aggregated_since_2017.csv")
 ```

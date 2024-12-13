@@ -1,0 +1,310 @@
+city_state,date
+"Abilene, TX",sep_24
+"Abington, PA",sep_24
+"Albany, GA",sep_24
+"Alexandria, VA",sep_24
+"Allen, TX",sep_24
+"Allentown, PA",sep_24
+"Amarillo, TX",sep_24
+"Antioch, CA",sep_24
+"Apple Valley, MN",sep_24
+"Arlington Heights, IL",sep_24
+"Arlington, TX",sep_24
+"Arvada, CO",sep_24
+"Asheville, NC",sep_24
+"Atlanta, GA",sep_24
+"Aurora, CO",sep_24
+"Austin, TX",sep_24
+"Baltimore, MD",sep_24
+"Baytown, TX",sep_24
+"Beaumont, TX",sep_24
+"Beaverton, OR",sep_24
+"Bellevue, NE",sep_24
+"Bellingham, WA",sep_24
+"Bend, OR",sep_24
+"Bensalem, PA",sep_24
+"Bethlehem, PA",sep_24
+"Blaine, MN",sep_24
+"Bloomington, MN",sep_24
+"Blue Springs, MO",sep_24
+"Boise, ID",sep_24
+"Bolingbrook, IL",sep_24
+"Boston, MA",sep_24
+"Bridgeport, CT",sep_24
+"Bristol, CT",sep_24
+"Brockton, MA",sep_24
+"Brooklyn Park, MN",sep_24
+"Broomfield, CO",sep_24
+"Brownsville, TX",sep_24
+"Buckeye, AZ",sep_24
+"Burbank, CA",sep_24
+"Burleson, TX",sep_24
+"Burnsville, MN",sep_24
+"Cambridge, MA",sep_24
+"Carlsbad, CA",sep_24
+"Castle Rock, CO",sep_24
+"Cedar Park, TX",sep_24
+"Centennial, CO",sep_24
+"Champaign, IL",sep_24
+"Chandler, AZ",sep_24
+"Charlotte, NC",sep_24
+"Chattanooga, TN",sep_24
+"Chesapeake, VA",sep_24
+"Cheyenne, WY",sep_24
+"Chicago, IL",sep_24
+"Chicopee, MA",sep_24
+"Chula Vista, CA",sep_24
+"Cincinnati, OH",sep_24
+"Cleveland, OH",sep_24
+"Coeur D Alene, ID",sep_24
+"Colerain Township, OH",sep_24
+"College Station, TX",sep_24
+"Colorado Springs, CO",sep_24
+"Columbia, MO",sep_24
+"Columbus, OH",sep_24
+"Commerce City, CO",sep_24
+"Concord, CA",sep_24
+"Conroe, TX",sep_24
+"Coon Rapids, MN",sep_24
+"Corpus Christi, TX",sep_24
+"Cranston, RI",sep_24
+"Dallas, TX",sep_24
+"Danbury, CT",sep_24
+"Dayton, OH",sep_24
+"Decatur, IL",sep_24
+"Denton, TX",sep_24
+"Denver, CO",sep_24
+"Des Plaines, IL",sep_24
+"Desoto, TX",sep_24
+"Detroit, MI",sep_24
+"Dublin, OH",sep_24
+"Duluth, MN",sep_24
+"Dunwoody, GA",sep_24
+"Durham, NC",sep_24
+"Eagan, MN",sep_24
+"East Hartford, CT",sep_24
+"Eden Prairie, MN",sep_24
+"Edina, MN",sep_24
+"Edinburg, TX",sep_24
+"El Cajon, CA",sep_24
+"Elyria, OH",sep_24
+"Erie, PA",sep_24
+"Escondido, CA",sep_24
+"Euclid, OH",sep_24
+"Eugene, OR",sep_24
+"Euless, TX",sep_24
+"Evanston, IL",sep_24
+"Everett, MA",sep_24
+"Fairfield, CT",sep_24
+"Fayetteville, NC",sep_24
+"Florissant, MO",sep_24
+"Flower Mound, TX",sep_24
+"Fort Collins, CO",sep_24
+"Fort Wayne, IN",sep_24
+"Fort Worth, TX",sep_24
+"Fremont, CA",sep_24
+"Frisco, TX",sep_24
+"Galveston, TX",sep_24
+"Garland, TX",sep_24
+"Georgetown, TX",sep_24
+"Gilbert, AZ",sep_24
+"Glendale, AZ",sep_24
+"Glendale, CA",sep_24
+"Goodyear, AZ",sep_24
+"Grand Island, NE",sep_24
+"Grand Junction, CO",sep_24
+"Grand Prairie, TX",sep_24
+"Grand Rapids, MI",sep_24
+"Grapevine, TX",sep_24
+"Greeley, CO",sep_24
+"Green Township, OH",sep_24
+"Greensboro, NC",sep_24
+"Gresham, OR",sep_24
+"Hampton, VA",sep_24
+"Harlingen, TX",sep_24
+"Harrisburg, PA",sep_24
+"Harrisonburg, VA",sep_24
+"Haverford, PA",sep_24
+"Haverhill, MA",sep_24
+"Henderson, NV",sep_24
+"Hillsboro, OR",sep_24
+"Honolulu, HI",sep_24
+"Houston, TX",sep_24
+"Idaho Falls, ID",sep_24
+"Independence, MO",sep_24
+"Indianapolis, IN",sep_24
+"Irving, TX",sep_24
+"Jackson, MI",sep_24
+"Joplin, MO",sep_24
+"Kansas City, MO",sep_24
+"Killeen, TX",sep_24
+"Knoxville, TN",sep_24
+"Kyle, TX",sep_24
+"La Mesa, CA",sep_24
+"Lake Havasu City, AZ",sep_24
+"Lakeville, MN",sep_24
+"Lancaster, PA",sep_24
+"Laredo, TX",sep_24
+"Las Vegas, NV",sep_24
+"Lawrence, MA",sep_24
+"League City, TX",sep_24
+"Leander, TX",sep_24
+"Lee's Summit, MO",sep_24
+"Lewisville, TX",sep_24
+"Lexington, KY",sep_24
+"Lincoln, NE",sep_24
+"Little Elm, TX",sep_24
+"Little Rock, AR",sep_24
+"Long Beach, CA",sep_24
+"Longmont, CO",sep_24
+"Longview, TX",sep_24
+"Lorain, OH",sep_24
+"Los Angeles, CA",sep_24
+"Louisville, KY",sep_24
+"Lower Merion, PA",sep_24
+"Lower Paxton, PA",sep_24
+"Lynchburg, VA",sep_24
+"Lynn, MA",sep_24
+"Manchester, CT",sep_24
+"Manchester, NH",sep_24
+"Mansfield, TX",sep_24
+"Maple Grove, MN",sep_24
+"Marana, AZ",sep_24
+"McAllen, TX",sep_24
+"Mckinney, TX",sep_24
+"Memphis, TN",sep_24
+"Meridian, ID",sep_24
+"Mesa, AZ",sep_24
+"Mesquite, TX",sep_24
+"Miami Beach, FL",sep_24
+"Midland, TX",sep_24
+"Milford, CT",sep_24
+"Millcreek, PA",sep_24
+"Milwaukee, WI",sep_24
+"Minneapolis, MN",sep_24
+"Minnetonka, MN",sep_24
+"Mission, TX",sep_24
+"Missouri City, TX",sep_24
+"Moline, IL",sep_24
+"Mount Prospect, IL",sep_24
+"Nashville, TN",sep_24
+"National City, CA",sep_24
+"New Bedford, MA",sep_24
+"New Braunfels, TX",sep_24
+"New Britain, CT",sep_24
+"New Orleans, LA",sep_24
+"New York City, NY",sep_24
+"Newark, OH",sep_24
+"Newport News, VA",sep_24
+"Norfolk, VA",sep_24
+"Normal, IL",sep_24
+"North Bergen Township, NJ",sep_24
+"North Las Vegas, NV",sep_24
+"North Richland Hills, TX",sep_24
+"Norwalk, CT",sep_24
+"O'Fallon, MO",sep_24
+"Oak Lawn, IL",sep_24
+"Oceanside, CA",sep_24
+"Odessa, TX",sep_24
+"Omaha, NE",sep_24
+"Oshkosh, WI",sep_24
+"Palatine, IL",sep_24
+"Parker, CO",sep_24
+"Pasadena, TX",sep_24
+"Pawtucket, RI",sep_24
+"Pearland, TX",sep_24
+"Pflugerville, TX",sep_24
+"Pharr, TX",sep_24
+"Philadelphia, PA",sep_24
+"Phoenix, AZ",sep_24
+"Pittsburgh, PA",sep_24
+"Plano, TX",sep_24
+"Plymouth, MN",sep_24
+"Pocatello, ID",sep_24
+"Port Arthur, TX",sep_24
+"Portland, OR",sep_24
+"Portsmouth, VA",sep_24
+"Prescott Valley, AZ",sep_24
+"Pueblo, CO",sep_24
+"Quincy, MA",sep_24
+"Raleigh, NC",sep_24
+"Reading, PA",sep_24
+"Redlands, CA",sep_24
+"Reno, NV",sep_24
+"Revere, MA",sep_24
+"Richardson, TX",sep_24
+"Richmond, CA",sep_24
+"Richmond, VA",sep_24
+"Riverside, CA",sep_24
+"Roanoke, VA",sep_24
+"Rochester, MN",sep_24
+"Rochester, NY",sep_24
+"Rockford, IL",sep_24
+"Rockwall, TX",sep_24
+"Round Rock, TX",sep_24
+"Rowlett, TX",sep_24
+"Salt Lake City, UT",sep_24
+"San Angelo, TX",sep_24
+"San Antonio, TX",sep_24
+"San Diego, CA",sep_24
+"San Francisco, CA",sep_24
+"San Jose, CA",sep_24
+"San Marcos, TX",sep_24
+"Schaumburg, IL",sep_24
+"Scottsdale, AZ",sep_24
+"Scranton, PA",sep_24
+"Seattle, WA",sep_24
+"Skokie, IL",sep_24
+"Somerville, MA",sep_24
+"South Bend, IN",sep_24
+"Southaven, MS",sep_24
+"Sparks, NV",sep_24
+"Springfield, IL",sep_24
+"Springfield, MA",sep_24
+"Springfield, MO",sep_24
+"Springfield, OH",sep_24
+"Springfield, OR",sep_24
+"St Charles, MO",sep_24
+"St Joseph, MO",sep_24
+"St Louis, MO",sep_24
+"St Peters, MO",sep_24
+"St. Cloud, MN",sep_24
+"St. Paul, MN",sep_24
+"Stamford, CT",sep_24
+"State College, PA",sep_24
+"Stockton, CA",sep_24
+"Stratford, CT",sep_24
+"Suffolk, VA",sep_24
+"Sugar Land, TX",sep_24
+"Surprise, AZ",sep_24
+"Tacoma, WA",sep_24
+"Taunton, MA",sep_24
+"Tempe, AZ",sep_24
+"Temple, TX",sep_24
+"Texas City, TX",sep_24
+"Thornton, CO",sep_24
+"Tigard, OR",sep_24
+"Tinley Park, IL",sep_24
+"Toledo, OH",sep_24
+"Tracy, CA",sep_24
+"Tucson, AZ",sep_24
+"Twin Falls, ID",sep_24
+"Tyler, TX",sep_24
+"Upper Darby, PA",sep_24
+"Vallejo, CA",sep_24
+"Victoria, TX",sep_24
+"Virginia Beach, VA",sep_24
+"Waco, TX",sep_24
+"Waltham, MA",sep_24
+"Warwick, RI",sep_24
+"Washington, DC",sep_24
+"Waterbury, CT",sep_24
+"West Hartford, CT",sep_24
+"West Haven, CT",sep_24
+"Westminster, CO",sep_24
+"Weymouth, MA",sep_24
+"Wichita Falls, TX",sep_24
+"Woodbury, MN",sep_24
+"Wylie, TX",sep_24
+"York, PA",sep_24
+"Yuma, AZ",sep_24

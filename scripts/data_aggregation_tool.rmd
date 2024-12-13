@@ -681,7 +681,7 @@ if (dir.exists(onedrive_mac)) {
 
 # Define the path to the Puerto Rico data file
 pr_path <- file.path(
-  #onedrive_dir,
+  onedrive_dir,
   "Clients",
   "Real Time Crime Index",
   "Open Source Data",
@@ -885,24 +885,23 @@ write it out!
 # write.csv(cleaned_data, file = file_path, row.names = FALSE)
 
 # Write the data frame to the data folder in Github repo
-write.csv(cleaned_data, "data/final_sample.csv", row.names = FALSE)
+write.csv(cleaned_data, "../data/final_sample.csv", row.names = FALSE)
 ```
 audit lists - 2 tables - non-reporters removed and non-reporters 2 months
 ```{r}
 # Punch out all auditing tables. the first two sum to the third. pop missing is another barrel of monkeys
-write.csv(undesirables_na_current, "scripts/auditing/missing_current.csv", row.names = FALSE)
-write.csv(undesirables_na_historical, "scripts/auditing/missing_historical.csv", row.names = FALSE)
-write.csv(undesirables_recency, "scripts/auditing/no_reported_data_past_two_months.csv", row.names = FALSE)
-write.csv(remove_agencies, "scripts/auditing/agencies_removed_from_sample.csv", row.names = FALSE)
+write.csv(undesirables_na_current, "../scripts/auditing/missing_current.csv", row.names = FALSE)
+write.csv(undesirables_na_historical, "../scripts/auditing/missing_historical.csv", row.names = FALSE)
+write.csv(undesirables_recency, "../scripts/auditing/no_reported_data_past_two_months.csv", row.names = FALSE)
+write.csv(remove_agencies, "../scripts/auditing/agencies_removed_from_sample.csv", row.names = FALSE)
 
-# File Path for Jeff local
-folder_path1 <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation"
-# Create the full file path - for jeff
-file_path1 <- file.path(folder_path1, "sample_aug_2024.csv")
-write.csv(cleaned_data, file = file_path1, row.names = FALSE)
+# TEMPORARY COMMENT OUT
+# # File Path for Jeff local
+# folder_path1 <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation"
+# # Create the full file path - for jeff
+# file_path1 <- file.path(folder_path1, "sample_aug_2024.csv")
+# write.csv(cleaned_data, file = file_path1, row.names = FALSE)
 
-# Sample Cities file for Sourcing table base -- "Current Samp in versioner"
-write.csv(sample_cities, "data/sample_cities.csv", row.names = FALSE)
 
 ## OSCAR Write current sample to Github data/archive
 # Extract the most recent date from the cleaned_data dataframe
@@ -917,11 +916,19 @@ output_file_path <- file.path(
   paste0(formatted_date, "_agencies.csv")
 )
 
-# Write the file to the dynamically generated path
-write.csv(sample_cities, output_file_path, row.names = FALSE)
+sample_cities <- sample_cities %>% 
+  mutate(date = formatted_date) %>% 
+  select(city_state, `Agency Name`, State, date)
 
-file_path3 <- file.path(folder_path1, "sample_cities_2024_09.csv" )
-write.csv(sample_cities, file = file_path3, row.names = FALSE)
+write.csv(sample_cities, "../data/sample_cities.csv", row.names = FALSE)
+# Sample Cities file for Sourcing table base -- "Current Samp in versioner"
+write.csv(sample_cities %>% select(city_state, date), output_file_path, row.names = FALSE)
+
+
+
+
+# file_path3 <- file.path(folder_path1, "sample_cities_2024_09.csv" )
+# write.csv(sample_cities, file = file_path3, row.names = FALSE)
 ```
 
 

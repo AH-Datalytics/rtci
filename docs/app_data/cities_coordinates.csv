@@ -365,40 +365,6 @@
 "York","Pennsylvania",39.962493,-76.7276989,44901,"State UCR","Open Source","https://www.ucr.pa.gov/PAUCRSPUBLIC/SRSReport/CrimeTrends",TRUE
 "Youngstown","Ohio",41.1035786,-80.6520161,58773,"State UCR","Provided by State UCR Program","https://ocjs.ohio.gov/",FALSE
 "Yuma","Arizona",32.723268,-114.6179954,99610,"State UCR","Open Source","https://azcrimestatistics.azdps.gov/",TRUE
-"Full Sample","Nationwide",NA,NA,77423181,"Aggregate","All agencies with complete data through most recent month.","https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Cities of 100K - 250K","Nationwide",NA,NA,13507344,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Cities of 1M+","Nationwide",NA,NA,25957906,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Cities of 250K - 1M","Nationwide",NA,NA,27903748,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Cities of < 100K","Nationwide",NA,NA,10054183,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Arizona",NA,NA,4620085,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","California",NA,NA,10079267,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Colorado",NA,NA,2928767,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Connecticut",NA,NA,1114001,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Georgia",NA,NA,618998,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Idaho",NA,NA,612340,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Illinois",NA,NA,3786941,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Indiana",NA,NA,1259858,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Kentucky",NA,NA,989462,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Louisiana",NA,NA,364197,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Massachusetts",NA,NA,1906269,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Michigan",NA,NA,842726,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Minnesota",NA,NA,1961115,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Missouri",NA,NA,1773608,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","North Carolina",NA,NA,2363904,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Nebraska",NA,NA,889262,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","New Jersey",NA,NA,59147,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Nevada",NA,NA,2685966,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","New York",NA,NA,8392496,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Ohio",NA,NA,2418147,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Oregon",NA,NA,1341287,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Pennsylvania",NA,NA,2965002,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Rhode Island",NA,NA,240953,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Tennessee",NA,NA,1690058,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Texas",NA,NA,14796561,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Virginia",NA,NA,2070319,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Washington",NA,NA,1071582,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Wisconsin",NA,NA,624246,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
-"Full Sample","Wyoming",NA,NA,64307,NA,NA,"https://ah-datalytics.github.io/rtci/list/list.html",FALSE
 "Aguadilla","Puerto Rico",18.4297923,-67.1542201,NA,NA,NA,NA,FALSE
 "Arecibo","Puerto Rico",18.471975,-66.7161704,NA,NA,NA,NA,FALSE
 "Caguas","Puerto Rico",18.2345399,-66.0351316,NA,NA,NA,NA,FALSE

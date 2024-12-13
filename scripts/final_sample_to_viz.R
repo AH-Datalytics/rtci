@@ -751,6 +751,12 @@ unique_cities_coords <- unique_cities_coords %>%
   distinct()  # Keep only unique rows
 
 
+# Remove full sample agencies and nationwide states
+unique_cities_coords <- unique_cities_coords %>% 
+  filter(state_name != "Nationwide", agency_name != "Full Sample")
+
+
+
 # Save the results to a CSV
 write.csv(unique_cities_coords, "../docs/app_data/cities_coordinates.csv", row.names = FALSE)
 

@@ -5,9 +5,40 @@ output: github_document
 
 bring in the previous sample and the current sample - update suffixes to relate to months in question
 ```{r}
+library(tidyverse)
+library(lubridate)
+
 #current locations of sample files for June and July 2024
 previous_samp <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation\\sample_cities_2024_08.csv")
 current_samp <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation\\sample_cities_2024_09.csv")
+
+
+
+## OSCAR Github Archive reference ---------------
+current_samp <- read_csv("../data/sample_cities.csv")
+
+# Extract the most recent date from the current sample
+most_recent_date <- current_samp %>%
+  mutate(date = as.Date(paste(Year, Month, "01", sep = "-"), format = "%Y-%m-%d")) %>%
+  summarise(latest_date = max(date, na.rm = TRUE)) %>%
+  pull(latest_date)
+
+# Calculate the second-to-most-recent date
+previous_date <- most_recent_date %m-% months(1)
+
+# Format the previous date as "mon_yy" (e.g., "sep_24")
+formatted_previous_date <- tolower(format(previous_date, "%b_%y"))
+
+# Construct the file path dynamically for the previous sample
+previous_samp_path <- file.path(
+  "../data/archive",
+  paste0(formatted_previous_date, "_agencies.csv")
+)
+
+# Read the previous sample file
+previous_samp <- read_csv(previous_samp_path)
+
+
 ```
 start with agencies - who is new and who is getting removed
 ```{r}

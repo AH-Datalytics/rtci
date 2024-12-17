@@ -684,6 +684,21 @@ summary_data <- summary_data %>%
 # summary_data <- summary_data %>% 
 #   mutate(state_name = ifelse(is.na(state_name), "Puerto Rico", state_name))
 
+viz_data <- read_csv("../docs/app_data/viz_data.csv")
+
+# Preprocess viz_data to keep only relevant columns and ensure distinct rows
+viz_data_processed <- viz_data %>%
+  select(agency_name, state_name, population, number_of_agencies) %>%
+  distinct()
+
+summary_data <-  summary_data %>%
+  left_join(
+    viz_data_processed,
+    by = c("agency_name", "state_name") # Join on agency_name and state_name
+  ) %>%
+  mutate(last_updated = last_updated)
+
+
 # Save the final dataset
 write.csv(summary_data, "../docs/app_data/scorecard.csv", row.names = FALSE)
 
@@ -701,9 +716,13 @@ unique_cities <- map %>%
   distinct()                           # Remove duplicates
 
 
-# # Geocode each unique city using OpenStreetMap
-# unique_cities_coords <- unique_cities %>%
-#   geocode(city = agency_name, state = state_name, method = 'osm')
+# Geocode each unique city using OpenStreetMap
+unique_cities_coords <- unique_cities %>%
+  geocode(city = agency_name, state = state_name, method = 'osm')
+
+write.csv(unique_cities_coords, "../docs/app_data/unique_cities_coords.csv", row.names = FALSE)
+
+unique_cities_coords <- read_csv("../docs/app_data/unique_cities_coords.csv")
 
 
 # Rename columns in sample_cities to match those in unique_cities_coords and map
@@ -712,13 +731,31 @@ sample_cities <- sample_cities %>%
   mutate(national_sample = TRUE) %>%  # Add a column to indicate national sample
   select(agency_name, state_name, national_sample)
 
+
+ref_data <- read_csv("../docs/app_data/sources.csv")
+
+# Perform a left join to add the source_type and source_method columns
+map <- map %>%
+  left_join(
+    ref_data %>% select(agency_full, source_type, source_method),
+    by = "agency_full" # Match on "agency_full"
+  )
+
+
 # Add back population data and national sample status
 unique_cities_coords <- unique_cities_coords %>%
-  left_join(map %>% select(agency_name, state_name, population), 
+  left_join(map %>% select(agency_name, state_name, population, source_type, source_method, state_ucr_link), 
             by = c("agency_name", "state_name")) %>%
   left_join(sample_cities, by = c("agency_name", "state_name")) %>%
   mutate(national_sample = if_else(is.na(national_sample), FALSE, national_sample)) %>% # Set FALSE if NA
   distinct()  # Keep only unique rows
+
+
+# Remove full sample agencies and nationwide states
+unique_cities_coords <- unique_cities_coords %>% 
+  filter(state_name != "Nationwide", agency_name != "Full Sample")
+
+
 
 # Save the results to a CSV
 write.csv(unique_cities_coords, "../docs/app_data/cities_coordinates.csv", row.names = FALSE)

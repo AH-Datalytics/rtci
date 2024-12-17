@@ -30,7 +30,8 @@
     margin: 0;
     padding: 0;
     font-weight: bold;
-    color: #00333a
+    color: #00333a;
+    text-wrap: wrap;
 }
 .info.legend i {
     width: 18px;
@@ -38,4 +39,26 @@
     float: left;
     margin-right: 8px;
     opacity: 0.9;
+}
+
+
+/* Custom styles for the Leaflet popups */
+.leaflet-popup-content {
+    font-family: 'Roboto Condensed', sans-serif !important; /* Ensure the font is applied */
+    color: #00333a !important; /* Default text color */
+    font-size: 14.5px !important; /* Default font size */
+}
+
+.leaflet-popup-content a {
+    color: #2d5ef9 !important; /* Link color */
+    text-decoration: none; /* Underline links */
+}
+
+.leaflet-popup-content a:hover {
+    color: #2d5ef96d !important; /* Hover color for the link */
+}
+
+/* Optional: Style the popup title (if using <b> for bold text) */
+.leaflet-popup-content b {
+    font-weight: 600; /* Make bold text bold */
 }

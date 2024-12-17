@@ -15,10 +15,17 @@ document.addEventListener("DOMContentLoaded", function () {
     d3.csv(dataPath).then(data => {
         allData = data;
         console.log("Data loaded:", data);
+        
+        const defaultFilters = {
+            state: "Nationwide",
+            agency: "Full Sample"
+        };
+
+        retrieveFilterValues(defaultFilters); // Retrieve filters from sessionStorage
         populateFilters(allData);
         updateYearHeaders();
-        setDefaultFilters(); // Set default filter values on load
-        filterAndDisplayData(); // Display default data for "Nationwide" and "Full Sample"
+        updateAgencyDropdown(selectedState); // Populate agency dropdown
+        filterAndDisplayData(); // Display saved or default filtered data
     }).catch(error => console.error("Error loading data:", error));
 
     // Function to adjust the width of the tracker container
@@ -43,15 +50,6 @@ document.addEventListener("DOMContentLoaded", function () {
         
         createSearchableDropdown("state-dropdown", "state-btn", states, true);
         createSearchableDropdown("agency-dropdown", "agency-btn", [], false);
-    }
-
-    function setDefaultFilters() {
-        // Set "Nationwide" and "Full Sample" as defaults on page load
-        document.getElementById("state-btn").textContent = "Nationwide";
-        document.getElementById("agency-btn").textContent = "Full Sample";
-        selectedState = "Nationwide";
-        selectedAgency = "Full Sample";
-        updateAgencyDropdown(selectedState); // Populate agency dropdown for "Nationwide"
     }
 
     function createSearchableDropdown(dropdownId, buttonId, options, isState) {
@@ -115,6 +113,8 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 selectedAgency = optionText;
             }
+
+            saveFilterValues(); // Save filters when they change
             filterAndDisplayData();
         });
 
@@ -137,19 +137,47 @@ document.addEventListener("DOMContentLoaded", function () {
     
         // Automatically select and display the first agency in the list, and bold it
         if (agencies.length > 0) {
-            selectedAgency = agencies[0];
+            if (!agencies.includes(selectedAgency)) {
+                selectedAgency = agencies[0];
+            }
             document.getElementById("agency-btn").textContent = selectedAgency;
-    
-            // Bold the first agency in the dropdown
+
             const dropdown = document.getElementById("agency-dropdown");
             const items = dropdown.querySelectorAll('.dropdown-item');
             items.forEach(item => item.classList.remove('selected')); // Remove bolding from all items
-            items[0].classList.add('selected'); // Bold the first item
-    
-            filterAndDisplayData(); // Filter and display data for the selected state and the first agency
+            const selectedItem = [...items].find(item => item.textContent === selectedAgency);
+            if (selectedItem) selectedItem.classList.add('selected');
         }
     }
     
+    function saveFilterValues() {
+        const filters = {
+            state: selectedState,
+            agency: selectedAgency
+        };
+        sessionStorage.setItem('scorecardFilters', JSON.stringify(filters));
+    }
+
+    function retrieveFilterValues(defaultFilters) {
+        const savedFilters = JSON.parse(sessionStorage.getItem('scorecardFilters')) || defaultFilters;
+        selectedState = savedFilters.state;
+        selectedAgency = savedFilters.agency;
+
+        document.getElementById("state-btn").textContent = selectedState;
+        document.getElementById("agency-btn").textContent = selectedAgency;
+    }
+    
+    // Helper function to format population
+    function formatPopulation(value) {
+        if (value >= 1_000_000) {
+            return (value / 1_000_000).toFixed(2) + 'M'; // Format as millions with 2 decimals
+        } else if (value >= 1_000) {
+            return Math.round(value / 1_000) + 'K'; // Format as thousands with no decimals
+        } else {
+            return value.toString(); // Use raw value for smaller numbers
+        }
+    }
+
 
     function filterAndDisplayData() {
         if (selectedState && selectedAgency) {
@@ -163,7 +191,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("tracker-agency").innerHTML = `<span class="tracker-agency-name">${selectedAgency}, ${selectedState} </span>`;
                // document.getElementById("tracker-source-type").textContent = filteredData[0].source_type || 'N/A';
                // document.getElementById("tracker-source-method").textContent = filteredData[0].source_method || 'N/A';
-               // document.getElementById("tracker-population").innerHTML = `<strong>${previousYear} Population:</strong> ${filteredData[0].population ? parseInt(filteredData[0].population).toLocaleString() : 'N/A'}`;
+               document.getElementById("tracker-population").innerHTML = `<strong>Population:</strong> ${
+                filteredData[0].population
+                    ? formatPopulation(filteredData[0].population)
+                    : 'N/A'
+            } (${filteredData[0].number_of_agencies} ${
+                filteredData[0].number_of_agencies === "1" ? 'agency' : 'agencies'
+            })`;
+            
                 document.getElementById("tracker-ytd-range").textContent = filteredData[0].ytd_month_range || 'N/A';
     
                 console.log("Filtered data:", filteredData);

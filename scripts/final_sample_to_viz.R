@@ -285,6 +285,11 @@ final_sample_long <- final_sample_long %>%
 # Print the first few rows of the cleaned data with all columns
 print(head(final_sample_long), width = Inf)
 
+
+# REMOVE PR FROM GRAPH 
+final_sample_long <- final_sample_long %>% 
+  filter(state_name != "Puerto Rico")
+
 # Write the final_sample_long data frame to viz_data.csv
 write.csv(final_sample_long, "../docs/app_data/viz_data.csv", row.names = FALSE)
 

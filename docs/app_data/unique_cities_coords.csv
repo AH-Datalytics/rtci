@@ -9,6 +9,7 @@
 "Allen","Texas",33.1031744,-96.6705503
 "Allentown","Pennsylvania",40.6022059,-75.4712794
 "Amarillo","Texas",35.20729,-101.8371192
+"Ann Arbor","Michigan",42.2813722,-83.7484616
 "Antioch","California",38.0049214,-121.805789
 "Apple Valley","Minnesota",44.7319094,-93.21772
 "Arlington Heights","Illinois",42.0811563,-87.9802164
@@ -19,9 +20,11 @@
 "Aurora","Colorado",39.7405111,-104.830994
 "Austin","Texas",30.2711286,-97.7436995
 "Avondale","Arizona",33.4355977,-112.349602
+"Bakersfield","California",35.3738712,-119.019463
 "Baltimore","Maryland",39.2908816,-76.610759
 "Barnstable","Massachusetts",41.7004049,-70.3001922
 "Baton Rouge","Louisiana",30.4494155,-91.1869659
+"Battle Creek","Michigan",42.3192548,-85.1824269
 "Baytown","Texas",29.7355047,-94.9774274
 "Beaumont","Texas",30.0860459,-94.1018461
 "Beaverton","Oregon",45.4871723,-122.80378
@@ -51,6 +54,7 @@
 "Burnsville","Minnesota",44.7670567,-93.2773887
 "Caldwell","Idaho",43.6678736,-116.689415
 "Cambridge","Massachusetts",42.3656347,-71.1040018
+"Canton Township","Michigan",42.3076547,-83.4868961
 "Canton","Ohio",40.7985464,-81.3749508
 "Carlsbad","California",33.1580933,-117.3505966
 "Carrollton","Texas",32.9537349,-96.8902816
@@ -71,6 +75,7 @@
 "Cicero","Illinois",41.8455398,-87.7540199
 "Cincinnati","Ohio",39.1014537,-84.5124602
 "Cleveland","Ohio",41.4996574,-81.6936772
+"Clinton Township","Michigan",42.05548745,-83.9478910567844
 "Coeur D Alene","Idaho",47.6742994,-116.7811531
 "Colerain Township","Ohio",39.2584995,-84.6329261679476
 "College Station","Texas",30.6183939,-96.3455991
@@ -88,6 +93,8 @@
 "Dallas","Texas",32.7762719,-96.7968559
 "Danbury","Connecticut",41.394817,-73.4540111
 "Dayton","Ohio",39.7589478,-84.1916069
+"Dearborn Heights","Michigan",42.3369816,-83.2732627
+"Dearborn","Michigan",42.3222599,-83.1763145
 "Decatur","Illinois",39.8454163,-88.9524151
 "Denton","Texas",33.2150386,-97.1330516
 "Denver","Colorado",39.7392364,-104.984862
@@ -115,8 +122,10 @@
 "Everett","Massachusetts",42.40843,-71.0536625
 "Fairfield","Connecticut",41.1412078,-73.2637258
 "Fall River","Massachusetts",41.7010642,-71.1546367
+"Farmington Hills","Michigan",42.4853125,-83.3771553
 "Fayetteville","North Carolina",35.0525759,-78.878292
 "Flagstaff","Arizona",35.1987522,-111.651822
+"Flint","Michigan",43.0161693,-83.6900211
 "Florissant","Missouri",38.7919683,-90.3227803
 "Flower Mound","Texas",33.0283854,-97.0867203
 "Fort Collins","Colorado",40.5871782,-105.0770113
@@ -161,7 +170,9 @@
 "Irving","Texas",32.8295183,-96.9442177
 "Jackson","Michigan",42.2465036,-84.4016963
 "Joplin","Missouri",37.0841838,-94.5133385
+"Kalamazoo","Michigan",42.291707,-85.5872286
 "Kansas City","Missouri",39.100105,-94.5781416
+"Kentwood","Michigan",42.8694731,-85.6447492
 "Kettering","Ohio",39.6895036,-84.1688274
 "Killeen","Texas",31.1171441,-97.727796
 "Knoxville","Tennessee",35.9603948,-83.9210261
@@ -172,6 +183,7 @@
 "Lakewood","Colorado",39.7085736,-105.0846694
 "Lakewood","Ohio",41.4819932,-81.7981908
 "Lancaster","Pennsylvania",40.03813,-76.3056686
+"Lansing","Michigan",42.7338254,-84.5546295
 "Laredo","Texas",27.5075005,-99.5069922
 "Las Vegas","Nevada",36.1672559,-115.148516
 "Lawrence","Massachusetts",42.7070354,-71.1631137
@@ -183,6 +195,7 @@
 "Lincoln","Nebraska",40.8088861,-96.7077751
 "Little Elm","Texas",33.1626194,-96.9375051
 "Little Rock","Arkansas",34.7465071,-92.2896267
+"Livonia","Michigan",42.36837,-83.3527097
 "Long Beach","California",33.7690164,-118.191604
 "Longmont","Colorado",40.1672117,-105.101928
 "Longview","Texas",32.5007031,-94.74049
@@ -228,6 +241,7 @@
 "Mount Prospect","Illinois",42.0664167,-87.9372908
 "Mount Vernon","New York",40.9125085,-73.8386504
 "Nampa","Idaho",43.5737361,-116.559631
+"Nashua","New Hampshire",42.7656251,-71.4677032
 "Nashville","Tennessee",36.1622767,-86.7742984
 "National City","California",32.6781085,-117.0991967
 "New Bedford","Massachusetts",41.6362152,-70.934205
@@ -246,6 +260,7 @@
 "North Las Vegas","Nevada",36.2005843,-115.121584
 "North Richland Hills","Texas",32.8342952,-97.2289029
 "Norwalk","Connecticut",41.1175966,-73.4078968
+"Novi","Michigan",42.48059,-83.4754913
 "O'Fallon","Missouri",38.7902503,-90.7033292
 "Oak Lawn","Illinois",41.7108662,-87.7581081
 "Oceanside","California",33.1958696,-117.379483
@@ -293,6 +308,7 @@
 "Rockwall","Texas",32.9312336,-96.4597089
 "Round Rock","Texas",30.5085915,-97.6788056
 "Rowlett","Texas",32.9029017,-96.56388
+"Royal Oak","Michigan",42.4894801,-83.1446485
 "Salem","Oregon",44.9391565,-123.033121
 "Salt Lake City","Utah",40.7596198,-111.886797
 "San Angelo","Texas",31.4649685,-100.4405094
@@ -306,11 +322,13 @@
 "Scottsdale","Arizona",33.4942189,-111.926018
 "Scranton","Pennsylvania",41.4086874,-75.6621294
 "Seattle","Washington",47.6038321,-122.330062
+"Shelby Township","Michigan",43.5974492,-86.3379509185505
 "Sioux Falls","South Dakota",43.5476008,-96.7293629
 "Skokie","Illinois",42.0262972,-87.7521069
 "Somerville","Massachusetts",42.3875968,-71.0994968
 "South Bend","Indiana",41.6833813,-86.2500066
 "Southaven","Mississippi",34.9873822,-90.0034862
+"Southfield","Michigan",42.4733689,-83.2218731
 "Sparks","Nevada",39.5404679,-119.7487235
 "Springfield","Illinois",39.7990175,-89.6439575
 "Springfield","Massachusetts",42.1018764,-72.5886727
@@ -321,10 +339,12 @@
 "St Joseph","Missouri",39.7686055,-94.8466322
 "St Louis","Missouri",38.6280278,-90.1910154
 "St Peters","Missouri",38.791612,-90.5958468
+"St. Clair Shores","Michigan",42.4969652,-82.8890965
 "St. Cloud","Minnesota",45.5616075,-94.1642004
 "St. Paul","Minnesota",44.9497487,-93.0931028
 "Stamford","Connecticut",41.0534302,-73.5387341
 "State College","Pennsylvania",40.7944504,-77.8616386
+"Sterling Heights","Michigan",42.5803122,-83.0302033
 "Stockton","California",37.9577016,-121.290779
 "Stratford","Connecticut",41.1845415,-73.1331651
 "Suffolk","Virginia",36.7281341,-76.5834683
@@ -332,6 +352,7 @@
 "Surprise","Arizona",33.629247,-112.3681428
 "Tacoma","Washington",47.2455013,-122.438329
 "Taunton","Massachusetts",41.9019257,-71.0931485
+"Taylor","Michigan",42.240872,-83.2696509
 "Tempe","Arizona",33.4255117,-111.940016
 "Temple","Texas",31.098207,-97.3427847
 "Texas City","Texas",29.396013,-94.9175485
@@ -340,6 +361,7 @@
 "Tinley Park","Illinois",41.5733669,-87.7844944
 "Toledo","Ohio",41.6529143,-83.5378173
 "Tracy","California",37.7385507,-121.420139
+"Troy","Michigan",42.6055893,-83.1499304
 "Tucson","Arizona",32.2228765,-110.974847
 "Twin Falls","Idaho",42.5558542,-114.4700684
 "Tyler","Texas",32.3512601,-95.3010624
@@ -349,19 +371,23 @@
 "Virginia Beach","Virginia",36.8496579,-75.9760751
 "Waco","Texas",31.5491899,-97.1474628
 "Waltham","Massachusetts",42.3756401,-71.2358004
+"Warren","Michigan",42.4932575,-83.0062746
 "Warwick","Rhode Island",41.6992717,-71.4586114
 "Washington","District of Columbia",38.8950368,-77.0365427
 "Waterbury","Connecticut",41.5538091,-73.0438362
+"Waterford Township","Michigan",42.6706391,-83.3896241
+"West Bloomfield Township","Michigan",42.5684073,-83.3740333
 "West Chester Township","Ohio",39.3357398,-84.4155741126453
 "West Hartford","Connecticut",41.7620447,-72.7420399
 "West Haven","Connecticut",41.2706527,-72.9470471
-"Westminster","California",33.7578725,-117.9859054
+"Westland","Michigan",42.3238056,-83.4005321
 "Westminster","Colorado",39.8366528,-105.0372046
 "Weymouth","Massachusetts",42.2212188,-70.9391625
 "Wichita Falls","Texas",33.9004572,-98.5020777
 "Woodbury","Minnesota",44.919896,-92.9339449
 "Worcester","Massachusetts",42.2625621,-71.8018877
 "Wylie","Texas",33.0151561,-96.5388038
+"Wyoming","Michigan",42.9132581,-85.7057035
 "York","Pennsylvania",39.962493,-76.7276989
 "Youngstown","Ohio",41.1035786,-80.6520161
 "Yuma","Arizona",32.723268,-114.6179954
@@ -386,6 +412,7 @@
 "Full Sample","Missouri",NA,NA
 "Full Sample","North Carolina",NA,NA
 "Full Sample","Nebraska",NA,NA
+"Full Sample","New Hampshire",NA,NA
 "Full Sample","New Jersey",NA,NA
 "Full Sample","Nevada",NA,NA
 "Full Sample","New York",NA,NA
@@ -393,6 +420,7 @@
 "Full Sample","Oregon",NA,NA
 "Full Sample","Pennsylvania",NA,NA
 "Full Sample","Rhode Island",NA,NA
+"Full Sample","South Dakota",NA,NA
 "Full Sample","Tennessee",NA,NA
 "Full Sample","Texas",NA,NA
 "Full Sample","Virginia",NA,NA

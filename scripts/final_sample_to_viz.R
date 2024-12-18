@@ -485,7 +485,6 @@ final_dataset <- final_dataset %>%
 final_dataset <- final_dataset %>% 
   mutate(population = ifelse(is.na(population), "Unknown", population))
 
-
 # Write the final_sample_long data frame to viz_data.csv
 write.csv(final_dataset, "../docs/app_data/full_table_data.csv", row.names = FALSE)
 
@@ -574,6 +573,10 @@ final_sample <- final_sample %>%
 # Add the "Last Updated" column to final_sample
 final_sample <- final_sample %>%
   mutate(`Last Updated` = last_updated)
+
+# REMOVE PR FROM GRAPH 
+final_sample <- final_sample %>% 
+  filter(state_name != "Puerto Rico")
 
 write.csv(final_sample, "../docs/app_data/by_agency_table.csv", row.names = FALSE)
 

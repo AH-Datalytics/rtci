@@ -903,7 +903,7 @@ agencies.sort((a, b) => {
         updateAgencyFilter(allData, savedFilters.state);
     }
 
-    d3.csv("app_data/viz_data.csv").then(function(data) {
+    d3.csv("https://rtci.s3.us-east-1.amazonaws.com/web/viz_data.csv").then(function(data) {
         data.forEach(d => {
             d.date = d3.timeParse("%Y-%m-%d")(d.date);
             d.count = +d.count;

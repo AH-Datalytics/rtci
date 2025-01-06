@@ -1,0 +1,100 @@
+---
+title: "pr cleaner"
+output: github_document
+---
+
+```{r}
+
+PR Data for before release
+```{r}
+pr <- read.csv("C:\\Users\\daveh\\Downloads\\Crime for Major Cities (English) November2024.csv")
+```
+#clean up reshape
+```{r}
+# Load necessary libraries
+library(dplyr)
+library(tidyr)
+
+# Group by municipality, year, month, and crime code, then sum the crime counts
+crime_summary <- pr  %>%
+  group_by(Municipalities_Name_1, Date_Date_Year, Date_Date_Month, PBI_CRIMEN_codigo) %>%
+  summarise(Total_Crime_Count = sum(PBI_CRIMEN_Crime_Count, na.rm = TRUE)) %>%
+  ungroup()
+
+# Pivot the table to a wide format, with one column for each crime code
+wide_pr <- crime_summary %>%
+  pivot_wider(names_from = PBI_CRIMEN_codigo, values_from = Total_Crime_Count, values_fill = 0)
+
+# Create new columns for crime counts by combining relevant crime codes
+pr_counts <- wide_pr %>%
+  mutate(
+    Murder = `09A`, 
+    Rape = `11A`, # no B and C reported   
+    Robbery = `120`,
+    `Aggravated Assault` = `13A`,
+    Burglary = `220`,
+    Theft = coalesce(`23A`, 0) + coalesce(`23B`, 0) + coalesce(`23C`, 0) + coalesce(`23D`, 0) +
+            coalesce(`23E`, 0) + coalesce(`23F`, 0) + coalesce(`23G`, 0) + coalesce(`23H`, 0),
+    `Motor Vehicle Theft` = `240`,
+    State = "PR"
+  )
+
+#select and rename columns
+pr_counts <- pr_counts %>% 
+              mutate(`Agency Name` = Municipalities_Name_1,
+                      Year = Date_Date_Year,
+                      Month = Date_Date_Month) %>%
+                      select(`Agency Name`, Murder, Rape, Robbery,
+                      `Aggravated Assault`, Burglary, Theft, `Motor Vehicle Theft`,
+                      Year, Month, State)
+
+# Fix names
+pr_counts <- pr_counts %>%
+  rename(
+    `Aggravated Assault` = Aggravated.Assault,
+    `Motor Vehicle Theft` = Motor.Vehicle.Theft,
+    `Agency Name` = Agency.Name
+  )
+
+# Select only the acceptable columns
+pr_counts <- pr_counts %>%
+  select(all_of(acceptable_names))
+
+# Remove months outside the sample period
+pr_counts <- pr_counts %>%
+  filter(
+    !(Year == current_year & Month == current_month) &
+    !(Year == current_year & Month == previous_month_month)
+  )
+
+# View the resulting dataframe
+head(pr_counts)
+
+# write out df
+write.csv(pr_counts, "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\November 2024\\Puerto_Rico_Aggregated_Since_2017.csv", row.names = FALSE)
+```
+
+
+```
+
+## GitHub Documents
+
+This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
+
+## Including Code
+
+You can include R code in the document as follows:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

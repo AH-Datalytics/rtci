@@ -4,8 +4,8 @@ output: github_document
 started: "07-23-2024"
 updated: "08-09-2024"
 updated: "08-19-2024"
-finalish version: "08-30-2024"
-last upate: "12-13-2024"
+final version: "08-30-2024"
+last upate: "01-07-2024"
 ---
 read in the data from the ben/jeff folder
 ```{r}
@@ -16,14 +16,14 @@ library(readr)
 library(stringr)
 library(zoo)
 library(ggplot2)
+library(here)
 ```
 directory path where the data files are stored
 ```{r}
-library(here)
-
+#directory path where the data files are stored
 # Dynamically locate OneDrive directory
 onedrive_mac <- "~/Library/CloudStorage/OneDrive-ahdatalytics.com"
-onedrive_win <- file.path(Sys.getenv("USERPROFILE"), "OneDrive - ahdatalytics.com")
+onedrive_win <- file.path("C:", "OneDrive", "OneDrive - ahdatalytics.com")
 
 if (dir.exists(onedrive_mac)) {
   onedrive_dir <- normalizePath(onedrive_mac)
@@ -51,7 +51,6 @@ file_paths <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
 
 # Check the files
 head(file_paths)
-
 ```
 describe all the csv's coming in - just a general snippet to take a look at the raw data format
 ```{r}
@@ -72,7 +71,7 @@ csv_info_df <- map_df(file_paths, get_csv_info)
 # Take a quick look
 head(csv_info_df)
 ```
-read everything in, extract the month/year and do the initial processing
+Read all CSV files in and save them as df's in a list
 ```{r}
 # Function to read all CSV files in a folder and save them as data frames in a list
 read_csvs <- function(folder_path) {
@@ -137,9 +136,7 @@ get_unique_agency_count <- function(df) {
 unique_agency_counts <- map(ldf, get_unique_agency_count)
 total_agency_raw <- sum(unlist(unique_agency_counts))
 head(total_agency_raw)
-##332 as of this writing this and counting...why do we lose agencies at the end?
-##journal entry 547 - we now have 353 agencies and counting
-##friday before 9/4 launch and we have 356!
+##392 for october 2024
 ```
 format everything
 ```{r}
@@ -431,20 +428,10 @@ cdf1 <- merge(cdf, cdf_vcpc, by = c("city_state", "Month", "Year"), all.x = TRUE
 ```
 add population figures for nationwide descriptors
 ```{r}
-#read in the ref_df file from sharepoint
-# Dynamically locate OneDrive directory
-onedrive_mac <- "~/Library/CloudStorage/OneDrive-ahdatalytics.com"
-onedrive_win <- file.path(Sys.getenv("USERPROFILE"), "OneDrive - ahdatalytics.com")
-
-if (dir.exists(onedrive_mac)) {
-  onedrive_dir <- normalizePath(onedrive_mac)
-} else if (dir.exists(onedrive_win)) {
-  onedrive_dir <- normalizePath(onedrive_win)
-} else {
-  stop("OneDrive directory not found.")
-}
-
 # Define the path to the ref_df file
+#ref_df_path <- file.path("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data\\final_sourcing.csv")
+
+# Define the reference data file path relative to the base OneDrive directory
 ref_df_path <- file.path(
   onedrive_dir,
   "Clients",
@@ -454,6 +441,8 @@ ref_df_path <- file.path(
   "final_sourcing.csv"
 )
 
+# Print the reference data file path to confirm
+print(ref_df_path)
 # Read in the ref_df file
 ref_df <- read.csv(ref_df_path)
 
@@ -693,38 +682,12 @@ pr_path <- file.path(
 # Read CSV
 pr_dat <- read.csv(pr_path)
 
-# Fix names
-pr_dat <- pr_dat %>%
-  rename(
-    `Aggravated Assault` = Aggravated.Assault,
-    `Motor Vehicle Theft` = Motor.Vehicle.Theft,
-    `Agency Name` = Agency.Name
-  )
-
-# Map month names to numeric values
-pr_dat <- pr_dat %>%
-  mutate(Month = match(Month, month.name))
-
-# Add new state column to match the rest
-pr_dat$State <- "PR"
-
-# Select only the acceptable columns
-pr_dat <- pr_dat %>%
-  select(all_of(acceptable_names))
-
-# Remove months outside the sample period
-pr_dat <- pr_dat %>%
-  filter(
-    !(Year == current_year & Month == current_month) &
-    !(Year == current_year & Month == previous_month_month)
-  )
-
 # Preview the final data
 head(pr_dat)
 ```
 bind to the end
 ```{r}
-cdf3 <- bind_rows(cdf2, pr_dat)
+cdf3 <- bind_rows(cdf2)
 ```
 get mvs_12mo for all crime categories and groupings
 ```{r}
@@ -876,16 +839,16 @@ write it out!
 ```{r}
 # TEMPORARILY COMMENTING THIS OUT SO IT DOESN'T WRITE TO THE ONEDRIVE WHILE IN PRACTICE MODE -- OSCAR
 # # Specify the folder path
-# folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data"
+ folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data"
 # 
 # # Create the full file path
-# file_path <- file.path(folder_path, "final_sample.csv")
+ file_path <- file.path(folder_path, "final_sample.csv")
 # 
 # # Write the data frame to a .csv file
-# write.csv(cleaned_data, file = file_path, row.names = FALSE)
+ write.csv(cleaned_data, file = file_path, row.names = FALSE)
 
 # Write the data frame to the data folder in Github repo
-write.csv(cleaned_data, "../data/final_sample.csv", row.names = FALSE)
+write.csv(cleaned_data, "data/final_sample.csv", row.names = FALSE)
 ```
 audit lists - 2 tables - non-reporters removed and non-reporters 2 months
 ```{r}
@@ -924,92 +887,9 @@ write.csv(sample_cities, "../data/sample_cities.csv", row.names = FALSE)
 # Sample Cities file for Sourcing table base -- "Current Samp in versioner"
 write.csv(sample_cities %>% select(city_state, date), output_file_path, row.names = FALSE)
 
-
-
-
 # file_path3 <- file.path(folder_path1, "sample_cities_2024_09.csv" )
 # write.csv(sample_cities, file = file_path3, row.names = FALSE)
 ```
-
-
-
-PR Data for before release
-```{r}
-pr <- read.csv("C:\\Users\\daveh\\Downloads\\Crime for Major Cities (English) October2024.csv")
-```
-#clean up reshape
-```{r}
-# Load necessary libraries
-library(dplyr)
-library(tidyr)
-
-# Group by municipality, year, month, and crime code, then sum the crime counts
-crime_summary <- pr  %>%
-  group_by(Municipalities_Name_1, Date_Date_Year, Date_Date_Month, PBI_CRIMEN_codigo) %>%
-  summarise(Total_Crime_Count = sum(PBI_CRIMEN_Crime_Count, na.rm = TRUE)) %>%
-  ungroup()
-
-# Pivot the table to a wide format, with one column for each crime code
-wide_pr <- crime_summary %>%
-  pivot_wider(names_from = PBI_CRIMEN_codigo, values_from = Total_Crime_Count, values_fill = 0)
-
-# Create new columns for crime counts by combining relevant crime codes
-pr_counts <- wide_pr %>%
-  mutate(
-    Murder = `09A`, 
-    Rape = `11A`, # no B and C reported   
-    Robbery = `120`,
-    `Aggravated Assault` = `13A`,
-    Burglary = `220`,
-    Theft = coalesce(`23A`, 0) + coalesce(`23B`, 0) + coalesce(`23C`, 0) + coalesce(`23D`, 0) +
-            coalesce(`23E`, 0) + coalesce(`23F`, 0) + coalesce(`23G`, 0) + coalesce(`23H`, 0),
-    `Motor Vehicle Theft` = `240`,
-    State = "Puerto Rico"
-  )
-
-#select and rename columns
-pr_counts <- pr_counts %>% 
-              mutate(`Agency Name` = Municipalities_Name_1,
-                      Year = Date_Date_Year,
-                      Month = Date_Date_Month) %>%
-                      select(`Agency Name`, Murder, Rape, Robbery,
-                      `Aggravated Assault`, Burglary, Theft, `Motor Vehicle Theft`,
-                      Year, Month, State)
-
-
-# View the resulting dataframe
-head(pr_counts)
-
-# Optionally, save the new wide dataframe with calculated columns to a CSV
-write.csv(pr_counts, "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\October 2024\\Puerto_Rico_Aggregated_Since_2017.csv", row.names = FALSE)
-
-```
-
-```{r}
-# 1. Create a new dataframe with unique values of 'agency_name' from cdf_vcpc_nats
-unique_agency_names <- cdf_vcpc_nats %>%
-  select(`Agency Name`) %>%
-  distinct()
-
-# 2. Create a new dataframe with unique values of 'city_state' from cdf_vcpc_nats
-unique_city_states <- cdf_vcpc_nats %>%
-  select(city_state) %>%
-  distinct()
-
-# 3. Perform an anti-join between sample_cities and unique_agency_names (find records unique to sample_cities)
-unique_to_sample_agencies <- sample_cities %>%
-  anti_join(unique_agency_names, by = c("Agency Name"))
-
-
-# 4. Perform an anti-join between sample_cities and unique_city_states (find records unique to sample_cities)
-unique_to_sample_city_states <- sample_cities %>%
-  anti_join(unique_city_states, by = c("city_state"))
-
-# View the results
-print(unique_to_sample_agencies)
-print(unique_to_sample_city_states)
-```
-
 initial scrapes
 ```{r}
 scrape_all<- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation\\aggregated_since_2017.csv")

@@ -1,0 +1,23 @@
+---
+title: "county exploration"
+output: github_document
+---
+
+libraries
+```{r}
+library(tidyverse)
+library(dplyr)
+```
+
+read in participation data
+```{r}
+fbi_participation_2023 <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\FBI Agency Participation Data\\2023 Participation.csv")
+```
+subset to counties with >100k pop
+```{r}
+counties_100k <- fbi_participation_2023 %>%
+  filter(agency_type_name == "County", population > 100000)
+
+#how many county entities does that make up?
+num_unique_agencies <- length(unique(counties_100k$pub_agency_name))
+```

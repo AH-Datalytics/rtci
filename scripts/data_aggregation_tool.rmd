@@ -7,7 +7,7 @@ updated: "08-19-2024"
 final version: "08-30-2024"
 last upate: "01-07-2024"
 ---
-read in the data from the ben/jeff folder
+read in the data
 ```{r}
 library(tidyverse)
 library(magrittr)
@@ -40,7 +40,7 @@ data_dir <- file.path(
   "Real Time Crime Index",
   "Open Source Data",
   "_Ben and Jeff work",
-  "October 2024"
+  "November 2024"
 )
 
 # Check the full path to ensure it's correct

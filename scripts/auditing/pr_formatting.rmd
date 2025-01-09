@@ -3,11 +3,72 @@ title: "pr cleaner"
 output: github_document
 ---
 
+#PR Data transformation before sample aggregation - All in Base R#
+directory path where the data files are stored
 ```{r}
+# Dynamically locate OneDrive directory
+onedrive_mac <- "~/Library/CloudStorage/OneDrive-ahdatalytics.com"
+onedrive_win <- file.path("C:", "OneDrive", "OneDrive - ahdatalytics.com")
 
-PR Data for before release
+if (dir.exists(onedrive_mac)) {
+  onedrive_dir <- normalizePath(onedrive_mac)
+} else if (dir.exists(onedrive_win)) {
+  onedrive_dir <- normalizePath(onedrive_win)
+} else {
+  stop("OneDrive directory not found.")
+}
+
+# Define the raw data directory with the correct relative path from OneDrive
+data_dir <- file.path(
+  onedrive_dir,
+  "Clients",
+  "Real Time Crime Index",
+  "Open Source Data",
+  "_Ben and Jeff work",
+  "Puerto_Rico_Since_2017_raw"
+)
+
+# Check the full path to ensure it's correct
+print(data_dir)
+
+# Get a list of all CSV file paths within the directory
+file_paths <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
+
+# Check the files
+head(file_paths)
+```
+make sure there are files and then choose which one to read in
 ```{r}
-pr <- read.csv("C:\\Users\\daveh\\Downloads\\Crime for Major Cities (English) November2024.csv")
+# Check if there are CSV files
+if (length(file_paths) == 0) {
+  stop("No CSV files found in the directory:", data_dir)
+}
+
+# Display the list of files for user selection
+cat("Available CSV files:\n")
+for (i in seq_along(file_paths)) {
+  cat(i, ":", basename(file_paths[i]), "\n")
+}
+
+# Prompt the user to select a file based on the month
+file_index <- as.integer(readline(prompt = "Enter the number of the file to load: "))
+```
+validate and read in file
+```{r}
+# Validate the user's input
+if (is.na(file_index) || file_index < 1 || file_index > length(file_paths)) {
+  stop("Invalid selection. Please run the script again and select a valid file.")
+}
+
+# Get the selected file path
+selected_file <- file_paths[file_index]
+
+# Read the selected file into a dataframe
+pr <- read.csv(selected_file)
+
+# Print a success message and preview the data
+cat("Successfully loaded:", basename(selected_file), "\n")
+head(data)
 ```
 #clean up reshape
 ```{r}
@@ -48,23 +109,14 @@ pr_counts <- pr_counts %>%
                       `Aggravated Assault`, Burglary, Theft, `Motor Vehicle Theft`,
                       Year, Month, State)
 
-# Fix names
-pr_counts <- pr_counts %>%
-  rename(
-    `Aggravated Assault` = Aggravated.Assault,
-    `Motor Vehicle Theft` = Motor.Vehicle.Theft,
-    `Agency Name` = Agency.Name
-  )
+#fix month values
+pr_counts$Month <- match(pr_counts$Month, month.name)
 
-# Select only the acceptable columns
-pr_counts <- pr_counts %>%
-  select(all_of(acceptable_names))
 
 # Remove months outside the sample period
 pr_counts <- pr_counts %>%
   filter(
-    !(Year == current_year & Month == current_month) &
-    !(Year == current_year & Month == previous_month_month)
+    !(Year == current_year & Month == current_month)
   )
 
 # View the resulting dataframe
@@ -73,28 +125,11 @@ head(pr_counts)
 # write out df
 write.csv(pr_counts, "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\November 2024\\Puerto_Rico_Aggregated_Since_2017.csv", row.names = FALSE)
 ```
+any duplicates?
+```{r}
+# find dupes
+duplicate_rows <- pr_counts[duplicated(pr_counts), ]
 
-
+print(duplicate_rows)
+#no duplicates!
 ```
-
-## GitHub Documents
-
-This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
-
-## Including Code
-
-You can include R code in the document as follows:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

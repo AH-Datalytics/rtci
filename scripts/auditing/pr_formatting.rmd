@@ -121,9 +121,6 @@ pr_counts <- pr_counts %>%
 
 # View the resulting dataframe
 head(pr_counts)
-
-# write out df
-write.csv(pr_counts, "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\November 2024\\Puerto_Rico_Aggregated_Since_2017.csv", row.names = FALSE)
 ```
 any duplicates?
 ```{r}
@@ -131,5 +128,43 @@ any duplicates?
 duplicate_rows <- pr_counts[duplicated(pr_counts), ]
 
 print(duplicate_rows)
-#no duplicates!
+#no duplicates! good to go.
+```
+# write out df
+```{r}
+# Dynamically locate OneDrive directory
+onedrive_mac <- "~/Library/CloudStorage/OneDrive-ahdatalytics.com"
+onedrive_win <- file.path("C:", "OneDrive", "OneDrive - ahdatalytics.com")
+
+if (dir.exists(onedrive_mac)) {
+  onedrive_dir <- normalizePath(onedrive_mac)
+} else if (dir.exists(onedrive_win)) {
+  onedrive_dir <- normalizePath(onedrive_win)
+} else {
+  stop("OneDrive directory not found.")
+}
+
+# Define the relative path for the output file
+output_dir <- file.path(
+  onedrive_dir,
+  "Clients",
+  "Real Time Crime Index",
+  "Open Source Data",
+  "_Ben and Jeff work",
+  "November 2024"
+)
+
+# Create the directory if it doesn't exist
+if (!dir.exists(output_dir)) {
+  dir.create(output_dir, recursive = TRUE)
+}
+
+# Define the full output file path
+output_file <- file.path(output_dir, "Puerto_Rico_Aggregated_Since_2017.csv")
+
+# Write the dataframe to the specified file
+write.csv(pr_counts, output_file, row.names = FALSE)
+
+# Print success message
+cat("File successfully written to:", output_file, "\n")
 ```

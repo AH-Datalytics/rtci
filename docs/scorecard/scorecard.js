@@ -12,21 +12,40 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // Load data
+    // Adjust logic in the `d3.csv()` data-loading block
     d3.csv(dataPath).then(data => {
         allData = data;
         console.log("Data loaded:", data);
-        
+    
+        // Extract the most recent year from the `ytd_month_range` column
+        const availableYears = data
+            .map(row => {
+                // Extract the year from `ytd_month_range` using a regex
+                const match = row.ytd_month_range.match(/\b\d{4}\b/);
+                return match ? parseInt(match[0]) : NaN;
+            })
+            .filter(year => !isNaN(year)); // Exclude invalid or NaN values
+    
+        if (availableYears.length === 0) {
+            console.error("No valid years found in the dataset!");
+            return;
+        }
+    
+        // Determine the maximum available year in the data
+        const maxYearInData = Math.max(...availableYears);
+    
         const defaultFilters = {
             state: "Nationwide",
-            agency: "Full Sample"
+            agency: "Full Sample",
         };
-
+    
         retrieveFilterValues(defaultFilters); // Retrieve filters from sessionStorage
         populateFilters(allData);
-        updateYearHeaders();
+        updateYearHeaders(maxYearInData); // Pass maxYearInData to update headers
         updateAgencyDropdown(selectedState); // Populate agency dropdown
         filterAndDisplayData(); // Display saved or default filtered data
     }).catch(error => console.error("Error loading data:", error));
+    
 
     // Function to adjust the width of the tracker container
     function adjustTrackerWidth() {
@@ -288,7 +307,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     
-    function updateYearHeaders() {
+    function updateYearHeaders(maxYearInData) {
+        const yearLabels = {
+            current: maxYearInData.toString(),
+            onePrev: (maxYearInData - 1).toString(),
+            twoPrev: (maxYearInData - 2).toString(),
+        };
+    
         document.querySelector("#scorecard-table thead tr:nth-child(1)").innerHTML = `
             <th style="background-color: #00333a; color: white;"></th>
             <th style="background-color: #00333a; color: white;">${yearLabels.current} (YTD)</th>
@@ -301,7 +326,6 @@ document.addEventListener("DOMContentLoaded", function () {
             <th style="background-color: #00333a; color: white;">% Change ${yearLabels.twoPrev}-${yearLabels.onePrev} (Full Year)</th>
         `;
     }
-    
     
 
 

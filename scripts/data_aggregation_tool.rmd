@@ -655,18 +655,6 @@ head(cdf2)
 add PR data
 fix remaining columns and select out 
 ```{r}
-# Dynamically locate OneDrive directory
-onedrive_mac <- "~/Library/CloudStorage/OneDrive-ahdatalytics.com"
-onedrive_win <- file.path(Sys.getenv("OneDrive"), "OneDrive - ahdatalytics.com")
-
-if (dir.exists(onedrive_mac)) {
-  onedrive_dir <- normalizePath(onedrive_mac)
-} else if (dir.exists(onedrive_win)) {
-  onedrive_dir <- normalizePath(onedrive_win)
-} else {
-  stop("OneDrive directory not found.")
-}
-
 # Define the path to the Puerto Rico data file
 pr_path <- file.path(
   onedrive_dir,
@@ -839,21 +827,33 @@ sample_cities <- cdf_vcpc_nats %>%
   slice(1) %>%
   ungroup()
 ```
+generate a suffix and further clean and write out sample cities for viz and sample comparison
+```{r}
+# Extract the most recent date from the cleaned_data dataframe for suffixes
+latest_date <- max(cleaned_data$date, na.rm = TRUE)
+
+# Format the date as "mon_yy" (e.g., "oct_24")
+month_suffix <- tolower(format(latest_date, "%b_%y"))
+
+# sample cities filepath
+samp_cities_file_path <- file.path(
+  here("data", "archive"),
+  paste0(month_suffix, "_agencies.csv")
+)
+
+#transform sample cities for viz
+sample_cities_viz <- sample_cities %>% 
+  mutate(date = month_suffix) %>% 
+  select(city_state, `Agency Name`, State, date)
+
+#write out sample cities to data folder on github
+write.csv(sample_cities_viz, "../data/sample_cities.csv", row.names = FALSE)
+
+# Sample Cities file for Sourcing table base -- "Current Samp in versioner"
+write.csv(sample_cities_viz %>% select(city_state, date), samp_cities_path, row.names = FALSE)
+```
 write out final sample to both sharepoint and github repo
 ```{r}
-# Define the base OneDrive path
-onedrive_mac <- file.path("~", "Library", "CloudStorage", "OneDrive-YourOrganizationName")
-onedrive_win <- file.path("C:", "OneDrive", "OneDrive - ahdatalytics.com")
-
-# Check which OneDrive directory exists
-if (dir.exists(onedrive_mac)) {
-  onedrive_dir <- normalizePath(onedrive_mac)
-} else if (dir.exists(onedrive_win)) {
-  onedrive_dir <- normalizePath(onedrive_win)
-} else {
-  stop("OneDrive directory not found.")
-}
-
 # Define the folder path relative to OneDrive
 sample_write_path <- file.path(
   onedrive_dir,
@@ -874,34 +874,11 @@ write.csv(cleaned_data, "../data/final_sample.csv", row.names = FALSE)
 ```
 write out all auditing tables + sample cities *2
 ```{r}
-# Extract the most recent date from the cleaned_data dataframe for suffixes
-latest_date <- max(cleaned_data$date, na.rm = TRUE)
-
-# Format the date as "mon_yy" (e.g., "oct_24")
-month_suffix <- tolower(format(latest_date, "%b_%y"))
-
-# Punch out all auditing tables
+# write out all auditing tables to auditing folder in github
 write.csv(undesirables_na_current, "../scripts/auditing/missing_current.csv", row.names = FALSE)
 write.csv(undesirables_na_historical, "../scripts/auditing/missing_historical.csv", row.names = FALSE)
 write.csv(undesirables_recency, "../scripts/auditing/no_reported_data_past_two_months.csv", row.names = FALSE)
 write.csv(remove_agencies, "../scripts/auditing/agencies_removed_from_sample.csv", row.names = FALSE)
-
-# sample cities filepath
-samp_cities_file_path <- file.path(
-  here("data", "archive"),
-  paste0(month_suffix, "_agencies.csv")
-)
-
-#transform sample cities for viz
-sample_cities_viz <- sample_cities %>% 
-  mutate(date = month_suffix) %>% 
-  select(city_state, `Agency Name`, State, date)
-
-#write out sample cities to data folder on github
-write.csv(sample_cities_viz, "../data/sample_cities.csv", row.names = FALSE)
-
-# Sample Cities file for Sourcing table base -- "Current Samp in versioner"
-write.csv(sample_cities_viz %>% select(city_state, date), samp_cities_path, row.names = FALSE)
 
 #write remaining auditing tables to archive with month_suffix
 write.csv(undesirables_na_current,file.path("../data/archive", paste0("missing_current", month_suffix, ".csv")),row.names = FALSE)

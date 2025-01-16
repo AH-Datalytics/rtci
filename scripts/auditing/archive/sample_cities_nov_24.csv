@@ -1,0 +1,299 @@
+"city_state","Agency Name","Murder","Rape","Robbery","Aggravated Assault","Burglary","Theft","Motor Vehicle Theft","Year","Month","State","vio_crime","prop_crime","pop23"
+"Abilene, TX","Abilene",0,4,11,24,72,255,18,2017,1,"TX",39,345,128387
+"Abington, PA","Abington",0,0,2,5,3,75,3,2024,1,"PA",7,81,58433
+"Albany, GA","Albany",2,2,16,44,103,192,10,2017,1,"GA",64,305,66281
+"Albany, OR","Albany",0,1,1,9,8,66,4,2024,1,"OR",11,78,57002
+"Alhambra, CA","Alhambra",1,2,13,5,37,129,39,2017,1,"CA",21,205,79087
+"Allen, TX","Allen",0,5,5,5,11,67,4,2017,1,"TX",15,82,114696
+"Allentown, PA","Allentown",1,3,14,16,21,164,23,2023,4,"PA",34,208,124782
+"Amarillo, TX","Amarillo",1,16,22,65,131,503,74,2017,1,"TX",104,708,201684
+"Apple Valley, MN","Apple Valley",0,1,0,9,3,77,10,2024,1,"MN",10,90,54995
+"Arlington Heights, IL","Arlington Heights",0,0,5,4,8,36,1,2024,1,"IL",9,45,74094
+"Arlington, TX","Arlington",3,43,44,79,159,755,106,2017,1,"TX",169,1020,394799
+"Arvada, CO","Arvada",0,5,11,7,21,204,47,2024,1,"CO",23,272,120200
+"Asheville, NC","Asheville",2,NA,13,17,52,171,23,2017,1,"NC",32,246,93471
+"Aurora, CO","Aurora",2,32,43,220,115,688,393,2024,1,"CO",297,1196,396976
+"Austin, TX","Austin",1,65,74,181,433,2170,177,2017,1,"TX",321,2780,978816
+"Avondale, AZ","Avondale",0,2,4,12,19,152,26,2024,1,"AZ",18,197,92661
+"Bakersfield, CA","Bakersfield",1,4,61,74,285,967,284,2017,1,"CA",140,1536,413409
+"Baltimore, MD","Baltimore",32,31,586,580,736,1453,498,2017,1,"MD",1229,2687,565192
+"Baytown, TX","Baytown",0,3,18,10,44,160,29,2017,1,"TX",31,233,83809
+"Beaumont, TX","Beaumont",2,11,38,58,132,293,24,2017,1,"TX",109,449,110671
+"Beaverton, OR","Beaverton",0,5,3,10,25,179,15,2024,11,"OR",18,219,96840
+"Bellevue, NE","Bellevue",0,5,1,0,2,42,9,2024,1,"NE",6,53,62372
+"Bellingham, WA","Bellingham",0,NA,7,NA,NA,273,17,2017,1,"WA",7,290,94968
+"Bend, OR","Bend",1,4,2,11,14,130,14,2023,8,"OR",18,158,105099
+"Bensalem, PA","Bensalem",0,0,1,2,6,153,17,2024,8,"PA",3,176,62595
+"Bethlehem, PA","Bethlehem",1,0,3,11,10,66,5,2024,8,"PA",15,81,78606
+"Blaine, MN","Blaine",0,1,3,5,8,107,8,2018,2,"MN",9,123,72384
+"Bloomington, MN","Bloomington",2,4,4,5,13,230,32,2023,2,"MN",15,275,86793
+"Blue Springs, MO","Blue Springs",0,1,0,8,13,109,7,2017,1,"MO",9,129,59896
+"Bolingbrook, IL","Bolingbrook",0,2,2,4,8,33,7,2023,4,"IL",8,48,74138
+"Boston, MA","Boston",0,12,61,226,141,822,76,2024,1,"MA",299,1039,642823
+"Boulder, CO","Boulder",0,0,9,14,73,224,24,2020,3,"CO",23,321,104232
+"Bridgeport, CT","Bridgeport",0,5,20,32,23,92,39,2024,1,"CT",57,154,148483
+"Bristol, CT","Bristol",0,1,2,1,13,34,33,2023,4,"CT",4,80,61609
+"Brockton, MA","Brockton",1,7,8,39,20,77,26,2024,11,"MA",55,123,108938
+"Brookline, MA","Brookline",0,0,1,5,5,43,0,2024,1,"MA",6,48,62639
+"Brooklyn Park, MN","Brooklyn Park",0,8,6,14,16,226,22,2022,3,"MN",28,264,81920
+"Broomfield, CO","Broomfield",0,2,0,7,20,104,30,2023,5,"CO",9,154,77072
+"Brownsville, TX","Brownsville",1,4,9,12,58,424,18,2017,1,"TX",26,500,190590
+"Buckeye, AZ","Buckeye",0,7,0,15,13,70,12,2023,4,"AZ",22,95,112048
+"Buffalo, NY","Buffalo",8,15,75,94,165,496,63,2017,1,"NY",192,724,275922
+"Burbank, CA","Burbank",0,0,7,13,33,247,27,2017,1,"CA",20,307,102345
+"Burleson, TX","Burleson",1,1,0,5,9,48,10,2017,1,"TX",7,67,56307
+"Burnsville, MN","Burnsville",0,2,2,9,7,125,15,2021,2,"MN",13,147,63650
+"Caldwell, ID","Caldwell",0,2,0,16,3,25,8,2024,1,"ID",18,36,68731
+"Cambridge, MA","Cambridge",0,1,11,41,15,181,19,2022,7,"MA",53,215,118960
+"Carlsbad, CA","Carlsbad",0,0,6,5,37,127,7,2017,1,"CA",11,171,113796
+"Castle Rock, CO","Castle Rock",0,1,0,4,2,79,14,2020,5,"CO",5,95,83546
+"Cedar Park, TX","Cedar Park",0,4,1,3,9,60,1,2017,1,"TX",8,70,77464
+"Centennial, CO","Centennial",0,0,2,24,18,147,39,2023,7,"CO",26,204,104724
+"Champaign, IL","Champaign",0,5,6,25,59,135,32,2024,8,"IL",36,226,89687
+"Chandler, AZ","Chandler",0,5,5,26,45,301,16,2024,8,"AZ",36,362,282419
+"Charlotte, NC","Charlotte",9,35,190,182,577,2055,268,2017,1,"NC",416,2900,979304
+"Chattanooga, TN","Chattanooga",1,9,47,86,139,584,80,2017,1,"TN",143,803,185370
+"Cheyenne, WY","Cheyenne",0,4,2,4,19,135,11,2017,1,"WY",10,165,64307
+"Chicago, IL","Chicago",54,163,1075,953,1274,4957,1173,2017,1,"IL",2245,7404,2628298
+"Chicopee, MA","Chicopee",0,2,4,18,19,67,6,2018,6,"MA",24,92,55043
+"Chula Vista, CA","Chula Vista",0,4,35,37,40,218,57,2017,8,"CA",76,315,280748
+"Cicero, IL","Cicero",0,0,9,15,30,27,23,2024,8,"IL",24,80,80455
+"Coeur D Alene, ID","Coeur D Alene",0,2,2,8,6,48,2,2023,7,"ID",12,56,57653
+"College Station, TX","College Station",0,4,11,8,50,144,8,2017,1,"TX",23,202,126136
+"Colorado Springs, CO","Colorado Springs",4,47,31,222,262,1106,375,2023,6,"CO",304,1743,489254
+"Columbia, MO","Columbia",0,15,11,37,45,189,27,2017,1,"MO",63,261,129602
+"Columbus, OH","Columbus",6,NA,NA,NA,NA,NA,NA,2017,1,"OH",6,0,908834
+"Commerce City, CO","Commerce City",1,7,2,48,7,90,49,2023,4,"CO",58,146,67851
+"Concord, CA","Concord",0,5,9,21,41,250,81,2017,1,"CA",35,372,121331
+"Conroe, TX","Conroe",0,3,8,7,33,156,15,2017,1,"TX",18,204,106904
+"Coon Rapids, MN","Coon Rapids",0,3,3,2,7,76,3,2021,2,"MN",8,86,62391
+"Corpus Christi, TX","Corpus Christi",2,25,44,115,153,779,52,2017,1,"TX",186,984,315340
+"Corvallis, OR","Corvallis",0,3,5,3,23,160,3,2023,4,"OR",11,186,61474
+"Cranston, RI","Cranston",0,0,1,8,12,76,10,2017,1,"RI",9,98,82484
+"Dallas, TX","Dallas",16,58,403,419,943,2164,700,2017,1,"TX",896,3807,1304989
+"Decatur, IL","Decatur",2,3,1,15,25,90,13,2023,2,"IL",21,128,68301
+"Denton, TX","Denton",0,12,3,21,51,170,20,2017,1,"TX",36,241,155215
+"Denver, CO","Denver",4,72,100,252,430,1386,538,2017,10,"CO",428,2354,712222
+"Desoto, TX","Desoto",1,6,9,10,39,97,21,2017,1,"TX",26,157,56257
+"Detroit, MI","Detroit",22,65,229,557,772,1059,739,2017,1,"MI",873,2570,615501
+"Duluth, MN","Duluth",4,4,5,12,21,204,17,2022,4,"MN",25,242,86570
+"Dunwoody, GA","Dunwoody",0,1,0,3,9,138,14,2017,1,"GA",4,161,52505
+"Durham, NC","Durham",2,6,111,165,216,562,71,2017,1,"NC",284,849,295788
+"Eagan, MN","Eagan",0,0,3,1,12,99,10,2020,6,"MN",4,121,66943
+"East Hartford, CT","East Hartford",1,0,4,3,5,55,13,2024,8,"CT",8,73,50625
+"Eden Prairie, MN","Eden Prairie",0,1,1,0,12,63,14,2020,8,"MN",2,89,61645
+"Edina, MN","Edina",0,0,0,9,8,51,4,2024,10,"MN",9,63,51980
+"Edinburg, TX","Edinburg",0,9,1,9,37,254,20,2017,1,"TX",19,311,106137
+"El Cajon, CA","El Cajon",0,4,7,39,11,67,24,2022,12,"CA",50,102,103569
+"Erie, PA","Erie",0,1,6,24,17,88,11,2023,2,"PA",31,116,92920
+"Escondido, CA","Escondido",2,6,11,38,23,172,25,2024,8,"CA",57,220,149837
+"Eugene, OR","Eugene",0,9,10,27,64,290,46,2024,1,"OR",46,400,178191
+"Euless, TX","Euless",0,0,2,2,12,71,22,2017,1,"TX",4,105,59722
+"Evanston, IL","Evanston",0,1,6,0,20,121,14,2022,3,"IL",7,155,74413
+"Fairfield, CT","Fairfield",0,0,0,0,2,68,8,2024,8,"CT",0,78,63588
+"Fayetteville, NC","Fayetteville",2,NA,26,79,177,550,32,2017,1,"NC",107,759,209262
+"Florissant, MO","Florissant",0,0,3,9,10,74,10,2017,1,"MO",12,94,51045
+"Flower Mound, TX","Flower Mound",0,1,1,3,3,40,0,2017,1,"TX",5,43,79513
+"Fort Collins, CO","Fort Collins",0,10,0,17,28,217,37,2022,1,"CO",27,282,168886
+"Fort Worth, TX","Fort Worth",10,71,154,231,449,1568,229,2017,1,"TX",466,2246,973722
+"Fremont, CA","Fremont",0,3,14,11,89,340,94,2017,1,"CA",28,523,220775
+"Frisco, TX","Frisco",0,5,4,6,39,153,2,2017,1,"TX",15,194,228527
+"Galveston, TX","Galveston",0,6,5,4,36,87,8,2017,1,"TX",15,131,52810
+"Garland, TX","Garland",3,5,39,27,125,491,71,2017,1,"TX",74,687,240051
+"Georgetown, TX","Georgetown",0,3,0,3,4,37,3,2017,1,"TX",6,44,87871
+"Gilbert, AZ","Gilbert",0,11,4,19,14,190,11,2024,8,"AZ",34,215,278495
+"Glendale, AZ","Glendale",1,16,22,81,63,365,95,2023,2,"AZ",120,523,253768
+"Glendale, CA","Glendale",0,2,9,18,61,208,32,2017,1,"CA",29,301,185923
+"Goodyear, AZ","Goodyear",0,1,5,15,30,118,12,2022,3,"AZ",21,160,109929
+"Grand Island, NE","Grand Island",0,3,0,20,10,79,9,2023,7,"NE",23,98,52264
+"Grand Junction, CO","Grand Junction",0,6,3,8,19,106,14,2023,2,"CO",17,139,69240
+"Grand Prairie, TX","Grand Prairie",0,11,17,8,79,289,55,2017,1,"TX",36,423,205487
+"Grand Rapids, MI","Grand Rapids",1,11,16,89,41,289,82,2017,1,"MI",117,412,196019
+"Grapevine, TX","Grapevine",0,0,1,7,8,100,12,2017,1,"TX",8,120,51458
+"Greeley, CO","Greeley",0,6,7,22,30,174,26,2021,3,"CO",35,230,109183
+"Greensboro, NC","Greensboro",2,6,43,112,192,571,47,2017,1,"NC",163,810,303237
+"Greenwich, CT","Greenwich",0,0,0,1,6,29,3,2023,2,"CT",1,38,63777
+"Gresham, OR","Gresham",1,2,10,12,37,159,78,2024,3,"OR",25,274,110225
+"Hamden, CT","Hamden",2,0,8,17,5,118,10,2022,3,"CT",27,133,60691
+"Harlingen, TX","Harlingen",0,1,3,15,44,233,9,2017,1,"TX",19,286,71581
+"Harrisburg, PA","Harrisburg",4,0,4,19,13,48,13,2022,3,"PA",27,74,50229
+"Hartford, CT","Hartford",2,4,12,47,31,146,44,2022,3,"CT",65,221,120710
+"Haverford, PA","Haverford",0,1,0,1,3,27,0,2022,3,"PA",2,30,50505
+"Haverhill, MA","Haverhill",0,3,4,29,19,57,10,2018,7,"MA",36,86,67133
+"Henderson, NV","Henderson",0,5,19,45,67,314,135,2024,1,"NV",69,516,337794
+"Hillsboro, OR","Hillsboro",0,1,5,14,24,172,27,2023,5,"OR",20,223,107459
+"Honolulu, HI","Honolulu",4,NA,78,82,252,1782,332,2017,1,"HI",164,2366,987546
+"Houston, TX","Houston",22,92,937,1168,1510,6136,1065,2017,1,"TX",2219,8711,2304406
+"Idaho Falls, ID","Idaho Falls",0,5,0,16,25,49,14,2023,4,"ID",21,88,68662
+"Independence, MO","Independence",2,3,20,38,56,375,90,2017,1,"MO",63,521,120326
+"Indianapolis, IN","Indianapolis",9,45,379,974,989,2324,496,2017,1,"IN",1407,3809,887131
+"Irving, TX","Irving",1,3,13,24,86,371,56,2017,1,"TX",41,513,255203
+"Jackson, MI","Jackson",0,3,10,19,18,90,4,2017,1,"MI",32,112,31206
+"Joplin, MO","Joplin",1,4,6,18,29,212,23,2017,1,"MO",29,264,52881
+"Kansas City, MO","Kansas City",13,40,173,452,434,1026,365,2017,1,"MO",678,1825,509855
+"Killeen, TX","Killeen",2,7,24,53,99,205,59,2017,1,"TX",86,363,161968
+"Knoxville, TN","Knoxville",2,12,47,93,135,610,91,2017,1,"TN",154,836,198132
+"Kyle, TX","Kyle",0,1,1,4,12,26,3,2017,1,"TX",6,41,63931
+"La Mesa, CA","La Mesa",0,0,4,5,14,52,14,2018,8,"CA",9,80,60008
+"Lake Havasu City, AZ","Lake Havasu City",0,2,0,10,12,58,2,2022,3,"AZ",12,72,59720
+"Lakeville, MN","Lakeville",0,1,0,2,7,29,1,2018,3,"MN",3,37,76929
+"Lakewood, CO","Lakewood",0,9,15,31,55,407,63,2019,3,"CO",55,525,156065
+"Lancaster, PA","Lancaster",0,3,5,20,7,57,8,2021,3,"PA",28,72,57213
+"Laredo, TX","Laredo",1,7,27,49,72,533,25,2017,1,"TX",84,630,256542
+"Las Vegas, NV","Las Vegas",11,NA,357,395,1248,2461,678,2017,1,"NV",763,4387,1670226
+"Lawrence, MA","Lawrence",1,1,18,28,28,67,51,2017,1,"MA",48,146,87806
+"League City, TX","League City",1,1,3,5,17,96,12,2017,1,"TX",10,125,115791
+"Leander, TX","Leander",0,1,1,4,6,28,4,2017,1,"TX",6,38,82228
+"Lee's Summit, MO","Lee's Summit",0,1,8,4,17,106,5,2017,1,"MO",13,128,104402
+"Lewisville, TX","Lewisville",0,8,10,14,34,137,12,2017,1,"TX",32,183,133694
+"Lexington, KY","Lexington",2,9,47,28,246,726,111,2017,1,"KY",86,1083,319994
+"Lincoln, NE","Lincoln",0,23,10,55,123,582,60,2020,12,"NE",88,765,293155
+"Little Elm, TX","Little Elm",1,1,1,2,5,22,3,2017,1,"TX",5,30,59954
+"Little Rock, AR","Little Rock",3,14,55,231,173,858,119,2017,1,"AR",303,1150,202986
+"Long Beach, CA","Long Beach",4,10,85,100,257,678,265,2017,1,"CA",199,1200,444415
+"Longmont, CO","Longmont",0,11,1,19,39,163,44,2020,5,"CO",31,246,98444
+"Longview, TX","Longview",0,5,10,19,68,194,26,2017,1,"TX",34,288,82981
+"Los Angeles, CA","Los Angeles",33,NA,NA,NA,NA,NA,NA,2017,1,"CA",33,0,3786018
+"Louisville, KY","Louisville",6,39,112,209,539,1757,382,2017,1,"KY",366,2678,669468
+"Loveland, CO","Loveland",0,6,2,15,13,112,9,2024,3,"CO",23,134,78656
+"Lower Merion, PA","Lower Merion",0,0,1,1,4,40,3,2023,2,"PA",2,47,64350
+"Lower Paxton, PA","Lower Paxton",0,1,0,4,3,28,2,2022,1,"PA",5,33,55204
+"Lynn, MA","Lynn",0,3,8,29,8,51,14,2020,9,"MA",40,73,101144
+"Malden, MA","Malden",0,3,1,9,5,43,12,2020,7,"MA",13,60,64291
+"Manchester, NH","Manchester",0,8,16,37,44,152,12,2017,1,"NH",61,208,114963
+"Mansfield, TX","Mansfield",0,0,1,2,12,43,4,2017,1,"TX",3,59,78788
+"Maple Grove, MN","Maple Grove",0,2,0,2,2,52,3,2018,3,"MN",4,57,70729
+"Marana, AZ","Marana",0,1,0,1,5,99,0,2021,3,"AZ",2,104,57718
+"Maricopa, AZ","Maricopa",0,0,1,7,4,45,4,2023,2,"AZ",8,53,70355
+"McAllen, TX","McAllen",2,2,4,15,16,316,4,2017,1,"TX",23,336,145684
+"Mckinney, TX","Mckinney",0,7,7,7,23,163,22,2017,1,"TX",21,208,212716
+"Memphis, TN","Memphis",18,54,329,651,798,2102,386,2017,1,"TN",1052,3286,616061
+"Meriden, CT","Meriden",0,7,3,9,18,82,13,2021,3,"CT",19,113,60054
+"Meridian, ID","Meridian",0,2,2,5,5,59,4,2022,1,"ID",9,68,135239
+"Mesa, AZ","Mesa",2,26,34,125,109,664,99,2022,1,"AZ",187,872,515848
+"Mesquite, TX","Mesquite",1,5,25,20,90,343,82,2017,1,"TX",51,515,147926
+"Methuen, MA","Methuen",0,0,0,6,6,40,8,2020,8,"MA",6,54,53558
+"Miami Beach, FL","Miami Beach",0,8,25,21,47,603,39,2017,1,"FL",54,689,78824
+"Midland, TX","Midland",0,3,7,22,37,156,21,2017,1,"TX",32,214,135253
+"Milford, CT","Milford",0,3,4,2,3,60,20,2023,2,"CT",9,83,53011
+"Milpitas, CA","Milpitas",0,NA,3,3,22,143,24,2017,1,"CA",6,189,76573
+"Milwaukee, WI","Milwaukee",11,NA,NA,NA,NA,NA,NA,2017,1,"WI",11,0,558698
+"Minneapolis, MN","Minneapolis",4,48,185,211,333,1325,172,2017,7,"MN",448,1830,422341
+"Minnetonka, MN","Minnetonka",0,0,4,1,6,58,4,2022,12,"MN",5,68,51791
+"Mission, TX","Mission",0,0,3,3,23,182,14,2017,1,"TX",6,219,87031
+"Missouri City, TX","Missouri City",0,0,8,11,18,83,7,2017,1,"TX",19,108,77560
+"Moline, IL","Moline",1,3,0,16,5,60,15,2022,3,"IL",20,80,42009
+"Mount Prospect, IL","Mount Prospect",0,2,0,1,4,30,2,2021,3,"IL",3,36,53932
+"Nashua, NH","Nashua",1,3,6,6,4,89,3,2017,1,"NH",16,96,91145
+"Nashville, TN","Nashville",9,NA,192,456,335,1509,227,2017,1,"TN",657,2071,690495
+"National City, CA","National City",0,1,10,26,6,70,28,2019,3,"CA",37,104,55270
+"New Braunfels, TX","New Braunfels",0,3,2,9,17,92,9,2017,1,"TX",14,118,111942
+"New Britain, CT","New Britain",0,7,3,16,18,103,20,2022,1,"CT",26,141,74609
+"New Orleans, LA","New Orleans",23,25,114,116,250,959,218,2017,1,"LA",278,1427,364197
+"New York City, NY","New York City",24,112,1246,1646,1097,3580,462,2017,1,"NY",3028,5139,8184044
+"Normal, IL","Normal",0,1,4,8,7,79,2,2023,2,"IL",13,88,52883
+"North Bergen Township, NJ","North Bergen Township",0,0,3,5,6,27,3,2017,1,"NJ",8,36,59147
+"North Las Vegas, NV","North Las Vegas",4,8,25,41,101,198,144,2022,2,"NV",78,443,290751
+"North Richland Hills, TX","North Richland Hills",0,3,4,5,18,96,14,2017,1,"TX",12,128,70853
+"Norwalk, CT","Norwalk",0,0,0,11,5,90,14,2017,3,"CT",11,109,91639
+"O'Fallon, MO","O'Fallon",0,2,1,5,2,81,4,2017,1,"MO",8,87,94702
+"Oak Lawn, IL","Oak Lawn",0,2,4,2,2,42,14,2022,1,"IL",8,58,55368
+"Oceanside, CA","Oceanside",1,10,9,67,31,176,29,2022,10,"CA",87,236,171348
+"Odessa, TX","Odessa",1,4,10,43,45,201,14,2017,1,"TX",58,260,111922
+"Omaha, NE","Omaha",2,15,21,83,96,849,256,2024,1,"NE",121,1201,481471
+"Oshkosh, WI","Oshkosh",0,1,4,11,13,77,5,2017,1,"WI",16,95,65548
+"Palatine, IL","Palatine",0,2,1,1,4,38,3,2017,3,"IL",4,45,64407
+"Parker, CO","Parker",4,2,0,12,3,73,11,2023,9,"CO",18,87,62431
+"Pasadena, TX","Pasadena",0,6,16,39,55,247,35,2017,1,"TX",61,337,145850
+"Pawtucket, RI","Pawtucket",0,1,2,23,41,104,12,2017,1,"RI",26,157,75100
+"Pearland, TX","Pearland",1,3,1,9,26,158,8,2017,1,"TX",14,192,127433
+"Peoria, AZ","Peoria",1,8,4,32,44,248,12,2017,3,"AZ",45,304,200886
+"Pflugerville, TX","Pflugerville",0,4,2,5,10,79,2,2017,1,"TX",11,91,65599
+"Pharr, TX","Pharr",0,2,8,6,21,106,1,2017,1,"TX",16,128,80359
+"Philadelphia, PA","Philadelphia",24,89,409,561,514,2584,388,2017,3,"PA",1083,3486,1550843
+"Phoenix, AZ","Phoenix",6,106,240,350,1008,2827,591,2017,1,"AZ",702,4426,1660686
+"Plano, TX","Plano",1,9,9,20,59,363,37,2017,1,"TX",39,459,291140
+"Plymouth, MA","Plymouth",0,1,0,15,5,35,0,2022,1,"MA",16,40,68771
+"Plymouth, MN","Plymouth",0,0,0,2,10,48,11,2023,1,"MN",2,69,77576
+"Pocatello, ID","Pocatello",0,1,0,9,9,66,8,2023,7,"ID",10,83,58390
+"Port Arthur, TX","Port Arthur",1,0,11,20,51,95,15,2017,1,"TX",32,161,55371
+"Portland, OR","Portland",0,21,77,121,321,1502,670,2017,1,"OR",219,2493,626146
+"Prescott Valley, AZ","Prescott Valley",0,0,0,12,2,36,1,2023,2,"AZ",12,39,50166
+"Quincy, MA","Quincy",0,0,1,22,16,69,3,2022,11,"MA",23,88,102465
+"Raleigh, NC","Raleigh",0,12,45,60,191,680,69,2017,1,"NC",117,940,482842
+"Rapid City, SD","Rapid City",3,6,5,23,22,179,29,2017,1,"SD",37,230,80850
+"Reading, PA","Reading",1,4,12,18,16,75,6,2023,2,"PA",35,97,97790
+"Redlands, CA","Redlands",0,3,4,12,45,164,21,2017,1,"CA",19,230,74147
+"Revere, MA","Revere",0,4,2,13,6,39,5,2018,2,"MA",19,50,57132
+"Richardson, TX","Richardson",0,4,8,4,36,125,20,2017,1,"TX",16,181,119008
+"Richmond, CA","Richmond",1,6,35,58,63,214,122,2017,1,"CA",100,399,113282
+"Richmond, VA","Richmond",9,3,47,54,146,527,119,2017,1,"VA",113,792,230789
+"Riverside, CA","Riverside",0,NA,53,78,165,611,166,2017,1,"CA",131,942,323473
+"Rochester, MN","Rochester",0,4,2,8,9,115,5,2023,1,"MN",14,129,122035
+"Rochester, NY","Rochester",0,NA,70,39,97,463,38,2017,1,"NY",109,598,208452
+"Rockford, IL","Rockford",2,5,15,110,44,203,76,2023,2,"IL",132,323,145873
+"Rockwall, TX","Rockwall",0,6,0,4,5,59,8,2017,1,"TX",10,72,53433
+"Round Rock, TX","Round Rock",0,2,4,4,15,215,1,2017,1,"TX",10,231,129898
+"Rowlett, TX","Rowlett",0,0,3,3,5,58,3,2017,1,"TX",6,66,66671
+"Salem, OR","Salem",1,7,8,45,59,351,60,2024,3,"OR",61,470,178276
+"Salt Lake City, UT","Salt Lake City",0,17,39,45,127,1035,173,2017,1,"UT",101,1335,206692
+"San Angelo, TX","San Angelo",0,8,10,13,75,279,24,2017,1,"TX",31,378,98642
+"San Antonio, TX","San Antonio",15,NA,228,643,1171,5106,690,2017,1,"TX",886,6967,1490047
+"San Diego, CA","San Diego",8,38,103,357,313,1033,519,2022,5,"CA",506,1865,1378349
+"San Francisco, CA","San Francisco",6,45,241,232,433,3666,409,2017,1,"CA",524,4508,782846
+"San Jose, CA","San Jose",4,50,101,157,373,1194,877,2017,1,"CA",312,2444,952530
+"San Marcos, TX","San Marcos",0,6,7,7,26,128,17,2017,1,"TX",20,171,71413
+"Schaumburg, IL","Schaumburg",0,1,2,4,4,152,5,2022,3,"IL",7,161,75140
+"Scottsdale, AZ","Scottsdale",0,7,8,21,48,458,33,2022,3,"AZ",36,539,243644
+"Scranton, PA","Scranton",0,9,7,12,13,103,7,2022,3,"PA",28,123,75687
+"Seattle, WA","Seattle",2,33,114,181,673,2312,310,2017,1,"WA",330,3295,753786
+"Skokie, IL","Skokie",0,2,5,8,14,86,7,2022,2,"IL",15,107,64417
+"Somerville, MA","Somerville",0,2,0,10,1,5,1,2021,5,"MA",12,7,79513
+"South Bend, IN","South Bend",0,5,42,29,126,248,52,2017,1,"IN",76,426,102999
+"Southaven, MS","Southaven",3,2,4,2,22,126,3,2017,1,"MS",11,151,57135
+"Sparks, NV","Sparks",0,3,3,23,26,58,13,2020,4,"NV",29,97,109403
+"Spokane, WA","Spokane",1,17,35,80,190,851,167,2017,1,"WA",133,1208,230648
+"Springfield, IL","Springfield",1,5,20,25,58,222,39,2022,2,"IL",51,319,112781
+"Springfield, MO","Springfield",2,26,48,99,179,912,180,2017,1,"MO",175,1271,170521
+"Springfield, OR","Springfield",0,1,1,8,16,106,8,2024,3,"OR",10,130,61185
+"St Charles, MO","St Charles",0,4,0,6,50,123,13,2017,1,"MO",10,186,71408
+"St Joseph, MO","St Joseph",0,5,11,16,41,290,65,2017,1,"MO",32,396,69925
+"St Louis, MO","St Louis",16,22,144,268,288,1000,247,2017,1,"MO",450,1535,280108
+"St Peters, MO","St Peters",0,2,0,5,8,97,1,2017,1,"MO",7,106,58937
+"St. Cloud, MN","St. Cloud",0,5,4,13,21,228,25,2020,7,"MN",22,274,69922
+"St. Paul, MN","St. Paul",1,17,46,77,136,443,170,2019,3,"MN",141,749,300368
+"Stamford, CT","Stamford",0,1,5,8,12,75,12,2023,2,"CT",14,99,136512
+"State College, PA","State College",0,3,0,4,2,34,0,2022,2,"PA",7,36,58532
+"Stockton, CA","Stockton",0,7,73,222,201,622,192,2017,1,"CA",302,1015,322220
+"Stratford, CT","Stratford",0,0,2,2,2,72,5,2022,3,"CT",4,79,52596
+"Sugar Land, TX","Sugar Land",0,0,2,1,17,97,6,2017,1,"TX",3,120,108718
+"Surprise, AZ","Surprise",0,1,4,20,22,147,18,2022,2,"AZ",25,187,159346
+"Tacoma, WA","Tacoma",3,NA,30,87,169,799,210,2017,1,"WA",120,1178,222828
+"Taunton, MA","Taunton",0,3,8,18,13,21,2,2018,5,"MA",29,36,60356
+"Tempe, AZ","Tempe",1,11,13,66,57,492,53,2022,2,"AZ",91,602,188144
+"Temple, TX","Temple",0,4,4,9,38,133,17,2017,1,"TX",17,188,93073
+"Texas City, TX","Texas City",0,1,10,11,30,132,4,2017,1,"TX",22,166,57448
+"Thornton, CO","Thornton",0,10,11,12,20,260,80,2023,6,"CO",33,360,143838
+"Tigard, OR","Tigard",0,2,4,11,19,111,14,2023,7,"OR",17,144,56142
+"Tinley Park, IL","Tinley Park",0,0,1,0,3,50,4,2022,2,"IL",1,57,53528
+"Tracy, CA","Tracy",0,2,7,8,31,166,34,2017,1,"CA",17,231,99347
+"Tucson, AZ","Tucson",3,48,124,185,399,1671,141,2017,1,"AZ",360,2211,548544
+"Twin Falls, ID","Twin Falls",0,4,3,11,8,87,1,2023,8,"ID",18,96,55447
+"Tyler, TX","Tyler",0,9,3,32,51,228,15,2017,1,"TX",44,294,110824
+"Upper Darby, PA","Upper Darby",1,0,7,4,9,97,15,2022,2,"PA",12,121,84468
+"Vallejo, CA","Vallejo",1,9,33,45,213,100,95,2017,1,"CA",88,408,122419
+"Victoria, TX","Victoria",0,5,7,12,45,150,8,2017,1,"TX",24,203,65298
+"Waco, TX","Waco",0,7,6,25,81,343,10,2017,1,"TX",38,434,145741
+"Waltham, MA","Waltham",0,1,1,8,8,49,3,2018,5,"MA",10,60,63797
+"Warwick, RI","Warwick",0,2,0,8,16,105,5,2017,1,"RI",10,126,83369
+"Washington, DC","Washington",8,22,212,184,153,2273,169,2017,1,"DC",426,2595,678972
+"Waterbury, CT","Waterbury",0,1,17,21,34,171,37,2022,2,"CT",39,242,115380
+"West Hartford, CT","West Hartford",0,0,4,0,4,107,2,2022,2,"CT",4,113,64423
+"West Haven, CT","West Haven",0,2,3,2,7,80,19,2022,2,"CT",7,106,54791
+"Westminster, CO","Westminster",1,5,4,18,28,236,45,2018,5,"CO",28,309,113660
+"Weymouth, MA","Weymouth",0,2,0,4,15,15,2,2024,11,"MA",6,32,57725
+"Wichita Falls, TX","Wichita Falls",0,5,11,17,79,162,21,2017,1,"TX",33,262,102740
+"Woodbury, MN","Woodbury",0,0,1,1,8,52,2,2018,6,"MN",2,62,80153
+"Wylie, TX","Wylie",0,2,1,1,5,31,2,2017,1,"TX",4,38,62539
+"York, PA","York",0,3,5,13,6,51,19,2022,2,"PA",21,76,44901
+"Yuma, AZ","Yuma",0,2,2,55,31,99,15,2022,2,"AZ",59,145,99610

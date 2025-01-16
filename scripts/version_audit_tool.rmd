@@ -8,14 +8,6 @@ bring in the previous sample and the current sample - update suffixes to relate 
 library(tidyverse)
 library(lubridate)
 
-#current locations of sample files
-previous_samp <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation\\sample_cities_2024_08.csv")
-current_samp <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation\\sample_cities_2024_09.csv")
-
-
-
-## OSCAR Github Archive reference ---------------
-
 # Read the current sample file
 current_samp <- read_csv("../data/sample_cities.csv")
 
@@ -39,7 +31,6 @@ previous_samp_path <- file.path(
 
 # Read the previous sample file
 previous_samp <- read_csv(previous_samp_path)
-
 ```
 start with agencies - who is new and who is getting removed
 ```{r}

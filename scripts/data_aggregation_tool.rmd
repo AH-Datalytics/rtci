@@ -19,6 +19,7 @@ library(ggplot2)
 library(here)
 ```
 directory path where the data files are stored
+UPDATE MONTH on LINE 44!
 ```{r}
 #directory path where the data files are stored
 # Dynamically locate OneDrive directory
@@ -154,7 +155,7 @@ format_cols <- function(df) {
   }
   
   # Convert specified columns to numeric
-  num_cols <- c("Murder", "Rape", "Robbery", "Aggravated Assault", "Burglary", 
+  num_cols <- c("Murder", "Rape", "Robbery", "Aggravated Assault", "Burglary",
                 "Theft", "Motor Vehicle Theft", "Month", "Year")
   for (col in num_cols) {
     if (col %in% names(df)) {
@@ -171,7 +172,7 @@ ldf1 <- lapply(ldf, format_cols)
 # What do we see
 head(ldf1[1])
 ```
-another check that after formatting we still have the same number of agencies before binding
+post-formatting check we still have the same number of agencies before binding
 ```{r}
 # Apply the function to each dataframe in the list and store the results
 unique_agency_counts1 <- map(ldf1, get_unique_agency_count)
@@ -182,7 +183,7 @@ total_agency_raw1 <- sum(unlist(unique_agency_counts1))
 # Print the results
 head(total_agency_raw1)
 ```
-next...standardize the columns
+next...standardize the columns across all dataframes in the list
 ```{r}
 # Ensure all data frames have the same columns and column types
 all_columns <- Reduce(union, lapply(ldf1, names))
@@ -201,7 +202,6 @@ ldf2 <- lapply(ldf1, standardize_columns, all_columns = all_columns)
 
 #make sure we're good
 head(ldf2[1])
-#still have those few .csv's we saw get read in earlier that have the extra empty columns
 ```
 another check that after formatting we still have the same number of agencies before binding
 ```{r}
@@ -221,13 +221,15 @@ get rid of the extra blank lgl formatted columns that plague our data
 acceptable_names <- c("Agency Name", "Murder", "Rape", "Robbery", "Aggravated Assault", 
 "Burglary", "Theft", "Motor Vehicle Theft", "Year", "Month", "State")
 
+#remove any columns not in the above list
 ldf3 <- lapply(ldf2, function(df) {
   df[, (names(df) %in% acceptable_names)]
 })
 
+#take a look
 head(ldf3[1])
 ```
-another check that after formatting we still have the same number of agencies before binding
+one last check that after formatting & standardizing we still have the same number of agencies before binding
 ```{r}
 # Apply the function to each dataframe in the list and store the results
 unique_agency_counts3 <- map(ldf3, get_unique_agency_count)
@@ -237,8 +239,7 @@ total_agency_raw3 <- sum(unlist(unique_agency_counts3))
 
 # Print the results
 head(total_agency_raw3)
-#353 matches up
-#356 matches up!
+
 ```
 stop the process if there is a dataframe that does not have each of the acceptable names and print
 ```{r}
@@ -405,11 +406,10 @@ remove duplicates - schaumburg and tracy problem
 ```{r}
 cdf_nwcounts <- distinct(cdf_nwcounts)
 ```
-
 vc/pc groupings
 ```{r}
 # Add new columns for violent and property crime
-cdf_vcpc<- cdf_nwcounts %>% 
+cdf_vcpc <- cdf_nwcounts %>% 
     mutate(
     vio_crime = rowSums(select(., Murder, Rape, Robbery, `Aggravated Assault`), na.rm = TRUE),
     prop_crime = rowSums(select(., Burglary, Theft, `Motor Vehicle Theft`), na.rm = TRUE)
@@ -656,18 +656,6 @@ head(cdf2)
 add PR data
 fix remaining columns and select out 
 ```{r}
-# Dynamically locate OneDrive directory
-onedrive_mac <- "~/Library/CloudStorage/OneDrive-ahdatalytics.com"
-onedrive_win <- file.path(Sys.getenv("OneDrive"), "OneDrive - ahdatalytics.com")
-
-if (dir.exists(onedrive_mac)) {
-  onedrive_dir <- normalizePath(onedrive_mac)
-} else if (dir.exists(onedrive_win)) {
-  onedrive_dir <- normalizePath(onedrive_win)
-} else {
-  stop("OneDrive directory not found.")
-}
-
 # Define the path to the Puerto Rico data file
 pr_path <- file.path(
   onedrive_dir,
@@ -675,19 +663,24 @@ pr_path <- file.path(
   "Real Time Crime Index",
   "Open Source Data",
   "_Ben and Jeff work",
-  "October 2024",
+  "November 2024",
   "Puerto_Rico_Aggregated_Since_2017.csv"
 )
 
 # Read CSV
-pr_dat <- read.csv(pr_path)
+pr_dat <- read.csv(pr_path, check.names = FALSE)
 
 # Preview the final data
 head(pr_dat)
 ```
+last check for PR duplicates
+```{r}
+pr_dupes <- duplicated(pr_dat)
+print(pr_dupes)
+```
 bind to the end
 ```{r}
-cdf3 <- bind_rows(cdf2)
+cdf3 <- bind_rows(cdf2, pr_dat)
 ```
 get mvs_12mo for all crime categories and groupings
 ```{r}
@@ -823,10 +816,16 @@ subset_removed <- removed_observations
 
 head(subset_removed)
 ```
-add a time stamp column
+add a time stamp column & generate a suffix for dynamic write outs
 ```{r}
 # For the careful but forgetful few
 cleaned_data$Last.Updated <- Sys.Date()
+
+# Extract the most recent date from the cleaned_data dataframe for suffixes
+latest_date <- max(cleaned_data$date, na.rm = TRUE)
+
+# Format the date as "mon_yy" (e.g., "oct_24")
+month_suffix <- tolower(format(latest_date, "%b_%y"))
 ```
 prepare a dataframe of all component agencies into sample for sourcing table
 ```{r}
@@ -835,62 +834,56 @@ sample_cities <- cdf_vcpc_nats %>%
   slice(1) %>%
   ungroup()
 ```
-write it out!
+write out sample cities for viz and sample comparison
 ```{r}
-# TEMPORARILY COMMENTING THIS OUT SO IT DOESN'T WRITE TO THE ONEDRIVE WHILE IN PRACTICE MODE -- OSCAR
-# # Specify the folder path
- folder_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data"
-# 
-# # Create the full file path
- file_path <- file.path(folder_path, "final_sample.csv")
-# 
-# # Write the data frame to a .csv file
- write.csv(cleaned_data, file = file_path, row.names = FALSE)
-
-# Write the data frame to the data folder in Github repo
-write.csv(cleaned_data, "data/final_sample.csv", row.names = FALSE)
-```
-audit lists - 2 tables - non-reporters removed and non-reporters 2 months
-```{r}
-# Punch out all auditing tables. the first two sum to the third. pop missing is another barrel of monkeys
-write.csv(undesirables_na_current, "../scripts/auditing/missing_current.csv", row.names = FALSE)
-write.csv(undesirables_na_historical, "../scripts/auditing/missing_historical.csv", row.names = FALSE)
-write.csv(undesirables_recency, "../scripts/auditing/no_reported_data_past_two_months.csv", row.names = FALSE)
-write.csv(remove_agencies, "../scripts/auditing/agencies_removed_from_sample.csv", row.names = FALSE)
-
-# TEMPORARY COMMENT OUT
-# # File Path for Jeff local
-# folder_path1 <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation"
-# # Create the full file path - for jeff
-# file_path1 <- file.path(folder_path1, "sample_aug_2024.csv")
-# write.csv(cleaned_data, file = file_path1, row.names = FALSE)
-
-
-## OSCAR Write current sample to Github data/archive
-# Extract the most recent date from the cleaned_data dataframe
-latest_date <- max(cleaned_data$date, na.rm = TRUE)
-
-# Format the date as "mon_yy" (e.g., "oct_24")
-formatted_date <- tolower(format(latest_date, "%b_%y"))
-
-# Construct the file path dynamically
-output_file_path <- file.path(
-  here("data", "archive"),
-  paste0(formatted_date, "_agencies.csv")
-)
-
-sample_cities <- sample_cities %>% 
-  mutate(date = formatted_date) %>% 
+#transform sample cities for viz
+sample_cities_viz <- sample_cities %>% 
+  mutate(date = month_suffix) %>% 
   select(city_state, `Agency Name`, State, date)
 
-write.csv(sample_cities, "../data/sample_cities.csv", row.names = FALSE)
-# Sample Cities file for Sourcing table base -- "Current Samp in versioner"
-write.csv(sample_cities %>% select(city_state, date), output_file_path, row.names = FALSE)
+#write out sample cities to data folder on github -- "Current Samp in versioner"
+write.csv(sample_cities_viz, "data/sample_cities.csv", row.names = FALSE)
 
-# file_path3 <- file.path(folder_path1, "sample_cities_2024_09.csv" )
-# write.csv(sample_cities, file = file_path3, row.names = FALSE)
+# Sample Cities file for Sourcing table base -- "Previous Samp in versioner"
+sample_cities_viz_archive <- sample_cities_viz %>% select(city_state, date)
+# Write a copy of the sample in the data archive folder as well with suffix
+write.csv(sample_cities_viz_archive,file.path("data/archive", paste0(month_suffix, "_agencies.csv")), row.names = FALSE)
 ```
-initial scrapes
+write out final sample to both sharepoint and github repo
 ```{r}
-scrape_all<- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation\\aggregated_since_2017.csv")
+# Define the folder path relative to OneDrive
+sample_write_path <- file.path(
+  onedrive_dir,
+  "Clients",
+  "Real Time Crime Index",
+  "Open Source Data",
+  "Collected Sample Data"
+)
+
+# Create the full file path for "final_sample.csv" to store on sharepoint
+samp_file_path <- file.path(sample_write_path, "final_sample.csv")
+
+# Write the data frame to a .csv file to be stored in sharepoint
+write.csv(cleaned_data, file = samp_file_path, row.names = FALSE)
+
+# Write sample data folder in the GitHub repo
+write.csv(cleaned_data, "data/final_sample.csv", row.names = FALSE)
+
+# Write a copy of the sample in the data archive folder as well with suffix
+write.csv(cleaned_data,file.path("data/archive", paste0("final_sample_", month_suffix, ".csv")), row.names = FALSE)
+```
+write out all auditing tables + sample cities *2
+```{r}
+# write out all auditing tables to auditing folder in github
+write.csv(undesirables_na_current, "scripts/auditing/missing_current.csv", row.names = FALSE)
+write.csv(undesirables_na_historical, "scripts/auditing/missing_historical.csv", row.names = FALSE)
+write.csv(undesirables_recency, "scripts/auditing/no_reported_data_past_two_months.csv", row.names = FALSE)
+write.csv(remove_agencies, "scripts/auditing/agencies_removed_from_sample.csv", row.names = FALSE)
+
+#write remaining auditing tables to archive with month_suffix
+write.csv(undesirables_na_current,file.path("auditing/archive", paste0("missing_current", month_suffix, ".csv")),row.names = FALSE)
+write.csv(undesirables_na_historical,file.path("auditing/archive", paste0("missing_historical", month_suffix, ".csv")),row.names = FALSE)
+write.csv(undesirables_recency,file.path("auditing/archive", paste0("no_reported_data_past_two_months", month_suffix, ".csv")),row.names = FALSE)
+write.csv(remove_agencies,file.path("auditing/archive", paste0("agencies_removed_from_sample", month_suffix, ".csv")),row.names = FALSE)
+write.csv(sample_cities,file.path("auditing/archive", paste0("sample_cities", month_suffix, ".csv")), row.names = FALSE)
 ```

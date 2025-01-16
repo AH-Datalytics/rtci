@@ -1,6 +1,7 @@
 "city_state","Agency Name","Murder","Rape","Robbery","Aggravated Assault","Burglary","Theft","Motor Vehicle Theft","Year","Month","State","vio_crime","prop_crime","pop23"
 "Abilene, TX","Abilene",0,4,11,24,72,255,18,2017,1,"TX",39,345,128387
 "Abington, PA","Abington",0,0,2,5,3,75,3,2024,1,"PA",7,81,58433
+"Akron, OH","Akron",0,10,10,70,49,265,51,2024,1,"OH",90,365,187705
 "Albany, GA","Albany",2,2,16,44,103,192,10,2017,1,"GA",64,305,66281
 "Albany, OR","Albany",0,1,1,9,8,66,4,2024,1,"OR",11,78,57002
 "Alhambra, CA","Alhambra",1,2,13,5,37,129,39,2017,1,"CA",21,205,79087
@@ -45,6 +46,7 @@
 "Burnsville, MN","Burnsville",0,2,2,9,7,125,15,2021,2,"MN",13,147,63650
 "Caldwell, ID","Caldwell",0,2,0,16,3,25,8,2024,1,"ID",18,36,68731
 "Cambridge, MA","Cambridge",0,1,11,41,15,181,19,2022,7,"MA",53,215,118960
+"Canton, OH","Canton",1,5,19,35,74,210,20,2017,12,"OH",60,304,69164
 "Carlsbad, CA","Carlsbad",0,0,6,5,37,127,7,2017,1,"CA",11,171,113796
 "Castle Rock, CO","Castle Rock",0,1,0,4,2,79,14,2020,5,"CO",5,95,83546
 "Cedar Park, TX","Cedar Park",0,4,1,3,9,60,1,2017,1,"TX",8,70,77464
@@ -58,7 +60,9 @@
 "Chicopee, MA","Chicopee",0,2,4,18,19,67,6,2018,6,"MA",24,92,55043
 "Chula Vista, CA","Chula Vista",0,4,35,37,40,218,57,2017,8,"CA",76,315,280748
 "Cicero, IL","Cicero",0,0,9,15,30,27,23,2024,8,"IL",24,80,80455
+"Cincinnati, OH","Cincinnati",4,25,63,82,156,583,209,2023,1,"OH",174,948,309484
 "Coeur D Alene, ID","Coeur D Alene",0,2,2,8,6,48,2,2023,7,"ID",12,56,57653
+"Colerain Township, OH","Colerain Township",0,1,1,2,5,94,4,2022,3,"OH",4,103,58268
 "College Station, TX","College Station",0,4,11,8,50,144,8,2017,1,"TX",23,202,126136
 "Colorado Springs, CO","Colorado Springs",4,47,31,222,262,1106,375,2023,6,"CO",304,1743,489254
 "Columbia, MO","Columbia",0,15,11,37,45,189,27,2017,1,"MO",63,261,129602
@@ -71,11 +75,13 @@
 "Corvallis, OR","Corvallis",0,3,5,3,23,160,3,2023,4,"OR",11,186,61474
 "Cranston, RI","Cranston",0,0,1,8,12,76,10,2017,1,"RI",9,98,82484
 "Dallas, TX","Dallas",16,58,403,419,943,2164,700,2017,1,"TX",896,3807,1304989
+"Dayton, OH","Dayton",4,26,29,91,156,302,181,2022,8,"OH",150,639,135181
 "Decatur, IL","Decatur",2,3,1,15,25,90,13,2023,2,"IL",21,128,68301
 "Denton, TX","Denton",0,12,3,21,51,170,20,2017,1,"TX",36,241,155215
 "Denver, CO","Denver",4,72,100,252,430,1386,538,2017,10,"CO",428,2354,712222
 "Desoto, TX","Desoto",1,6,9,10,39,97,21,2017,1,"TX",26,157,56257
 "Detroit, MI","Detroit",22,65,229,557,772,1059,739,2017,1,"MI",873,2570,615501
+"Dublin, OH","Dublin",0,1,2,0,3,36,4,2022,3,"OH",3,43,48799
 "Duluth, MN","Duluth",4,4,5,12,21,204,17,2022,4,"MN",25,242,86570
 "Dunwoody, GA","Dunwoody",0,1,0,3,9,138,14,2017,1,"GA",4,161,52505
 "Durham, NC","Durham",2,6,111,165,216,562,71,2017,1,"NC",284,849,295788
@@ -85,8 +91,10 @@
 "Edina, MN","Edina",0,0,0,9,8,51,4,2024,10,"MN",9,63,51980
 "Edinburg, TX","Edinburg",0,9,1,9,37,254,20,2017,1,"TX",19,311,106137
 "El Cajon, CA","El Cajon",0,4,7,39,11,67,24,2022,12,"CA",50,102,103569
+"Elyria, OH","Elyria",0,3,2,1,7,76,7,2022,2,"OH",6,90,53024
 "Erie, PA","Erie",0,1,6,24,17,88,11,2023,2,"PA",31,116,92920
 "Escondido, CA","Escondido",2,6,11,38,23,172,25,2024,8,"CA",57,220,149837
+"Euclid, OH","Euclid",1,2,1,3,5,53,36,2023,9,"OH",7,94,48344
 "Eugene, OR","Eugene",0,9,10,27,64,290,46,2024,1,"OR",46,400,178191
 "Euless, TX","Euless",0,0,2,2,12,71,22,2017,1,"TX",4,105,59722
 "Evanston, IL","Evanston",0,1,6,0,20,121,14,2022,3,"IL",7,155,74413
@@ -111,6 +119,7 @@
 "Grand Rapids, MI","Grand Rapids",1,11,16,89,41,289,82,2017,1,"MI",117,412,196019
 "Grapevine, TX","Grapevine",0,0,1,7,8,100,12,2017,1,"TX",8,120,51458
 "Greeley, CO","Greeley",0,6,7,22,30,174,26,2021,3,"CO",35,230,109183
+"Green Township, OH","Green Township",0,0,2,6,4,63,7,2023,3,"OH",8,74,59277
 "Greensboro, NC","Greensboro",2,6,43,112,192,571,47,2017,1,"NC",163,810,303237
 "Greenwich, CT","Greenwich",0,0,0,1,6,29,3,2023,2,"CT",1,38,63777
 "Gresham, OR","Gresham",1,2,10,12,37,159,78,2024,3,"OR",25,274,110225
@@ -153,6 +162,7 @@
 "Long Beach, CA","Long Beach",4,10,85,100,257,678,265,2017,1,"CA",199,1200,444415
 "Longmont, CO","Longmont",0,11,1,19,39,163,44,2020,5,"CO",31,246,98444
 "Longview, TX","Longview",0,5,10,19,68,194,26,2017,1,"TX",34,288,82981
+"Lorain, OH","Lorain",0,1,3,14,20,71,18,2023,4,"OH",18,109,65436
 "Los Angeles, CA","Los Angeles",33,NA,NA,NA,NA,NA,NA,2017,1,"CA",33,0,3786018
 "Louisville, KY","Louisville",6,39,112,209,539,1757,382,2017,1,"KY",366,2678,669468
 "Loveland, CO","Loveland",0,6,2,15,13,112,9,2024,3,"CO",23,134,78656
@@ -191,6 +201,7 @@
 "New Britain, CT","New Britain",0,7,3,16,18,103,20,2022,1,"CT",26,141,74609
 "New Orleans, LA","New Orleans",23,25,114,116,250,959,218,2017,1,"LA",278,1427,364197
 "New York City, NY","New York City",24,112,1246,1646,1097,3580,462,2017,1,"NY",3028,5139,8184044
+"Newark, OH","Newark",0,2,6,0,23,94,15,2023,1,"OH",8,132,51147
 "Normal, IL","Normal",0,1,4,8,7,79,2,2023,2,"IL",13,88,52883
 "North Bergen Township, NJ","North Bergen Township",0,0,3,5,6,27,3,2017,1,"NJ",8,36,59147
 "North Las Vegas, NV","North Las Vegas",4,8,25,41,101,198,144,2022,2,"NV",78,443,290751
@@ -204,6 +215,7 @@
 "Oshkosh, WI","Oshkosh",0,1,4,11,13,77,5,2017,1,"WI",16,95,65548
 "Palatine, IL","Palatine",0,2,1,1,4,38,3,2017,3,"IL",4,45,64407
 "Parker, CO","Parker",4,2,0,12,3,73,11,2023,9,"CO",18,87,62431
+"Parma, OH","Parma",0,6,5,9,3,35,10,2024,4,"OH",20,48,78913
 "Pasadena, TX","Pasadena",0,6,16,39,55,247,35,2017,1,"TX",61,337,145850
 "Pawtucket, RI","Pawtucket",0,1,2,23,41,104,12,2017,1,"RI",26,157,75100
 "Pearland, TX","Pearland",1,3,1,9,26,158,8,2017,1,"TX",14,192,127433
@@ -255,6 +267,7 @@
 "Spokane, WA","Spokane",1,17,35,80,190,851,167,2017,1,"WA",133,1208,230648
 "Springfield, IL","Springfield",1,5,20,25,58,222,39,2022,2,"IL",51,319,112781
 "Springfield, MO","Springfield",2,26,48,99,179,912,180,2017,1,"MO",175,1271,170521
+"Springfield, OH","Springfield",0,4,12,77,47,128,33,2024,4,"OH",93,208,57866
 "Springfield, OR","Springfield",0,1,1,8,16,106,8,2024,3,"OR",10,130,61185
 "St Charles, MO","St Charles",0,4,0,6,50,123,13,2017,1,"MO",10,186,71408
 "St Joseph, MO","St Joseph",0,5,11,16,41,290,65,2017,1,"MO",32,396,69925
@@ -288,6 +301,7 @@
 "Warwick, RI","Warwick",0,2,0,8,16,105,5,2017,1,"RI",10,126,83369
 "Washington, DC","Washington",8,22,212,184,153,2273,169,2017,1,"DC",426,2595,678972
 "Waterbury, CT","Waterbury",0,1,17,21,34,171,37,2022,2,"CT",39,242,115380
+"West Chester Township, OH","West Chester Township",0,2,1,0,6,73,3,2023,2,"OH",3,82,62860
 "West Hartford, CT","West Hartford",0,0,4,0,4,107,2,2022,2,"CT",4,113,64423
 "West Haven, CT","West Haven",0,2,3,2,7,80,19,2022,2,"CT",7,106,54791
 "Westminster, CO","Westminster",1,5,4,18,28,236,45,2018,5,"CO",28,309,113660

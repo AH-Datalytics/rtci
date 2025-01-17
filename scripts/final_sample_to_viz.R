@@ -287,8 +287,8 @@ print(head(final_sample_long), width = Inf)
 
 
 # REMOVE PR FROM GRAPH 
-final_sample_long <- final_sample_long %>% 
-  filter(state_name != "Puerto Rico")
+# final_sample_long <- final_sample_long %>% 
+#   filter(state_name != "Puerto Rico")
 
 # Write the final_sample_long data frame to viz_data.csv
 write.csv(final_sample_long, "../docs/app_data/viz_data.csv", row.names = FALSE)
@@ -574,9 +574,9 @@ final_sample <- final_sample %>%
 final_sample <- final_sample %>%
   mutate(`Last Updated` = last_updated)
 
-# REMOVE PR FROM GRAPH 
-final_sample <- final_sample %>% 
-  filter(state_name != "Puerto Rico")
+# REMOVE PR FROM TABLE 
+# final_sample <- final_sample %>% 
+#   filter(state_name != "Puerto Rico")
 
 write.csv(final_sample, "../docs/app_data/by_agency_table.csv", row.names = FALSE)
 

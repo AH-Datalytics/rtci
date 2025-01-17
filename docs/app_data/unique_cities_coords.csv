@@ -59,7 +59,6 @@
 "Carlsbad","California",33.1580933,-117.3505966
 "Carrollton","Texas",32.9537349,-96.8902816
 "Casa Grande","Arizona",32.8772834,-111.7536818
-"Casper","Wyoming",42.8501191,-106.325138
 "Castle Rock","Colorado",39.3722552,-104.858682
 "Cedar Park","Texas",30.5217116,-97.827833
 "Centennial","Colorado",39.579155,-104.8769227
@@ -182,7 +181,7 @@
 "Lakeville","Minnesota",44.650051,-93.2432791
 "Lakewood","Colorado",39.7085736,-105.0846694
 "Lakewood","Ohio",41.4819932,-81.7981908
-"Lancaster","Pennsylvania",40.03813,-76.3056686
+"Lancaster","Pennsylvania",40.0379958,-76.3056707
 "Lansing","Michigan",42.7338254,-84.5546295
 "Laredo","Texas",27.5075005,-99.5069922
 "Las Vegas","Nevada",36.1672559,-115.148516
@@ -330,6 +329,7 @@
 "Southaven","Mississippi",34.9873822,-90.0034862
 "Southfield","Michigan",42.4733689,-83.2218731
 "Sparks","Nevada",39.5404679,-119.7487235
+"Spokane","Washington",47.6571934,-117.42351
 "Springfield","Illinois",39.7990175,-89.6439575
 "Springfield","Massachusetts",42.1018764,-72.5886727
 "Springfield","Missouri",37.2081729,-93.2922715
@@ -426,15 +426,3 @@
 "Full Sample","Virginia",NA,NA
 "Full Sample","Washington",NA,NA
 "Full Sample","Wisconsin",NA,NA
-"Full Sample","Wyoming",NA,NA
-"Aguadilla","Puerto Rico",18.4297923,-67.1542201
-"Arecibo","Puerto Rico",18.471975,-66.7161704
-"Caguas","Puerto Rico",18.2345399,-66.0351316
-"Carolina","Puerto Rico",18.3808516,-65.9570244
-"Guaynabo","Puerto Rico",18.3578671,-66.1120141
-"Ponce","Puerto Rico",18.011564,-66.613958
-"San Juan","Puerto Rico",18.465299,-66.116666
-"Toa Alta","Puerto Rico",18.3887052,-66.247968
-"Toa Baja","Puerto Rico",18.4426255,-66.2545652
-"Trujillo Alto","Puerto Rico",18.3542408,-66.007377
-"Vega Baja","Puerto Rico",18.4445314,-66.387587

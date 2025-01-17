@@ -5,7 +5,7 @@ started: "07-23-2024"
 updated: "08-09-2024"
 updated: "08-19-2024"
 final version: "08-30-2024"
-last upate: "01-07-2024"
+last upate: "01-16-2024"
 ---
 read in the data
 ```{r}
@@ -137,7 +137,7 @@ get_unique_agency_count <- function(df) {
 unique_agency_counts <- map(ldf, get_unique_agency_count)
 total_agency_raw <- sum(unlist(unique_agency_counts))
 head(total_agency_raw)
-##392 for october 2024
+##393 for November 2024
 ```
 format everything
 ```{r}
@@ -182,6 +182,7 @@ total_agency_raw1 <- sum(unlist(unique_agency_counts1))
 
 # Print the results
 head(total_agency_raw1)
+#matches up - November 2024
 ```
 next...standardize the columns across all dataframes in the list
 ```{r}
@@ -213,8 +214,7 @@ total_agency_raw2 <- sum(unlist(unique_agency_counts2))
 
 # Print the results
 head(total_agency_raw2)
-#353 matches up
-#356 matches up!
+#393 - matches up November
 ```
 get rid of the extra blank lgl formatted columns that plague our data
 ```{r}
@@ -237,9 +237,9 @@ unique_agency_counts3 <- map(ldf3, get_unique_agency_count)
 # what is the sum of all those raw counts
 total_agency_raw3 <- sum(unlist(unique_agency_counts3))
 
-# Print the results
-head(total_agency_raw3)
-
+# check it out
+print(total_agency_raw3)
+#393 matches - November
 ```
 stop the process if there is a dataframe that does not have each of the acceptable names and print
 ```{r}
@@ -285,13 +285,11 @@ city state column for getting unique number of agencies
 #create the city_state column here for a unique ID
 combined_df <- combined_df %>% mutate(city_state = paste(`Agency Name`, State, sep = ", "))
 
-#31,442 obs
-#32,036 obs before launch
+#check that unique agencies checks matches city_state check
 length(unique(combined_df$city_state))
-#351 agencies
-#356
+#393 all set
 length(unique(combined_df$`Agency Name`))
-#342 - duplicates match up!
+#380 - springfields galore!
 ```
 what's wrong with the allen's of the world
 ```{r}
@@ -365,7 +363,7 @@ new filter for finding non-reporters without current blank records
 ```{r}
 ## Step 1: Identify the most recent observation for each agency in a dataframe for analysis
 most_recent_obs <- cdf %>%
-  group_by(`Agency Name`) %>%
+  group_by(city_state) %>%
   slice_max(order_by = as.Date(paste(Year, Month, "01", sep = "-")), n = 1) %>% 
   ungroup()
 
@@ -881,9 +879,12 @@ write.csv(undesirables_recency, "scripts/auditing/no_reported_data_past_two_mont
 write.csv(remove_agencies, "scripts/auditing/agencies_removed_from_sample.csv", row.names = FALSE)
 
 #write remaining auditing tables to archive with month_suffix
-write.csv(undesirables_na_current,file.path("auditing/archive", paste0("missing_current", month_suffix, ".csv")),row.names = FALSE)
-write.csv(undesirables_na_historical,file.path("auditing/archive", paste0("missing_historical", month_suffix, ".csv")),row.names = FALSE)
-write.csv(undesirables_recency,file.path("auditing/archive", paste0("no_reported_data_past_two_months", month_suffix, ".csv")),row.names = FALSE)
-write.csv(remove_agencies,file.path("auditing/archive", paste0("agencies_removed_from_sample", month_suffix, ".csv")),row.names = FALSE)
-write.csv(sample_cities,file.path("auditing/archive", paste0("sample_cities", month_suffix, ".csv")), row.names = FALSE)
+write.csv(undesirables_na_current,file.path("scripts/auditing/archive/", paste0("missing_current_", month_suffix, ".csv")),row.names = FALSE)
+write.csv(undesirables_na_historical,file.path("scripts/auditing/archive/", paste0("missing_historical_", month_suffix, ".csv")),row.names = FALSE)
+write.csv(undesirables_recency,file.path("scripts/auditing/archive/", paste0("no_reported_data_past_two_months_", month_suffix, ".csv")),row.names = FALSE)
+write.csv(remove_agencies,file.path("scripts/auditing/archive/", paste0("agencies_removed_from_sample_", month_suffix, ".csv")),row.names = FALSE)
+write.csv(sample_cities,file.path("scripts/auditing/archive/", paste0("sample_cities_", month_suffix, ".csv")), row.names = FALSE)
+```
+run the above
+```{r}
 ```

@@ -391,3 +391,14 @@
 "York","Pennsylvania",39.962493,-76.7276989,44901,"State UCR","Open Source","https://www.ucr.pa.gov/PAUCRSPUBLIC/SRSReport/CrimeTrends",TRUE
 "Youngstown","Ohio",41.1035786,-80.6520161,58773,"State UCR","Provided by State UCR Program","https://ocjs.ohio.gov/",FALSE
 "Yuma","Arizona",32.723268,-114.6179954,99610,"State UCR","Open Source","https://azcrimestatistics.azdps.gov/",TRUE
+"Aguadilla","Puerto Rico",18.4297923,-67.1542201,NA,NA,NA,NA,FALSE
+"Arecibo","Puerto Rico",18.471975,-66.7161704,NA,NA,NA,NA,FALSE
+"Caguas","Puerto Rico",18.2345399,-66.0351316,NA,NA,NA,NA,FALSE
+"Carolina","Puerto Rico",18.3808516,-65.9570244,NA,NA,NA,NA,FALSE
+"Guaynabo","Puerto Rico",18.3578671,-66.1120141,NA,NA,NA,NA,FALSE
+"Ponce","Puerto Rico",18.011564,-66.613958,NA,NA,NA,NA,FALSE
+"San Juan","Puerto Rico",18.465299,-66.116666,NA,NA,NA,NA,FALSE
+"Toa Alta","Puerto Rico",18.3887052,-66.247968,NA,NA,NA,NA,FALSE
+"Toa Baja","Puerto Rico",18.4426255,-66.2545652,NA,NA,NA,NA,FALSE
+"Trujillo Alto","Puerto Rico",18.3542408,-66.007377,NA,NA,NA,NA,FALSE
+"Vega Baja","Puerto Rico",18.4445314,-66.387587,NA,NA,NA,NA,FALSE

@@ -460,10 +460,10 @@ final_dataset <- final_dataset %>%
 final_dataset <- final_dataset %>% 
   mutate(Month_Through = format(Date_Through, "%b %Y"))
 
-# Remove State Full Samples
+# Remove State Full Samples -- commented out 
 # Filter out rows where "agency_full" contains "Full Sample" unless it also contains "Nationwide"
-final_dataset <- final_dataset %>%
-  filter(!(str_detect(agency_full, "Full Sample") & !str_detect(agency_full, "Nationwide")))
+# final_dataset <- final_dataset %>%
+#   filter(!(str_detect(agency_full, "Full Sample") & !str_detect(agency_full, "Nationwide")))
 
 # View the final dataset
 print(final_dataset)

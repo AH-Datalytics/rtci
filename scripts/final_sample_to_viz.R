@@ -460,10 +460,10 @@ final_dataset <- final_dataset %>%
 final_dataset <- final_dataset %>% 
   mutate(Month_Through = format(Date_Through, "%b %Y"))
 
-# Remove State Full Samples
+# Remove State Full Samples -- commented out 
 # Filter out rows where "agency_full" contains "Full Sample" unless it also contains "Nationwide"
-final_dataset <- final_dataset %>%
-  filter(!(str_detect(agency_full, "Full Sample") & !str_detect(agency_full, "Nationwide")))
+# final_dataset <- final_dataset %>%
+#   filter(!(str_detect(agency_full, "Full Sample") & !str_detect(agency_full, "Nationwide")))
 
 # View the final dataset
 print(final_dataset)
@@ -484,6 +484,21 @@ final_dataset <- final_dataset %>%
 
 final_dataset <- final_dataset %>% 
   mutate(population = ifelse(is.na(population), "Unknown", population))
+
+
+# Extract number_of_agencies and ensure unique agency values:
+agency_agency_count <- final_sample_long %>%
+  select(agency_full, number_of_agencies) %>%
+  distinct()
+
+# Merge number_of_agencies into final_dataset:
+final_dataset <- final_dataset %>%
+  left_join(agency_agency_count, by = "agency_full")
+
+final_dataset <- final_dataset %>%
+  mutate(number_of_agencies = ifelse(is.na(number_of_agencies), "Unknown", number_of_agencies))
+
+
 
 # Write the final_sample_long data frame to viz_data.csv
 write.csv(final_dataset, "../docs/app_data/full_table_data.csv", row.names = FALSE)

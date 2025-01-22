@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
             d.PrevYTD = +d.PrevYTD;
             d.Percent_Change = +d.Percent_Change;
             d.population = +d.population; // Add population parsing
+            d.number_of_agencies = +d.number_of_agencies; // Add population parsing
         });
 
         allData = data;
@@ -98,48 +99,56 @@ document.addEventListener("DOMContentLoaded", function() {
             // Populate State Name
             const cell1 = row.insertCell(1);
             cell1.textContent = state_name;   // Use the split state_name
-            
-            // Populate Population
+        
+            // Populate Number of Agencies (placed before population)
             const cell2 = row.insertCell(2);
-            if (isNaN(d.population) || d.population === "Unknown") {
-                cell2.textContent = "Unknown" // Display "Unknown"
-                cell2.style.color = 'lightgrey'; // Optionally style the "Unknown", "NA", or NaN value
+            if (isNaN(d.number_of_agencies) || d.number_of_agencies === "Unknown") {
+                cell2.textContent = "Unknown";  // Display "Unknown" if the value is not valid
+                cell2.style.color = 'lightgrey'; 
             } else {
-                cell2.textContent = formatNumber(d.population);
+                cell2.textContent = formatNumber(d.number_of_agencies);
+            }
+        
+            // Populate Population
+            const cell3 = row.insertCell(3);
+            if (isNaN(d.population) || d.population === "Unknown") {
+                cell3.textContent = "Unknown"; // Display "Unknown"
+                cell3.style.color = 'lightgrey'; // Optionally style the "Unknown", "NA", or NaN value
+            } else {
+                cell3.textContent = formatNumber(d.population);
             }
         
             // Populate Crime Type
-            const cell3 = row.insertCell(3);
-            cell3.textContent = d.crime_type;
+            const cell4 = row.insertCell(4);
+            cell4.textContent = d.crime_type;
         
             // Populate YTD
-            const cell4 = row.insertCell(4);
-            cell4.textContent = formatNumber(d.YTD);
+            const cell5 = row.insertCell(5);
+            cell5.textContent = formatNumber(d.YTD);
         
             // Populate Previous YTD
-            const cell5 = row.insertCell(5);
-            cell5.textContent = formatNumber(d.PrevYTD);
+            const cell6 = row.insertCell(6);
+            cell6.textContent = formatNumber(d.PrevYTD);
         
             // Populate Percent Change
-            const cell6 = row.insertCell(6);
+            const cell7 = row.insertCell(7);
             if (isNaN(d.Percent_Change) || d.Percent_Change === "Undefined") {  
-                cell6.textContent = "Undefined";
-                cell6.style.color = '#f28106';
+                cell7.textContent = "Undefined";
+                cell7.style.color = '#f28106';
             } else {
-                cell6.textContent = d.Percent_Change.toFixed(1) + '%';
-                cell6.style.color = d.Percent_Change > 0 ? '#f28106' : (d.Percent_Change < 0 ? '#2d5ef9' : '#00333a');
+                cell7.textContent = d.Percent_Change.toFixed(1) + '%';
+                cell7.style.color = d.Percent_Change > 0 ? '#f28106' : (d.Percent_Change < 0 ? '#2d5ef9' : '#00333a');
             }
         
             // Populate YTD Range
-            const cell7 = row.insertCell(7);
+            const cell8 = row.insertCell(8);
             const startMonth = "January"; // Replace with the actual start month if it's not fixed
             const endMonth = d.Month_Through;
             const dateThrough = new Date(d.Date_Through);
             const year = dateThrough.getFullYear();
-            cell7.textContent = `${abbreviateMonth(startMonth)} - ${abbreviateMonth(endMonth)}`;
+            cell8.textContent = `${abbreviateMonth(startMonth)} - ${abbreviateMonth(endMonth)}`;
         });
-        
-    }
+    }        
 
     // Function to abbreviate month names
     function abbreviateMonth(month) {
@@ -184,6 +193,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 if ((aValue === "Unknown" || isNaN(aValue)) && (bValue === "Unknown" || isNaN(bValue))) return 0;
                 return currentSortOrder === "asc" ? aValue - bValue : bValue - aValue;
             }
+
+            // Handle sorting for number_of_agencies, placing "Unknown" or NaN at the bottom
+            if (currentSortKey === "number_of_agencies") {
+                if (aValue === "Unknown" || isNaN(aValue)) return 1; 
+                if (bValue === "Unknown" || isNaN(bValue)) return -1; 
+                if ((aValue === "Unknown" || isNaN(aValue)) && (bValue === "Unknown" || isNaN(bValue))) return 0;
+                return currentSortOrder === "asc" ? aValue - bValue : bValue - aValue;
+            }
     
             if (currentSortKey === "YTD" || currentSortKey === "PrevYTD" || currentSortKey === "Percent_Change" || currentSortKey === "population") { // Add population sorting
                 return currentSortOrder === "asc" ? aValue - bValue : bValue - aValue;
@@ -198,6 +215,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const keyMapping = {
                 "Agency": "agency_full",
                 "State": "state_name",   // Add the new state_name mapping
+                "# of Agencies": "number_of_agencies",
                 "Population Covered": "population", // Add population mapping
                 "YTD": "YTD",
                 "Previous YTD": "PrevYTD",
@@ -278,12 +296,13 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        const headers = ["agency_full", "population", "crime_type", "YTD", "PrevYTD", "Percent_Change", "YTD_Range", "Last Updated"];
+        const headers = ["agency_full", "#_of_agencies", "population", "crime_type", "YTD", "PrevYTD", "Percent_Change", "YTD_Range", "Last Updated"];
         const csvData = [headers.join(",")];
 
         data.forEach(row => {
             const values = [
                 `"${row.agency_full}"`,
+                `${row.number_of_agencies}`, // Add population to download
                 `${row.population}`, // Add population to download
                 `"${row.crime_type}"`,
                 `${row.YTD}`,

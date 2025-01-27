@@ -184,7 +184,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateAgencyFilter(data, selectedState) {
         let agencies = [...new Set(data.filter(d => d.state_name === selectedState).map(d => d.agency_name))];
     
-        // Define the desired sort order for Nationwide agencies
+        // Define the desired order for Nationwide agencies
         const nationwideAgencyOrder = [
             "Full Sample", 
             "Cities of 1M+", 
@@ -193,26 +193,49 @@ document.addEventListener("DOMContentLoaded", function() {
             "Cities of < 100K"
         ];
     
-        // Check if "Full Sample" exists and move it to the top for all states
-    // Sort agencies based on the custom order if they are in the nationwide list
-agencies.sort((a, b) => {
-    const indexA = nationwideAgencyOrder.indexOf(a);
-    const indexB = nationwideAgencyOrder.indexOf(b);
-
-    // If both agencies are in the nationwide order, use that order
-    if (indexA !== -1 && indexB !== -1) {
-        return indexA - indexB;
-    }
-    // If only one is in the nationwide order, it should come first
-    if (indexA !== -1) return -1;
-    if (indexB !== -1) return 1;
-
-    // Otherwise, sort alphabetically
-    return a.localeCompare(b);
-});
-
+        // Sort agencies based on the custom order
+        agencies.sort((a, b) => {
+            const indexA = nationwideAgencyOrder.indexOf(a);
+            const indexB = nationwideAgencyOrder.indexOf(b);
     
-        createSearchableDropdown(agencySelect, agencyBtn, agencies);
+            if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+            if (indexA !== -1) return -1;
+            if (indexB !== -1) return 1;
+            return a.localeCompare(b);
+        });
+    
+        // Clear previous options
+        agencySelect.innerHTML = "";
+    
+        // Add search input field
+        const searchInput = document.createElement("input");
+        searchInput.type = "text";
+        searchInput.placeholder = "Search...";
+        searchInput.className = "dropdown-search";
+        agencySelect.appendChild(searchInput);
+    
+        searchInput.addEventListener("input", function() {
+            const filter = searchInput.value.toLowerCase();
+            const items = agencySelect.querySelectorAll(".dropdown-item");
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(filter) ? "" : "none";
+            });
+        });
+    
+        // Append agencies and add "Population Groups" sublabel after "Full Sample"
+        agencies.forEach(agency => {
+            const dropdownOption = createDropdownOption(agency, agency, agencySelect, agencyBtn);
+            agencySelect.appendChild(dropdownOption);
+    
+            if (selectedState === "Nationwide" && agency === "Full Sample") {
+                const populationGroupLabel = document.createElement("div");
+                populationGroupLabel.textContent = "Population Groups";
+                populationGroupLabel.classList.add("master-heading");
+                populationGroupLabel.style.pointerEvents = "none";  // Prevent interactions
+                agencySelect.appendChild(populationGroupLabel);
+            }
+        });
     
         const savedFilters = JSON.parse(sessionStorage.getItem('rtciFilters')) || {};
         const savedAgency = savedFilters.agency;

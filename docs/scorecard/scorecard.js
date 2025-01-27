@@ -110,64 +110,79 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function createDropdownOption(optionText, dropdown, button, isState) {
         const option = document.createElement("div");
-        option.className = "dropdown-item";
-        option.textContent = optionText;
-
-        // Bold the selected option
-        if ((isState && optionText === selectedState) || (!isState && optionText === selectedAgency)) {
-            option.classList.add('selected'); // Add bold styling to selected item
-        }
-
-        option.addEventListener("click", () => {
-            const items = dropdown.querySelectorAll('.dropdown-item');
-            items.forEach(item => item.classList.remove('selected'));
-            option.classList.add('selected');
-
-            button.textContent = optionText;
-            dropdown.classList.remove("show");
-
-            if (isState) {
-                selectedState = optionText;
-                updateAgencyDropdown(selectedState);
-            } else {
-                selectedAgency = optionText;
+    
+        if (optionText === "Population Groups") {
+            option.className = "dropdown-item master-heading"; // Subheader style
+            option.textContent = optionText;
+        } else {
+            option.className = "dropdown-item";
+            option.textContent = optionText;
+    
+            if ((isState && optionText === selectedState) || (!isState && optionText === selectedAgency)) {
+                option.classList.add('selected');
             }
-
-            saveFilterValues(); // Save filters when they change
-            filterAndDisplayData();
-        });
-
+    
+            option.addEventListener("click", () => {
+                const items = dropdown.querySelectorAll('.dropdown-item');
+                items.forEach(item => item.classList.remove('selected'));
+                option.classList.add('selected');
+    
+                button.textContent = optionText;
+                dropdown.classList.remove("show");
+    
+                if (isState) {
+                    selectedState = optionText;
+                    updateAgencyDropdown(selectedState);
+                } else {
+                    selectedAgency = optionText;
+                }
+    
+                saveFilterValues();
+                filterAndDisplayData();
+            });
+        }
         return option;
     }
+    
 
     function updateAgencyDropdown(state) {
-        // Get unique agencies for the selected state
         let agencies = [...new Set(allData.filter(row => row.state_name === state).map(row => row.agency_name))].sort();
     
         if (state === "Nationwide") {
             const nationwideOrder = ["Full Sample", "Cities of 1M+", "Cities of 250K - 1M", "Cities of 100K - 250K", "Cities of < 100K"];
             agencies = agencies.filter(agency => nationwideOrder.includes(agency))
-                               .sort((a, b) => nationwideOrder.indexOf(a) - nationwideOrder.indexOf(b));
+                .sort((a, b) => nationwideOrder.indexOf(a) - nationwideOrder.indexOf(b));
+    
+            // Insert "Population Groups" as a subheader after "Full Sample"
+            const updatedAgencies = [];
+            agencies.forEach(agency => {
+                if (agency === "Cities of 1M+") {
+                    updatedAgencies.push("Population Groups"); // Add the subheader
+                }
+                updatedAgencies.push(agency);
+            });
+            agencies = updatedAgencies;
         } else {
             agencies = agencies.sort((a, b) => (a === "Full Sample" ? -1 : b === "Full Sample" ? 1 : a.localeCompare(b)));
         }
     
         createSearchableDropdown("agency-dropdown", "agency-btn", agencies, false);
     
-        // Automatically select and display the first agency in the list, and bold it
+        // Automatically select and display the first agency in the list
         if (agencies.length > 0) {
             if (!agencies.includes(selectedAgency)) {
                 selectedAgency = agencies[0];
             }
             document.getElementById("agency-btn").textContent = selectedAgency;
-
+    
             const dropdown = document.getElementById("agency-dropdown");
             const items = dropdown.querySelectorAll('.dropdown-item');
-            items.forEach(item => item.classList.remove('selected')); // Remove bolding from all items
+            items.forEach(item => item.classList.remove('selected')); 
             const selectedItem = [...items].find(item => item.textContent === selectedAgency);
             if (selectedItem) selectedItem.classList.add('selected');
         }
     }
+    
     
     function saveFilterValues() {
         const filters = {

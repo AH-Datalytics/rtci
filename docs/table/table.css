@@ -363,3 +363,8 @@ th span.sortable.sorted {
         top: -24px; /* Adjust this value to move tabs closer to the graph */
     }
 }
+
+
+.master-heading {
+    margin-top: 0.3em; /* Add additional space above the subheader */
+}

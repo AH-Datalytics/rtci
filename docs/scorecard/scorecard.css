@@ -124,3 +124,7 @@
     }
 }
 
+#agency-dropdown .master-heading:hover {
+    background-color: transparent; /* Prevent hover effect */
+    color: #00333a; /* Maintain original color */
+}

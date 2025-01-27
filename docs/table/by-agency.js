@@ -160,6 +160,11 @@ document.addEventListener("DOMContentLoaded", function() {
             // Filter and sort agencies based on the predefined order
             agencies = agencies.filter(agency => nationwideAgencyOrder.includes(agency))
                                .sort((a, b) => nationwideAgencyOrder.indexOf(a) - nationwideAgencyOrder.indexOf(b));
+    
+            // Add the "Population Groups" subheader after "Full Sample"
+            agencies = agencies.flatMap(agency => 
+                agency === "Full Sample" ? [agency, "Population Groups"] : agency
+            );
         } else {
             // Ensure "Full Sample" is at the top if it exists for other states
             agencies = agencies.sort((a, b) => {
@@ -189,9 +194,18 @@ document.addEventListener("DOMContentLoaded", function() {
         // Ensure only the saved agency is bolded
         const items = agencyDropdown.querySelectorAll('.dropdown-item');
         items.forEach(item => item.classList.remove('selected'));
+    
         const agencyOption = agencyDropdown.querySelector(`[data-value="${agencyBtn.textContent}"]`);
         if (agencyOption) agencyOption.classList.add('selected');
+    
+        // Apply styles for the "Population Groups" subheader
+        const subheader = agencyDropdown.querySelector('[data-value="Population Groups"]');
+        if (subheader) {
+            subheader.classList.add('master-heading');
+            subheader.style.pointerEvents = "none";  // Make it non-clickable
+        }
     }
+    
     
 
     function filterData() {

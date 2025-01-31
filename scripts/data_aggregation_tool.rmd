@@ -447,15 +447,52 @@ ref_df <- read.csv(ref_df_path)
 # Make a city_state column for matching
 ref_df <- ref_df %>% mutate(city_state = paste(Agency, State, sep = ", "))
 
-# Merge the new figures
-# ref_df1 <- merge(ref_df, by = "city_state", all.x = TRUE)
-
 # Slim it down for now
 ref_df1 <- ref_df %>% select(city_state, pop23)
+```
+add region name to final sourcing table
+```{r}
+# Concatenate pub_agency_name and state_abbr to create "city_state"
+region_df <- fbi_participation_2023 %>%
+  mutate(city_state = paste(pub_agency_name, state_abbr, sep = ", ")) %>%
+  select(city_state, region_name, division_name)
 
-# Add population data merging by city/state col
-cdf_vcpc_nats <- merge(cdf_vcpc_nats, ref_df1, by = "city_state", all.x = TRUE)
+# Merge with ref_df by "city_state"
+ref_df2 <- ref_df1 %>%
+  left_join(region_df, by = "city_state")
 
+# Check if each record in ref_df has the region_name column merged successfully
+check_region <- ref_df2 %>%
+  mutate(successful_merge = !is.na(region_name))
+
+# Print a summary of merge success
+summary_merge <- check_region %>%
+  summarize(
+    total_records = n(),
+    successful_merges = sum(successful_merge),
+    failed_merges = sum(!successful_merge)
+  )
+
+# Display the summary
+print(summary_merge)
+
+# Inspect rows with failed merges, if any
+failed_merges <- check_region %>%
+  filter(!successful_merge)
+
+if (nrow(failed_merges) > 0) {
+  print("The following records failed to merge successfully:")
+  print(failed_merges)
+} else {
+  print("All records were merged successfully.")
+}
+
+write.csv(failed_merges, "failed_merges.csv", row.names = FALSE)
+
+```
+# Add population and region data merging by city/state col
+```{r}
+cdf_vcpc_nats <- merge(cdf_vcpc_nats, ref_df2, by = "city_state", all.x = TRUE)
 ```
 drop cdf1 extra columns after fixing
 ```{r}
@@ -472,6 +509,14 @@ cdf_vcpc_nats_usa <- cdf_vcpc_nats %>%
           Population = as.numeric(pop23)) %>%
            select(-vio_crime, -prop_crime)
 
+cdf_vcpc_nats_regions <- cdf_vcpc_nats %>%
+  mutate(`Violent Crime` = vio_crime,
+          `Property Crime` = prop_crime,
+          Population = as.numeric(pop23),
+          Region = region_name,
+          Agency_num =1) %>%
+           select(-vio_crime, -prop_crime)
+
            #same for table used for sample calcs + format pop var and create counter for agency # calc
 cdf_vcpc_nats_states <- cdf_vcpc_nats %>%
   mutate(`Violent Crime` = vio_crime,
@@ -480,14 +525,23 @@ cdf_vcpc_nats_states <- cdf_vcpc_nats %>%
           Agency_num =1) %>%
            select(-vio_crime, -prop_crime)
 ```
+check state and region values for correct number of distinct entities
 ```{r}
 # Calculate the number of unique values in the city_state column
-num_unique_city_state <- cdf_vcpc_nats_usa %>%
+num_unique_city_state <- cdf_vcpc_nats_states %>%
   summarise(unique_count = n_distinct(city_state)) %>%
   pull(unique_count)
 
 # View the result
 print(num_unique_city_state)
+
+#
+num_unique_city_regions <- cdf_vcpc_nats_regions %>%
+  summarise(unique_count = n_distinct(Region)) %>%
+  pull(unique_count)
+
+# View the result
+print(num_unique_city_regions)
 ```
 calculate and add nationwide counts
 ```{r}
@@ -523,6 +577,33 @@ nationwide_counts$State <- "All Agencies"
 state sums - only agencies included in sample
 ```{r}
 # Aggregate crime counts and population at the national level by Year and Month
+region_vars <- cdf_vcpc_nats_regions %>%
+  group_by(Year, Month, Region) %>%
+  summarise(
+    Murder = sum(Murder, na.rm = TRUE),
+    Rape = sum(Rape, na.rm = TRUE),
+    Robbery = sum(Robbery, na.rm = TRUE),
+    `Aggravated Assault` = sum(`Aggravated Assault`, na.rm = TRUE),
+    Burglary = sum(Burglary, na.rm = TRUE),
+    Theft = sum(Theft, na.rm = TRUE),
+    `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
+    `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
+    `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
+    `Population Total` = sum(Population, na.rm = TRUE),
+    Agency_num = sum(Agency_num, na.rm = TRUE),
+    .groups = 'drop'
+  )
+```
+create new values associated with state counts
+```{r}
+# Add values for agency name field so we can bind
+region_vars$`Agency Name` <- "Regional Sample Counts"
+
+region_vars <- region_vars %>% mutate(State = Region) %>% select(-Region)
+```
+region sums - only agencies included in sample
+```{r}
+# Aggregate crime counts and population at the national level by Year and Month
 state_vars <- cdf_vcpc_nats_states %>%
   group_by(Year, Month, State) %>%
   summarise(
@@ -540,7 +621,7 @@ state_vars <- cdf_vcpc_nats_states %>%
     .groups = 'drop'
   )
 ```
-add the nationwide counts to the sample for the viz
+create new values associated with state counts
 ```{r}
 # Add values for agency name field so we can bind
 state_vars$`Agency Name` <- "State Sample Counts"
@@ -647,7 +728,7 @@ nationwide_subsets1$State <- "All Agencies in Grouping"
 ```
 bind the nationwide counts to the bottom
 ```{r}
-cdf2 <- bind_rows(cdf2, nationwide_counts, nationwide_subsets1, state_vars)
+cdf2 <- bind_rows(cdf2, nationwide_counts, nationwide_subsets1, region_vars, state_vars)
 head(cdf2)
 ```
 #sneak in the PR data and get 12mo mvsums

@@ -193,6 +193,13 @@ document.addEventListener("DOMContentLoaded", function() {
             "Cities of < 100K"
         ];
     
+        // Define region names
+        const regionNames = ["Midwest", "Northeast", "Other", "South", "West"];
+    
+        // Separate regional agencies from others
+        let regionalAgencies = agencies.filter(agency => regionNames.includes(agency)).sort();
+        agencies = agencies.filter(agency => !regionNames.includes(agency));
+    
         // Sort agencies based on the custom order
         agencies.sort((a, b) => {
             const indexA = nationwideAgencyOrder.indexOf(a);
@@ -237,6 +244,20 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     
+        // If Nationwide, add "Regions" heading and append regional agencies
+        if (selectedState === "Nationwide" && regionalAgencies.length > 0) {
+            const regionsLabel = document.createElement("div");
+            regionsLabel.textContent = "Regions";
+            regionsLabel.classList.add("master-heading");
+            regionsLabel.style.pointerEvents = "none"; // Prevent interactions
+            agencySelect.appendChild(regionsLabel);
+    
+            regionalAgencies.forEach(region => {
+                const dropdownOption = createDropdownOption(region, region, agencySelect, agencyBtn);
+                agencySelect.appendChild(dropdownOption);
+            });
+        }
+    
         const savedFilters = JSON.parse(sessionStorage.getItem('rtciFilters')) || {};
         const savedAgency = savedFilters.agency;
     
@@ -253,6 +274,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         renderChart();
     }
+    
     
 
     function filterData(data) {

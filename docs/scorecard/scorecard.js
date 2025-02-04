@@ -111,9 +111,10 @@ document.addEventListener("DOMContentLoaded", function () {
     function createDropdownOption(optionText, dropdown, button, isState) {
         const option = document.createElement("div");
     
-        if (optionText === "Population Groups") {
+        if (optionText === "Population Groups" || optionText === "Regions") {
             option.className = "dropdown-item master-heading"; // Subheader style
             option.textContent = optionText;
+            option.style.pointerEvents = "none"; // Make it non-clickable
         } else {
             option.className = "dropdown-item";
             option.textContent = optionText;
@@ -144,25 +145,35 @@ document.addEventListener("DOMContentLoaded", function () {
         return option;
     }
     
+    
 
     function updateAgencyDropdown(state) {
         let agencies = [...new Set(allData.filter(row => row.state_name === state).map(row => row.agency_name))].sort();
     
         if (state === "Nationwide") {
-            const nationwideOrder = ["Full Sample", "Cities of 1M+", "Cities of 250K - 1M", "Cities of 100K - 250K", "Cities of < 100K", "Midwest"];
+            const nationwideOrder = ["Full Sample", "Cities of 1M+", "Cities of 250K - 1M", "Cities of 100K - 250K", "Cities of < 100K", 
+                                     "Midwest", "Northeast", "South", "West", "Other"];
+        
             agencies = agencies.filter(agency => nationwideOrder.includes(agency))
                 .sort((a, b) => nationwideOrder.indexOf(a) - nationwideOrder.indexOf(b));
-    
-            // Insert "Population Groups" as a subheader after "Full Sample"
+        
+            // Insert "Population Groups" as a subheader after "Cities of 1M+"
             const updatedAgencies = [];
             agencies.forEach(agency => {
                 if (agency === "Cities of 1M+") {
-                    updatedAgencies.push("Population Groups"); // Add the subheader
+                    updatedAgencies.push("Population Groups"); // Add subheader above this
+                }
+                if (agency === "Midwest") {
+                    updatedAgencies.push("Regions"); // Add subheader above Midwest
                 }
                 updatedAgencies.push(agency);
             });
+        
             agencies = updatedAgencies;
-        } else {
+        }
+        
+        
+        else {
             agencies = agencies.sort((a, b) => (a === "Full Sample" ? -1 : b === "Full Sample" ? 1 : a.localeCompare(b)));
         }
     

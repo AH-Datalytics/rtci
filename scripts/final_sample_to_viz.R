@@ -15,12 +15,35 @@ last_updated <- format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")
 final_sample <- read_csv("../data/final_sample.csv")
 
 
-# August data population column cleaning
+# # August data population column cleaning
+# final_sample <- final_sample %>%
+#   mutate(pop23 = ifelse(str_detect(State, "All Agencies") | `Agency Name` == "State Sample Counts", Population, pop23)) %>%
+#   select(-Population) %>%
+#   mutate(Population = pop23) %>%
+#   select(-pop23)
+
+
+# Regional Mutation 
 final_sample <- final_sample %>%
-  mutate(pop23 = ifelse(str_detect(State, "All Agencies") | `Agency Name` == "State Sample Counts", Population, pop23)) %>%
-  select(-Population) %>%
-  mutate(Population = pop23) %>%
-  select(-pop23)
+  mutate(
+    # Step 1: If `Agency Name` is "Regional Sample Counts" and `State` is NA, update them
+    State = if_else(`Agency Name` == "Regional Sample Counts" & is.na(State), "Nationwide", State),
+    `Agency Name` = if_else(`Agency Name` == "Regional Sample Counts" & State == "Nationwide", "Other", `Agency Name`),
+    
+    # Step 2: If `Agency Name` is "Regional Sample Counts", update `Agency Name`
+    `Agency Name` = if_else(`Agency Name` == "Regional Sample Counts", State, `Agency Name`),
+    
+    # Step 3: If `State` is "Midwest", "Northeast", "South", or "West", set it to "Nationwide"
+    State = if_else(State %in% c("Midwest", "Northeast", "South", "West"), "Nationwide", State),
+    
+    # Step 4: If `State` is "Nationwide" and `Agency Name` is one of the regions, concatenate them; otherwise, keep `city_state` unchanged
+    city_state = if_else(State == "Nationwide" & `Agency Name` %in% c("Midwest", "Northeast", "South", "West"),
+                         paste(State, `Agency Name`, sep = ", "), city_state)
+  )
+
+
+
+
 
 # Download Button Data ------------------------------------------------------------------------
 final_sample_download <- final_sample 
@@ -148,6 +171,23 @@ final_sample <- final_sample %>%
          population, 
          # population_grouping, 
          source_link, agency_num, source_type, source_method)
+
+
+# Fix Regions columns
+final_sample <- final_sample %>%
+  mutate(
+    # If `agency_name` is "Midwest", "Northeast", "South", "West", or "Other" and `state_name` is NA, set `state_name` to "Nationwide"
+    state_name = if_else(agency_name %in% c("Midwest", "Northeast", "South", "West", "Other") & is.na(state_name), 
+                         "Nationwide", state_name),
+    
+    # Concatenate `agency_name` and `state_name` for `agency_full`
+    agency_full = if_else(agency_name %in% c("Midwest", "Northeast", "South", "West", "Other") & state_name == "Nationwide",
+                          paste(agency_name, state_name, sep = ", "), agency_full),
+    
+    # Concatenate `agency_name` and `state_name` for `location_full`
+    location_full = if_else(agency_name %in% c("Midwest", "Northeast", "South", "West", "Other") & state_name == "Nationwide",
+                            paste(agency_name, state_name, sep = ", "), location_full)
+  )
 
 
 

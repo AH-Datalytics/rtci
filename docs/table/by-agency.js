@@ -154,7 +154,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 "Cities of 1M+", 
                 "Cities of 250K - 1M", 
                 "Cities of 100K - 250K", 
-                "Cities of < 100K"
+                "Cities of < 100K",
+                "Midwest"
             ];
     
             // Filter and sort agencies based on the predefined order

@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let agencies = [...new Set(allData.filter(row => row.state_name === state).map(row => row.agency_name))].sort();
     
         if (state === "Nationwide") {
-            const nationwideOrder = ["Full Sample", "Cities of 1M+", "Cities of 250K - 1M", "Cities of 100K - 250K", "Cities of < 100K"];
+            const nationwideOrder = ["Full Sample", "Cities of 1M+", "Cities of 250K - 1M", "Cities of 100K - 250K", "Cities of < 100K", "Midwest"];
             agencies = agencies.filter(agency => nationwideOrder.includes(agency))
                 .sort((a, b) => nationwideOrder.indexOf(a) - nationwideOrder.indexOf(b));
     

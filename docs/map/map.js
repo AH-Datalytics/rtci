@@ -7,6 +7,40 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
 }).addTo(map);
 
 
+// Define colors for each region
+const regionColors = {
+    "Midwest": "#0072B2",      // Blue
+    "Northeast": "#E69F00",    // Orange
+    "South": "#009E73",        // Green
+    "West": "#CC79A7"         // Purple
+};
+
+// Function to style regions
+function regionStyle(region) {
+    return {
+        fillColor: regionColors[region] || "#999999", // Default grey if region not found
+        weight: 1,
+        color: "#ffffff", // White border
+        fillOpacity: 0.2, // Subtle transparency
+    };
+}
+
+// Load and add each region layer
+const regions = ["midwest", "northeast", "south", "west"];
+
+regions.forEach(region => {
+    fetch(`../app_data/${region}_states.json`)
+        .then(response => response.json())
+        .then(geojsonData => {
+            L.geoJson(geojsonData, {
+                style: () => regionStyle(region.charAt(0).toUpperCase() + region.slice(1)) // Convert to title case
+            }).addTo(map);
+        })
+        .catch(error => console.error(`Error loading ${region} region data:`, error));
+});
+
+
+
 // Store markers for easy access when updating size
 const markers = [];
 let includedCount = 0; // Count for included in the sample

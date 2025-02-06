@@ -830,6 +830,29 @@ rtci_states <- unique(rtci_data$state_name)  # Extract unique states
 # Load the U.S. states GeoJSON file
 us_states <- st_read("../docs/app_data/us-states.json")  # Update path to your GeoJSON file
 
+
+
+## Region shapefiles ----
+
+# Define full region mappings (even if a state isn't in RTCI)
+region_mapping <- list(
+  Northeast = c("Connecticut", "Maine", "Massachusetts", "New Hampshire", "New Jersey", "New York", "Pennsylvania", "Rhode Island", "Vermont"),
+  Midwest = c("Illinois", "Indiana", "Iowa", "Kansas", "Michigan", "Minnesota", "Missouri", "Nebraska", "North Dakota", "Ohio", "South Dakota", "Wisconsin"),
+  South = c("Alabama", "Arkansas", "Delaware", "District of Columbia", "Florida", "Georgia", "Kentucky", "Louisiana", "Maryland", "Mississippi", "North Carolina", "Oklahoma", "South Carolina", "Tennessee", "Texas", "Virginia", "West Virginia"),
+  West = c("Alaska", "Arizona", "California", "Colorado", "Hawaii", "Idaho", "Montana", "Nevada", "New Mexico", "Oregon", "Utah", "Washington", "Wyoming")
+)
+
+# Ensure each region contains all its states, not just RTCI states
+for (region in names(region_mapping)) {
+  region_states <- us_states %>%
+    filter(name %in% region_mapping[[region]])  # Select ALL states for the region
+  
+  # Save the full region shapefiles
+  st_write(region_states, paste0("../docs/app_data/", tolower(region), "_states.json"), driver = "GeoJSON", delete_dsn = TRUE)
+}
+
+
+## RTCI states/countries ----
 # Filter the GeoDataFrame to include only states in the RTCI project
 rtci_states_gdf <- us_states %>% filter(name %in% rtci_states)
 

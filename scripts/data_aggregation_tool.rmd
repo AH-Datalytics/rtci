@@ -5,7 +5,7 @@ started: "07-23-2024"
 updated: "08-09-2024"
 updated: "08-19-2024"
 final version: "08-30-2024"
-last upate: "01-16-2024"
+last upate: "02-07-2024"
 ---
 read in the data
 ```{r}
@@ -291,6 +291,19 @@ length(unique(combined_df$city_state))
 length(unique(combined_df$`Agency Name`))
 #380 - springfields galore!
 ```
+check out city_state by state for a quick numbers check
+```{r}
+agency_by_state <- combined_df %>%
+  group_by(State) %>%
+  summarise(unique_city_state_count = n_distinct(city_state))
+
+na_city_states <- combined_df %>%
+  filter(is.na(State)) %>%
+  select(city_state)
+
+# View the result
+print(na_city_states)
+```
 what's wrong with the allen's of the world
 ```{r}
 # Ensure NA's are explicitly marked as NA in designated columns
@@ -302,9 +315,15 @@ cdf <- combined_df %>%
     `Aggravated Assault`= ifelse(is.na(`Aggravated Assault`), NA, `Aggravated Assault`),
     Burglary = ifelse(is.na(Burglary), NA, Burglary),
     Theft = ifelse(is.na(Theft), NA, Theft),
-    `Motor Vehicle Theft` = ifelse(is.na(`Motor Vehicle Theft`),NA, `Motor Vehicle Theft`)
+    `Motor Vehicle Theft` = ifelse(is.na(`Motor Vehicle Theft`),NA, `Motor Vehicle Theft`),
+    Agency_Type = "City"
   )
 ```
+bring in counties data and bind it to the end of cities data
+```{r}
+cdf_all <- bind_rows(cdf, counties_cdf)
+```
+
 create variables for audit
 ```{r}
 # Get the current date
@@ -353,7 +372,7 @@ cat("Three Months Previous - Year:", three_months_previous_year, "Month:", three
 drop everything from current year/month and current year/previous month
 ```{r}
 # Filter out observations with the current month and year or previous month and current year
-cdf <- cdf %>%
+cdf <- cdf_all %>%
   filter(
     !(Year == current_year & Month == current_month) &
     !(Year == current_year & Month == previous_month_month)
@@ -447,16 +466,70 @@ ref_df <- read.csv(ref_df_path)
 # Make a city_state column for matching
 ref_df <- ref_df %>% mutate(city_state = paste(Agency, State, sep = ", "))
 
-# Merge the new figures
-# ref_df1 <- merge(ref_df, by = "city_state", all.x = TRUE)
-
 # Slim it down for now
-ref_df1 <- ref_df %>% select(city_state, pop23)
-
-# Add population data merging by city/state col
-cdf_vcpc_nats <- merge(cdf_vcpc_nats, ref_df1, by = "city_state", all.x = TRUE)
-
+ref_df1 <- ref_df %>% select(city_state, pop23, Agency_Type)
 ```
+add region name to final sourcing table
+```{r}
+# Merge with ref_df by "city_state"
+ref_df2 <- ref_df1 %>%
+  left_join(cities_counties_ref, by = c("city_state" = "city_state", "Agency_Type" = "agency_type_name"))
+
+# Check if each record in ref_df has the region_name column merged successfully
+check_region <- ref_df2 %>%
+  mutate(successful_merge = !is.na(region_name.x))
+
+# Print a summary of merge success
+summary_merge <- check_region %>%
+  summarize(
+    total_records = n(),
+    successful_merges = sum(successful_merge),
+    failed_merges = sum(!successful_merge)
+  )
+
+# Display the summary
+print(summary_merge)
+
+# Inspect rows with failed merges, if any
+failed_merges <- check_region %>%
+  filter(!successful_merge)
+
+if (nrow(failed_merges) > 0) {
+  print("The following records failed to merge successfully:")
+  print(failed_merges)
+} else {
+  print("All records were merged successfully.")
+}
+
+write.csv(failed_merges, "failed_merges.csv", row.names = FALSE)
+```
+check to make sure the crosswalk worked part 2
+```{r}
+# Find rows in ref_df1 whose city_state is not in ref_df2
+diff_1 <- ref_df1 %>% filter(!(city_state %in% ref_df2$city_state))
+
+# Find rows in ref_df2 whose city_state is not in ref_df1
+diff_2 <- ref_df2 %>% filter(!(city_state %in% ref_df1$city_state))
+
+# Combine the differences
+diff_records <- bind_rows(diff_1, diff_2)
+
+# View the differing records
+print(diff_records)
+```
+# Add population and region data merging by city/state col
+```{r}
+cdf_vcpc_nats <- merge(cdf_vcpc_nats, ref_df2, by = c("city_state", "Agency_Type"), all.x = TRUE)
+```
+```{r}
+# Filter records where region_name is NA
+na_region_records <- cdf_vcpc_nats %>%
+  filter(is.na(region_name.x))
+
+# Display the results
+print(na_region_records)
+```
+
 drop cdf1 extra columns after fixing
 ```{r}
 #clean up names and drop old names
@@ -469,25 +542,24 @@ cdf2 <- cdf1 %>%
 cdf_vcpc_nats_usa <- cdf_vcpc_nats %>%
   mutate(`Violent Crime` = vio_crime,
           `Property Crime` = prop_crime,
-          Population = as.numeric(pop23)) %>%
+          Population = as.numeric(pop23.x)) %>%
+           select(-vio_crime, -prop_crime)
+
+cdf_vcpc_nats_regions <- cdf_vcpc_nats %>%
+  mutate(`Violent Crime` = vio_crime,
+          `Property Crime` = prop_crime,
+          Population = as.numeric(pop23.x),
+          Region = region_name.x,
+          Agency_num =1) %>%
            select(-vio_crime, -prop_crime)
 
            #same for table used for sample calcs + format pop var and create counter for agency # calc
 cdf_vcpc_nats_states <- cdf_vcpc_nats %>%
   mutate(`Violent Crime` = vio_crime,
           `Property Crime` = prop_crime,
-          Population = as.numeric(pop23),
+          Population = as.numeric(pop23.x),
           Agency_num =1) %>%
            select(-vio_crime, -prop_crime)
-```
-```{r}
-# Calculate the number of unique values in the city_state column
-num_unique_city_state <- cdf_vcpc_nats_usa %>%
-  summarise(unique_count = n_distinct(city_state)) %>%
-  pull(unique_count)
-
-# View the result
-print(num_unique_city_state)
 ```
 calculate and add nationwide counts
 ```{r}
@@ -506,13 +578,17 @@ nationwide_counts <- cdf_vcpc_nats_usa %>%
     `Population Total` = sum(Population, na.rm = TRUE),
     .groups = 'drop'
   )
-# Display the aggregate level dataframe
 head(nationwide_counts)
 ```
 add the nationwide counts to the sample for the viz
 ```{r}
 # Add values for agency name field so we can bind
 nationwide_counts$`Agency Name` <- "Nationwide Count"
+
+#get the number of unique agencies across both agency types
+num_unique_city_state <- cdf_vcpc_nats_usa %>%
+  distinct(city_state, Agency_Type) %>%
+  nrow()
 
 #add the new counter figure
 nationwide_counts$Agency_num <- num_unique_city_state
@@ -521,6 +597,33 @@ nationwide_counts$Agency_num <- num_unique_city_state
 nationwide_counts$State <- "All Agencies"
 ```
 state sums - only agencies included in sample
+```{r}
+# Aggregate crime counts and population at the national level by Year and Month
+region_vars <- cdf_vcpc_nats_regions %>%
+  group_by(Year, Month, Region) %>%
+  summarise(
+    Murder = sum(Murder, na.rm = TRUE),
+    Rape = sum(Rape, na.rm = TRUE),
+    Robbery = sum(Robbery, na.rm = TRUE),
+    `Aggravated Assault` = sum(`Aggravated Assault`, na.rm = TRUE),
+    Burglary = sum(Burglary, na.rm = TRUE),
+    Theft = sum(Theft, na.rm = TRUE),
+    `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
+    `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
+    `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
+    `Population Total` = sum(Population, na.rm = TRUE),
+    Agency_num = sum(Agency_num, na.rm = TRUE),
+    .groups = 'drop'
+  )
+```
+create new values associated with state counts
+```{r}
+# Add values for agency name field so we can bind
+region_vars$`Agency Name` <- "Regional Sample Counts"
+
+region_vars <- region_vars %>% mutate(State = Region)
+```
+region sums - only agencies included in sample
 ```{r}
 # Aggregate crime counts and population at the national level by Year and Month
 state_vars <- cdf_vcpc_nats_states %>%
@@ -540,7 +643,7 @@ state_vars <- cdf_vcpc_nats_states %>%
     .groups = 'drop'
   )
 ```
-add the nationwide counts to the sample for the viz
+create new values associated with state counts
 ```{r}
 # Add values for agency name field so we can bind
 state_vars$`Agency Name` <- "State Sample Counts"
@@ -647,7 +750,7 @@ nationwide_subsets1$State <- "All Agencies in Grouping"
 ```
 bind the nationwide counts to the bottom
 ```{r}
-cdf2 <- bind_rows(cdf2, nationwide_counts, nationwide_subsets1, state_vars)
+cdf2 <- bind_rows(cdf2, nationwide_counts, nationwide_subsets1, region_vars, state_vars)
 head(cdf2)
 ```
 #sneak in the PR data and get 12mo mvsums

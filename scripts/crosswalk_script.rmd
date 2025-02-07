@@ -2,7 +2,6 @@
 title: "linking historical ucr data"
 output: github_document
 ---
-
 libraries
 ```{r}
 library(tidyverse)
@@ -18,7 +17,7 @@ fbi_participation_2023_prep <- fbi_participation_2023 %>%
   mutate(city_state = paste(pub_agency_name, state_abbr, sep = ", ")) %>%
   select(pub_agency_name, state_abbr, city_state, region_name, division_name, agency_type_name, population)
 
-# Perform the merge 
+# merge 
 cross_walked_df <- fbi_participation_2023_prep %>%
   left_join(part_ref_crosswalk, by = c("city_state" = "crosswalk_name"))
 

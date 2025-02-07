@@ -288,6 +288,8 @@ counties_cdf <- county_combined_df %>%
   )
 ```
 run the above 
+
+let's check for counties that don't connect to ref file
 ```{r}
 # Perform the merge
 counties_cdf_test <- merge(counties_cdf, ref_df2, by = c("city_state", "Agency_Type"), all.x = TRUE)

@@ -578,7 +578,6 @@ nationwide_counts <- cdf_vcpc_nats_usa %>%
     `Population Total` = sum(Population, na.rm = TRUE),
     .groups = 'drop'
   )
-# Display the aggregate level dataframe
 head(nationwide_counts)
 ```
 add the nationwide counts to the sample for the viz
@@ -590,6 +589,7 @@ nationwide_counts$`Agency Name` <- "Nationwide Count"
 num_unique_city_state <- cdf_vcpc_nats_usa %>%
   distinct(city_state, Agency_Type) %>%
   nrow()
+
 #add the new counter figure
 nationwide_counts$Agency_num <- num_unique_city_state
 
@@ -621,7 +621,7 @@ create new values associated with state counts
 # Add values for agency name field so we can bind
 region_vars$`Agency Name` <- "Regional Sample Counts"
 
-region_vars <- region_vars %>% mutate(State = Region) %>% select(-Region)
+region_vars <- region_vars %>% mutate(State = Region)
 ```
 region sums - only agencies included in sample
 ```{r}

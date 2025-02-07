@@ -9,7 +9,7 @@ library(tidyverse)
 library(lubridate)
 
 # Read the current sample file
-current_samp <- read_csv("../data/sample_cities.csv")
+current_samp <- read_csv("data/sample_cities.csv")
 
 # Extract the single unique date from the "date" column
 current_date <- unique(current_samp$date)
@@ -25,7 +25,7 @@ formatted_previous_date <- tolower(format(previous_date_parsed, "%b_%y"))
 
 # Construct the file path dynamically for the previous sample
 previous_samp_path <- file.path(
-  "../data/archive",
+  "data/archive",
   paste0(formatted_previous_date, "_agencies.csv")
 )
 

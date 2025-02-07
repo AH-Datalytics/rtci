@@ -1,0 +1,41 @@
+---
+title: "linking historical ucr data"
+output: github_document
+---
+
+libraries
+```{r}
+library(tidyverse)
+```
+read in fbi participation file
+```{r}
+fbi_participation_2023 <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\FBI Agency Participation Data\\2023 Participation.csv")
+part_ref_crosswalk <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\FBI Agency Participation Data\\part_ref_crosswalk.csv")
+```
+merge, clean up and pare down df's before fixing place names
+```{r}
+fbi_participation_2023_prep <- fbi_participation_2023 %>%
+  mutate(city_state = paste(pub_agency_name, state_abbr, sep = ", ")) %>%
+  select(pub_agency_name, state_abbr, city_state, region_name, division_name, agency_type_name, population)
+
+# Perform the merge 
+cross_walked_df <- fbi_participation_2023_prep %>%
+  left_join(part_ref_crosswalk, by = c("city_state" = "crosswalk_name"))
+
+# Replace city_state in fbi_participation_2023 with crosswalk_name where the merge is successful
+fbi_participation_2023_updated <- cross_walked_df %>%
+  mutate(city_state = ifelse(!is.na(city_state.y), city_state.y, city_state)) %>%
+  select(-city_state.y)  # Remove the crosswalk_name column if not needed
+```
+subset to counties with >100k pop
+```{r}
+cities_40k <- fbi_participation_2023_updated %>% 
+  filter(agency_type_name == "City", population > 40000)
+
+counties_100k <- fbi_participation_2023_updated %>% 
+  filter(agency_type_name == "County", population > 100000)
+```
+combine city and county records for merging with final_sourcing 
+```{r}
+cities_counties_ref <- bind_rows(cities_40k, counties_100k)
+```

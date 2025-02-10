@@ -321,7 +321,7 @@ cdf <- combined_df %>%
 ```
 bring in counties data and bind it to the end of cities data
 ```{r}
-cdf_all <- bind_rows(cdf, counties_cdf)
+#cdf_all <- bind_rows(cdf, counties_cdf)
 ```
 
 create variables for audit
@@ -372,7 +372,7 @@ cat("Three Months Previous - Year:", three_months_previous_year, "Month:", three
 drop everything from current year/month and current year/previous month
 ```{r}
 # Filter out observations with the current month and year or previous month and current year
-cdf <- cdf_all %>%
+cdf <- cdf %>%
   filter(
     !(Year == current_year & Month == current_month) &
     !(Year == current_year & Month == previous_month_month)
@@ -467,17 +467,18 @@ ref_df <- read.csv(ref_df_path)
 ref_df <- ref_df %>% mutate(city_state = paste(Agency, State, sep = ", "))
 
 # Slim it down for now
-ref_df1 <- ref_df %>% select(city_state, pop23, Agency_Type)
+ref_df1 <- ref_df %>% select(city_state, pop23, Agency_Type)%>%
+filter(Agency_Type == "City")
 ```
 add region name to final sourcing table
 ```{r}
 # Merge with ref_df by "city_state"
 ref_df2 <- ref_df1 %>%
-  left_join(cities_counties_ref, by = c("city_state" = "city_state", "Agency_Type" = "agency_type_name"))
+  left_join(cities_40k, by = c("city_state" = "city_state", "Agency_Type" = "agency_type_name"))
 
 # Check if each record in ref_df has the region_name column merged successfully
 check_region <- ref_df2 %>%
-  mutate(successful_merge = !is.na(region_name.x))
+  mutate(successful_merge = !is.na(region_name))
 
 # Print a summary of merge success
 summary_merge <- check_region %>%

@@ -42,6 +42,25 @@ final_sample <- final_sample %>%
   )
 
 
+# Define region vectors
+midwest <- c("IL", "IN", "IA", "KS", "MI", "MN", "MO", "NE", "ND", "OH", "SD", "WI")
+northeast <- c("CT", "ME", "MA", "NH", "NJ", "NY", "PA", "RI", "VT")
+south <- c("AL", "AR", "DE", "DC", "FL", "GA", "KY", "LA", "MD", "MS", "NC", "OK", "SC", "TN", "TX", "VA", "WV")
+west <- c("AK", "AZ", "CA", "CO", "HI", "ID", "MT", "NV", "NM", "OR", "UT", "WA", "WY")
+
+# Assign regions based on `State` and `Agency Name`
+final_sample <- final_sample %>%
+  mutate(
+    Region = case_when(
+      str_detect(State, "All") ~ "All",  # If `State` contains "All"
+      `Agency Name` %in% c("West", "Northeast", "Midwest", "South") ~ `Agency Name`,  # If `Agency Name` matches one of these regions
+      State %in% midwest ~ "Midwest",  # Assign regions based on `State` abbreviations
+      State %in% northeast ~ "Northeast",
+      State %in% south ~ "South",
+      State %in% west ~ "West",
+      TRUE ~ "Other"  # Default to "Other"
+    )
+  )
 
 
 
@@ -58,7 +77,7 @@ final_sample_download <- final_sample_download %>%
          Agency_State = city_state,
          Agency = `Agency Name`,
          Date = date) %>% 
-  select(Month, Year, Date, Agency, State, Agency_State, Murder, Rape, Robbery, `Aggravated Assault`, Burglary, Theft, 
+  select(Month, Year, Date, Agency, State, Region, Agency_State, Murder, Rape, Robbery, `Aggravated Assault`, Burglary, Theft, 
          `Motor Vehicle Theft`, `Violent Crime`, `Property Crime`, Murder_mvs_12mo, Burglary_mvs_12mo, 
          Rape_mvs_12mo, Robbery_mvs_12mo, `Aggravated Assault_mvs_12mo`, `Motor Vehicle Theft_mvs_12mo`, Theft_mvs_12mo, 
          `Violent Crime_mvs_12mo`, `Property Crime_mvs_12mo`, Source.Link, Source.Type, Source.Method, 
@@ -163,7 +182,7 @@ final_sample <- final_sample %>%
 
 # Select relevant columns
 final_sample <- final_sample %>%
-  select(date, agency_name, state_name, agency_full, agency_abbr, location_full, 
+  select(date, agency_name, state_name, agency_full, agency_abbr, location_full, region,
          murder, rape, robbery, aggravated_assault, violent_crime, 
          burglary, theft, motor_vehicle_theft, property_crime,
          murder_mvs_12mo, rape_mvs_12mo, robbery_mvs_12mo, aggravated_assault_mvs_12mo, violent_crime_mvs_12mo,
@@ -211,26 +230,26 @@ final_sample_long_mvs <- final_sample %>%
 
 # Combine counts and mvs_12mo data
 final_sample_long <- final_sample_long_counts %>%
-  left_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "agency_abbr", "location_full", "crime_type",
+  left_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "agency_abbr", "location_full", "region", "crime_type",
                                           "population",
                                           # "population_grouping",
                                           "source_link", "agency_num"))
 
 # Audit merge
 final_sample_left <- final_sample_long_counts %>%
-  left_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "agency_abbr", "location_full", "crime_type",
+  left_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "agency_abbr", "location_full", "region", "crime_type",
                                           "population",
                                           # "population_grouping",
                                           "source_link", "agency_num"))
 
 final_sample_inner <- final_sample_long_counts %>%
-  inner_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "agency_abbr", "location_full", "crime_type",
+  inner_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "agency_abbr", "location_full", "region", "crime_type",
                                            "population", 
                                            # "population_grouping", 
                                            "source_link", "agency_num"))
 
 final_sample_full <- final_sample_long_counts %>%
-  full_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "agency_abbr", "location_full", "crime_type",
+  full_join(final_sample_long_mvs, by = c("date", "agency_name", "state_name", "agency_full", "agency_abbr", "location_full", "region", "crime_type",
                                           "population", 
                                           # "population_grouping", 
                                           "source_link", "agency_num"))
@@ -244,7 +263,7 @@ final_sample_long <- final_sample_long %>%
 
 # Final arrangement of columns
 final_sample_long <- final_sample_long %>%
-  select(date, state_ucr_link, agency_name, state_name, agency_full, agency_abbr, location_full, population, crime_type, count, mvs_12mo,
+  select(date, state_ucr_link, agency_name, state_name, agency_full, agency_abbr, location_full, region, population, crime_type, count, mvs_12mo,
          # population_grouping, 
          number_of_agencies)
 

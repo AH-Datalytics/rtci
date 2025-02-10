@@ -42,6 +42,23 @@ final_sample <- final_sample %>%
   )
 
 
+# Define region vectors
+midwest <- c("IL", "IN", "IA", "KS", "MI", "MN", "MO", "NE", "ND", "OH", "SD", "WI")
+northeast <- c("CT", "ME", "MA", "NH", "NJ", "NY", "PA", "RI", "VT")
+south <- c("AL", "AR", "DE", "DC", "FL", "GA", "KY", "LA", "MD", "MS", "NC", "OK", "SC", "TN", "TX", "VA", "WV")
+west <- c("AK", "AZ", "CA", "CO", "HI", "ID", "MT", "NV", "NM", "OR", "UT", "WA", "WY")
+
+# Assign regions based on State
+final_sample <- final_sample %>%
+  mutate(
+    Region = case_when(
+      State %in% midwest ~ "Midwest",
+      State %in% northeast ~ "Northeast",
+      State %in% south ~ "South",
+      State %in% west ~ "West",
+      TRUE ~ "Other"
+    )
+  )
 
 
 

@@ -15,12 +15,12 @@ last_updated <- format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")
 final_sample <- read_csv("../data/final_sample.csv")
 
 
-# # August data population column cleaning
-# final_sample <- final_sample %>%
-#   mutate(pop23 = ifelse(str_detect(State, "All Agencies") | `Agency Name` == "State Sample Counts", Population, pop23)) %>%
-#   select(-Population) %>%
-#   mutate(Population = pop23) %>%
-#   select(-pop23)
+# Population for the aggregate ones and pop23 for individual agencies
+final_sample <- final_sample %>%
+  mutate(pop23 = ifelse(str_detect(State, "All Agencies") | str_detect(`Agency Name`, "Sample Counts"), Population, pop23)) %>%
+  select(-Population) %>%
+  mutate(Population = pop23) %>%
+  select(-pop23)
 
 
 # Regional Mutation 
@@ -797,6 +797,11 @@ unique_cities <- map %>%
   select(agency_name, state_name) %>%  # Select city and state columns
   distinct()                           # Remove duplicates
 
+# Remove full sample agencies and nationwide states
+unique_cities <- unique_cities %>% 
+  filter(state_name != "Nationwide", agency_name != "Full Sample")
+
+
 
 # Geocode each unique city using OpenStreetMap
 unique_cities_coords <- unique_cities %>%
@@ -831,12 +836,6 @@ unique_cities_coords <- unique_cities_coords %>%
   left_join(sample_cities, by = c("agency_name", "state_name")) %>%
   mutate(national_sample = if_else(is.na(national_sample), FALSE, national_sample)) %>% # Set FALSE if NA
   distinct()  # Keep only unique rows
-
-
-# Remove full sample agencies and nationwide states
-unique_cities_coords <- unique_cities_coords %>% 
-  filter(state_name != "Nationwide", agency_name != "Full Sample")
-
 
 
 # Save the results to a CSV

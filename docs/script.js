@@ -260,17 +260,20 @@ document.addEventListener("DOMContentLoaded", function() {
     
         const savedFilters = JSON.parse(sessionStorage.getItem('rtciFilters')) || {};
         const savedAgency = savedFilters.agency;
-    
-        if (agencies.includes(savedAgency)) {
+
+        // Ensure that the saved agency selection works for both population groups and regions
+        if ([...agencies, ...regionalAgencies].includes(savedAgency)) {
             agencyBtn.textContent = savedAgency;
             agencyBtn.dataset.value = savedAgency;
         } else if (agencies.length > 0) {
             agencyBtn.textContent = agencies[0];
             agencyBtn.dataset.value = agencies[0];
         }
-    
+
+        // Find the matching dropdown option and mark it as selected
         const defaultAgencyOption = agencySelect.querySelector(`[data-value="${agencyBtn.dataset.value}"]`);
         if (defaultAgencyOption) defaultAgencyOption.classList.add('selected');
+
     
         renderChart();
     }

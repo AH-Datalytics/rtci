@@ -1,3 +1,11 @@
+:root {
+    --midwest-color: #4a75b7;      /* Change this to manually adjust Midwest */
+    --northeast-color: #baa252;    /* Change this to manually adjust Northeast */
+    --south-color: #29373d;        /* Change this to manually adjust South */
+    --west-color: #70482b;         /* Change this to manually adjust West */
+}
+
+
 .filters-container {
   margin-bottom: 1.4rem; /* change as needed for tab alignment */
 }

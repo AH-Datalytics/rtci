@@ -7,6 +7,47 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
 }).addTo(map);
 
 
+// Get region colors from CSS variables
+const regionColors = {
+    "Midwest": getComputedStyle(document.documentElement).getPropertyValue('--midwest-color').trim(),
+    "Northeast": getComputedStyle(document.documentElement).getPropertyValue('--northeast-color').trim(),
+    "South": getComputedStyle(document.documentElement).getPropertyValue('--south-color').trim(),
+    "West": getComputedStyle(document.documentElement).getPropertyValue('--west-color').trim()
+};
+
+
+
+// Function to style regions
+function regionStyle(region) {
+    return {
+        fillColor: regionColors[region] || "#999999", // Default grey if region not found
+        weight: 1,
+        color: "#ffffff", // White border
+        fillOpacity: 0.3, // Subtle transparency
+    };
+}
+
+// Create a single group layer for all regions
+const regionLayers = L.layerGroup().addTo(map); // Ensure it is added BEFORE markers
+
+// Load and add each region layer
+const regions = ["midwest", "northeast", "south", "west"];
+
+regions.forEach(region => {
+    fetch(`../app_data/${region}_states.json`)
+        .then(response => response.json())
+        .then(geojsonData => {
+            const regionLayer = L.geoJson(geojsonData, {
+                style: () => regionStyle(region.charAt(0).toUpperCase() + region.slice(1))
+            });
+            regionLayers.addLayer(regionLayer); // Add each region to the background layer
+        })
+        .catch(error => console.error(`Error loading ${region} region data:`, error));
+});
+
+
+
+
 // Store markers for easy access when updating size
 const markers = [];
 let includedCount = 0; // Count for included in the sample
@@ -180,6 +221,7 @@ map.on('zoomend', () => {
 });
 
 // Function to update the legend dynamically
+// Function to update the legend dynamically
 function updateLegend() {
     const legend = L.control({ position: 'topright' });
 
@@ -189,20 +231,26 @@ function updateLegend() {
         // Format populations to two decimals and add "M"
         const formattedIncludedPopulation = (includedPopulation / 1_000_000).toFixed(2) + "M";
         const formattedExcludedPopulation = (excludedPopulation / 1_000_000).toFixed(2) + "M";
-    
-        // Add color legend for national sample status with italic counts and total population
+
+        // First key: National sample status
         div.innerHTML += `<h4>Included in National & State Samples?</h4>`;
         div.innerHTML += `<i style="background: #2d5ef9"></i> Yes, has complete data <span>(${includedCount})</span>.<br>`;
         div.innerHTML += `<i style="background: #f28106"></i> No, incomplete data <span>(${excludedCount})</span>.<br>`;
-    
-        // Add a sentence about size
         div.innerHTML += `<p style="padding-bottom: 0px; margin-bottom: 0px; font-size: 12px;">*Markers sized by population.</p>`;
         div.innerHTML += `<p style="margin-top: 0px; padding-top: 0px; padding-bottom: 0px; margin-bottom: 0px; font-size: 12px;">**National sample covers ${formattedIncludedPopulation} total population.</p>`;
-        
-    
+
+        // Add a divider for separation
+        div.innerHTML += `<hr style="border: 0; height: 1px; background: #ccc; margin: 8px 0;">`;
+
+        // Second key: Region colors from CSS
+        div.innerHTML += `<h4>FBI Regions</h4>`;
+        div.innerHTML += `<i style="background: var(--midwest-color); opacity: 0.4; border: 1px solid var(--midwest-color);"></i> Midwest<br>`;
+        div.innerHTML += `<i style="background: var(--northeast-color); opacity: 0.4; border: 1px solid var(--northeast-color);"></i> Northeast<br>`;
+        div.innerHTML += `<i style="background: var(--south-color); opacity: 0.4; border: 1px solid var(--south-color);"></i> South<br>`;
+        div.innerHTML += `<i style="background: var(--west-color); opacity: 0.4; border: 1px solid var(--west-color);"></i> West<br>`;
+
         return div;
     };
-    
 
     legend.addTo(map);
 }

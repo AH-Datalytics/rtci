@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function() {
         let agencies = [...new Set(allData.filter(row => row.state_name === state).map(row => row.agency_name))];
     
         if (state === "Nationwide") {
-            // Define the desired sort order for Nationwide agencies
+            // Define the desired sort order for Nationwide population groups
             const nationwideAgencyOrder = [
                 "Full Sample", 
                 "Cities of 1M+", 
@@ -157,14 +157,26 @@ document.addEventListener("DOMContentLoaded", function() {
                 "Cities of < 100K"
             ];
     
-            // Filter and sort agencies based on the predefined order
+            // Define regional group names
+            const regionNames = ["Midwest", "Northeast", "Other", "South", "West"];
+    
+            // Separate regional agencies from other agencies
+            let regionalAgencies = agencies.filter(agency => regionNames.includes(agency)).sort();
+            agencies = agencies.filter(agency => !regionNames.includes(agency));
+    
+            // Sort agencies based on the custom order
             agencies = agencies.filter(agency => nationwideAgencyOrder.includes(agency))
                                .sort((a, b) => nationwideAgencyOrder.indexOf(a) - nationwideAgencyOrder.indexOf(b));
     
-            // Add the "Population Groups" subheader after "Full Sample"
+            // Insert the "Population Groups" subheading after "Full Sample"
             agencies = agencies.flatMap(agency => 
                 agency === "Full Sample" ? [agency, "Population Groups"] : agency
             );
+    
+            // If there are regional agencies, insert the "Regions" subheading after "Population Groups"
+            if (regionalAgencies.length > 0) {
+                agencies.push("Regions", ...regionalAgencies);
+            }
         } else {
             // Ensure "Full Sample" is at the top if it exists for other states
             agencies = agencies.sort((a, b) => {
@@ -198,13 +210,16 @@ document.addEventListener("DOMContentLoaded", function() {
         const agencyOption = agencyDropdown.querySelector(`[data-value="${agencyBtn.textContent}"]`);
         if (agencyOption) agencyOption.classList.add('selected');
     
-        // Apply styles for the "Population Groups" subheader
-        const subheader = agencyDropdown.querySelector('[data-value="Population Groups"]');
-        if (subheader) {
-            subheader.classList.add('master-heading');
-            subheader.style.pointerEvents = "none";  // Make it non-clickable
-        }
+        // Apply styles for the "Population Groups" and "Regions" subheaders
+        ["Population Groups", "Regions"].forEach(subheaderText => {
+            const subheader = agencyDropdown.querySelector(`[data-value="${subheaderText}"]`);
+            if (subheader) {
+                subheader.classList.add('master-heading');
+                subheader.style.pointerEvents = "none";  // Make it non-clickable
+            }
+        });
     }
+    
     
     
 

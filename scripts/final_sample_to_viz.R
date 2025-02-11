@@ -15,12 +15,25 @@ last_updated <- format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")
 final_sample <- read_csv("../data/final_sample.csv")
 
 
-# Population for the aggregate ones and pop23 for individual agencies
-final_sample <- final_sample %>%
-  mutate(pop23 = ifelse(str_detect(State, "All Agencies") | str_detect(`Agency Name`, "Sample Counts"), Population, pop23)) %>%
-  select(-Population) %>%
-  mutate(Population = pop23) %>%
-  select(-pop23)
+# # Population for the aggregate ones and pop23 for individual agencies
+# final_sample <- final_sample %>%
+#   mutate(pop23 = ifelse(str_detect(State, "All Agencies") | str_detect(`Agency Name`, "Sample Counts"), Population, pop23)) %>%
+#   select(-Population) %>%
+#   mutate(Population = pop23) %>%
+#   select(-pop23)
+
+# Drop new columns from dave
+final_sample <- final_sample %>% 
+  select(!(region_name | state_abbr | Population | pop23))
+
+# Capitalize population column 
+final_sample <- final_sample %>% 
+  rename(Population = population)
+
+
+# Drop NA/other region still in data
+final_sample <- final_sample %>% 
+  filter(!is.na(State))
 
 
 # Regional Mutation 

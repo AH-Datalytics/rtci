@@ -449,7 +449,7 @@ sources <- sources %>%
          agency_abbr = ifelse(agency_full == "Full Sample, Nationwide", "Full Sample, Nationwide", agency_abbr)
          ) 
 
-# Remove Pop Grouping Agencies for Nationwide
+# Remove Pop Grouping & Region Agencies for Nationwide
 sources <- sources %>% 
   filter(!(state_name == "Nationwide" & agency_name != "Full Sample"))
 

@@ -89,6 +89,8 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to display the National Full Sample
     function displayNationalSample() {
         const filteredData = allData.filter(row => row.in_national_sample === "TRUE");
+        console.log(filteredData);
+        console.log(`Filtered count: ${filteredData.length}`);
         formatAndPopulateTable(filteredData);
         updateAgenciesNumBox(filteredData.length);
     }

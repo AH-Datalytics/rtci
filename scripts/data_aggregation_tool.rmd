@@ -291,6 +291,18 @@ length(unique(combined_df$city_state))
 length(unique(combined_df$`Agency Name`))
 #380 - springfields galore!
 ```
+check names of unique agencies
+```{r}
+library(dplyr)
+
+# Extract unique values and save as a new dataframe
+combined_df1 <- data.frame(city_state1 = unique(combined_df$city_state))
+
+# View the result
+head(combined_df1)
+
+
+```
 check out city_state by state for a quick numbers check
 ```{r}
 agency_by_state <- combined_df %>%
@@ -323,6 +335,32 @@ bring in counties data and bind it to the end of cities data
 ```{r}
 #cdf_all <- bind_rows(cdf, counties_cdf)
 ```
+check sample cities
+```{r}
+library(readr)
+
+# Define file path
+file_path <- "C:/OneDrive/OneDrive - ahdatalytics.com/Clients/Real Time Crime Index/Open Source Data/_Ben and Jeff work/nov_24_agencies.csv"
+
+# Read the CSV file
+df <- read_csv(file_path)
+
+# View first few rows
+head(df)
+# Merge by a common column (e.g., "city_state")
+merged_df <- left_join(df, sample_cities, by = "city_state")
+
+# View result
+head(merged_df)
+
+# Find records in sample_cities that are not in df
+dropped_records <- anti_join(sample_cities, df, by = "city_state")
+
+# View the dropped records
+head(dropped_records)
+```
+
+
 
 create variables for audit
 ```{r}
@@ -331,7 +369,7 @@ update_current_date <- function() {
   today <- Sys.Date()
   day_of_month <- as.integer(format(today, "%d"))
   
-  if (day_of_month >= 10) {
+  if (day_of_month >= 12) {
     current_date <<- today
   } else {
     current_date <<- seq(today, length = 2, by = "-1 month")[2]
@@ -423,6 +461,11 @@ remove duplicates - schaumburg and tracy problem
 ```{r}
 cdf_nwcounts <- distinct(cdf_nwcounts)
 ```
+check the number of agencies
+```{r}
+num_unique_A <- n_distinct(cdf_nwcounts$city_state)
+print(num_unique_A)
+```
 vc/pc groupings
 ```{r}
 # Add new columns for violent and property crime
@@ -474,7 +517,7 @@ add region name to final sourcing table
 ```{r}
 # Merge with ref_df by "city_state"
 ref_df2 <- ref_df1 %>%
-  left_join(cities_40k, by = c("city_state" = "city_state", "Agency_Type" = "agency_type_name"))
+  left_join(cities_40k, by = c("city_state" = "city_state")
 
 # Check if each record in ref_df has the region_name column merged successfully
 check_region <- ref_df2 %>%
@@ -502,7 +545,7 @@ if (nrow(failed_merges) > 0) {
   print("All records were merged successfully.")
 }
 
-write.csv(failed_merges, "failed_merges.csv", row.names = FALSE)
+#write.csv(failed_merges, "failed_merges.csv", row.names = FALSE)
 ```
 check to make sure the crosswalk worked part 2
 ```{r}
@@ -520,17 +563,17 @@ print(diff_records)
 ```
 # Add population and region data merging by city/state col
 ```{r}
-cdf_vcpc_nats <- merge(cdf_vcpc_nats, ref_df2, by = c("city_state", "Agency_Type"), all.x = TRUE)
+cdf_vcpc_nats <- merge(cdf_vcpc_nats, ref_df2, by = c("city_state"), all.x = TRUE)
 ```
+check to make sure the regions are attached
 ```{r}
 # Filter records where region_name is NA
 na_region_records <- cdf_vcpc_nats %>%
-  filter(is.na(region_name.x))
+  filter(is.na(region_name))
 
 # Display the results
 print(na_region_records)
 ```
-
 drop cdf1 extra columns after fixing
 ```{r}
 #clean up names and drop old names
@@ -543,14 +586,14 @@ cdf2 <- cdf1 %>%
 cdf_vcpc_nats_usa <- cdf_vcpc_nats %>%
   mutate(`Violent Crime` = vio_crime,
           `Property Crime` = prop_crime,
-          Population = as.numeric(pop23.x)) %>%
+          Population = as.numeric(pop23)) %>%
            select(-vio_crime, -prop_crime)
 
 cdf_vcpc_nats_regions <- cdf_vcpc_nats %>%
   mutate(`Violent Crime` = vio_crime,
           `Property Crime` = prop_crime,
-          Population = as.numeric(pop23.x),
-          Region = region_name.x,
+          Population = as.numeric(pop23),
+          Region = region_name,
           Agency_num =1) %>%
            select(-vio_crime, -prop_crime)
 
@@ -558,44 +601,38 @@ cdf_vcpc_nats_regions <- cdf_vcpc_nats %>%
 cdf_vcpc_nats_states <- cdf_vcpc_nats %>%
   mutate(`Violent Crime` = vio_crime,
           `Property Crime` = prop_crime,
-          Population = as.numeric(pop23.x),
+          Population = as.numeric(pop23),
           Agency_num =1) %>%
            select(-vio_crime, -prop_crime)
 ```
 calculate and add nationwide counts
 ```{r}
+# Summarize data to get crime counts, population totals, and unique agency counts per month
 nationwide_counts <- cdf_vcpc_nats_usa %>%
   group_by(Year, Month) %>%
   summarise(
-    Murder= sum(Murder, na.rm = TRUE),
-    Rape= sum(Rape, na.rm = TRUE),
-    Robbery= sum(Robbery, na.rm = TRUE),
-    `Aggravated Assault`= sum(`Aggravated Assault`, na.rm = TRUE),
-    Burglary= sum(Burglary, na.rm = TRUE),
+    Murder = sum(Murder, na.rm = TRUE),
+    Rape = sum(Rape, na.rm = TRUE),
+    Robbery = sum(Robbery, na.rm = TRUE),
+    `Aggravated Assault` = sum(`Aggravated Assault`, na.rm = TRUE),
+    Burglary = sum(Burglary, na.rm = TRUE),
     Theft = sum(Theft, na.rm = TRUE),
     `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
     `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
     `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
     `Population Total` = sum(Population, na.rm = TRUE),
+    Agency_num = n_distinct(city_state),  # Count unique agencies per month
     .groups = 'drop'
   )
-head(nationwide_counts)
-```
-add the nationwide counts to the sample for the viz
-```{r}
-# Add values for agency name field so we can bind
+
+# Add values for agency name field to enable binding
 nationwide_counts$`Agency Name` <- "Nationwide Count"
 
-#get the number of unique agencies across both agency types
-num_unique_city_state <- cdf_vcpc_nats_usa %>%
-  distinct(city_state, Agency_Type) %>%
-  nrow()
-
-#add the new counter figure
-nationwide_counts$Agency_num <- num_unique_city_state
-
-# also need state values and column
+# Add state placeholder for consistency
 nationwide_counts$State <- "All Agencies"
+
+# View first few rows
+head(nationwide_counts)
 ```
 state sums - only agencies included in sample
 ```{r}
@@ -822,7 +859,7 @@ length(unique(df_mvs_12mo1$`Agency Name`))
 join ref to sample
 ```{r}
 df_w_ref <- df_mvs_12mo1 %>%
-  left_join(ref_df, by = "city_state")
+  left_join(ref_df2, by = "city_state")
 ```
 remove non-current reporter
 ```{r}
@@ -843,9 +880,11 @@ clean up schema for oscar
 #keep in both state fields for eventual auditing purposes (check merge success)
 final_data <- df_w_ref %>%
   rename(
-    State = State.x,
-    State_ref = State.y
-  )
+    #State = State.x,
+    #State_ref = State.y,
+    Agency_Type = Agency_Type.y
+  ) %>%
+  select(-Agency_Type.y.y)
 ```
 remove bad month for june if all na
 ```{r}
@@ -932,6 +971,7 @@ month_suffix <- tolower(format(latest_date, "%b_%y"))
 prepare a dataframe of all component agencies into sample for sourcing table
 ```{r}
 sample_cities <- cdf_vcpc_nats %>%
+  select(-one_of("Agency_Type.y")) %>%
   group_by(city_state) %>%
   slice(1) %>%
   ungroup()

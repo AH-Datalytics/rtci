@@ -151,7 +151,7 @@ output_dir <- file.path(
   "Real Time Crime Index",
   "Open Source Data",
   "_Ben and Jeff work",
-  "November 2024"
+  "December 2024"
 )
 
 # Create the directory if it doesn't exist

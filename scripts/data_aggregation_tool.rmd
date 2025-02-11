@@ -865,7 +865,7 @@ remove non-current reporter
 ```{r}
 #replace population values with Population values
 colSums(is.na(df_w_ref))
-df_w_ref$Population <- ifelse(is.na(df_w_ref$Population), df_w_ref$`Population Total`, df_w_ref$Population)
+df_w_ref$population <- ifelse(is.na(df_w_ref$population), df_w_ref$`Population Total`, df_w_ref$population)
 colSums(is.na(df_w_ref))
 
 #fix non-nationwide sample values for viz

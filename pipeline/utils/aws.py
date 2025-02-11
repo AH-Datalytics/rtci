@@ -12,7 +12,7 @@ load_dotenv()
 
 aws_access_key_id = os.getenv("AWS_ACCESS_KEY_ID")
 aws_secret_access_key = os.getenv("AWS_SECRET_ACCESS_KEY")
-BUCKET = "sample-rtci"
+BUCKET = "rtci"
 
 
 def get_s3_client():
@@ -86,3 +86,18 @@ def snapshot_df(logger, df, path, timestamp=None, filename=None):
         Key=path + ".csv",
     )
     logger.info(f"transfer size: {asizeof.asizeof(df)} bytes")
+
+
+def snapshot_fig(logger, fig, path, timestamp=None, filename=None):
+    html = fig.to_html(full_html=False, include_plotlyjs="cdn").encode("utf-8")
+    if timestamp and not filename:
+        path += str(timestamp)
+    elif filename and not timestamp:
+        path += str(filename)
+    else:
+        path += f"{timestamp}/{filename}"
+    s3_client = get_s3_client()
+    s3_client.put_object(
+        Body=html, Bucket=BUCKET, Key=path + ".html", ContentType="text/html"
+    )
+    logger.info(f"transfer size: {asizeof.asizeof(fig)} bytes")

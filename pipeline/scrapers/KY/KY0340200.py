@@ -14,8 +14,11 @@ class KY0340200(Scraper):
     def __init__(self):
         super().__init__()
         self.oris = ["KY0340200"]
-        self.url = "https://www.lexingtonky.gov/crime-data"
-        self.archive_url = "https://www.lexingtonky.gov/crime-data-archive"
+        self.url = "https://www.lexingtonky.gov/government/departments-programs/public-safety/police/crime-data"
+        self.archive_url = (
+            "https://www.lexingtonky.gov/government/departments-programs/public-safety/police/crime"
+            "-data/crime-data-archive"
+        )
         self.mapping = {
             "Murder": "murder",
             "Forcible Rape": "rape",
@@ -35,7 +38,7 @@ class KY0340200(Scraper):
         # collect yearly tables
         tables = [
             table
-            for table in soup.find_all("table", {"class": "tg"})
+            for table in soup.find_all("table")
             if table.find("th", string=re.compile(r"\d{4}\s.*Part I Offenses by Month"))
         ]
 

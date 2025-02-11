@@ -59,7 +59,7 @@ class Scraper:
         # ensure dates are valid, no data goes beyond last day of month before last
         if "date" not in df.columns and "year" in df.columns and "month" in df.columns:
             df["date"] = pd.to_datetime(df[["year", "month"]].assign(DAY=1))
-        df = df[df["date"] <= self.last]
+        df = df[(df["date"] >= self.first) & (df["date"] <= self.last)]
 
         # ensure ori is present in standalone cases
         if "ori" not in df.columns and len(self.oris) == 1:
@@ -67,15 +67,17 @@ class Scraper:
         else:
             assert "ori" in df.columns and len(df[df["ori"].isna()]) == 0
 
-        # produce 12-month rolling sums per crime
+        # fill out placeholder columns for missing crimes
         for crime in self.crimes:
             if crime not in df.columns:
                 df[crime] = None
-            df[f"{crime}_mvs_12mo"] = (
-                df.sort_values(by=["ori", "date"])
-                .groupby("ori")[crime]
-                .transform(lambda g: g.rolling(window=12).sum())
-            )
+
+            # produce 12-month rolling sums per crime
+            # df[f"{crime}_mvs_12mo"] = (
+            #     df.sort_values(by=["ori", "date"])
+            #     .groupby("ori")[crime]
+            #     .transform(lambda g: g.rolling(window=12).sum())
+            # )
 
         # extract year and month from data
         df["year"] = df["date"].dt.year
@@ -85,14 +87,8 @@ class Scraper:
         # add run time metadata field
         df["last_updated"] = self.run_time
 
-        pd.set_option("display.max_columns", 100)
-        pd.set_option("display.max_rows", 500)
-
         # check on column counts
-        assert len(df.keys()) == 18
-
-        # print(df)
-
+        assert len(df.keys()) == 11
         return df.to_dict("records")
 
     def run(self):

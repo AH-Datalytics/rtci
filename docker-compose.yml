@@ -1,26 +1,17 @@
-# Version: "3.9"
+# useful information:
+#   https://www.redhat.com/en/blog/navigating-linux-filesystem
+#   https://stackoverflow.com/a/52827029/10634126
+#   https://stackoverflow.com/a/45450456/10634126
 
 
 services:
-
-  scrape-dev:
-
+  scrapers:
     build:
       context: .
       dockerfile: pipeline/dockerfiles/Dockerfile
-
-    container_name: scrape-dev
-
-    image: scrape-dev
-
-    # Volumes below bind local paths to container paths.
-    # Note: individual SSH directory paths must be specified in individual .env files.
+    container_name: scrapers
+    image: scrapers
     volumes:
-      - ./:/rtci
-      # - ${_SSH_PATH}:/root/.ssh
-      - "~/.gitconfig:/etc/gitconfig"
-
+      - .:/rtci
+      - ~/.gitconfig:/etc/gitconfig
     command: tail -F anything
-
-    profiles:
-      - scrape-dev

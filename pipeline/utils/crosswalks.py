@@ -8,10 +8,12 @@
 # _Ben and Jeff Work >
 # Ben and Jeff working files
 
-PREFIX = "https://sample-rtci.s3.us-east-1.amazonaws.com/sources/crosswalks/"
+PREFIX = "https://rtci.s3.us-east-1.amazonaws.com/crosswalks/"
 
 ILCPD0000 = (
     PREFIX
     + "Chicago_Police_Department_-_Illinois_Uniform_Crime_Reporting__IUCR__Codes_20241106.csv"
 )
+LANPD0000 = PREFIX + "NOLA+Crosswalk(in).csv"
+MI8234900 = PREFIX + "Detroit+Crosswalk.csv"
 VA1220000 = PREFIX + "Richmond+Crosswalk.xlsx"

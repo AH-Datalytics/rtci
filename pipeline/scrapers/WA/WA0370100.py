@@ -42,7 +42,7 @@ class WA0370100(Scraper):
                 )
             ]
         )
-        assert self.years[-1] == self.last.year
+        self.years = self.years[: self.years.index(self.last.year) + 1]
 
         for year in self.years:
             self.logger.info(f"collecting {year}...")

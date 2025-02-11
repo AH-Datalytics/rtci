@@ -17,42 +17,28 @@ class Optimum(Scraper):
     def __init__(self):
         super().__init__()
         self.threader = True  # some states fail on requests threading
-        self.alt = False  # handles alternate formats for {PA, TX, ...?}
         self.payload = {
             "ReportType": "Agency",
             "DrillDownReportIDs": -1,
             "IsGroupAOffense": True,
+            "startDate": dt.strftime(self.first, "%m%Y"),
+            "endDate": dt.strftime(self.last, "%m%Y"),
         }
         self.exclude_oris = []
 
     def scrape(self):
-        if self.alt:
-            self.payload.update(
-                {
-                    "StartDate": dt.strftime(self.first, "%m/%d/%Y"),
-                    "EndDate": dt.strftime(self.last, "%m/%d/%Y"),
-                }
-            )
-        else:
-            self.payload.update(
-                {
-                    "startDate": dt.strftime(self.first, "%m%Y"),
-                    "endDate": dt.strftime(self.last, "%m%Y"),
-                }
-            )
-
         # get list of agencies in state from airtable
         agencies = [
             d["ori"]
             for d in get_records_from_sheet(
                 self.logger,
                 "Metadata",
-                formula=f"{{state}}='{self.state_full_name}'"
+                # formula=f"{{state}}='{self.state_full_name}'"
                 # note: this includes agencies that are not included
                 # in the existing RTCI sample (audited out for missing data, etc.);
                 # to include only those matching the `final_sample.csv` file, use:
                 #
-                # formula=f"AND({{state}}='{self.state_full_name}',NOT({{agency_rtci}}=''))",
+                formula=f"AND({{state}}='{self.state_full_name}',NOT({{agency_rtci}}=''))",
             )
             if d["ori"] not in self.exclude_oris
         ]
@@ -98,6 +84,7 @@ class Optimum(Scraper):
             # collect dates and crime counts
             dates = [dt.strptime(d, "%Y/%b") for d in j["periodlist"]]
             crimes = j["crimeList"]
+
             assert len(crimes) == 1
             crimes = crimes[0]
 

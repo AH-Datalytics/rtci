@@ -14,7 +14,7 @@ class CA0070400(Scraper):
     def __init__(self):
         super().__init__()
         self.oris = ["CA0070400"]
-        self.stem = "https://cityofconcord.org/"
+        self.stem = "https://cityofconcord.org"
         self.url = self.stem + "/1063/Crime-Statistics"
         self.mapping = {
             "Aggravated Assault": "aggravated_assault",
@@ -62,6 +62,11 @@ class CA0070400(Scraper):
             headers = [
                 td.text.strip().upper() for td in table.find("tr").find_all("td")
             ]
+
+            # account for 2024 column header update
+            if headers[0] == "NIBRS CODE NAME":
+                headers[0] = "NIBRS OFFENSES"
+
             rows = [
                 [td.text.strip().upper() for td in tr.find_all("td")]
                 for tr in table.find_all("tr")[1:]

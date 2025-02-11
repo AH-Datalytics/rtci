@@ -29,7 +29,7 @@ fbi_participation_2023_updated <- cross_walked_df %>%
 subset to counties with >100k pop
 ```{r}
 cities_40k <- fbi_participation_2023_updated %>% 
-  filter(agency_type_name == "City", population > 40000)
+  filter(agency_type_name == "City", population > 30000)
 
 counties_100k <- fbi_participation_2023_updated %>% 
   filter(agency_type_name == "County", population > 100000)

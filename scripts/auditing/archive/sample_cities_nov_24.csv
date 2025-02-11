@@ -1,346 +1,346 @@
-"city_state","Agency_Type","Agency Name","Murder","Rape","Robbery","Aggravated Assault","Burglary","Theft","Motor Vehicle Theft","Year","Month","State","vio_crime","prop_crime","pop23","pub_agency_name","state_abbr","region_name","division_name","population","Agency_Type.y"
-"Abilene, TX","City","Abilene",0,4,11,24,72,255,18,2017,1,"TX",39,345,128387,"Abilene","TX","South","West South Central",128387,NA
-"Abington, PA","City","Abington",0,0,2,5,3,75,3,2024,1,"PA",7,81,58433,"Abington Township, Montgomery County","PA","Northeast","Middle Atlantic",58433,"City"
-"Akron, OH","City","Akron",0,10,10,70,49,265,51,2024,1,"OH",90,365,187705,"Akron","OH","Midwest","East North Central",187705,NA
-"Albany, GA","City","Albany",0,4,11,41,62,241,12,2017,11,"GA",56,315,66281,"Albany","GA","South","South Atlantic",66281,NA
-"Albany, OR","City","Albany",0,1,1,9,8,66,4,2024,1,"OR",11,78,57002,"Albany","OR","West","Pacific",57002,NA
-"Alexandria, VA","City","Alexandria",0,1,13,21,18,287,32,2024,1,"VA",35,337,153897,"Alexandria","VA","South","South Atlantic",153897,NA
-"Alhambra, CA","City","Alhambra",0,1,6,6,35,88,28,2020,6,"CA",13,151,79087,"Alhambra","CA","West","Pacific",79087,NA
-"Allen, TX","City","Allen",0,5,5,5,11,67,4,2017,1,"TX",15,82,114696,"Allen","TX","South","West South Central",114696,NA
-"Allentown, PA","City","Allentown",1,3,14,16,21,164,23,2023,4,"PA",34,208,124782,"Allentown","PA","Northeast","Middle Atlantic",124782,NA
-"Amarillo, TX","City","Amarillo",1,16,22,65,131,503,74,2017,1,"TX",104,708,201684,"Amarillo","TX","South","West South Central",201684,NA
-"Ann Arbor, MI","City","Ann Arbor",0,6,4,11,14,154,10,2024,1,"MI",21,178,118072,"Ann Arbor","MI","Midwest","East North Central",118072,NA
-"Apple Valley, MN","City","Apple Valley",0,1,0,9,3,77,10,2024,1,"MN",10,90,54995,"Apple Valley","MN","Midwest","West North Central",54995,NA
-"Arlington Heights, IL","City","Arlington Heights",0,0,1,5,11,48,4,2022,12,"IL",6,63,74094,"Arlington Heights","IL","Midwest","East North Central",74094,NA
-"Arlington, TX","City","Arlington",3,43,44,79,159,755,106,2017,1,"TX",169,1020,394799,"Arlington","TX","South","West South Central",394799,NA
-"Arvada, CO","City","Arvada",0,1,3,14,30,167,39,2024,2,"CO",18,236,120200,"Arvada","CO","West","Mountain",120200,NA
-"Asheville, NC","City","Asheville",0,NA,9,10,65,154,23,2017,3,"NC",19,242,93471,"Asheville","NC","South","South Atlantic",93471,NA
-"Aurora, CO","City","Aurora",5,33,37,193,98,590,328,2024,2,"CO",268,1016,396976,"Aurora","CO","West","Mountain",396976,NA
-"Austin, TX","City","Austin",1,65,74,181,433,2170,177,2017,1,"TX",321,2780,978816,"Austin","TX","South","West South Central",978816,NA
-"Avondale, AZ","City","Avondale",0,1,7,31,19,251,20,2021,8,"AZ",39,290,92661,"Avondale","AZ","West","Mountain",92661,NA
-"Bakersfield, CA","City","Bakersfield",5,9,48,104,219,529,247,2020,7,"CA",166,995,413409,"Bakersfield","CA","West","Pacific",413409,NA
-"Baltimore, MD","City","Baltimore",33,22,325,569,322,1089,299,2021,8,"MD",949,1710,565192,"Baltimore","MD","South","South Atlantic",565192,NA
-"Battle Creek, MI","City","Battle Creek",0,4,5,61,38,83,17,2022,5,"MI",70,138,60969,"Battle Creek","MI","Midwest","East North Central",60969,NA
-"Baytown, TX","City","Baytown",0,3,18,10,44,160,29,2017,1,"TX",31,233,83809,"Baytown","TX","South","West South Central",83809,NA
-"Beaumont, TX","City","Beaumont",2,11,38,58,132,293,24,2017,1,"TX",109,449,110671,"Beaumont","TX","South","West South Central",110671,NA
-"Beaverton, OR","City","Beaverton",0,5,3,10,25,179,15,2024,11,"OR",18,219,96840,"Beaverton","OR","West","Pacific",96840,NA
-"Bellevue, NE","City","Bellevue",0,5,1,0,2,42,9,2024,1,"NE",6,53,62372,"Bellevue","NE","Midwest","West North Central",62372,NA
-"Bellingham, WA","City","Bellingham",0,NA,4,NA,NA,166,16,2023,11,"WA",4,182,94968,"Bellingham","WA","West","Pacific",94968,NA
-"Bend, OR","City","Bend",1,4,2,11,14,130,14,2023,8,"OR",18,158,105099,"Bend","OR","West","Pacific",105099,NA
-"Bensalem, PA","City","Bensalem",0,0,1,2,6,153,17,2024,8,"PA",3,176,62595,"Bensalem Township","PA","Northeast","Middle Atlantic",62595,"City"
-"Bethlehem, PA","City","Bethlehem",1,0,3,11,10,66,5,2024,8,"PA",15,81,78606,"Bethlehem","PA","Northeast","Middle Atlantic",78606,NA
-"Blaine, MN","City","Blaine",0,1,3,5,8,107,8,2018,2,"MN",9,123,72384,"Blaine","MN","Midwest","West North Central",72384,NA
-"Bloomington, MN","City","Bloomington",2,4,4,5,13,230,32,2023,2,"MN",15,275,86793,"Bloomington","MN","Midwest","West North Central",86793,NA
-"Blue Springs, MO","City","Blue Springs",0,1,0,8,13,109,7,2017,1,"MO",9,129,59896,"Blue Springs","MO","Midwest","West North Central",59896,NA
-"Bolingbrook, IL","City","Bolingbrook",0,4,2,4,8,38,3,2023,2,"IL",10,49,74138,"Bolingbrook","IL","Midwest","East North Central",74138,NA
-"Boston, MA","City","Boston",0,12,61,226,141,822,76,2024,1,"MA",299,1039,642823,"Boston","MA","Northeast","New England",642823,NA
-"Boulder, CO","City","Boulder",1,4,7,18,48,158,23,2021,2,"CO",30,229,104232,"Boulder","CO","West","Mountain",104232,NA
-"Bridgeport, CT","City","Bridgeport",0,6,19,13,31,75,48,2024,2,"CT",38,154,148483,"Bridgeport","CT","Northeast","New England",148483,NA
-"Bristol, CT","City","Bristol",0,1,4,2,9,46,11,2018,1,"CT",7,66,61609,"Bristol","CT","Northeast","New England",61609,NA
-"Brockton, MA","City","Brockton",1,7,8,39,20,77,26,2024,11,"MA",55,123,108938,"Brockton","MA","Northeast","New England",108938,NA
-"Brookline, MA","City","Brookline",0,0,1,5,5,43,0,2024,1,"MA",6,48,62639,"Brookline","MA","Northeast","New England",62639,NA
-"Brooklyn Park, MN","City","Brooklyn Park",0,8,6,14,16,226,22,2022,3,"MN",28,264,81920,"Brooklyn Park","MN","Midwest","West North Central",81920,NA
-"Broomfield, CO","City","Broomfield",0,1,1,2,7,151,10,2019,4,"CO",4,168,77072,"Broomfield","CO","West","Mountain",77072,NA
-"Brownsville, TX","City","Brownsville",1,4,9,12,58,424,18,2017,1,"TX",26,500,190590,"Brownsville","TX","South","West South Central",190590,NA
-"Buckeye, AZ","City","Buckeye",0,5,1,14,6,54,9,2023,5,"AZ",20,69,112048,"Buckeye","AZ","West","Mountain",112048,NA
-"Buffalo, NY","City","Buffalo",4,13,63,101,137,400,35,2017,2,"NY",181,572,275922,"Buffalo","NY","Northeast","Middle Atlantic",275922,NA
-"Burbank, CA","City","Burbank",0,5,3,15,24,209,17,2017,12,"CA",23,250,102345,"Burbank","CA","West","Pacific",102345,NA
-"Burleson, TX","City","Burleson",1,1,0,5,9,48,10,2017,1,"TX",7,67,56307,"Burleson","TX","South","West South Central",56307,NA
-"Burnsville, MN","City","Burnsville",0,2,2,9,7,125,15,2021,2,"MN",13,147,63650,"Burnsville","MN","Midwest","West North Central",63650,NA
-"Caldwell, ID","City","Caldwell",0,2,0,6,6,52,1,2021,6,"ID",8,59,68731,"Caldwell","ID","West","Mountain",68731,NA
-"Cambridge, MA","City","Cambridge",0,1,11,41,15,181,19,2022,7,"MA",53,215,118960,"Cambridge","MA","Northeast","New England",118960,NA
-"Canton Township, MI","City","Canton Township",0,0,0,12,8,71,3,2024,9,"MI",12,82,98915,"Canton Township","MI","Midwest","East North Central",98915,NA
-"Canton, OH","City","Canton",1,5,19,35,74,210,20,2017,12,"OH",60,304,69164,"Canton","OH","Midwest","East North Central",69164,NA
-"Carlsbad, CA","City","Carlsbad",0,2,3,14,34,147,10,2024,1,"CA",19,191,113796,"Carlsbad","CA","West","Pacific",113796,NA
-"Castle Rock, CO","City","Castle Rock",0,1,0,1,6,59,2,2023,6,"CO",2,67,83546,"Castle Rock","CO","West","Mountain",83546,NA
-"Cedar Park, TX","City","Cedar Park",0,4,1,3,9,60,1,2017,1,"TX",8,70,77464,"Cedar Park","TX","South","West South Central",77464,NA
-"Centennial, CO","City","Centennial",0,0,2,24,18,147,39,2023,7,"CO",26,204,104724,"Centennial","CO","West","Mountain",104724,NA
-"Champaign, IL","City","Champaign",0,7,6,29,42,130,17,2024,9,"IL",42,189,89687,"Champaign","IL","Midwest","East North Central",89687,NA
-"Chandler, AZ","City","Chandler",0,16,16,20,90,373,26,2018,5,"AZ",52,489,282419,"Chandler","AZ","West","Mountain",282419,NA
-"Charlotte, NC","City","Charlotte",16,18,136,302,292,1871,250,2020,6,"NC",472,2413,979304,"Charlotte-Mecklenburg","NC","South","South Atlantic",979304,"City"
-"Chattanooga, TN","City","Chattanooga",1,17,23,103,82,692,134,2023,10,"TN",144,908,185370,"Chattanooga","TN","South","East South Central",185370,NA
-"Chesapeake, VA","City","Chesapeake",1,2,5,66,31,245,20,2024,2,"VA",74,296,254051,"Chesapeake","VA","South","South Atlantic",254051,NA
-"Cheyenne, WY","City","Cheyenne",0,4,2,4,19,135,11,2017,1,"WY",10,165,64307,"Cheyenne","WY","West","Mountain",64307,NA
-"Chicago, IL","City","Chicago",70,147,888,1580,760,6025,1980,2024,7,"IL",2685,8765,2628298,"Chicago","IL","Midwest","East North Central",2628298,NA
-"Chicopee, MA","City","Chicopee",0,2,4,18,19,67,6,2018,6,"MA",24,92,55043,"Chicopee","MA","Northeast","New England",55043,NA
-"Chula Vista, CA","City","Chula Vista",2,3,30,49,46,239,101,2022,2,"CA",84,386,280748,"Chula Vista","CA","West","Pacific",280748,NA
-"Cicero, IL","City","Cicero",0,3,2,6,11,46,11,2023,4,"IL",11,68,80455,"Cicero","IL","Midwest","East North Central",80455,NA
-"Cincinnati, OH","City","Cincinnati",4,25,63,82,156,583,209,2023,1,"OH",174,948,309484,"Cincinnati","OH","Midwest","East North Central",309484,NA
-"Coeur D Alene, ID","City","Coeur D Alene",0,7,0,6,6,39,5,2021,10,"ID",13,50,57653,"Coeur d'Alene","ID","West","Mountain",57653,"City"
-"Colerain Township, OH","City","Colerain Township",0,1,1,2,5,94,4,2022,3,"OH",4,103,58268,"Colerain Township","OH","Midwest","East North Central",58268,NA
-"College Station, TX","City","College Station",0,4,11,8,50,144,8,2017,1,"TX",23,202,126136,"College Station","TX","South","West South Central",126136,NA
-"Colorado Springs, CO","City","Colorado Springs",1,44,38,215,174,1033,233,2023,4,"CO",298,1440,489254,"Colorado Springs","CO","West","Mountain",489254,NA
-"Columbia, MO","City","Columbia",0,15,11,37,45,189,27,2017,1,"MO",63,261,129602,"Columbia","MO","Midwest","West North Central",129602,NA
-"Columbus, OH","City","Columbus",13,NA,NA,NA,NA,NA,NA,2017,3,"OH",13,0,908834,"Columbus","OH","Midwest","East North Central",908834,NA
-"Commerce City, CO","City","Commerce City",0,3,2,18,17,108,19,2017,5,"CO",23,144,67851,"Commerce City","CO","West","Mountain",67851,NA
-"Concord, CA","City","Concord",1,5,16,23,49,235,42,2018,2,"CA",45,326,121331,"Concord","CA","West","Pacific",121331,NA
-"Conroe, TX","City","Conroe",0,3,8,7,33,156,15,2017,1,"TX",18,204,106904,"Conroe","TX","South","West South Central",106904,NA
-"Coon Rapids, MN","City","Coon Rapids",0,3,3,2,7,76,3,2021,2,"MN",8,86,62391,"Coon Rapids","MN","Midwest","West North Central",62391,NA
-"Corpus Christi, TX","City","Corpus Christi",2,25,44,115,153,779,52,2017,1,"TX",186,984,315340,"Corpus Christi","TX","South","West South Central",315340,NA
-"Corvallis, OR","City","Corvallis",0,3,5,3,23,160,3,2023,4,"OR",11,186,61474,"Corvallis","OR","West","Pacific",61474,NA
-"Cranston, RI","City","Cranston",0,0,1,8,12,76,10,2017,1,"RI",9,98,82484,"Cranston","RI","Northeast","New England",82484,NA
-"Dallas, TX","City","Dallas",16,58,403,419,943,2164,700,2017,1,"TX",896,3807,1304989,"Dallas","TX","South","West South Central",1304989,NA
-"Dayton, OH","City","Dayton",4,26,29,91,156,302,181,2022,8,"OH",150,639,135181,"Dayton","OH","Midwest","East North Central",135181,NA
-"Dearborn Heights, MI","City","Dearborn Heights",0,2,0,23,11,58,31,2022,10,"MI",25,100,61420,"Dearborn Heights","MI","Midwest","East North Central",61420,NA
-"Dearborn, MI","City","Dearborn",0,5,6,20,11,125,26,2022,6,"MI",31,162,106747,"Dearborn","MI","Midwest","East North Central",106747,NA
-"Decatur, IL","City","Decatur",2,3,14,30,80,122,8,2018,7,"IL",49,210,68301,"Decatur","IL","Midwest","East North Central",68301,NA
-"Denton, TX","City","Denton",0,12,3,21,51,170,20,2017,1,"TX",36,241,155215,"Denton","TX","South","West South Central",155215,NA
-"Denver, CO","City","Denver",4,77,120,207,331,1347,521,2017,11,"CO",408,2199,712222,"Denver","CO","West","Mountain",712222,NA
-"Desoto, TX","City","Desoto",1,6,9,10,39,97,21,2017,1,"TX",26,157,56257,"DeSoto","TX","South","West South Central",56257,"City"
-"Detroit, MI","City","Detroit",22,65,229,557,772,1059,739,2017,1,"MI",873,2570,615501,"Detroit","MI","Midwest","East North Central",615501,NA
-"Dublin, OH","City","Dublin",0,1,2,0,3,36,4,2022,3,"OH",3,43,48799,"Dublin","OH","Midwest","East North Central",48827,NA
-"Duluth, MN","City","Duluth",4,4,5,12,21,204,17,2022,4,"MN",25,242,86570,"Duluth","MN","Midwest","West North Central",86570,NA
-"Dunwoody, GA","City","Dunwoody",0,0,0,2,8,132,14,2018,4,"GA",2,154,52505,"Dunwoody","GA","South","South Atlantic",52505,"City"
-"Durham, NC","City","Durham",2,11,39,204,151,643,107,2020,7,"NC",256,901,295788,"Durham","NC","South","South Atlantic",295788,NA
-"Eagan, MN","City","Eagan",0,0,3,1,12,99,10,2020,6,"MN",4,121,66943,"Eagan","MN","Midwest","West North Central",66943,NA
-"East Hartford, CT","City","East Hartford",0,1,1,1,5,55,25,2024,2,"CT",3,85,50625,"East Hartford","CT","Northeast","New England",50625,NA
-"Eden Prairie, MN","City","Eden Prairie",0,1,1,0,12,63,14,2020,8,"MN",2,89,61645,"Eden Prairie","MN","Midwest","West North Central",61645,NA
-"Edina, MN","City","Edina",0,0,0,9,8,51,4,2024,10,"MN",9,63,51980,"Edina","MN","Midwest","West North Central",51980,NA
-"Edinburg, TX","City","Edinburg",0,9,1,9,37,254,20,2017,1,"TX",19,311,106137,"Edinburg","TX","South","West South Central",106137,NA
-"El Cajon, CA","City","El Cajon",0,3,8,30,22,103,23,2020,7,"CA",41,148,103569,"El Cajon","CA","West","Pacific",103569,NA
-"Elyria, OH","City","Elyria",0,3,2,1,7,76,7,2022,2,"OH",6,90,53024,"Elyria","OH","Midwest","East North Central",53024,NA
-"Erie, PA","City","Erie",0,1,6,24,17,88,11,2023,2,"PA",31,116,92920,"Erie","PA","Northeast","Middle Atlantic",92920,NA
-"Escondido, CA","City","Escondido",0,6,7,46,24,128,16,2024,3,"CA",59,168,149837,"Escondido","CA","West","Pacific",149837,NA
-"Euclid, OH","City","Euclid",1,2,1,3,5,53,36,2023,9,"OH",7,94,48344,"Euclid","OH","Midwest","East North Central",48170,NA
-"Eugene, OR","City","Eugene",0,9,10,27,64,290,46,2024,1,"OR",46,400,178191,"Eugene","OR","West","Pacific",178191,NA
-"Euless, TX","City","Euless",0,0,2,2,12,71,22,2017,1,"TX",4,105,59722,"Euless","TX","South","West South Central",59722,NA
-"Evanston, IL","City","Evanston",0,0,1,9,18,94,3,2019,2,"IL",10,115,74413,"Evanston","IL","Midwest","East North Central",74413,NA
-"Fairfield, CT","City","Fairfield",0,0,0,0,2,68,8,2024,8,"CT",0,78,63588,"Fairfield","CT","Northeast","New England",63588,NA
-"Farmington Hills, MI","City","Farmington Hills",0,4,0,5,3,74,20,2023,1,"MI",9,97,82223,"Farmington Hills","MI","Midwest","East North Central",82223,NA
-"Fayetteville, NC","City","Fayetteville",6,NA,31,72,83,490,60,2023,10,"NC",109,633,209262,"Fayetteville","NC","South","South Atlantic",209262,NA
-"Flint, MI","City","Flint",1,7,2,68,10,58,8,2022,9,"MI",78,76,79234,"Flint","MI","Midwest","East North Central",79234,NA
-"Florissant, MO","City","Florissant",0,0,3,9,10,74,10,2017,1,"MO",12,94,51045,"Florissant","MO","Midwest","West North Central",51045,NA
-"Flower Mound, TX","City","Flower Mound",0,1,1,3,3,40,0,2017,1,"TX",5,43,79513,"Flower Mound","TX","South","West South Central",79513,NA
-"Fort Collins, CO","City","Fort Collins",0,6,3,39,34,312,30,2021,11,"CO",48,376,168886,"Fort Collins","CO","West","Mountain",168886,NA
-"Fort Worth, TX","City","Fort Worth",10,71,154,231,449,1568,229,2017,1,"TX",466,2246,973722,"Fort Worth","TX","South","West South Central",973722,NA
-"Fremont, CA","City","Fremont",1,5,17,17,56,271,70,2018,3,"CA",40,397,220775,"Fremont","CA","West","Pacific",220775,NA
-"Frisco, TX","City","Frisco",0,5,4,6,39,153,2,2017,1,"TX",15,194,228527,"Frisco","TX","South","West South Central",228527,NA
-"Galveston, TX","City","Galveston",0,6,5,4,36,87,8,2017,1,"TX",15,131,52810,"Galveston","TX","South","West South Central",52810,NA
-"Garland, TX","City","Garland",3,5,39,27,125,491,71,2017,1,"TX",74,687,240051,"Garland","TX","South","West South Central",240051,NA
-"Georgetown, TX","City","Georgetown",0,3,0,3,4,37,3,2017,1,"TX",6,44,87871,"Georgetown","TX","South","West South Central",87871,NA
-"Gilbert, AZ","City","Gilbert",0,5,2,9,30,255,14,2018,3,"AZ",16,299,278495,"Gilbert","AZ","West","Mountain",278495,NA
-"Glendale, AZ","City","Glendale",5,10,21,51,133,495,66,2020,1,"AZ",87,694,253768,"Glendale","AZ","West","Mountain",253768,NA
-"Glendale, CA","City","Glendale",0,2,9,18,61,208,32,2017,1,"CA",29,301,185923,"Glendale","CA","West","Pacific",185923,NA
-"Goodyear, AZ","City","Goodyear",0,3,4,10,21,156,5,2020,1,"AZ",17,182,109929,"Goodyear","AZ","West","Mountain",109929,NA
-"Grand Island, NE","City","Grand Island",0,3,0,20,10,79,9,2023,7,"NE",23,98,52264,"Grand Island","NE","Midwest","West North Central",52264,NA
-"Grand Junction, CO","City","Grand Junction",2,10,2,31,22,145,21,2022,4,"CO",45,188,69240,"Grand Junction","CO","West","Mountain",69240,NA
-"Grand Prairie, TX","City","Grand Prairie",0,11,17,8,79,289,55,2017,1,"TX",36,423,205487,"Grand Prairie","TX","South","West South Central",205487,NA
-"Grand Rapids, MI","City","Grand Rapids",3,5,9,106,36,162,46,2018,4,"MI",123,244,196019,"Grand Rapids","MI","Midwest","East North Central",196019,NA
-"Grapevine, TX","City","Grapevine",0,0,1,7,8,100,12,2017,1,"TX",8,120,51458,"Grapevine","TX","South","West South Central",51458,NA
-"Greeley, CO","City","Greeley",2,3,9,37,24,141,28,2020,5,"CO",51,193,109183,"Greeley","CO","West","Mountain",109183,NA
-"Green Township, OH","City","Green Township",0,0,2,6,4,63,7,2023,3,"OH",8,74,59277,"Green Township","OH","Midwest","East North Central",59277,NA
-"Greensboro, NC","City","Greensboro",12,10,49,186,169,672,119,2020,7,"NC",257,960,303237,"Greensboro","NC","South","South Atlantic",303237,NA
-"Greenwich, CT","City","Greenwich",0,0,0,0,3,40,22,2022,1,"CT",0,65,63777,"Greenwich","CT","Northeast","New England",63777,NA
-"Gresham, OR","City","Gresham",1,2,10,12,37,159,78,2024,3,"OR",25,274,110225,"Gresham","OR","West","Pacific",110225,NA
-"Hamden, CT","City","Hamden",0,1,7,14,4,86,16,2022,2,"CT",22,106,60691,"Hamden","CT","Northeast","New England",60691,NA
-"Hampton, VA","City","Hampton",0,0,8,21,31,243,22,2018,2,"VA",29,296,138533,"Hampton","VA","South","South Atlantic",138533,NA
-"Harlingen, TX","City","Harlingen",0,1,3,15,44,233,9,2017,1,"TX",19,286,71581,"Harlingen","TX","South","West South Central",71581,NA
-"Harrisburg, PA","City","Harrisburg",4,0,4,19,13,48,13,2022,3,"PA",27,74,50229,"Harrisburg","PA","Northeast","Middle Atlantic",50229,NA
-"Harrisonburg, VA","City","Harrisonburg",0,0,0,6,9,62,2,2018,2,"VA",6,73,50928,"Harrisonburg","VA","South","South Atlantic",50928,NA
-"Hartford, CT","City","Hartford",4,0,10,45,33,184,48,2022,8,"CT",59,265,120710,"Hartford","CT","Northeast","New England",120710,NA
-"Haverford, PA","City","Haverford",0,1,0,1,3,27,0,2022,3,"PA",2,30,50505,"Haverford Township","PA","Northeast","Middle Atlantic",50505,"City"
-"Haverhill, MA","City","Haverhill",0,3,4,29,19,57,10,2018,7,"MA",36,86,67133,"Haverhill","MA","Northeast","New England",67133,NA
-"Henderson, NV","City","Henderson",0,5,19,45,67,314,135,2024,1,"NV",69,516,337794,"Henderson","NV","West","Mountain",337794,NA
-"Hillsboro, OR","City","Hillsboro",0,1,5,14,24,172,27,2023,5,"OR",20,223,107459,"Hillsboro","OR","West","Pacific",107459,NA
-"Honolulu, HI","City","Honolulu",2,NA,55,83,195,1207,321,2023,11,"HI",140,1723,987546,"Honolulu","HI","West","Pacific",987546,NA
-"Houston, TX","City","Houston",22,92,937,1168,1510,6136,1065,2017,1,"TX",2219,8711,2304406,"Houston","TX","South","West South Central",2304406,NA
-"Idaho Falls, ID","City","Idaho Falls",0,3,0,9,15,52,8,2020,5,"ID",12,75,68662,"Idaho Falls","ID","West","Mountain",68662,NA
-"Independence, MO","City","Independence",2,3,20,38,56,375,90,2017,1,"MO",63,521,120326,"Independence","MO","Midwest","West North Central",120326,NA
-"Indianapolis, IN","City","Indianapolis",17,63,133,428,398,1702,752,2023,10,"IN",641,2852,887131,"Indianapolis","IN","Midwest","East North Central",887131,NA
-"Irving, TX","City","Irving",1,3,13,24,86,371,56,2017,1,"TX",41,513,255203,"Irving","TX","South","West South Central",255203,NA
-"Jackson, MI","City","Jackson",0,5,0,8,8,58,10,2024,2,"MI",13,76,NA,NA,NA,NA,NA,NA,NA
-"Joplin, MO","City","Joplin",1,4,6,18,29,212,23,2017,1,"MO",29,264,52881,"Joplin","MO","Midwest","West North Central",52881,NA
-"Kansas City, MO","City","Kansas City",13,40,173,452,434,1026,365,2017,1,"MO",678,1825,509855,"Kansas City","MO","Midwest","West North Central",509855,NA
-"Kentwood, MI","City","Kentwood",0,8,1,6,18,71,8,2017,10,"MI",15,97,53979,"Kentwood","MI","Midwest","East North Central",53979,NA
-"Killeen, TX","City","Killeen",2,7,24,53,99,205,59,2017,1,"TX",86,363,161968,"Killeen","TX","South","West South Central",161968,NA
-"Knoxville, TN","City","Knoxville",2,12,47,93,135,610,91,2017,1,"TN",154,836,198132,"Knoxville","TN","South","East South Central",198132,NA
-"Kyle, TX","City","Kyle",0,1,1,4,12,26,3,2017,1,"TX",6,41,63931,"Kyle","TX","South","West South Central",63931,NA
-"La Mesa, CA","City","La Mesa",0,6,11,6,16,56,11,2019,2,"CA",23,83,60008,"La Mesa","CA","West","Pacific",60008,NA
-"Lake Havasu City, AZ","City","Lake Havasu City",0,2,1,6,25,90,6,2017,7,"AZ",9,121,59720,"Lake Havasu City","AZ","West","Mountain",59720,NA
-"Lakeville, MN","City","Lakeville",0,1,0,2,7,29,1,2018,3,"MN",3,37,76929,"Lakeville","MN","Midwest","West North Central",76929,NA
-"Lakewood, CO","City","Lakewood",0,7,24,74,76,499,95,2024,1,"CO",105,670,156065,"Lakewood","CO","West","Mountain",156065,NA
-"Lancaster, PA","City","Lancaster",0,3,5,20,7,57,8,2021,3,"PA",28,72,57213,"Lancaster","PA","Northeast","Middle Atlantic",57213,NA
-"Lansing, MI","City","Lansing",3,9,10,93,56,186,72,2022,7,"MI",115,314,112529,"Lansing","MI","Midwest","East North Central",112529,NA
-"Laredo, TX","City","Laredo",1,7,27,49,72,533,25,2017,1,"TX",84,630,256542,"Laredo","TX","South","West South Central",256542,NA
-"Las Vegas, NV","City","Las Vegas",11,NA,357,395,1248,2461,678,2017,1,"NV",763,4387,1670226,"Las Vegas Metropolitan Police Department","NV","West","Mountain",1670226,"City"
-"Lawrence, MA","City","Lawrence",1,1,18,28,28,67,51,2017,1,"MA",48,146,87806,"Lawrence","MA","Northeast","New England",87806,NA
-"League City, TX","City","League City",1,1,3,5,17,96,12,2017,1,"TX",10,125,115791,"League City","TX","South","West South Central",115791,NA
-"Leander, TX","City","Leander",0,1,1,4,6,28,4,2017,1,"TX",6,38,82228,"Leander","TX","South","West South Central",82228,NA
-"Lee's Summit, MO","City","Lee's Summit",0,1,8,4,17,106,5,2017,1,"MO",13,128,104402,"Lee's Summit","MO","Midwest","West North Central",104402,NA
-"Lewisville, TX","City","Lewisville",0,8,10,14,34,137,12,2017,1,"TX",32,183,133694,"Lewisville","TX","South","West South Central",133694,NA
-"Lexington, KY","City","Lexington",2,9,47,28,246,726,111,2017,1,"KY",86,1083,319994,"Lexington","KY","South","East South Central",319994,NA
-"Lincoln, NE","City","Lincoln",0,23,10,55,123,582,60,2020,12,"NE",88,765,293155,"Lincoln","NE","Midwest","West North Central",293155,NA
-"Little Elm, TX","City","Little Elm",1,1,1,2,5,22,3,2017,1,"TX",5,30,59954,"Little Elm","TX","South","West South Central",59954,NA
-"Little Rock, AR","City","Little Rock",3,14,55,231,173,858,119,2017,1,"AR",303,1150,202986,"Little Rock","AR","South","West South Central",202986,NA
-"Livonia, MI","City","Livonia",0,3,1,19,14,108,11,2023,8,"MI",23,133,93042,"Livonia","MI","Midwest","East North Central",93042,NA
-"Long Beach, CA","City","Long Beach",4,10,85,100,257,678,265,2017,1,"CA",199,1200,444415,"Long Beach","CA","West","Pacific",444415,NA
-"Longmont, CO","City","Longmont",0,9,2,16,28,130,28,2020,2,"CO",27,186,98444,"Longmont","CO","West","Mountain",98444,NA
-"Longview, TX","City","Longview",0,5,10,19,68,194,26,2017,1,"TX",34,288,82981,"Longview","TX","South","West South Central",82981,NA
-"Lorain, OH","City","Lorain",0,1,3,14,20,71,18,2023,4,"OH",18,109,65436,"Lorain","OH","Midwest","East North Central",65436,NA
-"Los Angeles, CA","City","Los Angeles",33,NA,NA,NA,NA,NA,NA,2017,1,"CA",33,0,3786018,"Los Angeles","CA","West","Pacific",3786018,NA
-"Louisville, KY","City","Louisville",6,39,112,209,539,1757,382,2017,1,"KY",366,2678,669468,"Louisville Metro","KY","South","East South Central",669468,"City"
-"Loveland, CO","City","Loveland",0,10,3,8,17,128,13,2023,9,"CO",21,158,78656,"Loveland","CO","West","Mountain",78656,NA
-"Lower Merion, PA","City","Lower Merion",0,0,1,1,4,40,3,2023,2,"PA",2,47,64350,"Lower Merion Township","PA","Northeast","Middle Atlantic",64350,"City"
-"Lower Paxton, PA","City","Lower Paxton",0,1,0,4,3,28,2,2022,1,"PA",5,33,55204,"Lower Paxton Township","PA","Northeast","Middle Atlantic",55204,"City"
-"Lynchburg, VA","City","Lynchburg",1,2,2,22,23,129,9,2017,5,"VA",27,161,79509,"Lynchburg","VA","South","South Atlantic",79509,NA
-"Lynn, MA","City","Lynn",0,3,8,29,8,51,14,2020,9,"MA",40,73,101144,"Lynn","MA","Northeast","New England",101144,NA
-"Malden, MA","City","Malden",0,3,1,9,5,43,12,2020,7,"MA",13,60,64291,"Malden","MA","Northeast","New England",64291,NA
-"Manchester, NH","City","Manchester",0,8,16,37,44,152,12,2017,1,"NH",61,208,114963,"Manchester","NH","Northeast","New England",114963,NA
-"Mansfield, TX","City","Mansfield",0,0,1,2,12,43,4,2017,1,"TX",3,59,78788,"Mansfield","TX","South","West South Central",78788,NA
-"Maple Grove, MN","City","Maple Grove",0,2,0,2,2,52,3,2018,3,"MN",4,57,70729,"Maple Grove","MN","Midwest","West North Central",70729,NA
-"Marana, AZ","City","Marana",1,0,4,2,10,90,7,2017,6,"AZ",7,107,57718,"Marana","AZ","West","Mountain",57718,NA
-"Maricopa, AZ","City","Maricopa",0,1,0,8,5,29,8,2019,1,"AZ",9,42,70355,"Maricopa","AZ","West","Mountain",70355,NA
-"McAllen, TX","City","McAllen",2,2,4,15,16,316,4,2017,1,"TX",23,336,145684,"McAllen","TX","South","West South Central",145684,NA
-"Mckinney, TX","City","Mckinney",0,7,7,7,23,163,22,2017,1,"TX",21,208,212716,"McKinney","TX","South","West South Central",212716,"City"
-"Memphis, TN","City","Memphis",18,54,329,651,798,2102,386,2017,1,"TN",1052,3286,616061,"Memphis","TN","South","East South Central",616061,NA
-"Meriden, CT","City","Meriden",1,2,3,7,1,114,16,2022,3,"CT",13,131,60054,"Meriden","CT","Northeast","New England",60054,NA
-"Meridian, ID","City","Meridian",0,4,1,17,5,63,5,2024,5,"ID",22,73,135239,"Meridian","ID","West","Mountain",135239,NA
-"Mesa, AZ","City","Mesa",2,26,34,125,109,664,99,2022,1,"AZ",187,872,515848,"Mesa","AZ","West","Mountain",515848,NA
-"Mesquite, TX","City","Mesquite",1,5,25,20,90,343,82,2017,1,"TX",51,515,147926,"Mesquite","TX","South","West South Central",147926,NA
-"Methuen, MA","City","Methuen",0,0,0,6,6,40,8,2020,8,"MA",6,54,53558,"Methuen","MA","Northeast","New England",53558,NA
-"Miami Beach, FL","City","Miami Beach",0,8,25,21,47,603,39,2017,1,"FL",54,689,78824,"Miami Beach","FL","South","South Atlantic",78824,NA
-"Midland, TX","City","Midland",0,3,7,22,37,156,21,2017,1,"TX",32,214,135253,"Midland","TX","South","West South Central",135253,NA
-"Milford, CT","City","Milford",0,1,4,1,1,48,6,2021,2,"CT",6,55,53011,"Milford","CT","Northeast","New England",53011,NA
-"Milpitas, CA","City","Milpitas",0,NA,3,3,22,143,24,2017,1,"CA",6,189,76573,"Milpitas","CA","West","Pacific",76573,NA
-"Milwaukee, WI","City","Milwaukee",11,NA,NA,NA,NA,NA,NA,2017,1,"WI",11,0,558698,"Milwaukee","WI","Midwest","East North Central",558698,NA
-"Minneapolis, MN","City","Minneapolis",4,48,185,211,333,1325,172,2017,7,"MN",448,1830,422341,"Minneapolis","MN","Midwest","West North Central",422341,NA
-"Minnetonka, MN","City","Minnetonka",0,0,4,1,6,58,4,2022,12,"MN",5,68,51791,"Minnetonka","MN","Midwest","West North Central",51791,NA
-"Mission, TX","City","Mission",0,0,3,3,23,182,14,2017,1,"TX",6,219,87031,"Mission","TX","South","West South Central",87031,NA
-"Missouri City, TX","City","Missouri City",0,0,8,11,18,83,7,2017,1,"TX",19,108,77560,"Missouri City","TX","South","West South Central",77560,NA
-"Moline, IL","City","Moline",0,6,0,13,10,57,9,2021,3,"IL",19,76,42009,"Moline","IL","Midwest","East North Central",41601,NA
-"Mount Prospect, IL","City","Mount Prospect",0,0,2,1,2,35,2,2022,8,"IL",3,39,53932,"Mount Prospect","IL","Midwest","East North Central",53932,NA
-"Nashua, NH","City","Nashua",1,3,6,6,4,89,3,2017,1,"NH",16,96,91145,"Nashua","NH","Northeast","New England",91145,NA
-"Nashville, TN","City","Nashville",9,NA,192,456,335,1509,227,2017,1,"TN",657,2071,690495,"Metropolitan Nashville Police Department","TN","South","East South Central",690495,"City"
-"National City, CA","City","National City",0,5,11,20,13,85,23,2019,2,"CA",36,121,55270,"National City","CA","West","Pacific",55270,NA
-"New Braunfels, TX","City","New Braunfels",0,3,2,9,17,92,9,2017,1,"TX",14,118,111942,"New Braunfels","TX","South","West South Central",111942,NA
-"New Britain, CT","City","New Britain",0,2,11,10,18,91,20,2021,2,"CT",23,129,74609,"New Britain","CT","Northeast","New England",74609,NA
-"New Orleans, LA","City","New Orleans",23,25,114,116,250,959,218,2017,1,"LA",278,1427,364197,"New Orleans","LA","South","West South Central",364197,NA
-"New York City, NY","City","New York City",24,112,1246,1646,1097,3580,462,2017,1,"NY",3028,5139,8184044,"New York","NY","Northeast","Middle Atlantic",8184044,"City"
-"Newark, OH","City","Newark",0,2,6,0,23,94,15,2023,1,"OH",8,132,51147,"Newark","OH","Midwest","East North Central",51147,NA
-"Newport News, VA","City","Newport News",4,5,12,55,51,322,24,2017,4,"VA",76,397,183600,"Newport News","VA","South","South Atlantic",183600,NA
-"Norfolk, VA","City","Norfolk",1,9,30,63,108,516,48,2017,2,"VA",103,672,230849,"Norfolk","VA","South","South Atlantic",230849,NA
-"Normal, IL","City","Normal",0,4,0,12,5,51,2,2023,3,"IL",16,58,52883,"Normal","IL","Midwest","East North Central",52883,NA
-"North Bergen Township, NJ","City","North Bergen Township",0,0,3,5,6,27,3,2017,1,"NJ",8,36,59147,"North Bergen Township","NJ","Northeast","Middle Atlantic",59147,NA
-"North Las Vegas, NV","City","North Las Vegas",4,8,25,41,101,198,144,2022,2,"NV",78,443,290751,"North Las Vegas","NV","West","Mountain",290751,NA
-"North Richland Hills, TX","City","North Richland Hills",0,3,4,5,18,96,14,2017,1,"TX",12,128,70853,"North Richland Hills","TX","South","West South Central",70853,NA
-"Norwalk, CT","City","Norwalk",1,2,4,18,12,116,15,2017,5,"CT",25,143,91639,"Norwalk","CT","Northeast","New England",91639,NA
-"Novi, MI","City","Novi",0,2,0,2,1,45,6,2023,2,"MI",4,52,66482,"Novi","MI","Midwest","East North Central",66482,NA
-"O'Fallon, MO","City","O'Fallon",0,2,1,5,2,81,4,2017,1,"MO",8,87,94702,"O'Fallon","MO","Midwest","West North Central",94702,NA
-"Oak Lawn, IL","City","Oak Lawn",0,1,2,6,5,61,0,2018,1,"IL",9,66,55368,"Oak Lawn","IL","Midwest","East North Central",55368,NA
-"Oceanside, CA","City","Oceanside",1,5,11,35,64,298,49,2018,1,"CA",52,411,171348,"Oceanside","CA","West","Pacific",171348,NA
-"Odessa, TX","City","Odessa",1,4,10,43,45,201,14,2017,1,"TX",58,260,111922,"Odessa","TX","South","West South Central",111922,NA
-"Omaha, NE","City","Omaha",2,15,21,83,96,849,256,2024,1,"NE",121,1201,481471,"Omaha","NE","Midwest","West North Central",481471,NA
-"Oshkosh, WI","City","Oshkosh",0,1,4,11,13,77,5,2017,1,"WI",16,95,65548,"Oshkosh","WI","Midwest","East North Central",65548,NA
-"Palatine, IL","City","Palatine",0,0,1,1,5,54,2,2017,5,"IL",2,61,64407,"Palatine","IL","Midwest","East North Central",64407,NA
-"Parker, CO","City","Parker",0,0,1,7,9,105,17,2023,10,"CO",8,131,62431,"Parker","CO","West","Mountain",62431,NA
-"Parma, OH","City","Parma",0,6,5,9,3,35,10,2024,4,"OH",20,48,78913,"Parma","OH","Midwest","East North Central",78913,NA
-"Pasadena, TX","City","Pasadena",0,6,16,39,55,247,35,2017,1,"TX",61,337,145850,"Pasadena","TX","South","West South Central",145850,NA
-"Pawtucket, RI","City","Pawtucket",0,1,2,23,41,104,12,2017,1,"RI",26,157,75100,"Pawtucket","RI","Northeast","New England",75100,NA
-"Pearland, TX","City","Pearland",1,3,1,9,26,158,8,2017,1,"TX",14,192,127433,"Pearland","TX","South","West South Central",127433,NA
-"Peoria, AZ","City","Peoria",1,5,5,17,56,221,20,2018,1,"AZ",28,297,200886,"Peoria","AZ","West","Mountain",200886,NA
-"Pflugerville, TX","City","Pflugerville",0,4,2,5,10,79,2,2017,1,"TX",11,91,65599,"Pflugerville","TX","South","West South Central",65599,NA
-"Pharr, TX","City","Pharr",0,2,8,6,21,106,1,2017,1,"TX",16,128,80359,"Pharr","TX","South","West South Central",80359,NA
-"Philadelphia, PA","City","Philadelphia",24,89,409,561,514,2584,388,2017,3,"PA",1083,3486,1550843,"Philadelphia","PA","Northeast","Middle Atlantic",1550843,NA
-"Phoenix, AZ","City","Phoenix",6,106,240,350,1008,2827,591,2017,1,"AZ",702,4426,1660686,"Phoenix","AZ","West","Mountain",1660686,NA
-"Plano, TX","City","Plano",1,9,9,20,59,363,37,2017,1,"TX",39,459,291140,"Plano","TX","South","West South Central",291140,NA
-"Plymouth, MA","City","Plymouth",0,1,0,15,5,35,0,2022,1,"MA",16,40,68771,"Plymouth","MA","Northeast","New England",68771,NA
-"Plymouth, MN","City","Plymouth",0,0,0,2,10,48,11,2023,1,"MN",2,69,77576,"Plymouth","MN","Midwest","West North Central",77576,NA
-"Pocatello, ID","City","Pocatello",0,1,1,16,32,75,10,2017,1,"ID",18,117,58390,"Pocatello","ID","West","Mountain",58390,NA
-"Port Arthur, TX","City","Port Arthur",1,0,11,20,51,95,15,2017,1,"TX",32,161,55371,"Port Arthur","TX","South","West South Central",55371,NA
-"Portland, OR","City","Portland",0,21,77,121,321,1502,670,2017,1,"OR",219,2493,626146,"Portland","OR","West","Pacific",626146,NA
-"Portsmouth, VA","City","Portsmouth",1,1,22,54,81,309,34,2018,12,"VA",78,424,96649,"Portsmouth","VA","South","South Atlantic",96649,NA
-"Prescott Valley, AZ","City","Prescott Valley",0,0,0,12,2,36,1,2023,2,"AZ",12,39,50166,"Prescott Valley","AZ","West","Mountain",50166,NA
-"Quincy, MA","City","Quincy",0,0,1,22,16,69,3,2022,11,"MA",23,88,102465,"Quincy","MA","Northeast","New England",102465,NA
-"Raleigh, NC","City","Raleigh",0,12,45,60,191,680,69,2017,1,"NC",117,940,482842,"Raleigh","NC","South","South Atlantic",482842,NA
-"Rapid City, SD","City","Rapid City",3,6,5,23,22,179,29,2017,1,"SD",37,230,80850,"Rapid City","SD","Midwest","West North Central",80850,NA
-"Reading, PA","City","Reading",1,4,12,18,16,75,6,2023,2,"PA",35,97,97790,"Reading","PA","Northeast","Middle Atlantic",97790,NA
-"Redlands, CA","City","Redlands",0,3,4,12,45,164,21,2017,1,"CA",19,230,74147,"Redlands","CA","West","Pacific",74147,NA
-"Revere, MA","City","Revere",0,4,2,13,6,39,5,2018,2,"MA",19,50,57132,"Revere","MA","Northeast","New England",57132,NA
-"Richardson, TX","City","Richardson",0,4,8,4,36,125,20,2017,1,"TX",16,181,119008,"Richardson","TX","South","West South Central",119008,NA
-"Richmond, CA","City","Richmond",1,6,35,58,63,214,122,2017,1,"CA",100,399,113282,"Richmond","CA","West","Pacific",113282,NA
-"Richmond, VA","City","Richmond",9,3,47,54,146,527,119,2017,1,"VA",113,792,230789,"Richmond","VA","South","South Atlantic",230789,NA
-"Riverside, CA","City","Riverside",0,NA,53,78,165,611,166,2017,1,"CA",131,942,323473,"Riverside","CA","West","Pacific",323473,NA
-"Roanoke, VA","City","Roanoke",3,4,15,20,42,261,23,2018,1,"VA",42,326,96925,"Roanoke","VA","South","South Atlantic",96925,NA
-"Rochester, MN","City","Rochester",0,4,2,8,9,115,5,2023,1,"MN",14,129,122035,"Rochester","MN","Midwest","West North Central",122035,NA
-"Rochester, NY","City","Rochester",0,NA,70,39,97,463,38,2017,1,"NY",109,598,208452,"Rochester","NY","Northeast","Middle Atlantic",208452,NA
-"Rockford, IL","City","Rockford",0,14,21,86,53,276,34,2020,1,"IL",121,363,145873,"Rockford","IL","Midwest","East North Central",145873,NA
-"Rockwall, TX","City","Rockwall",0,6,0,4,5,59,8,2017,1,"TX",10,72,53433,"Rockwall","TX","South","West South Central",53433,NA
-"Round Rock, TX","City","Round Rock",0,2,4,4,15,215,1,2017,1,"TX",10,231,129898,"Round Rock","TX","South","West South Central",129898,NA
-"Rowlett, TX","City","Rowlett",0,0,3,3,5,58,3,2017,1,"TX",6,66,66671,"Rowlett","TX","South","West South Central",66671,NA
-"Royal Oak, MI","City","Royal Oak",0,0,1,2,2,35,5,2017,1,"MI",3,42,57233,"Royal Oak","MI","Midwest","East North Central",57233,NA
-"Salem, OR","City","Salem",1,7,8,45,59,351,60,2024,3,"OR",61,470,178276,"Salem","OR","West","Pacific",178276,NA
-"Salt Lake City, UT","City","Salt Lake City",0,17,39,45,127,1035,173,2017,1,"UT",101,1335,206692,"Salt Lake City","UT","West","Mountain",206692,NA
-"San Angelo, TX","City","San Angelo",0,8,10,13,75,279,24,2017,1,"TX",31,378,98642,"San Angelo","TX","South","West South Central",98642,NA
-"San Antonio, TX","City","San Antonio",15,NA,228,643,1171,5106,690,2017,1,"TX",886,6967,1490047,"San Antonio","TX","South","West South Central",1490047,NA
-"San Diego, CA","City","San Diego",3,19,78,280,181,1053,371,2024,1,"CA",380,1605,1378349,"San Diego","CA","West","Pacific",1378349,NA
-"San Francisco, CA","City","San Francisco",6,45,241,232,433,3666,409,2017,1,"CA",524,4508,782846,"San Francisco","CA","West","Pacific",782846,NA
-"San Jose, CA","City","San Jose",4,50,101,157,373,1194,877,2017,1,"CA",312,2444,952530,"San Jose","CA","West","Pacific",952530,NA
-"San Marcos, TX","City","San Marcos",0,6,7,7,26,128,17,2017,1,"TX",20,171,71413,"San Marcos","TX","South","West South Central",71413,NA
-"Schaumburg, IL","City","Schaumburg",0,1,2,0,7,124,11,2024,3,"IL",3,142,75140,"Schaumburg","IL","Midwest","East North Central",75140,NA
-"Scottsdale, AZ","City","Scottsdale",0,10,11,14,53,351,25,2018,4,"AZ",35,429,243644,"Scottsdale","AZ","West","Mountain",243644,NA
-"Scranton, PA","City","Scranton",0,9,7,12,13,103,7,2022,3,"PA",28,123,75687,"Scranton","PA","Northeast","Middle Atlantic",75687,NA
-"Seattle, WA","City","Seattle",2,33,114,181,673,2312,310,2017,1,"WA",330,3295,753786,"Seattle","WA","West","Pacific",753786,NA
-"Skokie, IL","City","Skokie",0,0,8,6,19,83,8,2017,4,"IL",14,110,64417,"Skokie","IL","Midwest","East North Central",64417,NA
-"Somerville, MA","City","Somerville",0,2,0,10,1,5,1,2021,5,"MA",12,7,79513,"Somerville","MA","Northeast","New England",79513,NA
-"South Bend, IN","City","South Bend",0,5,42,29,126,248,52,2017,1,"IN",76,426,102999,"South Bend","IN","Midwest","East North Central",102999,NA
-"Southaven, MS","City","Southaven",3,2,4,2,22,126,3,2017,1,"MS",11,151,57135,"Southaven","MS","South","East South Central",57135,NA
-"Southfield, MI","City","Southfield",0,3,5,26,18,87,74,2023,9,"MI",34,179,74960,"Southfield","MI","Midwest","East North Central",74960,NA
-"Sparks, NV","City","Sparks",0,3,3,23,26,58,13,2020,4,"NV",29,97,109403,"Sparks","NV","West","Mountain",109403,NA
-"Spokane, WA","City","Spokane",1,17,35,80,190,851,167,2017,1,"WA",133,1208,230648,"Spokane","WA","West","Pacific",230648,NA
-"Springfield, IL","City","Springfield",2,8,22,61,84,237,20,2017,3,"IL",93,341,112781,"Springfield","IL","Midwest","East North Central",112781,NA
-"Springfield, MO","City","Springfield",2,26,48,99,179,912,180,2017,1,"MO",175,1271,170521,"Springfield","MO","Midwest","West North Central",170521,NA
-"Springfield, OH","City","Springfield",0,4,12,77,47,128,33,2024,4,"OH",93,208,57866,"Springfield","OH","Midwest","East North Central",57866,NA
-"Springfield, OR","City","Springfield",0,1,1,8,16,106,8,2024,3,"OR",10,130,61185,"Springfield","OR","West","Pacific",61185,NA
-"St Charles, MO","City","St Charles",0,4,0,6,50,123,13,2017,1,"MO",10,186,71408,"St. Charles","MO","Midwest","West North Central",71408,"City"
-"St Joseph, MO","City","St Joseph",0,5,11,16,41,290,65,2017,1,"MO",32,396,69925,"St. Joseph","MO","Midwest","West North Central",69925,"City"
-"St Louis, MO","City","St Louis",16,22,144,268,288,1000,247,2017,1,"MO",450,1535,280108,"St. Louis","MO","Midwest","West North Central",280108,"City"
-"St Peters, MO","City","St Peters",0,2,0,5,8,97,1,2017,1,"MO",7,106,58937,"St. Peters","MO","Midwest","West North Central",58937,"City"
-"St. Clair Shores, MI","City","St. Clair Shores",0,2,3,3,4,30,5,2021,4,"MI",8,39,57257,"St. Clair Shores","MI","Midwest","East North Central",57257,NA
-"St. Cloud, MN","City","St. Cloud",0,5,4,13,21,228,25,2020,7,"MN",22,274,69922,"St. Cloud","MN","Midwest","West North Central",69922,NA
-"St. Paul, MN","City","St. Paul",1,17,46,77,136,443,170,2019,3,"MN",141,749,300368,"St. Paul","MN","Midwest","West North Central",300368,NA
-"Stamford, CT","City","Stamford",0,0,8,4,21,145,15,2021,3,"CT",12,181,136512,"Stamford","CT","Northeast","New England",136512,NA
-"State College, PA","City","State College",0,3,0,4,2,34,0,2022,2,"PA",7,36,58532,"State College","PA","Northeast","Middle Atlantic",58532,NA
-"Sterling Heights, MI","City","Sterling Heights",0,2,3,14,11,81,25,2020,11,"MI",19,117,131801,"Sterling Heights","MI","Midwest","East North Central",131801,NA
-"Stockton, CA","City","Stockton",0,7,73,222,201,622,192,2017,1,"CA",302,1015,322220,"Stockton","CA","West","Pacific",322220,NA
-"Stratford, CT","City","Stratford",0,0,3,0,9,69,19,2020,1,"CT",3,97,52596,"Stratford","CT","Northeast","New England",52596,NA
-"Suffolk, VA","City","Suffolk",0,1,7,18,5,120,13,2022,2,"VA",26,138,100598,"Suffolk","VA","South","South Atlantic",100598,NA
-"Sugar Land, TX","City","Sugar Land",0,0,2,1,17,97,6,2017,1,"TX",3,120,108718,"Sugar Land","TX","South","West South Central",108718,NA
-"Surprise, AZ","City","Surprise",0,4,1,6,13,119,11,2021,2,"AZ",11,143,159346,"Surprise","AZ","West","Mountain",159346,NA
-"Tacoma, WA","City","Tacoma",3,NA,30,87,169,799,210,2017,1,"WA",120,1178,222828,"Tacoma","WA","West","Pacific",222828,NA
-"Taunton, MA","City","Taunton",0,3,8,18,13,21,2,2018,5,"MA",29,36,60356,"Taunton","MA","Northeast","New England",60356,NA
-"Taylor, MI","City","Taylor",0,4,5,14,14,80,20,2021,1,"MI",23,114,61781,"Taylor","MI","Midwest","East North Central",61781,NA
-"Tempe, AZ","City","Tempe",0,15,13,53,69,528,49,2017,2,"AZ",81,646,188144,"Tempe","AZ","West","Mountain",188144,NA
-"Temple, TX","City","Temple",0,4,4,9,38,133,17,2017,1,"TX",17,188,93073,"Temple","TX","South","West South Central",93073,NA
-"Texas City, TX","City","Texas City",0,1,10,11,30,132,4,2017,1,"TX",22,166,57448,"Texas City","TX","South","West South Central",57448,NA
-"Thornton, CO","City","Thornton",0,12,8,12,37,311,55,2018,5,"CO",32,403,143838,"Thornton","CO","West","Mountain",143838,NA
-"Tigard, OR","City","Tigard",0,2,4,11,19,111,14,2023,7,"OR",17,144,56142,"Tigard","OR","West","Pacific",56142,NA
-"Tinley Park, IL","City","Tinley Park",0,2,1,0,2,37,11,2023,1,"IL",3,50,53528,"Tinley Park","IL","Midwest","East North Central",53528,NA
-"Tracy, CA","City","Tracy",0,2,7,8,31,166,34,2017,1,"CA",17,231,99347,"Tracy","CA","West","Pacific",99347,NA
-"Troy, MI","City","Troy",0,0,1,1,7,69,5,2017,2,"MI",2,81,87265,"Troy","MI","Midwest","East North Central",87265,NA
-"Tucson, AZ","City","Tucson",3,48,124,185,399,1671,141,2017,1,"AZ",360,2211,548544,"Tucson","AZ","West","Mountain",548544,NA
-"Twin Falls, ID","City","Twin Falls",0,2,1,15,19,80,3,2019,8,"ID",18,102,55447,"Twin Falls","ID","West","Mountain",55447,NA
-"Tyler, TX","City","Tyler",0,9,3,32,51,228,15,2017,1,"TX",44,294,110824,"Tyler","TX","South","West South Central",110824,NA
-"Upper Darby, PA","City","Upper Darby",1,0,7,4,9,97,15,2022,2,"PA",12,121,84468,"Upper Darby Township","PA","Northeast","Middle Atlantic",84468,"City"
-"Vallejo, CA","City","Vallejo",1,9,33,45,213,100,95,2017,1,"CA",88,408,122419,"Vallejo","CA","West","Pacific",122419,NA
-"Victoria, TX","City","Victoria",0,5,7,12,45,150,8,2017,1,"TX",24,203,65298,"Victoria","TX","South","West South Central",65298,NA
-"Virginia Beach, VA","City","Virginia Beach",1,3,13,6,34,449,26,2024,11,"VA",23,509,453991,"Virginia Beach","VA","South","South Atlantic",453991,NA
-"Waco, TX","City","Waco",0,7,6,25,81,343,10,2017,1,"TX",38,434,145741,"Waco","TX","South","West South Central",145741,NA
-"Waltham, MA","City","Waltham",0,1,1,8,8,49,3,2018,5,"MA",10,60,63797,"Waltham","MA","Northeast","New England",63797,NA
-"Warren, MI","City","Warren",0,7,3,51,34,151,54,2022,10,"MI",61,239,136121,"Warren","MI","Midwest","East North Central",136121,NA
-"Warwick, RI","City","Warwick",0,2,0,8,16,105,5,2017,1,"RI",10,126,83369,"Warwick","RI","Northeast","New England",83369,NA
-"Washington, DC","City","Washington",8,22,212,184,153,2273,169,2017,1,"DC",426,2595,678972,"Washington","DC","South","South Atlantic",678972,NA
-"Waterbury, CT","City","Waterbury",2,4,13,12,40,168,61,2018,11,"CT",31,269,115380,"Waterbury","CT","Northeast","New England",115380,NA
-"Waterford Township, MI","City","Waterford Township",0,1,1,17,8,46,3,2022,7,"MI",19,57,69153,"Waterford Township","MI","Midwest","East North Central",69153,NA
-"West Bloomfield Township, MI","City","West Bloomfield Township",0,0,0,1,3,27,1,2017,2,"MI",1,31,64904,"West Bloomfield Township","MI","Midwest","East North Central",64904,NA
-"West Chester Township, OH","City","West Chester Township",0,2,1,0,6,73,3,2023,2,"OH",3,82,62860,"West Chester Township","OH","Midwest","East North Central",62860,NA
-"West Hartford, CT","City","West Hartford",0,0,1,1,6,102,7,2023,2,"CT",2,115,64423,"West Hartford","CT","Northeast","New England",64423,NA
-"West Haven, CT","City","West Haven",0,1,2,1,6,26,6,2024,11,"CT",4,38,54791,"West Haven","CT","Northeast","New England",54791,NA
-"Westland, MI","City","Westland",0,3,4,14,20,75,10,2018,1,"MI",21,105,83463,"Westland","MI","Midwest","East North Central",83463,NA
-"Westminster, CO","City","Westminster",0,7,2,17,46,240,61,2017,5,"CO",26,347,113660,"Westminster","CO","West","Mountain",113660,NA
-"Weymouth, MA","City","Weymouth",0,2,0,4,15,15,2,2024,11,"MA",6,32,57725,"Weymouth","MA","Northeast","New England",57725,NA
-"Wichita Falls, TX","City","Wichita Falls",0,5,11,17,79,162,21,2017,1,"TX",33,262,102740,"Wichita Falls","TX","South","West South Central",102740,NA
-"Woodbury, MN","City","Woodbury",0,0,1,1,8,52,2,2018,6,"MN",2,62,80153,"Woodbury","MN","Midwest","West North Central",80153,NA
-"Wylie, TX","City","Wylie",0,2,1,1,5,31,2,2017,1,"TX",4,38,62539,"Wylie","TX","South","West South Central",62539,NA
-"Wyoming, MI","City","Wyoming",0,9,3,26,16,75,13,2018,2,"MI",38,104,76712,"Wyoming","MI","Midwest","East North Central",76712,NA
-"York, PA","City","York",0,3,5,13,6,51,19,2022,2,"PA",21,76,44901,"York","PA","Northeast","Middle Atlantic",44876,NA
-"Yuma, AZ","City","Yuma",0,3,4,27,36,132,14,2020,2,"AZ",34,182,99610,"Yuma","AZ","West","Mountain",99610,NA
+"city_state","Agency Name","Murder","Rape","Robbery","Aggravated Assault","Burglary","Theft","Motor Vehicle Theft","Year","Month","State","Agency_Type.x","vio_crime","prop_crime","pop23","pub_agency_name","state_abbr","region_name","division_name","population"
+"Abilene, TX","Abilene",0,4,11,24,72,255,18,2017,1,"TX","City",39,345,128387,"Abilene","TX","South","West South Central",128387
+"Abington, PA","Abington",0,0,2,5,3,75,3,2024,1,"PA","City",7,81,58433,"Abington Township, Montgomery County","PA","Northeast","Middle Atlantic",58433
+"Akron, OH","Akron",0,10,10,70,49,265,51,2024,1,"OH","City",90,365,187705,"Akron","OH","Midwest","East North Central",187705
+"Albany, GA","Albany",0,4,11,41,62,241,12,2017,11,"GA","City",56,315,66281,"Albany","GA","South","South Atlantic",66281
+"Albany, OR","Albany",0,1,1,9,8,66,4,2024,1,"OR","City",11,78,57002,"Albany","OR","West","Pacific",57002
+"Alexandria, VA","Alexandria",0,1,13,21,18,287,32,2024,1,"VA","City",35,337,153897,"Alexandria","VA","South","South Atlantic",153897
+"Alhambra, CA","Alhambra",0,1,6,6,35,88,28,2020,6,"CA","City",13,151,79087,"Alhambra","CA","West","Pacific",79087
+"Allen, TX","Allen",0,5,5,5,11,67,4,2017,1,"TX","City",15,82,114696,"Allen","TX","South","West South Central",114696
+"Allentown, PA","Allentown",1,3,14,16,21,164,23,2023,4,"PA","City",34,208,124782,"Allentown","PA","Northeast","Middle Atlantic",124782
+"Amarillo, TX","Amarillo",1,16,22,65,131,503,74,2017,1,"TX","City",104,708,201684,"Amarillo","TX","South","West South Central",201684
+"Ann Arbor, MI","Ann Arbor",0,6,4,11,14,154,10,2024,1,"MI","City",21,178,118072,"Ann Arbor","MI","Midwest","East North Central",118072
+"Apple Valley, MN","Apple Valley",0,1,0,9,3,77,10,2024,1,"MN","City",10,90,54995,"Apple Valley","MN","Midwest","West North Central",54995
+"Arlington Heights, IL","Arlington Heights",0,0,1,5,11,48,4,2022,12,"IL","City",6,63,74094,"Arlington Heights","IL","Midwest","East North Central",74094
+"Arlington, TX","Arlington",3,43,44,79,159,755,106,2017,1,"TX","City",169,1020,394799,"Arlington","TX","South","West South Central",394799
+"Arvada, CO","Arvada",0,1,3,14,30,167,39,2024,2,"CO","City",18,236,120200,"Arvada","CO","West","Mountain",120200
+"Asheville, NC","Asheville",0,NA,9,10,65,154,23,2017,3,"NC","City",19,242,93471,"Asheville","NC","South","South Atlantic",93471
+"Aurora, CO","Aurora",5,33,37,193,98,590,328,2024,2,"CO","City",268,1016,396976,"Aurora","CO","West","Mountain",396976
+"Austin, TX","Austin",1,65,74,181,433,2170,177,2017,1,"TX","City",321,2780,978816,"Austin","TX","South","West South Central",978816
+"Avondale, AZ","Avondale",0,1,7,31,19,251,20,2021,8,"AZ","City",39,290,92661,"Avondale","AZ","West","Mountain",92661
+"Bakersfield, CA","Bakersfield",5,9,48,104,219,529,247,2020,7,"CA","City",166,995,413409,"Bakersfield","CA","West","Pacific",413409
+"Baltimore, MD","Baltimore",33,22,325,569,322,1089,299,2021,8,"MD","City",949,1710,565192,"Baltimore","MD","South","South Atlantic",565192
+"Battle Creek, MI","Battle Creek",0,4,5,61,38,83,17,2022,5,"MI","City",70,138,60969,"Battle Creek","MI","Midwest","East North Central",60969
+"Baytown, TX","Baytown",0,3,18,10,44,160,29,2017,1,"TX","City",31,233,83809,"Baytown","TX","South","West South Central",83809
+"Beaumont, TX","Beaumont",2,11,38,58,132,293,24,2017,1,"TX","City",109,449,110671,"Beaumont","TX","South","West South Central",110671
+"Beaverton, OR","Beaverton",0,5,3,10,25,179,15,2024,11,"OR","City",18,219,96840,"Beaverton","OR","West","Pacific",96840
+"Bellevue, NE","Bellevue",0,5,1,0,2,42,9,2024,1,"NE","City",6,53,62372,"Bellevue","NE","Midwest","West North Central",62372
+"Bellingham, WA","Bellingham",0,NA,4,NA,NA,166,16,2023,11,"WA","City",4,182,94968,"Bellingham","WA","West","Pacific",94968
+"Bend, OR","Bend",1,4,2,11,14,130,14,2023,8,"OR","City",18,158,105099,"Bend","OR","West","Pacific",105099
+"Bensalem, PA","Bensalem",0,0,1,2,6,153,17,2024,8,"PA","City",3,176,62595,"Bensalem Township","PA","Northeast","Middle Atlantic",62595
+"Bethlehem, PA","Bethlehem",1,0,3,11,10,66,5,2024,8,"PA","City",15,81,78606,"Bethlehem","PA","Northeast","Middle Atlantic",78606
+"Blaine, MN","Blaine",0,1,3,5,8,107,8,2018,2,"MN","City",9,123,72384,"Blaine","MN","Midwest","West North Central",72384
+"Bloomington, MN","Bloomington",2,4,4,5,13,230,32,2023,2,"MN","City",15,275,86793,"Bloomington","MN","Midwest","West North Central",86793
+"Blue Springs, MO","Blue Springs",0,1,0,8,13,109,7,2017,1,"MO","City",9,129,59896,"Blue Springs","MO","Midwest","West North Central",59896
+"Bolingbrook, IL","Bolingbrook",0,4,2,4,8,38,3,2023,2,"IL","City",10,49,74138,"Bolingbrook","IL","Midwest","East North Central",74138
+"Boston, MA","Boston",0,12,61,226,141,822,76,2024,1,"MA","City",299,1039,642823,"Boston","MA","Northeast","New England",642823
+"Boulder, CO","Boulder",1,4,7,18,48,158,23,2021,2,"CO","City",30,229,104232,"Boulder","CO","West","Mountain",104232
+"Bridgeport, CT","Bridgeport",0,6,19,13,31,75,48,2024,2,"CT","City",38,154,148483,"Bridgeport","CT","Northeast","New England",148483
+"Bristol, CT","Bristol",0,1,4,2,9,46,11,2018,1,"CT","City",7,66,61609,"Bristol","CT","Northeast","New England",61609
+"Brockton, MA","Brockton",1,7,8,39,20,77,26,2024,11,"MA","City",55,123,108938,"Brockton","MA","Northeast","New England",108938
+"Brookline, MA","Brookline",0,0,1,5,5,43,0,2024,1,"MA","City",6,48,62639,"Brookline","MA","Northeast","New England",62639
+"Brooklyn Park, MN","Brooklyn Park",0,8,6,14,16,226,22,2022,3,"MN","City",28,264,81920,"Brooklyn Park","MN","Midwest","West North Central",81920
+"Broomfield, CO","Broomfield",0,1,1,2,7,151,10,2019,4,"CO","City",4,168,77072,"Broomfield","CO","West","Mountain",77072
+"Brownsville, TX","Brownsville",1,4,9,12,58,424,18,2017,1,"TX","City",26,500,190590,"Brownsville","TX","South","West South Central",190590
+"Buckeye, AZ","Buckeye",0,5,1,14,6,54,9,2023,5,"AZ","City",20,69,112048,"Buckeye","AZ","West","Mountain",112048
+"Buffalo, NY","Buffalo",4,13,63,101,137,400,35,2017,2,"NY","City",181,572,275922,"Buffalo","NY","Northeast","Middle Atlantic",275922
+"Burbank, CA","Burbank",0,5,3,15,24,209,17,2017,12,"CA","City",23,250,102345,"Burbank","CA","West","Pacific",102345
+"Burleson, TX","Burleson",1,1,0,5,9,48,10,2017,1,"TX","City",7,67,56307,"Burleson","TX","South","West South Central",56307
+"Burnsville, MN","Burnsville",0,2,2,9,7,125,15,2021,2,"MN","City",13,147,63650,"Burnsville","MN","Midwest","West North Central",63650
+"Caldwell, ID","Caldwell",0,2,0,6,6,52,1,2021,6,"ID","City",8,59,68731,"Caldwell","ID","West","Mountain",68731
+"Cambridge, MA","Cambridge",0,1,11,41,15,181,19,2022,7,"MA","City",53,215,118960,"Cambridge","MA","Northeast","New England",118960
+"Canton Township, MI","Canton Township",0,0,0,12,8,71,3,2024,9,"MI","City",12,82,98915,"Canton Township","MI","Midwest","East North Central",98915
+"Canton, OH","Canton",1,5,19,35,74,210,20,2017,12,"OH","City",60,304,69164,"Canton","OH","Midwest","East North Central",69164
+"Carlsbad, CA","Carlsbad",0,2,3,14,34,147,10,2024,1,"CA","City",19,191,113796,"Carlsbad","CA","West","Pacific",113796
+"Castle Rock, CO","Castle Rock",0,1,0,1,6,59,2,2023,6,"CO","City",2,67,83546,"Castle Rock","CO","West","Mountain",83546
+"Cedar Park, TX","Cedar Park",0,4,1,3,9,60,1,2017,1,"TX","City",8,70,77464,"Cedar Park","TX","South","West South Central",77464
+"Centennial, CO","Centennial",0,0,2,24,18,147,39,2023,7,"CO","City",26,204,104724,"Centennial","CO","West","Mountain",104724
+"Champaign, IL","Champaign",0,7,6,29,42,130,17,2024,9,"IL","City",42,189,89687,"Champaign","IL","Midwest","East North Central",89687
+"Chandler, AZ","Chandler",0,16,16,20,90,373,26,2018,5,"AZ","City",52,489,282419,"Chandler","AZ","West","Mountain",282419
+"Charlotte, NC","Charlotte",16,18,136,302,292,1871,250,2020,6,"NC","City",472,2413,979304,"Charlotte-Mecklenburg","NC","South","South Atlantic",979304
+"Chattanooga, TN","Chattanooga",1,17,23,103,82,692,134,2023,10,"TN","City",144,908,185370,"Chattanooga","TN","South","East South Central",185370
+"Chesapeake, VA","Chesapeake",1,2,5,66,31,245,20,2024,2,"VA","City",74,296,254051,"Chesapeake","VA","South","South Atlantic",254051
+"Cheyenne, WY","Cheyenne",0,4,2,4,19,135,11,2017,1,"WY","City",10,165,64307,"Cheyenne","WY","West","Mountain",64307
+"Chicago, IL","Chicago",70,147,888,1580,760,6025,1980,2024,7,"IL","City",2685,8765,2628298,"Chicago","IL","Midwest","East North Central",2628298
+"Chicopee, MA","Chicopee",0,2,4,18,19,67,6,2018,6,"MA","City",24,92,55043,"Chicopee","MA","Northeast","New England",55043
+"Chula Vista, CA","Chula Vista",2,3,30,49,46,239,101,2022,2,"CA","City",84,386,280748,"Chula Vista","CA","West","Pacific",280748
+"Cicero, IL","Cicero",0,3,2,6,11,46,11,2023,4,"IL","City",11,68,80455,"Cicero","IL","Midwest","East North Central",80455
+"Cincinnati, OH","Cincinnati",4,25,63,82,156,583,209,2023,1,"OH","City",174,948,309484,"Cincinnati","OH","Midwest","East North Central",309484
+"Coeur D Alene, ID","Coeur D Alene",0,7,0,6,6,39,5,2021,10,"ID","City",13,50,57653,"Coeur d'Alene","ID","West","Mountain",57653
+"Colerain Township, OH","Colerain Township",0,1,1,2,5,94,4,2022,3,"OH","City",4,103,58268,"Colerain Township","OH","Midwest","East North Central",58268
+"College Station, TX","College Station",0,4,11,8,50,144,8,2017,1,"TX","City",23,202,126136,"College Station","TX","South","West South Central",126136
+"Colorado Springs, CO","Colorado Springs",1,44,38,215,174,1033,233,2023,4,"CO","City",298,1440,489254,"Colorado Springs","CO","West","Mountain",489254
+"Columbia, MO","Columbia",0,15,11,37,45,189,27,2017,1,"MO","City",63,261,129602,"Columbia","MO","Midwest","West North Central",129602
+"Columbus, OH","Columbus",13,NA,NA,NA,NA,NA,NA,2017,3,"OH","City",13,0,908834,"Columbus","OH","Midwest","East North Central",908834
+"Commerce City, CO","Commerce City",0,3,2,18,17,108,19,2017,5,"CO","City",23,144,67851,"Commerce City","CO","West","Mountain",67851
+"Concord, CA","Concord",1,5,16,23,49,235,42,2018,2,"CA","City",45,326,121331,"Concord","CA","West","Pacific",121331
+"Conroe, TX","Conroe",0,3,8,7,33,156,15,2017,1,"TX","City",18,204,106904,"Conroe","TX","South","West South Central",106904
+"Coon Rapids, MN","Coon Rapids",0,3,3,2,7,76,3,2021,2,"MN","City",8,86,62391,"Coon Rapids","MN","Midwest","West North Central",62391
+"Corpus Christi, TX","Corpus Christi",2,25,44,115,153,779,52,2017,1,"TX","City",186,984,315340,"Corpus Christi","TX","South","West South Central",315340
+"Corvallis, OR","Corvallis",0,3,5,3,23,160,3,2023,4,"OR","City",11,186,61474,"Corvallis","OR","West","Pacific",61474
+"Cranston, RI","Cranston",0,0,1,8,12,76,10,2017,1,"RI","City",9,98,82484,"Cranston","RI","Northeast","New England",82484
+"Dallas, TX","Dallas",16,58,403,419,943,2164,700,2017,1,"TX","City",896,3807,1304989,"Dallas","TX","South","West South Central",1304989
+"Dayton, OH","Dayton",4,26,29,91,156,302,181,2022,8,"OH","City",150,639,135181,"Dayton","OH","Midwest","East North Central",135181
+"Dearborn Heights, MI","Dearborn Heights",0,2,0,23,11,58,31,2022,10,"MI","City",25,100,61420,"Dearborn Heights","MI","Midwest","East North Central",61420
+"Dearborn, MI","Dearborn",0,5,6,20,11,125,26,2022,6,"MI","City",31,162,106747,"Dearborn","MI","Midwest","East North Central",106747
+"Decatur, IL","Decatur",2,3,14,30,80,122,8,2018,7,"IL","City",49,210,68301,"Decatur","IL","Midwest","East North Central",68301
+"Denton, TX","Denton",0,12,3,21,51,170,20,2017,1,"TX","City",36,241,155215,"Denton","TX","South","West South Central",155215
+"Denver, CO","Denver",4,77,120,207,331,1347,521,2017,11,"CO","City",408,2199,712222,"Denver","CO","West","Mountain",712222
+"Desoto, TX","Desoto",1,6,9,10,39,97,21,2017,1,"TX","City",26,157,56257,"DeSoto","TX","South","West South Central",56257
+"Detroit, MI","Detroit",22,65,229,557,772,1059,739,2017,1,"MI","City",873,2570,615501,"Detroit","MI","Midwest","East North Central",615501
+"Dublin, OH","Dublin",0,1,2,0,3,36,4,2022,3,"OH","City",3,43,48799,"Dublin","OH","Midwest","East North Central",48827
+"Duluth, MN","Duluth",4,4,5,12,21,204,17,2022,4,"MN","City",25,242,86570,"Duluth","MN","Midwest","West North Central",86570
+"Dunwoody, GA","Dunwoody",0,0,0,2,8,132,14,2018,4,"GA","City",2,154,52505,"Dunwoody","GA","South","South Atlantic",52505
+"Durham, NC","Durham",2,11,39,204,151,643,107,2020,7,"NC","City",256,901,295788,"Durham","NC","South","South Atlantic",295788
+"Eagan, MN","Eagan",0,0,3,1,12,99,10,2020,6,"MN","City",4,121,66943,"Eagan","MN","Midwest","West North Central",66943
+"East Hartford, CT","East Hartford",0,1,1,1,5,55,25,2024,2,"CT","City",3,85,50625,"East Hartford","CT","Northeast","New England",50625
+"Eden Prairie, MN","Eden Prairie",0,1,1,0,12,63,14,2020,8,"MN","City",2,89,61645,"Eden Prairie","MN","Midwest","West North Central",61645
+"Edina, MN","Edina",0,0,0,9,8,51,4,2024,10,"MN","City",9,63,51980,"Edina","MN","Midwest","West North Central",51980
+"Edinburg, TX","Edinburg",0,9,1,9,37,254,20,2017,1,"TX","City",19,311,106137,"Edinburg","TX","South","West South Central",106137
+"El Cajon, CA","El Cajon",0,3,8,30,22,103,23,2020,7,"CA","City",41,148,103569,"El Cajon","CA","West","Pacific",103569
+"Elyria, OH","Elyria",0,3,2,1,7,76,7,2022,2,"OH","City",6,90,53024,"Elyria","OH","Midwest","East North Central",53024
+"Erie, PA","Erie",0,1,6,24,17,88,11,2023,2,"PA","City",31,116,92920,"Erie","PA","Northeast","Middle Atlantic",92920
+"Escondido, CA","Escondido",0,6,7,46,24,128,16,2024,3,"CA","City",59,168,149837,"Escondido","CA","West","Pacific",149837
+"Euclid, OH","Euclid",1,2,1,3,5,53,36,2023,9,"OH","City",7,94,48344,"Euclid","OH","Midwest","East North Central",48170
+"Eugene, OR","Eugene",0,9,10,27,64,290,46,2024,1,"OR","City",46,400,178191,"Eugene","OR","West","Pacific",178191
+"Euless, TX","Euless",0,0,2,2,12,71,22,2017,1,"TX","City",4,105,59722,"Euless","TX","South","West South Central",59722
+"Evanston, IL","Evanston",0,0,1,9,18,94,3,2019,2,"IL","City",10,115,74413,"Evanston","IL","Midwest","East North Central",74413
+"Fairfield, CT","Fairfield",0,0,0,0,2,68,8,2024,8,"CT","City",0,78,63588,"Fairfield","CT","Northeast","New England",63588
+"Farmington Hills, MI","Farmington Hills",0,4,0,5,3,74,20,2023,1,"MI","City",9,97,82223,"Farmington Hills","MI","Midwest","East North Central",82223
+"Fayetteville, NC","Fayetteville",6,NA,31,72,83,490,60,2023,10,"NC","City",109,633,209262,"Fayetteville","NC","South","South Atlantic",209262
+"Flint, MI","Flint",1,7,2,68,10,58,8,2022,9,"MI","City",78,76,79234,"Flint","MI","Midwest","East North Central",79234
+"Florissant, MO","Florissant",0,0,3,9,10,74,10,2017,1,"MO","City",12,94,51045,"Florissant","MO","Midwest","West North Central",51045
+"Flower Mound, TX","Flower Mound",0,1,1,3,3,40,0,2017,1,"TX","City",5,43,79513,"Flower Mound","TX","South","West South Central",79513
+"Fort Collins, CO","Fort Collins",0,6,3,39,34,312,30,2021,11,"CO","City",48,376,168886,"Fort Collins","CO","West","Mountain",168886
+"Fort Worth, TX","Fort Worth",10,71,154,231,449,1568,229,2017,1,"TX","City",466,2246,973722,"Fort Worth","TX","South","West South Central",973722
+"Fremont, CA","Fremont",1,5,17,17,56,271,70,2018,3,"CA","City",40,397,220775,"Fremont","CA","West","Pacific",220775
+"Frisco, TX","Frisco",0,5,4,6,39,153,2,2017,1,"TX","City",15,194,228527,"Frisco","TX","South","West South Central",228527
+"Galveston, TX","Galveston",0,6,5,4,36,87,8,2017,1,"TX","City",15,131,52810,"Galveston","TX","South","West South Central",52810
+"Garland, TX","Garland",3,5,39,27,125,491,71,2017,1,"TX","City",74,687,240051,"Garland","TX","South","West South Central",240051
+"Georgetown, TX","Georgetown",0,3,0,3,4,37,3,2017,1,"TX","City",6,44,87871,"Georgetown","TX","South","West South Central",87871
+"Gilbert, AZ","Gilbert",0,5,2,9,30,255,14,2018,3,"AZ","City",16,299,278495,"Gilbert","AZ","West","Mountain",278495
+"Glendale, AZ","Glendale",5,10,21,51,133,495,66,2020,1,"AZ","City",87,694,253768,"Glendale","AZ","West","Mountain",253768
+"Glendale, CA","Glendale",0,2,9,18,61,208,32,2017,1,"CA","City",29,301,185923,"Glendale","CA","West","Pacific",185923
+"Goodyear, AZ","Goodyear",0,3,4,10,21,156,5,2020,1,"AZ","City",17,182,109929,"Goodyear","AZ","West","Mountain",109929
+"Grand Island, NE","Grand Island",0,3,0,20,10,79,9,2023,7,"NE","City",23,98,52264,"Grand Island","NE","Midwest","West North Central",52264
+"Grand Junction, CO","Grand Junction",2,10,2,31,22,145,21,2022,4,"CO","City",45,188,69240,"Grand Junction","CO","West","Mountain",69240
+"Grand Prairie, TX","Grand Prairie",0,11,17,8,79,289,55,2017,1,"TX","City",36,423,205487,"Grand Prairie","TX","South","West South Central",205487
+"Grand Rapids, MI","Grand Rapids",3,5,9,106,36,162,46,2018,4,"MI","City",123,244,196019,"Grand Rapids","MI","Midwest","East North Central",196019
+"Grapevine, TX","Grapevine",0,0,1,7,8,100,12,2017,1,"TX","City",8,120,51458,"Grapevine","TX","South","West South Central",51458
+"Greeley, CO","Greeley",2,3,9,37,24,141,28,2020,5,"CO","City",51,193,109183,"Greeley","CO","West","Mountain",109183
+"Green Township, OH","Green Township",0,0,2,6,4,63,7,2023,3,"OH","City",8,74,59277,"Green Township","OH","Midwest","East North Central",59277
+"Greensboro, NC","Greensboro",12,10,49,186,169,672,119,2020,7,"NC","City",257,960,303237,"Greensboro","NC","South","South Atlantic",303237
+"Greenwich, CT","Greenwich",0,0,0,0,3,40,22,2022,1,"CT","City",0,65,63777,"Greenwich","CT","Northeast","New England",63777
+"Gresham, OR","Gresham",1,2,10,12,37,159,78,2024,3,"OR","City",25,274,110225,"Gresham","OR","West","Pacific",110225
+"Hamden, CT","Hamden",0,1,7,14,4,86,16,2022,2,"CT","City",22,106,60691,"Hamden","CT","Northeast","New England",60691
+"Hampton, VA","Hampton",0,0,8,21,31,243,22,2018,2,"VA","City",29,296,138533,"Hampton","VA","South","South Atlantic",138533
+"Harlingen, TX","Harlingen",0,1,3,15,44,233,9,2017,1,"TX","City",19,286,71581,"Harlingen","TX","South","West South Central",71581
+"Harrisburg, PA","Harrisburg",4,0,4,19,13,48,13,2022,3,"PA","City",27,74,50229,"Harrisburg","PA","Northeast","Middle Atlantic",50229
+"Harrisonburg, VA","Harrisonburg",0,0,0,6,9,62,2,2018,2,"VA","City",6,73,50928,"Harrisonburg","VA","South","South Atlantic",50928
+"Hartford, CT","Hartford",4,0,10,45,33,184,48,2022,8,"CT","City",59,265,120710,"Hartford","CT","Northeast","New England",120710
+"Haverford, PA","Haverford",0,1,0,1,3,27,0,2022,3,"PA","City",2,30,50505,"Haverford Township","PA","Northeast","Middle Atlantic",50505
+"Haverhill, MA","Haverhill",0,3,4,29,19,57,10,2018,7,"MA","City",36,86,67133,"Haverhill","MA","Northeast","New England",67133
+"Henderson, NV","Henderson",0,5,19,45,67,314,135,2024,1,"NV","City",69,516,337794,"Henderson","NV","West","Mountain",337794
+"Hillsboro, OR","Hillsboro",0,1,5,14,24,172,27,2023,5,"OR","City",20,223,107459,"Hillsboro","OR","West","Pacific",107459
+"Honolulu, HI","Honolulu",2,NA,55,83,195,1207,321,2023,11,"HI","City",140,1723,987546,"Honolulu","HI","West","Pacific",987546
+"Houston, TX","Houston",22,92,937,1168,1510,6136,1065,2017,1,"TX","City",2219,8711,2304406,"Houston","TX","South","West South Central",2304406
+"Idaho Falls, ID","Idaho Falls",0,3,0,9,15,52,8,2020,5,"ID","City",12,75,68662,"Idaho Falls","ID","West","Mountain",68662
+"Independence, MO","Independence",2,3,20,38,56,375,90,2017,1,"MO","City",63,521,120326,"Independence","MO","Midwest","West North Central",120326
+"Indianapolis, IN","Indianapolis",17,63,133,428,398,1702,752,2023,10,"IN","City",641,2852,887131,"Indianapolis","IN","Midwest","East North Central",887131
+"Irving, TX","Irving",1,3,13,24,86,371,56,2017,1,"TX","City",41,513,255203,"Irving","TX","South","West South Central",255203
+"Jackson, MI","Jackson",0,5,0,8,8,58,10,2024,2,"MI","City",13,76,NA,NA,NA,NA,NA,NA
+"Joplin, MO","Joplin",1,4,6,18,29,212,23,2017,1,"MO","City",29,264,52881,"Joplin","MO","Midwest","West North Central",52881
+"Kansas City, MO","Kansas City",13,40,173,452,434,1026,365,2017,1,"MO","City",678,1825,509855,"Kansas City","MO","Midwest","West North Central",509855
+"Kentwood, MI","Kentwood",0,8,1,6,18,71,8,2017,10,"MI","City",15,97,53979,"Kentwood","MI","Midwest","East North Central",53979
+"Killeen, TX","Killeen",2,7,24,53,99,205,59,2017,1,"TX","City",86,363,161968,"Killeen","TX","South","West South Central",161968
+"Knoxville, TN","Knoxville",2,12,47,93,135,610,91,2017,1,"TN","City",154,836,198132,"Knoxville","TN","South","East South Central",198132
+"Kyle, TX","Kyle",0,1,1,4,12,26,3,2017,1,"TX","City",6,41,63931,"Kyle","TX","South","West South Central",63931
+"La Mesa, CA","La Mesa",0,6,11,6,16,56,11,2019,2,"CA","City",23,83,60008,"La Mesa","CA","West","Pacific",60008
+"Lake Havasu City, AZ","Lake Havasu City",0,2,1,6,25,90,6,2017,7,"AZ","City",9,121,59720,"Lake Havasu City","AZ","West","Mountain",59720
+"Lakeville, MN","Lakeville",0,1,0,2,7,29,1,2018,3,"MN","City",3,37,76929,"Lakeville","MN","Midwest","West North Central",76929
+"Lakewood, CO","Lakewood",0,7,24,74,76,499,95,2024,1,"CO","City",105,670,156065,"Lakewood","CO","West","Mountain",156065
+"Lancaster, PA","Lancaster",0,3,5,20,7,57,8,2021,3,"PA","City",28,72,57213,"Lancaster","PA","Northeast","Middle Atlantic",57213
+"Lansing, MI","Lansing",3,9,10,93,56,186,72,2022,7,"MI","City",115,314,112529,"Lansing","MI","Midwest","East North Central",112529
+"Laredo, TX","Laredo",1,7,27,49,72,533,25,2017,1,"TX","City",84,630,256542,"Laredo","TX","South","West South Central",256542
+"Las Vegas, NV","Las Vegas",11,NA,357,395,1248,2461,678,2017,1,"NV","City",763,4387,1670226,"Las Vegas Metropolitan Police Department","NV","West","Mountain",1670226
+"Lawrence, MA","Lawrence",1,1,18,28,28,67,51,2017,1,"MA","City",48,146,87806,"Lawrence","MA","Northeast","New England",87806
+"League City, TX","League City",1,1,3,5,17,96,12,2017,1,"TX","City",10,125,115791,"League City","TX","South","West South Central",115791
+"Leander, TX","Leander",0,1,1,4,6,28,4,2017,1,"TX","City",6,38,82228,"Leander","TX","South","West South Central",82228
+"Lee's Summit, MO","Lee's Summit",0,1,8,4,17,106,5,2017,1,"MO","City",13,128,104402,"Lee's Summit","MO","Midwest","West North Central",104402
+"Lewisville, TX","Lewisville",0,8,10,14,34,137,12,2017,1,"TX","City",32,183,133694,"Lewisville","TX","South","West South Central",133694
+"Lexington, KY","Lexington",2,9,47,28,246,726,111,2017,1,"KY","City",86,1083,319994,"Lexington","KY","South","East South Central",319994
+"Lincoln, NE","Lincoln",0,23,10,55,123,582,60,2020,12,"NE","City",88,765,293155,"Lincoln","NE","Midwest","West North Central",293155
+"Little Elm, TX","Little Elm",1,1,1,2,5,22,3,2017,1,"TX","City",5,30,59954,"Little Elm","TX","South","West South Central",59954
+"Little Rock, AR","Little Rock",3,14,55,231,173,858,119,2017,1,"AR","City",303,1150,202986,"Little Rock","AR","South","West South Central",202986
+"Livonia, MI","Livonia",0,3,1,19,14,108,11,2023,8,"MI","City",23,133,93042,"Livonia","MI","Midwest","East North Central",93042
+"Long Beach, CA","Long Beach",4,10,85,100,257,678,265,2017,1,"CA","City",199,1200,444415,"Long Beach","CA","West","Pacific",444415
+"Longmont, CO","Longmont",0,9,2,16,28,130,28,2020,2,"CO","City",27,186,98444,"Longmont","CO","West","Mountain",98444
+"Longview, TX","Longview",0,5,10,19,68,194,26,2017,1,"TX","City",34,288,82981,"Longview","TX","South","West South Central",82981
+"Lorain, OH","Lorain",0,1,3,14,20,71,18,2023,4,"OH","City",18,109,65436,"Lorain","OH","Midwest","East North Central",65436
+"Los Angeles, CA","Los Angeles",33,NA,NA,NA,NA,NA,NA,2017,1,"CA","City",33,0,3786018,"Los Angeles","CA","West","Pacific",3786018
+"Louisville, KY","Louisville",6,39,112,209,539,1757,382,2017,1,"KY","City",366,2678,669468,"Louisville Metro","KY","South","East South Central",669468
+"Loveland, CO","Loveland",0,10,3,8,17,128,13,2023,9,"CO","City",21,158,78656,"Loveland","CO","West","Mountain",78656
+"Lower Merion, PA","Lower Merion",0,0,1,1,4,40,3,2023,2,"PA","City",2,47,64350,"Lower Merion Township","PA","Northeast","Middle Atlantic",64350
+"Lower Paxton, PA","Lower Paxton",0,1,0,4,3,28,2,2022,1,"PA","City",5,33,55204,"Lower Paxton Township","PA","Northeast","Middle Atlantic",55204
+"Lynchburg, VA","Lynchburg",1,2,2,22,23,129,9,2017,5,"VA","City",27,161,79509,"Lynchburg","VA","South","South Atlantic",79509
+"Lynn, MA","Lynn",0,3,8,29,8,51,14,2020,9,"MA","City",40,73,101144,"Lynn","MA","Northeast","New England",101144
+"Malden, MA","Malden",0,3,1,9,5,43,12,2020,7,"MA","City",13,60,64291,"Malden","MA","Northeast","New England",64291
+"Manchester, NH","Manchester",0,8,16,37,44,152,12,2017,1,"NH","City",61,208,114963,"Manchester","NH","Northeast","New England",114963
+"Mansfield, TX","Mansfield",0,0,1,2,12,43,4,2017,1,"TX","City",3,59,78788,"Mansfield","TX","South","West South Central",78788
+"Maple Grove, MN","Maple Grove",0,2,0,2,2,52,3,2018,3,"MN","City",4,57,70729,"Maple Grove","MN","Midwest","West North Central",70729
+"Marana, AZ","Marana",1,0,4,2,10,90,7,2017,6,"AZ","City",7,107,57718,"Marana","AZ","West","Mountain",57718
+"Maricopa, AZ","Maricopa",0,1,0,8,5,29,8,2019,1,"AZ","City",9,42,70355,"Maricopa","AZ","West","Mountain",70355
+"McAllen, TX","McAllen",2,2,4,15,16,316,4,2017,1,"TX","City",23,336,145684,"McAllen","TX","South","West South Central",145684
+"Mckinney, TX","Mckinney",0,7,7,7,23,163,22,2017,1,"TX","City",21,208,212716,"McKinney","TX","South","West South Central",212716
+"Memphis, TN","Memphis",18,54,329,651,798,2102,386,2017,1,"TN","City",1052,3286,616061,"Memphis","TN","South","East South Central",616061
+"Meriden, CT","Meriden",1,2,3,7,1,114,16,2022,3,"CT","City",13,131,60054,"Meriden","CT","Northeast","New England",60054
+"Meridian, ID","Meridian",0,4,1,17,5,63,5,2024,5,"ID","City",22,73,135239,"Meridian","ID","West","Mountain",135239
+"Mesa, AZ","Mesa",2,26,34,125,109,664,99,2022,1,"AZ","City",187,872,515848,"Mesa","AZ","West","Mountain",515848
+"Mesquite, TX","Mesquite",1,5,25,20,90,343,82,2017,1,"TX","City",51,515,147926,"Mesquite","TX","South","West South Central",147926
+"Methuen, MA","Methuen",0,0,0,6,6,40,8,2020,8,"MA","City",6,54,53558,"Methuen","MA","Northeast","New England",53558
+"Miami Beach, FL","Miami Beach",0,8,25,21,47,603,39,2017,1,"FL","City",54,689,78824,"Miami Beach","FL","South","South Atlantic",78824
+"Midland, TX","Midland",0,3,7,22,37,156,21,2017,1,"TX","City",32,214,135253,"Midland","TX","South","West South Central",135253
+"Milford, CT","Milford",0,1,4,1,1,48,6,2021,2,"CT","City",6,55,53011,"Milford","CT","Northeast","New England",53011
+"Milpitas, CA","Milpitas",0,NA,3,3,22,143,24,2017,1,"CA","City",6,189,76573,"Milpitas","CA","West","Pacific",76573
+"Milwaukee, WI","Milwaukee",11,NA,NA,NA,NA,NA,NA,2017,1,"WI","City",11,0,558698,"Milwaukee","WI","Midwest","East North Central",558698
+"Minneapolis, MN","Minneapolis",4,48,185,211,333,1325,172,2017,7,"MN","City",448,1830,422341,"Minneapolis","MN","Midwest","West North Central",422341
+"Minnetonka, MN","Minnetonka",0,0,4,1,6,58,4,2022,12,"MN","City",5,68,51791,"Minnetonka","MN","Midwest","West North Central",51791
+"Mission, TX","Mission",0,0,3,3,23,182,14,2017,1,"TX","City",6,219,87031,"Mission","TX","South","West South Central",87031
+"Missouri City, TX","Missouri City",0,0,8,11,18,83,7,2017,1,"TX","City",19,108,77560,"Missouri City","TX","South","West South Central",77560
+"Moline, IL","Moline",0,6,0,13,10,57,9,2021,3,"IL","City",19,76,42009,"Moline","IL","Midwest","East North Central",41601
+"Mount Prospect, IL","Mount Prospect",0,0,2,1,2,35,2,2022,8,"IL","City",3,39,53932,"Mount Prospect","IL","Midwest","East North Central",53932
+"Nashua, NH","Nashua",1,3,6,6,4,89,3,2017,1,"NH","City",16,96,91145,"Nashua","NH","Northeast","New England",91145
+"Nashville, TN","Nashville",9,NA,192,456,335,1509,227,2017,1,"TN","City",657,2071,690495,"Metropolitan Nashville Police Department","TN","South","East South Central",690495
+"National City, CA","National City",0,5,11,20,13,85,23,2019,2,"CA","City",36,121,55270,"National City","CA","West","Pacific",55270
+"New Braunfels, TX","New Braunfels",0,3,2,9,17,92,9,2017,1,"TX","City",14,118,111942,"New Braunfels","TX","South","West South Central",111942
+"New Britain, CT","New Britain",0,2,11,10,18,91,20,2021,2,"CT","City",23,129,74609,"New Britain","CT","Northeast","New England",74609
+"New Orleans, LA","New Orleans",23,25,114,116,250,959,218,2017,1,"LA","City",278,1427,364197,"New Orleans","LA","South","West South Central",364197
+"New York City, NY","New York City",24,112,1246,1646,1097,3580,462,2017,1,"NY","City",3028,5139,8184044,"New York","NY","Northeast","Middle Atlantic",8184044
+"Newark, OH","Newark",0,2,6,0,23,94,15,2023,1,"OH","City",8,132,51147,"Newark","OH","Midwest","East North Central",51147
+"Newport News, VA","Newport News",4,5,12,55,51,322,24,2017,4,"VA","City",76,397,183600,"Newport News","VA","South","South Atlantic",183600
+"Norfolk, VA","Norfolk",1,9,30,63,108,516,48,2017,2,"VA","City",103,672,230849,"Norfolk","VA","South","South Atlantic",230849
+"Normal, IL","Normal",0,4,0,12,5,51,2,2023,3,"IL","City",16,58,52883,"Normal","IL","Midwest","East North Central",52883
+"North Bergen Township, NJ","North Bergen Township",0,0,3,5,6,27,3,2017,1,"NJ","City",8,36,59147,"North Bergen Township","NJ","Northeast","Middle Atlantic",59147
+"North Las Vegas, NV","North Las Vegas",4,8,25,41,101,198,144,2022,2,"NV","City",78,443,290751,"North Las Vegas","NV","West","Mountain",290751
+"North Richland Hills, TX","North Richland Hills",0,3,4,5,18,96,14,2017,1,"TX","City",12,128,70853,"North Richland Hills","TX","South","West South Central",70853
+"Norwalk, CT","Norwalk",1,2,4,18,12,116,15,2017,5,"CT","City",25,143,91639,"Norwalk","CT","Northeast","New England",91639
+"Novi, MI","Novi",0,2,0,2,1,45,6,2023,2,"MI","City",4,52,66482,"Novi","MI","Midwest","East North Central",66482
+"O'Fallon, MO","O'Fallon",0,2,1,5,2,81,4,2017,1,"MO","City",8,87,94702,"O'Fallon","MO","Midwest","West North Central",94702
+"Oak Lawn, IL","Oak Lawn",0,1,2,6,5,61,0,2018,1,"IL","City",9,66,55368,"Oak Lawn","IL","Midwest","East North Central",55368
+"Oceanside, CA","Oceanside",1,5,11,35,64,298,49,2018,1,"CA","City",52,411,171348,"Oceanside","CA","West","Pacific",171348
+"Odessa, TX","Odessa",1,4,10,43,45,201,14,2017,1,"TX","City",58,260,111922,"Odessa","TX","South","West South Central",111922
+"Omaha, NE","Omaha",2,15,21,83,96,849,256,2024,1,"NE","City",121,1201,481471,"Omaha","NE","Midwest","West North Central",481471
+"Oshkosh, WI","Oshkosh",0,1,4,11,13,77,5,2017,1,"WI","City",16,95,65548,"Oshkosh","WI","Midwest","East North Central",65548
+"Palatine, IL","Palatine",0,0,1,1,5,54,2,2017,5,"IL","City",2,61,64407,"Palatine","IL","Midwest","East North Central",64407
+"Parker, CO","Parker",0,0,1,7,9,105,17,2023,10,"CO","City",8,131,62431,"Parker","CO","West","Mountain",62431
+"Parma, OH","Parma",0,6,5,9,3,35,10,2024,4,"OH","City",20,48,78913,"Parma","OH","Midwest","East North Central",78913
+"Pasadena, TX","Pasadena",0,6,16,39,55,247,35,2017,1,"TX","City",61,337,145850,"Pasadena","TX","South","West South Central",145850
+"Pawtucket, RI","Pawtucket",0,1,2,23,41,104,12,2017,1,"RI","City",26,157,75100,"Pawtucket","RI","Northeast","New England",75100
+"Pearland, TX","Pearland",1,3,1,9,26,158,8,2017,1,"TX","City",14,192,127433,"Pearland","TX","South","West South Central",127433
+"Peoria, AZ","Peoria",1,5,5,17,56,221,20,2018,1,"AZ","City",28,297,200886,"Peoria","AZ","West","Mountain",200886
+"Pflugerville, TX","Pflugerville",0,4,2,5,10,79,2,2017,1,"TX","City",11,91,65599,"Pflugerville","TX","South","West South Central",65599
+"Pharr, TX","Pharr",0,2,8,6,21,106,1,2017,1,"TX","City",16,128,80359,"Pharr","TX","South","West South Central",80359
+"Philadelphia, PA","Philadelphia",24,89,409,561,514,2584,388,2017,3,"PA","City",1083,3486,1550843,"Philadelphia","PA","Northeast","Middle Atlantic",1550843
+"Phoenix, AZ","Phoenix",6,106,240,350,1008,2827,591,2017,1,"AZ","City",702,4426,1660686,"Phoenix","AZ","West","Mountain",1660686
+"Plano, TX","Plano",1,9,9,20,59,363,37,2017,1,"TX","City",39,459,291140,"Plano","TX","South","West South Central",291140
+"Plymouth, MA","Plymouth",0,1,0,15,5,35,0,2022,1,"MA","City",16,40,68771,"Plymouth","MA","Northeast","New England",68771
+"Plymouth, MN","Plymouth",0,0,0,2,10,48,11,2023,1,"MN","City",2,69,77576,"Plymouth","MN","Midwest","West North Central",77576
+"Pocatello, ID","Pocatello",0,1,1,16,32,75,10,2017,1,"ID","City",18,117,58390,"Pocatello","ID","West","Mountain",58390
+"Port Arthur, TX","Port Arthur",1,0,11,20,51,95,15,2017,1,"TX","City",32,161,55371,"Port Arthur","TX","South","West South Central",55371
+"Portland, OR","Portland",0,21,77,121,321,1502,670,2017,1,"OR","City",219,2493,626146,"Portland","OR","West","Pacific",626146
+"Portsmouth, VA","Portsmouth",1,1,22,54,81,309,34,2018,12,"VA","City",78,424,96649,"Portsmouth","VA","South","South Atlantic",96649
+"Prescott Valley, AZ","Prescott Valley",0,0,0,12,2,36,1,2023,2,"AZ","City",12,39,50166,"Prescott Valley","AZ","West","Mountain",50166
+"Quincy, MA","Quincy",0,0,1,22,16,69,3,2022,11,"MA","City",23,88,102465,"Quincy","MA","Northeast","New England",102465
+"Raleigh, NC","Raleigh",0,12,45,60,191,680,69,2017,1,"NC","City",117,940,482842,"Raleigh","NC","South","South Atlantic",482842
+"Rapid City, SD","Rapid City",3,6,5,23,22,179,29,2017,1,"SD","City",37,230,80850,"Rapid City","SD","Midwest","West North Central",80850
+"Reading, PA","Reading",1,4,12,18,16,75,6,2023,2,"PA","City",35,97,97790,"Reading","PA","Northeast","Middle Atlantic",97790
+"Redlands, CA","Redlands",0,3,4,12,45,164,21,2017,1,"CA","City",19,230,74147,"Redlands","CA","West","Pacific",74147
+"Revere, MA","Revere",0,4,2,13,6,39,5,2018,2,"MA","City",19,50,57132,"Revere","MA","Northeast","New England",57132
+"Richardson, TX","Richardson",0,4,8,4,36,125,20,2017,1,"TX","City",16,181,119008,"Richardson","TX","South","West South Central",119008
+"Richmond, CA","Richmond",1,6,35,58,63,214,122,2017,1,"CA","City",100,399,113282,"Richmond","CA","West","Pacific",113282
+"Richmond, VA","Richmond",9,3,47,54,146,527,119,2017,1,"VA","City",113,792,230789,"Richmond","VA","South","South Atlantic",230789
+"Riverside, CA","Riverside",0,NA,53,78,165,611,166,2017,1,"CA","City",131,942,323473,"Riverside","CA","West","Pacific",323473
+"Roanoke, VA","Roanoke",3,4,15,20,42,261,23,2018,1,"VA","City",42,326,96925,"Roanoke","VA","South","South Atlantic",96925
+"Rochester, MN","Rochester",0,4,2,8,9,115,5,2023,1,"MN","City",14,129,122035,"Rochester","MN","Midwest","West North Central",122035
+"Rochester, NY","Rochester",0,NA,70,39,97,463,38,2017,1,"NY","City",109,598,208452,"Rochester","NY","Northeast","Middle Atlantic",208452
+"Rockford, IL","Rockford",0,14,21,86,53,276,34,2020,1,"IL","City",121,363,145873,"Rockford","IL","Midwest","East North Central",145873
+"Rockwall, TX","Rockwall",0,6,0,4,5,59,8,2017,1,"TX","City",10,72,53433,"Rockwall","TX","South","West South Central",53433
+"Round Rock, TX","Round Rock",0,2,4,4,15,215,1,2017,1,"TX","City",10,231,129898,"Round Rock","TX","South","West South Central",129898
+"Rowlett, TX","Rowlett",0,0,3,3,5,58,3,2017,1,"TX","City",6,66,66671,"Rowlett","TX","South","West South Central",66671
+"Royal Oak, MI","Royal Oak",0,0,1,2,2,35,5,2017,1,"MI","City",3,42,57233,"Royal Oak","MI","Midwest","East North Central",57233
+"Salem, OR","Salem",1,7,8,45,59,351,60,2024,3,"OR","City",61,470,178276,"Salem","OR","West","Pacific",178276
+"Salt Lake City, UT","Salt Lake City",0,17,39,45,127,1035,173,2017,1,"UT","City",101,1335,206692,"Salt Lake City","UT","West","Mountain",206692
+"San Angelo, TX","San Angelo",0,8,10,13,75,279,24,2017,1,"TX","City",31,378,98642,"San Angelo","TX","South","West South Central",98642
+"San Antonio, TX","San Antonio",15,NA,228,643,1171,5106,690,2017,1,"TX","City",886,6967,1490047,"San Antonio","TX","South","West South Central",1490047
+"San Diego, CA","San Diego",3,19,78,280,181,1053,371,2024,1,"CA","City",380,1605,1378349,"San Diego","CA","West","Pacific",1378349
+"San Francisco, CA","San Francisco",6,45,241,232,433,3666,409,2017,1,"CA","City",524,4508,782846,"San Francisco","CA","West","Pacific",782846
+"San Jose, CA","San Jose",4,50,101,157,373,1194,877,2017,1,"CA","City",312,2444,952530,"San Jose","CA","West","Pacific",952530
+"San Marcos, TX","San Marcos",0,6,7,7,26,128,17,2017,1,"TX","City",20,171,71413,"San Marcos","TX","South","West South Central",71413
+"Schaumburg, IL","Schaumburg",0,1,2,0,7,124,11,2024,3,"IL","City",3,142,75140,"Schaumburg","IL","Midwest","East North Central",75140
+"Scottsdale, AZ","Scottsdale",0,10,11,14,53,351,25,2018,4,"AZ","City",35,429,243644,"Scottsdale","AZ","West","Mountain",243644
+"Scranton, PA","Scranton",0,9,7,12,13,103,7,2022,3,"PA","City",28,123,75687,"Scranton","PA","Northeast","Middle Atlantic",75687
+"Seattle, WA","Seattle",2,33,114,181,673,2312,310,2017,1,"WA","City",330,3295,753786,"Seattle","WA","West","Pacific",753786
+"Skokie, IL","Skokie",0,0,8,6,19,83,8,2017,4,"IL","City",14,110,64417,"Skokie","IL","Midwest","East North Central",64417
+"Somerville, MA","Somerville",0,2,0,10,1,5,1,2021,5,"MA","City",12,7,79513,"Somerville","MA","Northeast","New England",79513
+"South Bend, IN","South Bend",0,5,42,29,126,248,52,2017,1,"IN","City",76,426,102999,"South Bend","IN","Midwest","East North Central",102999
+"Southaven, MS","Southaven",3,2,4,2,22,126,3,2017,1,"MS","City",11,151,57135,"Southaven","MS","South","East South Central",57135
+"Southfield, MI","Southfield",0,3,5,26,18,87,74,2023,9,"MI","City",34,179,74960,"Southfield","MI","Midwest","East North Central",74960
+"Sparks, NV","Sparks",0,3,3,23,26,58,13,2020,4,"NV","City",29,97,109403,"Sparks","NV","West","Mountain",109403
+"Spokane, WA","Spokane",1,17,35,80,190,851,167,2017,1,"WA","City",133,1208,230648,"Spokane","WA","West","Pacific",230648
+"Springfield, IL","Springfield",2,8,22,61,84,237,20,2017,3,"IL","City",93,341,112781,"Springfield","IL","Midwest","East North Central",112781
+"Springfield, MO","Springfield",2,26,48,99,179,912,180,2017,1,"MO","City",175,1271,170521,"Springfield","MO","Midwest","West North Central",170521
+"Springfield, OH","Springfield",0,4,12,77,47,128,33,2024,4,"OH","City",93,208,57866,"Springfield","OH","Midwest","East North Central",57866
+"Springfield, OR","Springfield",0,1,1,8,16,106,8,2024,3,"OR","City",10,130,61185,"Springfield","OR","West","Pacific",61185
+"St Charles, MO","St Charles",0,4,0,6,50,123,13,2017,1,"MO","City",10,186,71408,"St. Charles","MO","Midwest","West North Central",71408
+"St Joseph, MO","St Joseph",0,5,11,16,41,290,65,2017,1,"MO","City",32,396,69925,"St. Joseph","MO","Midwest","West North Central",69925
+"St Louis, MO","St Louis",16,22,144,268,288,1000,247,2017,1,"MO","City",450,1535,280108,"St. Louis","MO","Midwest","West North Central",280108
+"St Peters, MO","St Peters",0,2,0,5,8,97,1,2017,1,"MO","City",7,106,58937,"St. Peters","MO","Midwest","West North Central",58937
+"St. Clair Shores, MI","St. Clair Shores",0,2,3,3,4,30,5,2021,4,"MI","City",8,39,57257,"St. Clair Shores","MI","Midwest","East North Central",57257
+"St. Cloud, MN","St. Cloud",0,5,4,13,21,228,25,2020,7,"MN","City",22,274,69922,"St. Cloud","MN","Midwest","West North Central",69922
+"St. Paul, MN","St. Paul",1,17,46,77,136,443,170,2019,3,"MN","City",141,749,300368,"St. Paul","MN","Midwest","West North Central",300368
+"Stamford, CT","Stamford",0,0,8,4,21,145,15,2021,3,"CT","City",12,181,136512,"Stamford","CT","Northeast","New England",136512
+"State College, PA","State College",0,3,0,4,2,34,0,2022,2,"PA","City",7,36,58532,"State College","PA","Northeast","Middle Atlantic",58532
+"Sterling Heights, MI","Sterling Heights",0,2,3,14,11,81,25,2020,11,"MI","City",19,117,131801,"Sterling Heights","MI","Midwest","East North Central",131801
+"Stockton, CA","Stockton",0,7,73,222,201,622,192,2017,1,"CA","City",302,1015,322220,"Stockton","CA","West","Pacific",322220
+"Stratford, CT","Stratford",0,0,3,0,9,69,19,2020,1,"CT","City",3,97,52596,"Stratford","CT","Northeast","New England",52596
+"Suffolk, VA","Suffolk",0,1,7,18,5,120,13,2022,2,"VA","City",26,138,100598,"Suffolk","VA","South","South Atlantic",100598
+"Sugar Land, TX","Sugar Land",0,0,2,1,17,97,6,2017,1,"TX","City",3,120,108718,"Sugar Land","TX","South","West South Central",108718
+"Surprise, AZ","Surprise",0,4,1,6,13,119,11,2021,2,"AZ","City",11,143,159346,"Surprise","AZ","West","Mountain",159346
+"Tacoma, WA","Tacoma",3,NA,30,87,169,799,210,2017,1,"WA","City",120,1178,222828,"Tacoma","WA","West","Pacific",222828
+"Taunton, MA","Taunton",0,3,8,18,13,21,2,2018,5,"MA","City",29,36,60356,"Taunton","MA","Northeast","New England",60356
+"Taylor, MI","Taylor",0,4,5,14,14,80,20,2021,1,"MI","City",23,114,61781,"Taylor","MI","Midwest","East North Central",61781
+"Tempe, AZ","Tempe",0,15,13,53,69,528,49,2017,2,"AZ","City",81,646,188144,"Tempe","AZ","West","Mountain",188144
+"Temple, TX","Temple",0,4,4,9,38,133,17,2017,1,"TX","City",17,188,93073,"Temple","TX","South","West South Central",93073
+"Texas City, TX","Texas City",0,1,10,11,30,132,4,2017,1,"TX","City",22,166,57448,"Texas City","TX","South","West South Central",57448
+"Thornton, CO","Thornton",0,12,8,12,37,311,55,2018,5,"CO","City",32,403,143838,"Thornton","CO","West","Mountain",143838
+"Tigard, OR","Tigard",0,2,4,11,19,111,14,2023,7,"OR","City",17,144,56142,"Tigard","OR","West","Pacific",56142
+"Tinley Park, IL","Tinley Park",0,2,1,0,2,37,11,2023,1,"IL","City",3,50,53528,"Tinley Park","IL","Midwest","East North Central",53528
+"Tracy, CA","Tracy",0,2,7,8,31,166,34,2017,1,"CA","City",17,231,99347,"Tracy","CA","West","Pacific",99347
+"Troy, MI","Troy",0,0,1,1,7,69,5,2017,2,"MI","City",2,81,87265,"Troy","MI","Midwest","East North Central",87265
+"Tucson, AZ","Tucson",3,48,124,185,399,1671,141,2017,1,"AZ","City",360,2211,548544,"Tucson","AZ","West","Mountain",548544
+"Twin Falls, ID","Twin Falls",0,2,1,15,19,80,3,2019,8,"ID","City",18,102,55447,"Twin Falls","ID","West","Mountain",55447
+"Tyler, TX","Tyler",0,9,3,32,51,228,15,2017,1,"TX","City",44,294,110824,"Tyler","TX","South","West South Central",110824
+"Upper Darby, PA","Upper Darby",1,0,7,4,9,97,15,2022,2,"PA","City",12,121,84468,"Upper Darby Township","PA","Northeast","Middle Atlantic",84468
+"Vallejo, CA","Vallejo",1,9,33,45,213,100,95,2017,1,"CA","City",88,408,122419,"Vallejo","CA","West","Pacific",122419
+"Victoria, TX","Victoria",0,5,7,12,45,150,8,2017,1,"TX","City",24,203,65298,"Victoria","TX","South","West South Central",65298
+"Virginia Beach, VA","Virginia Beach",1,3,13,6,34,449,26,2024,11,"VA","City",23,509,453991,"Virginia Beach","VA","South","South Atlantic",453991
+"Waco, TX","Waco",0,7,6,25,81,343,10,2017,1,"TX","City",38,434,145741,"Waco","TX","South","West South Central",145741
+"Waltham, MA","Waltham",0,1,1,8,8,49,3,2018,5,"MA","City",10,60,63797,"Waltham","MA","Northeast","New England",63797
+"Warren, MI","Warren",0,7,3,51,34,151,54,2022,10,"MI","City",61,239,136121,"Warren","MI","Midwest","East North Central",136121
+"Warwick, RI","Warwick",0,2,0,8,16,105,5,2017,1,"RI","City",10,126,83369,"Warwick","RI","Northeast","New England",83369
+"Washington, DC","Washington",8,22,212,184,153,2273,169,2017,1,"DC","City",426,2595,678972,"Washington","DC","South","South Atlantic",678972
+"Waterbury, CT","Waterbury",2,4,13,12,40,168,61,2018,11,"CT","City",31,269,115380,"Waterbury","CT","Northeast","New England",115380
+"Waterford Township, MI","Waterford Township",0,1,1,17,8,46,3,2022,7,"MI","City",19,57,69153,"Waterford Township","MI","Midwest","East North Central",69153
+"West Bloomfield Township, MI","West Bloomfield Township",0,0,0,1,3,27,1,2017,2,"MI","City",1,31,64904,"West Bloomfield Township","MI","Midwest","East North Central",64904
+"West Chester Township, OH","West Chester Township",0,2,1,0,6,73,3,2023,2,"OH","City",3,82,62860,"West Chester Township","OH","Midwest","East North Central",62860
+"West Hartford, CT","West Hartford",0,0,1,1,6,102,7,2023,2,"CT","City",2,115,64423,"West Hartford","CT","Northeast","New England",64423
+"West Haven, CT","West Haven",0,1,2,1,6,26,6,2024,11,"CT","City",4,38,54791,"West Haven","CT","Northeast","New England",54791
+"Westland, MI","Westland",0,3,4,14,20,75,10,2018,1,"MI","City",21,105,83463,"Westland","MI","Midwest","East North Central",83463
+"Westminster, CO","Westminster",0,7,2,17,46,240,61,2017,5,"CO","City",26,347,113660,"Westminster","CO","West","Mountain",113660
+"Weymouth, MA","Weymouth",0,2,0,4,15,15,2,2024,11,"MA","City",6,32,57725,"Weymouth","MA","Northeast","New England",57725
+"Wichita Falls, TX","Wichita Falls",0,5,11,17,79,162,21,2017,1,"TX","City",33,262,102740,"Wichita Falls","TX","South","West South Central",102740
+"Woodbury, MN","Woodbury",0,0,1,1,8,52,2,2018,6,"MN","City",2,62,80153,"Woodbury","MN","Midwest","West North Central",80153
+"Wylie, TX","Wylie",0,2,1,1,5,31,2,2017,1,"TX","City",4,38,62539,"Wylie","TX","South","West South Central",62539
+"Wyoming, MI","Wyoming",0,9,3,26,16,75,13,2018,2,"MI","City",38,104,76712,"Wyoming","MI","Midwest","East North Central",76712
+"York, PA","York",0,3,5,13,6,51,19,2022,2,"PA","City",21,76,44901,"York","PA","Northeast","Middle Atlantic",44876
+"Yuma, AZ","Yuma",0,3,4,27,36,132,14,2020,2,"AZ","City",34,182,99610,"Yuma","AZ","West","Mountain",99610

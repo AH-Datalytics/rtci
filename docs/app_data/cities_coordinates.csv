@@ -128,7 +128,7 @@
 "Farmington Hills","Michigan",42.4853125,-83.3771553,82223,"State UCR","Open Source","https://www.michigan.gov/msp/divisions/cjic/dashboard-portal/crime-dashboard",TRUE
 "Fayetteville","North Carolina",35.0525759,-78.878292,209262,"Agency RMS","Open Source","https://data.fayettevillenc.gov/search?tags=incidents",TRUE
 "Flagstaff","Arizona",35.1987522,-111.651822,75343,"State UCR","Open Source","https://azcrimestatistics.azdps.gov/",FALSE
-"Flint","Michigan",43.0161693,-83.6900211,79234,"State UCR","Open Source","https://www.michigan.gov/msp/divisions/cjic/dashboard-portal/crime-dashboard",TRUE
+"Flint","Michigan",43.0161693,-83.6900211,79234,"State UCR","Open Source","https://www.michigan.gov/msp/divisions/cjic/dashboard-portal/crime-dashboard",FALSE
 "Florissant","Missouri",38.7919683,-90.3227803,51045,"State UCR","Open Source","https://showmecrime.mo.gov/",TRUE
 "Flower Mound","Texas",33.0283854,-97.0867203,79513,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
 "Fort Collins","Colorado",40.5871782,-105.0770113,168886,"State UCR","Open Source","https://coloradocrimestats.state.co.us/public/View/dispview.aspx",TRUE

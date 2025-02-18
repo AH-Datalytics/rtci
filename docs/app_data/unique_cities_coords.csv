@@ -4,6 +4,7 @@
 "Akron","Ohio",41.083064,-81.518485
 "Albany","Georgia",31.5782062,-84.1556809
 "Albany","Oregon",44.6365071,-123.1059324
+"Albuquerque","New Mexico",35.0841034,-106.650985
 "Alexandria","Virginia",38.8051095,-77.0470229
 "Alhambra","California",34.093042,-118.12706
 "Allen","Texas",33.1031744,-96.6705503
@@ -23,6 +24,7 @@
 "Bakersfield","California",35.3738712,-119.019463
 "Baltimore","Maryland",39.2908816,-76.610759
 "Barnstable","Massachusetts",41.7004049,-70.3001922
+"Bartlett","Tennessee",35.2045329,-89.8739753
 "Baton Rouge","Louisiana",30.4494155,-91.1869659
 "Battle Creek","Michigan",42.3192548,-85.1824269
 "Baytown","Texas",29.7355047,-94.9774274
@@ -73,11 +75,13 @@
 "Chula Vista","California",32.6400541,-117.084195
 "Cicero","Illinois",41.8455398,-87.7540199
 "Cincinnati","Ohio",39.1014537,-84.5124602
+"Clarksville","Tennessee",36.5277607,-87.3588703
 "Cleveland","Ohio",41.4996574,-81.6936772
 "Clinton Township","Michigan",42.05548745,-83.9478910567844
 "Coeur D Alene","Idaho",47.6742994,-116.7811531
 "Colerain Township","Ohio",39.2584995,-84.6329261679476
 "College Station","Texas",30.6183939,-96.3455991
+"Collierville","Tennessee",35.042036,-89.6645266
 "Colorado Springs","Colorado",38.8339578,-104.825348
 "Columbia","Missouri",38.951883,-92.3337366
 "Columbus","Ohio",39.9622601,-83.0007065
@@ -131,6 +135,7 @@
 "Fort Wayne","Indiana",41.0799898,-85.1386015
 "Fort Worth","Texas",32.753177,-97.3327459
 "Framingham","Massachusetts",42.2773177,-71.4165905
+"Franklin","Tennessee",35.925206,-86.8689419
 "Fremont","California",37.5482697,-121.988571
 "Frisco","Texas",33.1505998,-96.8238183
 "Galveston","Texas",29.3056996,-94.7933252
@@ -160,6 +165,7 @@
 "Haverford","Pennsylvania",40.0131672,-75.2943516
 "Haverhill","Massachusetts",42.7777829,-71.0767724
 "Henderson","Nevada",36.0319843,-114.9822486
+"Hendersonville","Tennessee",36.3049177,-86.621443
 "Hillsboro","Oregon",45.5228939,-122.989827
 "Honolulu","Hawaii",21.304547,-157.855676
 "Houston","Texas",29.7589382,-95.3676974
@@ -167,13 +173,15 @@
 "Independence","Missouri",39.0924792,-94.4137923
 "Indianapolis","Indiana",39.7683331,-86.1583502
 "Irving","Texas",32.8295183,-96.9442177
-"Jackson","Michigan",42.2465036,-84.4016963
+"Jackson","Tennessee",35.6144446,-88.8177418
+"Johnson City","Tennessee",36.3134398,-82.3534728
 "Joplin","Missouri",37.0841838,-94.5133385
 "Kalamazoo","Michigan",42.291707,-85.5872286
 "Kansas City","Missouri",39.100105,-94.5781416
 "Kentwood","Michigan",42.8694731,-85.6447492
 "Kettering","Ohio",39.6895036,-84.1688274
 "Killeen","Texas",31.1171441,-97.727796
+"Kingsport","Tennessee",36.550238,-82.5594293
 "Knoxville","Tennessee",35.9603948,-83.9210261
 "Kyle","Texas",29.9892928,-97.8772103
 "La Mesa","California",32.7678288,-117.0230839
@@ -239,6 +247,7 @@
 "Moline","Illinois",41.5058344,-90.5136642
 "Mount Prospect","Illinois",42.0664167,-87.9372908
 "Mount Vernon","New York",40.9125085,-73.8386504
+"Murfreesboro","Tennessee",35.8460396,-86.3921096
 "Nampa","Idaho",43.5737361,-116.559631
 "Nashua","New Hampshire",42.7656251,-71.4677032
 "Nashville","Tennessee",36.1622767,-86.7742984
@@ -324,12 +333,14 @@
 "Shelby Township","Michigan",43.5974492,-86.3379509185505
 "Sioux Falls","South Dakota",43.5476008,-96.7293629
 "Skokie","Illinois",42.0262972,-87.7521069
+"Smyrna","Tennessee",35.9670985,-86.5245905723296
 "Somerville","Massachusetts",42.3875968,-71.0994968
 "South Bend","Indiana",41.6833813,-86.2500066
 "Southaven","Mississippi",34.9873822,-90.0034862
 "Southfield","Michigan",42.4733689,-83.2218731
 "Sparks","Nevada",39.5404679,-119.7487235
 "Spokane","Washington",47.6571934,-117.42351
+"Spring Hill","Tennessee",35.751179,-86.9300023
 "Springfield","Illinois",39.7990175,-89.6439575
 "Springfield","Massachusetts",42.1018764,-72.5886727
 "Springfield","Missouri",37.2081729,-93.2922715
@@ -377,7 +388,7 @@
 "Waterbury","Connecticut",41.5538091,-73.0438362
 "Waterford Township","Michigan",42.6706391,-83.3896241
 "West Bloomfield Township","Michigan",42.5684073,-83.3740333
-"West Chester Township","Ohio",39.3357398,-84.4155741126453
+"West Chester Township","Ohio",39.3359319,-84.415561556654
 "West Hartford","Connecticut",41.7620447,-72.7420399
 "West Haven","Connecticut",41.2706527,-72.9470471
 "Westland","Michigan",42.3238056,-83.4005321

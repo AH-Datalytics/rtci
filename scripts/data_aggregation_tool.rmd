@@ -17,6 +17,7 @@ library(stringr)
 library(zoo)
 library(ggplot2)
 library(here)
+library(purrr)
 ```
 directory path where the data files are stored
 UPDATE MONTH on LINE 44!
@@ -41,7 +42,7 @@ data_dir <- file.path(
   "Real Time Crime Index",
   "Open Source Data",
   "_Ben and Jeff work",
-  "November 2024"
+  "December 2024"
 )
 
 # Check the full path to ensure it's correct
@@ -137,7 +138,7 @@ get_unique_agency_count <- function(df) {
 unique_agency_counts <- map(ldf, get_unique_agency_count)
 total_agency_raw <- sum(unlist(unique_agency_counts))
 head(total_agency_raw)
-##393 for November 2024
+##407 for december 2024
 ```
 format everything
 ```{r}
@@ -300,21 +301,6 @@ combined_df1 <- data.frame(city_state1 = unique(combined_df$city_state))
 
 # View the result
 head(combined_df1)
-
-
-```
-check out city_state by state for a quick numbers check
-```{r}
-agency_by_state <- combined_df %>%
-  group_by(State) %>%
-  summarise(unique_city_state_count = n_distinct(city_state))
-
-na_city_states <- combined_df %>%
-  filter(is.na(State)) %>%
-  select(city_state)
-
-# View the result
-print(na_city_states)
 ```
 what's wrong with the allen's of the world
 ```{r}
@@ -507,20 +493,17 @@ print(ref_df_path)
 ref_df <- read.csv(ref_df_path)
 
 # Make a city_state column for matching
-ref_df <- ref_df %>% mutate(city_state = paste(Agency, State, sep = ", "))
-
-# Slim it down for now
-ref_df1 <- ref_df %>% select(city_state, pop23, Agency_Type)%>%
+ref_df <- ref_df %>% mutate(city_state = paste(Agency, State, sep = ", ")) %>%
 filter(Agency_Type == "City")
 ```
 add region name to final sourcing table
 ```{r}
 # Merge with ref_df by "city_state"
-ref_df2 <- ref_df1 %>%
-  left_join(cities_40k, by = c("city_state" = "city_state")
+ref_df1 <- ref_df %>%
+  left_join(cities_40k, by = c("city_state" = "city_state"))
 
 # Check if each record in ref_df has the region_name column merged successfully
-check_region <- ref_df2 %>%
+check_region <- ref_df1 %>%
   mutate(successful_merge = !is.na(region_name))
 
 # Print a summary of merge success
@@ -545,25 +528,15 @@ if (nrow(failed_merges) > 0) {
   print("All records were merged successfully.")
 }
 
+#remove excess columns
+ref_df1 <- ref_df1 %>% select(-Agency_Type.x, -Agency_Type.y, -State)
 #write.csv(failed_merges, "failed_merges.csv", row.names = FALSE)
-```
-check to make sure the crosswalk worked part 2
-```{r}
-# Find rows in ref_df1 whose city_state is not in ref_df2
-diff_1 <- ref_df1 %>% filter(!(city_state %in% ref_df2$city_state))
-
-# Find rows in ref_df2 whose city_state is not in ref_df1
-diff_2 <- ref_df2 %>% filter(!(city_state %in% ref_df1$city_state))
-
-# Combine the differences
-diff_records <- bind_rows(diff_1, diff_2)
-
-# View the differing records
-print(diff_records)
 ```
 # Add population and region data merging by city/state col
 ```{r}
-cdf_vcpc_nats <- merge(cdf_vcpc_nats, ref_df2, by = c("city_state"), all.x = TRUE)
+cdf_vcpc_nats <- merge(cdf_vcpc_nats, ref_df1, by = c("city_state"), all.x = TRUE)
+cdf_vcpc_nats <- cdf_vcpc_nats %>% mutate(State_ref = State) %>%   select(-any_of(c("State.x", "State.y")))
+
 ```
 check to make sure the regions are attached
 ```{r}
@@ -786,6 +759,30 @@ nationwide_subsets1 <- nationwide_subsets %>%
 # also need state values and column
 nationwide_subsets1$State <- "All Agencies in Grouping"
 ```
+make sure everyone has the columns we need
+```{r}
+# List of dataframes
+dataframes <- list(
+  cdf2 = cdf2, 
+  nationwide_counts = nationwide_counts, 
+  nationwide_subsets1 = nationwide_subsets1, 
+  region_vars = region_vars, 
+  state_vars = state_vars
+)
+
+# Function to check if 'agency_num' is in a dataframe
+check_agency_num <- function(df_list) {
+  sapply(df_list, function(df) "agency_num" %in% colnames(df))
+}
+
+# Check each dataframe
+agency_num_presence <- check_agency_num(dataframes)
+
+# Print results
+print(agency_num_presence)
+
+```
+
 bind the nationwide counts to the bottom
 ```{r}
 cdf2 <- bind_rows(cdf2, nationwide_counts, nationwide_subsets1, region_vars, state_vars)
@@ -859,7 +856,7 @@ length(unique(df_mvs_12mo1$`Agency Name`))
 join ref to sample
 ```{r}
 df_w_ref <- df_mvs_12mo1 %>%
-  left_join(ref_df2, by = "city_state")
+  left_join(ref_df1, by = "city_state")
 ```
 remove non-current reporter
 ```{r}
@@ -879,12 +876,7 @@ clean up schema for oscar
 ```{r}
 #keep in both state fields for eventual auditing purposes (check merge success)
 final_data <- df_w_ref %>%
-  rename(
-    #State = State.x,
-    #State_ref = State.y,
-    Agency_Type = Agency_Type.y
-  ) %>%
-  select(-Agency_Type.y.y)
+  mutate(State_ref = State)
 ```
 remove bad month for june if all na
 ```{r}
@@ -971,7 +963,7 @@ month_suffix <- tolower(format(latest_date, "%b_%y"))
 prepare a dataframe of all component agencies into sample for sourcing table
 ```{r}
 sample_cities <- cdf_vcpc_nats %>%
-  select(-one_of("Agency_Type.y")) %>%
+  select(-one_of("Agency_Type")) %>%
   group_by(city_state) %>%
   slice(1) %>%
   ungroup()

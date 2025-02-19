@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const headers = [
             { label: "Agency", key: "agency_name" },  // Now using agency_name
             { label: "State", key: "state_name" },    // Added state_name
+            { label: "Region", key: "region" }, // Added Region after State
             { label: "Population Covered", key: "population" },
             { label: "Source Type", key: "source_type" },
             { label: "Source Method", key: "source_method" },

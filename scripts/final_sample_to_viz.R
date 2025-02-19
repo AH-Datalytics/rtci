@@ -571,6 +571,14 @@ final_dataset <- final_dataset %>%
   mutate(number_of_agencies = ifelse(is.na(number_of_agencies), "Unknown", number_of_agencies))
 
 
+# Add in type column to then create a filter button for
+final_dataset <- final_dataset %>% 
+  mutate(type = case_when(
+    str_detect(agency_full, "Full Sample") & !str_detect(agency_full, "Nationwide") ~ "State Samples",
+    str_detect(agency_full, "Nationwide") ~ "National Samples",
+    str_detect(agency_full, "County") ~ "County Agencies",
+    TRUE ~ "City Agencies"
+  ))
 
 # Write the final_sample_long data frame to viz_data.csv
 write.csv(final_dataset, "../docs/app_data/full_table_data.csv", row.names = FALSE)

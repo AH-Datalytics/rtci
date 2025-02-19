@@ -73,82 +73,76 @@ document.addEventListener("DOMContentLoaded", function() {
         console.error("Error loading the CSV file:", error);
     });
 
+    // Agency Type Dropdown Setup
+    const agencyTypeSelect = document.getElementById("agency-type-dropdown");
+    const agencyTypeBtn = document.getElementById("agency-type-btn");
 
+    const agencyTypeOrder = ["City Agencies", "National Samples", "State Samples"];
 
-    function populateFullSampleTable() {
-        const crimeType = crimeTypeBtn.dataset.value || "Murders";
-        let filteredData = allData.filter(d => d.crime_type === crimeType);
-    
-        filteredData = sortTable(filteredData);
-    
-        const tableBody = document.getElementById("full-sample-table-body");
-        tableBody.innerHTML = "";
-    
-        const formatNumber = d3.format(","); // Formatter for numbers with commas
-    
-        filteredData.forEach(d => {
-            const row = tableBody.insertRow();
-            
-            // Split agency_full into agency_name and state_name
-            const [agency_name, state_name] = d.agency_full.split(", ").map(s => s.trim());
-            
-            // Populate Agency Name
-            const cell0 = row.insertCell(0);
-            cell0.textContent = agency_name;  // Use the split agency_name
-            
-            // Populate State Name
-            const cell1 = row.insertCell(1);
-            cell1.textContent = state_name;   // Use the split state_name
-        
-            // Populate Number of Agencies (placed before population)
-            const cell2 = row.insertCell(2);
-            if (isNaN(d.number_of_agencies) || d.number_of_agencies === "Unknown") {
-                cell2.textContent = "Unknown";  // Display "Unknown" if the value is not valid
-                cell2.style.color = 'lightgrey'; 
-            } else {
-                cell2.textContent = formatNumber(d.number_of_agencies);
-            }
-        
-            // Populate Population
-            const cell3 = row.insertCell(3);
-            if (isNaN(d.population) || d.population === "Unknown") {
-                cell3.textContent = "Unknown"; // Display "Unknown"
-                cell3.style.color = 'lightgrey'; // Optionally style the "Unknown", "NA", or NaN value
-            } else {
-                cell3.textContent = formatNumber(d.population);
-            }
-        
-            // Populate Crime Type
-            const cell4 = row.insertCell(4);
-            cell4.textContent = d.crime_type;
-        
-            // Populate YTD
-            const cell5 = row.insertCell(5);
-            cell5.textContent = formatNumber(d.YTD);
-        
-            // Populate Previous YTD
-            const cell6 = row.insertCell(6);
-            cell6.textContent = formatNumber(d.PrevYTD);
-        
-            // Populate Percent Change
-            const cell7 = row.insertCell(7);
-            if (isNaN(d.Percent_Change) || d.Percent_Change === "Undefined") {  
-                cell7.textContent = "Undefined";
-                cell7.style.color = '#f28106';
-            } else {
-                cell7.textContent = d.Percent_Change.toFixed(1) + '%';
-                cell7.style.color = d.Percent_Change > 0 ? '#f28106' : (d.Percent_Change < 0 ? '#2d5ef9' : '#00333a');
-            }
-        
-            // Populate YTD Range
-            const cell8 = row.insertCell(8);
-            const startMonth = "January"; // Replace with the actual start month if it's not fixed
-            const endMonth = d.Month_Through;
-            const dateThrough = new Date(d.Date_Through);
-            const year = dateThrough.getFullYear();
-            cell8.textContent = `${abbreviateMonth(startMonth)} - ${abbreviateMonth(endMonth)}`;
+    // Populate agency type dropdown
+    agencyTypeOrder.forEach(type => {
+        const option = document.createElement("div");
+        option.className = "dropdown-item";
+        option.dataset.value = type;
+        option.textContent = type;
+
+        if (type === agencyTypeBtn.dataset.value || type === "City Agencies") {
+            option.classList.add("selected");  // Default selection
+            agencyTypeBtn.textContent = type;
+            agencyTypeBtn.dataset.value = type;
+        }
+
+        option.addEventListener('click', () => {
+            agencyTypeBtn.textContent = type;
+            agencyTypeBtn.dataset.value = type;
+            agencyTypeSelect.classList.remove("show");
+            populateFullSampleTable();  // Update table based on filters
+            setSelectedClass(agencyTypeSelect, type);
         });
-    }        
+
+        agencyTypeSelect.appendChild(option);
+    });
+
+    // Ensure dropdown toggles
+    toggleDropdown(agencyTypeBtn, agencyTypeSelect);
+
+
+function populateFullSampleTable() {
+    const crimeType = crimeTypeBtn.dataset.value || "Murders";
+    const agencyType = agencyTypeBtn.dataset.value || "City Agencies";
+
+    let filteredData = allData.filter(d =>
+        d.crime_type === crimeType && d.type === agencyType
+    );
+
+    filteredData = sortTable(filteredData);
+
+    const tableBody = document.getElementById("full-sample-table-body");
+    tableBody.innerHTML = "";
+
+    const formatNumber = d3.format(",");
+
+    filteredData.forEach(d => {
+        const row = tableBody.insertRow();
+
+        const [agency_name, state_name] = d.agency_full.split(", ").map(s => s.trim());
+
+        row.insertCell(0).textContent = agency_name;
+        row.insertCell(1).textContent = state_name;
+        row.insertCell(2).textContent = isNaN(d.number_of_agencies) ? "Unknown" : formatNumber(d.number_of_agencies);
+        row.insertCell(3).textContent = isNaN(d.population) ? "Unknown" : formatNumber(d.population);
+        row.insertCell(4).textContent = d.crime_type;
+        row.insertCell(5).textContent = formatNumber(d.YTD);
+        row.insertCell(6).textContent = formatNumber(d.PrevYTD);
+
+        const percentChangeCell = row.insertCell(7);
+        percentChangeCell.textContent = isNaN(d.Percent_Change) ? "Undefined" : d.Percent_Change.toFixed(1) + '%';
+        percentChangeCell.style.color = d.Percent_Change > 0 ? '#f28106' : (d.Percent_Change < 0 ? '#2d5ef9' : '#00333a');
+
+        row.insertCell(8).textContent = `Jan - ${abbreviateMonth(d.Month_Through)}`;
+    });
+}
+
 
     // Function to abbreviate month names
     function abbreviateMonth(month) {
@@ -326,10 +320,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("table-download").addEventListener("click", function() {
         const crimeType = crimeTypeBtn.dataset.value || "Murders";
-        let filteredData = allData.filter(d => d.crime_type === crimeType);
+        const agencyType = agencyTypeBtn.dataset.value || "City Agencies";
+    
+        let filteredData = allData.filter(d => 
+            d.crime_type === crimeType && d.type === agencyType
+        );
+    
         filteredData = sortTable(filteredData);
-        downloadCSV(filteredData, `${crimeType}_YTD_Report.csv`);
+        downloadCSV(filteredData, `${crimeType}_${agencyType}_YTD_Report.csv`);
     });
+    
+
 
     document.getElementById("by-agency-btn").addEventListener('click', function() {
         navigateTo('by-agency.html');

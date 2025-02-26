@@ -5,18 +5,18 @@ import sys
 from datetime import datetime as dt
 
 sys.path.append("../utils")
-from airtable import clear_sheet, get_records_from_sheet, insert_to_airtable_sheet
+from google_configs import gc_files, pull_sheet, update_sheet
 from logger import create_logger
 
 
 """
-The AirtableUpdate class below reads in (i) the latest
+The AgenciesUpdate class below reads in (i) the latest
 `final_sample.csv` file from the RTCI GitHub repository and
 (ii) the list of viable agencies from the FBI's CDE API.
 """
 
 
-class AirtableUpdate:
+class AgenciesUpdate:
     def __init__(self, arguments):
         self.logger = create_logger()
         self.args = arguments
@@ -70,21 +70,15 @@ class AirtableUpdate:
         )
         # assert len(df[df["Agency Name"].notna()]) == len(fs)
 
-        df = self.prep_for_airtable(df)
+        df = self.prep_for_upload(df)
 
-        # records = df.to_dict("records")
-        # agencies_to_insert = [{"fields": d} for d in records]
-
-        # self.logger.info(f"sample record: {records[0]}")
-        # if not self.args.test:
-        #     if self.args.clear:
-        #         clear_sheet(logger=self.logger, sheet_name="Metadata")
-        # insert_to_airtable_sheet(
-        #     logger=self.logger,
-        #     sheet_name="Metadata",
-        #     to_insert=agencies_to_insert,
-        #     keys=["ori"],
-        # )
+        self.logger.info(f"sample record: {df.to_dict('records')[0]}")
+        if not self.args.test:
+            update_sheet(
+                sheet=gc_files["agencies"]["sheet"],
+                df=df,
+                url=gc_files["agencies"]["url"],
+            )
 
     def get_final_sample_agencies(self):
         fs = pd.read_csv(
@@ -124,7 +118,7 @@ class AirtableUpdate:
         name = name.strip()
         return name
 
-    def prep_for_airtable(self, df):
+    def prep_for_upload(self, df):
         """
         takes the dataframe of matched agencies from FBI and RTCI,
         renames fields, grabs original values of agency names from each source,
@@ -169,6 +163,7 @@ class AirtableUpdate:
         df["last_reviewed"] = np.where(
             df["name_rtci"].notna(), dt.strftime(dt.now(), "%Y-%m-%d %H:%M:%S"), ""
         )
+        df["last_reviewed_by"] = ""
 
         # fill with empty strings to satisfy Airtable API and return
         df = df.fillna("")
@@ -180,17 +175,11 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-c",
-        "--clear",
-        action="store_true",
-        help="""If flagged, delete Airtable sheet.""",
-    )
-    parser.add_argument(
         "-t",
         "--test",
         action="store_true",
-        help="""If flagged, do not interact with Airtable.""",
+        help="""If flagged, do not interact with sheet.""",
     )
     args = parser.parse_args()
 
-    AirtableUpdate(args).run()
+    AgenciesUpdate(args).run()

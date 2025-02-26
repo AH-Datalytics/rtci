@@ -6,6 +6,7 @@
 
 # Privacy and security
 .env
+pipeline/gc_serv.json
 
 # Packages
 *__pycache__*

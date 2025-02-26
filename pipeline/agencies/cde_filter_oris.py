@@ -147,7 +147,7 @@ if __name__ == "__main__":
         "-t",
         "--test",
         action="store_true",
-        help="""If specified, no interactions with AWS S3 or Airtable will take place.""",
+        help="""If specified, no interactions with AWS S3 or sheets will take place.""",
     )
     args = parser.parse_args()
 

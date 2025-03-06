@@ -49,10 +49,14 @@ common_to_both <- intersect(unique_current$city_state, unique_previous$city_stat
 
 # Create a summary table
 summary_table <- data.frame(
-  Category = c("Unique to Current", "Unique to Previous", "Common to Both"),
+  Category = c("Current No Previous", "Previous No Current", "Common to Both"),
   Count = c(length(current_no_previous), length(previous_no_current), length(common_to_both))
 )
 
 # View the summary table
 print(summary_table)
+```
+
+
+```{r}
 ```

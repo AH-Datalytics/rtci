@@ -42,7 +42,9 @@ data_dir <- file.path(
   "Real Time Crime Index",
   "Open Source Data",
   "_Ben and Jeff work",
-  "December 2024"
+  "Months",
+  "January 2025",
+  "Cities"
 )
 
 # Check the full path to ensure it's correct
@@ -319,12 +321,10 @@ cdf <- combined_df %>%
 ```
 bring in counties data and bind it to the end of cities data
 ```{r}
-#cdf_all <- bind_rows(cdf, counties_cdf)
+cdf_all <- bind_rows(cdf, county_cdf2)
 ```
 check sample cities
 ```{r}
-library(readr)
-
 # Define file path
 file_path <- "C:/OneDrive/OneDrive - ahdatalytics.com/Clients/Real Time Crime Index/Open Source Data/_Ben and Jeff work/nov_24_agencies.csv"
 
@@ -345,9 +345,6 @@ dropped_records <- anti_join(sample_cities, df, by = "city_state")
 # View the dropped records
 head(dropped_records)
 ```
-
-
-
 create variables for audit
 ```{r}
 # Get the current date
@@ -500,7 +497,7 @@ add region name to final sourcing table
 ```{r}
 # Merge with ref_df by "city_state"
 ref_df1 <- ref_df %>%
-  left_join(cities_40k, by = c("city_state" = "city_state"))
+  left_join(cities_counties_ref, by = c("city_state" = "city_state", "Agency_Type" = "agency_type_name"))
 
 # Check if each record in ref_df has the region_name column merged successfully
 check_region <- ref_df1 %>%
@@ -529,19 +526,24 @@ if (nrow(failed_merges) > 0) {
 }
 
 #remove excess columns
-ref_df1 <- ref_df1 %>% select(-Agency_Type.x, -Agency_Type.y, -State)
+ref_df1 <- ref_df1 %>% select(-Agency_Type.y, -State)
 #write.csv(failed_merges, "failed_merges.csv", row.names = FALSE)
 ```
 # Add population and region data merging by city/state col
 ```{r}
-cdf_vcpc_nats <- merge(cdf_vcpc_nats, ref_df1, by = c("city_state"), all.x = TRUE)
-cdf_vcpc_nats <- cdf_vcpc_nats %>% mutate(State_ref = State) %>%   select(-any_of(c("State.x", "State.y")))
-
+cdf_vcpc_nats <- merge(
+  cdf_vcpc_nats, 
+  ref_df1, 
+  by.x = c("city_state", "Agency_Type"), 
+  by.y = c("city_state", "Agency_Type"), 
+  all.x = TRUE
+)
+cdf_vcpc_nats1 <- cdf_vcpc_nats %>% mutate(State_ref = State) %>%   select(-any_of(c("State.x", "State.y")))
 ```
 check to make sure the regions are attached
 ```{r}
 # Filter records where region_name is NA
-na_region_records <- cdf_vcpc_nats %>%
+na_region_records <- cdf_vcpc_nats1 %>%
   filter(is.na(region_name))
 
 # Display the results
@@ -594,7 +596,7 @@ nationwide_counts <- cdf_vcpc_nats_usa %>%
     `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
     `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
     `Population Total` = sum(Population, na.rm = TRUE),
-    Agency_num = n_distinct(city_state),  # Count unique agencies per month
+    Agency_num = n_distinct(paste(city_state, Agency_Type, sep = "_")), # Count unique agencies per month
     .groups = 'drop'
   )
 

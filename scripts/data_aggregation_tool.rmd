@@ -323,11 +323,6 @@ bring in counties data and bind it to the end of cities data
 ```{r}
 cdf_all <- bind_rows(cdf, county_cdf2)
 ```
-add city_state for counties
-```{r}
-
-
-```
 create variables for audit
 ```{r}
 # Get the current date
@@ -387,6 +382,12 @@ make a new unique id
 cdf_recent <- cdf_recent %>%
   mutate(city_state_id = paste(city_state, Agency_Type, sep = ","))
 ```
+
+
+START HERE ON MONDAY
+
+
+
 new filter for finding non-reporters without current blank records
 ```{r}
 ## Step 1: Identify the most recent observation for each agency in a dataframe for analysis
@@ -447,16 +448,20 @@ cdf_vcpc <- cdf_nwcounts %>%
     prop_crime = rowSums(select(., Burglary, Theft, `Motor Vehicle Theft`), na.rm = TRUE)
   )
 
+#create a new unique id for cdf_vcpc to fix join issue
+cdf_vcpc <- cdf_vcpc %>%
+  mutate(city_state_id = paste(city_state, Agency_Type, sep = ","))
+
 # save a copy for later calcs
 cdf_vcpc_nats <- cdf_vcpc
 
 # slim it down to the essentials to join back to the main dataframe
-cdf_vcpc <- cdf_vcpc %>% select(city_state, vio_crime, prop_crime, Year, Month)
+cdf_vcpc <- cdf_vcpc %>% select(city_state, vio_crime, prop_crime, Year, Month, city_state_id)
 ```
 join to main dataframe
 ```{r}
 #add vc/pc counts back to main df and create a new df var
-cdf1 <- merge(cdf, cdf_vcpc, by = c("city_state", "Month", "Year"), all.x = TRUE)
+cdf1 <- merge(cdf_recent, cdf_vcpc, by = c("city_state_id", "Month", "Year"), all.x = TRUE)
 ```
 add population figures for nationwide descriptors
 ```{r}
@@ -479,8 +484,7 @@ print(ref_df_path)
 ref_df <- read.csv(ref_df_path)
 
 # Make a city_state column for matching
-ref_df <- ref_df %>% mutate(city_state = paste(Agency, State, sep = ", ")) %>%
-filter(Agency_Type == "City")
+ref_df <- ref_df %>% mutate(city_state = paste(Agency, State, sep = ", "))
 ```
 add region name to final sourcing table
 ```{r}
@@ -544,7 +548,7 @@ drop cdf1 extra columns after fixing
 cdf2 <- cdf1 %>%
   mutate(`Violent Crime` = vio_crime,
           `Property Crime` = prop_crime, ) %>%
-            select(-city_state, -vio_crime, -prop_crime)
+            select(-vio_crime, -prop_crime)
 
 #same for table used for sample calcs + format pop var and create counter for agency # calc
 cdf_vcpc_nats_usa <- cdf_vcpc_nats %>%
@@ -779,6 +783,13 @@ bind the nationwide counts to the bottom
 cdf2 <- bind_rows(cdf2, nationwide_counts, nationwide_subsets1, region_vars, state_vars)
 head(cdf2)
 ```
+
+
+START HERE ON MONDAY 3/7 - almost done checking!
+
+
+
+
 #sneak in the PR data and get 12mo mvsums
 add PR data
 fix remaining columns and select out 
@@ -790,6 +801,8 @@ pr_path <- file.path(
   "Real Time Crime Index",
   "Open Source Data",
   "_Ben and Jeff work",
+  "Months",
+  "2024",
   "November 2024",
   "Puerto_Rico_Aggregated_Since_2017.csv"
 )
@@ -843,11 +856,13 @@ df_mvs_12mo1 <- df_mvs_12mo1 %>% mutate(city_state = paste(`Agency Name`, State,
 length(unique(df_mvs_12mo1$city_state))
 # duplicate agency names
 length(unique(df_mvs_12mo1$`Agency Name`))
+# now with counties
+length(unique(df_mvs_12mo1$city_state_id))
 ```
 join ref to sample
 ```{r}
 df_w_ref <- df_mvs_12mo1 %>%
-  left_join(ref_df1, by = "city_state")
+  left_join(ref_df1, by = "city_state", "agency_type")
 ```
 remove non-current reporter
 ```{r}
@@ -955,7 +970,7 @@ prepare a dataframe of all component agencies into sample for sourcing table
 ```{r}
 sample_cities <- cdf_vcpc_nats %>%
   select(-one_of("Agency_Type")) %>%
-  group_by(city_state) %>%
+  group_by(city_state_id) %>%
   slice(1) %>%
   ungroup()
 ```

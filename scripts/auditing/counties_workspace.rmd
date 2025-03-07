@@ -390,7 +390,7 @@ one last column check and ready to bind to cities
 ```{r}
 # Define acceptable column names
 acceptable_names <- c("Agency Name", "Murder", "Rape", "Robbery", "Aggravated Assault",  
-                      "Burglary", "Theft", "Motor Vehicle Theft", "Year", "Month", "State", "Agency_Type")
+                      "Burglary", "Theft", "Motor Vehicle Theft", "Year", "Month", "State", "city_state", "Agency_Type")
 
 # Remove "Agency_Type.y"
 county_cdf1 <- county_cdf1 %>% select(-"Agency_Type.y")

@@ -323,27 +323,10 @@ bring in counties data and bind it to the end of cities data
 ```{r}
 cdf_all <- bind_rows(cdf, county_cdf2)
 ```
-check sample cities
+add city_state for counties
 ```{r}
-# Define file path
-file_path <- "C:/OneDrive/OneDrive - ahdatalytics.com/Clients/Real Time Crime Index/Open Source Data/_Ben and Jeff work/nov_24_agencies.csv"
 
-# Read the CSV file
-df <- read_csv(file_path)
 
-# View first few rows
-head(df)
-# Merge by a common column (e.g., "city_state")
-merged_df <- left_join(df, sample_cities, by = "city_state")
-
-# View result
-head(merged_df)
-
-# Find records in sample_cities that are not in df
-dropped_records <- anti_join(sample_cities, df, by = "city_state")
-
-# View the dropped records
-head(dropped_records)
 ```
 create variables for audit
 ```{r}
@@ -393,17 +376,22 @@ cat("Three Months Previous - Year:", three_months_previous_year, "Month:", three
 drop everything from current year/month and current year/previous month
 ```{r}
 # Filter out observations with the current month and year or previous month and current year
-cdf <- cdf %>%
+cdf_recent <- cdf_all %>%
   filter(
     !(Year == current_year & Month == current_month) &
     !(Year == current_year & Month == previous_month_month)
   )
 ```
+make a new unique id
+```{r}
+cdf_recent <- cdf_recent %>%
+  mutate(city_state_id = paste(city_state, Agency_Type, sep = ","))
+```
 new filter for finding non-reporters without current blank records
 ```{r}
 ## Step 1: Identify the most recent observation for each agency in a dataframe for analysis
-most_recent_obs <- cdf %>%
-  group_by(city_state) %>%
+most_recent_obs <- cdf_recent %>%
+  group_by(city_state_id) %>%
   slice_max(order_by = as.Date(paste(Year, Month, "01", sep = "-")), n = 1) %>% 
   ungroup()
 
@@ -420,7 +408,7 @@ undesirables_na_current <- most_recent_obs %>%
          is.na(Murder))
 
 # Step 3a: Filter records that are missing historical murder data (could have current)
-undesirables_na_historical <- cdf %>%
+undesirables_na_historical <- cdf_recent %>%
   filter(Year <= two_months_previous_year &
          Month < two_months_previous_month &
          is.na(Murder))
@@ -435,10 +423,11 @@ undesirables <- undesirables %>%
 without non-reporters for 45 day lag month //first month is June
 ```{r}
 # Get unique values from city_state unique id to remove same sample calculations table
-remove_agencies <- unique(undesirables$city_state)
+remove_agencies <- unique(undesirables[, c("city_state", "Agency_Type")])
 
-# Filter out rows where city_state is in the list of values_to_remove
-cdf_nwcounts <- cdf %>% filter(!city_state %in% remove_agencies)
+#now remove agencies
+cdf_nwcounts <- cdf_recent %>%
+  anti_join(remove_agencies, by = c("city_state", "Agency_Type"))
 ```
 remove duplicates - schaumburg and tracy problem
 ```{r}
@@ -446,7 +435,7 @@ cdf_nwcounts <- distinct(cdf_nwcounts)
 ```
 check the number of agencies
 ```{r}
-num_unique_A <- n_distinct(cdf_nwcounts$city_state)
+num_unique_A <- n_distinct(cdf_nwcounts$city_state, cdf_nwcounts$Agency_Type)
 print(num_unique_A)
 ```
 vc/pc groupings

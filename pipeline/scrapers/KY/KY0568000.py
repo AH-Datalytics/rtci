@@ -35,6 +35,7 @@ class KY0568000(Scraper):
                 (2022, "Louisville_Metro_KY_Crime_Data_2022", "reported"),
                 (2023, "crime_data_2023", "occurred"),
                 (2024, "crimedata2024", "occurred"),
+                (2025, "crime_data_2025", "occurred"),
             ]
         ]
         # make sure we're representing years up to most recent

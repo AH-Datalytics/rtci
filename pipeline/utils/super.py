@@ -69,7 +69,9 @@ class Scraper:
 
         # fill out placeholder columns for missing crimes
         for crime in self.crimes:
-            if crime not in df.columns:
+            if crime in df.columns:
+                df[crime] = df[crime].apply(lambda s: float(str(s).replace(",", "")))
+            else:
                 df[crime] = None
 
             # produce 12-month rolling sums per crime

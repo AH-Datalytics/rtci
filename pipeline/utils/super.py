@@ -49,6 +49,15 @@ class Scraper:
     def scrape():
         return []
 
+    @staticmethod
+    def check_for_comma(s):
+        if isinstance(s, str):
+            return float(str(s).replace(",", ""))
+        elif isinstance(s, int):
+            return float(s)
+        else:
+            return s
+
     def process(self, data):
         # assert data is a non-empty list and every record has a date
         assert isinstance(data, list)
@@ -70,7 +79,7 @@ class Scraper:
         # fill out placeholder columns for missing crimes
         for crime in self.crimes:
             if crime in df.columns:
-                df[crime] = df[crime].apply(lambda s: float(str(s).replace(",", "")))
+                df[crime] = df[crime].apply(lambda s: self.check_for_comma(s))
             else:
                 df[crime] = None
 

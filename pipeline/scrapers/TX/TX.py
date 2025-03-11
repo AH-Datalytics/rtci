@@ -10,7 +10,8 @@ class Texas(Optimum):
         self.agency_list_url = (
             "https://txucr.nibrs.com/SRSReport/GetSRSReportByValues?ReportType=Agency"
         )
-        self.data_url = "https://txucr.nibrs.com/Report/GetCrimeTrends?"
+        self.data_url = "https://txucr.nibrs.com/SRSReport/GetCrimeTrends?"
+        self.srs = True
 
 
 Texas().run()

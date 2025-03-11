@@ -17,6 +17,7 @@ class Optimum(Scraper):
     def __init__(self):
         super().__init__()
         self.threader = True  # some states fail on requests threading
+        self.srs = False  # TX and PA have a newer SRS reporting format/API
         self.payload = {
             "ReportType": "Agency",
             "DrillDownReportIDs": -1,
@@ -25,8 +26,26 @@ class Optimum(Scraper):
             "endDate": dt.strftime(self.last, "%m%Y"),
         }
         self.exclude_oris = []
+        self.srs_crimes = {
+            "Murder and Nonnegligent Homicide": "murder",
+            "Rape": "rape",
+            "Robbery": "robbery",
+            "Aggravated Assault": "aggravated_assault",
+            "Burglary": "burglary",
+            "Larceny - Theft": "theft",
+            "Motor Vehicle Theft": "motor_vehicle_theft",
+        }
 
     def scrape(self):
+        # preemptively update the api payload for srs scrapes
+        if self.srs:
+            self.payload = {
+                "ReportType": "Agency",
+                "DrillDownReportIDs": -1,
+                "StartDate": dt.strftime(self.first, "%m/%d/%Y"),
+                "EndDate": dt.strftime(self.last, "%m/%d/%Y"),
+            }
+
         # get list of agencies in state from airtable
         agencies = [
             d["ori"]
@@ -59,14 +78,45 @@ class Optimum(Scraper):
 
         # run through data collection per agency
         if self.threader:
-            all_agencies = thread(self.get_agency, agencies)
+            if self.srs:
+                all_agencies = thread(self.get_agency_srs, agencies)
+            else:
+                all_agencies = thread(self.get_agency, agencies)
         else:
             all_agencies = list()
             for agency in agencies:
                 self.logger.info(f"running {agency[0]}...")
-                all_agencies.extend(self.get_agency(agency))
+                if self.srs:
+                    all_agencies.extend(self.get_agency_srs(agency))
+                else:
+                    all_agencies.extend(self.get_agency(agency))
 
         return all_agencies
+
+    def get_agency_srs(self, agency):
+        # plug agency id code into payload
+        agency, value = agency
+        payload = self.payload.copy()
+        payload.update({"ReportIDs": value, "OffenseIDs": "P1"})
+        j = self.get_agency_crime_data(payload)
+
+        # collect dates and crime counts
+        dates = [dt.strptime(d, "%Y/%b") for d in j["periodlist"]]
+        crimes = j["crimeList"]
+
+        out = list()
+        for crime in crimes:
+            if crime["name"] in self.srs_crimes:
+                out.append(
+                    pd.DataFrame(
+                        {"date": dates, self.srs_crimes[crime["name"]]: crime["data"]}
+                    )
+                )
+
+        df = reduce(lambda df1, df2: pd.merge(df1, df2, on="date"), out)
+        df["ori"] = agency
+
+        return df.to_dict("records")
 
     def get_agency(self, agency):
         # plug agency id code into payload

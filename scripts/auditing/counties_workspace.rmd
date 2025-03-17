@@ -20,6 +20,7 @@ library(dplyr)
 library(purrr)
 ```
 directory path where the data files are stored
+UPDATE MONTH on LINE 44!
 ```{r}
 #directory path where the data files are stored
 # Dynamically locate OneDrive directory
@@ -50,63 +51,16 @@ data_dir <- file.path(
 print(data_dir)
 
 # Get a list of all CSV file paths within the directory
-file_paths <- list.files(data_dir, pattern = "\\.xlsx$", full.names = TRUE)
+file_paths <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
 
 # Check the files
 head(file_paths)
 ```
-read in counties files
+describe all the csv's coming in - just a general snippet to take a look at the raw data format
 ```{r}
-# Function to read the first sheet from all Excel files in a folder and save them as data frames in a list
-read_excels <- function(folder_path) {
-  # List all Excel files in the directory
-  file_paths <- list.files(folder_path, pattern = "\\.xlsx$", full.names = TRUE)
-  
-  # Debug: Check if any files are listed
-  if (length(file_paths) == 0) {
-    stop("No Excel files found in the specified directory.")
-  } else {
-    message("Processing ", length(file_paths), " files.")
-  }
-  
-  # Function to read the first sheet of a single Excel file
-  read_excel_file <- function(file_path) {
-    # Debug: Check the file path
-    message("Reading file: ", file_path)
-    
-    # Attempt to read the first sheet of the Excel file
-    tryCatch({
-      df <- read_excel(file_path, sheet = 1)
-      return(df)
-    }, error = function(e) {
-      warning("Failed to read: ", file_path, " Error: ", e$message)
-      return(NULL)  # Return NULL if the file cannot be read
-    })
-  }
-  
-  # Read all Excel files and save them as data frames in a list
-  df_list <- lapply(file_paths, read_excel_file)
-  
-  # Name each element in the list with the corresponding file name (without extension)
-  names(df_list) <- file_path_sans_ext(basename(file_paths))
-  
-  return(df_list)
-}
-
-# Read Excel files from the directory
-county_ldf <- read_excels(data_dir)
-
-# View the first data frame in the list
-head(county_ldf[[1]])
-```
-get info on all the excels
-```{r}
-# Function to get info on the first sheet of each Excel file
-get_excel_info <- function(file) {
-  # Read the first sheet
-  df <- read_excel(file, sheet = 1)
-  
-  # Create a summary dataframe
+# Function to get info on each CSV file
+get_csv_info <- function(file) {
+  df <- read_csv(file)
   data.frame(
     file_name = basename(file),
     num_columns = ncol(df),
@@ -115,14 +69,55 @@ get_excel_info <- function(file) {
   )
 }
 
-# List of Excel file paths
-#file_paths <- list.files(path = "path/to/excel/files", pattern = "\\.xlsx$", full.names = TRUE)
-
-# Apply the function to each Excel file and combine the results into a single dataframe
-excel_info_df <- map_df(file_paths, get_excel_info)
+# Apply the function to each CSV file and combine the results into a single dataframe
+csv_info_df <- map_df(file_paths, get_csv_info)
 
 # Take a quick look
-head(excel_info_df)
+head(csv_info_df)
+```
+Read all CSV files in and save them as df's in a list
+```{r}
+# Function to read all CSV files in a folder and save them as data frames in a list
+read_csvs <- function(folder_path) {
+  # List all CSV files in the directory
+  file_paths <- list.files(folder_path, pattern = "\\.csv$", full.names = TRUE)
+  
+  # Debug: Check if any files are listed
+  if (length(file_paths) == 0) {
+    stop("No CSV files found in the specified directory.")
+  } else {
+    message("Processing ", length(file_paths), " files.")
+  }
+  
+  # Function to read a single CSV file
+  read_csv_file <- function(file_path) {
+    # Debug: Check the file path
+    message("Reading file: ", file_path)
+    
+    # Attempt to read the CSV file
+    tryCatch({
+      df <- read_csv(file_path, show_col_types = FALSE)
+      return(df)
+    }, error = function(e) {
+      warning("Failed to read: ", file_path, " Error: ", e$message)
+      return(NULL)  # Return NULL if the file cannot be read
+    })
+  }
+  
+  # Read all CSV files and save them as data frames in a list
+  df_list <- lapply(file_paths, read_csv_file)
+  
+  # Name each element in the list with the corresponding file name (without extension)
+  names(df_list) <- tools::file_path_sans_ext(basename(file_paths))
+  
+  return(df_list)
+}
+
+# read'er in
+county_ldf <- read_csvs(data_dir)
+
+# Take'er look
+head(county_ldf[1])
 ```
 let's get the unique number of agencies at the beginning
 ```{r}
@@ -281,10 +276,6 @@ county_combined_df <- county_combined_df %>% select(acceptable_names)
 head(county_combined_df)
 #looking good.
 ```
-
-
-
-
 ###TEST FOR REFERENCE DATA MERGE###
 city state column for getting unique number of agencies
 ```{r}

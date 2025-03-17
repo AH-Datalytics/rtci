@@ -39,7 +39,7 @@ final_sample <- final_sample %>%
 # Drop new columns from dave
 final_sample <- final_sample %>% 
   select(!(region_name | state_abbr | Population | pop23 |
-             pub_agency_name | city_state_id | Agency | Agency_Type.x |
+             pub_agency_name | city_state_id | Agency_Type.x |
              Agency_Type.y | city_state.x | city_state.y))
 
 # Capitalize population column 

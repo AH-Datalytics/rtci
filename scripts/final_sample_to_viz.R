@@ -7,6 +7,7 @@ library(janitor)
 library(stringr)
 library(tidygeocoder)
 library(sf)
+library(readxl)
 
 # Get the current date and time
 last_updated <- format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")
@@ -832,6 +833,8 @@ write.csv(summary_data, "../docs/app_data/scorecard.csv", row.names = FALSE)
 
 map <- read_csv("../docs/app_data/viz_data.csv")
 
+agency_addresses <- read_excel("../docs/app_data/agency_addresses.xlsx")
+
 # Generate a unique list of cities
 unique_cities <- map %>%
   select(agency_name, state_name) %>%  # Select city and state columns
@@ -841,11 +844,25 @@ unique_cities <- map %>%
 unique_cities <- unique_cities %>% 
   filter(state_name != "Nationwide", agency_name != "Full Sample")
 
+# Add County Flag
+unique_cities <- unique_cities %>%
+  mutate(is_county = str_detect(agency_name, "County$"))
 
+# Create Location Column
+unique_cities <- unique_cities %>%
+  mutate(address = if_else(
+    is_county,
+    paste0(agency_name, ", ", state_name),  # Keep as "__ County, State"
+    paste0(agency_name, ", ", state_name)   # Same for city, but you can adjust if needed
+  ))
 
 # Geocode each unique city using OpenStreetMap
+# unique_cities_coords <- unique_cities %>%
+#   geocode(city = agency_name, state = state_name, method = 'osm')
+
 unique_cities_coords <- unique_cities %>%
-  geocode(city = agency_name, state = state_name, method = 'osm')
+  geocode(address = address, method = 'osm')
+
 
 write.csv(unique_cities_coords, "../docs/app_data/unique_cities_coords.csv", row.names = FALSE)
 

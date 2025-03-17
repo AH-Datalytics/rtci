@@ -382,12 +382,6 @@ make a new unique id
 cdf_recent <- cdf_recent %>%
   mutate(city_state_id = paste(city_state, Agency_Type, sep = ","))
 ```
-
-
-START HERE ON MONDAY
-
-
-
 new filter for finding non-reporters without current blank records
 ```{r}
 ## Step 1: Identify the most recent observation for each agency in a dataframe for analysis
@@ -540,7 +534,7 @@ na_region_records <- cdf_vcpc_nats1 %>%
   filter(is.na(region_name))
 
 # Display the results
-print(na_region_records)
+#print(na_region_records)
 ```
 drop cdf1 extra columns after fixing
 ```{r}
@@ -785,7 +779,7 @@ head(cdf2)
 ```
 
 
-START HERE ON MONDAY 3/7 - almost done checking!
+START HERE ON MONDAY 3/17 - almost done checking!
 
 
 
@@ -802,8 +796,8 @@ pr_path <- file.path(
   "Open Source Data",
   "_Ben and Jeff work",
   "Months",
-  "2024",
-  "November 2024",
+  "January 2025",
+  "Cities",
   "Puerto_Rico_Aggregated_Since_2017.csv"
 )
 
@@ -861,8 +855,8 @@ length(unique(df_mvs_12mo1$city_state_id))
 ```
 join ref to sample
 ```{r}
-df_w_ref <- df_mvs_12mo1 %>%
-  left_join(ref_df1, by = "city_state", "agency_type")
+df_w_ref <- df_mvs_12mo1 %>% select(-city_state.x, -city_state.y) %>%
+  left_join(ref_df1, by = "city_state", "Agency_Type")
 ```
 remove non-current reporter
 ```{r}

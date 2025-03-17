@@ -25,7 +25,7 @@ data_dir <- file.path(
   "Real Time Crime Index",
   "Open Source Data",
   "_Ben and Jeff work",
-  "Puerto_Rico_Since_2017_raw"
+  "Puerto Rico"
 )
 
 # Check the full path to ensure it's correct
@@ -68,7 +68,7 @@ pr <- read.csv(selected_file)
 
 # Print a success message and preview the data
 cat("Successfully loaded:", basename(selected_file), "\n")
-head(data)
+head(pr)
 ```
 #clean up reshape
 ```{r}
@@ -151,7 +151,9 @@ output_dir <- file.path(
   "Real Time Crime Index",
   "Open Source Data",
   "_Ben and Jeff work",
-  "December 2024"
+  "Months",
+  "January 2025",
+  "Cities"
 )
 
 # Create the directory if it doesn't exist
@@ -167,4 +169,10 @@ write.csv(pr_counts, output_file, row.names = FALSE)
 
 # Print success message
 cat("File successfully written to:", output_file, "\n")
+```
+
+run above
+```{r}
+
+
 ```

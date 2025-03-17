@@ -130,7 +130,8 @@ d3.csv("../app_data/cities_coordinates.csv").then(data => {
         if (!isNaN(lat) && !isNaN(lon)) {
             const marker = L.circleMarker([lat, lon], {
                 radius: radius,
-                color: null,
+                color: "black", // Thin black border
+                weight: 0.3,      // Very thin border
                 fillColor: fillColor,
                 fillOpacity: 0.6
             }).addTo(map);
@@ -221,6 +222,7 @@ map.on('zoomend', () => {
 });
 
 // Function to update the legend dynamically
+// Function to update the legend dynamically
 function updateLegend() {
     const legend = L.control({ position: 'topright' });
 
@@ -237,38 +239,6 @@ function updateLegend() {
         div.innerHTML += `<i style="background: #f28106"></i> No, incomplete data <span>(${excludedCount})</span>.<br>`;
         div.innerHTML += `<p style="padding-bottom: 0px; margin-bottom: 0px; font-size: 12px;">*Markers sized by population.</p>`;
         div.innerHTML += `<p style="margin-top: 0px; padding-top: 0px; padding-bottom: 0px; margin-bottom: 0px; font-size: 12px;">**National sample covers ${formattedIncludedPopulation} total population.</p>`;
-
-        // Add a divider for separation
-        div.innerHTML += `<hr style="border: 0; height: 1px; background: #ccc; margin: 8px 0;">`;
-
-        // NEW Section: Type
-        div.innerHTML += `<h4>Agency Type</h4>`;
-
-        div.innerHTML += `<div style="display: flex; align-items: center; margin-left: 2px; gap: 2.5px;">
-            <i style="
-                display: inline-block;
-                width: 14px;
-                height: 14px;
-                background: black;
-                border-radius: 50%;
-                flex-shrink: 0;
-            "></i> 
-            <span>City</span>
-        </div>`;
-
-        div.innerHTML += `<div style="display: flex; align-items: center; margin-left: 2px; gap: 1px;">
-            <i style="
-                width: 0; 
-                height: 0; 
-                border-left: 8px solid transparent;
-                border-right: 8px solid transparent;
-                border-bottom: 14px solid black;
-                display: inline-block;
-                flex-shrink: 0;
-            "></i> 
-            <span>County</span>
-        </div>`;
-
 
         // Add a divider for separation
         div.innerHTML += `<hr style="border: 0; height: 1px; background: #ccc; margin: 8px 0;">`;

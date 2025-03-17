@@ -15,6 +15,12 @@ last_updated <- format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")
 final_sample <- read_csv("../data/final_sample.csv")
 
 
+# add in dummy variable into id column
+final_sample <- final_sample %>% 
+  mutate(city_state_id = ifelse(is.na(city_state_id), 
+                                "Not Provided",
+                                city_state_id))
+
 # Add in "County" into agency name and city_state for counties
 final_sample <- final_sample %>%
   mutate(`Agency Name` = if_else(str_detect(city_state_id, "County"),
@@ -590,8 +596,7 @@ final_dataset <- final_dataset %>%
   mutate(type = case_when(
     str_detect(agency_full, "Full Sample") & !str_detect(agency_full, "Nationwide") ~ "State Samples",
     str_detect(agency_full, "Nationwide") ~ "National Samples",
-    str_detect(agency_full, "County") ~ "County Agencies",
-    TRUE ~ "City Agencies"
+    TRUE ~ "Individual Agencies"
   ))
 
 # Write the final_sample_long data frame to viz_data.csv

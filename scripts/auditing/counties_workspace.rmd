@@ -135,6 +135,21 @@ head(total_agency_raw)
 #save a copy
 county_ldf_extra <- county_ldf
 ```
+find the na's
+```{r}
+# Compute the number of NA records for each column in each dataframe
+na_counts_df <- map_df(county_ldf_extra, ~ summarise_all(.x, ~ sum(is.na(.))), .id = "dataframe")
+
+# View the result
+print(na_counts_df)
+
+```
+fix na's for san diego, minnesota, colorado
+```{r}
+
+
+```
+
 format everything
 ```{r}
 # Define the format_cols function
@@ -403,4 +418,24 @@ head(county_cdf2)
 run the above 
 ```{r}
 head(county_cdf2)
+
+county_cdf2 <- county_cdf2 %>%
+  filter(!is.na(`Agency Name`))
+```
+check the numbers
+```{r}
+library(dplyr)
+
+# Get the number of unique combinations of city_state and agency_type
+unique_combinations <- county_cdf2 %>%
+  distinct(city_state, Agency_Type) %>%
+  nrow()
+
+# Print the result
+print(unique_combinations)
+
+undesirables_na_historical_county <- county_cdf2 %>%
+  filter(Year <= two_months_previous_year &
+         Month < two_months_previous_month &
+         is.na(Murder))
 ```

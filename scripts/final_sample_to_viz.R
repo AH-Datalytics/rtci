@@ -15,7 +15,7 @@ last_updated <- format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")
 final_sample <- read_csv("../data/final_sample.csv")
 
 
-# Add in "County" into agency name for counties
+# Add in "County" into agency name and city_state for counties
 final_sample <- final_sample %>%
   mutate(`Agency Name` = if_else(str_detect(city_state_id, "County"),
                                  paste0(`Agency Name`, " County"),
@@ -38,16 +38,14 @@ final_sample <- final_sample %>%
 
 # Drop new columns from dave
 final_sample <- final_sample %>% 
-  select(!(region_name | state_abbr | Population | pop23 |
-             pub_agency_name | city_state_id | Agency_Type.x |
-             Agency_Type.y | city_state.x | city_state.y))
+  select(!(region_name | state_abbr | Population | pop23))
 
 # Capitalize population column 
 final_sample <- final_sample %>% 
   rename(Population = population)
 
 
-# Drop NA/other region still in data
+# Drop NA/other states still in data
 final_sample <- final_sample %>% 
   filter(!is.na(State))
 

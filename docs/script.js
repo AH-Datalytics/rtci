@@ -231,18 +231,63 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     
         // Append agencies and add "Population Groups" sublabel after "Full Sample"
-        agencies.forEach(agency => {
-            const dropdownOption = createDropdownOption(agency, agency, agencySelect, agencyBtn);
-            agencySelect.appendChild(dropdownOption);
-    
-            if (selectedState === "Nationwide" && agency === "Full Sample") {
-                const populationGroupLabel = document.createElement("div");
-                populationGroupLabel.textContent = "Population Groups";
-                populationGroupLabel.classList.add("master-heading");
-                populationGroupLabel.style.pointerEvents = "none";  // Prevent interactions
-                agencySelect.appendChild(populationGroupLabel);
+        if (selectedState === "Nationwide") {
+            // Keep existing Nationwide logic
+            agencies.forEach(agency => {
+                const dropdownOption = createDropdownOption(agency, agency, agencySelect, agencyBtn);
+                agencySelect.appendChild(dropdownOption);
+        
+                if (agency === "Full Sample") {
+                    const populationGroupLabel = document.createElement("div");
+                    populationGroupLabel.textContent = "Population Groups";
+                    populationGroupLabel.classList.add("master-heading");
+                    populationGroupLabel.style.pointerEvents = "none";
+                    agencySelect.appendChild(populationGroupLabel);
+                }
+            });
+        } else {
+            // For state-specific (not Nationwide)
+            // Handle "Full Sample" first if present
+            const fullSampleIndex = agencies.indexOf("Full Sample");
+            if (fullSampleIndex !== -1) {
+                const fullSampleOption = createDropdownOption("Full Sample", "Full Sample", agencySelect, agencyBtn);
+                agencySelect.appendChild(fullSampleOption);
+                agencies.splice(fullSampleIndex, 1); // Remove "Full Sample" from agencies list
             }
-        });
+        
+            // Separate cities and counties
+            const cities = agencies.filter(a => !a.includes("County")).sort((a, b) => a.localeCompare(b));
+            const counties = agencies.filter(a => a.includes("County")).sort((a, b) => a.localeCompare(b));
+        
+            // Add "Cities" subheader if there are cities
+            if (cities.length > 0) {
+                const citiesLabel = document.createElement("div");
+                citiesLabel.textContent = "Cities";
+                citiesLabel.classList.add("master-heading");
+                citiesLabel.style.pointerEvents = "none";
+                agencySelect.appendChild(citiesLabel);
+        
+                cities.forEach(city => {
+                    const cityOption = createDropdownOption(city, city, agencySelect, agencyBtn);
+                    agencySelect.appendChild(cityOption);
+                });
+            }
+        
+            // Add "Counties" subheader if there are counties
+            if (counties.length > 0) {
+                const countiesLabel = document.createElement("div");
+                countiesLabel.textContent = "Counties";
+                countiesLabel.classList.add("master-heading");
+                countiesLabel.style.pointerEvents = "none";
+                agencySelect.appendChild(countiesLabel);
+        
+                counties.forEach(county => {
+                    const countyOption = createDropdownOption(county, county, agencySelect, agencyBtn);
+                    agencySelect.appendChild(countyOption);
+                });
+            }
+        }
+        
     
         // If Nationwide, add "Regions" heading and append regional agencies
         if (selectedState === "Nationwide" && regionalAgencies.length > 0) {
@@ -265,10 +310,14 @@ document.addEventListener("DOMContentLoaded", function() {
         if ([...agencies, ...regionalAgencies].includes(savedAgency)) {
             agencyBtn.textContent = savedAgency;
             agencyBtn.dataset.value = savedAgency;
-        } else if (agencies.length > 0) {
+        } else if (agencySelect.querySelector('[data-value="Full Sample"]')) {  // ✅ If Full Sample exists, select it
+            agencyBtn.textContent = "Full Sample";
+            agencyBtn.dataset.value = "Full Sample";
+        } else if (agencies.length > 0) {  // Otherwise fallback to first agency
             agencyBtn.textContent = agencies[0];
             agencyBtn.dataset.value = agencies[0];
         }
+
 
         // Find the matching dropdown option and mark it as selected
         const defaultAgencyOption = agencySelect.querySelector(`[data-value="${agencyBtn.dataset.value}"]`);

@@ -442,15 +442,11 @@ cdf_vcpc <- cdf_nwcounts %>%
     prop_crime = rowSums(select(., Burglary, Theft, `Motor Vehicle Theft`), na.rm = TRUE)
   )
 
-#create a new unique id for cdf_vcpc to fix join issue
-cdf_vcpc <- cdf_vcpc %>%
-  mutate(city_state_id = paste(city_state, Agency_Type, sep = ","))
-
 # save a copy for later calcs
 cdf_vcpc_nats <- cdf_vcpc
 
 # slim it down to the essentials to join back to the main dataframe
-cdf_vcpc <- cdf_vcpc %>% select(city_state, vio_crime, prop_crime, Year, Month, city_state_id)
+cdf_vcpc <- cdf_vcpc %>% select(city_state, vio_crime, prop_crime, Year, Month, city_state_id, Agency_Type)
 ```
 join to main dataframe
 ```{r}
@@ -777,13 +773,6 @@ bind the nationwide counts to the bottom
 cdf2 <- bind_rows(cdf2, nationwide_counts, nationwide_subsets1, region_vars, state_vars)
 head(cdf2)
 ```
-
-
-START HERE ON MONDAY 3/17 - almost done checking!
-
-
-
-
 #sneak in the PR data and get 12mo mvsums
 add PR data
 fix remaining columns and select out 
@@ -855,9 +844,11 @@ length(unique(df_mvs_12mo1$city_state_id))
 ```
 join ref to sample
 ```{r}
-df_w_ref <- df_mvs_12mo1 %>% select(-city_state.x, -city_state.y) %>%
-  left_join(ref_df1, by = "city_state", "Agency_Type")
+  df_w_ref <- df_mvs_12mo1 %>%
+  left_join(ref_df1 %>% distinct(city_state, Agency_Type, .keep_all = TRUE), by = c("city_state", "Agency_Type"))
+
 ```
+
 remove non-current reporter
 ```{r}
 #replace population values with Population values
@@ -973,7 +964,7 @@ write out sample cities for viz and sample comparison
 #transform sample cities for viz
 sample_cities_viz <- sample_cities %>% 
   mutate(date = month_suffix) %>% 
-  select(city_state, `Agency Name`, State, date)
+  select(city_state, `Agency Name`, State, date, Agency_Type)
 
 #write out sample cities to data folder on github -- "Current Samp in versioner"
 write.csv(sample_cities_viz, "data/sample_cities.csv", row.names = FALSE)

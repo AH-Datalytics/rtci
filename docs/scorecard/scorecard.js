@@ -150,49 +150,118 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateAgencyDropdown(state) {
         let agencies = [...new Set(allData.filter(row => row.state_name === state).map(row => row.agency_name))].sort();
     
+        let finalAgencies = [];
+    
         if (state === "Nationwide") {
-            const nationwideOrder = ["Full Sample", "Cities of 1M+", "Cities of 250K - 1M", "Cities of 100K - 250K", "Cities of < 100K", 
-                                     "Midwest", "Northeast", "South", "West", "Other"];
-        
+            const nationwideOrder = [
+                "Full Sample",
+                "Cities of 1M+",
+                "Cities of 250K - 1M",
+                "Cities of 100K - 250K",
+                "Cities of < 100K",
+                "Midwest",
+                "Northeast",
+                "South",
+                "West",
+                "Other"
+            ];
+    
             agencies = agencies.filter(agency => nationwideOrder.includes(agency))
                 .sort((a, b) => nationwideOrder.indexOf(a) - nationwideOrder.indexOf(b));
-        
-            // Insert "Population Groups" as a subheader after "Cities of 1M+"
-            const updatedAgencies = [];
+    
             agencies.forEach(agency => {
-                if (agency === "Cities of 1M+") {
-                    updatedAgencies.push("Population Groups"); // Add subheader above this
-                }
-                if (agency === "Midwest") {
-                    updatedAgencies.push("Regions"); // Add subheader above Midwest
-                }
-                updatedAgencies.push(agency);
+                if (agency === "Cities of 1M+") finalAgencies.push("Population Groups");
+                if (agency === "Midwest") finalAgencies.push("Regions");
+                finalAgencies.push(agency);
             });
-        
-            agencies = updatedAgencies;
-        }
-        
-        
-        else {
-            agencies = agencies.sort((a, b) => (a === "Full Sample" ? -1 : b === "Full Sample" ? 1 : a.localeCompare(b)));
+    
+        } else {
+            const fullSample = agencies.includes("Full Sample") ? ["Full Sample"] : [];
+    
+            const cities = agencies.filter(a => !a.includes("County") && a !== "Full Sample").sort((a, b) => a.localeCompare(b));
+            const counties = agencies.filter(a => a.includes("County")).sort((a, b) => a.localeCompare(b));
+    
+            finalAgencies = [...fullSample];
+            if (cities.length > 0) finalAgencies.push("Cities", ...cities);
+            if (counties.length > 0) finalAgencies.push("Counties", ...counties);
         }
     
-        createSearchableDropdown("agency-dropdown", "agency-btn", agencies, false);
+        // --- FIX START ---
+        // Collect all selectable agencies (not headers)
+        const selectableAgencies = finalAgencies.filter(a => !["Population Groups", "Regions", "Cities", "Counties"].includes(a));
     
-        // Automatically select and display the first agency in the list
-        if (agencies.length > 0) {
-            if (!agencies.includes(selectedAgency)) {
-                selectedAgency = agencies[0];
-            }
-            document.getElementById("agency-btn").textContent = selectedAgency;
-    
-            const dropdown = document.getElementById("agency-dropdown");
-            const items = dropdown.querySelectorAll('.dropdown-item');
-            items.forEach(item => item.classList.remove('selected')); 
-            const selectedItem = [...items].find(item => item.textContent === selectedAgency);
-            if (selectedItem) selectedItem.classList.add('selected');
+        // Keep currently selected agency if still available, otherwise fallback
+        if (!selectableAgencies.includes(selectedAgency)) {
+            selectedAgency = selectableAgencies.includes("Full Sample") ? "Full Sample" : (selectableAgencies[0] || "Agency");
         }
+        // --- FIX END ---
+    
+        // Build dropdown
+        const dropdown = document.getElementById("agency-dropdown");
+        const button = document.getElementById("agency-btn");
+        dropdown.innerHTML = "";
+    
+        const searchInput = document.createElement("input");
+        searchInput.type = "text";
+        searchInput.placeholder = "Search...";
+        searchInput.className = "dropdown-search";
+        dropdown.appendChild(searchInput);
+    
+        // Function to populate filtered list
+        function filterOptions() {
+            const filter = searchInput.value.toLowerCase();
+            const filteredOptions = finalAgencies.filter(option =>
+                option.toLowerCase().includes(filter) || ["Population Groups", "Regions", "Cities", "Counties"].includes(option)
+            );
+    
+            const existingItems = dropdown.querySelectorAll(".dropdown-item");
+            existingItems.forEach(item => item.remove());
+    
+            filteredOptions.forEach(option => {
+                const div = document.createElement("div");
+                div.textContent = option;
+                div.dataset.value = option;
+    
+                if (["Population Groups", "Regions", "Cities", "Counties"].includes(option)) {
+                    div.className = "dropdown-item master-heading";
+                    div.style.pointerEvents = "none"; // Non-clickable subheader
+                } else {
+                    div.className = "dropdown-item";
+                    if (option === selectedAgency) div.classList.add('selected'); // Bold the selected agency
+    
+                    div.addEventListener('click', () => {
+                        const items = dropdown.querySelectorAll('.dropdown-item');
+                        items.forEach(item => item.classList.remove('selected'));
+                        div.classList.add('selected');
+                        button.textContent = option;
+                        dropdown.classList.remove("show");
+                        selectedAgency = option;
+                        saveFilterValues();
+                        filterAndDisplayData();
+                    });
+                }
+    
+                dropdown.appendChild(div);
+            });
+        }
+    
+        searchInput.addEventListener("input", filterOptions);
+        filterOptions(); // Initial call to populate
+    
+        // Update button text to reflect selected agency (finalized after fix)
+        button.textContent = selectedAgency;
+    
+        // Dropdown open/close handling
+        button.addEventListener("click", event => {
+            event.stopPropagation();
+            closeAllDropdowns();
+            dropdown.classList.toggle("show");
+        });
+    
+        document.addEventListener("click", closeAllDropdowns);
+        dropdown.addEventListener("click", event => event.stopPropagation());
     }
+    
     
     
     function saveFilterValues() {

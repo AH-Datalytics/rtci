@@ -15,6 +15,20 @@ last_updated <- format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")
 final_sample <- read_csv("../data/final_sample.csv")
 
 
+# Add in "County" into agency name for counties
+final_sample <- final_sample %>%
+  mutate(`Agency Name` = if_else(str_detect(city_state_id, "County"),
+                                 paste0(`Agency Name`, " County"),
+                                 `Agency Name`))
+
+
+final_sample <- final_sample %>%
+  mutate(city_state = if_else(str_detect(city_state_id, "County"),
+                              str_replace(city_state, "^(.*?),", "\\1 County,"),
+                              city_state))
+
+
+
 # # Population for the aggregate ones and pop23 for individual agencies
 # final_sample <- final_sample %>%
 #   mutate(pop23 = ifelse(str_detect(State, "All Agencies") | str_detect(`Agency Name`, "Sample Counts"), Population, pop23)) %>%
@@ -24,7 +38,9 @@ final_sample <- read_csv("../data/final_sample.csv")
 
 # Drop new columns from dave
 final_sample <- final_sample %>% 
-  select(!(region_name | state_abbr | Population | pop23))
+  select(!(region_name | state_abbr | Population | pop23 |
+             pub_agency_name | city_state_id | Agency | Agency_Type.x |
+             Agency_Type.y | city_state.x | city_state.y))
 
 # Capitalize population column 
 final_sample <- final_sample %>% 

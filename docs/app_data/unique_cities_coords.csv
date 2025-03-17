@@ -1,415 +1,444 @@
-"agency_name","state_name","lat","long"
-"Abilene","Texas",32.44645,-99.7475905
-"Abington","Pennsylvania",40.1206656,-75.1179512
-"Akron","Ohio",41.083064,-81.518485
-"Albany","Georgia",31.5782062,-84.1556809
-"Albany","Oregon",44.6365071,-123.1059324
-"Albuquerque","New Mexico",35.0841034,-106.650985
-"Alexandria","Virginia",38.8051095,-77.0470229
-"Alhambra","California",34.093042,-118.12706
-"Allen","Texas",33.1031744,-96.6705503
-"Allentown","Pennsylvania",40.6022059,-75.4712794
-"Amarillo","Texas",35.20729,-101.8371192
-"Ann Arbor","Michigan",42.2813722,-83.7484616
-"Antioch","California",38.0049214,-121.805789
-"Apple Valley","Minnesota",44.7319094,-93.21772
-"Arlington Heights","Illinois",42.0811563,-87.9802164
-"Arlington","Texas",32.7355816,-97.1071186
-"Arvada","Colorado",39.8005505,-105.0811573
-"Asheville","North Carolina",35.595363,-82.5508407
-"Atlanta","Georgia",33.7489924,-84.3902644
-"Aurora","Colorado",39.7405111,-104.830994
-"Austin","Texas",30.2711286,-97.7436995
-"Avondale","Arizona",33.4355977,-112.349602
-"Bakersfield","California",35.3738712,-119.019463
-"Baltimore","Maryland",39.2908816,-76.610759
-"Barnstable","Massachusetts",41.7004049,-70.3001922
-"Bartlett","Tennessee",35.2045329,-89.8739753
-"Baton Rouge","Louisiana",30.4494155,-91.1869659
-"Battle Creek","Michigan",42.3192548,-85.1824269
-"Baytown","Texas",29.7355047,-94.9774274
-"Beaumont","Texas",30.0829344,-94.0984277
-"Beaverton","Oregon",45.4871723,-122.80378
-"Bellevue","Nebraska",41.1365122,-95.8937398
-"Bellingham","Washington",48.7544012,-122.478836
-"Bend","Oregon",44.0581728,-121.3153096
-"Bensalem","Pennsylvania",40.1045549,-74.951279
-"Bethlehem","Pennsylvania",40.6178915,-75.3786521
-"Blaine","Minnesota",45.1607987,-93.2349489
-"Bloomington","Minnesota",44.8322405,-93.3204872
-"Blue Springs","Missouri",39.017316,-94.282265
-"Boise","Idaho",43.6166163,-116.200886
-"Bolingbrook","Illinois",41.7003302,-88.0717708
-"Boston","Massachusetts",42.3554334,-71.060511
-"Boulder","Colorado",40.0149856,-105.270545
-"Bridgeport","Connecticut",41.1792695,-73.1887863
-"Bristol","Connecticut",41.6735209,-72.9464859
-"Brockton","Massachusetts",42.0834335,-71.0183787
-"Brookline","Massachusetts",42.3329021,-71.1187421
-"Brooklyn Park","Minnesota",45.1004807,-93.3443585
-"Broomfield","Colorado",39.9403995,-105.05208
-"Brownsville","Texas",25.9024289,-97.4981698
-"Buckeye","Arizona",33.3703197,-112.583776
-"Buffalo","New York",42.8867166,-78.8783922
-"Burbank","California",34.1812089,-118.307201
-"Burleson","Texas",32.5420821,-97.3208492
-"Burnsville","Minnesota",44.7670567,-93.2773887
-"Caldwell","Idaho",43.6678736,-116.689415
-"Cambridge","Massachusetts",42.3656347,-71.1040018
-"Canton Township","Michigan",42.3076547,-83.4868961
-"Canton","Ohio",40.7985464,-81.3749508
-"Carlsbad","California",33.1580933,-117.3505966
-"Carrollton","Texas",32.9537349,-96.8902816
-"Casa Grande","Arizona",32.8772834,-111.7536818
-"Castle Rock","Colorado",39.3722552,-104.858682
-"Cedar Park","Texas",30.5217116,-97.827833
-"Centennial","Colorado",39.579155,-104.8769227
-"Champaign","Illinois",40.1164841,-88.2430932
-"Chandler","Arizona",33.3062031,-111.841185
-"Charlotte","North Carolina",35.2272086,-80.8430827
-"Chattanooga","Tennessee",35.0457219,-85.3094883
-"Chesapeake","Virginia",36.7168315,-76.2494453
-"Cheyenne","Wyoming",41.139981,-104.820246
-"Chicago","Illinois",41.8755616,-87.6244212
-"Chicopee","Massachusetts",42.1487691,-72.6071119
-"Chula Vista","California",32.6400541,-117.084195
-"Cicero","Illinois",41.8455398,-87.7540199
-"Cincinnati","Ohio",39.1014537,-84.5124602
-"Clarksville","Tennessee",36.5277607,-87.3588703
-"Cleveland","Ohio",41.4996574,-81.6936772
-"Clinton Township","Michigan",42.05548745,-83.9478910567844
-"Coeur D Alene","Idaho",47.6742994,-116.7811531
-"Colerain Township","Ohio",39.2584995,-84.6329261679476
-"College Station","Texas",30.6183939,-96.3455991
-"Collierville","Tennessee",35.042036,-89.6645266
-"Colorado Springs","Colorado",38.8339578,-104.825348
-"Columbia","Missouri",38.951883,-92.3337366
-"Columbus","Ohio",39.9622601,-83.0007065
-"Commerce City","Colorado",39.8083196,-104.9338675
-"Concord","California",37.9768525,-122.0335624
-"Conroe","Texas",30.3118769,-95.4560512
-"Coon Rapids","Minnesota",45.1728923,-93.3023898
-"Corpus Christi","Texas",27.7635302,-97.4033191
-"Corvallis","Oregon",44.5645659,-123.2620435
-"Cranston","Rhode Island",41.779588,-71.4366813
-"Cuyahoga Falls","Ohio",41.1362729,-81.4828123
-"Dallas","Texas",32.7762719,-96.7968559
-"Danbury","Connecticut",41.394817,-73.4540111
-"Dayton","Ohio",39.7589478,-84.1916069
-"Dearborn Heights","Michigan",42.3369816,-83.2732627
-"Dearborn","Michigan",42.3222599,-83.1763145
-"Decatur","Illinois",39.8454163,-88.9524151
-"Denton","Texas",33.2150386,-97.1330516
-"Denver","Colorado",39.7392364,-104.984862
-"Des Plaines","Illinois",42.0415823,-87.8873916
-"Desoto","Texas",32.5897831,-96.8570183
-"Detroit","Michigan",42.3315509,-83.0466403
-"Dublin","Ohio",40.0996009,-83.1135563
-"Duluth","Minnesota",46.7729322,-92.1251218
-"Dunwoody","Georgia",33.9463786,-84.3342686
-"Durham","North Carolina",35.996653,-78.9018053
-"Eagan","Minnesota",44.818173,-93.1659179
-"East Hartford","Connecticut",41.767914,-72.644512
-"Eden Prairie","Minnesota",44.8546856,-93.470786
-"Edina","Minnesota",44.8897027,-93.3501222
-"Edinburg","Texas",26.3013982,-98.1624501
-"El Cajon","California",32.7947731,-116.962526
-"El Paso","Texas",31.7601164,-106.4870404
-"Elyria","Ohio",41.3673191,-82.1073583
-"Erie","Pennsylvania",42.1294712,-80.0852695
-"Escondido","California",33.1216751,-117.0814849
-"Euclid","Ohio",41.5931049,-81.5267873
-"Eugene","Oregon",44.0505054,-123.0950506
-"Euless","Texas",32.8370727,-97.0819541
-"Evanston","Illinois",42.0470043,-87.6846053
-"Everett","Massachusetts",42.40843,-71.0536625
-"Fairfield","Connecticut",41.1412078,-73.2637258
-"Fall River","Massachusetts",41.7010642,-71.1546367
-"Farmington Hills","Michigan",42.4853125,-83.3771553
-"Fayetteville","North Carolina",35.0525759,-78.878292
-"Flagstaff","Arizona",35.1987522,-111.651822
-"Flint","Michigan",43.0161693,-83.6900211
-"Florissant","Missouri",38.7919683,-90.3227803
-"Flower Mound","Texas",33.0283854,-97.0867203
-"Fort Collins","Colorado",40.5871782,-105.0770113
-"Fort Wayne","Indiana",41.0799898,-85.1386015
-"Fort Worth","Texas",32.753177,-97.3327459
-"Framingham","Massachusetts",42.2773177,-71.4165905
-"Franklin","Tennessee",35.925206,-86.8689419
-"Fremont","California",37.5482697,-121.988571
-"Frisco","Texas",33.1505998,-96.8238183
-"Galveston","Texas",29.3056996,-94.7933252
-"Garland","Texas",32.912624,-96.6388833
-"Georgetown","Texas",30.6370152,-97.6775634
-"Gilbert","Arizona",33.3527632,-111.789037
-"Glendale","Arizona",33.5386858,-112.185994
-"Glendale","California",34.1469416,-118.2478471
-"Goodyear","Arizona",33.4674695,-112.3842224
-"Grand Island","Nebraska",40.924271,-98.338685
-"Grand Junction","Colorado",39.0672568,-108.56448
-"Grand Prairie","Texas",32.7459645,-96.9977846
-"Grand Rapids","Michigan",42.9632425,-85.6678639
-"Grapevine","Texas",32.9337381,-97.0788754
-"Greeley","Colorado",40.4233142,-104.7091322
-"Green Township","Ohio",39.1648093,-84.6536213594179
-"Greensboro","North Carolina",36.0726355,-79.7919754
-"Greenwich","Connecticut",41.0264862,-73.6284598
-"Gresham","Oregon",45.4978623,-122.4329883
-"Hamden","Connecticut",41.3959302,-72.8968574
-"Hamilton","Ohio",39.3995067,-84.5613428
-"Hampton","Virginia",37.0264414,-76.3442846
-"Harlingen","Texas",26.1907543,-97.6960599
-"Harrisburg","Pennsylvania",40.2663107,-76.8861122
-"Harrisonburg","Virginia",38.4493315,-78.8688833
-"Hartford","Connecticut",41.764582,-72.6908547
-"Haverford","Pennsylvania",40.0131672,-75.2943516
-"Haverhill","Massachusetts",42.7777829,-71.0767724
-"Henderson","Nevada",36.0319843,-114.9822486
-"Hendersonville","Tennessee",36.3049177,-86.621443
-"Hillsboro","Oregon",45.5228939,-122.989827
-"Honolulu","Hawaii",21.304547,-157.855676
-"Houston","Texas",29.7589382,-95.3676974
-"Idaho Falls","Idaho",43.4887907,-112.03628
-"Independence","Missouri",39.0924792,-94.4137923
-"Indianapolis","Indiana",39.7683331,-86.1583502
-"Irving","Texas",32.8295183,-96.9442177
-"Jackson","Tennessee",35.6144446,-88.8177418
-"Johnson City","Tennessee",36.3134398,-82.3534728
-"Joplin","Missouri",37.0841838,-94.5133385
-"Kalamazoo","Michigan",42.291707,-85.5872286
-"Kansas City","Missouri",39.100105,-94.5781416
-"Kentwood","Michigan",42.8694731,-85.6447492
-"Kettering","Ohio",39.6895036,-84.1688274
-"Killeen","Texas",31.1171441,-97.727796
-"Kingsport","Tennessee",36.550238,-82.5594293
-"Knoxville","Tennessee",35.9603948,-83.9210261
-"Kyle","Texas",29.9892928,-97.8772103
-"La Mesa","California",32.7678288,-117.0230839
-"Lake Havasu City","Arizona",34.4775296,-114.3379972
-"Lakeville","Minnesota",44.650051,-93.2432791
-"Lakewood","Colorado",39.7085736,-105.0846694
-"Lakewood","Ohio",41.4819932,-81.7981908
-"Lancaster","Pennsylvania",40.0379958,-76.3056707
-"Lansing","Michigan",42.7338254,-84.5546295
-"Laredo","Texas",27.5075005,-99.5069922
-"Las Vegas","Nevada",36.1672559,-115.148516
-"Lawrence","Massachusetts",42.7070354,-71.1631137
-"League City","Texas",29.5074538,-95.0949303
-"Leander","Texas",30.5736134,-97.8567339
-"Lee's Summit","Missouri",38.9107156,-94.3821295
-"Lewisville","Texas",33.046233,-96.994174
-"Lexington","Kentucky",38.0464066,-84.4970393
-"Lincoln","Nebraska",40.8088861,-96.7077751
-"Little Elm","Texas",33.1626194,-96.9375051
-"Little Rock","Arkansas",34.7465071,-92.2896267
-"Livonia","Michigan",42.36837,-83.3527097
-"Long Beach","California",33.7690164,-118.191604
-"Longmont","Colorado",40.1672117,-105.101928
-"Longview","Texas",32.5007031,-94.74049
-"Lorain","Ohio",41.4673238,-82.1781904
-"Los Angeles","California",34.0536909,-118.242766
-"Louisville","Kentucky",38.2542376,-85.759407
-"Loveland","Colorado",40.3977612,-105.07498
-"Lowell","Massachusetts",42.6414437,-71.3085329
-"Lower Merion","Pennsylvania",40.0250214,-75.2768881382829
-"Lower Paxton","Pennsylvania",40.318975,-76.8002408231975
-"Lubbock","Texas",33.5855677,-101.8470215
-"Lynchburg","Virginia",37.4137536,-79.1422464
-"Lynn","Massachusetts",42.466763,-70.9494939
-"Malden","Massachusetts",42.4268484,-71.0683741
-"Manchester","Connecticut",41.7834017,-72.5231973
-"Manchester","New Hampshire",42.9956397,-71.4547891
-"Mansfield","Texas",32.563487,-97.1420308
-"Maple Grove","Minnesota",45.0984983,-93.4419222
-"Marana","Arizona",32.4483736,-111.211475
-"Maricopa","Arizona",33.058129,-112.047755
-"McAllen","Texas",26.204114,-98.2300605
-"Mckinney","Texas",33.1976496,-96.6154471
-"Medford","Massachusetts",42.4184296,-71.1061639
-"Medford","Oregon",42.3264181,-122.8718605
-"Memphis","Tennessee",35.1460249,-90.0517638
-"Meriden","Connecticut",41.5381535,-72.8070435
-"Meridian","Idaho",43.6086295,-116.392326
-"Mesa","Arizona",33.4151005,-111.831455
-"Mesquite","Texas",32.7666103,-96.599472
-"Methuen","Massachusetts",42.7262016,-71.1908924
-"Miami Beach","Florida",25.7929198,-80.1353006
-"Middletown","Ohio",39.516644,-84.4041725
-"Midland","Texas",31.9973662,-102.077948
-"Milford","Connecticut",41.2222218,-73.0570603
-"Millcreek","Pennsylvania",42.1009538,-80.0208338785957
-"Milpitas","California",37.4332273,-121.8989248
-"Milwaukee","Wisconsin",43.0386475,-87.9090751
-"Minneapolis","Minnesota",44.9772995,-93.2654692
-"Minnetonka","Minnesota",44.9405086,-93.4638936
-"Mission","Texas",26.2159066,-98.3252932
-"Missouri City","Texas",29.6185669,-95.5377215
-"Moline","Illinois",41.5058344,-90.5136642
-"Mount Prospect","Illinois",42.0664167,-87.9372908
-"Mount Vernon","New York",40.9125085,-73.8386504
-"Murfreesboro","Tennessee",35.8460396,-86.3921096
-"Nampa","Idaho",43.5737361,-116.559631
-"Nashua","New Hampshire",42.7656251,-71.4677032
-"Nashville","Tennessee",36.1622767,-86.7742984
-"National City","California",32.6781085,-117.0991967
-"New Bedford","Massachusetts",41.6362152,-70.934205
-"New Braunfels","Texas",29.7028266,-98.1257348
-"New Britain","Connecticut",41.6612104,-72.7795419
-"New Haven","Connecticut",41.3082138,-72.9250518
-"New Orleans","Louisiana",29.9759983,-90.0782127
-"New York City","New York",40.7127281,-74.0060152
-"Newark","New Jersey",40.735657,-74.1723667
-"Newark","Ohio",40.0581205,-82.4012643
-"Newport News","Virginia",36.9775016,-76.42977
-"Newton","Massachusetts",42.3370414,-71.2092214
-"Norfolk","Virginia",36.8493695,-76.2899539
-"Normal","Illinois",40.5092961,-88.9843937
-"North Bergen Township","New Jersey",NA,NA
-"North Las Vegas","Nevada",36.2005843,-115.121584
-"North Richland Hills","Texas",32.8342952,-97.2289029
-"Norwalk","Connecticut",41.1175966,-73.4078968
-"Novi","Michigan",42.48059,-83.4754913
-"O'Fallon","Missouri",38.7902503,-90.7033292
-"Oak Lawn","Illinois",41.7108662,-87.7581081
-"Oceanside","California",33.1958696,-117.379483
-"Odessa","Texas",31.8457149,-102.367687
-"Omaha","Nebraska",41.2587459,-95.9383758
-"Oshkosh","Wisconsin",44.0206919,-88.5408574
-"Palatine","Illinois",42.1105779,-88.0336888
-"Parker","Colorado",39.5184514,-104.7612638
-"Parma","Ohio",41.3822398,-81.7355692
-"Pasadena","Texas",29.6910753,-95.2092076
-"Pawtucket","Rhode Island",41.8789531,-71.3821203
-"Peabody","Massachusetts",42.5278731,-70.9286609
-"Pearland","Texas",29.5639758,-95.2864299
-"Peoria","Arizona",33.5806115,-112.237294
-"Pflugerville","Texas",30.4393696,-97.6200043
-"Pharr","Texas",26.1947962,-98.1836216
-"Philadelphia","Pennsylvania",39.9527237,-75.1635262
-"Phoenix","Arizona",33.4484367,-112.074141
-"Pittsburgh","Pennsylvania",40.4416941,-79.9900861
-"Plano","Texas",33.0136764,-96.6925096
-"Plymouth","Massachusetts",41.9583799,-70.6673851
-"Plymouth","Minnesota",45.0065149,-93.46651
-"Pocatello","Idaho",42.8620287,-112.450627
-"Port Arthur","Texas",29.8716577,-93.9332302
-"Portland","Oregon",45.5202471,-122.674194
-"Portsmouth","Virginia",36.8320081,-76.297699
-"Prescott Valley","Arizona",34.5950776,-112.3338634
-"Providence","Rhode Island",41.8239891,-71.4128343
-"Pueblo","Colorado",38.263995,-104.6141867
-"Quincy","Massachusetts",42.2509914,-71.0037374
-"Raleigh","North Carolina",35.7803977,-78.6390989
-"Rapid City","South Dakota",44.0806041,-103.228023
-"Reading","Pennsylvania",40.335345,-75.9279495
-"Redlands","California",34.0550328,-117.1827445
-"Reno","Nevada",39.5261206,-119.8126581
-"Revere","Massachusetts",42.4084302,-71.0119948
-"Richardson","Texas",32.9481789,-96.7297206
-"Richmond","California",37.9357576,-122.347748
-"Richmond","Virginia",37.5385087,-77.43428
-"Riverside","California",33.9824949,-117.374238
-"Roanoke","Virginia",37.270973,-79.9414313
-"Rochester","Minnesota",44.0234387,-92.4630182
-"Rochester","New York",43.157285,-77.615214
-"Rockford","Illinois",42.2713945,-89.093966
-"Rockwall","Texas",32.9312336,-96.4597089
-"Round Rock","Texas",30.5085915,-97.6788056
-"Rowlett","Texas",32.9029017,-96.56388
-"Royal Oak","Michigan",42.4894801,-83.1446485
-"Salem","Oregon",44.9391565,-123.033121
-"Salt Lake City","Utah",40.7596198,-111.886797
-"San Angelo","Texas",31.4649685,-100.4405094
-"San Antonio","Texas",29.4246002,-98.4951405
-"San Bernardino","California",34.1081621,-117.28946
-"San Diego","California",32.7174202,-117.162772
-"San Francisco","California",37.7792588,-122.4193286
-"San Jose","California",37.3361663,-121.890591
-"San Marcos","Texas",29.8826436,-97.9405828
-"Schaumburg","Illinois",42.0333608,-88.083406
-"Scottsdale","Arizona",33.4942189,-111.926018
-"Scranton","Pennsylvania",41.4086874,-75.6621294
-"Seattle","Washington",47.6038321,-122.330062
-"Shelby Township","Michigan",43.5974492,-86.3379509185505
-"Sioux Falls","South Dakota",43.5476008,-96.7293629
-"Skokie","Illinois",42.0262972,-87.7521069
-"Smyrna","Tennessee",35.9670985,-86.5245905723296
-"Somerville","Massachusetts",42.3875968,-71.0994968
-"South Bend","Indiana",41.6833813,-86.2500066
-"Southaven","Mississippi",34.9873822,-90.0034862
-"Southfield","Michigan",42.4733689,-83.2218731
-"Sparks","Nevada",39.5404679,-119.7487235
-"Spokane","Washington",47.6571934,-117.42351
-"Spring Hill","Tennessee",35.751179,-86.9300023
-"Springfield","Illinois",39.7990175,-89.6439575
-"Springfield","Massachusetts",42.1018764,-72.5886727
-"Springfield","Missouri",37.2081729,-93.2922715
-"Springfield","Ohio",39.9234046,-83.810138
-"Springfield","Oregon",44.0462362,-123.0220289
-"St Charles","Missouri",38.783855,-90.481677
-"St Joseph","Missouri",39.7686055,-94.8466322
-"St Louis","Missouri",38.6280278,-90.1910154
-"St Peters","Missouri",38.791612,-90.5958468
-"St. Clair Shores","Michigan",42.4969652,-82.8890965
-"St. Cloud","Minnesota",45.5616075,-94.1642004
-"St. Paul","Minnesota",44.9497487,-93.0931028
-"Stamford","Connecticut",41.0534302,-73.5387341
-"State College","Pennsylvania",40.7944504,-77.8616386
-"Sterling Heights","Michigan",42.5803122,-83.0302033
-"Stockton","California",37.9577016,-121.290779
-"Stratford","Connecticut",41.1845415,-73.1331651
-"Suffolk","Virginia",36.7281341,-76.5834683
-"Sugar Land","Texas",29.6196787,-95.6349463
-"Surprise","Arizona",33.629247,-112.3681428
-"Tacoma","Washington",47.2455013,-122.438329
-"Taunton","Massachusetts",41.9019257,-71.0931485
-"Taylor","Michigan",42.240872,-83.2696509
-"Tempe","Arizona",33.4255117,-111.940016
-"Temple","Texas",31.098207,-97.3427847
-"Texas City","Texas",29.396013,-94.9175485
-"Thornton","Colorado",39.8695516,-104.985181
-"Tigard","Oregon",45.4307473,-122.771933
-"Tinley Park","Illinois",41.5733669,-87.7844944
-"Toledo","Ohio",41.6529143,-83.5378173
-"Tracy","California",37.7385507,-121.420139
-"Troy","Michigan",42.6055893,-83.1499304
-"Tucson","Arizona",32.2228765,-110.974847
-"Twin Falls","Idaho",42.5558542,-114.4700684
-"Tyler","Texas",32.3512601,-95.3010624
-"Upper Darby","Pennsylvania",39.9284459,-75.2737955
-"Vallejo","California",38.1040864,-122.2566367
-"Victoria","Texas",28.7997547,-97.0064246
-"Virginia Beach","Virginia",36.8496579,-75.9760751
-"Waco","Texas",31.5491899,-97.1474628
-"Waltham","Massachusetts",42.3756401,-71.2358004
-"Warren","Michigan",42.4932575,-83.0062746
-"Warwick","Rhode Island",41.6992717,-71.4586114
-"Washington","District of Columbia",38.8950368,-77.0365427
-"Waterbury","Connecticut",41.5538091,-73.0438362
-"Waterford Township","Michigan",42.6706391,-83.3896241
-"West Bloomfield Township","Michigan",42.5684073,-83.3740333
-"West Chester Township","Ohio",39.3359319,-84.415561556654
-"West Hartford","Connecticut",41.7620447,-72.7420399
-"West Haven","Connecticut",41.2706527,-72.9470471
-"Westland","Michigan",42.3238056,-83.4005321
-"Westminster","Colorado",39.8366528,-105.0372046
-"Weymouth","Massachusetts",42.2212188,-70.9391625
-"Wichita Falls","Texas",33.9004572,-98.5020777
-"Woodbury","Minnesota",44.919896,-92.9339449
-"Worcester","Massachusetts",42.2625621,-71.8018877
-"Wylie","Texas",33.0151561,-96.5388038
-"Wyoming","Michigan",42.9132581,-85.7057035
-"York","Pennsylvania",39.962493,-76.7276989
-"Youngstown","Ohio",41.1035786,-80.6520161
-"Yuma","Arizona",32.723268,-114.6179954
-"Aguadilla","Puerto Rico",18.4297923,-67.1542201
-"Arecibo","Puerto Rico",18.471975,-66.7161704
-"Caguas","Puerto Rico",18.2345399,-66.0351316
-"Carolina","Puerto Rico",18.3808516,-65.9570244
-"Guaynabo","Puerto Rico",18.3578671,-66.1120141
-"Ponce","Puerto Rico",18.011564,-66.613958
-"San Juan","Puerto Rico",18.465299,-66.116666
-"Toa Alta","Puerto Rico",18.3887052,-66.247968
-"Toa Baja","Puerto Rico",18.4426255,-66.2545652
-"Trujillo Alto","Puerto Rico",18.3542408,-66.007377
-"Vega Baja","Puerto Rico",18.4445314,-66.387587
+"agency_name","state_name","is_county","address","lat","long"
+"Abilene","Texas",FALSE,"Abilene, Texas",32.44645,-99.7475905
+"Abington","Pennsylvania",FALSE,"Abington, Pennsylvania",40.1142201,-75.1302299768566
+"Ada County","Idaho",TRUE,"Ada County, Idaho",43.4136539,-116.2367421
+"Adams County","Colorado",TRUE,"Adams County, Colorado",39.8714085,-104.2701374
+"Akron","Ohio",FALSE,"Akron, Ohio",41.083064,-81.518485
+"Albany","Georgia",FALSE,"Albany, Georgia",31.5782062,-84.1556809
+"Albany","Oregon",FALSE,"Albany, Oregon",44.6365071,-123.1059324
+"Albemarle County","Virginia",TRUE,"Albemarle County, Virginia",38.0085107,-78.6086754
+"Albuquerque","New Mexico",FALSE,"Albuquerque, New Mexico",35.0841034,-106.650985
+"Alexandria","Virginia",FALSE,"Alexandria, Virginia",38.8051095,-77.0470229
+"Alhambra","California",FALSE,"Alhambra, California",34.093042,-118.12706
+"Allen","Texas",FALSE,"Allen, Texas",33.1031744,-96.6705503
+"Allentown","Pennsylvania",FALSE,"Allentown, Pennsylvania",40.6022059,-75.4712794
+"Amarillo","Texas",FALSE,"Amarillo, Texas",35.20729,-101.8371192
+"Ann Arbor","Michigan",FALSE,"Ann Arbor, Michigan",42.2813722,-83.7484616
+"Antioch","California",FALSE,"Antioch, California",38.0049214,-121.805789
+"Arapahoe County","Colorado",TRUE,"Arapahoe County, Colorado",39.6416781,-104.3628567
+"Arlington Heights","Illinois",FALSE,"Arlington Heights, Illinois",42.0811563,-87.9802164
+"Arlington","Texas",FALSE,"Arlington, Texas",32.7355816,-97.1071186
+"Arlington County","Virginia",TRUE,"Arlington County, Virginia",38.8769326,-77.0893094
+"Arvada","Colorado",FALSE,"Arvada, Colorado",39.8005505,-105.0811573
+"Asheville","North Carolina",FALSE,"Asheville, North Carolina",35.595363,-82.5508407
+"Atlanta","Georgia",FALSE,"Atlanta, Georgia",33.7489924,-84.3902644
+"Aurora","Colorado",FALSE,"Aurora, Colorado",39.7405111,-104.830994
+"Austin","Texas",FALSE,"Austin, Texas",30.2711286,-97.7436995
+"Avondale","Arizona",FALSE,"Avondale, Arizona",33.4355977,-112.349602
+"Bakersfield","California",FALSE,"Bakersfield, California",35.3738712,-119.019463
+"Baltimore","Maryland",FALSE,"Baltimore, Maryland",39.2908816,-76.610759
+"Baltimore County","Maryland",TRUE,"Baltimore County, Maryland",39.4445243,-76.6483482
+"Barnstable","Massachusetts",FALSE,"Barnstable, Massachusetts",41.7016936,-70.3036163
+"Baton Rouge","Louisiana",FALSE,"Baton Rouge, Louisiana",30.4494155,-91.1869659
+"Battle Creek","Michigan",FALSE,"Battle Creek, Michigan",42.3192548,-85.1824269
+"Baytown","Texas",FALSE,"Baytown, Texas",29.7355047,-94.9774274
+"Beaumont","Texas",FALSE,"Beaumont, Texas",30.0829344,-94.0984277
+"Beaverton","Oregon",FALSE,"Beaverton, Oregon",45.4871723,-122.80378
+"Bellevue","Nebraska",FALSE,"Bellevue, Nebraska",41.1365122,-95.8937398
+"Bellingham","Washington",FALSE,"Bellingham, Washington",48.7544012,-122.478836
+"Bend","Oregon",FALSE,"Bend, Oregon",44.0581728,-121.3153096
+"Bensalem","Pennsylvania",FALSE,"Bensalem, Pennsylvania",40.1045549,-74.951279
+"Bethlehem","Pennsylvania",FALSE,"Bethlehem, Pennsylvania",40.6178915,-75.3786521
+"Bexar County","Texas",TRUE,"Bexar County, Texas",29.4263987,-98.5104781
+"Blue Springs","Missouri",FALSE,"Blue Springs, Missouri",39.017316,-94.282265
+"Boise","Idaho",FALSE,"Boise, Idaho",43.6166163,-116.200886
+"Bolingbrook","Illinois",FALSE,"Bolingbrook, Illinois",41.7003302,-88.0717708
+"Boston","Massachusetts",FALSE,"Boston, Massachusetts",42.3554334,-71.060511
+"Boulder","Colorado",FALSE,"Boulder, Colorado",40.0149856,-105.270545
+"Brazoria County","Texas",TRUE,"Brazoria County, Texas",29.18161,-95.4993375
+"Bridgeport","Connecticut",FALSE,"Bridgeport, Connecticut",41.1792695,-73.1887863
+"Bristol","Connecticut",FALSE,"Bristol, Connecticut",41.6735209,-72.9464859
+"Brockton","Massachusetts",FALSE,"Brockton, Massachusetts",42.0834335,-71.0183787
+"Brookline","Massachusetts",FALSE,"Brookline, Massachusetts",42.3329021,-71.1187421
+"Broomfield","Colorado",FALSE,"Broomfield, Colorado",39.9403995,-105.05208
+"Brownsville","Texas",FALSE,"Brownsville, Texas",25.9024289,-97.4981698
+"Buckeye","Arizona",FALSE,"Buckeye, Arizona",33.3703197,-112.583776
+"Buffalo","New York",FALSE,"Buffalo, New York",42.8867166,-78.8783922
+"Burbank","California",FALSE,"Burbank, California",34.1812089,-118.307201
+"Burleson","Texas",FALSE,"Burleson, Texas",30.4764878,-96.6353488
+"Caldwell","Idaho",FALSE,"Caldwell, Idaho",43.6678736,-116.689415
+"Cambridge","Massachusetts",FALSE,"Cambridge, Massachusetts",42.3656347,-71.1040018
+"Canton Township","Michigan",FALSE,"Canton Township, Michigan",42.3076547,-83.4868961
+"Canton","Ohio",FALSE,"Canton, Ohio",40.7985464,-81.3749508
+"Carlsbad","California",FALSE,"Carlsbad, California",33.1580933,-117.3505966
+"Carrollton","Texas",FALSE,"Carrollton, Texas",32.9537349,-96.8902816
+"Casa Grande","Arizona",FALSE,"Casa Grande, Arizona",32.8772834,-111.7536818
+"Castle Rock","Colorado",FALSE,"Castle Rock, Colorado",39.3722552,-104.858682
+"Cedar Park","Texas",FALSE,"Cedar Park, Texas",30.5217116,-97.827833
+"Centennial","Colorado",FALSE,"Centennial, Colorado",39.579155,-104.8769227
+"Champaign","Illinois",FALSE,"Champaign, Illinois",40.1164841,-88.2430932
+"Chandler","Arizona",FALSE,"Chandler, Arizona",33.3062031,-111.841185
+"Charlotte","North Carolina",FALSE,"Charlotte, North Carolina",35.2272086,-80.8430827
+"Chattanooga","Tennessee",FALSE,"Chattanooga, Tennessee",35.0457219,-85.3094883
+"Chesapeake","Virginia",FALSE,"Chesapeake, Virginia",36.7168315,-76.2494453
+"Chesterfield County","Virginia",TRUE,"Chesterfield County, Virginia",37.3859982,-77.578509
+"Cheyenne","Wyoming",FALSE,"Cheyenne, Wyoming",41.139981,-104.820246
+"Chicago","Illinois",FALSE,"Chicago, Illinois",41.8755616,-87.6244212
+"Chicopee","Massachusetts",FALSE,"Chicopee, Massachusetts",42.1487691,-72.6071119
+"Chula Vista","California",FALSE,"Chula Vista, California",32.6400541,-117.084195
+"Cicero","Illinois",FALSE,"Cicero, Illinois",41.8455398,-87.7540199
+"Cincinnati","Ohio",FALSE,"Cincinnati, Ohio",39.1014537,-84.5124602
+"Clackamas County","Oregon",TRUE,"Clackamas County, Oregon",45.1608821,-122.2305038
+"Cleveland","Ohio",FALSE,"Cleveland, Ohio",41.4996574,-81.6936772
+"Clinton Township","Michigan",FALSE,"Clinton Township, Michigan",42.05548745,-83.9478910567844
+"Coeur D Alene","Idaho",FALSE,"Coeur D Alene, Idaho",47.6742994,-116.7811531
+"Colerain Township","Ohio",FALSE,"Colerain Township, Ohio",39.2584995,-84.6329261679476
+"College Station","Texas",FALSE,"College Station, Texas",30.6183939,-96.3455991
+"Colorado Springs","Colorado",FALSE,"Colorado Springs, Colorado",38.8339578,-104.825348
+"Columbia","Missouri",FALSE,"Columbia, Missouri",38.951883,-92.3337366
+"Columbus","Ohio",FALSE,"Columbus, Ohio",39.9622601,-83.0007065
+"Commerce City","Colorado",FALSE,"Commerce City, Colorado",39.8083196,-104.9338675
+"Concord","California",FALSE,"Concord, California",37.9768525,-122.0335624
+"Conroe","Texas",FALSE,"Conroe, Texas",30.3118769,-95.4560512
+"Corpus Christi","Texas",FALSE,"Corpus Christi, Texas",27.7635302,-97.4033191
+"Corvallis","Oregon",FALSE,"Corvallis, Oregon",44.5645659,-123.2620435
+"Cranston","Rhode Island",FALSE,"Cranston, Rhode Island",41.779588,-71.4366813
+"Cuyahoga Falls","Ohio",FALSE,"Cuyahoga Falls, Ohio",41.1362729,-81.4828123
+"Dallas","Texas",FALSE,"Dallas, Texas",32.7762719,-96.7968559
+"Danbury","Connecticut",FALSE,"Danbury, Connecticut",41.394817,-73.4540111
+"Dayton","Ohio",FALSE,"Dayton, Ohio",39.7589478,-84.1916069
+"Dearborn Heights","Michigan",FALSE,"Dearborn Heights, Michigan",42.3369816,-83.2732627
+"Dearborn","Michigan",FALSE,"Dearborn, Michigan",42.3222599,-83.1763145
+"Decatur","Illinois",FALSE,"Decatur, Illinois",39.8454163,-88.9524151
+"Denton","Texas",FALSE,"Denton, Texas",33.1838787,-97.1413417
+"Denton County","Texas",TRUE,"Denton County, Texas",33.1838787,-97.1413417
+"Denver","Colorado",FALSE,"Denver, Colorado",39.7392364,-104.984862
+"Des Plaines","Illinois",FALSE,"Des Plaines, Illinois",42.0415823,-87.8873916
+"Desoto","Texas",FALSE,"Desoto, Texas",32.5897831,-96.8570183
+"Detroit","Michigan",FALSE,"Detroit, Michigan",42.3315509,-83.0466403
+"Douglas County","Colorado",TRUE,"Douglas County, Colorado",39.3420437,-104.9468945
+"Dublin","Ohio",FALSE,"Dublin, Ohio",40.0996009,-83.1135563
+"Dunwoody","Georgia",FALSE,"Dunwoody, Georgia",33.9463786,-84.3342686
+"Durham","North Carolina",FALSE,"Durham, North Carolina",35.996653,-78.9018053
+"East Hartford","Connecticut",FALSE,"East Hartford, Connecticut",41.767914,-72.644512
+"Edinburg","Texas",FALSE,"Edinburg, Texas",26.3013982,-98.1624501
+"El Cajon","California",FALSE,"El Cajon, California",32.7947731,-116.962526
+"El Paso County","Colorado",TRUE,"El Paso County, Colorado",38.8287435,-104.5253456
+"El Paso","Texas",FALSE,"El Paso, Texas",31.7601164,-106.4870404
+"El Paso County","Texas",TRUE,"El Paso County, Texas",31.8072184,-106.2230394
+"Elyria","Ohio",FALSE,"Elyria, Ohio",41.3673191,-82.1073583
+"Erie","Pennsylvania",FALSE,"Erie, Pennsylvania",42.1294712,-80.0852695
+"Escondido","California",FALSE,"Escondido, California",33.1216751,-117.0814849
+"Euclid","Ohio",FALSE,"Euclid, Ohio",41.5931049,-81.5267873
+"Eugene","Oregon",FALSE,"Eugene, Oregon",44.0505054,-123.0950506
+"Euless","Texas",FALSE,"Euless, Texas",32.8370727,-97.0819541
+"Evanston","Illinois",FALSE,"Evanston, Illinois",42.0470043,-87.6846053
+"Everett","Massachusetts",FALSE,"Everett, Massachusetts",42.40843,-71.0536625
+"Fairfax County","Virginia",TRUE,"Fairfax County, Virginia",38.8156356,-77.2836849
+"Fairfield","Connecticut",FALSE,"Fairfield, Connecticut",41.1412078,-73.2637258
+"Fall River","Massachusetts",FALSE,"Fall River, Massachusetts",41.7010642,-71.1546367
+"Farmington Hills","Michigan",FALSE,"Farmington Hills, Michigan",42.4853125,-83.3771553
+"Fayetteville","North Carolina",FALSE,"Fayetteville, North Carolina",35.0525759,-78.878292
+"Flagstaff","Arizona",FALSE,"Flagstaff, Arizona",35.1987522,-111.651822
+"Flint","Michigan",FALSE,"Flint, Michigan",43.0161693,-83.6900211
+"Florissant","Missouri",FALSE,"Florissant, Missouri",38.7919683,-90.3227803
+"Flower Mound","Texas",FALSE,"Flower Mound, Texas",33.0283854,-97.0867203
+"Fort Bend County","Texas",TRUE,"Fort Bend County, Texas",29.511218,-95.7807348
+"Fort Collins","Colorado",FALSE,"Fort Collins, Colorado",40.5871782,-105.0770113
+"Fort Wayne","Indiana",FALSE,"Fort Wayne, Indiana",41.0799898,-85.1386015
+"Fort Worth","Texas",FALSE,"Fort Worth, Texas",32.753177,-97.3327459
+"Framingham","Massachusetts",FALSE,"Framingham, Massachusetts",42.2773177,-71.4165905
+"Fremont","California",FALSE,"Fremont, California",37.5482697,-121.988571
+"Frisco","Texas",FALSE,"Frisco, Texas",33.1505998,-96.8238183
+"Galveston","Texas",FALSE,"Galveston, Texas",29.3872254,-94.992736
+"Garland","Texas",FALSE,"Garland, Texas",32.912624,-96.6388833
+"Georgetown","Texas",FALSE,"Georgetown, Texas",30.6370152,-97.6775634
+"Gilbert","Arizona",FALSE,"Gilbert, Arizona",33.3527632,-111.789037
+"Glendale","Arizona",FALSE,"Glendale, Arizona",33.5386858,-112.185994
+"Glendale","California",FALSE,"Glendale, California",34.1469416,-118.2478471
+"Goodyear","Arizona",FALSE,"Goodyear, Arizona",33.4674695,-112.3842224
+"Grand Island","Nebraska",FALSE,"Grand Island, Nebraska",40.924271,-98.338685
+"Grand Junction","Colorado",FALSE,"Grand Junction, Colorado",39.0672568,-108.56448
+"Grand Prairie","Texas",FALSE,"Grand Prairie, Texas",32.7459645,-96.9977846
+"Grand Rapids","Michigan",FALSE,"Grand Rapids, Michigan",42.9632425,-85.6678639
+"Grapevine","Texas",FALSE,"Grapevine, Texas",32.9337381,-97.0788754
+"Greeley","Colorado",FALSE,"Greeley, Colorado",40.4233142,-104.7091322
+"Green Township","Ohio",FALSE,"Green Township, Ohio",39.1648093,-84.6536213594179
+"Greensboro","North Carolina",FALSE,"Greensboro, North Carolina",36.0726355,-79.7919754
+"Greenwich","Connecticut",FALSE,"Greenwich, Connecticut",41.0264862,-73.6284598
+"Gresham","Oregon",FALSE,"Gresham, Oregon",45.4978623,-122.4329883
+"Hamden","Connecticut",FALSE,"Hamden, Connecticut",41.3959302,-72.8968574
+"Hamilton","Ohio",FALSE,"Hamilton, Ohio",39.2085354,-84.5501874
+"Hamilton County","Tennessee",TRUE,"Hamilton County, Tennessee",35.1755638,-85.1940792
+"Hampton","Virginia",FALSE,"Hampton, Virginia",37.0264414,-76.3442846
+"Hanover County","Virginia",TRUE,"Hanover County, Virginia",37.744783,-77.4464165
+"Harlingen","Texas",FALSE,"Harlingen, Texas",26.1907543,-97.6960599
+"Harris County","Texas",TRUE,"Harris County, Texas",29.8119769,-95.3741247
+"Harrisburg","Pennsylvania",FALSE,"Harrisburg, Pennsylvania",40.2663107,-76.8861122
+"Harrisonburg","Virginia",FALSE,"Harrisonburg, Virginia",38.4493315,-78.8688833
+"Hartford","Connecticut",FALSE,"Hartford, Connecticut",41.764582,-72.6908547
+"Haverford","Pennsylvania",FALSE,"Haverford, Pennsylvania",40.0131672,-75.2943516
+"Haverhill","Massachusetts",FALSE,"Haverhill, Massachusetts",42.7777829,-71.0767724
+"Hays County","Texas",TRUE,"Hays County, Texas",30.0447901,-98.0393127
+"Henderson","Nevada",FALSE,"Henderson, Nevada",36.0319843,-114.9822486
+"Henrico County","Virginia",TRUE,"Henrico County, Virginia",37.5131191,-77.3465081
+"Hidalgo County","Texas",TRUE,"Hidalgo County, Texas",26.3530256,-98.216445
+"Hillsboro","Oregon",FALSE,"Hillsboro, Oregon",45.5228939,-122.989827
+"Honolulu","Hawaii",FALSE,"Honolulu, Hawaii",21.304547,-157.855676
+"Houston","Texas",FALSE,"Houston, Texas",29.7589382,-95.3676974
+"Idaho Falls","Idaho",FALSE,"Idaho Falls, Idaho",43.4887907,-112.03628
+"Independence","Missouri",FALSE,"Independence, Missouri",39.0924792,-94.4137923
+"Indianapolis","Indiana",FALSE,"Indianapolis, Indiana",39.7683331,-86.1583502
+"Irving","Texas",FALSE,"Irving, Texas",32.8295183,-96.9442177
+"Jackson","Michigan",FALSE,"Jackson, Michigan",42.2416466,-84.425589
+"Jefferson Parish County","Louisiana",TRUE,"Jefferson Parish County, Louisiana",NA,NA
+"Jefferson County","Colorado",TRUE,"Jefferson County, Colorado",39.5699803,-105.2561919
+"Jefferson County","Missouri",TRUE,"Jefferson County, Missouri",38.267166,-90.5721889
+"Joplin","Missouri",FALSE,"Joplin, Missouri",37.0841838,-94.5133385
+"Kalamazoo","Michigan",FALSE,"Kalamazoo, Michigan",42.291707,-85.5872286
+"Kalamazoo County","Michigan",TRUE,"Kalamazoo County, Michigan",42.2494968,-85.5372797
+"Kansas City","Missouri",FALSE,"Kansas City, Missouri",39.100105,-94.5781416
+"Kaufman County","Texas",TRUE,"Kaufman County, Texas",32.601641,-96.3375126
+"Kent County","Michigan",TRUE,"Kent County, Michigan",43.0024013,-85.5502718
+"Kentwood","Michigan",FALSE,"Kentwood, Michigan",42.8694731,-85.6447492
+"Kettering","Ohio",FALSE,"Kettering, Ohio",39.6895036,-84.1688274
+"Killeen","Texas",FALSE,"Killeen, Texas",31.1171441,-97.727796
+"Knox County","Tennessee",TRUE,"Knox County, Tennessee",35.9859998,-83.9375598
+"Knoxville","Tennessee",FALSE,"Knoxville, Tennessee",35.9603948,-83.9210261
+"Kyle","Texas",FALSE,"Kyle, Texas",29.9892928,-97.8772103
+"La Mesa","California",FALSE,"La Mesa, California",32.7678288,-117.0230839
+"Lake Havasu City","Arizona",FALSE,"Lake Havasu City, Arizona",34.4775296,-114.3379972
+"Lakewood","Colorado",FALSE,"Lakewood, Colorado",39.7085736,-105.0846694
+"Lakewood","Ohio",FALSE,"Lakewood, Ohio",41.4819932,-81.7981908
+"Lancaster","Pennsylvania",FALSE,"Lancaster, Pennsylvania",40.0379958,-76.3056707
+"Lansing","Michigan",FALSE,"Lansing, Michigan",42.7338254,-84.5546295
+"Laredo","Texas",FALSE,"Laredo, Texas",27.5075005,-99.5069922
+"Las Vegas","Nevada",FALSE,"Las Vegas, Nevada",36.2533896,-115.27943662626
+"Lawrence","Massachusetts",FALSE,"Lawrence, Massachusetts",42.7070354,-71.1631137
+"League City","Texas",FALSE,"League City, Texas",29.5074538,-95.0949303
+"Leander","Texas",FALSE,"Leander, Texas",30.5736134,-97.8567339
+"Lee's Summit","Missouri",FALSE,"Lee's Summit, Missouri",38.9107156,-94.3821295
+"Lewisville","Texas",FALSE,"Lewisville, Texas",33.046233,-96.994174
+"Lexington","Kentucky",FALSE,"Lexington, Kentucky",38.0464066,-84.4970393
+"Lincoln","Nebraska",FALSE,"Lincoln, Nebraska",40.8088861,-96.7077751
+"Little Elm","Texas",FALSE,"Little Elm, Texas",33.1626194,-96.9375051
+"Little Rock","Arkansas",FALSE,"Little Rock, Arkansas",34.7465071,-92.2896267
+"Livonia","Michigan",FALSE,"Livonia, Michigan",42.36837,-83.3527097
+"Long Beach","California",FALSE,"Long Beach, California",33.7690164,-118.191604
+"Longmont","Colorado",FALSE,"Longmont, Colorado",40.1672117,-105.101928
+"Longview","Texas",FALSE,"Longview, Texas",32.5007031,-94.74049
+"Lorain","Ohio",FALSE,"Lorain, Ohio",41.2633554,-82.1734746
+"Los Angeles","California",FALSE,"Los Angeles, California",34.0536909,-118.242766
+"Los Angeles County","California",TRUE,"Los Angeles County, California",34.3155072,-118.209681
+"Loudoun County","Virginia",TRUE,"Loudoun County, Virginia",39.0984586,-77.6705008
+"Louisville","Kentucky",FALSE,"Louisville, Kentucky",38.2542376,-85.759407
+"Loveland","Colorado",FALSE,"Loveland, Colorado",40.3977612,-105.07498
+"Lowell","Massachusetts",FALSE,"Lowell, Massachusetts",42.6414437,-71.3085329
+"Lower Merion","Pennsylvania",FALSE,"Lower Merion, Pennsylvania",40.0250214,-75.2768881382829
+"Lower Paxton","Pennsylvania",FALSE,"Lower Paxton, Pennsylvania",40.318975,-76.8002408231975
+"Lubbock","Texas",FALSE,"Lubbock, Texas",33.5855677,-101.8470215
+"Lynchburg","Virginia",FALSE,"Lynchburg, Virginia",37.4137536,-79.1422464
+"Lynn","Massachusetts",FALSE,"Lynn, Massachusetts",42.466763,-70.9494939
+"Macomb County","Michigan",TRUE,"Macomb County, Michigan",42.6741189,-82.902901
+"Malden","Massachusetts",FALSE,"Malden, Massachusetts",42.4268484,-71.0683741
+"Manchester","Connecticut",FALSE,"Manchester, Connecticut",41.7834017,-72.5231973
+"Manchester","New Hampshire",FALSE,"Manchester, New Hampshire",42.9956397,-71.4547891
+"Mansfield","Texas",FALSE,"Mansfield, Texas",32.563487,-97.1420308
+"Marana","Arizona",FALSE,"Marana, Arizona",32.4483736,-111.211475
+"Maricopa","Arizona",FALSE,"Maricopa, Arizona",33.34883,-112.49123
+"McAllen","Texas",FALSE,"McAllen, Texas",26.204114,-98.2300605
+"Mckinney","Texas",FALSE,"Mckinney, Texas",33.1976496,-96.6154471
+"Medford","Massachusetts",FALSE,"Medford, Massachusetts",42.4184296,-71.1061639
+"Medford","Oregon",FALSE,"Medford, Oregon",42.3264181,-122.8718605
+"Memphis","Tennessee",FALSE,"Memphis, Tennessee",35.1460249,-90.0517638
+"Meriden","Connecticut",FALSE,"Meriden, Connecticut",41.5381535,-72.8070435
+"Meridian","Idaho",FALSE,"Meridian, Idaho",43.6086295,-116.392326
+"Mesa","Arizona",FALSE,"Mesa, Arizona",33.4151005,-111.831455
+"Mesquite","Texas",FALSE,"Mesquite, Texas",32.7666103,-96.599472
+"Methuen","Massachusetts",FALSE,"Methuen, Massachusetts",42.7262016,-71.1908924
+"Miami Beach","Florida",FALSE,"Miami Beach, Florida",25.7929198,-80.1353006
+"Middletown","Ohio",FALSE,"Middletown, Ohio",39.516644,-84.4041725
+"Midland","Texas",FALSE,"Midland, Texas",31.83688,-102.0103767
+"Milford","Connecticut",FALSE,"Milford, Connecticut",41.2222218,-73.0570603
+"Millcreek","Pennsylvania",FALSE,"Millcreek, Pennsylvania",42.1009538,-80.0208338785957
+"Milpitas","California",FALSE,"Milpitas, California",37.4332273,-121.8989248
+"Milwaukee","Wisconsin",FALSE,"Milwaukee, Wisconsin",43.0386475,-87.9090751
+"Mission","Texas",FALSE,"Mission, Texas",26.2159066,-98.3252932
+"Missouri City","Texas",FALSE,"Missouri City, Texas",29.6185669,-95.5377215
+"Moline","Illinois",FALSE,"Moline, Illinois",41.5058344,-90.5136642
+"Montgomery County","Maryland",TRUE,"Montgomery County, Maryland",39.1406267,-77.2075612
+"Montgomery County","Texas",TRUE,"Montgomery County, Texas",30.301949,-95.5065944
+"Mount Prospect","Illinois",FALSE,"Mount Prospect, Illinois",42.0664167,-87.9372908
+"Mount Vernon","New York",FALSE,"Mount Vernon, New York",40.9125085,-73.8386504
+"Nampa","Idaho",FALSE,"Nampa, Idaho",43.5737361,-116.559631
+"Nashua","New Hampshire",FALSE,"Nashua, New Hampshire",42.7656251,-71.4677032
+"Nashville","Tennessee",FALSE,"Nashville, Tennessee",36.1622767,-86.7742984
+"National City","California",FALSE,"National City, California",32.6781085,-117.0991967
+"New Bedford","Massachusetts",FALSE,"New Bedford, Massachusetts",41.6362152,-70.934205
+"New Braunfels","Texas",FALSE,"New Braunfels, Texas",29.7028266,-98.1257348
+"New Britain","Connecticut",FALSE,"New Britain, Connecticut",41.6612104,-72.7795419
+"New Haven","Connecticut",FALSE,"New Haven, Connecticut",41.3082138,-72.9250518
+"New Orleans","Louisiana",FALSE,"New Orleans, Louisiana",29.9759983,-90.0782127
+"New York City","New York",FALSE,"New York City, New York",40.7127281,-74.0060152
+"Newark","New Jersey",FALSE,"Newark, New Jersey",40.735657,-74.1723667
+"Newark","Ohio",FALSE,"Newark, Ohio",40.0581205,-82.4012643
+"Newport News","Virginia",FALSE,"Newport News, Virginia",36.9775016,-76.42977
+"Newton","Massachusetts",FALSE,"Newton, Massachusetts",42.3370414,-71.2092214
+"Norfolk","Virginia",FALSE,"Norfolk, Virginia",36.8493695,-76.2899539
+"Normal","Illinois",FALSE,"Normal, Illinois",40.5092961,-88.9843937
+"North Bergen Township","New Jersey",FALSE,"North Bergen Township, New Jersey",40.2869532955683,-74.4115579228905
+"North Las Vegas","Nevada",FALSE,"North Las Vegas, Nevada",36.2005843,-115.121584
+"North Richland Hills","Texas",FALSE,"North Richland Hills, Texas",32.8342952,-97.2289029
+"Norwalk","Connecticut",FALSE,"Norwalk, Connecticut",41.1175966,-73.4078968
+"Novi","Michigan",FALSE,"Novi, Michigan",42.48059,-83.4754913
+"O'Fallon","Missouri",FALSE,"O'Fallon, Missouri",38.7902503,-90.7033292
+"Oak Lawn","Illinois",FALSE,"Oak Lawn, Illinois",41.7108662,-87.7581081
+"Oceanside","California",FALSE,"Oceanside, California",33.1958696,-117.379483
+"Odessa","Texas",FALSE,"Odessa, Texas",31.8457149,-102.367687
+"Omaha","Nebraska",FALSE,"Omaha, Nebraska",41.2587459,-95.9383758
+"Oshkosh","Wisconsin",FALSE,"Oshkosh, Wisconsin",44.0206919,-88.5408574
+"Ottawa County","Michigan",TRUE,"Ottawa County, Michigan",42.9547143,-85.9827867
+"Palatine","Illinois",FALSE,"Palatine, Illinois",42.1105779,-88.0336888
+"Parker","Colorado",FALSE,"Parker, Colorado",39.5184514,-104.7612638
+"Parker County","Texas",TRUE,"Parker County, Texas",32.77725975,-97.804559869202
+"Parma","Ohio",FALSE,"Parma, Ohio",41.3822398,-81.7355692
+"Pasadena","Texas",FALSE,"Pasadena, Texas",29.6910753,-95.2092076
+"Pawtucket","Rhode Island",FALSE,"Pawtucket, Rhode Island",41.8789531,-71.3821203
+"Peabody","Massachusetts",FALSE,"Peabody, Massachusetts",42.5278731,-70.9286609
+"Pearland","Texas",FALSE,"Pearland, Texas",29.5639758,-95.2864299
+"Peoria","Arizona",FALSE,"Peoria, Arizona",33.5806115,-112.237294
+"Pflugerville","Texas",FALSE,"Pflugerville, Texas",30.4393696,-97.6200043
+"Pharr","Texas",FALSE,"Pharr, Texas",26.1947962,-98.1836216
+"Philadelphia","Pennsylvania",FALSE,"Philadelphia, Pennsylvania",39.9527237,-75.1635262
+"Phoenix","Arizona",FALSE,"Phoenix, Arizona",33.4484367,-112.074141
+"Pima County","Arizona",TRUE,"Pima County, Arizona",32.1112624,-111.6546163
+"Pinal County","Arizona",TRUE,"Pinal County, Arizona",32.8085851,-111.4426212
+"Pittsburgh","Pennsylvania",FALSE,"Pittsburgh, Pennsylvania",40.4416941,-79.9900861
+"Plano","Texas",FALSE,"Plano, Texas",33.0136764,-96.6925096
+"Plymouth","Massachusetts",FALSE,"Plymouth, Massachusetts",41.9426657,-70.7618592
+"Pocatello","Idaho",FALSE,"Pocatello, Idaho",42.8620287,-112.450627
+"Port Arthur","Texas",FALSE,"Port Arthur, Texas",29.8716577,-93.9332302
+"Portland","Oregon",FALSE,"Portland, Oregon",45.5202471,-122.674194
+"Portsmouth","Virginia",FALSE,"Portsmouth, Virginia",36.8320081,-76.297699
+"Prescott Valley","Arizona",FALSE,"Prescott Valley, Arizona",34.5950776,-112.3338634
+"Prince George's County","Maryland",TRUE,"Prince George's County, Maryland",38.803929,-76.8518695
+"Prince William County","Virginia",TRUE,"Prince William County, Virginia",38.7389846,-77.5536743
+"Providence","Rhode Island",FALSE,"Providence, Rhode Island",41.8239891,-71.4128343
+"Pueblo","Colorado",FALSE,"Pueblo, Colorado",38.263995,-104.6141867
+"Quincy","Massachusetts",FALSE,"Quincy, Massachusetts",42.2509914,-71.0037374
+"Raleigh","North Carolina",FALSE,"Raleigh, North Carolina",35.7803977,-78.6390989
+"Rapid City","South Dakota",FALSE,"Rapid City, South Dakota",44.0806041,-103.228023
+"Reading","Pennsylvania",FALSE,"Reading, Pennsylvania",40.335345,-75.9279495
+"Redlands","California",FALSE,"Redlands, California",34.0550328,-117.1827445
+"Reno","Nevada",FALSE,"Reno, Nevada",39.5261206,-119.8126581
+"Revere","Massachusetts",FALSE,"Revere, Massachusetts",42.4084302,-71.0119948
+"Richardson","Texas",FALSE,"Richardson, Texas",32.9481789,-96.7297206
+"Richmond","California",FALSE,"Richmond, California",37.9357576,-122.347748
+"Richmond","Virginia",FALSE,"Richmond, Virginia",37.5385087,-77.43428
+"Riverside","California",FALSE,"Riverside, California",33.9824949,-117.374238
+"Roanoke","Virginia",FALSE,"Roanoke, Virginia",37.270973,-79.9414313
+"Rochester","New York",FALSE,"Rochester, New York",43.157285,-77.615214
+"Rockford","Illinois",FALSE,"Rockford, Illinois",42.2713945,-89.093966
+"Rockwall","Texas",FALSE,"Rockwall, Texas",32.8923464,-96.4066987
+"Round Rock","Texas",FALSE,"Round Rock, Texas",30.5085915,-97.6788056
+"Rowlett","Texas",FALSE,"Rowlett, Texas",32.9029017,-96.56388
+"Royal Oak","Michigan",FALSE,"Royal Oak, Michigan",42.4894801,-83.1446485
+"Rutherford County","Tennessee",TRUE,"Rutherford County, Tennessee",35.8563421,-86.4205249
+"Salem","Oregon",FALSE,"Salem, Oregon",44.9391565,-123.033121
+"Salt Lake City","Utah",FALSE,"Salt Lake City, Utah",40.7596198,-111.886797
+"San Angelo","Texas",FALSE,"San Angelo, Texas",31.4649685,-100.4405094
+"San Antonio","Texas",FALSE,"San Antonio, Texas",29.4246002,-98.4951405
+"San Bernardino","California",FALSE,"San Bernardino, California",34.8253019,-116.0833144
+"San Diego","California",FALSE,"San Diego, California",32.7174202,-117.162772
+"San Diego County","California",TRUE,"San Diego County, California",32.9637838,-116.7706277
+"San Francisco","California",FALSE,"San Francisco, California",37.7792588,-122.4193286
+"San Jose","California",FALSE,"San Jose, California",37.3361663,-121.890591
+"San Marcos","Texas",FALSE,"San Marcos, Texas",29.8826436,-97.9405828
+"Sarasota County","Florida",TRUE,"Sarasota County, Florida",27.1813609,-82.3609195
+"Schaumburg","Illinois",FALSE,"Schaumburg, Illinois",42.0333608,-88.083406
+"Scottsdale","Arizona",FALSE,"Scottsdale, Arizona",33.4942189,-111.926018
+"Scranton","Pennsylvania",FALSE,"Scranton, Pennsylvania",41.4086874,-75.6621294
+"Seattle","Washington",FALSE,"Seattle, Washington",47.6038321,-122.330062
+"Shelby Township","Michigan",FALSE,"Shelby Township, Michigan",43.5974492,-86.3379509185505
+"Shelby County","Tennessee",TRUE,"Shelby County, Tennessee",35.1782557,-89.8739775
+"Sioux Falls","South Dakota",FALSE,"Sioux Falls, South Dakota",43.5476008,-96.7293629
+"Skokie","Illinois",FALSE,"Skokie, Illinois",42.0262972,-87.7521069
+"Smith County","Texas",TRUE,"Smith County, Texas",32.3402898,-95.2563971
+"Somerville","Massachusetts",FALSE,"Somerville, Massachusetts",42.3875968,-71.0994968
+"Sonoma County","California",TRUE,"Sonoma County, California",38.5110803,-122.8473388
+"South Bend","Indiana",FALSE,"South Bend, Indiana",41.6833813,-86.2500066
+"Southaven","Mississippi",FALSE,"Southaven, Mississippi",34.9873822,-90.0034862
+"Southfield","Michigan",FALSE,"Southfield, Michigan",42.4733689,-83.2218731
+"Sparks","Nevada",FALSE,"Sparks, Nevada",39.5404679,-119.7487235
+"Spokane","Washington",FALSE,"Spokane, Washington",47.6571934,-117.42351
+"Spotsylvania County","Virginia",TRUE,"Spotsylvania County, Virginia",38.1880936,-77.6741751
+"Springfield","Illinois",FALSE,"Springfield, Illinois",39.7990175,-89.6439575
+"Springfield","Massachusetts",FALSE,"Springfield, Massachusetts",42.1018764,-72.5886727
+"Springfield","Missouri",FALSE,"Springfield, Missouri",37.2081729,-93.2922715
+"Springfield","Ohio",FALSE,"Springfield, Ohio",39.9234046,-83.810138
+"Springfield","Oregon",FALSE,"Springfield, Oregon",44.0462362,-123.0220289
+"St Charles","Missouri",FALSE,"St Charles, Missouri",38.7877791,-90.6747372
+"St Charles County","Missouri",TRUE,"St Charles County, Missouri",38.7877791,-90.6747372
+"St Joseph","Missouri",FALSE,"St Joseph, Missouri",39.7686055,-94.8466322
+"St Louis","Missouri",FALSE,"St Louis, Missouri",38.6280278,-90.1910154
+"St Louis County","Missouri",TRUE,"St Louis County, Missouri",38.6398744,-90.5188127750124
+"St Peters","Missouri",FALSE,"St Peters, Missouri",38.791612,-90.5958468
+"St. Clair Shores","Michigan",FALSE,"St. Clair Shores, Michigan",42.4969652,-82.8890965
+"Stafford County","Virginia",TRUE,"Stafford County, Virginia",38.4167265,-77.4579783
+"Stamford","Connecticut",FALSE,"Stamford, Connecticut",41.0534302,-73.5387341
+"State College","Pennsylvania",FALSE,"State College, Pennsylvania",40.7944504,-77.8616386
+"Sterling Heights","Michigan",FALSE,"Sterling Heights, Michigan",42.5803122,-83.0302033
+"Stockton","California",FALSE,"Stockton, California",37.9577016,-121.290779
+"Stratford","Connecticut",FALSE,"Stratford, Connecticut",41.1845415,-73.1331651
+"Suffolk","Virginia",FALSE,"Suffolk, Virginia",36.7281341,-76.5834683
+"Sugar Land","Texas",FALSE,"Sugar Land, Texas",29.6196787,-95.6349463
+"Surprise","Arizona",FALSE,"Surprise, Arizona",33.629247,-112.3681428
+"Tacoma","Washington",FALSE,"Tacoma, Washington",47.2455013,-122.438329
+"Taunton","Massachusetts",FALSE,"Taunton, Massachusetts",41.9019257,-71.0931485
+"Taylor","Michigan",FALSE,"Taylor, Michigan",42.240872,-83.2696509
+"Tempe","Arizona",FALSE,"Tempe, Arizona",33.4255117,-111.940016
+"Temple","Texas",FALSE,"Temple, Texas",31.098207,-97.3427847
+"Texas City","Texas",FALSE,"Texas City, Texas",29.396013,-94.9175485
+"Thornton","Colorado",FALSE,"Thornton, Colorado",39.8695516,-104.985181
+"Tigard","Oregon",FALSE,"Tigard, Oregon",45.4307473,-122.771933
+"Tinley Park","Illinois",FALSE,"Tinley Park, Illinois",41.5733669,-87.7844944
+"Toledo","Ohio",FALSE,"Toledo, Ohio",41.6529143,-83.5378173
+"Tracy","California",FALSE,"Tracy, California",37.7385507,-121.420139
+"Travis County","Texas",TRUE,"Travis County, Texas",30.2878569,-97.7561392
+"Troy","Michigan",FALSE,"Troy, Michigan",42.6055893,-83.1499304
+"Tucson","Arizona",FALSE,"Tucson, Arizona",32.2228765,-110.974847
+"Twin Falls","Idaho",FALSE,"Twin Falls, Idaho",42.5558542,-114.4700684
+"Tyler","Texas",FALSE,"Tyler, Texas",32.3512601,-95.3010624
+"Upper Darby","Pennsylvania",FALSE,"Upper Darby, Pennsylvania",39.9284459,-75.2737955
+"Vallejo","California",FALSE,"Vallejo, California",38.1040864,-122.2566367
+"Victoria","Texas",FALSE,"Victoria, Texas",28.8026443,-96.9766308
+"Virginia Beach","Virginia",FALSE,"Virginia Beach, Virginia",36.8496579,-75.9760751
+"Waco","Texas",FALSE,"Waco, Texas",31.5491899,-97.1474628
+"Waltham","Massachusetts",FALSE,"Waltham, Massachusetts",42.3756401,-71.2358004
+"Warren","Michigan",FALSE,"Warren, Michigan",42.4932575,-83.0062746
+"Warwick","Rhode Island",FALSE,"Warwick, Rhode Island",41.6992717,-71.4586114
+"Washington","District of Columbia",FALSE,"Washington, District of Columbia",38.8950368,-77.0365427
+"Washington County","Maryland",TRUE,"Washington County, Maryland",39.5893502,-77.710254
+"Washington County","Oregon",TRUE,"Washington County, Oregon",45.5601883,-123.0587907
+"Washoe County","Nevada",TRUE,"Washoe County, Nevada",40.5849048,-119.6131606
+"Washtenaw County","Michigan",TRUE,"Washtenaw County, Michigan",42.2582044,-83.8440853
+"Waterbury","Connecticut",FALSE,"Waterbury, Connecticut",41.5538091,-73.0438362
+"Waterford Township","Michigan",FALSE,"Waterford Township, Michigan",42.6706391,-83.3896241
+"West Bloomfield Township","Michigan",FALSE,"West Bloomfield Township, Michigan",42.5684073,-83.3740333
+"West Chester Township","Ohio",FALSE,"West Chester Township, Ohio",39.3359319,-84.415561556654
+"West Hartford","Connecticut",FALSE,"West Hartford, Connecticut",41.7620447,-72.7420399
+"West Haven","Connecticut",FALSE,"West Haven, Connecticut",41.2706527,-72.9470471
+"Westland","Michigan",FALSE,"Westland, Michigan",42.3238056,-83.4005321
+"Westminster","Colorado",FALSE,"Westminster, Colorado",39.8366528,-105.0372046
+"Weymouth","Massachusetts",FALSE,"Weymouth, Massachusetts",42.2212188,-70.9391625
+"Wichita Falls","Texas",FALSE,"Wichita Falls, Texas",33.9004572,-98.5020777
+"Will County","Illinois",TRUE,"Will County, Illinois",41.4194058,-87.9994754
+"Williamson County","Texas",TRUE,"Williamson County, Texas",30.6580927,-97.6041649
+"Worcester","Massachusetts",FALSE,"Worcester, Massachusetts",42.2625621,-71.8018877
+"Wright County","Minnesota",TRUE,"Wright County, Minnesota",45.1489061,-93.9639196
+"Wylie","Texas",FALSE,"Wylie, Texas",33.0151561,-96.5388038
+"Wyoming","Michigan",FALSE,"Wyoming, Michigan",42.9132581,-85.7057035
+"York","Pennsylvania",FALSE,"York, Pennsylvania",39.962493,-76.7276989
+"Youngstown","Ohio",FALSE,"Youngstown, Ohio",41.1035786,-80.6520161
+"Yuma","Arizona",FALSE,"Yuma, Arizona",32.723268,-114.6179954
+"Aguadilla","Puerto Rico",FALSE,"Aguadilla, Puerto Rico",18.44965515,-67.1184764350823
+"Arecibo","Puerto Rico",FALSE,"Arecibo, Puerto Rico",18.40474985,-66.681035294432
+"Caguas","Puerto Rico",FALSE,"Caguas, Puerto Rico",18.2129421,-66.055884356262
+"Carolina","Puerto Rico",FALSE,"Carolina, Puerto Rico",18.36402775,-65.9526468608154
+"Guaynabo","Puerto Rico",FALSE,"Guaynabo, Puerto Rico",18.35915955,-66.115680241776
+"Ponce","Puerto Rico",FALSE,"Ponce, Puerto Rico",18.06682235,-66.6140412435757
+"San Juan","Puerto Rico",FALSE,"San Juan, Puerto Rico",18.38423905,-66.0534399736473
+"Toa Alta","Puerto Rico",FALSE,"Toa Alta, Puerto Rico",18.3586783,-66.2460109920447
+"Toa Baja","Puerto Rico",FALSE,"Toa Baja, Puerto Rico",18.4426255,-66.2545652
+"Trujillo Alto","Puerto Rico",FALSE,"Trujillo Alto, Puerto Rico",18.33707575,-66.0017421027996
+"Vega Baja","Puerto Rico",FALSE,"Vega Baja, Puerto Rico",18.41776575,-66.3994474204391

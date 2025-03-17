@@ -128,94 +128,83 @@ d3.csv("../app_data/cities_coordinates.csv").then(data => {
         const radius = getRadius(population, map.getZoom());
 
         if (!isNaN(lat) && !isNaN(lon)) {
-            let marker;
-        
-            if (city.is_county === "TRUE") { // Draw a triangle for counties
-                const size = radius; // Adjust this to control triangle size, you can tweak it later
-        
-                // Calculate coordinates for triangle vertices
-                const triangleCoords = [
-                    [lat + size / 100, lon],                   // Top vertex
-                    [lat - size / 200, lon - size / 200],      // Bottom left vertex
-                    [lat - size / 200, lon + size / 200]       // Bottom right vertex
-                ];
-        
-                marker = L.polygon(triangleCoords, {
-                    color: null,
-                    fillColor: fillColor,
-                    fillOpacity: 0.6,
-                    weight: 0
-                }).addTo(map);
-            } else { // Draw a circle for cities
-                marker = L.circleMarker([lat, lon], {
-                    radius: radius,
-                    color: null,
-                    fillColor: fillColor,
-                    fillOpacity: 0.6
-                }).addTo(map);
-            }
-        
+            const marker = L.circleMarker([lat, lon], {
+                radius: radius,
+                color: null,
+                fillColor: fillColor,
+                fillOpacity: 0.6
+            }).addTo(map);
+
             // Format population with commas if available
             const formattedPopulation = !isNaN(population) ? population.toLocaleString() : "Data not available";
-        
-            // Bind popup for both types
+
+            // Bind popup
             marker.bindPopup(`
                 <b>${city.agency_name}, ${city.state_name}</b><br>
                 Population: ${formattedPopulation}<br>
                 Source Method: <a href="${city.state_ucr_link}" target="_blank"> ${city.source_method}</a>
             `);
-        
-            // Hover and click interactions (same as before)
+
+            
+            
+            // Show popup and change color to dark teal on hover
             marker.on('mouseover', function () {
+                // Close any clicked marker's popup and reset its color
                 markers.forEach(({ marker }) => {
                     if (marker.isClicked) {
-                        marker.isClicked = false;
-                        marker.setStyle({ fillColor: fillColor });
-                        marker.closePopup();
+                        marker.isClicked = false; // Reset clicked state
+                        marker.setStyle({ fillColor: fillColor }); // Reset color to default
+                        marker.closePopup(); // Close its popup
                     }
                 });
-                if (!this.isClicked) {
+            
+                if (!this.isClicked) { // Only change color and open popup if not clicked
                     this.setStyle({ fillColor: "#00333a" });
-                    this.openPopup();
+                    this.openPopup(); // Show popup temporarily
                 }
             });
-        
+            
             marker.on('mouseout', function () {
-                if (!this.isClicked) {
+                if (!this.isClicked) { // Reset color and close popup only if not clicked
                     this.setStyle({ fillColor: fillColor });
-                    this.closePopup();
+                    this.closePopup(); // Hide the popup
                 }
             });
-        
+            
+            // Handle marker click
             marker.on('click', function (e) {
+                // Close all other popups and reset their styles
                 markers.forEach(({ marker }) => {
                     if (marker.isClicked) {
-                        marker.isClicked = false;
-                        marker.setStyle({ fillColor: fillColor });
-                        marker.closePopup();
+                        marker.isClicked = false; // Reset clicked state
+                        marker.setStyle({ fillColor: fillColor }); // Reset color
+                        marker.closePopup(); // Close popup
                     }
                 });
-                this.isClicked = true;
-                this.setStyle({ fillColor: "#00333a" });
-                this.openPopup();
+            
+                // Activate the clicked marker
+                this.isClicked = true; // Mark this marker as clicked
+                this.setStyle({ fillColor: "#00333a" }); // Retain hover color
+                this.openPopup(); // Ensure the popup stays open
             });
-        
+            
+            // Close all popups when clicking outside markers
             map.on('click', function (e) {
-                if (!e.originalEvent.target.classList.contains('leaflet-popup-content')) {
+                if (!e.originalEvent.target.classList.contains('leaflet-popup-content')) { // Ignore clicks inside popups
                     markers.forEach(({ marker }) => {
                         if (marker.isClicked) {
-                            marker.isClicked = false;
-                            marker.closePopup();
-                            marker.setStyle({ fillColor: fillColor });
+                            marker.isClicked = false; // Reset clicked state
+                            marker.closePopup(); // Close popup
+                            marker.setStyle({ fillColor: fillColor }); // Reset color
                         }
                     });
                 }
             });
-        
-            // Save marker for resizing and reference (only circles are resizable, but we can store all for consistency)
-            markers.push({ marker, population, isCounty: city.is_county === "TRUE" });
+            
+
+            // Save the marker for resizing
+            markers.push({ marker, population });
         }
-        
     });
     
     // Update the legend after data is processed
@@ -231,7 +220,6 @@ map.on('zoomend', () => {
     });
 });
 
-// Function to update the legend dynamically
 // Function to update the legend dynamically
 function updateLegend() {
     const legend = L.control({ position: 'topright' });
@@ -254,32 +242,32 @@ function updateLegend() {
         div.innerHTML += `<hr style="border: 0; height: 1px; background: #ccc; margin: 8px 0;">`;
 
         // NEW Section: Type
-div.innerHTML += `<h4>Agency Type</h4>`;
+        div.innerHTML += `<h4>Agency Type</h4>`;
 
-div.innerHTML += `<div style="display: flex; align-items: center; margin-left: 2px; gap: 2.5px;">
-    <i style="
-        display: inline-block;
-        width: 14px;
-        height: 14px;
-        background: black;
-        border-radius: 50%;
-        flex-shrink: 0;
-    "></i> 
-    <span>City</span>
-</div>`;
+        div.innerHTML += `<div style="display: flex; align-items: center; margin-left: 2px; gap: 2.5px;">
+            <i style="
+                display: inline-block;
+                width: 14px;
+                height: 14px;
+                background: black;
+                border-radius: 50%;
+                flex-shrink: 0;
+            "></i> 
+            <span>City</span>
+        </div>`;
 
-div.innerHTML += `<div style="display: flex; align-items: center; margin-left: 2px; gap: 1px;">
-    <i style="
-        width: 0; 
-        height: 0; 
-        border-left: 8px solid transparent;
-        border-right: 8px solid transparent;
-        border-bottom: 14px solid black;
-        display: inline-block;
-        flex-shrink: 0;
-    "></i> 
-    <span>County</span>
-</div>`;
+        div.innerHTML += `<div style="display: flex; align-items: center; margin-left: 2px; gap: 1px;">
+            <i style="
+                width: 0; 
+                height: 0; 
+                border-left: 8px solid transparent;
+                border-right: 8px solid transparent;
+                border-bottom: 14px solid black;
+                display: inline-block;
+                flex-shrink: 0;
+            "></i> 
+            <span>County</span>
+        </div>`;
 
 
         // Add a divider for separation

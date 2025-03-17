@@ -1,8 +1,8 @@
 ---
-title: "county exploration"
+title: "county exploration and formatting for merge"
 output: github_document
 ---
-december 2024 sample prepare
+initial libraries
 ```{r}
 #read in the data
 library(tidyverse)
@@ -15,6 +15,9 @@ library(ggplot2)
 library(here)
 library(readxl)
 library(tools)
+library(readxl)
+library(dplyr)
+library(purrr)
 ```
 directory path where the data files are stored
 ```{r}
@@ -38,6 +41,8 @@ data_dir <- file.path(
   "Real Time Crime Index",
   "Open Source Data",
   "_Ben and Jeff work",
+  "Months",
+  "January 2025",
   "Counties"
 )
 
@@ -94,6 +99,31 @@ county_ldf <- read_excels(data_dir)
 # View the first data frame in the list
 head(county_ldf[[1]])
 ```
+get info on all the excels
+```{r}
+# Function to get info on the first sheet of each Excel file
+get_excel_info <- function(file) {
+  # Read the first sheet
+  df <- read_excel(file, sheet = 1)
+  
+  # Create a summary dataframe
+  data.frame(
+    file_name = basename(file),
+    num_columns = ncol(df),
+    column_names = paste(names(df), collapse = ", "),
+    column_formats = paste(sapply(df, class), collapse = ", ")
+  )
+}
+
+# List of Excel file paths
+#file_paths <- list.files(path = "path/to/excel/files", pattern = "\\.xlsx$", full.names = TRUE)
+
+# Apply the function to each Excel file and combine the results into a single dataframe
+excel_info_df <- map_df(file_paths, get_excel_info)
+
+# Take a quick look
+head(excel_info_df)
+```
 let's get the unique number of agencies at the beginning
 ```{r}
 # Function to get the count of unique 'Agency Name' in each csv
@@ -105,7 +135,10 @@ get_unique_agency_count <- function(df) {
 unique_agency_counts <- map(county_ldf, get_unique_agency_count)
 total_agency_raw <- sum(unlist(unique_agency_counts))
 head(total_agency_raw)
-##393 for November 2024
+##46 for Jan 2025
+
+#save a copy
+county_ldf_extra <- county_ldf
 ```
 format everything
 ```{r}
@@ -248,6 +281,11 @@ county_combined_df <- county_combined_df %>% select(acceptable_names)
 head(county_combined_df)
 #looking good.
 ```
+
+
+
+
+###TEST FOR REFERENCE DATA MERGE###
 city state column for getting unique number of agencies
 ```{r}
 #create the city_state column here for a unique ID
@@ -258,6 +296,16 @@ length(unique(county_combined_df$city_state))
 #393 all set
 length(unique(county_combined_df$`Agency Name`))
 #380 - springfields galore!
+```
+investigate naming for agencies
+```{r}
+# Extract unique agency names
+all_agency_names <- county_combined_df %>%
+  distinct(`Agency Name`) %>%
+  rename(Unique_Agency_Name = `Agency Name`)
+
+# View the result
+print(all_agency_names)
 ```
 check out city_state by state for a quick numbers check
 ```{r}
@@ -287,18 +335,81 @@ counties_cdf <- county_combined_df %>%
     Agency_Type = "County"
   )
 ```
-run the above 
-
 let's check for counties that don't connect to ref file
 ```{r}
 # Perform the merge
-counties_cdf_test <- merge(counties_cdf, ref_df2, by = c("city_state", "Agency_Type"), all.x = TRUE)
+counties_cdf_test <- merge(counties_cdf, counties_100k, 
+                           by.x = c("city_state", "Agency_Type"), 
+                           by.y = c("city_state", "agency_type_name"), 
+                           all.x = TRUE)
 
-# Select one record per unique city_state where region_name.x is NA
+# test to find the records that didn't merge propery
 unique_na_region <- counties_cdf_test %>%
-  filter(is.na(region_name.x)) %>%
+  filter(is.na(region_name)) %>%
   distinct(city_state, .keep_all = TRUE)
 
-# Display the result
+# list the agencies that didn't match so we can update crosswalk reference file
 print(unique_na_region)
+```
+make a new dataframe and look for any last missing records
+```{r}
+county_cdf1 <-counties_cdf_test
+df_list <- counties_cdf_test
+
+# Initialize an empty dataframe to store results
+missing_agency_records <- data.frame()
+
+# Loop through each dataframe in the list
+for (df_name in names(df_list)) {
+  df <- df_list[[df_name]]  # Extract the dataframe
+  
+  # Filter for rows where `Agency Name` is NA
+  missing_rows <- df[is.na(df$`Agency Name`), ]
+  
+  # If there are missing rows, add a column to indicate the dataframe name
+  if (nrow(missing_rows) > 0) {
+    missing_rows$source_dataframe <- df_name
+    missing_agency_records <- rbind(missing_agency_records, missing_rows)
+  }
+}
+
+# Display the results
+if (nrow(missing_agency_records) > 0) {
+  print(missing_agency_records)
+} else {
+  print("No missing `Agency Name` values found in any dataframe.")
+}
+
+```
+confirm that all counties have matching reference columns
+```{r}
+head(county_cdf1)
+#rename columns
+```
+one last column check and ready to bind to cities
+```{r}
+# Define acceptable column names
+acceptable_names <- c("Agency Name", "Murder", "Rape", "Robbery", "Aggravated Assault",  
+                      "Burglary", "Theft", "Motor Vehicle Theft", "Year", "Month", "State", "city_state", "Agency_Type")
+
+# Remove "Agency_Type.y"
+county_cdf1 <- county_cdf1 %>% select(-"Agency_Type.y")
+
+# Create a dataframe of records that had columns not listed in acceptable_names
+df_extra <- county_cdf1 %>%
+  select(-all_of(acceptable_names)) %>%
+  filter(rowSums(!is.na(.)) > 0) # Ensures only rows with extra columns are kept
+
+# Keep only the acceptable columns in the main dataframe
+county_cdf2 <- county_cdf1 %>% select(all_of(acceptable_names))
+
+# Ensure all records in county_cdf1 have "County" as their "Agency_Type"
+county_cdf2 <- county_cdf2 %>% filter(Agency_Type == "County")
+
+# Print results
+head(county_cdf2)
+```
+run the above 
+```{r}
+head(county_cdf2)
 ```

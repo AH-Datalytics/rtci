@@ -42,7 +42,9 @@ data_dir <- file.path(
   "Real Time Crime Index",
   "Open Source Data",
   "_Ben and Jeff work",
-  "December 2024"
+  "Months",
+  "January 2025",
+  "Cities"
 )
 
 # Check the full path to ensure it's correct
@@ -319,35 +321,8 @@ cdf <- combined_df %>%
 ```
 bring in counties data and bind it to the end of cities data
 ```{r}
-#cdf_all <- bind_rows(cdf, counties_cdf)
+cdf_all <- bind_rows(cdf, county_cdf2)
 ```
-check sample cities
-```{r}
-library(readr)
-
-# Define file path
-file_path <- "C:/OneDrive/OneDrive - ahdatalytics.com/Clients/Real Time Crime Index/Open Source Data/_Ben and Jeff work/nov_24_agencies.csv"
-
-# Read the CSV file
-df <- read_csv(file_path)
-
-# View first few rows
-head(df)
-# Merge by a common column (e.g., "city_state")
-merged_df <- left_join(df, sample_cities, by = "city_state")
-
-# View result
-head(merged_df)
-
-# Find records in sample_cities that are not in df
-dropped_records <- anti_join(sample_cities, df, by = "city_state")
-
-# View the dropped records
-head(dropped_records)
-```
-
-
-
 create variables for audit
 ```{r}
 # Get the current date
@@ -396,17 +371,28 @@ cat("Three Months Previous - Year:", three_months_previous_year, "Month:", three
 drop everything from current year/month and current year/previous month
 ```{r}
 # Filter out observations with the current month and year or previous month and current year
-cdf <- cdf %>%
+cdf_recent <- cdf_all %>%
   filter(
     !(Year == current_year & Month == current_month) &
     !(Year == current_year & Month == previous_month_month)
   )
 ```
+make a new unique id
+```{r}
+cdf_recent <- cdf_recent %>%
+  mutate(city_state_id = paste(city_state, Agency_Type, sep = ","))
+```
+
+
+START HERE ON MONDAY
+
+
+
 new filter for finding non-reporters without current blank records
 ```{r}
 ## Step 1: Identify the most recent observation for each agency in a dataframe for analysis
-most_recent_obs <- cdf %>%
-  group_by(city_state) %>%
+most_recent_obs <- cdf_recent %>%
+  group_by(city_state_id) %>%
   slice_max(order_by = as.Date(paste(Year, Month, "01", sep = "-")), n = 1) %>% 
   ungroup()
 
@@ -423,7 +409,7 @@ undesirables_na_current <- most_recent_obs %>%
          is.na(Murder))
 
 # Step 3a: Filter records that are missing historical murder data (could have current)
-undesirables_na_historical <- cdf %>%
+undesirables_na_historical <- cdf_recent %>%
   filter(Year <= two_months_previous_year &
          Month < two_months_previous_month &
          is.na(Murder))
@@ -438,10 +424,11 @@ undesirables <- undesirables %>%
 without non-reporters for 45 day lag month //first month is June
 ```{r}
 # Get unique values from city_state unique id to remove same sample calculations table
-remove_agencies <- unique(undesirables$city_state)
+remove_agencies <- unique(undesirables[, c("city_state", "Agency_Type")])
 
-# Filter out rows where city_state is in the list of values_to_remove
-cdf_nwcounts <- cdf %>% filter(!city_state %in% remove_agencies)
+#now remove agencies
+cdf_nwcounts <- cdf_recent %>%
+  anti_join(remove_agencies, by = c("city_state", "Agency_Type"))
 ```
 remove duplicates - schaumburg and tracy problem
 ```{r}
@@ -449,7 +436,7 @@ cdf_nwcounts <- distinct(cdf_nwcounts)
 ```
 check the number of agencies
 ```{r}
-num_unique_A <- n_distinct(cdf_nwcounts$city_state)
+num_unique_A <- n_distinct(cdf_nwcounts$city_state, cdf_nwcounts$Agency_Type)
 print(num_unique_A)
 ```
 vc/pc groupings
@@ -461,16 +448,20 @@ cdf_vcpc <- cdf_nwcounts %>%
     prop_crime = rowSums(select(., Burglary, Theft, `Motor Vehicle Theft`), na.rm = TRUE)
   )
 
+#create a new unique id for cdf_vcpc to fix join issue
+cdf_vcpc <- cdf_vcpc %>%
+  mutate(city_state_id = paste(city_state, Agency_Type, sep = ","))
+
 # save a copy for later calcs
 cdf_vcpc_nats <- cdf_vcpc
 
 # slim it down to the essentials to join back to the main dataframe
-cdf_vcpc <- cdf_vcpc %>% select(city_state, vio_crime, prop_crime, Year, Month)
+cdf_vcpc <- cdf_vcpc %>% select(city_state, vio_crime, prop_crime, Year, Month, city_state_id)
 ```
 join to main dataframe
 ```{r}
 #add vc/pc counts back to main df and create a new df var
-cdf1 <- merge(cdf, cdf_vcpc, by = c("city_state", "Month", "Year"), all.x = TRUE)
+cdf1 <- merge(cdf_recent, cdf_vcpc, by = c("city_state_id", "Month", "Year"), all.x = TRUE)
 ```
 add population figures for nationwide descriptors
 ```{r}
@@ -493,14 +484,13 @@ print(ref_df_path)
 ref_df <- read.csv(ref_df_path)
 
 # Make a city_state column for matching
-ref_df <- ref_df %>% mutate(city_state = paste(Agency, State, sep = ", ")) %>%
-filter(Agency_Type == "City")
+ref_df <- ref_df %>% mutate(city_state = paste(Agency, State, sep = ", "))
 ```
 add region name to final sourcing table
 ```{r}
 # Merge with ref_df by "city_state"
 ref_df1 <- ref_df %>%
-  left_join(cities_40k, by = c("city_state" = "city_state"))
+  left_join(cities_counties_ref, by = c("city_state" = "city_state", "Agency_Type" = "agency_type_name"))
 
 # Check if each record in ref_df has the region_name column merged successfully
 check_region <- ref_df1 %>%
@@ -529,19 +519,24 @@ if (nrow(failed_merges) > 0) {
 }
 
 #remove excess columns
-ref_df1 <- ref_df1 %>% select(-Agency_Type.x, -Agency_Type.y, -State)
+ref_df1 <- ref_df1 %>% select(-Agency_Type.y, -State)
 #write.csv(failed_merges, "failed_merges.csv", row.names = FALSE)
 ```
 # Add population and region data merging by city/state col
 ```{r}
-cdf_vcpc_nats <- merge(cdf_vcpc_nats, ref_df1, by = c("city_state"), all.x = TRUE)
-cdf_vcpc_nats <- cdf_vcpc_nats %>% mutate(State_ref = State) %>%   select(-any_of(c("State.x", "State.y")))
-
+cdf_vcpc_nats <- merge(
+  cdf_vcpc_nats, 
+  ref_df1, 
+  by.x = c("city_state", "Agency_Type"), 
+  by.y = c("city_state", "Agency_Type"), 
+  all.x = TRUE
+)
+cdf_vcpc_nats1 <- cdf_vcpc_nats %>% mutate(State_ref = State) %>%   select(-any_of(c("State.x", "State.y")))
 ```
 check to make sure the regions are attached
 ```{r}
 # Filter records where region_name is NA
-na_region_records <- cdf_vcpc_nats %>%
+na_region_records <- cdf_vcpc_nats1 %>%
   filter(is.na(region_name))
 
 # Display the results
@@ -553,7 +548,7 @@ drop cdf1 extra columns after fixing
 cdf2 <- cdf1 %>%
   mutate(`Violent Crime` = vio_crime,
           `Property Crime` = prop_crime, ) %>%
-            select(-city_state, -vio_crime, -prop_crime)
+            select(-vio_crime, -prop_crime)
 
 #same for table used for sample calcs + format pop var and create counter for agency # calc
 cdf_vcpc_nats_usa <- cdf_vcpc_nats %>%
@@ -594,7 +589,7 @@ nationwide_counts <- cdf_vcpc_nats_usa %>%
     `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
     `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
     `Population Total` = sum(Population, na.rm = TRUE),
-    Agency_num = n_distinct(city_state),  # Count unique agencies per month
+    Agency_num = n_distinct(paste(city_state, Agency_Type, sep = "_")), # Count unique agencies per month
     .groups = 'drop'
   )
 
@@ -788,6 +783,13 @@ bind the nationwide counts to the bottom
 cdf2 <- bind_rows(cdf2, nationwide_counts, nationwide_subsets1, region_vars, state_vars)
 head(cdf2)
 ```
+
+
+START HERE ON MONDAY 3/7 - almost done checking!
+
+
+
+
 #sneak in the PR data and get 12mo mvsums
 add PR data
 fix remaining columns and select out 
@@ -799,6 +801,8 @@ pr_path <- file.path(
   "Real Time Crime Index",
   "Open Source Data",
   "_Ben and Jeff work",
+  "Months",
+  "2024",
   "November 2024",
   "Puerto_Rico_Aggregated_Since_2017.csv"
 )
@@ -852,11 +856,13 @@ df_mvs_12mo1 <- df_mvs_12mo1 %>% mutate(city_state = paste(`Agency Name`, State,
 length(unique(df_mvs_12mo1$city_state))
 # duplicate agency names
 length(unique(df_mvs_12mo1$`Agency Name`))
+# now with counties
+length(unique(df_mvs_12mo1$city_state_id))
 ```
 join ref to sample
 ```{r}
 df_w_ref <- df_mvs_12mo1 %>%
-  left_join(ref_df1, by = "city_state")
+  left_join(ref_df1, by = "city_state", "agency_type")
 ```
 remove non-current reporter
 ```{r}
@@ -964,7 +970,7 @@ prepare a dataframe of all component agencies into sample for sourcing table
 ```{r}
 sample_cities <- cdf_vcpc_nats %>%
   select(-one_of("Agency_Type")) %>%
-  group_by(city_state) %>%
+  group_by(city_state_id) %>%
   slice(1) %>%
   ungroup()
 ```

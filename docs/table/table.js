@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const agencyTypeSelect = document.getElementById("agency-type-dropdown");
     const agencyTypeBtn = document.getElementById("agency-type-btn");
 
-    const agencyTypeOrder = ["City Agencies", "National Samples", "State Samples"];
+    const agencyTypeOrder = ["Individual Agencies", "National Samples", "State Samples"];
 
     // Populate agency type dropdown
     agencyTypeOrder.forEach(type => {
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function() {
         option.dataset.value = type;
         option.textContent = type;
 
-        if (type === agencyTypeBtn.dataset.value || type === "City Agencies") {
+        if (type === agencyTypeBtn.dataset.value || type === "Individual Agencies") {
             option.classList.add("selected");  // Default selection
             agencyTypeBtn.textContent = type;
             agencyTypeBtn.dataset.value = type;
@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function populateFullSampleTable() {
     const crimeType = crimeTypeBtn.dataset.value || "Murders";
-    const agencyType = agencyTypeBtn.dataset.value || "City Agencies";
+    const agencyType = agencyTypeBtn.dataset.value || "Individual Agencies";
 
     let filteredData = allData.filter(d =>
         d.crime_type === crimeType && d.type === agencyType
@@ -320,7 +320,7 @@ function populateFullSampleTable() {
 
     document.getElementById("table-download").addEventListener("click", function() {
         const crimeType = crimeTypeBtn.dataset.value || "Murders";
-        const agencyType = agencyTypeBtn.dataset.value || "City Agencies";
+        const agencyType = agencyTypeBtn.dataset.value || "Individual Agencies";
     
         let filteredData = allData.filter(d => 
             d.crime_type === crimeType && d.type === agencyType

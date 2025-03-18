@@ -130,7 +130,8 @@ d3.csv("../app_data/cities_coordinates.csv").then(data => {
         if (!isNaN(lat) && !isNaN(lon)) {
             const marker = L.circleMarker([lat, lon], {
                 radius: radius,
-                color: null,
+                color: "black", // Thin black border
+                weight: 0.3,      // Very thin border
                 fillColor: fillColor,
                 fillOpacity: 0.6
             }).addTo(map);

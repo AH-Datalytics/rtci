@@ -5,7 +5,7 @@ started: "07-23-2024"
 updated: "08-09-2024"
 updated: "08-19-2024"
 final version: "08-30-2024"
-last upate: "02-07-2024"
+last upate: "03-17-2024"
 ---
 read in the data
 ```{r}
@@ -129,6 +129,20 @@ ldf <- ldf[!names(ldf) %in% remove_df]
 
 names(ldf)
 ```
+
+
+
+start here on 3/18
+
+
+
+let's cleave off everything that is extra
+
+
+
+
+
+
 let's get the unique number of agencies at the beginning
 ```{r}
 # Function to get the count of unique 'Agency Name' in each csv
@@ -404,9 +418,13 @@ undesirables_na_current <- most_recent_obs %>%
 
 # Step 3a: Filter records that are missing historical murder data (could have current)
 undesirables_na_historical <- cdf_recent %>%
+  mutate(across(where(is.numeric), ~ ifelse(is.na(.), NA, .))) %>%  # Ensure numeric missing values are NA
   filter(Year <= two_months_previous_year &
          Month < two_months_previous_month &
          is.na(Murder))
+
+# View the result
+print(undesirables_na_historical)
 
 # Step 4: Combine the results
 undesirables <- bind_rows(undesirables_recency, undesirables_na_current, undesirables_na_historical)
@@ -522,6 +540,31 @@ cdf_vcpc_nats <- merge(
   all.x = TRUE
 )
 cdf_vcpc_nats1 <- cdf_vcpc_nats %>% mutate(State_ref = State) %>%   select(-any_of(c("State.x", "State.y")))
+
+#how many unique agencies do we have?
+library(dplyr)
+
+# Get the number of unique combinations of city_state and agency_type
+unique_combinations <- cdf_vcpc_nats1 %>%
+  distinct(city_state_id) %>%
+  nrow()
+
+# Print the result
+print(unique_combinations)
+
+
+library(dplyr)
+
+# Count unique city_state_id values grouped by Agency_Type
+unique_counts_by_agency_type <- cdf_vcpc_nats1 %>%
+  group_by(Agency_Type) %>%
+  summarise(unique_city_state_id = n_distinct(city_state_id)) %>%
+  ungroup()
+
+# View the result
+print(unique_counts_by_agency_type)
+
+
 ```
 check to make sure the regions are attached
 ```{r}
@@ -544,6 +587,7 @@ cdf2 <- cdf1 %>%
 cdf_vcpc_nats_usa <- cdf_vcpc_nats %>%
   mutate(`Violent Crime` = vio_crime,
           `Property Crime` = prop_crime,
+          Agency_num =1,
           Population = as.numeric(pop23)) %>%
            select(-vio_crime, -prop_crime)
 
@@ -564,6 +608,12 @@ cdf_vcpc_nats_states <- cdf_vcpc_nats %>%
            select(-vio_crime, -prop_crime)
 ```
 calculate and add nationwide counts
+
+
+
+
+START HERE ON 3/18
+
 ```{r}
 # Summarize data to get crime counts, population totals, and unique agency counts per month
 nationwide_counts <- cdf_vcpc_nats_usa %>%
@@ -579,7 +629,7 @@ nationwide_counts <- cdf_vcpc_nats_usa %>%
     `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
     `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
     `Population Total` = sum(Population, na.rm = TRUE),
-    Agency_num = n_distinct(paste(city_state, Agency_Type, sep = "_")), # Count unique agencies per month
+    Agency_num = sum(Agency_num, na.rm = TRUE), # Count unique agencies per month
     .groups = 'drop'
   )
 
@@ -844,7 +894,7 @@ length(unique(df_mvs_12mo1$city_state_id))
 ```
 join ref to sample
 ```{r}
-  df_w_ref <- df_mvs_12mo1 %>%
+  df_w_ref <- df_mvs_12mo1 %>% select(-Agency_Type.y) %>% mutate(Agency_Type = Agency_Type.x) %>%
   left_join(ref_df1 %>% distinct(city_state, Agency_Type, .keep_all = TRUE), by = c("city_state", "Agency_Type"))
 
 ```
@@ -953,8 +1003,7 @@ month_suffix <- tolower(format(latest_date, "%b_%y"))
 ```
 prepare a dataframe of all component agencies into sample for sourcing table
 ```{r}
-sample_cities <- cdf_vcpc_nats %>%
-  select(-one_of("Agency_Type")) %>%
+sample_cities <- cdf_vcpc_nats1 %>%
   group_by(city_state_id) %>%
   slice(1) %>%
   ungroup()

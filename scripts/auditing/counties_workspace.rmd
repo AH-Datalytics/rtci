@@ -119,6 +119,19 @@ county_ldf <- read_csvs(data_dir)
 # Take'er look
 head(county_ldf[1])
 ```
+
+
+
+start here on 3/18
+
+
+
+let's cleave off everything that is extra
+
+
+
+
+
 let's get the unique number of agencies at the beginning
 ```{r}
 # Function to get the count of unique 'Agency Name' in each csv

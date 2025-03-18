@@ -119,19 +119,6 @@ county_ldf <- read_csvs(data_dir)
 # Take'er look
 head(county_ldf[1])
 ```
-
-
-
-start here on 3/18
-
-
-
-let's cleave off everything that is extra
-
-
-
-
-
 let's get the unique number of agencies at the beginning
 ```{r}
 # Function to get the count of unique 'Agency Name' in each csv
@@ -157,12 +144,6 @@ na_counts_df <- map_df(county_ldf_extra, ~ summarise_all(.x, ~ sum(is.na(.))), .
 print(na_counts_df)
 
 ```
-fix na's for san diego, minnesota, colorado
-```{r}
-
-
-```
-
 format everything
 ```{r}
 # Define the format_cols function
@@ -308,7 +289,7 @@ head(county_combined_df)
 city state column for getting unique number of agencies
 ```{r}
 #create the city_state column here for a unique ID
-county_combined_df <- county_combined_df %>% mutate(city_state = paste(`Agency Name`, State, sep = ", "))
+county_combined_df <- county_combined_df %>% mutate(city_state = paste(`Agency Name`, State, sep = ","))
 
 #check that unique agencies checks matches city_state check
 length(unique(county_combined_df$city_state))

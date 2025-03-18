@@ -15,6 +15,7 @@
 "Amarillo","Texas",FALSE,"Amarillo, Texas",35.20729,-101.8371192
 "Ann Arbor","Michigan",FALSE,"Ann Arbor, Michigan",42.2813722,-83.7484616
 "Antioch","California",FALSE,"Antioch, California",38.0049214,-121.805789
+"Apple Valley","Minnesota",FALSE,"Apple Valley, Minnesota",44.7319094,-93.21772
 "Arapahoe County","Colorado",TRUE,"Arapahoe County, Colorado",39.6416781,-104.3628567
 "Arlington Heights","Illinois",FALSE,"Arlington Heights, Illinois",42.0811563,-87.9802164
 "Arlington","Texas",FALSE,"Arlington, Texas",32.7355816,-97.1071186
@@ -40,6 +41,8 @@
 "Bensalem","Pennsylvania",FALSE,"Bensalem, Pennsylvania",40.1045549,-74.951279
 "Bethlehem","Pennsylvania",FALSE,"Bethlehem, Pennsylvania",40.6178915,-75.3786521
 "Bexar County","Texas",TRUE,"Bexar County, Texas",29.4263987,-98.5104781
+"Blaine","Minnesota",FALSE,"Blaine, Minnesota",45.1607987,-93.2349489
+"Bloomington","Minnesota",FALSE,"Bloomington, Minnesota",44.8322405,-93.3204872
 "Blue Springs","Missouri",FALSE,"Blue Springs, Missouri",39.017316,-94.282265
 "Boise","Idaho",FALSE,"Boise, Idaho",43.6166163,-116.200886
 "Bolingbrook","Illinois",FALSE,"Bolingbrook, Illinois",41.7003302,-88.0717708
@@ -50,12 +53,14 @@
 "Bristol","Connecticut",FALSE,"Bristol, Connecticut",41.6735209,-72.9464859
 "Brockton","Massachusetts",FALSE,"Brockton, Massachusetts",42.0834335,-71.0183787
 "Brookline","Massachusetts",FALSE,"Brookline, Massachusetts",42.3329021,-71.1187421
+"Brooklyn Park","Minnesota",FALSE,"Brooklyn Park, Minnesota",45.1004807,-93.3443585
 "Broomfield","Colorado",FALSE,"Broomfield, Colorado",39.9403995,-105.05208
 "Brownsville","Texas",FALSE,"Brownsville, Texas",25.9024289,-97.4981698
 "Buckeye","Arizona",FALSE,"Buckeye, Arizona",33.3703197,-112.583776
 "Buffalo","New York",FALSE,"Buffalo, New York",42.8867166,-78.8783922
 "Burbank","California",FALSE,"Burbank, California",34.1812089,-118.307201
 "Burleson","Texas",FALSE,"Burleson, Texas",30.4764878,-96.6353488
+"Burnsville","Minnesota",FALSE,"Burnsville, Minnesota",44.7670567,-93.2773887
 "Caldwell","Idaho",FALSE,"Caldwell, Idaho",43.6678736,-116.689415
 "Cambridge","Massachusetts",FALSE,"Cambridge, Massachusetts",42.3656347,-71.1040018
 "Canton Township","Michigan",FALSE,"Canton Township, Michigan",42.3076547,-83.4868961
@@ -90,6 +95,7 @@
 "Commerce City","Colorado",FALSE,"Commerce City, Colorado",39.8083196,-104.9338675
 "Concord","California",FALSE,"Concord, California",37.9768525,-122.0335624
 "Conroe","Texas",FALSE,"Conroe, Texas",30.3118769,-95.4560512
+"Coon Rapids","Minnesota",FALSE,"Coon Rapids, Minnesota",45.1728923,-93.3023898
 "Corpus Christi","Texas",FALSE,"Corpus Christi, Texas",27.7635302,-97.4033191
 "Corvallis","Oregon",FALSE,"Corvallis, Oregon",44.5645659,-123.2620435
 "Cranston","Rhode Island",FALSE,"Cranston, Rhode Island",41.779588,-71.4366813
@@ -100,6 +106,7 @@
 "Dearborn Heights","Michigan",FALSE,"Dearborn Heights, Michigan",42.3369816,-83.2732627
 "Dearborn","Michigan",FALSE,"Dearborn, Michigan",42.3222599,-83.1763145
 "Decatur","Illinois",FALSE,"Decatur, Illinois",39.8454163,-88.9524151
+"Delaware County","Ohio",TRUE,"Delaware County, Ohio",40.2317686,-82.9651045
 "Denton","Texas",FALSE,"Denton, Texas",33.1838787,-97.1413417
 "Denton County","Texas",TRUE,"Denton County, Texas",33.1838787,-97.1413417
 "Denver","Colorado",FALSE,"Denver, Colorado",39.7392364,-104.984862
@@ -108,9 +115,13 @@
 "Detroit","Michigan",FALSE,"Detroit, Michigan",42.3315509,-83.0466403
 "Douglas County","Colorado",TRUE,"Douglas County, Colorado",39.3420437,-104.9468945
 "Dublin","Ohio",FALSE,"Dublin, Ohio",40.0996009,-83.1135563
+"Duluth","Minnesota",FALSE,"Duluth, Minnesota",46.7729322,-92.1251218
 "Dunwoody","Georgia",FALSE,"Dunwoody, Georgia",33.9463786,-84.3342686
 "Durham","North Carolina",FALSE,"Durham, North Carolina",35.996653,-78.9018053
+"Eagan","Minnesota",FALSE,"Eagan, Minnesota",44.818173,-93.1659179
 "East Hartford","Connecticut",FALSE,"East Hartford, Connecticut",41.767914,-72.644512
+"Eden Prairie","Minnesota",FALSE,"Eden Prairie, Minnesota",44.8546856,-93.470786
+"Edina","Minnesota",FALSE,"Edina, Minnesota",44.8897027,-93.3501222
 "Edinburg","Texas",FALSE,"Edinburg, Texas",26.3013982,-98.1624501
 "El Cajon","California",FALSE,"El Cajon, California",32.7947731,-116.962526
 "El Paso County","Colorado",TRUE,"El Paso County, Colorado",38.8287435,-104.5253456
@@ -159,6 +170,7 @@
 "Gresham","Oregon",FALSE,"Gresham, Oregon",45.4978623,-122.4329883
 "Hamden","Connecticut",FALSE,"Hamden, Connecticut",41.3959302,-72.8968574
 "Hamilton","Ohio",FALSE,"Hamilton, Ohio",39.2085354,-84.5501874
+"Hamilton County","Ohio",TRUE,"Hamilton County, Ohio",39.2085354,-84.5501874
 "Hamilton County","Tennessee",TRUE,"Hamilton County, Tennessee",35.1755638,-85.1940792
 "Hampton","Virginia",FALSE,"Hampton, Virginia",37.0264414,-76.3442846
 "Hanover County","Virginia",TRUE,"Hanover County, Virginia",37.744783,-77.4464165
@@ -180,7 +192,6 @@
 "Independence","Missouri",FALSE,"Independence, Missouri",39.0924792,-94.4137923
 "Indianapolis","Indiana",FALSE,"Indianapolis, Indiana",39.7683331,-86.1583502
 "Irving","Texas",FALSE,"Irving, Texas",32.8295183,-96.9442177
-"Jackson","Michigan",FALSE,"Jackson, Michigan",42.2416466,-84.425589
 "Jefferson Parish County","Louisiana",TRUE,"Jefferson Parish County, Louisiana",NA,NA
 "Jefferson County","Colorado",TRUE,"Jefferson County, Colorado",39.5699803,-105.2561919
 "Jefferson County","Missouri",TRUE,"Jefferson County, Missouri",38.267166,-90.5721889
@@ -198,6 +209,7 @@
 "Kyle","Texas",FALSE,"Kyle, Texas",29.9892928,-97.8772103
 "La Mesa","California",FALSE,"La Mesa, California",32.7678288,-117.0230839
 "Lake Havasu City","Arizona",FALSE,"Lake Havasu City, Arizona",34.4775296,-114.3379972
+"Lakeville","Minnesota",FALSE,"Lakeville, Minnesota",44.650051,-93.2432791
 "Lakewood","Colorado",FALSE,"Lakewood, Colorado",39.7085736,-105.0846694
 "Lakewood","Ohio",FALSE,"Lakewood, Ohio",41.4819932,-81.7981908
 "Lancaster","Pennsylvania",FALSE,"Lancaster, Pennsylvania",40.0379958,-76.3056707
@@ -234,6 +246,7 @@
 "Manchester","Connecticut",FALSE,"Manchester, Connecticut",41.7834017,-72.5231973
 "Manchester","New Hampshire",FALSE,"Manchester, New Hampshire",42.9956397,-71.4547891
 "Mansfield","Texas",FALSE,"Mansfield, Texas",32.563487,-97.1420308
+"Maple Grove","Minnesota",FALSE,"Maple Grove, Minnesota",45.0984983,-93.4419222
 "Marana","Arizona",FALSE,"Marana, Arizona",32.4483736,-111.211475
 "Maricopa","Arizona",FALSE,"Maricopa, Arizona",33.34883,-112.49123
 "McAllen","Texas",FALSE,"McAllen, Texas",26.204114,-98.2300605
@@ -253,6 +266,8 @@
 "Millcreek","Pennsylvania",FALSE,"Millcreek, Pennsylvania",42.1009538,-80.0208338785957
 "Milpitas","California",FALSE,"Milpitas, California",37.4332273,-121.8989248
 "Milwaukee","Wisconsin",FALSE,"Milwaukee, Wisconsin",43.0386475,-87.9090751
+"Minneapolis","Minnesota",FALSE,"Minneapolis, Minnesota",44.9772995,-93.2654692
+"Minnetonka","Minnesota",FALSE,"Minnetonka, Minnesota",44.9405086,-93.4638936
 "Mission","Texas",FALSE,"Mission, Texas",26.2159066,-98.3252932
 "Missouri City","Texas",FALSE,"Missouri City, Texas",29.6185669,-95.5377215
 "Moline","Illinois",FALSE,"Moline, Illinois",41.5058344,-90.5136642
@@ -306,6 +321,7 @@
 "Pittsburgh","Pennsylvania",FALSE,"Pittsburgh, Pennsylvania",40.4416941,-79.9900861
 "Plano","Texas",FALSE,"Plano, Texas",33.0136764,-96.6925096
 "Plymouth","Massachusetts",FALSE,"Plymouth, Massachusetts",41.9426657,-70.7618592
+"Plymouth","Minnesota",FALSE,"Plymouth, Minnesota",45.0065149,-93.46651
 "Pocatello","Idaho",FALSE,"Pocatello, Idaho",42.8620287,-112.450627
 "Port Arthur","Texas",FALSE,"Port Arthur, Texas",29.8716577,-93.9332302
 "Portland","Oregon",FALSE,"Portland, Oregon",45.5202471,-122.674194
@@ -327,6 +343,7 @@
 "Richmond","Virginia",FALSE,"Richmond, Virginia",37.5385087,-77.43428
 "Riverside","California",FALSE,"Riverside, California",33.9824949,-117.374238
 "Roanoke","Virginia",FALSE,"Roanoke, Virginia",37.270973,-79.9414313
+"Rochester","Minnesota",FALSE,"Rochester, Minnesota",44.0234387,-92.4630182
 "Rochester","New York",FALSE,"Rochester, New York",43.157285,-77.615214
 "Rockford","Illinois",FALSE,"Rockford, Illinois",42.2713945,-89.093966
 "Rockwall","Texas",FALSE,"Rockwall, Texas",32.8923464,-96.4066987
@@ -374,8 +391,11 @@
 "St Louis County","Missouri",TRUE,"St Louis County, Missouri",38.6398744,-90.5188127750124
 "St Peters","Missouri",FALSE,"St Peters, Missouri",38.791612,-90.5958468
 "St. Clair Shores","Michigan",FALSE,"St. Clair Shores, Michigan",42.4969652,-82.8890965
+"St. Cloud","Minnesota",FALSE,"St. Cloud, Minnesota",45.5616075,-94.1642004
+"St. Paul","Minnesota",FALSE,"St. Paul, Minnesota",44.9497487,-93.0931028
 "Stafford County","Virginia",TRUE,"Stafford County, Virginia",38.4167265,-77.4579783
 "Stamford","Connecticut",FALSE,"Stamford, Connecticut",41.0534302,-73.5387341
+"Stark County","Ohio",TRUE,"Stark County, Ohio",40.7214654,-81.4399734
 "State College","Pennsylvania",FALSE,"State College, Pennsylvania",40.7944504,-77.8616386
 "Sterling Heights","Michigan",FALSE,"Sterling Heights, Michigan",42.5803122,-83.0302033
 "Stockton","California",FALSE,"Stockton, California",37.9577016,-121.290779
@@ -406,6 +426,7 @@
 "Waco","Texas",FALSE,"Waco, Texas",31.5491899,-97.1474628
 "Waltham","Massachusetts",FALSE,"Waltham, Massachusetts",42.3756401,-71.2358004
 "Warren","Michigan",FALSE,"Warren, Michigan",42.4932575,-83.0062746
+"Warren County","Ohio",TRUE,"Warren County, Ohio",39.4203978,-84.180897
 "Warwick","Rhode Island",FALSE,"Warwick, Rhode Island",41.6992717,-71.4586114
 "Washington","District of Columbia",FALSE,"Washington, District of Columbia",38.8950368,-77.0365427
 "Washington County","Maryland",TRUE,"Washington County, Maryland",39.5893502,-77.710254
@@ -424,6 +445,7 @@
 "Wichita Falls","Texas",FALSE,"Wichita Falls, Texas",33.9004572,-98.5020777
 "Will County","Illinois",TRUE,"Will County, Illinois",41.4194058,-87.9994754
 "Williamson County","Texas",TRUE,"Williamson County, Texas",30.6580927,-97.6041649
+"Woodbury","Minnesota",FALSE,"Woodbury, Minnesota",44.919896,-92.9339449
 "Worcester","Massachusetts",FALSE,"Worcester, Massachusetts",42.2625621,-71.8018877
 "Wright County","Minnesota",TRUE,"Wright County, Minnesota",45.1489061,-93.9639196
 "Wylie","Texas",FALSE,"Wylie, Texas",33.0151561,-96.5388038

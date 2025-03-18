@@ -455,6 +455,12 @@ state_names <- rbind(state_names, dc, pr)
 sample_cities <- sample_cities %>%
   left_join(state_names, by = "state_abbr")
 
+# Add in counties to agency_full for merging 
+sample_cities <- sample_cities %>% 
+  mutate(`Agency Name` = ifelse(Agency_Type == "County",
+                                paste0(`Agency Name`, " ", Agency_Type),
+                                `Agency Name`))
+
 sample_cities <- sample_cities %>% 
   mutate(agency_full = paste(`Agency Name`, state_name, sep = ", "))
 

@@ -469,7 +469,7 @@ cdf_vcpc_nats <- merge(
   by = "city_state_id",
   all.x = TRUE
 )
-cdf_vcpc_nats1 <- cdf_vcpc_nats %>% mutate(State_ref = State) %>%   select(-any_of(c("State.x", "State.y")))
+cdf_vcpc_nats1 <- cdf_vcpc_nats %>% mutate(State_ref = State.x, State = State.x) %>%   select(-any_of(c("State.x", "State.y")))
 
 #how many unique agencies do we have?
 library(dplyr)
@@ -503,7 +503,33 @@ na_region_records <- cdf_vcpc_nats %>%
   filter(is.na(region_name))
 
 # Display the results
-#print(na_region_records)
+print(na_region_records)
+
+
+#hard code pop for now
+cdf_vcpc_nats <- cdf_vcpc_nats %>%
+  mutate(
+    population = case_when(
+      city_state_id == "Montgomery,MD,County" ~ 896963,
+      city_state_id == "St Charles,MO,County" ~ 119176,
+      city_state_id == "St Louis,MO,County" ~ 398969,
+      TRUE ~ population  # Retain existing values for other rows
+    ),
+    division_name = case_when(
+      city_state_id == "Montgomery,MD,County" ~ "South Atlantic",
+      city_state_id == "St Charles,MO,County" ~ "West North Central",
+      city_state_id == "St Louis,MO,County" ~ "West North Central",
+      TRUE ~ division_name  # Retain existing values for other rows
+    ),
+    region_name = case_when(
+      city_state_id == "Montgomery,MD,County" ~ "South",
+      city_state_id == "St Charles,MO,County" ~ "Midwest",
+      city_state_id == "St Louis,MO,County" ~ "Midwest",
+      TRUE ~ region_name  # Retain existing values for other rows
+    )
+  )
+
+
 ```
 drop cdf1 extra columns after fixing
 ```{r}

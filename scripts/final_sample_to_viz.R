@@ -43,14 +43,36 @@ final_sample <- final_sample %>%
 #   mutate(Population = pop23) %>%
 #   select(-pop23)
 
-# Drop new columns from dave
-final_sample <- final_sample %>% 
-  select(!(region_name | state_abbr | Population | pop23))
+
+## DROP COLUMNS FROM DAVE
+# Rename only if "State" doesn't exist and "State.y" does
+if (!"State" %in% names(final_sample) && "State.x" %in% names(final_sample)) {
+  final_sample <- final_sample %>%
+    rename(State = State.x)
+}
+
+
+# Rename only if "Agency_Type" doesn't exist and "Agency_Type.x.y" does
+if (!"Agency_Type" %in% names(final_sample) && "Agency_Type.x.y" %in% names(final_sample)) {
+  final_sample <- final_sample %>%
+    rename(Agency_Type = Agency_Type.x.y)
+}
+
+# Drop unwanted columns
+final_sample <- final_sample %>%
+  select(-c(region_name, Population, pop23, pub_agency_name), -matches("\\.(x|y)$"))
+
 
 # Capitalize population column 
 final_sample <- final_sample %>% 
   rename(Population = population)
 
+
+## Other cleaning
+final_sample <- final_sample %>% # TEMPORARY UNTIL DAVE PROVIDES ONE STATE COLUMN
+  mutate(State = ifelse(is.na(State),
+                        State_ref,
+                        State))
 
 # Drop NA/other states still in data
 final_sample <- final_sample %>% 

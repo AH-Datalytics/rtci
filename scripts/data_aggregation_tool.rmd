@@ -509,9 +509,9 @@ print(na_region_records)
 #hard code pop for now
 cdf_vcpc_nats <- cdf_vcpc_nats %>%
   mutate(
-    population = case_when(
+    pop23 = case_when(
       city_state_id == "Montgomery,MD,County" ~ 896963,
-      city_state_id == "St Charles,MO,County" ~ 119176,
+      city_state_id == "St Charles,MO,County" ~ 119730,
       city_state_id == "St Louis,MO,County" ~ 398969,
       TRUE ~ population  # Retain existing values for other rows
     ),

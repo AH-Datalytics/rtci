@@ -8,19 +8,20 @@ library(tidyverse)
 ```
 read in fbi participation file
 ```{r}
-fbi_participation_2023 <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\FBI Agency Participation Data\\2023 Participation.csv")
+fbi_participation_2023 <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\FBI Agency Participation Data\\2023 Participation_adapted.csv")
 part_ref_crosswalk <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\FBI Agency Participation Data\\part_ref_crosswalk.csv")
 ```
 merge, clean up and pare down df's before fixing place names
 ```{r}
-fbi_participation_2023_prep <- fbi_participation_2023 %>%
+fbi_participation_2023_updated <- fbi_participation_2023 %>%
   mutate(
   city_state = paste(pub_agency_name, state_abbr, sep = " ,")) %>%
   select(pub_agency_name, state_abbr, city_state, region_name, division_name, agency_type_name, population)
 
 # merge 
-#cross_walked_df <- fbi_participation_2023_prep %>%
- # left_join(part_ref_crosswalk, by = c("city_state" = "crosswalk_name"))
+#crosswalked_df <- fbi_participation_2023_updated %>%
+  #left_join(part_ref_crosswalk, by = c("city_state" = "fbi_name"))
+
 
 # Replace city_state in fbi_participation_2023 with crosswalk_name where the merge is successful
 #fbi_participation_2023_updated <- cross_walked_df %>%
@@ -40,7 +41,7 @@ counties_100k <- fbi_participation_2023_updated %>%
 combine city and county records for merging with final_sourcing 
 ```{r}
 cities_counties_ref <- bind_rows(cities_40k, counties_100k)
-cities_counties_ref <- cities_counties_ref %>% select(-Agency_Type) %>% mutate(Agency_Type = agency_type_name) %>% select(-agency_type_name)
+cities_counties_ref <- cities_counties_ref  %>% mutate(Agency_Type = agency_type_name) %>% select(-agency_type_name)
 ```
 add population figures for nationwide descriptors
 ```{r}
@@ -101,5 +102,5 @@ if (nrow(failed_merges) > 0) {
 ```
 run above
 ```{r}
-
+ref_df1 <- ref_df1 %>% mutate(city_state = city_state.x) %>% select(-X, -X.1, -X.2, -X.3, -X.4, -X.5, -X.6, -city_state.y, -city_state.x, -Agency_Type.y)
 ```

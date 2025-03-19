@@ -45,6 +45,9 @@ final_sample <- final_sample %>%
 
 
 ## DROP COLUMNS FROM DAVE
+final_sample <- final_sample %>% ## TEMPORARY GIVEN WEIRD WRONG State COLUMN
+  select(!State)
+
 # Rename only if "State" doesn't exist and "State.y" does
 if (!"State" %in% names(final_sample) && "State.x" %in% names(final_sample)) {
   final_sample <- final_sample %>%

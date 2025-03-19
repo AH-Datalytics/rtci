@@ -271,7 +271,7 @@
 "Mission","Texas",FALSE,"Mission, Texas",26.2159066,-98.3252932,87031,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
 "Missouri City","Texas",FALSE,"Missouri City, Texas",29.6185669,-95.5377215,77560,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
 "Moline","Illinois",FALSE,"Moline, Illinois",41.5058344,-90.5136642,41601,"State UCR","Open Source","https://ilucr.nibrs.com/AdvancedSearch/AdvancedSearch",TRUE
-"Montgomery County","Maryland",TRUE,"Montgomery County, Maryland",39.1406267,-77.2075612,NA,NA,NA,NA,TRUE
+"Montgomery County","Maryland",TRUE,"Montgomery County, Maryland",39.1406267,-77.2075612,896963,NA,NA,NA,TRUE
 "Montgomery County","Texas",TRUE,"Montgomery County, Texas",30.301949,-95.5065944,565355,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
 "Mount Prospect","Illinois",FALSE,"Mount Prospect, Illinois",42.0664167,-87.9372908,53932,"State UCR","Open Source","https://ilucr.nibrs.com/AdvancedSearch/AdvancedSearch",TRUE
 "Mount Vernon","New York",FALSE,"Mount Vernon, New York",40.9125085,-73.8386504,70812,"Agency Aggregated","Open Source","https://www.cmvny.com/518/Annual-Reports-Monthly-Crime-Stats-Histo",FALSE
@@ -385,10 +385,10 @@
 "Springfield","Ohio",FALSE,"Springfield, Ohio",39.9234046,-83.810138,57866,"State UCR","Provided by State UCR Program","https://ocjs.ohio.gov/",TRUE
 "Springfield","Oregon",FALSE,"Springfield, Oregon",44.0462362,-123.0220289,61185,"State UCR","Open Source","https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",FALSE
 "St Charles","Missouri",FALSE,"St Charles, Missouri",38.7877791,-90.6747372,71408,"State UCR","Open Source","https://showmecrime.mo.gov/",TRUE
-"St Charles County","Missouri",TRUE,"St Charles County, Missouri",38.7877791,-90.6747372,NA,NA,NA,NA,TRUE
+"St Charles County","Missouri",TRUE,"St Charles County, Missouri",38.7877791,-90.6747372,119730,NA,NA,NA,TRUE
 "St Joseph","Missouri",FALSE,"St Joseph, Missouri",39.7686055,-94.8466322,69925,"State UCR","Open Source","https://showmecrime.mo.gov/",TRUE
 "St Louis","Missouri",FALSE,"St Louis, Missouri",38.6280278,-90.1910154,280108,"State UCR","Open Source","https://showmecrime.mo.gov/",FALSE
-"St Louis County","Missouri",TRUE,"St Louis County, Missouri",38.6398744,-90.5188127750124,NA,NA,NA,NA,TRUE
+"St Louis County","Missouri",TRUE,"St Louis County, Missouri",38.6398744,-90.5188127750124,398969,NA,NA,NA,TRUE
 "St Peters","Missouri",FALSE,"St Peters, Missouri",38.791612,-90.5958468,58937,"State UCR","Open Source","https://showmecrime.mo.gov/",TRUE
 "St. Clair Shores","Michigan",FALSE,"St. Clair Shores, Michigan",42.4969652,-82.8890965,57257,"State UCR","Open Source","https://www.michigan.gov/msp/divisions/cjic/dashboard-portal/crime-dashboard",FALSE
 "St. Cloud","Minnesota",FALSE,"St. Cloud, Minnesota",45.5616075,-94.1642004,69922,"State UCR","Open Source","https://cde.state.mn.us/",TRUE
@@ -453,14 +453,14 @@
 "York","Pennsylvania",FALSE,"York, Pennsylvania",39.962493,-76.7276989,44876,"State UCR","Open Source","https://www.ucr.pa.gov/PAUCRSPUBLIC/SRSReport/CrimeTrends",FALSE
 "Youngstown","Ohio",FALSE,"Youngstown, Ohio",41.1035786,-80.6520161,58773,"State UCR","Provided by State UCR Program","https://ocjs.ohio.gov/",FALSE
 "Yuma","Arizona",FALSE,"Yuma, Arizona",32.723268,-114.6179954,99610,"State UCR","Open Source","https://azcrimestatistics.azdps.gov/",TRUE
-"Guaynabo","Puerto Rico",FALSE,"Guaynabo, Puerto Rico",18.35915955,-66.115680241776,NA,NA,NA,NA,FALSE
+"Aguadilla","Puerto Rico",FALSE,"Aguadilla, Puerto Rico",18.44965515,-67.1184764350823,NA,NA,NA,NA,FALSE
+"Arecibo","Puerto Rico",FALSE,"Arecibo, Puerto Rico",18.40474985,-66.681035294432,NA,NA,NA,NA,FALSE
+"Caguas","Puerto Rico",FALSE,"Caguas, Puerto Rico",18.2129421,-66.055884356262,NA,NA,NA,NA,FALSE
+"Carolina","Puerto Rico",FALSE,"Carolina, Puerto Rico",18.36402775,-65.9526468608154,NA,NA,NA,NA,FALSE
 "Ponce","Puerto Rico",FALSE,"Ponce, Puerto Rico",18.06682235,-66.6140412435757,NA,NA,NA,NA,FALSE
 "San Juan","Puerto Rico",FALSE,"San Juan, Puerto Rico",18.38423905,-66.0534399736473,NA,NA,NA,NA,FALSE
 "Toa Alta","Puerto Rico",FALSE,"Toa Alta, Puerto Rico",18.3586783,-66.2460109920447,NA,NA,NA,NA,FALSE
 "Toa Baja","Puerto Rico",FALSE,"Toa Baja, Puerto Rico",18.4426255,-66.2545652,NA,NA,NA,NA,FALSE
 "Trujillo Alto","Puerto Rico",FALSE,"Trujillo Alto, Puerto Rico",18.33707575,-66.0017421027996,NA,NA,NA,NA,FALSE
 "Vega Baja","Puerto Rico",FALSE,"Vega Baja, Puerto Rico",18.41776575,-66.3994474204391,NA,NA,NA,NA,FALSE
-"Aguadilla","Puerto Rico",FALSE,"Aguadilla, Puerto Rico",18.44965515,-67.1184764350823,NA,NA,NA,NA,FALSE
-"Carolina","Puerto Rico",FALSE,"Carolina, Puerto Rico",18.36402775,-65.9526468608154,NA,NA,NA,NA,FALSE
-"Arecibo","Puerto Rico",FALSE,"Arecibo, Puerto Rico",18.40474985,-66.681035294432,NA,NA,NA,NA,FALSE
-"Caguas","Puerto Rico",FALSE,"Caguas, Puerto Rico",18.2129421,-66.055884356262,NA,NA,NA,NA,FALSE
+"Guaynabo","Puerto Rico",FALSE,"Guaynabo, Puerto Rico",18.35915955,-66.115680241776,NA,NA,NA,NA,FALSE

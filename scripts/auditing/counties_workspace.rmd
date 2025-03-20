@@ -415,6 +415,9 @@ head(county_cdf2)
 
 county_cdf2 <- county_cdf2 %>%
   filter(!is.na(`Agency Name`))
+
+county_cdf2 <- county_cdf2 %>% distinct(city_state, Month, Year, .keep_all = TRUE)
+
 ```
 check the numbers
 ```{r}

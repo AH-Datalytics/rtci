@@ -102,5 +102,5 @@ if (nrow(failed_merges) > 0) {
 ```
 run above
 ```{r}
-ref_df1 <- ref_df1 %>% mutate(city_state = city_state.x) %>% select(-X, -X.1, -X.2, -X.3, -X.4, -X.5, -X.6, -city_state.y, -city_state.x, -Agency_Type.y)
+ref_df1 <- ref_df1 %>% mutate(city_state = city_state.x) %>% select(-city_state.y, -city_state.x, -Agency_Type.y)
 ```

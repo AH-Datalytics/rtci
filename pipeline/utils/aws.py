@@ -72,6 +72,24 @@ def snapshot_json(logger, json_data, path, timestamp=None, filename=None):
     logger.info(f"transfer size: {asizeof.asizeof(json_data)} bytes")
 
 
+def snapshot_pdf(logger, src_filename, path, timestamp=None, filename=None):
+    if timestamp and not filename:
+        path += str(timestamp)
+    elif filename and not timestamp:
+        path += str(filename)
+    else:
+        path += f"{timestamp}/{filename}"
+    s3_client = get_s3_client()
+    with open(src_filename, "rb") as file_data:
+        s3_client.put_object(
+            Body=file_data,
+            Bucket=BUCKET,
+            Key=path + ".pdf",
+            ContentType="application/pdf",
+        )
+        logger.info(f"transfer size: {asizeof.asizeof(file_data)} bytes")
+
+
 def snapshot_df(logger, df, path, timestamp=None, filename=None):
     if timestamp and not filename:
         path += str(timestamp)

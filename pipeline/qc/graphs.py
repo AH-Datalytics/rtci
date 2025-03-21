@@ -30,9 +30,12 @@ class Grapher:
         sample = pd.read_csv(
             "https://github.com/AH-Datalytics/rtci/blob/development/data/final_sample.csv?raw=true",
             low_memory=False,
-        )[["date", "Agency Name", "State", *self.crimes]].rename(
+        )[["date", "Agency Name", "Agency_Type.x.x", "State.x", *self.crimes]].rename(
             columns={"date": "Date"}
         )
+        sample = sample[sample["Agency_Type.x.x"] == "City"]
+        sample = sample.drop(columns=["Agency_Type.x.x"])
+        sample = sample.rename(columns={"State.x": "State"})
         sample["Source"] = "final_sample.csv"
 
         # read in scraped data

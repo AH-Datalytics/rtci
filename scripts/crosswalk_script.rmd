@@ -5,6 +5,18 @@ output: github_document
 libraries
 ```{r}
 library(tidyverse)
+
+# Dynamically locate OneDrive directory
+onedrive_mac <- "~/Library/CloudStorage/OneDrive-ahdatalytics.com"
+onedrive_win <- file.path("C:", "OneDrive", "OneDrive - ahdatalytics.com")
+
+if (dir.exists(onedrive_mac)) {
+  onedrive_dir <- normalizePath(onedrive_mac)
+} else if (dir.exists(onedrive_win)) {
+  onedrive_dir <- normalizePath(onedrive_win)
+} else {
+  stop("OneDrive directory not found.")
+}
 ```
 read in fbi participation file
 ```{r}

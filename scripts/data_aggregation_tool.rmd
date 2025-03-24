@@ -898,7 +898,7 @@ mvs_12mo <- function(df) {
   require(magrittr)
   df <- df %>%
     arrange(Year, Month) %>%
-    group_by(`Agency Name`, State) %>%
+    group_by(city_state_id, State) %>%
     mutate(across(c(Murder, Burglary, Rape, Robbery, `Aggravated Assault`, `Motor Vehicle Theft`, Theft, `Violent Crime`, `Property Crime`), 
                   ~rollapply(.x, width = 12, FUN = sum, align = "right", fill = NA, partial = TRUE),
                   .names = "{col}_mvs_12mo")) %>%

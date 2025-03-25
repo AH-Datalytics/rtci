@@ -670,6 +670,14 @@ final_dataset <- final_dataset %>%
     TRUE ~ "Individual Agencies"
   ))
 
+
+# Remove agencies that don't have any data in the most recent year
+latest_year <- year(max(final_dataset$Date_Through, na.rm = TRUE))
+
+final_dataset <- final_dataset %>%
+  filter(year(Date_Through) == latest_year)
+
+
 # Write the final_sample_long data frame to viz_data.csv
 write.csv(final_dataset, "../docs/app_data/full_table_data.csv", row.names = FALSE)
 

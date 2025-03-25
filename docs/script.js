@@ -256,8 +256,8 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         
             // Separate cities and counties
-            const cities = agencies.filter(a => !a.includes("County")).sort((a, b) => a.localeCompare(b));
-            const counties = agencies.filter(a => a.includes("County")).sort((a, b) => a.localeCompare(b));
+            const cities = agencies.filter(a => !a.includes("County") && !a.includes("Parish")).sort((a, b) => a.localeCompare(b));
+            const counties = agencies.filter(a => a.includes("County") || a.includes("Parish")).sort((a, b) => a.localeCompare(b));
         
             // Add "Cities" subheader if there are cities
             if (cities.length > 0) {

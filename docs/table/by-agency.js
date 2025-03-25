@@ -188,8 +188,8 @@ document.addEventListener("DOMContentLoaded", function() {
             }
     
             // Separate cities and counties
-            const cities = agencies.filter(a => !a.includes("County")).sort((a, b) => a.localeCompare(b));
-            const counties = agencies.filter(a => a.includes("County")).sort((a, b) => a.localeCompare(b));
+            const cities = agencies.filter(a => !a.includes("County") && !a.includes("Parish")).sort((a, b) => a.localeCompare(b));
+            const counties = agencies.filter(a => a.includes("County") || a.includes("Parish")).sort((a, b) => a.localeCompare(b));
     
             // Start fresh and reassemble with subheadings
             agencies = [];

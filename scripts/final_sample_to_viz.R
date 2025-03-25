@@ -45,21 +45,18 @@ final_sample <- final_sample %>%
 
 
 ## DROP COLUMNS FROM DAVE
-final_sample <- final_sample %>% ## TEMPORARY GIVEN WEIRD WRONG State COLUMN
-  select(!State)
-
-# Rename only if "State" doesn't exist and "State.y" does
-if (!"State" %in% names(final_sample) && "State.x" %in% names(final_sample)) {
-  final_sample <- final_sample %>%
-    rename(State = State.x)
-}
-
-
-# Rename only if "Agency_Type" doesn't exist and "Agency_Type.x.y" does
-if (!"Agency_Type" %in% names(final_sample) && "Agency_Type.x.y" %in% names(final_sample)) {
-  final_sample <- final_sample %>%
-    rename(Agency_Type = Agency_Type.x.y)
-}
+# # Rename only if "State" doesn't exist and "State.y" does
+# if (!"State" %in% names(final_sample) && "State.x" %in% names(final_sample)) {
+#   final_sample <- final_sample %>%
+#     rename(State = State.x)
+# }
+# 
+# 
+# # Rename only if "Agency_Type" doesn't exist and "Agency_Type.x.y" does
+# if (!"Agency_Type" %in% names(final_sample) && "Agency_Type.x.y" %in% names(final_sample)) {
+#   final_sample <- final_sample %>%
+#     rename(Agency_Type = Agency_Type.x.y)
+# }
 
 # Drop unwanted columns
 final_sample <- final_sample %>%
@@ -72,30 +69,30 @@ final_sample <- final_sample %>%
 
 
 ## Other cleaning
-final_sample <- final_sample %>% # TEMPORARY UNTIL DAVE PROVIDES ONE STATE COLUMN
-  mutate(State = ifelse(is.na(State),
-                        State_ref,
-                        State))
+# final_sample <- final_sample %>% # TEMPORARY UNTIL DAVE PROVIDES ONE STATE COLUMN
+#   mutate(State = ifelse(is.na(State),
+#                         State_ref,
+#                         State))
 
 # Drop NA/other states still in data
-final_sample <- final_sample %>% 
-  filter(!is.na(State))
+# final_sample <- final_sample %>% 
+#   filter(!is.na(State))
 
 
 # Regional Mutation 
 final_sample <- final_sample %>%
   mutate(
     # Step 1: If `Agency Name` is "Regional Sample Counts" and `State` is NA, update them
-    State = if_else(`Agency Name` == "Regional Sample Counts" & is.na(State), "Nationwide", State),
-    `Agency Name` = if_else(`Agency Name` == "Regional Sample Counts" & State == "Nationwide", "Other", `Agency Name`),
+    State = if_else(`Agency Name` == "Regional Sample Counts", "Nationwide", State),
+    `Agency Name` = if_else(`Agency Name` == "Regional Sample Counts", Region, `Agency Name`),
     
-    # Step 2: If `Agency Name` is "Regional Sample Counts", update `Agency Name`
-    `Agency Name` = if_else(`Agency Name` == "Regional Sample Counts", State, `Agency Name`),
+    # # Step : If `Agency Name` is "Regional Sample Counts", update `Agency Name`
+    # `Agency Name` = if_else(`Agency Name` == "Regional Sample Counts", State, `Agency Name`),
     
-    # Step 3: If `State` is "Midwest", "Northeast", "South", or "West", set it to "Nationwide"
-    State = if_else(State %in% c("Midwest", "Northeast", "South", "West"), "Nationwide", State),
+    # # Step : If `State` is "Midwest", "Northeast", "South", or "West", set it to "Nationwide"
+    # State = if_else(State %in% c("Midwest", "Northeast", "South", "West"), "Nationwide", State),
     
-    # Step 4: If `State` is "Nationwide" and `Agency Name` is one of the regions, concatenate them; otherwise, keep `city_state` unchanged
+    # Step 2: If `State` is "Nationwide" and `Agency Name` is one of the regions, concatenate them; otherwise, keep `city_state` unchanged
     city_state = if_else(State == "Nationwide" & `Agency Name` %in% c("Midwest", "Northeast", "South", "West"),
                          paste(State, `Agency Name`, sep = ", "), city_state)
   )
@@ -111,7 +108,7 @@ west <- c("AK", "AZ", "CA", "CO", "HI", "ID", "MT", "NV", "NM", "OR", "UT", "WA"
 final_sample <- final_sample %>%
   mutate(
     Region = case_when(
-      str_detect(State, "All") ~ "All",  # If `State` contains "All"
+      is.na(State) ~ "All",  # If `State` contains "All"
       `Agency Name` %in% c("West", "Northeast", "Midwest", "South") ~ `Agency Name`,  # If `Agency Name` matches one of these regions
       State %in% midwest ~ "Midwest",  # Assign regions based on `State` abbreviations
       State %in% northeast ~ "Northeast",
@@ -122,6 +119,23 @@ final_sample <- final_sample %>%
   )
 
 
+# Deal with NA states (remove NA Full Samples, reassign MoCo, then rest must be PR)
+final_sample <- final_sample %>% 
+  filter(!(is.na(State) & `Agency Name` == "State Sample Counts")) %>% 
+  mutate(State = ifelse(`Agency Name` == "Montgomery County" & is.na(State),
+                        "MD",
+                        State),
+         State = ifelse(is.na(State) & is.na(Population),
+                        "PR",
+                        State))
+
+# Fix Jefferson Parish
+final_sample <- final_sample %>% 
+  mutate(`Agency Name` = ifelse(State == "LA" & `Agency Name` == "Jefferson County",
+                                "Jefferson Parish", 
+                                `Agency Name`))
+
+
 
 # Download Button Data ------------------------------------------------------------------------
 final_sample_download <- final_sample 
@@ -130,7 +144,7 @@ final_sample_download <- final_sample
 final_sample_download <- final_sample_download %>%
   mutate(`Last Updated` = last_updated,
          date = format(as.Date(date), "%B %Y")) %>% 
-  select(!(Last.Updated | Agency | State_ref)) %>% 
+  select(!(Last.Updated | Agency)) %>% 
   rename(FBI.Population.Covered = Population,
          Number.of.Agencies = Agency_num,
          Agency_State = city_state,
@@ -142,20 +156,25 @@ final_sample_download <- final_sample_download %>%
          `Violent Crime_mvs_12mo`, `Property Crime_mvs_12mo`, Source.Link, Source.Type, Source.Method, 
          FBI.Population.Covered, Number.of.Agencies, Latitude, Longitude, Comment, `Last Updated`)
 
-# Pop Group Naming
+
+# Pop Group Agency Naming
+final_sample_download <- final_sample_download %>%
+  mutate(Agency = str_replace_all(Agency,
+                                  c("100k-250k" = "Cities of 100K - 250K",
+                                    "250k-1mn" = "Cities of 250K - 1M",
+                                    "1mn+" = "Cities of 1M",
+                                    "<100k" = "Cities of < 100K")))
+
+# Pop Group State Naming
 final_sample_download <- final_sample_download %>%
   mutate(
-    Agency = ifelse(State == "All Agencies in Grouping", paste("Cities of", Agency), Agency),
-    State = ifelse(State == "All Agencies in Grouping", "Nationwide", State),
+    State = ifelse(Agency %in% c("Cities of 100K - 250K",
+                                 "Cities of 250K - 1M",
+                                "Cities of 1M+",
+                                "Cities of < 100K"), 
+                   "Nationwide", 
+                   State),
   )
-
-# Edit Pop Group Naming Further
-final_sample_download <- final_sample_download %>%
-  mutate(Agency = str_replace_all(Agency, 
-                                  c("Cities of 100k-250k" = "Cities of 100K - 250K",
-                                    "Cities of 1mn+" = "Cities of 1M",
-                                    "Cities of 250k-1mn" = "Cities of 250K - 1M",
-                                    "Cities of <100k" = "Cities of < 100K")))
 
 # Format Our National Sample 
 final_sample_download <- final_sample_download %>%
@@ -190,7 +209,7 @@ final_sample <- final_sample %>%
 
 # Keep the first "state" column and remove the other "state" column
 final_sample <- final_sample %>%
-  select(-state_ref, -agency)
+  select(-agency)
 
 # Rename column state to state_abbr
 final_sample <- final_sample %>%
@@ -217,20 +236,40 @@ final_sample <- final_sample %>%
   mutate(agency_name = ifelse(agency_name == "Nationwide Count", "Full Sample", agency_name),
          state_name = ifelse(agency_name == "Full Sample", "Nationwide", state_name))
   
-# Pop Group Naming
+# # Pop Group Naming
+# final_sample <- final_sample %>%
+#   mutate(
+#     agency_name = ifelse(state_abbr == "All Agencies in Grouping", paste("Cities of", agency_name), agency_name),
+#     state_name = ifelse(state_abbr == "All Agencies in Grouping", "Nationwide", state_name)
+#   )
+# 
+# # Edit Pop Group Naming Further
+# final_sample <- final_sample %>%
+#   mutate(agency_name = str_replace_all(agency_name, 
+#                                        c("Cities of 100k-250k" = "Cities of 100K - 250K",
+#                                          "Cities of 1mn+" = "Cities of 1M",
+#                                          "Cities of 250k-1mn" = "Cities of 250K - 1M",
+#                                          "Cities of <100k" = "Cities of < 100K")))
+
+
+# Pop Group Agency Naming
+final_sample <- final_sample %>%
+  mutate(agency_name = str_replace_all(agency_name,
+                                  c("100k-250k" = "Cities of 100K - 250K",
+                                    "250k-1mn" = "Cities of 250K - 1M",
+                                    "1mn+" = "Cities of 1M",
+                                    "<100k" = "Cities of < 100K")))
+
+# Pop Group State Naming
 final_sample <- final_sample %>%
   mutate(
-    agency_name = ifelse(state_abbr == "All Agencies in Grouping", paste("Cities of", agency_name), agency_name),
-    state_name = ifelse(state_abbr == "All Agencies in Grouping", "Nationwide", state_name)
+    state_name = ifelse(agency_name %in% c("Cities of 100K - 250K",
+                                           "Cities of 250K - 1M",
+                                           "Cities of 1M+",
+                                           "Cities of < 100K"), 
+                   "Nationwide", 
+                   state_name),
   )
-
-# Edit Pop Group Naming Further
-final_sample <- final_sample %>%
-  mutate(agency_name = str_replace_all(agency_name, 
-                                       c("Cities of 100k-250k" = "Cities of 100K - 250K",
-                                         "Cities of 1mn+" = "Cities of 1M",
-                                         "Cities of 250k-1mn" = "Cities of 250K - 1M",
-                                         "Cities of <100k" = "Cities of < 100K")))
 
 
 # Create 'agency_full' and 'location_full' columns
@@ -430,10 +469,10 @@ sources <- sources %>% select(-starts_with("murder"),
                               -starts_with("motor_vehicle_theft"),
                               -starts_with("property_crime"))
 
-# Fix State Full Sample Agency Naming
-sources <- sources %>% 
-  mutate(agency_name = ifelse(str_detect(agency_name, "Full Sample"), "Full Sample", agency_name))
-
+# # Fix State Full Sample Agency Naming
+# sources <- sources %>% 
+#   mutate(agency_name = ifelse(str_detect(agency_name, "Full Sample"), "Full Sample", agency_name))
+# 
 
 # Remove Full Sample agencies for states where there is just one agency
 # 
@@ -631,6 +670,14 @@ final_dataset <- final_dataset %>%
     TRUE ~ "Individual Agencies"
   ))
 
+
+# Remove agencies that don't have any data in the most recent year
+latest_year <- year(max(final_dataset$Date_Through, na.rm = TRUE))
+
+final_dataset <- final_dataset %>%
+  filter(year(Date_Through) == latest_year)
+
+
 # Write the final_sample_long data frame to viz_data.csv
 write.csv(final_dataset, "../docs/app_data/full_table_data.csv", row.names = FALSE)
 
@@ -658,7 +705,7 @@ final_sample <- final_sample %>%
 
 # Fix State Full Sample Agency Naming
 final_sample <- final_sample %>% 
-  mutate(agency_name = ifelse(str_detect(agency_name, "Full Sample"), "Full Sample", agency_name))
+  mutate(agency_name = ifelse(str_detect(agency_name, "State Sample"), "Full Sample", agency_name))
 
 
 # Remove Full Sample agencies for states where there is just one agency

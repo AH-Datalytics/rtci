@@ -178,8 +178,9 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             const fullSample = agencies.includes("Full Sample") ? ["Full Sample"] : [];
     
-            const cities = agencies.filter(a => !a.includes("County") && a !== "Full Sample").sort((a, b) => a.localeCompare(b));
-            const counties = agencies.filter(a => a.includes("County")).sort((a, b) => a.localeCompare(b));
+            // Separate cities and counties
+            const cities = agencies.filter(a => !a.includes("County") && !a.includes("Parish") && !a.includes("Full Sample")).sort((a, b) => a.localeCompare(b));
+            const counties = agencies.filter(a => a.includes("County") || a.includes("Parish")).sort((a, b) => a.localeCompare(b));
     
             finalAgencies = [...fullSample];
             if (cities.length > 0) finalAgencies.push("Cities", ...cities);

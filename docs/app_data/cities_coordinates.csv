@@ -3,6 +3,7 @@
 "Abington","Pennsylvania",FALSE,"Abington, Pennsylvania",40.1142201,-75.1302299768566,58433,"State UCR","Open Source","https://www.ucr.pa.gov/PAUCRSPUBLIC/SRSReport/CrimeTrends",TRUE
 "Ada County","Idaho",TRUE,"Ada County, Idaho",43.4136539,-116.2367421,138487,"State UCR","Open Source","https://nibrs.isp.idaho.gov/CrimeInIdaho/Report/CrimeTrends",TRUE
 "Adams County","Colorado",TRUE,"Adams County, Colorado",39.8714085,-104.2701374,100798,"State UCR","Open Source","https://coloradocrimestats.state.co.us/public/View/dispview.aspx",FALSE
+"Aguadilla","Puerto Rico",FALSE,"Aguadilla, Puerto Rico",18.44965515,-67.1184764350823,NA,NA,NA,NA,FALSE
 "Akron","Ohio",FALSE,"Akron, Ohio",41.083064,-81.518485,187705,"State UCR","Provided by State UCR Program","https://ocjs.ohio.gov/",FALSE
 "Albany","Georgia",FALSE,"Albany, Georgia",31.5782062,-84.1556809,66281,"Agency Aggregated","Open Source","https://www.albanyga.gov/crime-statistics",TRUE
 "Albany","Oregon",FALSE,"Albany, Oregon",44.6365071,-123.1059324,57002,"State UCR","Open Source","https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",FALSE
@@ -17,6 +18,7 @@
 "Antioch","California",FALSE,"Antioch, California",38.0049214,-121.805789,115271,"Agency Aggregated","Open Source","https://www.antiochca.gov/police/crime-statistics/",TRUE
 "Apple Valley","Minnesota",FALSE,"Apple Valley, Minnesota",44.7319094,-93.21772,54995,"State UCR","Open Source","https://cde.state.mn.us/",TRUE
 "Arapahoe County","Colorado",TRUE,"Arapahoe County, Colorado",39.6416781,-104.3628567,104204,"State UCR","Open Source","https://coloradocrimestats.state.co.us/public/View/dispview.aspx",FALSE
+"Arecibo","Puerto Rico",FALSE,"Arecibo, Puerto Rico",18.40474985,-66.681035294432,NA,NA,NA,NA,FALSE
 "Arlington Heights","Illinois",FALSE,"Arlington Heights, Illinois",42.0811563,-87.9802164,74094,"State UCR","Open Source","https://ilucr.nibrs.com/AdvancedSearch/AdvancedSearch",TRUE
 "Arlington","Texas",FALSE,"Arlington, Texas",32.7355816,-97.1071186,394799,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
 "Arlington County","Virginia",TRUE,"Arlington County, Virginia",38.8769326,-77.0893094,231844,"State UCR","From VA","From VA",TRUE
@@ -61,11 +63,13 @@
 "Burbank","California",FALSE,"Burbank, California",34.1812089,-118.307201,102345,"Agency Aggregated","Open Source","https://www.burbankpd.org/crime-information/crime-statistics/",TRUE
 "Burleson","Texas",FALSE,"Burleson, Texas",30.4764878,-96.6353488,56307,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
 "Burnsville","Minnesota",FALSE,"Burnsville, Minnesota",44.7670567,-93.2773887,63650,"State UCR","Open Source","https://cde.state.mn.us/",TRUE
+"Caguas","Puerto Rico",FALSE,"Caguas, Puerto Rico",18.2129421,-66.055884356262,NA,NA,NA,NA,FALSE
 "Caldwell","Idaho",FALSE,"Caldwell, Idaho",43.6678736,-116.689415,68731,"State UCR","Open Source","https://nibrs.isp.idaho.gov/CrimeInIdaho/AdvancedSearch/AdvancedSearch",TRUE
 "Cambridge","Massachusetts",FALSE,"Cambridge, Massachusetts",42.3656347,-71.1040018,118960,"State UCR","Provided by State UCR Program","https://www.mass.gov/crime-statistics",TRUE
 "Canton Township","Michigan",FALSE,"Canton Township, Michigan",42.3076547,-83.4868961,98915,"State UCR","Open Source","https://www.michigan.gov/msp/divisions/cjic/dashboard-portal/crime-dashboard",FALSE
 "Canton","Ohio",FALSE,"Canton, Ohio",40.7985464,-81.3749508,69164,"State UCR","Provided by State UCR Program","https://ocjs.ohio.gov/",FALSE
 "Carlsbad","California",FALSE,"Carlsbad, California",33.1580933,-117.3505966,113796,"Agency Aggregated","Open Source","https://crimestats.arjis.org/default.aspx",TRUE
+"Carolina","Puerto Rico",FALSE,"Carolina, Puerto Rico",18.36402775,-65.9526468608154,NA,NA,NA,NA,FALSE
 "Carrollton","Texas",FALSE,"Carrollton, Texas",32.9537349,-96.8902816,134261,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
 "Casa Grande","Arizona",FALSE,"Casa Grande, Arizona",32.8772834,-111.7536818,63228,"State UCR","Open Source","https://azcrimestatistics.azdps.gov/",TRUE
 "Castle Rock","Colorado",FALSE,"Castle Rock, Colorado",39.3722552,-104.858682,83546,"State UCR","Open Source","https://coloradocrimestats.state.co.us/public/View/dispview.aspx",TRUE
@@ -168,6 +172,7 @@
 "Greensboro","North Carolina",FALSE,"Greensboro, North Carolina",36.0726355,-79.7919754,303237,"Agency Aggregated","Provided by Agency","https://data.greensboro-nc.gov/pages/385998aa22e940999b05b6c3b6dcad03",TRUE
 "Greenwich","Connecticut",FALSE,"Greenwich, Connecticut",41.0264862,-73.6284598,63777,"State UCR","Open Source","https://ct.beyond2020.com/ct_public/Dim/dimension.aspx",TRUE
 "Gresham","Oregon",FALSE,"Gresham, Oregon",45.4978623,-122.4329883,110225,"State UCR","Open Source","https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",FALSE
+"Guaynabo","Puerto Rico",FALSE,"Guaynabo, Puerto Rico",18.35915955,-66.115680241776,NA,NA,NA,NA,FALSE
 "Hamden","Connecticut",FALSE,"Hamden, Connecticut",41.3959302,-72.8968574,60691,"State UCR","Open Source","https://ct.beyond2020.com/ct_public/Dim/dimension.aspx",FALSE
 "Hamilton","Ohio",FALSE,"Hamilton, Ohio",39.2085354,-84.5501874,62705,"State UCR","Provided by State UCR Program","https://ocjs.ohio.gov/",FALSE
 "Hamilton County","Ohio",TRUE,"Hamilton County, Ohio",39.2085354,-84.5501874,122218,"State UCR","From OH","From OH",TRUE
@@ -193,7 +198,7 @@
 "Indianapolis","Indiana",FALSE,"Indianapolis, Indiana",39.7683331,-86.1583502,887131,"Agency Aggregated","Provided by Agency","https://www.indy.gov/agency/indianapolis-metropolitan-police-department",TRUE
 "Irving","Texas",FALSE,"Irving, Texas",32.8295183,-96.9442177,255203,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
 "Jefferson County","Colorado",TRUE,"Jefferson County, Colorado",39.5699803,-105.2561919,194994,"State UCR","Open Source","https://coloradocrimestats.state.co.us/public/View/dispview.aspx",FALSE
-"Jefferson County","Louisiana",TRUE,"Jefferson County, Louisiana",30.5562999,-83.8722754,321980,NA,"Open Source","https://jpso.com/Archive.aspx?AMID=38",TRUE
+"Jefferson Parish","Louisiana",FALSE,"Jefferson Parish, Louisiana",29.8502657,-90.1293894,321980,"Agency Aggregated","Open Source","https://jpso.com/Archive.aspx?AMID=38",TRUE
 "Jefferson County","Missouri",TRUE,"Jefferson County, Missouri",38.267166,-90.5721889,167018,"State UCR","Open Source","https://showmecrime.mo.gov/",TRUE
 "Joplin","Missouri",FALSE,"Joplin, Missouri",37.0841838,-94.5133385,52881,"State UCR","Open Source","https://showmecrime.mo.gov/",TRUE
 "Kalamazoo","Michigan",FALSE,"Kalamazoo, Michigan",42.291707,-85.5872286,72565,"State UCR","Open Source","https://www.michigan.gov/msp/divisions/cjic/dashboard-portal/crime-dashboard",FALSE
@@ -232,7 +237,7 @@
 "Lorain","Ohio",FALSE,"Lorain, Ohio",41.2633554,-82.1734746,65436,"State UCR","Provided by State UCR Program","https://ocjs.ohio.gov/",TRUE
 "Los Angeles","California",FALSE,"Los Angeles, California",34.0536909,-118.242766,3786018,"Agency Aggregated","Provided by Agency","https://www.lapdonline.org/",TRUE
 "Los Angeles County","California",TRUE,"Los Angeles County, California",34.3155072,-118.209681,1008018,"Agency Aggregated","Open Source","https://lasd.org/transparency/part1and2crimedata/#part1",TRUE
-"Loudoun County","Virginia",TRUE,"Loudoun County, Virginia",39.0984586,-77.6705008,NA,NA,NA,NA,FALSE
+"Loudoun County","Virginia",TRUE,"Loudoun County, Virginia",39.0984586,-77.6705008,378299,"State UCR","From VA","From VA",FALSE
 "Louisville","Kentucky",FALSE,"Louisville, Kentucky",38.2542376,-85.759407,669468,"Agency RMS","Open Source","https://data.louisvilleky.gov/search?tags=lmpd",TRUE
 "Loveland","Colorado",FALSE,"Loveland, Colorado",40.3977612,-105.07498,78656,"State UCR","Open Source","https://coloradocrimestats.state.co.us/public/View/dispview.aspx",TRUE
 "Lowell","Massachusetts",FALSE,"Lowell, Massachusetts",42.6414437,-71.3085329,113124,"State UCR","Provided by State UCR Program","https://www.mass.gov/crime-statistics",FALSE
@@ -271,7 +276,7 @@
 "Mission","Texas",FALSE,"Mission, Texas",26.2159066,-98.3252932,87031,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
 "Missouri City","Texas",FALSE,"Missouri City, Texas",29.6185669,-95.5377215,77560,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
 "Moline","Illinois",FALSE,"Moline, Illinois",41.5058344,-90.5136642,41601,"State UCR","Open Source","https://ilucr.nibrs.com/AdvancedSearch/AdvancedSearch",TRUE
-"Montgomery County","Maryland",TRUE,"Montgomery County, Maryland",39.1406267,-77.2075612,896963,NA,NA,NA,TRUE
+"Montgomery County","Maryland",TRUE,"Montgomery County, Maryland",39.1406267,-77.2075612,896963,"Agency RMS","Open Source","https://data.montgomerycountymd.gov/Public-Safety/Crime/icn6-v9z3/explore/query/SELECT%0A%20%20%60incident_id%60%2C%0A%20%20%60offence_code%60%2C%0A%20%20%60case_number%60%2C%0A%20%20%60date%60%2C%0A%20%20%60start_date%60%2C%0A%20%20%60end_date%60%2C%0A%20%20%60nibrs_code%60%2C%0A%20%20%60victims%60%2C%0A%20%20%60crimename1%60%2C%0A%20%20%60crimename2%60%2C%0A%20%20%60crimename3%60%2C%0A%20%20%60district%60%2C%0A%20%20%60location%60%2C%0A%20%20%60city%60%2C%0A%20%20%60state%60%2C%0A%20%20%60zip_code%60%2C%0A%20%20%60agency%60%2C%0A%20%20%60place%60%2C%0A%20%20%60sector%60%2C%0A%20%20%60beat%60%2C%0A%20%20%60pra%60%2C%0A%20%20%60address_number%60%2C%0A%20%20%60street_prefix_dir%60%2C%0A%20%20%60address_street%60%2C%0A%20%20%60street_suffix_dir%60%2C%0A%20%20%60street_type%60%2C%0A%20%20%60latitude%60%2C%0A%20%20%60longitude%60%2C%0A%20%20%60police_district_number%60%2C%0A%20%20%60geolocation%60%0AORDER%20BY%20%60start_date%60%20DESC%20NULL%20FIRST/page/filter",TRUE
 "Montgomery County","Texas",TRUE,"Montgomery County, Texas",30.301949,-95.5065944,565355,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
 "Mount Prospect","Illinois",FALSE,"Mount Prospect, Illinois",42.0664167,-87.9372908,53932,"State UCR","Open Source","https://ilucr.nibrs.com/AdvancedSearch/AdvancedSearch",TRUE
 "Mount Vernon","New York",FALSE,"Mount Vernon, New York",40.9125085,-73.8386504,70812,"Agency Aggregated","Open Source","https://www.cmvny.com/518/Annual-Reports-Monthly-Crime-Stats-Histo",FALSE
@@ -323,6 +328,7 @@
 "Plymouth","Massachusetts",FALSE,"Plymouth, Massachusetts",41.9426657,-70.7618592,68771,"State UCR","Provided by State UCR Program","https://www.mass.gov/crime-statistics",TRUE
 "Plymouth","Minnesota",FALSE,"Plymouth, Minnesota",45.0065149,-93.46651,77576,"State UCR","Open Source","https://cde.state.mn.us/",TRUE
 "Pocatello","Idaho",FALSE,"Pocatello, Idaho",42.8620287,-112.450627,58390,"State UCR","Open Source","https://nibrs.isp.idaho.gov/CrimeInIdaho/AdvancedSearch/AdvancedSearch",TRUE
+"Ponce","Puerto Rico",FALSE,"Ponce, Puerto Rico",18.06682235,-66.6140412435757,NA,NA,NA,NA,FALSE
 "Port Arthur","Texas",FALSE,"Port Arthur, Texas",29.8716577,-93.9332302,55371,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
 "Portland","Oregon",FALSE,"Portland, Oregon",45.5202471,-122.674194,626146,"Agency RMS","Open Source","https://public.tableau.com/app/profile/portlandpolicebureau/viz/New_Monthly_Neighborhood/MonthlyOffenseTotals",TRUE
 "Portsmouth","Virginia",FALSE,"Portsmouth, Virginia",36.8320081,-76.297699,96649,"State UCR","Provided by State UCR Program","https://vsp.virginia.gov/",TRUE
@@ -360,6 +366,7 @@
 "San Diego County","California",TRUE,"San Diego County, California",32.9637838,-116.7706277,519218,"Agency Aggregated","Open Source","https://crimestats.arjis.org/default.aspx",TRUE
 "San Francisco","California",FALSE,"San Francisco, California",37.7792588,-122.4193286,782846,"Agency Aggregated","Open Source","https://www.sanfranciscopolice.org/stay-safe/crime-data/crime-reports",TRUE
 "San Jose","California",FALSE,"San Jose, California",37.3361663,-121.890591,952530,"Agency Aggregated","Open Source","https://www.sjpd.org/records/crime-stats-maps/police-dashboards",TRUE
+"San Juan","Puerto Rico",FALSE,"San Juan, Puerto Rico",18.38423905,-66.0534399736473,NA,NA,NA,NA,FALSE
 "San Marcos","Texas",FALSE,"San Marcos, Texas",29.8826436,-97.9405828,71413,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
 "Sarasota County","Florida",TRUE,"Sarasota County, Florida",27.1813609,-82.3609195,294526,"Agency Aggregated","Open Source","https://www.sarasotasheriff.org/news/crime_crash_statistics/uniform_crime_reporting_statistics.php#revize_document_center_rz1986",TRUE
 "Schaumburg","Illinois",FALSE,"Schaumburg, Illinois",42.0333608,-88.083406,75140,"State UCR","Open Source","https://ilucr.nibrs.com/AdvancedSearch/AdvancedSearch",TRUE
@@ -385,10 +392,10 @@
 "Springfield","Ohio",FALSE,"Springfield, Ohio",39.9234046,-83.810138,57866,"State UCR","Provided by State UCR Program","https://ocjs.ohio.gov/",TRUE
 "Springfield","Oregon",FALSE,"Springfield, Oregon",44.0462362,-123.0220289,61185,"State UCR","Open Source","https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",FALSE
 "St Charles","Missouri",FALSE,"St Charles, Missouri",38.7877791,-90.6747372,71408,"State UCR","Open Source","https://showmecrime.mo.gov/",TRUE
-"St Charles County","Missouri",TRUE,"St Charles County, Missouri",38.7877791,-90.6747372,119730,NA,NA,NA,TRUE
+"St Charles County","Missouri",TRUE,"St Charles County, Missouri",38.7877791,-90.6747372,119730,"State UCR","Open Source","https://showmecrime.mo.gov/",TRUE
 "St Joseph","Missouri",FALSE,"St Joseph, Missouri",39.7686055,-94.8466322,69925,"State UCR","Open Source","https://showmecrime.mo.gov/",TRUE
 "St Louis","Missouri",FALSE,"St Louis, Missouri",38.6280278,-90.1910154,280108,"State UCR","Open Source","https://showmecrime.mo.gov/",FALSE
-"St Louis County","Missouri",TRUE,"St Louis County, Missouri",38.6398744,-90.5188127750124,398969,NA,NA,NA,TRUE
+"St Louis County","Missouri",TRUE,"St Louis County, Missouri",38.6398744,-90.5188127750124,398969,"State UCR","Open Source","https://showmecrime.mo.gov/",TRUE
 "St Peters","Missouri",FALSE,"St Peters, Missouri",38.791612,-90.5958468,58937,"State UCR","Open Source","https://showmecrime.mo.gov/",TRUE
 "St. Clair Shores","Michigan",FALSE,"St. Clair Shores, Michigan",42.4969652,-82.8890965,57257,"State UCR","Open Source","https://www.michigan.gov/msp/divisions/cjic/dashboard-portal/crime-dashboard",FALSE
 "St. Cloud","Minnesota",FALSE,"St. Cloud, Minnesota",45.5616075,-94.1642004,69922,"State UCR","Open Source","https://cde.state.mn.us/",TRUE
@@ -412,15 +419,19 @@
 "Thornton","Colorado",FALSE,"Thornton, Colorado",39.8695516,-104.985181,143838,"State UCR","Open Source","https://coloradocrimestats.state.co.us/public/View/dispview.aspx",TRUE
 "Tigard","Oregon",FALSE,"Tigard, Oregon",45.4307473,-122.771933,56142,"State UCR","Open Source","https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",FALSE
 "Tinley Park","Illinois",FALSE,"Tinley Park, Illinois",41.5733669,-87.7844944,53528,"State UCR","Open Source","https://ilucr.nibrs.com/AdvancedSearch/AdvancedSearch",TRUE
+"Toa Alta","Puerto Rico",FALSE,"Toa Alta, Puerto Rico",18.3586783,-66.2460109920447,NA,NA,NA,NA,FALSE
+"Toa Baja","Puerto Rico",FALSE,"Toa Baja, Puerto Rico",18.4426255,-66.2545652,NA,NA,NA,NA,FALSE
 "Toledo","Ohio",FALSE,"Toledo, Ohio",41.6529143,-83.5378173,264341,"State UCR","Provided by State UCR Program","https://ocjs.ohio.gov/",FALSE
 "Tracy","California",FALSE,"Tracy, California",37.7385507,-121.420139,99347,"Agency Aggregated","Open Source","https://tracypd.com/crime-mapping",TRUE
 "Travis County","Texas",TRUE,"Travis County, Texas",30.2878569,-97.7561392,277111,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
 "Troy","Michigan",FALSE,"Troy, Michigan",42.6055893,-83.1499304,87265,"State UCR","Open Source","https://www.michigan.gov/msp/divisions/cjic/dashboard-portal/crime-dashboard",FALSE
+"Trujillo Alto","Puerto Rico",FALSE,"Trujillo Alto, Puerto Rico",18.33707575,-66.0017421027996,NA,NA,NA,NA,FALSE
 "Tucson","Arizona",FALSE,"Tucson, Arizona",32.2228765,-110.974847,548544,"Agency Aggregated","Open Source","https://app.powerbigov.us/view?r=eyJrIjoiY2ViZmNiYzAtMDQ5ZC00OTMwLTliMTgtYjM1ZjAwYjJlMTkzIiwidCI6ImQyMWU1OWVjLWMyMDgtNDNlYi1hYWYxLWNmMDZkOWExOTZlMCJ9&pageName=ReportSectionccd6be2a1a0db780dadd",TRUE
 "Twin Falls","Idaho",FALSE,"Twin Falls, Idaho",42.5558542,-114.4700684,55447,"State UCR","Open Source","https://nibrs.isp.idaho.gov/CrimeInIdaho/AdvancedSearch/AdvancedSearch",TRUE
 "Tyler","Texas",FALSE,"Tyler, Texas",32.3512601,-95.3010624,110824,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
 "Upper Darby","Pennsylvania",FALSE,"Upper Darby, Pennsylvania",39.9284459,-75.2737955,84468,"State UCR","Open Source","https://www.ucr.pa.gov/PAUCRSPUBLIC/SRSReport/CrimeTrends",TRUE
 "Vallejo","California",FALSE,"Vallejo, California",38.1040864,-122.2566367,122419,"Agency Aggregated","Open Source","https://www.vallejopd.net/public_information/crime_data/operations_bureau_reports/operations_bureau_2024_reports",TRUE
+"Vega Baja","Puerto Rico",FALSE,"Vega Baja, Puerto Rico",18.41776575,-66.3994474204391,NA,NA,NA,NA,FALSE
 "Victoria","Texas",FALSE,"Victoria, Texas",28.8026443,-96.9766308,65298,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
 "Virginia Beach","Virginia",FALSE,"Virginia Beach, Virginia",36.8496579,-75.9760751,453991,"State UCR","Provided by State UCR Program","https://vsp.virginia.gov/",TRUE
 "Waco","Texas",FALSE,"Waco, Texas",31.5491899,-97.1474628,145741,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
@@ -453,14 +464,3 @@
 "York","Pennsylvania",FALSE,"York, Pennsylvania",39.962493,-76.7276989,44876,"State UCR","Open Source","https://www.ucr.pa.gov/PAUCRSPUBLIC/SRSReport/CrimeTrends",FALSE
 "Youngstown","Ohio",FALSE,"Youngstown, Ohio",41.1035786,-80.6520161,58773,"State UCR","Provided by State UCR Program","https://ocjs.ohio.gov/",FALSE
 "Yuma","Arizona",FALSE,"Yuma, Arizona",32.723268,-114.6179954,99610,"State UCR","Open Source","https://azcrimestatistics.azdps.gov/",TRUE
-"Aguadilla","Puerto Rico",FALSE,"Aguadilla, Puerto Rico",18.44965515,-67.1184764350823,NA,NA,NA,NA,FALSE
-"Arecibo","Puerto Rico",FALSE,"Arecibo, Puerto Rico",18.40474985,-66.681035294432,NA,NA,NA,NA,FALSE
-"Caguas","Puerto Rico",FALSE,"Caguas, Puerto Rico",18.2129421,-66.055884356262,NA,NA,NA,NA,FALSE
-"Carolina","Puerto Rico",FALSE,"Carolina, Puerto Rico",18.36402775,-65.9526468608154,NA,NA,NA,NA,FALSE
-"Ponce","Puerto Rico",FALSE,"Ponce, Puerto Rico",18.06682235,-66.6140412435757,NA,NA,NA,NA,FALSE
-"San Juan","Puerto Rico",FALSE,"San Juan, Puerto Rico",18.38423905,-66.0534399736473,NA,NA,NA,NA,FALSE
-"Toa Alta","Puerto Rico",FALSE,"Toa Alta, Puerto Rico",18.3586783,-66.2460109920447,NA,NA,NA,NA,FALSE
-"Toa Baja","Puerto Rico",FALSE,"Toa Baja, Puerto Rico",18.4426255,-66.2545652,NA,NA,NA,NA,FALSE
-"Trujillo Alto","Puerto Rico",FALSE,"Trujillo Alto, Puerto Rico",18.33707575,-66.0017421027996,NA,NA,NA,NA,FALSE
-"Vega Baja","Puerto Rico",FALSE,"Vega Baja, Puerto Rico",18.41776575,-66.3994474204391,NA,NA,NA,NA,FALSE
-"Guaynabo","Puerto Rico",FALSE,"Guaynabo, Puerto Rico",18.35915955,-66.115680241776,NA,NA,NA,NA,FALSE

@@ -525,6 +525,14 @@ sample_cities <- sample_cities %>%
                                 paste0(`Agency Name`, " ", Agency_Type),
                                 `Agency Name`))
 
+# Fix Jefferson Parish Issue 
+sample_cities <- sample_cities %>%
+  mutate(`Agency Name` = if_else(
+    state_name == "Louisiana" & str_detect(`Agency Name`, "County"),
+    str_replace(`Agency Name`, "County", "Parish"),
+    `Agency Name`
+  ))
+
 sample_cities <- sample_cities %>% 
   mutate(agency_full = paste(`Agency Name`, state_name, sep = ", "))
 

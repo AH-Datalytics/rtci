@@ -3,6 +3,7 @@
 "Abington","Pennsylvania",FALSE,"Abington, Pennsylvania",40.1142201,-75.1302299768566
 "Ada County","Idaho",TRUE,"Ada County, Idaho",43.4136539,-116.2367421
 "Adams County","Colorado",TRUE,"Adams County, Colorado",39.8714085,-104.2701374
+"Aguadilla","Puerto Rico",FALSE,"Aguadilla, Puerto Rico",18.44965515,-67.1184764350823
 "Akron","Ohio",FALSE,"Akron, Ohio",41.083064,-81.518485
 "Albany","Georgia",FALSE,"Albany, Georgia",31.5782062,-84.1556809
 "Albany","Oregon",FALSE,"Albany, Oregon",44.6365071,-123.1059324
@@ -17,6 +18,7 @@
 "Antioch","California",FALSE,"Antioch, California",38.0049214,-121.805789
 "Apple Valley","Minnesota",FALSE,"Apple Valley, Minnesota",44.7319094,-93.21772
 "Arapahoe County","Colorado",TRUE,"Arapahoe County, Colorado",39.6416781,-104.3628567
+"Arecibo","Puerto Rico",FALSE,"Arecibo, Puerto Rico",18.40474985,-66.681035294432
 "Arlington Heights","Illinois",FALSE,"Arlington Heights, Illinois",42.0811563,-87.9802164
 "Arlington","Texas",FALSE,"Arlington, Texas",32.7355816,-97.1071186
 "Arlington County","Virginia",TRUE,"Arlington County, Virginia",38.8769326,-77.0893094
@@ -61,11 +63,13 @@
 "Burbank","California",FALSE,"Burbank, California",34.1812089,-118.307201
 "Burleson","Texas",FALSE,"Burleson, Texas",30.4764878,-96.6353488
 "Burnsville","Minnesota",FALSE,"Burnsville, Minnesota",44.7670567,-93.2773887
+"Caguas","Puerto Rico",FALSE,"Caguas, Puerto Rico",18.2129421,-66.055884356262
 "Caldwell","Idaho",FALSE,"Caldwell, Idaho",43.6678736,-116.689415
 "Cambridge","Massachusetts",FALSE,"Cambridge, Massachusetts",42.3656347,-71.1040018
 "Canton Township","Michigan",FALSE,"Canton Township, Michigan",42.3076547,-83.4868961
 "Canton","Ohio",FALSE,"Canton, Ohio",40.7985464,-81.3749508
 "Carlsbad","California",FALSE,"Carlsbad, California",33.1580933,-117.3505966
+"Carolina","Puerto Rico",FALSE,"Carolina, Puerto Rico",18.36402775,-65.9526468608154
 "Carrollton","Texas",FALSE,"Carrollton, Texas",32.9537349,-96.8902816
 "Casa Grande","Arizona",FALSE,"Casa Grande, Arizona",32.8772834,-111.7536818
 "Castle Rock","Colorado",FALSE,"Castle Rock, Colorado",39.3722552,-104.858682
@@ -168,6 +172,7 @@
 "Greensboro","North Carolina",FALSE,"Greensboro, North Carolina",36.0726355,-79.7919754
 "Greenwich","Connecticut",FALSE,"Greenwich, Connecticut",41.0264862,-73.6284598
 "Gresham","Oregon",FALSE,"Gresham, Oregon",45.4978623,-122.4329883
+"Guaynabo","Puerto Rico",FALSE,"Guaynabo, Puerto Rico",18.35915955,-66.115680241776
 "Hamden","Connecticut",FALSE,"Hamden, Connecticut",41.3959302,-72.8968574
 "Hamilton","Ohio",FALSE,"Hamilton, Ohio",39.2085354,-84.5501874
 "Hamilton County","Ohio",TRUE,"Hamilton County, Ohio",39.2085354,-84.5501874
@@ -193,7 +198,7 @@
 "Indianapolis","Indiana",FALSE,"Indianapolis, Indiana",39.7683331,-86.1583502
 "Irving","Texas",FALSE,"Irving, Texas",32.8295183,-96.9442177
 "Jefferson County","Colorado",TRUE,"Jefferson County, Colorado",39.5699803,-105.2561919
-"Jefferson County","Louisiana",TRUE,"Jefferson County, Louisiana",30.5562999,-83.8722754
+"Jefferson Parish","Louisiana",FALSE,"Jefferson Parish, Louisiana",29.8502657,-90.1293894
 "Jefferson County","Missouri",TRUE,"Jefferson County, Missouri",38.267166,-90.5721889
 "Joplin","Missouri",FALSE,"Joplin, Missouri",37.0841838,-94.5133385
 "Kalamazoo","Michigan",FALSE,"Kalamazoo, Michigan",42.291707,-85.5872286
@@ -323,6 +328,7 @@
 "Plymouth","Massachusetts",FALSE,"Plymouth, Massachusetts",41.9426657,-70.7618592
 "Plymouth","Minnesota",FALSE,"Plymouth, Minnesota",45.0065149,-93.46651
 "Pocatello","Idaho",FALSE,"Pocatello, Idaho",42.8620287,-112.450627
+"Ponce","Puerto Rico",FALSE,"Ponce, Puerto Rico",18.06682235,-66.6140412435757
 "Port Arthur","Texas",FALSE,"Port Arthur, Texas",29.8716577,-93.9332302
 "Portland","Oregon",FALSE,"Portland, Oregon",45.5202471,-122.674194
 "Portsmouth","Virginia",FALSE,"Portsmouth, Virginia",36.8320081,-76.297699
@@ -360,6 +366,7 @@
 "San Diego County","California",TRUE,"San Diego County, California",32.9637838,-116.7706277
 "San Francisco","California",FALSE,"San Francisco, California",37.7792588,-122.4193286
 "San Jose","California",FALSE,"San Jose, California",37.3361663,-121.890591
+"San Juan","Puerto Rico",FALSE,"San Juan, Puerto Rico",18.38423905,-66.0534399736473
 "San Marcos","Texas",FALSE,"San Marcos, Texas",29.8826436,-97.9405828
 "Sarasota County","Florida",TRUE,"Sarasota County, Florida",27.1813609,-82.3609195
 "Schaumburg","Illinois",FALSE,"Schaumburg, Illinois",42.0333608,-88.083406
@@ -412,15 +419,19 @@
 "Thornton","Colorado",FALSE,"Thornton, Colorado",39.8695516,-104.985181
 "Tigard","Oregon",FALSE,"Tigard, Oregon",45.4307473,-122.771933
 "Tinley Park","Illinois",FALSE,"Tinley Park, Illinois",41.5733669,-87.7844944
+"Toa Alta","Puerto Rico",FALSE,"Toa Alta, Puerto Rico",18.3586783,-66.2460109920447
+"Toa Baja","Puerto Rico",FALSE,"Toa Baja, Puerto Rico",18.4426255,-66.2545652
 "Toledo","Ohio",FALSE,"Toledo, Ohio",41.6529143,-83.5378173
 "Tracy","California",FALSE,"Tracy, California",37.7385507,-121.420139
 "Travis County","Texas",TRUE,"Travis County, Texas",30.2878569,-97.7561392
 "Troy","Michigan",FALSE,"Troy, Michigan",42.6055893,-83.1499304
+"Trujillo Alto","Puerto Rico",FALSE,"Trujillo Alto, Puerto Rico",18.33707575,-66.0017421027996
 "Tucson","Arizona",FALSE,"Tucson, Arizona",32.2228765,-110.974847
 "Twin Falls","Idaho",FALSE,"Twin Falls, Idaho",42.5558542,-114.4700684
 "Tyler","Texas",FALSE,"Tyler, Texas",32.3512601,-95.3010624
 "Upper Darby","Pennsylvania",FALSE,"Upper Darby, Pennsylvania",39.9284459,-75.2737955
 "Vallejo","California",FALSE,"Vallejo, California",38.1040864,-122.2566367
+"Vega Baja","Puerto Rico",FALSE,"Vega Baja, Puerto Rico",18.41776575,-66.3994474204391
 "Victoria","Texas",FALSE,"Victoria, Texas",28.8026443,-96.9766308
 "Virginia Beach","Virginia",FALSE,"Virginia Beach, Virginia",36.8496579,-75.9760751
 "Waco","Texas",FALSE,"Waco, Texas",31.5491899,-97.1474628
@@ -453,14 +464,3 @@
 "York","Pennsylvania",FALSE,"York, Pennsylvania",39.962493,-76.7276989
 "Youngstown","Ohio",FALSE,"Youngstown, Ohio",41.1035786,-80.6520161
 "Yuma","Arizona",FALSE,"Yuma, Arizona",32.723268,-114.6179954
-"Aguadilla","Puerto Rico",FALSE,"Aguadilla, Puerto Rico",18.44965515,-67.1184764350823
-"Arecibo","Puerto Rico",FALSE,"Arecibo, Puerto Rico",18.40474985,-66.681035294432
-"Caguas","Puerto Rico",FALSE,"Caguas, Puerto Rico",18.2129421,-66.055884356262
-"Carolina","Puerto Rico",FALSE,"Carolina, Puerto Rico",18.36402775,-65.9526468608154
-"Ponce","Puerto Rico",FALSE,"Ponce, Puerto Rico",18.06682235,-66.6140412435757
-"San Juan","Puerto Rico",FALSE,"San Juan, Puerto Rico",18.38423905,-66.0534399736473
-"Toa Alta","Puerto Rico",FALSE,"Toa Alta, Puerto Rico",18.3586783,-66.2460109920447
-"Toa Baja","Puerto Rico",FALSE,"Toa Baja, Puerto Rico",18.4426255,-66.2545652
-"Trujillo Alto","Puerto Rico",FALSE,"Trujillo Alto, Puerto Rico",18.33707575,-66.0017421027996
-"Vega Baja","Puerto Rico",FALSE,"Vega Baja, Puerto Rico",18.41776575,-66.3994474204391
-"Guaynabo","Puerto Rico",FALSE,"Guaynabo, Puerto Rico",18.35915955,-66.115680241776

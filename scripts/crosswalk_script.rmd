@@ -38,7 +38,7 @@ merge, clean up and pare down df's before fixing place names
 fbi_participation_2023_updated <- fbi_participation_2023 %>%
   mutate(
   city_state = paste(pub_agency_name, state_abbr, sep = " ,")) %>%
-  select(pub_agency_name, state_abbr, city_state, region_name, division_name, agency_type_name, population)
+  select(ori, pub_agency_name, state_abbr, city_state, region_name, division_name, agency_type_name, population)
 
 # merge 
 #crosswalked_df <- fbi_participation_2023_updated %>%

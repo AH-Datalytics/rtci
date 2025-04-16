@@ -43,7 +43,7 @@ data_dir <- file.path(
   "Open Source Data",
   "_Ben and Jeff work",
   "Months",
-  "January 2025",
+  "February 2025",
   "Counties"
 )
 
@@ -408,6 +408,24 @@ county_cdf2 <- county_cdf2 %>% filter(Agency_Type == "County")
 
 # Print results
 head(county_cdf2)
+```
+where are all the NA records coming from?
+```{r}
+# Function to filter records with NA in both columns
+find_na_records <- function(df) {
+  df %>% 
+    filter(is.na(`Agency Name`) & is.na(Murder))
+}
+
+# Apply to each dataframe in the list and name the output
+na_records_list <- lapply(county_ldf, find_na_records)
+
+# Optionally name the elements of the list (if original names exist)
+names(na_records_list) <- names(ldf)
+
+# View summary of how many NA records were found in each
+sapply(na_records_list, nrow)
+
 ```
 run the above 
 ```{r}

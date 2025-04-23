@@ -39,14 +39,20 @@
                         <i class="fas fa-download"></i>&nbsp;&nbsp;Download Data <!-- Add a double space between the icon and text -->
                     </button>
                 </div>
-                <div class="view-buttons">
+                <!-- <div class="view-buttons">
                     <button id="by-agency-btn" class="view-button" onclick="navigateTo('by-agency.html')">By Month</button>
                     <button id="full-sample-btn" class="view-button active">Year to Date</button>
-                </div>
+                </div> -->
                
                 <div class="tab-navigation">
                     <a href="../index.html" class="tab-link"><i class="fas fa-chart-line"></i> <span>Graph</span></a>
-                    <a href="by-agency.html" class="tab-link active"><i class="fas fa-table"></i> <span>Tables</span></a>
+                    <div class="tab-link rtci-nav-dropdown-wrapper active">
+                        <i class="fas fa-table"></i> <span>Tables</span>
+                        <div class="rtci-nav-dropdown-menu">
+                            <a href="by-agency.html" class="rtci-nav-dropdown-item">Monthly by Agency</a>
+                            <a href="table.html" class="rtci-nav-dropdown-item active">All Agencies YTD</a>
+                        </div>
+                    </div>
                     <a href="../scorecard/scorecard.html" class="tab-link"><i class="fas fa-clipboard-list"></i> <span>Overview</span></a>
                     <a href="../map/map.html" class="tab-link"><i class="fas fa-location-dot"></i> <span>Map</span></a>
                 </div>

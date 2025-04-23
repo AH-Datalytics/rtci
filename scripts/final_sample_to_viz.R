@@ -160,18 +160,18 @@ final_sample_download <- final_sample_download %>%
 # Pop Group Agency Naming
 final_sample_download <- final_sample_download %>%
   mutate(Agency = str_replace_all(Agency,
-                                  c("100k-250k" = "Cities of 100K - 250K",
-                                    "250k-1mn" = "Cities of 250K - 1M",
-                                    "1mn+" = "Cities of 1M",
-                                    "<100k" = "Cities of < 100K")))
+                                  c("100k-250k" = "Agencies of 100K - 250K",
+                                    "250k-1mn" = "Agencies of 250K - 1M",
+                                    "1mn+" = "Agencies of 1M",
+                                    "<100k" = "Agencies of < 100K")))
 
 # Pop Group State Naming
 final_sample_download <- final_sample_download %>%
   mutate(
-    State = ifelse(Agency %in% c("Cities of 100K - 250K",
-                                 "Cities of 250K - 1M",
-                                "Cities of 1M+",
-                                "Cities of < 100K"), 
+    State = ifelse(Agency %in% c("Agencies of 100K - 250K",
+                                 "Agencies of 250K - 1M",
+                                "Agencies of 1M+",
+                                "Agencies of < 100K"), 
                    "Nationwide", 
                    State),
   )
@@ -255,18 +255,18 @@ final_sample <- final_sample %>%
 # Pop Group Agency Naming
 final_sample <- final_sample %>%
   mutate(agency_name = str_replace_all(agency_name,
-                                  c("100k-250k" = "Cities of 100K - 250K",
-                                    "250k-1mn" = "Cities of 250K - 1M",
-                                    "1mn+" = "Cities of 1M",
-                                    "<100k" = "Cities of < 100K")))
+                                  c("100k-250k" = "Agencies of 100K - 250K",
+                                    "250k-1mn" = "Agencies of 250K - 1M",
+                                    "1mn+" = "Agencies of 1M",
+                                    "<100k" = "Agencies of < 100K")))
 
 # Pop Group State Naming
 final_sample <- final_sample %>%
   mutate(
-    state_name = ifelse(agency_name %in% c("Cities of 100K - 250K",
-                                           "Cities of 250K - 1M",
-                                           "Cities of 1M+",
-                                           "Cities of < 100K"), 
+    state_name = ifelse(agency_name %in% c("Agencies of 100K - 250K",
+                                           "Agencies of 250K - 1M",
+                                           "Agencies of 1M+",
+                                           "Agencies of < 100K"), 
                    "Nationwide", 
                    state_name),
   )

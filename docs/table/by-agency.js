@@ -151,10 +151,10 @@ document.addEventListener("DOMContentLoaded", function() {
             // Define the desired sort order for Nationwide population groups
             const nationwideAgencyOrder = [
                 "Full Sample", 
-                "Cities of 1M+", 
-                "Cities of 250K - 1M", 
-                "Cities of 100K - 250K", 
-                "Cities of < 100K"
+                "Agencies of 1M+", 
+                "Agencies of 250K - 1M", 
+                "Agencies of 100K - 250K", 
+                "Agencies of < 100K"
             ];
     
             // Define regional group names

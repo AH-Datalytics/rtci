@@ -155,10 +155,10 @@ document.addEventListener("DOMContentLoaded", function () {
         if (state === "Nationwide") {
             const nationwideOrder = [
                 "Full Sample",
-                "Cities of 1M+",
-                "Cities of 250K - 1M",
-                "Cities of 100K - 250K",
-                "Cities of < 100K",
+                "Agencies of 1M+",
+                "Agencies of 250K - 1M",
+                "Agencies of 100K - 250K",
+                "Agencies of < 100K",
                 "Midwest",
                 "Northeast",
                 "South",
@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 .sort((a, b) => nationwideOrder.indexOf(a) - nationwideOrder.indexOf(b));
     
             agencies.forEach(agency => {
-                if (agency === "Cities of 1M+") finalAgencies.push("Population Groups");
+                if (agency === "Agencies of 1M+") finalAgencies.push("Population Groups");
                 if (agency === "Midwest") finalAgencies.push("Regions");
                 finalAgencies.push(agency);
             });

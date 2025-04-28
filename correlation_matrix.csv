@@ -1,0 +1,5 @@
+"","pop_z","economic_hardship_index","social_capital_index","residential_instability_index"
+"pop_z",1,-0.005,-0.048,0.382
+"economic_hardship_index",-0.005,1,0.493,0.129
+"social_capital_index",-0.048,0.493,1,0.1
+"residential_instability_index",0.382,0.129,0.1,1

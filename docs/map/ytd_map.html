@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YTD Map</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../table/table.css">
+    <link rel="stylesheet" href="map.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <link rel="icon" href="../images/rtci.ico">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+    <div id="dashboard" class="tab-content active">
+        <div id="rtci-dashboard" class="rtci-container">
+            <h1 class="rtci-header">YTD % Change Map</h1>
+            <div id="filters-container" class="filters-container">
+                <span>Show me the percent change year-to-date for</span>
+                <div class="dropdown">
+                    <div id="crime-type-btn" class="dropdown-btn">Murders</div>
+                    <div id="crime-type-dropdown" class="dropdown-menu">
+                        <!-- Options will be dynamically populated -->
+                    </div>
+                </div>
+                            </div>
+            <div class="rtci-table-container">
+                <!-- Add this above the table view buttons -->
+                <!-- 
+                                <div id="download-container">
+                                    <button id="table-download" class="download-button">
+                                        <i class="fas fa-download"></i> &nbsp;&nbsp;Download Map
+                                    </button>
+                                </div>
+                -->
+
+            
+                <div class="tab-navigation">
+                    <a href="../index.html" class="tab-link"><i class="fas fa-chart-line"></i> <span>Graph</span></a>
+                    <div class="tab-link rtci-nav-dropdown-wrapper">
+                        <i class="fas fa-table"></i> <span>Tables</span>
+                        <div class="rtci-nav-dropdown-menu">
+                            <a href="../table/by-agency.html" class="rtci-nav-dropdown-item">Monthly by Agency</a>
+                            <a href="../table/table.html" class="rtci-nav-dropdown-item">All Agencies YTD</a>
+                        </div>
+                    </div>
+                    <a href="../scorecard/scorecard.html" class="tab-link"><i class="fas fa-clipboard-list"></i> <span>Overview</span></a>
+                    <a href="map.html" class="tab-link active"><i class="fas fa-location-dot"></i> <span>Map</span></a>
+                </div>
+                <div id="by-agency-table" class="table-container active">
+                    
+                    <!-- ADD IN DIV FOR MAP HERE!!! -->
+                    <div id="map"></div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="ytd_map.js"></script>
+</body>
+</html>

@@ -1035,3 +1035,38 @@ non_rtci_countries <- world_countries %>% filter(!(name %in% c("United States of
 st_write(non_rtci_countries, "../docs/app_data/non_rtci_countries.geo.json", driver = "GeoJSON")
 
 
+# YTD Map ####
+# Load your datasets
+coords <- read_csv("../docs/app_data/cities_coordinates.csv") # includes lat/long and national_sample
+ytd <- read_csv("../docs/app_data/full_table_data.csv")       # includes % change, population, crime_type, agency_full
+
+# Split agency_full into name and state
+ytd <- ytd %>%
+  mutate(
+    agency_name = sub(", .*", "", agency_full),
+    state_name = sub(".*?, ", "", agency_full)
+  )
+
+# Rename the YTD version to avoid collision
+ytd <- ytd %>%
+  rename(population_ytd = population)
+
+
+# Join YTD % change to coordinates
+map_data <- ytd %>%
+  filter(type == "Individual Agencies") %>%
+  left_join(coords %>%
+              select(all_of(c("agency_name", "state_name", "lat", "long", "population", "national_sample"))),
+            by = c("agency_name", "state_name")) %>%
+  filter(national_sample == TRUE) %>%
+  select(agency_name, state_name, lat, long, population, crime_type, Percent_Change, national_sample)
+
+
+
+# Clean up
+map_data <- map_data %>%
+  filter(!is.na(lat), !is.na(long), !is.na(Percent_Change))
+
+# Save
+write_csv(map_data, "../docs/app_data/ytd_map_data.csv")
+

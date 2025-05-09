@@ -70,3 +70,9 @@
 .leaflet-popup-content b {
     font-weight: 600; /* Make bold text bold */
 }
+
+
+.ytd-arrow-icon {
+    pointer-events: auto;
+    text-align: center;
+}

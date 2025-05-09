@@ -123,35 +123,69 @@ function updateMap() {
         !isNaN(+d.Percent_Change)
     );
 
+
     filtered.forEach(d => {
         const lat = +d.lat;
         const lon = +d.long;
-        const change = +d.Percent_Change;
-        if (isNaN(lat) || isNaN(lon) || isNaN(change)) return;
+        const rawChange = d.Percent_Change;
+        const population = +d.population;
+    
+        if (isNaN(lat) || isNaN(lon)) return;
+    
+        const isUndefined = rawChange === "Undefined" || rawChange === "" || isNaN(+rawChange);
+        const isZero = +rawChange === 0;
+    
+        if (isUndefined) {
+            // Black circle for undefined
+            const marker = L.circleMarker([lat, lon], {
+                radius: 6,
+                fillColor: "#000",
+                color: "#000",
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.9
+            });
+            marker.bindPopup(`<b>${d.agency_name}, ${d.state_name}</b><br>${d.crime_type}: Data unavailable`);
+            markersLayer.addLayer(marker);
+            return;
+        }
+    
+        if (isZero) return; // Skip 0% change
+    
+        const change = +rawChange;
+    
+        const absChange = Math.abs(change);
+const arrowSize = Math.min(40, Math.max(12, absChange)); // size based on % change
+const color = change > 0 ? "#f28106" : "#2d5ef9"; // orange for increase, blue for decrease
 
-        const color = change > 0 ? "#f28106" : "#2d5ef9";
-        const arrowSize = Math.min(20, Math.max(10, Math.abs(change)));
         const rotation = change > 0 ? 0 : 180;
+    
+        const svgHTML = `
+    <svg width="${arrowSize}" height="${arrowSize * 2}" viewBox="0 0 24 48" style="transform: rotate(${rotation}deg);">
+        <path d="M12 0 L12 36" stroke="${color}" stroke-width="1.25" />
+        <path d="M8 10 L12 0 L16 10" stroke="${color}" stroke-width="1.25" fill="none" />
+    </svg>`;
 
+    
         const svgIcon = L.divIcon({
             className: 'ytd-arrow-icon',
-            html: `<svg width="${arrowSize}" height="${arrowSize}" viewBox="0 0 100 100" style="transform: rotate(${rotation}deg);">
-                        <polygon points="50,0 100,100 0,100" fill="${color}" />
-                   </svg>`,
-            iconSize: [arrowSize, arrowSize],
-            iconAnchor: [arrowSize / 2, arrowSize / 2]
+            html: svgHTML,
+            iconSize: [arrowSize, arrowSize * 2],
+            iconAnchor: [arrowSize / 2, arrowSize]
         });
-
+    
         const marker = L.marker([lat, lon], { icon: svgIcon });
         marker.bindPopup(`
             <b>${d.agency_name}, ${d.state_name}</b><br>
-            ${d.crime_type}: ${change.toFixed(1)}% change YTD
+            ${d.crime_type}: ${change.toFixed(1)}% change YTD<br>
+            Population: ${d3.format(",")(population)}
         `);
-
+    
         markersLayer.addLayer(marker);
     });
+    
 }
-
+    
 function updateDropdownSelection(selectedType) {
     d3.selectAll("#crime-type-dropdown .dropdown-item")
         .classed("selected", false)

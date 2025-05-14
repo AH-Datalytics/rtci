@@ -43,7 +43,7 @@ data_dir <- file.path(
   "Open Source Data",
   "_Ben and Jeff work",
   "Months",
-  "January 2025",
+  "March 2025",
   "Cities"
 )
 
@@ -928,6 +928,15 @@ length(unique(df_mvs_12mo1$`Agency Name`))
 # now with counties
 length(unique(df_mvs_12mo1$city_state_id))
 ```
+fix columns issue before merging
+```{r}
+names(df_mvs_12mo1)
+df_mvs_12mo1<- df_mvs_12mo1 %>% select(-Agency_Type.y, -city_state.y) %>% mutate(Agency_Type = Agency_Type.x, city_state = city_state.x) %>% select(-city_state.x, -Agency_Type.x)
+
+ref_df1 <- ref_df1 %>% mutate(Agency_Type = Agency_Type.x) %>% select(-Agency_Type.x)
+```
+
+
 join ref to sample
 ```{r}
 df_w_ref <- merge(
@@ -936,30 +945,49 @@ df_w_ref <- merge(
   by = "city_state_id",  # Ensure column name is correctly specified
   all.x = TRUE  # Keep all rows from df_mvs_12mo1 (equivalent to left join)
 )
-df_mvs_12mo1 %>% select(-Agency_Type.y) %>% mutate(Agency_Type = Agency_Type.x)
 
+#
+df_w_ref<-df_w_ref %>% select(-Agency_Type.y, -city_state.y) %>% mutate(Agency_Type = Agency_Type.x, city_state = city_state.x) %>% select(-Agency_Type.x, -city_state.x)
+
+#keep state.x and state_abbr.x
+df_w_ref<-df_w_ref %>% select(-State.y, -state_abbr.y) %>% mutate(State = State.x, state_abbr = state_abbr.x) %>% select(-State.x, -state_abbr.x)
+```
+fix state sample count names
+```{r}
+df_w_ref1 <- df_w_ref %>%
+  mutate(
+    city_state_id = if_else(
+      `Agency Name` == "State Sample Counts",
+      paste0(`Agency Name`, ",", state_abbr),
+      city_state_id
+    ),
+    State = if_else(
+      `Agency Name` == "State Sample Counts" & is.na(State),
+      state_abbr,
+      State
+    )
+  )
 
 ```
-
 remove non-current reporter
 ```{r}
 #replace population values with Population values
-colSums(is.na(df_w_ref))
-df_w_ref$population <- ifelse(is.na(df_w_ref$population), df_w_ref$`Population Total`, df_w_ref$population)
-colSums(is.na(df_w_ref))
+colSums(is.na(df_w_ref1))
+df_w_ref1$population <- ifelse(is.na(df_w_ref1$population), df_w_ref1$`Population Total`, df_w_ref1$population)
+colSums(is.na(df_w_ref1))
 
 #fix non-nationwide sample values for viz
-df_w_ref$Agency_num <- ifelse(is.na(df_w_ref$Agency_num), 1, df_w_ref$Agency_num)
-colSums(is.na(df_w_ref))
+df_w_ref1$Agency_num <- ifelse(is.na(df_w_ref1$Agency_num), 1, df_w_ref1$Agency_num)
+colSums(is.na(df_w_ref1))
 
 #drop population total column after values are transferred to population
-df_w_ref <- df_w_ref %>% select(-`Population Total`)
+df_w_ref1 <- df_w_ref1 %>% select(-`Population Total`)
 ```
 clean up schema for oscar
 ```{r}
 #keep in both state fields for eventual auditing purposes (check merge success)
-final_data <- df_w_ref %>%
-  mutate(State_ref = state_abbr.x)
+final_data <- df_w_ref1 %>%
+  mutate(State_ref = state_abbr)
 ```
 remove bad month for june if all na
 ```{r}
@@ -1096,7 +1124,10 @@ write out sample cities for viz and sample comparison
 #transform sample cities for viz
 sample_cities_viz <- sample_cities %>% 
   mutate(date = month_suffix, State = State.x) %>% 
-  select(city_state_id, city_state, `Agency Name`, State, date, Agency_Type)
+  select(city_state_id, city_state.x, `Agency Name`, State, date, Agency_Type.x)
+
+
+names(sample_cities_viz) <- gsub("\\.x$", "", names(sample_cities_viz))
 
 
 #write out sample cities to data folder on github -- "Current Samp in versioner"

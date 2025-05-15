@@ -1093,7 +1093,7 @@ cleaned_data <- cleaned_data %>%
       city_state_id == "Montgomery,MD,County" ~ "MD",
       city_state_id == "St Charles,MO,County" ~ "MO",
       city_state_id == "St Louis,MO,County" ~ "MO",
-      TRUE ~ region_name  # Retain existing values for other rows
+      TRUE ~ State  # Retain existing values for other rows
   )
   )
 

@@ -1,7 +1,7 @@
 # RTCI
 Real-time Crime Index Repository
 
-Data, scripts for cleaning and sourcing data, and code that built the dyanmic applications on the website (https://realtimecrimeindex.com/) can be found here. 
+Data, scripts for cleaning and sourcing data, and code that built the dynamic applications on the website (https://realtimecrimeindex.com/) can be found here. 
 
 The **final cleaned data** is docs/app_data/final_sample.csv, or can be downloaded at https://realtimecrimeindex.com/data/#download.
 

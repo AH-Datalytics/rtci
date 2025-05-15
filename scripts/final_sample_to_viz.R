@@ -13,7 +13,7 @@ library(readxl)
 last_updated <- format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")
 
 # Load Data
-final_sample <- read_csv("../data/final_sample.csv")
+final_sample <- read_csv("../data/pre_processed.csv")
 
 
 # add in dummy variable into id column
@@ -60,7 +60,7 @@ final_sample <- final_sample %>%
 
 # Drop unwanted columns
 final_sample <- final_sample %>%
-  select(-c(region_name, state_abbr, pop23, pub_agency_name), -matches("\\.(x|y)$"))
+  select(-c(region_name, state_abbr, pop23, Population, pub_agency_name), -matches("\\.(x|y)$"))
 
 
 # Capitalize population column 

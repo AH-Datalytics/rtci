@@ -13,7 +13,7 @@ prior_ytd <- 5 # if you have more data it averages multiple prior years for the 
 alt = "less"
 
 # Rename columns
-data <- cleaned_data2 %>%
+data <- cleaned_data %>%
   rename(
     Agg.Assault = `Aggravated Assault`,
     #Agency.Name = `Agency Name`,

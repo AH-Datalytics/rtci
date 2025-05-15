@@ -137,7 +137,7 @@ get_unique_agency_count <- function(df) {
 }
 
 # Apply the function to each dataframe in the list and store the results
-unique_agency_counts <- map(ldf, get_unique_agency_count)
+agency_counts <- map(ldf, get_unique_agency_count)
 total_agency_raw <- sum(unlist(unique_agency_counts))
 head(total_agency_raw)
 ##407 for december 2024
@@ -497,7 +497,7 @@ print(unique_combinations)
 library(dplyr)
 
 # Count unique city_state_id values grouped by Agency_Type
-unique_counts_by_agency_type <- cdf_vcpc_nats1 %>%
+unique_counts_by_agency_type <- cdf_vcpc_nats_usa %>%
   group_by(Agency_Type) %>%
   summarise(unique_city_state_id = n_distinct(city_state_id)) %>%
   ungroup()
@@ -871,7 +871,7 @@ pr_path <- file.path(
   "Open Source Data",
   "_Ben and Jeff work",
   "Months",
-  "January 2025",
+  "March 2025",
   "Cities",
   "Puerto_Rico_Aggregated_Since_2017.csv"
 )
@@ -933,7 +933,7 @@ fix columns issue before merging
 names(df_mvs_12mo1)
 df_mvs_12mo1<- df_mvs_12mo1 %>% select(-Agency_Type.y, -city_state.y) %>% mutate(Agency_Type = Agency_Type.x, city_state = city_state.x) %>% select(-city_state.x, -Agency_Type.x)
 
-ref_df1 <- ref_df1 %>% mutate(Agency_Type = Agency_Type.x) %>% select(-Agency_Type.x)
+#ref_df1 <- ref_df1 %>% mutate(Agency_Type = Agency_Type.x) %>% select(-Agency_Type.x)
 ```
 
 
@@ -1093,7 +1093,7 @@ cleaned_data <- cleaned_data %>%
       city_state_id == "Montgomery,MD,County" ~ "MD",
       city_state_id == "St Charles,MO,County" ~ "MO",
       city_state_id == "St Louis,MO,County" ~ "MO",
-      TRUE ~ region_name  # Retain existing values for other rows
+      TRUE ~ State  # Retain existing values for other rows
   )
   )
 
@@ -1149,17 +1149,17 @@ sample_write_path <- file.path(
   "Collected Sample Data"
 )
 
-# Create the full file path for "final_sample.csv" to store on sharepoint
-samp_file_path <- file.path(sample_write_path, "final_sample.csv")
+# Create the full file path for "pre_processed.csv" to store on sharepoint
+samp_file_path <- file.path(sample_write_path, "pre_processed.csv")
 
 # Write the data frame to a .csv file to be stored in sharepoint
 write.csv(cleaned_data, file = samp_file_path, row.names = FALSE)
 
 # Write sample data folder in the GitHub repo
-write.csv(cleaned_data, "data/final_sample.csv", row.names = FALSE)
+write.csv(cleaned_data, "data/pre_processed.csv", row.names = FALSE)
 
 # Write a copy of the sample in the data archive folder as well with suffix
-write.csv(cleaned_data,file.path("data/archive", paste0("final_sample_", month_suffix, ".csv")), row.names = FALSE)
+write.csv(cleaned_data,file.path("data/archive", paste0("pre_processed_", month_suffix, ".csv")), row.names = FALSE)
 ```
 write out all auditing tables + sample cities *2
 ```{r}
@@ -1178,4 +1178,5 @@ write.csv(sample_cities,file.path("scripts/auditing/archive/", paste0("sample_ci
 ```
 run the above
 ```{r}
+
 ```

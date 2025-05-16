@@ -505,6 +505,7 @@ unique_counts_by_agency_type <- cdf_vcpc_nats_usa %>%
 # View the result
 print(unique_counts_by_agency_type)
 
+length(unique(cdf_vcpc_nats_usa$city_state_id))
 
 ```
 check to make sure the regions are attached
@@ -891,6 +892,24 @@ bind to the end
 ```{r}
 cdf3 <- bind_rows(cdf2, pr_dat)
 ```
+
+
+give city_state_id's to pop groups
+```{r}
+library(dplyr)
+
+cdf3 <- cdf3 %>%
+  mutate(
+    city_state_id = case_when(
+      `Agency Name` == "Regional Sample Counts" & is.na(city_state_id) ~ paste0(`Agency Name`, ",", Region),
+      `Agency Name` == "State Sample Counts" & is.na(city_state_id) ~ paste0(`Agency Name`, ",", state_abbr),
+      is.na(city_state_id) ~ `Agency Name`,
+      TRUE ~ city_state_id
+    )
+  )
+
+```
+
 get mvs_12mo for all crime categories and groupings
 ```{r}
 # Function to calculate 12-month cumulative sum 
@@ -1109,7 +1128,11 @@ latest_date <- max(cleaned_data$date, na.rm = TRUE)
 # Format the date as "mon_yy" (e.g., "oct_24")
 month_suffix <- tolower(format(latest_date, "%b_%y"))
 ```
+last fix before publishing
+```{r}
+cleaned_data <- cleaned_data %>% mutate(city_state = city_state.x) %>% select(-city_state.x, -city_state.y)
 
+```
 
 
 prepare a dataframe of all component agencies into sample for sourcing table

@@ -421,7 +421,7 @@ find_na_records <- function(df) {
 na_records_list <- lapply(county_ldf, find_na_records)
 
 # Optionally name the elements of the list (if original names exist)
-names(na_records_list) <- names(ldf)
+#names(na_records_list) <- names(ldf)
 
 # View summary of how many NA records were found in each
 sapply(na_records_list, nrow)

@@ -5,7 +5,7 @@ started: "07-23-2024"
 updated: "08-09-2024"
 updated: "08-19-2024"
 final version: "08-30-2024"
-last upate: "03-17-2024"
+last upate: "05-20-2025"
 ---
 read in the data
 ```{r}
@@ -382,6 +382,11 @@ make a new unique id
 cdf_recent <- cdf_recent %>%
   mutate(city_state_id = paste(city_state, Agency_Type, sep = ","))
 ```
+
+
+
+
+
 new filter for finding non-reporters without current blank records
 ```{r}
 ## Step 1: Identify the most recent observation for each agency in a dataframe for analysis
@@ -498,7 +503,7 @@ library(dplyr)
 
 # Count unique city_state_id values grouped by Agency_Type
 unique_counts_by_agency_type <- cdf_vcpc_nats_usa %>%
-  group_by(Agency_Type) %>%
+  group_by(Agency_Type.x) %>%
   summarise(unique_city_state_id = n_distinct(city_state_id)) %>%
   ungroup()
 
@@ -1201,5 +1206,59 @@ write.csv(sample_cities,file.path("scripts/auditing/archive/", paste0("sample_ci
 ```
 run the above
 ```{r}
+
+```
+new function that will add ORI's back to the base files for future months
+```{r}
+library(tidyverse)
+library(fs)
+
+# Path to reference table containing "Agency Name", "State", "ori"
+# Example: agency_reference <- read_csv("path/to/agency_reference.csv")
+
+add_ori_and_write <- function(folder_path, reference_df, output_base = "next_month") {
+  
+  # Get all CSV file paths recursively
+  file_paths <- list.files(folder_path, pattern = "\\.csv$", full.names = TRUE, recursive = TRUE)
+  
+  if (length(file_paths) == 0) {
+    stop("No CSV files found in the specified directory.")
+  } else {
+    message("Processing ", length(file_paths), " files.")
+  }
+
+  for (file_path in file_paths) {
+    message("Reading file: ", file_path)
+    
+    df <- tryCatch({
+      read_csv(file_path, show_col_types = FALSE)
+    }, error = function(e) {
+      warning("Failed to read: ", file_path, " Error: ", e$message)
+      return(NULL)
+    })
+    
+    if (is.null(df)) next
+    
+    # Add ori column by matching on Agency Name and State
+    df <- df %>%
+      left_join(reference_df, by = c("Agency Name", "State"))  # Add "ori" column
+    
+    # Determine the relative path for output
+    relative_path <- path_rel(file_path, start = folder_path)
+    output_path <- file.path(output_base, relative_path)
+    
+    # Create directory if it doesn't exist
+    dir_create(dirname(output_path))
+    
+    # Write CSV
+    write_csv(df, output_path)
+    message("Saved to: ", output_path)
+  }
+}
+
+# Example call
+# agency_reference <- read_csv("path/to/agency_reference.csv")
+# add_ori_and_write("data_dir", agency_reference)
+
 
 ```

@@ -5,7 +5,7 @@ started: "07-23-2024"
 updated: "08-09-2024"
 updated: "08-19-2024"
 final version: "08-30-2024"
-last upate: "05-20-2025"
+last upate: "06-11-2025"
 ---
 read in the data
 ```{r}
@@ -43,7 +43,7 @@ data_dir <- file.path(
   "Open Source Data",
   "_Ben and Jeff work",
   "Months",
-  "March 2025",
+  "April 2025",
   "Cities"
 )
 
@@ -330,7 +330,7 @@ update_current_date <- function() {
   today <- Sys.Date()
   day_of_month <- as.integer(format(today, "%d"))
   
-  if (day_of_month >= 12) {
+  if (day_of_month >= 10) {
     current_date <<- today
   } else {
     current_date <<- seq(today, length = 2, by = "-1 month")[2]
@@ -382,11 +382,11 @@ make a new unique id
 cdf_recent <- cdf_recent %>%
   mutate(city_state_id = paste(city_state, Agency_Type, sep = ","))
 ```
-
-
-
-
-
+take a second and take a look at NA's and column names
+```{r}
+colSums(is.na(cdf_recent))
+#na_agency <- cdf_recent %>% filter(is.na(`Agency Name`))
+```
 new filter for finding non-reporters without current blank records
 ```{r}
 ## Step 1: Identify the most recent observation for each agency in a dataframe for analysis
@@ -520,7 +520,7 @@ na_region_records <- cdf_vcpc_nats %>%
   filter(is.na(region_name))
 
 # Display the results
-print(na_region_records)
+#print(na_region_records)
 
 
 #hard code pop for now
@@ -1133,10 +1133,10 @@ latest_date <- max(cleaned_data$date, na.rm = TRUE)
 # Format the date as "mon_yy" (e.g., "oct_24")
 month_suffix <- tolower(format(latest_date, "%b_%y"))
 ```
-last fix before publishing
+last fixes before publishing
 ```{r}
-cleaned_data <- cleaned_data %>% mutate(city_state = city_state.x) %>% select(-city_state.x, -city_state.y)
-
+#cleaned_data <- cleaned_data %>% mutate(city_state = city_state.x) %>% select(-city_state.x, -city_state.y)
+colSums(is.na(cleaned_data))
 ```
 
 

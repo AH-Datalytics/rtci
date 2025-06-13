@@ -678,7 +678,42 @@ nationwide_counts$State <- "All Agencies"
 # View first few rows
 head(nationwide_counts)
 ```
+who is missing?
+```{r}
+library(dplyr)
+library(tidyr)
 
+# Assuming your dataframe is called `df` and includes these columns:
+# "city_state_id", "Month", "Year"
+
+# Step 1: Count number of records per city_state_id per Month-Year
+city_monthly_counts <- cdf_vcpc_nats_usa %>%
+  group_by(city_state_id, Year, Month) %>%
+  summarise(count = n(), .groups = "drop")
+
+# Step 2: Create a summary of total months each city appears
+city_month_coverage <- city_monthly_counts %>%
+  unite("Month_Year", Year, Month, sep = "-", remove = FALSE) %>%
+  group_by(city_state_id) %>%
+  summarise(
+    total_months_present = n(),
+    years_present = n_distinct(Year),
+    months_by_year = paste(unique(Year), collapse = ", ")
+  ) %>%
+  arrange(desc(total_months_present))
+
+# Step 3 (Optional): Check which cities are present in all available year-month combos
+# First, get total number of distinct month-year combos in dataset
+total_months <- df %>% distinct(Year, Month) %>% nrow()
+
+city_month_coverage <- city_month_coverage %>%
+  mutate(complete_coverage = total_months_present == total_months)
+
+# View output
+head(city_month_coverage)
+
+
+```
 
 
 
@@ -877,7 +912,7 @@ pr_path <- file.path(
   "Open Source Data",
   "_Ben and Jeff work",
   "Months",
-  "March 2025",
+  "April 2025",
   "Cities",
   "Puerto_Rico_Aggregated_Since_2017.csv"
 )
@@ -1208,6 +1243,14 @@ run the above
 ```{r}
 
 ```
+
+
+
+
+
+
+
+##NOT DONE YET##
 new function that will add ORI's back to the base files for future months
 ```{r}
 library(tidyverse)

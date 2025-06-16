@@ -133,6 +133,9 @@ final_sample <- final_sample %>%
 final_sample <- final_sample %>% 
   mutate(`Agency Name` = ifelse(State == "LA" & `Agency Name` == "Jefferson County",
                                 "Jefferson Parish", 
+                                `Agency Name`),
+         `Agency Name` = ifelse(State == "LA" & `Agency Name` == "East Baton Rouge County",
+                                "East Baton Rouge Parish", 
                                 `Agency Name`))
 
 
@@ -525,7 +528,7 @@ sample_cities <- sample_cities %>%
                                 paste0(`Agency Name`, " ", Agency_Type),
                                 `Agency Name`))
 
-# Fix Jefferson Parish Issue 
+# Fix Parish Issue 
 sample_cities <- sample_cities %>%
   mutate(`Agency Name` = if_else(
     state_name == "Louisiana" & str_detect(`Agency Name`, "County"),

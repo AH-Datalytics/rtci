@@ -14,7 +14,7 @@ from parallelize import thread
 
 
 """
-The FbiCdeGetData class below uses a filtered set of ORIs
+The CdeGetData class below uses a filtered set of ORIs
 obtained by the `rtci/agencies/cde_filter_oris.py` python script 
 from the FBI's Crime Data Explorer API
 ( https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/docApi )
@@ -27,7 +27,7 @@ and `self.last` is the previous month.
 """
 
 
-class FbiCdeGetData:
+class CdeGetData:
     def __init__(self):
         self.args = parser.parse_args()
         self.logger = create_logger()
@@ -155,4 +155,4 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    FbiCdeGetData().scrape()
+    CdeGetData().scrape()

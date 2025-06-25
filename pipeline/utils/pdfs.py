@@ -2,20 +2,44 @@ import boto3
 import os
 import requests
 
+from PyPDF2 import PdfReader, PdfWriter
 from time import sleep
 
 from aws import BUCKET, get_s3_client, snapshot_pdf
 
 
-def parse_pdf(self, url, verify=False, proxy=None):
+def parse_pdf(self, url, verify=False, proxy=None, pages=None):
     # download file locally
     filename = "tmp.pdf"
     download_file(url, filename=filename, verify=verify, proxy=proxy)
 
+    # handle page limits
+    if pages:
+        assert isinstance(
+            pages, list
+        ), f"passed {type(pages)} instead of a list of pages"
+        reader = PdfReader(filename)
+        writer = PdfWriter("abridged.pdf")
+
+        assert len(pages) <= len(reader.pages)
+        for page in pages:
+            assert page <= len(
+                reader.pages
+            ), f"trying to add a page number ({page}) that does not exist"
+            writer.add_page(reader.pages[page - 1])
+
+        with open("abridged.pdf", "wb") as output_pdf:
+            writer.write(output_pdf)
+        os.rename("abridged.pdf", "tmp.pdf")
+
     # save file to s3
     client = boto3.client("textract", region_name="us-east-1")
     snapshot_pdf(
-        self.logger, filename, f"textract/", timestamp=str(self.run_time), filename=None
+        self.logger,
+        filename,
+        f"textract/",
+        timestamp=str(self.run_time),
+        filename=None,
     )
     os.remove(filename)
 
@@ -45,7 +69,7 @@ def download_file(url, filename, verify=False, proxy=None):
     response = requests.get(url, headers=headers, verify=verify, proxies=proxy)
     assert (
         "pdf" in response.headers["Content-Type"]
-    ), f"Not a PDF file: {response.headers['Content-Type']}"
+    ), f"wrong filetype identified ({response.headers['Content-Type']})"
 
     with open(filename, "wb") as f:
         f.write(response.content)

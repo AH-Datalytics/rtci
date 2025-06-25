@@ -82,6 +82,12 @@ class Scraper:
                 df[crime] = df[crime].apply(lambda s: self.check_for_comma(s))
             else:
                 df[crime] = None
+            if f"{crime}_cleared" in df.columns:
+                df[f"{crime}_cleared"] = df[f"{crime}_cleared"].apply(
+                    lambda s: self.check_for_comma(s)
+                )
+            else:
+                df[f"{crime}_cleared"] = None
 
             # produce 12-month rolling sums per crime
             # df[f"{crime}_mvs_12mo"] = (
@@ -99,7 +105,7 @@ class Scraper:
         df["last_updated"] = self.run_time
 
         # check on column counts
-        assert len(df.keys()) == 11
+        assert len(df.keys()) == 18
         return df.to_dict("records")
 
     def run(self):

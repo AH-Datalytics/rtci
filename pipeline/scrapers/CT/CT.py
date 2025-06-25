@@ -82,6 +82,9 @@ class Connecticut(Scraper):
         click_element_previous(
             self, "span", "text", "Number of Actual Offenses", "input", 1
         )
+        click_element_previous(
+            self, "span", "text", "Total Offenses Cleared", "input", 1
+        )
         click_element(self, "span", "id", "H_5_ClearSelection")
 
         # config jurisdictions
@@ -204,7 +207,13 @@ class Connecticut(Scraper):
                 df.iloc[2:-1, 1:]
                 .rename_axis(None, axis=1)
                 .T.reset_index()
-                .rename(columns={str(year): crime, "index": "month"})
+                .rename(
+                    columns={
+                        "Number of Actual Offenses": crime,
+                        "Total Offenses Cleared": f"{crime}_cleared",
+                        "index": "month",
+                    }
+                )
                 .rename_axis(None, axis=1)
             )
             df["month"] = pd.to_datetime(df["month"], format="%B").dt.month

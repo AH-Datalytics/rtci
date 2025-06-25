@@ -10,10 +10,7 @@ from gspread_dataframe import set_with_dataframe
 
 
 gc_files = {
-    "agencies": {
-        "sheet": "sample",
-        "url": "https://docs.google.com/spreadsheets/d/1LXidpQnMRyqpVn4zwZJY3kL5XOeKgVOzQuHbSjV3zds/edit?gid=0#gid=0",
-    }
+    "agencies": "https://docs.google.com/spreadsheets/d/1LXidpQnMRyqpVn4zwZJY3kL5XOeKgVOzQuHbSjV3zds/edit?gid=0"
 }
 
 

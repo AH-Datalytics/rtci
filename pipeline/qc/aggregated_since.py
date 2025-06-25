@@ -13,6 +13,11 @@ from crimes import rtci_to_nibrs
 from logger import create_logger
 
 
+# TODO: fill in FBI CDE clearance data (in `agencies/cde_get_data.py`)
+#       [note: also separate out source columns for crime (scraper vs. FBI) and clearance]
+#       [and add in city vs. county]
+
+
 # TODO: add in the following list of exceptions
 #    Agency_State	Comment
 #    Allen, TX	Inferred Jan-Mar 2022 from annual average
@@ -79,18 +84,38 @@ class AggregatedSince:
                     df["state"] = state
                     df.insert(loc=0, column="agency_name", value=agency)
 
-                    df = df[
-                        [
-                            "ori",
-                            "agency_name",
-                            *self.crimes,
-                            "year",
-                            "month",
-                            "state",
-                            "last_updated",
-                            "source",
+                    if len(df.columns) == 14:
+                        df = df[
+                            [
+                                "ori",
+                                "agency_name",
+                                *self.crimes,
+                                "year",
+                                "month",
+                                "state",
+                                "last_updated",
+                                "source",
+                            ]
                         ]
-                    ].sort_values(by=["agency_name", "year", "month"])
+                    elif len(df.columns) == 21:
+                        df = df[
+                            [
+                                "ori",
+                                "agency_name",
+                                *self.crimes,
+                                *[f"{crime}_cleared" for crime in self.crimes],
+                                "year",
+                                "month",
+                                "state",
+                                "last_updated",
+                                "source",
+                            ]
+                        ]
+                    else:
+                        pd.set_option("display.max_columns", 100)
+                        raise ValueError(f"wrong number of columns in df:\n{df.head()}")
+
+                    df = df.sort_values(by=["agency_name", "year", "month"])
 
                     df = pd.merge(
                         df,

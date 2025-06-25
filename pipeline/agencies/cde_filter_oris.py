@@ -18,7 +18,7 @@ load_dotenv()
 
 
 """
-The FbiCdeGetOris class below uses the FBI's Crime Data Explorer API
+The CdeGetFilterOris class below uses the FBI's Crime Data Explorer API
 ( https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/docApi )
 to retrieve a filtered list of agency ORIs. Filtering criteria are:
 
@@ -27,10 +27,13 @@ to retrieve a filtered list of agency ORIs. Filtering criteria are:
 - most recent `pop` is >= 100k for counties 
 
 The output set of ORIs is saved on AWS as `rtci/fbi/cde_filtered_oris.csv`.
+
+* To manually force the inclusion of an agency that would otherwise fail filtering,
+include it in the `self.overrides` list in `self.__init__`.
 """
 
 
-class FbiCdeGetOris:
+class CdeGetFilterOris:
     def __init__(self):
         self.args = parser.parse_args()
         self.logger = create_logger()
@@ -46,16 +49,9 @@ class FbiCdeGetOris:
         self.city_threshold = 50_000
         self.county_threshold = 100_000
         self.overrides = [
-            "IL0810600",
-            "MA0091700",
-            "MI3849700",
-            "OH0250300",
-            "OH0181800",
-            "OH0182600",
-            "PA0670200",
-        ]  # exist already in `final_sample.csv`
-        # and so are kept even though populations
-        # don't meet criteria for inclusion
+            "MA0022200",  # Pittsfield, MA [agency requested we include them]
+            "UT0180000",  # Salt Lake County, UT [shows up with 0 pop in API]
+        ]
 
     def scrape(self):
         """
@@ -151,4 +147,4 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    FbiCdeGetOris().scrape()
+    CdeGetFilterOris().scrape()

@@ -418,6 +418,14 @@ final_sample_long <- final_sample_long %>%
   filter(!(state_name %in% states_with_full_sample & agency_name == "Full Sample"))
 
 
+# Remove Full Sample agencies where number_of_agencies < 2 (except Nationwide)
+final_sample_long <- final_sample_long %>%
+  filter(!(agency_name == "Full Sample" &
+             state_name != "Nationwide" &
+             number_of_agencies < 2))
+
+
+
 # Add in source for full samples (nationwide and states, eventually)
 final_sample_long$state_ucr_link[final_sample_long$state_name == "Nationwide" | 
                                    final_sample_long$agency_name == "Full Sample"] <- "https://ah-datalytics.github.io/rtci/list/list.html"
@@ -710,7 +718,8 @@ final_sample <- final_sample %>%
          robbery,
          theft,
          violent_crime,
-         property_crime
+         property_crime,
+         agency_num
          )
 
 
@@ -733,6 +742,12 @@ states_with_full_sample <- final_sample %>%
 final_sample <- final_sample %>%
   filter(!(state_name %in% states_with_full_sample & agency_name == "Full Sample"))
 
+# Remove Full Sample agencies where number_of_agencies < 2 (except Nationwide)
+final_sample <- final_sample %>%
+  filter(!(agency_name == "Full Sample" &
+             state_name != "Nationwide" &
+             agency_num < 2))
+
 
 # Month formatting
 final_sample <- final_sample %>% 
@@ -753,18 +768,6 @@ final_sample <- final_sample %>%
                               agency_full)
          )
 
-## Remove Full Sample agencies for states where there is just one agency
-# Step 1: Identify states (excluding "Nationwide") where there are exactly two agencies, one of which is "Full Sample"
-states_with_full_sample <- final_sample %>%
-  filter(state_name != "Nationwide") %>%
-  group_by(state_name) %>%
-  filter(n_distinct(agency_name) == 2 & "Full Sample" %in% agency_name) %>%
-  pull(state_name) %>%
-  unique()
-
-# Step 2: Filter out the "Full Sample" agency for those states
-final_sample <- final_sample %>%
-  filter(!(state_name %in% states_with_full_sample & agency_name == "Full Sample"))
 
 final_sample <- final_sample %>% 
   mutate(state_abbr = if_else(state_name == "Nationwide", 

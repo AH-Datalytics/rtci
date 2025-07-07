@@ -33,6 +33,7 @@ class AgenciesSheetUpdate:
             "name",
             "type",
             "pop",
+            "scraper",
             "url",
             "source_type",
             "source_method",
@@ -41,13 +42,13 @@ class AgenciesSheetUpdate:
             "notes",
             "last_reviewed",
             "last_reviewed_by",
-            "clearance_url"
-            "clearance_source_type"
-            "clearance_source_method"
-            "clearance_exclude"
-            "clearance_exclusion_reason"
-            "clearance_notes"
-            "clearance_last_reviewed"
+            "clearance_url",
+            "clearance_source_type",
+            "clearance_source_method",
+            "clearance_exclude",
+            "clearance_exclusion_reason",
+            "clearance_notes",
+            "clearance_last_reviewed",
             "clearance_last_reviewed_by",
         ]
 
@@ -170,7 +171,7 @@ class AgenciesSheetUpdate:
         for field in ["", "clearance_"]:
             self.logger.info(f"QUALITY CHECKS {field.rstrip('_').upper()}")
             self.logger.info(
-                "{} records excluded that have a url documented".format(
+                "{} records excluded for lack of url that have a url documented".format(
                     len(
                         sheet[
                             (sheet[f"{field}exclude"] == "Yes")
@@ -219,8 +220,9 @@ class AgenciesSheetUpdate:
             )
 
             self.logger.info(
-                "{} new records that need to be checked for inclusion".format(
-                    len(sheet[sheet[f"{field}last_reviewed_by"] == ""])
+                "{} new records that need to be checked for inclusion: {}".format(
+                    len(sheet[sheet[f"{field}last_reviewed_by"] == ""]),
+                    sheet[sheet[f"{field}last_reviewed_by"] == ""]["ori"].unique(),
                 )
             )
 

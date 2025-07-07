@@ -19,7 +19,7 @@ from selenium_actions import (
     drag_element,
     hide_element,
 )
-from selenium_configs import firefox_driver
+from selenium_configs import chrome_driver
 from super import Scraper
 
 
@@ -28,7 +28,7 @@ class Arizona(Scraper):
         super().__init__()
         self.url = "https://azcrimestatistics.azdps.gov/public/Dim/dimension.aspx"
         self.download_dir = f"{Path.cwd()}"
-        self.driver = firefox_driver(self)
+        self.driver = chrome_driver(self)
         self.years = list(range(self.first.year, self.last.year + 1))
         self.map = {
             "Murder and Nonnegligent Homicide": "murder",

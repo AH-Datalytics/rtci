@@ -9,8 +9,8 @@ from time import time
 
 """
 The AgenciesSheetSnapshot class below saves a JSON snapshot of all records
-currently in sheet to AWS S3 as `rtci/snapshots/{timestamp}/sample` and 
-`rtci/snapshots/{timestamp}/archive.
+currently in sheet to AWS S3 as `rtci/snapshots/{timestamp}/sample`, 
+`rtci/snapshots/{timestamp}/archive and `rtci/snapshots/{timestamp}/scraping`.
 """
 
 
@@ -24,36 +24,21 @@ class AgenciesSheetSnapshot:
         """
         get records from sheet and save them to AWS
         """
-        # pull the sample tab of the sheet
-        sample = pull_sheet(
-            sheet="sample",
-            url=gc_files["agencies"],
-        ).to_dict("records")
-        self.logger.info(f"sample record: {sample[0]}")
+        for tab in ["sample", "archive", "scraping"]:
+            sheet = pull_sheet(
+                sheet=tab,
+                url=gc_files["agencies"],
+            ).to_dict("records")
 
-        # pull the archive tab of the sheet
-        archive = pull_sheet(
-            sheet="archive",
-            url=gc_files["agencies"],
-        ).to_dict("records")
-        self.logger.info(f"sample archive record: {archive[0]}")
-
-        # save both to json
-        if not self.args.test:
-            snapshot_json(
-                logger=self.logger,
-                json_data=sample,
-                path="snapshots/",
-                timestamp=self.snapshot_time,
-                filename="sample",
-            )
-            snapshot_json(
-                logger=self.logger,
-                json_data=archive,
-                path="snapshots/",
-                timestamp=self.snapshot_time,
-                filename="archive",
-            )
+            self.logger.info(f"sample record: {tab[0]}")
+            if not self.args.test:
+                snapshot_json(
+                    logger=self.logger,
+                    json_data=sheet,
+                    path="snapshots/",
+                    timestamp=self.snapshot_time,
+                    filename=tab,
+                )
 
 
 if __name__ == "__main__":

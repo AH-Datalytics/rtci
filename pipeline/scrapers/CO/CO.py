@@ -8,7 +8,8 @@ from pathlib import Path
 from time import sleep
 
 sys.path.append("../../utils")
-from airtable import get_records_from_sheet
+# from airtable import get_records_from_sheet
+from google_configs import gc_files, pull_sheet
 from selenium_actions import (
     check_for_element,
     click_element,
@@ -33,22 +34,29 @@ class Colorado(Scraper):
         self.records = list()
         # get list of agencies in state from airtable
         self.exclude_oris = []
-        self.agencies = {
-            d["agency_rtci"]: d["ori"]
-            for d in get_records_from_sheet(
-                self.logger,
-                "Metadata",
-                # formula=f"{{state}}='{self.state_full_name}'"
-                # note: this includes agencies that are not included
-                # in the existing RTCI sample (audited out for missing data, etc.);
-                # to include only those matching the `final_sample.csv` file, use:
-                #
-                formula=f"AND({{state}}='{self.state_full_name}',NOT({{agency_rtci}}=''))",
-            )
-            if d["ori"] not in self.exclude_oris
-        }
-        # specify self.oris for super class
-        self.oris = list(self.agencies.values())
+        self.agencies = pull_sheet(sheet="sample", url=gc_files["agencies"])
+        self.agencies = self.agencies[
+            (self.agencies["state"] == "CO")
+            & (self.agencies["exclude"] == "No")
+            & (~self.agencies["ori"].isin(self.exclude_oris))
+        ]
+        print(self.agencies)
+        # self.agencies = {
+        #     d["agency_rtci"]: d["ori"]
+        #     for d in get_records_from_sheet(
+        #         self.logger,
+        #         "Metadata",
+        #         # formula=f"{{state}}='{self.state_full_name}'"
+        #         # note: this includes agencies that are not included
+        #         # in the existing RTCI sample (audited out for missing data, etc.);
+        #         # to include only those matching the `final_sample.csv` file, use:
+        #         #
+        #         formula=f"AND({{state}}='{self.state_full_name}',NOT({{agency_rtci}}=''))",
+        #     )
+        #     if d["ori"] not in self.exclude_oris
+        # }
+        # # specify self.oris for super class
+        # self.oris = list(self.agencies.values())
         self.map = {
             "Murder and Nonnegligent Manslaughter": "murder",
             "All Rape": "rape",

@@ -1,0 +1,11 @@
+*.csv
+*.idea*
+*.log
+*.pyc
+*.tar
+*.xls
+*.xlsx
+
+*/__pycache__/*
+
+.DS_Store

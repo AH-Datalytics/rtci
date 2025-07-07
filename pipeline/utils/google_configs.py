@@ -19,9 +19,14 @@ def authorize():
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive",
     ]
-    credentials = Credentials.from_service_account_file(
-        "../gc_serv.json", scopes=scopes
-    )
+    try:
+        credentials = Credentials.from_service_account_file(
+            "../gc_serv.json", scopes=scopes
+        )
+    except FileNotFoundError:
+        credentials = Credentials.from_service_account_file(
+            "../../gc_serv.json", scopes=scopes
+        )
     return gspread.authorize(credentials)
 
 

@@ -24,6 +24,7 @@ class AgenciesNameMatch:
             "Bensalem Township": "Bensalem",
             "Charlotte-Mecklenburg": "Charlotte",
             "Coeur d'Alene": "Coeur D Alene",
+            "Duval County": "Jacksonville",
             "Louisville Metro": "Louisville",
             "Lower Merion Township": "Lower Merion",
             "Lower Paxton Township": "Lower Paxton",

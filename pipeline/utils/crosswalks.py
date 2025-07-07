@@ -8,7 +8,7 @@
 # _Ben and Jeff Work >
 # Ben and Jeff working files
 
-PREFIX = "https://rtci.s3.us-east-1.amazonaws.com/crosswalks/"
+PREFIX = "https://rtci.s3.us-east-1.amazonaws.com/crosswalks/agencies/"
 
 ILCPD0000 = (
     PREFIX

@@ -1,10 +1,13 @@
 import argparse
+import inspect
+import os
 import pandas as pd
 import sys
 import us
 
 from datetime import datetime as dt
 from datetime import timedelta as td
+from dateutil.relativedelta import relativedelta
 from pathlib import Path
 from time import time
 
@@ -24,6 +27,28 @@ parser.add_argument(
     action="store_true",
     help="""If specified, no interactions with AWS S3 or Airtable will take place.""",
 )
+parser.add_argument(
+    "-f",
+    "--first",
+    type=str,
+    nargs="?",
+    const="2017-01",
+    default=None,
+    help="""
+    Start date from which to collect monthly data 
+    (defaults to '2017-01' in format '%Y-%m').
+    """,
+)
+parser.add_argument(
+    "-v",
+    "--visible",
+    default=False,
+    action="store_true",
+    help="""
+    If specified, selenium driver will produce a visible browser window (this can only be used locally for 
+    testing, since the Docker environment on the remote server does not have a screen).
+    """,
+)
 
 
 class Scraper:
@@ -36,7 +61,7 @@ class Scraper:
         self.state = str(Path.cwd()).split("/")[-1]
         self.state_full_name = us.states.lookup(self.state).name
         self.oris = []
-        self.first = dt(2017, 1, 1, 0, 0, 0, 000000)
+        self.first = self.set_first()
         self.last = (
             dt.now().replace(day=1, hour=23, minute=59, second=59, microsecond=999999)
             - td(days=1)
@@ -44,6 +69,39 @@ class Scraper:
             days=1
         )  # last day of month before last
         self.logger.info(f"collecting data from {self.first} to {self.last}")
+        self.collected_earliest = None
+        self.collected_latest = None
+
+    def set_first(self):
+        if self.args.first:
+            return dt.strptime(self.args.first, "%Y-%m")
+
+        # if no specified first date arg, retrieve the most recent ledger of
+        # earliest and latest collected data dates
+        most_recent_run = pd.read_csv(
+            "https://rtci.s3.us-east-1.amazonaws.com/crosswalks/most_recent_run.csv"
+        )
+
+        # get the name of the file from which the scrape is running
+        child_class = type(self)
+        child_module = inspect.getmodule(child_class)
+        child_file_path = child_module.__file__
+        scraper = os.path.basename(child_file_path)[:-3]
+
+        # if the latest data date has already been documented, start from 12 months prior
+        if len(most_recent_run) > 0 and scraper in most_recent_run["scraper"].unique():
+            rows = most_recent_run[most_recent_run["scraper"] == scraper]
+            assert len(rows["data_to"].unique()) == 1
+            data_to = rows["data_to"].unique()[0]
+            if isinstance(data_to, str) and data_to != "":
+                return (
+                    dt.strptime(data_to, "%Y-%m")
+                    - td(days=365)
+                    + relativedelta(months=1)
+                )
+
+        # if no data default to earliest
+        return dt(2017, 1, 1, 0, 0)
 
     @staticmethod
     def scrape():
@@ -96,6 +154,9 @@ class Scraper:
             #     .transform(lambda g: g.rolling(window=12).sum())
             # )
 
+        self.collected_earliest = dt.strftime(df["date"].min().date(), "%Y-%m")
+        self.collected_latest = dt.strftime(df["date"].max().date(), "%Y-%m")
+
         # extract year and month from data
         df["year"] = df["date"].dt.year
         df["month"] = df["date"].dt.month
@@ -118,6 +179,10 @@ class Scraper:
         if not self.args.test:
             self.logger.info("exporting to aws s3 and airtable...")
             self.export(processed)
+
+        self.logger.info(f"earliest data: {self.collected_earliest}")
+        self.logger.info(f"latest data: {self.collected_latest}")
+        self.logger.info(f"completed oris: {self.oris}")
 
     def export(self, processed):
         airtable_meta = list()

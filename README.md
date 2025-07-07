@@ -1,5 +1,5 @@
 # RTCI
-Real-time Crime Index Repository
+Real-Time Crime Index Repository
 
 Data, scripts for cleaning and sourcing data, and code that built the dynamic applications on the website (https://realtimecrimeindex.com/) can be found here. 
 

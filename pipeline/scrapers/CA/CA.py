@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup as bS
 from datetime import datetime as dt
 
 sys.path.append("../../utils")
-from airtable import get_records_from_sheet
+from google_configs import gc_files, pull_sheet
 from super import Scraper
 
 
@@ -38,20 +38,16 @@ class California(Scraper):
         # get months in proper post format
         months = self.get_months()
 
-        # get oris to crosswalk agencies to airtable
-        self.agencies = {
-            d["agency_cde"].upper(): d["ori"]
-            for d in get_records_from_sheet(
-                self.logger,
-                "Metadata",
-                formula=f"{{state}}='{self.state_full_name}'"
-                # note: this includes agencies that are not included
-                # in the existing RTCI sample (audited out for missing data, etc.);
-                # to include only those matching the `final_sample.csv` file, use:
-                #
-                # formula=f"AND({{state}}='{self.state_full_name}',NOT({{agency_rtci}}=''))",
-            )
-        }
+        # get list of agencies in state from airtable
+        self.agencies = pull_sheet(sheet="sample", url=gc_files["agencies"])
+        self.agencies = self.agencies[
+            (self.agencies["state"] == self.state)
+            & (self.agencies["exclude"] == "No")
+            & (~self.agencies["ori"].isin(self.exclude_oris))
+        ]
+        self.agencies = dict(
+            zip(self.agencies["name"].str.upper(), self.agencies["ori"])
+        )
 
         # first request is just a get to retrieve initial asp state params
         r = requests.get(self.url)

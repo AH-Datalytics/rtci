@@ -8,8 +8,6 @@ from pathlib import Path
 from time import sleep
 
 sys.path.append("../../utils")
-# from airtable import get_records_from_sheet
-from google_configs import gc_files, pull_sheet
 from selenium_actions import (
     check_for_element,
     click_element,
@@ -32,31 +30,9 @@ class Colorado(Scraper):
         self.years = list(range(self.first.year, self.last.year + 1))
         self.batch_size = 13
         self.records = list()
-        # get list of agencies in state from airtable
         self.exclude_oris = []
-        self.agencies = pull_sheet(sheet="sample", url=gc_files["agencies"])
-        self.agencies = self.agencies[
-            (self.agencies["state"] == "CO")
-            & (self.agencies["exclude"] == "No")
-            & (~self.agencies["ori"].isin(self.exclude_oris))
-        ]
-        print(self.agencies)
-        # self.agencies = {
-        #     d["agency_rtci"]: d["ori"]
-        #     for d in get_records_from_sheet(
-        #         self.logger,
-        #         "Metadata",
-        #         # formula=f"{{state}}='{self.state_full_name}'"
-        #         # note: this includes agencies that are not included
-        #         # in the existing RTCI sample (audited out for missing data, etc.);
-        #         # to include only those matching the `final_sample.csv` file, use:
-        #         #
-        #         formula=f"AND({{state}}='{self.state_full_name}',NOT({{agency_rtci}}=''))",
-        #     )
-        #     if d["ori"] not in self.exclude_oris
-        # }
-        # # specify self.oris for super class
-        # self.oris = list(self.agencies.values())
+        self.agencies = self.get_agencies(self.exclude_oris)
+        self.oris = list(self.agencies.values())
         self.map = {
             "Murder and Nonnegligent Manslaughter": "murder",
             "All Rape": "rape",
@@ -96,6 +72,7 @@ class Colorado(Scraper):
 
         # config jurisdictions
         click_element(self, "a", "text", "Jurisdiction by Type")
+        click_element_next(self, "span", "text", "Sheriff's Office", "input", 1)
         click_element_next(self, "span", "text", "Local Police Department", "input", 1)
 
         # config months
@@ -202,8 +179,7 @@ class Colorado(Scraper):
         out = list()
         dfs = self.split_dataframe_into_batches(df, batch_size=14)[1:]
         for df in dfs:
-            agency = list(df.columns)[0].replace(" Police Department", "")
-            agency = agency.replace(" Department of Public Safety", "")
+            agency = list(df.columns)[0]
             df.columns = df.iloc[1]
             df = df.rename_axis(None, axis=1).T
             df = df.reset_index()[["Offense Type", str(year)]].rename_axis(None, axis=1)

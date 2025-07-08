@@ -9,7 +9,6 @@ from pathlib import Path
 from time import sleep
 
 sys.path.append("../../utils")
-from airtable import get_records_from_sheet
 from selenium_actions import (
     check_for_element,
     click_element,
@@ -41,23 +40,8 @@ class Arizona(Scraper):
         }
         self.batch_size = 91
         self.records = list()
-        # get list of agencies in state from airtable
-        self.exclude_oris = ["AZ0072300"]
-        self.agencies = {
-            d["agency_rtci"]: d["ori"]
-            for d in get_records_from_sheet(
-                self.logger,
-                "Metadata",
-                # formula=f"{{state}}='{self.state_full_name}'"
-                # note: this includes agencies that are not included
-                # in the existing RTCI sample (audited out for missing data, etc.);
-                # to include only those matching the `final_sample.csv` file, use:
-                #
-                formula=f"AND({{state}}='{self.state_full_name}',NOT({{agency_rtci}}=''))",
-            )
-            if d["ori"] not in self.exclude_oris
-        }
-        # specify self.oris for super class
+        self.exclude_oris = ["AZ0072300", "AZ0100300"]
+        self.agencies = self.get_agencies(self.exclude_oris)
         self.oris = list(self.agencies.values())
 
     def scrape(self):
@@ -84,6 +68,7 @@ class Arizona(Scraper):
 
         # config jurisdictions
         click_element(self, "a", "text", "Jurisdiction by Type")
+        click_element_next(self, "span", "text", "Sheriff's Office", "input", 1)
         click_element_next(self, "span", "text", "Local Police Department", "input", 1)
 
         # config years
@@ -170,8 +155,9 @@ class Arizona(Scraper):
         return batches
 
     def format_one_agency(self, df):
-        agency = list(df.columns)[0].replace(" PD", "")
-        # agency = agency.replace(" Metropolitan", "")
+        agency = list(df.columns)[0]
+        agency = agency.replace(" PD", " Police Department")
+        agency = agency.replace(" SO", " Sheriff's Office")
         df = df.rename(columns=df.iloc[0])
         dfs = self.split_dataframe_into_batches(df, 13)
 

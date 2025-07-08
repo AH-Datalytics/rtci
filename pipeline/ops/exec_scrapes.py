@@ -34,6 +34,7 @@ class ScrapeRunner:
             "last_attempt",
             "last_success",
             "duration",
+            "overall_from",
             "data_from",
             "data_to",
             "status",
@@ -60,8 +61,12 @@ class ScrapeRunner:
 
         # if only some scrapers specified in arg, only run those
         if self.args.scrapers:
-            for scraper in self.args.scrapers:
-                assert scraper in [d["scraper"][:-3] for d in scrapers]
+            assert all(
+                [
+                    scraper in [d["scraper"][:-3] for d in scrapers]
+                    for scraper in self.args.scrapers
+                ]
+            )
             scrapers = [d for d in scrapers if d["scraper"][:-3] in self.args.scrapers]
 
         # pull the agencies sheet `agencies.sample` and compare
@@ -101,9 +106,12 @@ class ScrapeRunner:
                 self.scraping_sheet["last_success"] >= self.args.run_from
             ]["scraper"].unique()
             scrapers = [d for d in scrapers if d["scraper"][:-3] not in good]
+
         self.logger.info(f"identified {len(scrapers)} scrapers that need to be rerun")
         if not scrapers:
             return
+
+        print("running scrapers:", scrapers)
 
         # scrape execution (thread subprocesses to run all scrapes)
         results = thread(self.scrape_one, scrapers)
@@ -122,8 +130,12 @@ class ScrapeRunner:
             ]
         )
 
+        print(out)
+
         # update `agencies.scraping` sheet
-        self.logger.info(f"sample record: {out.to_dict('records')[0]}")
+        self.logger.info(
+            f"sample record: {out[out['scraper'].isin(results['scraper'].unique())].to_dict('records')[0]}"
+        )
         if not self.args.test:
             update_sheet(
                 sheet="scraping",
@@ -131,16 +143,12 @@ class ScrapeRunner:
                 url=gc_files["agencies"],
             )
 
-        # pull the completed run data and save outputs for ingestion into scrapes
-        to_store = pull_sheet(sheet="scraping", url=gc_files["agencies"])
-        snapshot_df(
-            self.logger, to_store, path="crosswalks/", filename="most_recent_run"
-        )
-
     def scrape_one(self, scrape):
         """
         runs one scraper and returns a list of operational metadata results per-ori
         """
+        output = list()
+
         # confirms which oris are being attempted based on the
         # (manually specified) `scraper` col in `agencies.sample`
         attempted_oris = self.sheet[self.sheet["scraper"] == scrape["scraper"][:-3]][
@@ -172,15 +180,19 @@ class ScrapeRunner:
         end_time = dt.now()
         duration = end_time - start_time
 
+        print("attempted oris:", attempted_oris)
+
         # if scrape succeeds, ensure oris line up and return good status
         if result.returncode == 0:
-            print(result.stderr)
+            self.logger.info(f"succeeded: {scrape['scraper']}")
 
             collected_oris = [
                 ln for ln in result.stderr.split("\n") if "completed oris: " in ln
             ]
             assert len(collected_oris) == 1
             collected_oris = re.findall(r"'([A-Z0-9]{9})'", collected_oris[0])
+
+            print("collected oris", collected_oris)
 
             if set(attempted_oris).difference(set(collected_oris)):
                 raise ValueError(
@@ -207,22 +219,39 @@ class ScrapeRunner:
             data_from = data_from[0]
             data_to = data_to[0]
 
-            return [
-                {
-                    "ori": ori,
-                    "scraper": scrape["scraper"][:-3],
-                    "last_attempt": dt.strftime(end_time.date(), "%Y-%m-%d"),
-                    "last_success": dt.strftime(end_time.date(), "%Y-%m-%d"),
-                    "duration": duration.seconds,
-                    "data_from": data_from,
-                    "data_to": data_to,
-                    "status": "good",
-                }
-                for ori in collected_oris
-            ]
+            for ori in attempted_oris:
+                # if scrape has been attempted before, leave it's existing overall_from
+                if ori in self.scraping_sheet["ori"].unique():
+                    assert len(
+                        self.scraping_sheet[self.scraping_sheet["ori"] == ori] == 1
+                    )
+                    overall_from = self.scraping_sheet[
+                        self.scraping_sheet["ori"] == ori
+                    ].iloc[0]["overall_from"]
+
+                # if scrape hasn't been tried before according to `agencies.scraping_sheet`,
+                # put in a blank last_success
+                else:
+                    overall_from = data_from
+
+                output.append(
+                    {
+                        "ori": ori,
+                        "scraper": scrape["scraper"][:-3],
+                        "last_attempt": dt.strftime(end_time.date(), "%Y-%m-%d"),
+                        "last_success": dt.strftime(end_time.date(), "%Y-%m-%d"),
+                        "duration": duration.seconds,
+                        "overall_from": overall_from,
+                        "data_from": data_from,
+                        "data_to": data_to,
+                        "status": "good",
+                    }
+                )
 
         # if scrape fails, return bad status for attempted oris
         else:
+            self.logger.warning(f"failed: {scrape['scraper']}")
+
             for ori in attempted_oris:
                 # if scrape has been attempted before, leave it's existing last_success
                 if ori in self.scraping_sheet["ori"].unique():
@@ -238,6 +267,9 @@ class ScrapeRunner:
                     data_to = self.scraping_sheet[
                         self.scraping_sheet["ori"] == ori
                     ].iloc[0]["data_to"]
+                    overall_from = self.scraping_sheet[
+                        self.scraping_sheet["ori"] == ori
+                    ].iloc[0]["overall_from"]
 
                 # if scrape hasn't been tried before according to `agencies.scraping_sheet`,
                 # put in a blank last_success
@@ -245,20 +277,23 @@ class ScrapeRunner:
                     last_success = ""
                     data_from = ""
                     data_to = ""
+                    overall_from = ""
 
-                return [
+                output.append(
                     {
                         "ori": ori,
                         "scraper": scrape["scraper"][:-3],
                         "last_attempt": dt.strftime(end_time.date(), "%Y-%m-%d"),
                         "last_success": last_success,
                         "duration": duration.seconds,
+                        "overall_from": overall_from,
                         "data_from": data_from,
                         "data_to": data_to,
                         "status": "bad",
                     }
-                    for ori in attempted_oris
-                ]
+                )
+
+        return output
 
 
 if __name__ == "__main__":

@@ -47,6 +47,10 @@ def click_element_next(self, tag, feature, value, next_tag, steps):
     xpath = f"//{tag}[@{feature}='{value}']/following-sibling::{next_tag}[{steps}]"
     if feature == "text":
         xpath = f"//{tag}[{feature}()='{value}']/following-sibling::{next_tag}[{steps}]"
+        if xpath.count("'") > 2:
+            xpath = (
+                f'//{tag}[{feature}()="{value}"]/following-sibling::{next_tag}[{steps}]'
+            )
     self.wait.until(ec.visibility_of_element_located((By.XPATH, xpath))).click()
     sleep(1)
     self.logger.info(f"clicked {xpath}")

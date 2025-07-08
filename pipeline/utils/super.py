@@ -14,6 +14,7 @@ from time import time
 sys.path.append("../utils")
 import crosswalks
 
+from google_configs import gc_files, pull_sheet
 from logger import create_logger
 from airtable import insert_to_airtable_sheet
 from aws import snapshot_json
@@ -78,9 +79,7 @@ class Scraper:
 
         # if no specified first date arg, retrieve the most recent ledger of
         # earliest and latest collected data dates
-        most_recent_run = pd.read_csv(
-            "https://rtci.s3.us-east-1.amazonaws.com/crosswalks/most_recent_run.csv"
-        )
+        scraping_sheet = pull_sheet(sheet="scraping", url=gc_files["agencies"])
 
         # get the name of the file from which the scrape is running
         child_class = type(self)
@@ -89,8 +88,8 @@ class Scraper:
         scraper = os.path.basename(child_file_path)[:-3]
 
         # if the latest data date has already been documented, start from 12 months prior
-        if len(most_recent_run) > 0 and scraper in most_recent_run["scraper"].unique():
-            rows = most_recent_run[most_recent_run["scraper"] == scraper]
+        if len(scraping_sheet) > 0 and scraper in scraping_sheet["scraper"].unique():
+            rows = scraping_sheet[scraping_sheet["scraper"] == scraper]
             assert len(rows["data_to"].unique()) == 1
             data_to = rows["data_to"].unique()[0]
             if isinstance(data_to, str) and data_to != "":
@@ -102,6 +101,16 @@ class Scraper:
 
         # if no data default to earliest
         return dt(2017, 1, 1, 0, 0)
+
+    def get_agencies(self, exclude_oris):
+        agencies = pull_sheet(sheet="sample", url=gc_files["agencies"])
+        agencies = agencies[
+            (agencies["state"] == self.state)
+            & ((agencies["exclude"] == "No") | (agencies["clearance_exclude"] == "No"))
+            & (~agencies["ori"].isin(exclude_oris))
+        ]
+        agencies = dict(zip(agencies["name"], agencies["ori"]))
+        return agencies
 
     @staticmethod
     def scrape():
@@ -180,6 +189,7 @@ class Scraper:
             self.logger.info("exporting to aws s3 and airtable...")
             self.export(processed)
 
+        # this logging is parsed by `ops/exec_scrapers.py` so it shouldn't be altered
         self.logger.info(f"earliest data: {self.collected_earliest}")
         self.logger.info(f"latest data: {self.collected_latest}")
         self.logger.info(f"completed oris: {self.oris}")

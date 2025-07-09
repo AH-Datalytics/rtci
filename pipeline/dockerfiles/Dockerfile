@@ -28,8 +28,13 @@ RUN rm google-chrome-stable_current_amd64.deb
 # remove downloaded package files to clear up space in the container
 RUN apt-get clean
 
-# sets the python path within the docker container filesystem
-ENV PYTHONPATH "${PYTHONPATH}:/rtci"
+# sets python paths within the docker container filesystem
+ENV PYTHONPATH "${PYTHONPATH}:/rtci:/rtci/pipeline:/rtci/pipeline/utils:/rtci/pipeline/ops"
 
-# this is a generic command to leave the container running indefinitely
-CMD tail -F anything
+# move into the correct directory and run the main scrape execution script
+WORKDIR /rtci/pipeline/ops
+CMD ["python3", "exec_scrapes.py"]
+
+# note: if you want to keep the container running to inspect,
+# this is a generic command to leave it indefinitely
+#CMD tail -F anything

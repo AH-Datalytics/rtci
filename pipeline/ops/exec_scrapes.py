@@ -7,7 +7,6 @@ import sys
 from datetime import datetime as dt
 
 sys.path.append("../utils")
-from aws import snapshot_df
 from google_configs import gc_files, pull_sheet, update_sheet
 from logger import create_logger
 from parallelize import thread
@@ -111,8 +110,6 @@ class ScrapeRunner:
         if not scrapers:
             return
 
-        print("running scrapers:", scrapers)
-
         # scrape execution (thread subprocesses to run all scrapes)
         results = thread(self.scrape_one, scrapers)
         results = pd.DataFrame(results)
@@ -129,8 +126,6 @@ class ScrapeRunner:
                 results[~results["ori"].isin(self.scraping_sheet["ori"].unique())],
             ]
         )
-
-        print(out)
 
         # update `agencies.scraping` sheet
         self.logger.info(
@@ -180,8 +175,6 @@ class ScrapeRunner:
         end_time = dt.now()
         duration = end_time - start_time
 
-        print("attempted oris:", attempted_oris)
-
         # if scrape succeeds, ensure oris line up and return good status
         if result.returncode == 0:
             self.logger.info(f"succeeded: {scrape['scraper']}")
@@ -191,8 +184,6 @@ class ScrapeRunner:
             ]
             assert len(collected_oris) == 1
             collected_oris = re.findall(r"'([A-Z0-9]{9})'", collected_oris[0])
-
-            print("collected oris", collected_oris)
 
             if set(attempted_oris).difference(set(collected_oris)):
                 raise ValueError(

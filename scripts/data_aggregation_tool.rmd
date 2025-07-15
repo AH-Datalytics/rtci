@@ -43,7 +43,7 @@ data_dir <- file.path(
   "Open Source Data",
   "_Ben and Jeff work",
   "Months",
-  "April 2025",
+  "May 2025",
   "Cities"
 )
 
@@ -714,11 +714,6 @@ head(city_month_coverage)
 
 
 ```
-
-
-
-
-
 state sums - only agencies included in sample
 ```{r}
 # Aggregate crime counts and population at the national level by Year and Month
@@ -1241,7 +1236,13 @@ write.csv(sample_cities,file.path("scripts/auditing/archive/", paste0("sample_ci
 ```
 run the above
 ```{r}
+city_state.x
+city_state.y
 
+Agency_Type.x 
+Agency_Type.y
+
+cd1 <- cleaned_data %>% select(city_state_id, city_state.x, city_state.y, Agency_Type.x, Agency_Type)
 ```
 
 

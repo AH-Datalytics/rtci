@@ -37,7 +37,7 @@ for state in states:
             # ...that still need to run
             if any([scrape.split(".")[0] in r for r in to_run]):
                 subprocess.run(
-                    f"cd ../scrapers/{state} && python3 {scrape}", shell=True
+                    f"cd ../Dockerfile_scrapers/{state} && python3 {scrape}", shell=True
                 )
 
             # ...that ran recently
@@ -52,4 +52,6 @@ for state in states:
 
         # for agency-level scrapes that still need to run
         else:
-            subprocess.run(f"cd ../scrapers/{state} && python3 {scrape}", shell=True)
+            subprocess.run(
+                f"cd ../Dockerfile_scrapers/{state} && python3 {scrape}", shell=True
+            )

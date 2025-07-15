@@ -6,10 +6,9 @@ from datetime import datetime as dt
 from datetime import timedelta as td
 
 sys.path.append("../utils")
-
-from airtable import get_records_from_sheet
 from aws import list_directories, list_files, snapshot_df
 from crimes import rtci_to_nibrs
+from google_configs import gc_files, pull_sheet
 from logger import create_logger
 
 
@@ -48,6 +47,7 @@ class AggregatedSince:
         ).replace(day=1) - td(
             days=1
         )  # last day of month before last
+        self.sheet = pull_sheet(sheet="sample", url=gc_files["agencies"])
 
     def run(self):
         dfs = list()
@@ -70,17 +70,11 @@ class AggregatedSince:
                 df = pd.read_json(self.bucket_url + fn)
                 df["source"] = "Scraper"
 
-                # pull RTCI agency name from Airtable
-                agency = get_records_from_sheet(
-                    self.logger,
-                    "Metadata",
-                    formula=f"AND({{ori}}='{fn.split('/')[2]}',NOT({{agency_rtci}}=''))",
-                )
-
+                agency = self.sheet[self.sheet["ori"] == fn.split("/")[2]]
                 assert len(agency) <= 1
 
-                if agency:
-                    agency = agency[0]["agency_rtci"]
+                if len(agency) == 1:
+                    agency = agency.iloc[0]["name"]
                     df["state"] = state
                     df.insert(loc=0, column="agency_name", value=agency)
 
@@ -112,6 +106,7 @@ class AggregatedSince:
                             ]
                         ]
                     else:
+                        self.logger.warning(f"issue with: {fn}")
                         pd.set_option("display.max_columns", 100)
                         raise ValueError(f"wrong number of columns in df:\n{df.head()}")
 

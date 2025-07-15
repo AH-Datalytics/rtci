@@ -8,7 +8,6 @@ from functools import reduce
 from tenacity import retry, stop_after_attempt, stop_after_delay, wait_random
 
 sys.path.append("../utils")
-from airtable import get_records_from_sheet
 from parallelize import thread
 from super import Scraper
 
@@ -47,20 +46,7 @@ class Optimum(Scraper):
             }
 
         # get list of agencies in state from airtable
-        agencies = [
-            d["ori"]
-            for d in get_records_from_sheet(
-                self.logger,
-                "Metadata",
-                # formula=f"{{state}}='{self.state_full_name}'"
-                # note: this includes agencies that are not included
-                # in the existing RTCI sample (audited out for missing data, etc.);
-                # to include only those matching the `final_sample.csv` file, use:
-                #
-                formula=f"AND({{state}}='{self.state_full_name}',NOT({{agency_rtci}}=''))",
-            )
-            if d["ori"] not in self.exclude_oris
-        ]
+        agencies = self.get_agencies(self.exclude_oris).values()
 
         # get list of ori input options from website
         r = requests.get(self.agency_list_url)

@@ -36,6 +36,8 @@ def click_element_previous(self, tag, feature, value, previous_tag, steps):
         xpath = (
             f"//{tag}[{feature}()='{value}']/preceding-sibling::{previous_tag}[{steps}]"
         )
+        if xpath.count("'") > 2:
+            xpath = f'//{tag}[{feature}()="{value}"]/preceding-sibling::{previous_tag}[{steps}]'
     self.wait.until(ec.visibility_of_element_located((By.XPATH, xpath))).click()
     sleep(1)
     self.logger.info(f"clicked {xpath}")

@@ -28,10 +28,24 @@ class California(Scraper):
             "Motor Vehicle Theft": "motor_vehicle_theft",
         }
         self.agencies = None
-        self.exclude_agencies = ["CORONADO", "COUNTY SHERIFF", "TOTAL"]
         self.payload = {
             "ddAgency": "All Agencies",
             "btnSubmit": "Submit",
+        }
+
+    @staticmethod
+    def get_cal_agencies():
+        agencies = pull_sheet(sheet="sample", url=gc_files["agencies"])
+        agencies = agencies[
+            ((agencies["exclude"] == "No") | (agencies["clearance_exclude"] == "No"))
+            & (agencies["scraper"] == "CA")
+        ]
+        agencies = dict(zip(agencies["name"], agencies["ori"]))
+        return {
+            k.upper()
+            .replace(" POLICE DEPARTMENT", "")
+            .replace("SAN DIEGO COUNTY SHERIFF'S OFFICE", "COUNTY SHERIFF"): v
+            for k, v in agencies.items()
         }
 
     def scrape(self):
@@ -39,15 +53,7 @@ class California(Scraper):
         months = self.get_months()
 
         # get list of agencies in state from airtable
-        self.agencies = pull_sheet(sheet="sample", url=gc_files["agencies"])
-        self.agencies = self.agencies[
-            (self.agencies["state"] == self.state)
-            & (self.agencies["exclude"] == "No")
-            & (~self.agencies["ori"].isin(self.exclude_oris))
-        ]
-        self.agencies = dict(
-            zip(self.agencies["name"].str.upper(), self.agencies["ori"])
-        )
+        self.agencies = self.get_cal_agencies()
 
         # first request is just a get to retrieve initial asp state params
         r = requests.get(self.url)
@@ -134,7 +140,7 @@ class California(Scraper):
         )
 
         # only keep agencies, and map to oris from airtable
-        df = df[~df["agency"].isin(self.exclude_agencies)]
+        df = df[df["agency"].isin(self.agencies)]
         df["ori"] = df["agency"].map(self.agencies)
         df = df.drop(columns=["agency"])
 

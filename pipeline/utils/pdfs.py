@@ -15,6 +15,8 @@ def parse_pdf(self, url, verify=False, proxy=None, pages=None):
 
     # handle page limits
     if pages:
+        if isinstance(pages, int):
+            pages = [pages]
         assert isinstance(
             pages, list
         ), f"passed {type(pages)} instead of a list of pages"

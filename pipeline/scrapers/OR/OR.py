@@ -2,7 +2,6 @@ import pandas as pd
 import sys
 
 sys.path.append("../../utils")
-from airtable import get_records_from_sheet
 from super import Scraper
 
 
@@ -28,36 +27,20 @@ class Oregon(Scraper):
 
     def scrape(self):
         # get list of agencies in state from airtable
-        agencies = [
-            {"ori": d["ori"], "name_cde": d["agency_cde"]}
-            for d in get_records_from_sheet(
-                self.logger,
-                "Metadata",
-                # formula=f"{{state}}='{self.state_full_name}'"
-                # note: this includes agencies that are not included
-                # in the existing RTCI sample (audited out for missing data, etc.);
-                # to include only those matching the `final_sample.csv` file, use:
-                #
-                formula=f"AND({{state}}='{self.state_full_name}',NOT({{agency_rtci}}=''))",
-            )
-            if d["ori"] not in self.exclude_oris
-        ]
+        agencies = self.get_agencies(self.exclude_oris)
 
         # make sure we have 1:1 mapping of OR agency names with the CDE source
         odf = pd.read_csv(self.offenses_url, low_memory=False)[
             ["Agency Name", "IncidentDate", "NIBRS Report Title", "Distinct Offenses"]
         ]
-        o_potential_matches = [
-            a
-            for a in odf["Agency Name"].unique()
-            if any([a.startswith(n["name_cde"]) for n in agencies])
-        ]
+        odf["Agency Name"] = odf["Agency Name"].apply(
+            lambda s: self.match_prep_agency(s)
+        )
+        o_potential_matches = [a for a in odf["Agency Name"].unique() if a in agencies]
         assert len(o_potential_matches) == len(agencies)
-
-        for a in o_potential_matches:
-            for d in agencies:
-                if a.startswith(d["name_cde"]):
-                    d.update({"name_or": a})
+        odf = odf[odf["Agency Name"].isin(o_potential_matches)]
+        assert set(odf["Agency Name"].unique()) == set(agencies.keys())
+        odf["ori"] = odf["Agency Name"].map(agencies)
 
         # fold in the second CSV (victims as opposed to offenses)
         vdf = pd.read_csv(self.victims_url, low_memory=False)[
@@ -68,24 +51,16 @@ class Oregon(Scraper):
                 "Distinct Offense Victims",
             ]
         ]
-        v_potential_matches = [
-            a
-            for a in vdf["Agency Name"].unique()
-            if any([a.startswith(n["name_cde"]) for n in agencies])
-        ]
-        assert set(v_potential_matches) == set(o_potential_matches)
+        vdf["Agency Name"] = vdf["Agency Name"].apply(
+            lambda s: self.match_prep_agency(s)
+        )
+        v_potential_matches = [a for a in vdf["Agency Name"].unique() if a in agencies]
+        assert len(v_potential_matches) == len(agencies)
+        vdf = vdf[vdf["Agency Name"].isin(v_potential_matches)]
+        assert set(vdf["Agency Name"].unique()) == set(agencies.keys())
+        vdf["ori"] = vdf["Agency Name"].map(agencies)
 
-        # a few more assertions to make sure we're 1:1 mapping
-        assert len(set([d["name_or"] for d in agencies])) == len(agencies)
-        assert len(set([d["ori"] for d in agencies])) == len(agencies)
-
-        self.oris.extend([d["ori"] for d in agencies])
-
-        # map CSVs to ORIs and include only viable agencies
-        odf = odf[odf["Agency Name"].isin([d["name_or"] for d in agencies])]
-        vdf = vdf[vdf["Agency Name"].isin([d["name_or"] for d in agencies])]
-        odf["ori"] = odf["Agency Name"].map({d["name_or"]: d["ori"] for d in agencies})
-        vdf["ori"] = vdf["Agency Name"].map({d["name_or"]: d["ori"] for d in agencies})
+        self.oris.extend(list(agencies.values()))
 
         # subset `offenses.csv` to all non-murder crimes
         # subset `victims.csv` to murder
@@ -130,6 +105,16 @@ class Oregon(Scraper):
         for crime in self.crimes:
             df[crime] = df[crime].fillna(0.0)
         return df.to_dict("records")
+
+    @staticmethod
+    def match_prep_agency(s):
+        if s.endswith(" PD"):
+            return s.replace(" PD", " Police Department")
+        elif s.endswith(" PD MIP"):
+            return s.replace(" PD MIP", " Police Department")
+        elif s.endswith(" SO"):
+            return s.replace(" SO", " County Sheriff's Office")
+        return s
 
 
 Oregon().run()

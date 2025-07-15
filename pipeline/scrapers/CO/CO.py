@@ -180,6 +180,9 @@ class Colorado(Scraper):
         dfs = self.split_dataframe_into_batches(df, batch_size=14)[1:]
         for df in dfs:
             agency = list(df.columns)[0]
+            agency = agency.replace(
+                " Department of Public Safety", " Police Department"
+            )
             df.columns = df.iloc[1]
             df = df.rename_axis(None, axis=1).T
             df = df.reset_index()[["Offense Type", str(year)]].rename_axis(None, axis=1)

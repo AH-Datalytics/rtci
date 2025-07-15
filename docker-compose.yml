@@ -5,12 +5,25 @@
 
 
 services:
+
+  # to trigger `python3 exec_scrapes.py` runs on container generation
   scrapers:
     build:
       context: .
-      dockerfile: pipeline/dockerfiles/Dockerfile
-    container_name: scrapers
+      dockerfile: pipeline/dockerfiles/Dockerfile_scrapers
+    container_name: Dockerfile_scrapers
     image: scrapers
+    volumes:
+      - .:/rtci
+      - ~/.gitconfig:/etc/gitconfig
+
+  # for development and testing, `tail -F anything`
+  dev:
+    build:
+      context: .
+      dockerfile: pipeline/dockerfiles/Dockerfile_dev
+    container_name: Dockerfile_dev
+    image: dev
     volumes:
       - .:/rtci
       - ~/.gitconfig:/etc/gitconfig

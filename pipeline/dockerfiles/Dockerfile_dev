@@ -31,10 +31,6 @@ RUN apt-get clean
 # sets python paths within the docker container filesystem
 ENV PYTHONPATH "${PYTHONPATH}:/rtci:/rtci/pipeline:/rtci/pipeline/utils:/rtci/pipeline/ops"
 
-# move into the correct directory and run the main scrape execution script
-WORKDIR /rtci/pipeline/ops
-CMD ["python3", "exec_scrapes.py"]
-
 # note: if you want to keep the container running to inspect,
 # this is a generic command to leave it indefinitely
-#CMD tail -F anything
+CMD tail -F anything

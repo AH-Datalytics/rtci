@@ -16,7 +16,7 @@ class CA0190100(Scraper):
     def __init__(self):
         super().__init__()
         self.oris = ["CA0190100"]
-        self.url = "https://www.cityofalhambra.org/271/Crime-Statistics"
+        self.url = "https://www.alhambraca.gov/271/Crime-Statistics"
         self.latest_year, self.latest_month = None, None
         self.mapping = {
             "MURDER": "murder",
@@ -33,6 +33,8 @@ class CA0190100(Scraper):
         soup = bS(r.text, "lxml")
         pdfs = [
             "https://www.cityofalhambra.org/" + a["href"]
+            if a["href"].endswith("-PDF")
+            else "https://www.cityofalhambra.org/" + a["href"] + "-"
             for a in soup.find_all("a", {"class": "fileType pdf"})
         ]
 

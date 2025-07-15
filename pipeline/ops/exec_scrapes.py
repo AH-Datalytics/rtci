@@ -55,6 +55,8 @@ class ScrapeRunner:
                 f
                 for f in os.listdir(f"../scrapers/{state}")
                 if f not in self.exclusions
+                and not f.endswith(".csv")
+                and not f.endswith(".pdf")
             ]
             scrapers.extend([{"state": state, "scraper": f} for f in scripts])
 
@@ -114,6 +116,13 @@ class ScrapeRunner:
         results = thread(self.scrape_one, scrapers)
         results = pd.DataFrame(results)
 
+        # remove any hanging pdfs or csvs from failed scrape attempts
+        for state in states:
+            for f in os.listdir(f"../scrapers/{state}"):
+                if f.endswith(".csv") or f.endswith(".pdf"):
+                    self.logger.info(f"removing hanging file: ../scrapers/{state}/{f}")
+                    os.remove(f"../scrapers/{state}/{f}")
+
         # "upsert" (via update and then concat for new results) scrape results into `agencies.scraping`
         self.scraping_sheet.set_index("ori", inplace=True)
         results.set_index("ori", inplace=True)
@@ -134,7 +143,7 @@ class ScrapeRunner:
         if not self.args.test:
             update_sheet(
                 sheet="scraping",
-                df=out,
+                df=out.sort_values(by="ori"),
                 url=gc_files["agencies"],
             )
 
@@ -216,9 +225,17 @@ class ScrapeRunner:
                     assert len(
                         self.scraping_sheet[self.scraping_sheet["ori"] == ori] == 1
                     )
-                    overall_from = self.scraping_sheet[
-                        self.scraping_sheet["ori"] == ori
-                    ].iloc[0]["overall_from"]
+                    if (
+                        self.scraping_sheet[self.scraping_sheet["ori"] == ori].iloc[0][
+                            "overall_from"
+                        ]
+                        != ""
+                    ):
+                        overall_from = self.scraping_sheet[
+                            self.scraping_sheet["ori"] == ori
+                        ].iloc[0]["overall_from"]
+                    else:
+                        overall_from = data_from
 
                 # if scrape hasn't been tried before according to `agencies.scraping_sheet`,
                 # put in a blank last_success
@@ -242,6 +259,10 @@ class ScrapeRunner:
         # if scrape fails, return bad status for attempted oris
         else:
             self.logger.warning(f"failed: {scrape['scraper']}")
+
+            # print output if debugged flagged
+            if self.args.debug:
+                self.logger.warning(result.stderr)
 
             for ori in attempted_oris:
                 # if scrape has been attempted before, leave it's existing last_success
@@ -296,6 +317,12 @@ if __name__ == "__main__":
         "--test",
         action="store_true",
         help="""If flagged, do not interact with sheet.""",
+    )
+    parser.add_argument(
+        "-d",
+        "--debug",
+        action="store_true",
+        help="""If flagged, log stderr.""",
     )
     parser.add_argument(
         "-s",

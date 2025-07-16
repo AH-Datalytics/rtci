@@ -455,8 +455,12 @@ print(head(final_sample_long), width = Inf)
 
 
 # REMOVE PR FROM GRAPH 
-# final_sample_long <- final_sample_long %>% 
-#   filter(state_name != "Puerto Rico")
+final_sample_long <- final_sample_long %>%
+  filter(state_name != "Puerto Rico")
+
+# REMOVE LOCATION_FULL COLUMN FROM GRAPH DATA SINCE UNUSED AND TOO BIG
+final_sample_long <- final_sample_long %>% 
+  select(-location_full)
 
 # Write the final_sample_long data frame to viz_data.csv
 write.csv(final_sample_long, "../docs/app_data/viz_data.csv", row.names = FALSE)

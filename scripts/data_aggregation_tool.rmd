@@ -428,6 +428,8 @@ undesirables <- bind_rows(undesirables_recency, undesirables_na_current, undesir
 undesirables <- undesirables %>%
   distinct(city_state_id, .keep_all = TRUE)
 ```
+
+
 without non-reporters for 45 day lag month //first month is June
 ```{r}
 # Get unique values from city_state unique id to remove same sample calculations table

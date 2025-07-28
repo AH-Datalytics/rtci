@@ -16,7 +16,6 @@ import crosswalks
 
 from google_configs import gc_files, pull_sheet
 from logger import create_logger
-from airtable import insert_to_airtable_sheet
 from aws import snapshot_json
 from crimes import rtci_to_nibrs
 
@@ -26,7 +25,7 @@ parser.add_argument(
     "-t",
     "--test",
     action="store_true",
-    help="""If specified, no interactions with AWS S3 or Airtable will take place.""",
+    help="""If specified, no interactions with AWS S3 or Google Sheets will take place.""",
 )
 parser.add_argument(
     "-f",
@@ -63,10 +62,9 @@ class Scraper:
         self.state_full_name = us.states.lookup(self.state).name
         self.oris = []
         self.first = self.set_first()
-        self.last = (
-            dt.now().replace(day=1, hour=23, minute=59, second=59, microsecond=999999)
-            - td(days=1)
-        ).replace(day=1) - td(
+        self.last = dt.now().replace(
+            day=1, hour=23, minute=59, second=59, microsecond=999999
+        ) - td(
             days=1
         )  # last day of month before last
         self.logger.info(f"collecting data from {self.first} to {self.last}")
@@ -95,7 +93,7 @@ class Scraper:
             if isinstance(data_to, str) and data_to != "":
                 return (
                     dt.strptime(data_to, "%Y-%m")
-                    - td(days=365)
+                    - relativedelta(years=1)
                     + relativedelta(months=1)
                 )
 
@@ -119,7 +117,10 @@ class Scraper:
     @staticmethod
     def check_for_comma(s):
         if isinstance(s, str):
-            return float(str(s).replace(",", ""))
+            if str(s).replace(",", "") == "":
+                return None
+            else:
+                return float(str(s).replace(",", ""))
         elif isinstance(s, int):
             return float(s)
         else:
@@ -186,7 +187,7 @@ class Scraper:
 
         # export data
         if not self.args.test:
-            self.logger.info("exporting to aws s3 and airtable...")
+            self.logger.info("exporting to aws s3 and google sheets...")
             self.export(processed)
 
         # this logging is parsed by `ops/exec_scrapers.py` so it shouldn't be altered
@@ -195,8 +196,6 @@ class Scraper:
         self.logger.info(f"completed oris: {self.oris}")
 
     def export(self, processed):
-        airtable_meta = list()
-
         for ori in self.oris:
             # subset to data for the specified ori and push to aws s3
             agency_data = [d for d in processed if d["ori"] == ori]
@@ -206,29 +205,3 @@ class Scraper:
                 path=f"scrapes/{self.state}/{ori}/",
                 timestamp=self.run_time,
             )
-
-            # update airtable with status and attempt/success times
-            # TODO: does not currently take into account last_attempt...
-            # TODO: ...move this into bash script?
-            airtable_meta.append(
-                {
-                    "fields": {
-                        "ori": ori,
-                        "status": "Good",
-                        "last_attempt": dt.strftime(
-                            dt.fromtimestamp(self.run_time), "%Y-%m-%d %H:%M:%S"
-                        ),
-                        "last_success": dt.strftime(
-                            dt.fromtimestamp(self.run_time), "%Y-%m-%d %H:%M:%S"
-                        ),
-                    }
-                }
-            )
-
-        insert_to_airtable_sheet(
-            logger=self.logger,
-            sheet_name="Metadata",
-            to_insert=airtable_meta,
-            upsert=True,
-            keys=["ori"],
-        )

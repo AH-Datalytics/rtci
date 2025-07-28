@@ -38,6 +38,8 @@ class NY0590300(Scraper):
         pdfs = [
             "https://www.cmvny.com" + a["href"]
             for a in soup.find_all("a", href=re.compile(r".*\d{4}-Monthly-Crime-Stats"))
+            if dt.strptime("/".join(a["href"].split("/")[-1].split("-")[:2]), "%B/%Y")
+            >= self.first
         ]
 
         # set minimum year and month reported

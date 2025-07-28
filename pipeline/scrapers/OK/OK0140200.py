@@ -33,6 +33,8 @@ class OK0140200(Scraper):
             for a in soup.find_all(
                 "a", string=re.compile(r"Case Offenses Data Set - \d{4}.*")
             )
+            if int(re.match(r"Case Offenses Data Set - (\d{4}).*", a.string).group(1))
+            >= self.first.year
         ]
 
         # run through urls and collect data

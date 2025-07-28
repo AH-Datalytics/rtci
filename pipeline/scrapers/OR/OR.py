@@ -26,7 +26,7 @@ class Oregon(Scraper):
         }
 
     def scrape(self):
-        # get list of agencies in state from airtable
+        # get list of agencies in state from Google sheet
         agencies = self.get_agencies(self.exclude_oris)
 
         # make sure we have 1:1 mapping of OR agency names with the CDE source

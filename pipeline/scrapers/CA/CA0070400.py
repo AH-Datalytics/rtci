@@ -51,6 +51,7 @@ class CA0070400(Scraper):
                 "a", href=re.compile(r".*-Crime-Statistics")
             )
         ]
+        years = [year for year in years if year[0] >= self.first.year]
 
         # run through available years and collect data
         for year in years:

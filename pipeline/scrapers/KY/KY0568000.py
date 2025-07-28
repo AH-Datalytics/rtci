@@ -38,10 +38,10 @@ class KY0568000(Scraper):
                 (2025, "crime_data_2025", "occurred"),
             ]
         ]
+        self.years = [year for year in self.years if year[0] >= self.first.year]
+
         # make sure we're representing years up to most recent
-        assert (
-            self.years[0][0] == self.first.year and self.years[-1][0] == self.last.year
-        )
+        assert self.years[-1][0] == self.last.year
 
     def scrape(self):
         all_years_records = list()
@@ -128,7 +128,13 @@ class KY0568000(Scraper):
 
             all_years_records.extend(df.to_dict("records"))
 
-        return all_years_records
+        # drop duplicates on year/month from getting previous month data in pdfs
+        df = pd.DataFrame(all_years_records)
+        df[["year", "month"]] = df[["year", "month"]].astype(int)
+        df = df.drop_duplicates(["year", "month"])
+        df = df.sort_values(by=["year", "month"])
+        data = df.to_dict("records")
+        return data
 
 
 KY0568000().run()

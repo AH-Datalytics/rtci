@@ -10,7 +10,6 @@ from tableauscraper import TableauScraper as tS
 from time import sleep
 
 sys.path.append("../../utils")
-from airtable import get_records_from_sheet
 from super import Scraper
 
 
@@ -22,6 +21,9 @@ class Minnesota(Scraper):
         super().__init__()
         self.oris = None
         self.exclude_oris = list()
+        self.exclude_oris = []
+        self.agencies = self.get_agencies(self.exclude_oris)
+        self.oris = list(self.agencies.values())
         self.person_url = (
             "https://cde.state.mn.us/views/MNCDE-CrimesAgainstPerson/CrimesAgainstPerson?:embed=y&:showVizHome"
             "=no&:host_url=https://cde.state.mn.us/&:embed_code_version=3&:tabs=false&:toolbar=yes"
@@ -58,22 +60,6 @@ class Minnesota(Scraper):
         self.failures = list()
 
     def scrape(self):
-        # get list of agencies in state from airtable
-        self.oris = [
-            d["ori"]
-            for d in get_records_from_sheet(
-                self.logger,
-                "Metadata",
-                # formula=f"{{state}}='{self.state_full_name}'"
-                # note: this includes agencies that are not included
-                # in the existing RTCI sample (audited out for missing data, etc.);
-                # to include only those matching the `final_sample.csv` file, use:
-                #
-                formula=f"AND({{state}}='{self.state_full_name}',NOT({{agency_rtci}}=''))",
-            )
-            if d["ori"] not in self.exclude_oris
-        ]
-
         self.collect(self.person_url, self.person_mapping)
         self.collect(self.property_url, self.property_mapping)
 

@@ -42,7 +42,9 @@ class WA0370100(Scraper):
                 )
             ]
         )
-        self.years = self.years[: self.years.index(self.last.year) + 1]
+        self.years = self.years[
+            self.years.index(self.first.year) : self.years.index(self.last.year) + 1
+        ]
 
         for year in self.years:
             self.logger.info(f"collecting {year}...")

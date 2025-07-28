@@ -3,13 +3,8 @@ import pandas as pd
 import requests
 import sys
 
-from datetime import datetime as dt
-
 sys.path.append("../../utils")
 from super import Scraper
-
-
-# TODO: handle turn of the year from 2024 -> 2025 in terms of data availability url
 
 
 class LANPD0000(Scraper):
@@ -30,11 +25,12 @@ class LANPD0000(Scraper):
             2022: "9wdb-bznc",
             2023: "j3gz-62a2",
             2024: "c5iy-ew8n",
-            # 2025: "",
+            2025: "agqi-9adb",
         }
         self.urls = {
             k: "https://data.nola.gov/resource/" + v + ".json?$query="
             for k, v in self.urls.items()
+            if k >= self.first.year
         }
 
     def scrape(self):

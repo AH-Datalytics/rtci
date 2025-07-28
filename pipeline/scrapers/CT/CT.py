@@ -6,10 +6,10 @@ import sys
 
 from functools import reduce
 from pathlib import Path
+from selenium.webdriver.common.by import By
 from time import sleep
 
 sys.path.append("../../utils")
-from airtable import get_records_from_sheet
 from selenium_actions import (
     check_for_element,
     click_element,
@@ -19,7 +19,7 @@ from selenium_actions import (
     drag_element,
     hide_element,
 )
-from selenium_configs import firefox_driver
+from selenium_configs import chrome_driver
 from super import Scraper
 
 
@@ -28,27 +28,12 @@ class Connecticut(Scraper):
         super().__init__()
         self.url = "https://ct.beyond2020.com/ct_public/Dim/dimension.aspx"
         self.download_dir = f"{Path.cwd()}"
-        self.driver = firefox_driver(self)
+        self.driver = chrome_driver(self)
         self.years = list(range(self.first.year, self.last.year + 1))
         self.batch_size = 13
         self.records = list()
-        # get list of agencies in state from airtable
         self.exclude_oris = []
-        self.agencies = {
-            d["agency_rtci"]: d["ori"]
-            for d in get_records_from_sheet(
-                self.logger,
-                "Metadata",
-                # formula=f"{{state}}='{self.state_full_name}'"
-                # note: this includes agencies that are not included
-                # in the existing RTCI sample (audited out for missing data, etc.);
-                # to include only those matching the `final_sample.csv` file, use:
-                #
-                formula=f"AND({{state}}='{self.state_full_name}',NOT({{agency_rtci}}=''))",
-            )
-            if d["ori"] not in self.exclude_oris
-        }
-        # specify self.oris for super class
+        self.agencies = self.get_agencies(self.exclude_oris)
         self.oris = list(self.agencies.values())
         self.map = {
             "Murder and Nonnegligent Homicide": "murder",
@@ -124,6 +109,12 @@ class Connecticut(Scraper):
         for year in self.years:
             if check_for_element(self, "span", "text", str(year)):
                 click_element_previous(self, "span", "text", year, "input", 1)
+
+                # for CT only, scroll the report button into view
+                button = self.driver.find_element(
+                    By.XPATH, "//input[@name='ShowUpdatedReportButton']"
+                )
+                self.driver.execute_script("arguments[0].scrollIntoView();", button)
 
                 # gen report
                 click_element(self, "input", "name", "ShowUpdatedReportButton")
@@ -201,7 +192,7 @@ class Connecticut(Scraper):
 
         out = list()
         for df in dfs:
-            agency = list(df.columns)[0].replace(" Police Department", "")
+            agency = list(df.columns)[0]
             df.columns = df.iloc[0]
             df = (
                 df.iloc[2:-1, 1:]

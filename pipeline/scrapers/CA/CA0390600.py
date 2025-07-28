@@ -4,6 +4,7 @@ import requests
 import sys
 
 from bs4 import BeautifulSoup as bS
+from datetime import datetime as dt
 
 sys.path.append("../../utils")
 from pdfs import parse_pdf
@@ -35,6 +36,8 @@ class CA0390600(Scraper):
             for a in soup.find("table", {"id": "dlp_ea1e8a2f8f07d5d0_1"}).find_all(
                 "a", href=re.compile(r".*\.pdf")
             )
+            if dt.strptime(a["href"].split("uploads/")[1].rsplit("/", 1)[0], "%Y/%m")
+            >= self.first
         ]
 
         data = list()

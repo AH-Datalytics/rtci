@@ -45,7 +45,7 @@ class Optimum(Scraper):
                 "EndDate": dt.strftime(self.last, "%m/%d/%Y"),
             }
 
-        # get list of agencies in state from airtable
+        # get list of agencies in state from Google sheet
         agencies = self.get_agencies(self.exclude_oris).values()
 
         # get list of ori input options from website

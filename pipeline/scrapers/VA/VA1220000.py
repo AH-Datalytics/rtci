@@ -31,6 +31,7 @@ class Richmond(Scraper):
         months = list()
         for year in range(self.first.year, dt.now().year + 1):
             months.extend(self.get_year(year))
+        months = [m for m in months if dt.strptime(m[0], "%m/%d/%Y") >= self.first]
 
         # slice on index of month before last
         idx = next(

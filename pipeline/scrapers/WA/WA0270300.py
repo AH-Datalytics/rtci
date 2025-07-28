@@ -10,7 +10,6 @@ from tableauscraper import TableauScraper as tS
 from time import sleep
 
 sys.path.append("../../utils")
-from airtable import get_records_from_sheet
 from super import Scraper
 
 

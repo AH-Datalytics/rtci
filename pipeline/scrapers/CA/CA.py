@@ -52,13 +52,17 @@ class California(Scraper):
         # get months in proper post format
         months = self.get_months()
 
-        # get list of agencies in state from airtable
+        # get list of agencies in state from Google sheet
         self.agencies = self.get_cal_agencies()
 
         # first request is just a get to retrieve initial asp state params
         r = requests.get(self.url)
         soup = bS(r.text, "lxml")
         states = self.get_states(soup)
+
+        # get the latest month available on the page
+        latest = soup.find_all("option", string=re.compile(r".+ / \d{4}"))[-1]["value"]
+        months = months[: months.index(latest) + 1]
 
         # run through months and retrieve data, updating params on each iteration
         records = list()
@@ -87,7 +91,9 @@ class California(Scraper):
         for year in years:
             months = list(range(1, 13))
             dates.extend([dt(year, month, 1) for month in months])
-        return [dt.strftime(d, "%b / %Y") for d in dates if d <= self.last]
+        return [
+            dt.strftime(d, "%b / %Y") for d in dates if self.first <= d <= self.last
+        ]
 
     @staticmethod
     def get_states(soup):
@@ -139,7 +145,7 @@ class California(Scraper):
             .rename_axis(None, axis=1)
         )
 
-        # only keep agencies, and map to oris from airtable
+        # only keep agencies, and map to oris from Google sheet
         df = df[df["agency"].isin(self.agencies)]
         df["ori"] = df["agency"].map(self.agencies)
         df = df.drop(columns=["agency"])

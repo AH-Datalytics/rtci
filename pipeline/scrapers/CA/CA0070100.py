@@ -4,7 +4,6 @@ import requests
 import sys
 
 from bs4 import BeautifulSoup as bS
-from datetime import datetime as dt
 
 sys.path.append("../../utils")
 from pdfs import parse_pdf
@@ -69,6 +68,7 @@ class CA0070100(Scraper):
             .T.reset_index()
             .rename(columns={"index": "month"})
         )
+        df = df[df["month"] != "TOTAL"]
         df["month"] = df["month"].apply(lambda s: s.capitalize())
         df["month"] = pd.to_datetime(df["month"], format="%b").dt.month
         df["year"] = self.last.year

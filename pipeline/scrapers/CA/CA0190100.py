@@ -37,6 +37,16 @@ class CA0190100(Scraper):
             else "https://www.cityofalhambra.org/" + a["href"] + "-"
             for a in soup.find_all("a", {"class": "fileType pdf"})
         ]
+        pdfs = [
+            p
+            for p in pdfs
+            if dt(
+                int(p.split("-")[-3]),
+                dt.strptime(p.split("-")[-4].split("/")[-1], "%B").month,
+                1,
+            )
+            >= self.first
+        ]
 
         # data for the second-to-most-recent month
         # is only maintained in the most recent pdf
@@ -50,6 +60,7 @@ class CA0190100(Scraper):
             )
             for pdf in pdfs
         ]
+
         self.latest_year = max([v[0] for v in latest])
         self.latest_month = max([v[1] for v in latest if v[0] == self.latest_year])
         assert (
@@ -64,6 +75,12 @@ class CA0190100(Scraper):
         for pdf in pdfs:
             data.extend(self.get_monthly_pdf(pdf))
 
+        # drop duplicates on year/month from getting previous month data in pdfs
+        df = pd.DataFrame(data)
+        df[["year", "month"]] = df[["year", "month"]].astype(int)
+        df = df.drop_duplicates(["year", "month"])
+        df = df.sort_values(by=["year", "month"])
+        data = df.to_dict("records")
         return data
 
     def get_monthly_pdf(self, pdf):

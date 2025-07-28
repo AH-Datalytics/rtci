@@ -7,6 +7,7 @@ import sys
 from datetime import datetime as dt
 
 sys.path.append("../utils")
+from aggregator import Aggregator
 from google_configs import gc_files, pull_sheet, update_sheet
 from logger import create_logger
 from parallelize import thread
@@ -69,6 +70,12 @@ class ScrapeRunner:
                 ]
             )
             scrapers = [d for d in scrapers if d["scraper"][:-3] in self.args.scrapers]
+
+        # exclude any scrapers specified in arg
+        if self.args.exclude:
+            scrapers = [
+                d for d in scrapers if d["scraper"][:-3] not in self.args.exclude
+            ]
 
         # pull the agencies sheet `agencies.sample` and compare
         self.sheet = pull_sheet(sheet="sample", url=gc_files["agencies"])
@@ -188,6 +195,10 @@ class ScrapeRunner:
         if result.returncode == 0:
             self.logger.info(f"succeeded: {scrape['scraper']}")
 
+            # print output if debugged flagged
+            if self.args.log:
+                self.logger.info(result.stderr)
+
             collected_oris = [
                 ln for ln in result.stderr.split("\n") if "completed oris: " in ln
             ]
@@ -261,7 +272,7 @@ class ScrapeRunner:
             self.logger.warning(f"failed: {scrape['scraper']}")
 
             # print output if debugged flagged
-            if self.args.debug:
+            if self.args.debug or self.args.log:
                 self.logger.warning(result.stderr)
 
             for ori in attempted_oris:
@@ -325,6 +336,12 @@ if __name__ == "__main__":
         help="""If flagged, log stderr.""",
     )
     parser.add_argument(
+        "-l",
+        "--log",
+        action="store_true",
+        help="""If flagged, log stdout and stderr.""",
+    )
+    parser.add_argument(
         "-s",
         "--scrapers",
         nargs="*",
@@ -344,6 +361,20 @@ if __name__ == "__main__":
         action="store_true",
         help="""If specified, will fully rerun all scrapes from the start date (2017-01-01).""",
     )
+    parser.add_argument(
+        "-a",
+        "--aggregate",
+        action="store_true",
+        help="""If specified, run aggregator at the end of the exec script.""",
+    )
+    parser.add_argument(
+        "-x",
+        "--exclude",
+        nargs="*",
+        help="""If specified, will exclude the provided list of scrapers from execution.""",
+    )
     args = parser.parse_args()
 
     ScrapeRunner(args).run()
+    if args.aggregate:
+        Aggregator(args).run()

@@ -6,6 +6,7 @@ import sys
 from collections import defaultdict
 from datetime import datetime as dt
 from datetime import timedelta as td
+from time import time
 
 sys.path.append("../utils")
 from aws import snapshot_df
@@ -73,6 +74,7 @@ class CdeGetData:
         results = [{k: v for k, v in d.items() if k != "crime"} for d in results]
         results = self.merge_dicts(results, list(df.columns) + ["year", "month"])
         df = pd.DataFrame(results).sort_values(by=["state", "ori", "year", "month"])
+        df["last_updated"] = int(time())
 
         # save results to AWS
         self.logger.info(f"sample record: {results[0]}")

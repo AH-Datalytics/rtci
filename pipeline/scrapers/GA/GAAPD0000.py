@@ -3,6 +3,8 @@ import pandas as pd
 import requests
 import sys
 
+from datetime import datetime as dt
+
 sys.path.append("../../utils")
 from super import Scraper
 
@@ -47,7 +49,7 @@ class GAAPD0000(Scraper):
         # get first page of results
         data = {
             "f": "json",
-            "where": "((report_Date >= timestamp '2017-01-01 00:00:00'))",
+            "where": f"((report_Date >= timestamp '{dt.strftime(self.first, '%Y-%m-%d')} 00:00:00'))",
             "outFields": "nibrs_code_name,report_Date",
             "returnGeometry": "false",
             "returnDistinctValues": "true",

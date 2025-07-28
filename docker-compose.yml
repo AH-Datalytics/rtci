@@ -6,13 +6,24 @@
 
 services:
 
-  # to trigger `python3 exec_scrapes.py` runs on container generation
-  scrapers:
+  # to trigger `python3 exec_scrapes.py` runs on container generation, excluding long scrapes
+  scrapers_short:
     build:
       context: .
-      dockerfile: pipeline/dockerfiles/Dockerfile_scrapers
-    container_name: Dockerfile_scrapers
-    image: scrapers
+      dockerfile: pipeline/dockerfiles/Dockerfile_scrapers_short
+    container_name: scrapers_short
+    image: scrapers_short
+    volumes:
+      - .:/rtci
+      - ~/.gitconfig:/etc/gitconfig
+
+  # to trigger `python3 exec_scrapes.py` runs on container generation, for longer scrapes
+  scrapers_long:
+    build:
+      context: .
+      dockerfile: pipeline/dockerfiles/Dockerfile_scrapers_long
+    container_name: scrapers_long
+    image: scrapers_long
     volumes:
       - .:/rtci
       - ~/.gitconfig:/etc/gitconfig

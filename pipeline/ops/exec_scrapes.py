@@ -120,7 +120,10 @@ class ScrapeRunner:
             return
 
         # scrape execution (thread subprocesses to run all scrapes)
-        results = thread(self.scrape_one, scrapers)
+        # results = thread(self.scrape_one, scrapers)
+        results = list()
+        for scraper in scrapers:
+            results.extend(self.scrape_one(scraper))
         results = pd.DataFrame(results)
 
         # remove any hanging pdfs or csvs from failed scrape attempts

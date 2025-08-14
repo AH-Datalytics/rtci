@@ -39,14 +39,12 @@
     background-color: #00333a; /* Match header background color */
     color: white; /* Header text color */
     padding: 10px;
-    text-align: left;
     font-family: 'Roboto Condensed', Arial, sans-serif;
     border-bottom: 1px solid #00333a;
 }
 
 .table-container td {
     color: #00333a;
-    text-align: left;
 }
 
 .table-container td a {
@@ -105,6 +103,13 @@
     cursor: pointer;
 }
 
+/* Style for the sorted column header */
+.table-container th span.sorted {
+    color: #f28106; /* Orange color */
+}
+
 .table-container th span:hover {
     color: #f28106;
 }
+
+

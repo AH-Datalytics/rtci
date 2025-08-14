@@ -87,7 +87,12 @@ th:last-child {
     border-top-right-radius: 8px;
 }
 
-td:first-child {
+th:nth-child(2) {
+    text-align: left;
+}
+
+td:first-child,
+td:nth-child(2) {
     text-align: left;
 }
 
@@ -299,22 +304,67 @@ thead th {
 
 @media (max-width: 500px) {
     .view-buttons {
-        top: -20px;
-        gap: 0.1rem;
+        top: -22px;
+        gap: 0.2rem;
     }
     
     .view-button {
-        font-size: 2vw;
-        padding: 0.3em;
+        font-size: 2.5vw;
+        padding: 0.35em;
         border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     }
  
 }
 
 @media (max-width: 600px) {
     .table-container {
-        height: 83vh;
-        max-height: 83vh;
+        height: 78vh;
+        max-height: 78vh;
     }
 }
 
+
+
+/* Change the color of header text to orange when hovered */
+.blue-header-table th span.sorted { 
+    color: #00333a; 
+}
+
+.blue-header-table th span:hover { 
+    color: #00333a; 
+}
+
+th span.sortable {
+    cursor: pointer;
+    color: inherit; /* Inherit the default color */
+}
+
+th span.sortable:hover {
+    color: #00333a;
+}
+
+th span.sortable.sorted {
+    color: #00333a;
+}
+
+
+
+@media (max-width: 500px) {
+    .tab-link, .nav-button {
+        font-size: 3vw; /* Adjust font size for smaller screens */
+        padding: 0.9vw 1.8vw; /* Adjust padding for smaller screens */
+        border-radius: 5px;
+        margin-bottom: 0;
+        margin-right: 3px;
+    }
+
+    .tab-navigation {
+        top: -24px; /* Adjust this value to move tabs closer to the graph */
+    }
+}
+
+
+.master-heading {
+    margin-top: 0.3em; /* Add additional space above the subheader */
+}

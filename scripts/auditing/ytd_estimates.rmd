@@ -1,0 +1,68 @@
+---
+title: "ytd figure generation script"
+output: github_document
+---
+
+```{r}
+# Load necessary libraries
+library(dplyr)
+library(ggplot2)
+library(lubridate)
+```
+order dataframe and generate initial estimates
+```{r}
+# Ensure month is ordered correctly
+df <- df %>% mutate(date = make_date(year, month, 1))
+
+# Get current year and month (or manually define it)
+current_year <- max(df$year)
+current_month <- max(df$month)
+
+# Filter for YTD data only (January to current month)
+df_ytd <- df %>%
+  filter(month <= current_month) %>%
+  group_by(year, crime_type) %>%
+  summarise(total_crime = sum(count), .groups = "drop")
+
+# Calculate percent change compared to 1 and 2 years ago
+df_ytd <- df_ytd %>%
+  mutate(
+    prev_year = total_crime[match(paste(year - 1, crime_type), paste(year, crime_type))],
+    two_years_ago = total_crime[match(paste(year - 2, crime_type), paste(year, crime_type))],
+    pct_change_1yr = (total_crime - prev_year) / prev_year * 100,
+    pct_change_2yr = (total_crime - two_years_ago) / two_years_ago * 100
+  )
+
+# Remove NA values (first years will have missing comparisons)
+df_ytd <- df_ytd %>% filter(!is.na(pct_change_1yr) & !is.na(pct_change_2yr))
+```
+plot percent change for each crime type
+```{r}
+# Plot percent change for each crime type
+ggplot(df_ytd, aes(x = factor(year), y = pct_change_1yr, fill = crime_type)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(
+    title = "Year-to-Date (YTD) Percent Change in Crime",
+    subtitle = paste0("Compared to ", current_year - 1),
+    x = "Year",
+    y = "Percent Change",
+    fill = "Crime Type"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+# Optionally, create another plot for the two-year percent change
+ggplot(df_ytd, aes(x = factor(year), y = pct_change_2yr, fill = crime_type)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(
+    title = "Year-to-Date (YTD) Percent Change in Crime",
+    subtitle = paste0("Compared to ", current_year - 2),
+    x = "Year",
+    y = "Percent Change",
+    fill = "Crime Type"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+```
+

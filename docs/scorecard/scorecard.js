@@ -1,0 +1,468 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const dataPath = "../app_data/scorecard.csv";
+    let allData = [];
+    let selectedState = "Nationwide"; // Default state to "Nationwide"
+    let selectedAgency = "Full Sample"; // Default agency to "Full Sample"
+
+    const currentYear = new Date().getFullYear();
+    const yearLabels = {
+        twoPrev: (currentYear - 2).toString(),
+        onePrev: (currentYear - 1).toString(),
+        current: currentYear.toString()
+    };
+
+    // Load data
+    // Adjust logic in the `d3.csv()` data-loading block
+    d3.csv(dataPath).then(data => {
+        allData = data;
+        console.log("Data loaded:", data);
+    
+        // Extract the most recent year from the `ytd_month_range` column
+        const availableYears = data
+            .map(row => {
+                // Extract the year from `ytd_month_range` using a regex
+                const match = row.ytd_month_range.match(/\b\d{4}\b/);
+                return match ? parseInt(match[0]) : NaN;
+            })
+            .filter(year => !isNaN(year)); // Exclude invalid or NaN values
+    
+        if (availableYears.length === 0) {
+            console.error("No valid years found in the dataset!");
+            return;
+        }
+    
+        // Determine the maximum available year in the data
+        const maxYearInData = Math.max(...availableYears);
+    
+        const defaultFilters = {
+            state: "Nationwide",
+            agency: "Full Sample",
+        };
+    
+        retrieveFilterValues(defaultFilters); // Retrieve filters from sessionStorage
+        populateFilters(allData);
+        updateYearHeaders(maxYearInData); // Pass maxYearInData to update headers
+        updateAgencyDropdown(selectedState); // Populate agency dropdown
+        filterAndDisplayData(); // Display saved or default filtered data
+    }).catch(error => console.error("Error loading data:", error));
+    
+
+    // Function to adjust the width of the tracker container
+    function adjustTrackerWidth() {
+        const trackerContainer = document.getElementById("trackers-container");
+        const scorecardTable = document.getElementById("scorecard-table");
+        trackerContainer.style.width = `${scorecardTable.scrollWidth}px`;
+    }
+
+    // Re-adjust width on window resize
+    window.addEventListener("resize", adjustTrackerWidth);
+
+    function populateFilters(data) {
+        let states = [...new Set(data.map(row => row.state_name))].sort();
+        
+        // Ensure "Nationwide" is always the first option
+        const nationwideIndex = states.indexOf("Nationwide");
+        if (nationwideIndex !== -1) {
+            states.splice(nationwideIndex, 1);
+            states.unshift("Nationwide");
+        }
+        
+        createSearchableDropdown("state-dropdown", "state-btn", states, true);
+        createSearchableDropdown("agency-dropdown", "agency-btn", [], false);
+    }
+
+    function createSearchableDropdown(dropdownId, buttonId, options, isState) {
+        const dropdown = document.getElementById(dropdownId);
+        const button = document.getElementById(buttonId);
+
+        const searchInput = document.createElement("input");
+        searchInput.type = "text";
+        searchInput.placeholder = "Search...";
+        searchInput.className = "dropdown-search";
+
+        dropdown.innerHTML = "";
+        dropdown.appendChild(searchInput);
+
+        function filterOptions() {
+            const filter = searchInput.value.toLowerCase();
+            const filteredOptions = options.filter(option => option.toLowerCase().includes(filter));
+            const existingItems = dropdown.querySelectorAll(".dropdown-item");
+            existingItems.forEach(item => item.remove());
+
+            filteredOptions.forEach(option => {
+                const dropdownOption = createDropdownOption(option, dropdown, button, isState);
+                dropdown.appendChild(dropdownOption);
+            });
+        }
+
+        searchInput.addEventListener("input", filterOptions);
+        filterOptions();
+
+        button.addEventListener("click", event => {
+            event.stopPropagation();
+            closeAllDropdowns();
+            dropdown.classList.toggle("show");
+        });
+
+        document.addEventListener("click", closeAllDropdowns);
+        dropdown.addEventListener("click", event => event.stopPropagation());
+    }
+
+    function createDropdownOption(optionText, dropdown, button, isState) {
+        const option = document.createElement("div");
+    
+        if (optionText === "Population Groups" || optionText === "Regions") {
+            option.className = "dropdown-item master-heading"; // Subheader style
+            option.textContent = optionText;
+            option.style.pointerEvents = "none"; // Make it non-clickable
+        } else {
+            option.className = "dropdown-item";
+            option.textContent = optionText;
+    
+            if ((isState && optionText === selectedState) || (!isState && optionText === selectedAgency)) {
+                option.classList.add('selected');
+            }
+    
+            option.addEventListener("click", () => {
+                const items = dropdown.querySelectorAll('.dropdown-item');
+                items.forEach(item => item.classList.remove('selected'));
+                option.classList.add('selected');
+    
+                button.textContent = optionText;
+                dropdown.classList.remove("show");
+    
+                if (isState) {
+                    selectedState = optionText;
+                    updateAgencyDropdown(selectedState);
+                } else {
+                    selectedAgency = optionText;
+                }
+    
+                saveFilterValues();
+                filterAndDisplayData();
+            });
+        }
+        return option;
+    }
+    
+    
+
+    function updateAgencyDropdown(state) {
+        let agencies = [...new Set(allData.filter(row => row.state_name === state).map(row => row.agency_name))].sort();
+    
+        let finalAgencies = [];
+    
+        if (state === "Nationwide") {
+            const nationwideOrder = [
+                "Full Sample",
+                "Agencies of 1M+",
+                "Agencies of 250K - 1M",
+                "Agencies of 100K - 250K",
+                "Agencies of < 100K",
+                "Midwest",
+                "Northeast",
+                "South",
+                "West",
+                "Other"
+            ];
+    
+            agencies = agencies.filter(agency => nationwideOrder.includes(agency))
+                .sort((a, b) => nationwideOrder.indexOf(a) - nationwideOrder.indexOf(b));
+    
+            agencies.forEach(agency => {
+                if (agency === "Agencies of 1M+") finalAgencies.push("Population Groups");
+                if (agency === "Midwest") finalAgencies.push("Regions");
+                finalAgencies.push(agency);
+            });
+    
+        } else {
+            const fullSample = agencies.includes("Full Sample") ? ["Full Sample"] : [];
+    
+            // Separate cities and counties
+            const cities = agencies.filter(a => !a.includes("County") && !a.includes("Parish") && !a.includes("Full Sample")).sort((a, b) => a.localeCompare(b));
+            const counties = agencies.filter(a => a.includes("County") || a.includes("Parish")).sort((a, b) => a.localeCompare(b));
+    
+            finalAgencies = [...fullSample];
+            if (cities.length > 0) finalAgencies.push("Cities", ...cities);
+            if (counties.length > 0) finalAgencies.push("Counties", ...counties);
+        }
+    
+        // --- FIX START ---
+        // Collect all selectable agencies (not headers)
+        const selectableAgencies = finalAgencies.filter(a => !["Population Groups", "Regions", "Cities", "Counties"].includes(a));
+    
+        // Keep currently selected agency if still available, otherwise fallback
+        if (!selectableAgencies.includes(selectedAgency)) {
+            selectedAgency = selectableAgencies.includes("Full Sample") ? "Full Sample" : (selectableAgencies[0] || "Agency");
+        }
+        // --- FIX END ---
+    
+        // Build dropdown
+        const dropdown = document.getElementById("agency-dropdown");
+        const button = document.getElementById("agency-btn");
+        dropdown.innerHTML = "";
+    
+        const searchInput = document.createElement("input");
+        searchInput.type = "text";
+        searchInput.placeholder = "Search...";
+        searchInput.className = "dropdown-search";
+        dropdown.appendChild(searchInput);
+    
+        // Function to populate filtered list
+        function filterOptions() {
+            const filter = searchInput.value.toLowerCase();
+            const filteredOptions = finalAgencies.filter(option =>
+                option.toLowerCase().includes(filter) || ["Population Groups", "Regions", "Cities", "Counties"].includes(option)
+            );
+    
+            const existingItems = dropdown.querySelectorAll(".dropdown-item");
+            existingItems.forEach(item => item.remove());
+    
+            filteredOptions.forEach(option => {
+                const div = document.createElement("div");
+                div.textContent = option;
+                div.dataset.value = option;
+    
+                if (["Population Groups", "Regions", "Cities", "Counties"].includes(option)) {
+                    div.className = "dropdown-item master-heading";
+                    div.style.pointerEvents = "none"; // Non-clickable subheader
+                } else {
+                    div.className = "dropdown-item";
+                    if (option === selectedAgency) div.classList.add('selected'); // Bold the selected agency
+    
+                    div.addEventListener('click', () => {
+                        const items = dropdown.querySelectorAll('.dropdown-item');
+                        items.forEach(item => item.classList.remove('selected'));
+                        div.classList.add('selected');
+                        button.textContent = option;
+                        dropdown.classList.remove("show");
+                        selectedAgency = option;
+                        saveFilterValues();
+                        filterAndDisplayData();
+                    });
+                }
+    
+                dropdown.appendChild(div);
+            });
+        }
+    
+        searchInput.addEventListener("input", filterOptions);
+        filterOptions(); // Initial call to populate
+    
+        // Update button text to reflect selected agency (finalized after fix)
+        button.textContent = selectedAgency;
+    
+        // Dropdown open/close handling
+        button.addEventListener("click", event => {
+            event.stopPropagation();
+            closeAllDropdowns();
+            dropdown.classList.toggle("show");
+        });
+    
+        document.addEventListener("click", closeAllDropdowns);
+        dropdown.addEventListener("click", event => event.stopPropagation());
+    }
+    
+    
+    
+    function saveFilterValues() {
+        const filters = {
+            state: selectedState,
+            agency: selectedAgency
+        };
+        sessionStorage.setItem('scorecardFilters', JSON.stringify(filters));
+    }
+
+    function retrieveFilterValues(defaultFilters) {
+        const savedFilters = JSON.parse(sessionStorage.getItem('scorecardFilters')) || defaultFilters;
+        selectedState = savedFilters.state;
+        selectedAgency = savedFilters.agency;
+
+        document.getElementById("state-btn").textContent = selectedState;
+        document.getElementById("agency-btn").textContent = selectedAgency;
+    }
+    
+    // Helper function to format population
+    function formatPopulation(value) {
+        if (value >= 1_000_000) {
+            return (value / 1_000_000).toFixed(2) + 'M'; // Format as millions with 2 decimals
+        } else if (value >= 1_000) {
+            return Math.round(value / 1_000) + 'K'; // Format as thousands with no decimals
+        } else {
+            return value.toString(); // Use raw value for smaller numbers
+        }
+    }
+
+
+    function filterAndDisplayData() {
+        if (selectedState && selectedAgency) {
+            const filteredData = allData.filter(row => row.state_name === selectedState && row.agency_name === selectedAgency);
+    
+            if (filteredData.length > 0) {
+                // Calculate the previous year
+                const previousYear = currentYear - 1;
+    
+                // Populate the trackers with dynamic previous year for population
+                document.getElementById("tracker-agency").innerHTML = `<span class="tracker-agency-name">${selectedAgency}, ${selectedState} </span>`;
+               // document.getElementById("tracker-source-type").textContent = filteredData[0].source_type || 'N/A';
+               // document.getElementById("tracker-source-method").textContent = filteredData[0].source_method || 'N/A';
+               document.getElementById("tracker-population").innerHTML = `<strong>Population:</strong> ${
+                filteredData[0].population
+                    ? formatPopulation(filteredData[0].population)
+                    : 'N/A'
+            } (${filteredData[0].number_of_agencies} ${
+                filteredData[0].number_of_agencies === "1" ? 'agency' : 'agencies'
+            })`;
+            
+                document.getElementById("tracker-ytd-range").textContent = filteredData[0].ytd_month_range || 'N/A';
+    
+                console.log("Filtered data:", filteredData);
+                renderScorecard(filteredData);
+            }
+        }
+    }
+    
+    
+
+    function renderScorecard(data) {
+        const tbody = document.getElementById("scorecard-body");
+        tbody.innerHTML = "";
+    
+        // Define the order for crime types based on severity
+        const crimeOrder = [
+            { crime: "violent_crime", isHeader: true },
+            { crime: "murder", isHeader: false },
+            { crime: "rape", isHeader: false },
+            { crime: "robbery", isHeader: false },
+            { crime: "aggravated_assault", isHeader: false },
+            { crime: "property_crime", isHeader: true },
+            { crime: "burglary", isHeader: false },
+            { crime: "theft", isHeader: false },
+            { crime: "motor_vehicle_theft", isHeader: false }
+        ];
+    
+        // Loop through crimeOrder to display each type, formatted
+        crimeOrder.forEach(orderItem => {
+            const filteredData = data.filter(row => row.crime_type.toLowerCase() === orderItem.crime.toLowerCase());
+    
+            // Log if a specific crime type isn't showing up
+            if (filteredData.length === 0) console.log(`Missing data for crime type: ${orderItem.crime}`);
+    
+            filteredData.forEach(row => {
+                const isHeader = orderItem.isHeader;
+                const fontWeight = isHeader ? "bold" : "normal";
+                const fontSize = isHeader ? "1.2em" : "1.1em";
+                const color = isHeader ? "#00333a" : ""; // Color for headers
+    
+                const rowElement = document.createElement("tr");
+                rowElement.innerHTML = `
+                <td style="font-weight: ${fontWeight}; font-size: ${fontSize}; color: ${color};">${formatCrimeType(row.crime_type)}</td>
+                <td>${formatNumber(row.current_year_ytd)}</td>
+                <td>${formatNumber(row.previous_year_ytd)}</td>
+                <td>${formatNumber(row.two_years_prior_ytd)}</td>
+                <td style="color: ${getColor(row.previous_year_current_year_ytd_pct_change)};">
+                    ${formatPercentage(row.previous_year_current_year_ytd_pct_change)}
+                </td>
+                <td style="color: ${getColor(row.two_years_prior_current_year_ytd_pct_change)};">
+                    ${formatPercentage(row.two_years_prior_current_year_ytd_pct_change)}
+                </td>
+                <td>${formatNumber(row.previous_year_full)}</td>
+                <td>${formatNumber(row.two_years_prior_full)}</td>
+                <td style="color: ${getColor(row.two_years_prior_previous_year_full_pct_change)};">
+                    ${formatPercentage(row.two_years_prior_previous_year_full_pct_change)}
+                </td>
+                `;
+                tbody.appendChild(rowElement);
+            });
+        });
+    }
+    
+    
+    // Helper function to format numbers with commas
+    function formatNumber(value) {
+        return value ? parseInt(value).toLocaleString() : 'N/A';
+    }
+    
+    function formatCrimeType(crimeType) {
+        return crimeType.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+    }
+    
+    function formatPercentage(value) {
+        return value ? `${parseFloat(value).toFixed(1)}%` : 'N/A';
+    }
+    
+    function getColor(value) {
+        const parsedValue = parseFloat(value);
+        if (isNaN(parsedValue)) return '#000'; // Default color for N/A or undefined values
+        return parsedValue > 0 ? "#f28106" : "#2d5ef9";
+    }
+
+    
+
+
+
+
+    
+    function updateYearHeaders(maxYearInData) {
+        const yearLabels = {
+            current: maxYearInData.toString(),
+            onePrev: (maxYearInData - 1).toString(),
+            twoPrev: (maxYearInData - 2).toString(),
+        };
+    
+        document.querySelector("#scorecard-table thead tr:nth-child(1)").innerHTML = `
+            <th style="background-color: #00333a; color: white;"></th>
+            <th style="background-color: #00333a; color: white;">${yearLabels.current} (YTD)</th>
+            <th style="background-color: #00333a; color: white;">${yearLabels.onePrev} (YTD)</th>
+            <th style="background-color: #00333a; color: white;">${yearLabels.twoPrev} (YTD)</th>
+            <th style="background-color: #00333a; color: white;">% Change ${yearLabels.onePrev}-${yearLabels.current} (YTD)</th>
+            <th style="background-color: #00333a; color: white;">% Change ${yearLabels.twoPrev}-${yearLabels.current} (YTD)</th>
+            <th style="background-color: #00333a; color: white;">${yearLabels.onePrev} (Full Year)</th>
+            <th style="background-color: #00333a; color: white;">${yearLabels.twoPrev} (Full Year)</th>
+            <th style="background-color: #00333a; color: white;">% Change ${yearLabels.twoPrev}-${yearLabels.onePrev} (Full Year)</th>
+        `;
+    }
+    
+
+
+    function closeAllDropdowns() {
+        const dropdownMenus = document.querySelectorAll(".dropdown-menu");
+        dropdownMenus.forEach(menu => menu.classList.remove("show"));
+    }
+
+    function downloadTableAsCSV() {
+        const table = document.getElementById("scorecard-table");
+        let csvContent = "";
+        
+        // Extract header row
+        const headerCells = table.querySelectorAll("thead th");
+        const headerRow = Array.from(headerCells).map(cell => `"${cell.textContent.trim()}"`).join(",");
+        csvContent += headerRow + "\n";
+        
+        // Extract table rows
+        const rows = table.querySelectorAll("tbody tr");
+        rows.forEach(row => {
+            const rowData = Array.from(row.querySelectorAll("td")).map(cell => `"${cell.textContent.trim()}"`).join(",");
+            csvContent += rowData + "\n";
+        });
+    
+        // Get agency and state names for dynamic filename
+        const agencyName = document.getElementById("agency-btn").textContent.trim().replace(/\s+/g, "_");
+        const stateName = document.getElementById("state-btn").textContent.trim().replace(/\s+/g, "_");
+        const fileName = `${agencyName}_${stateName}_overview.csv`;
+    
+        // Create a downloadable blob and trigger download
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+    
+    document.getElementById("table-download").addEventListener("click", downloadTableAsCSV);
+    
+
+});
+

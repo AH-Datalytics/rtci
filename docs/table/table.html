@@ -14,7 +14,7 @@
 <body>
     <div id="dashboard" class="tab-content active">
         <div id="rtci-dashboard" class="rtci-container">
-            <h1 class="rtci-header">Year to Date Reported UCR Part One Crimes</h1>
+            <h1 class="rtci-header">Reported UCR Part One Crimes Year to Date</h1>
             <div id="filters-container" class="filters-container">
                 <span>Show me reported</span>
                 <div class="dropdown">
@@ -23,24 +23,14 @@
                         <!-- Options will be dynamically populated -->
                     </div>
                 </div>
-                <span>sorted by</span>
-                <div class="dropdown">
-                    <div id="sort-key-btn" class="dropdown-btn">Year to Date</div>
-                    <div id="sort-key-dropdown" class="dropdown-menu">
-                        <div class="dropdown-item" data-value="YTD">Year to Date</div>
-                        <div class="dropdown-item" data-value="PrevYTD">Previous YTD</div>
-                        <div class="dropdown-item" data-value="Percent_Change">% Change</div>
-                        <div class="dropdown-item" data-value="agency_full">Agency</div>
-                    </div>
+                <span>for</span>
+            <div class="dropdown">
+                <div id="agency-type-btn" class="dropdown-btn">Individual Agencies</div>
+                <div id="agency-type-dropdown" class="dropdown-menu">
+                    <!-- Options will be dynamically populated -->
                 </div>
-                <span>in</span>
-                <div class="dropdown">
-                    <div id="sort-order-btn" class="dropdown-btn">Descending Order</div>
-                    <div id="sort-order-dropdown" class="dropdown-menu">
-                        <div class="dropdown-item" data-value="desc">Descending Order</div>
-                        <div class="dropdown-item" data-value="asc">Ascending Order</div>
-                    </div>
-                </div>
+            </div>
+
             </div>
             <div class="rtci-table-container">
                 <!-- Add this above the table view buttons -->
@@ -49,27 +39,38 @@
                         <i class="fas fa-download"></i>&nbsp;&nbsp;Download Data <!-- Add a double space between the icon and text -->
                     </button>
                 </div>
-                <div class="view-buttons">
+                <!-- <div class="view-buttons">
                     <button id="by-agency-btn" class="view-button" onclick="navigateTo('by-agency.html')">By Month</button>
                     <button id="full-sample-btn" class="view-button active">Year to Date</button>
-                </div>
+                </div> -->
+               
                 <div class="tab-navigation">
-                    <a href="../index.html" class="tab-link">Graph</a>
-                    <a href="by-agency.html" class="tab-link active">Table</a>
-                    <!-- <a href="../map/map.html" class="tab-link">Map</a> -->
+                    <a href="../index.html" class="tab-link"><i class="fas fa-chart-line"></i> <span>Graph</span></a>
+                    <div class="tab-link rtci-nav-dropdown-wrapper active">
+                        <i class="fas fa-table"></i> <span>Tables</span>
+                        <div class="rtci-nav-dropdown-menu">
+                            <a href="by-agency.html" class="rtci-nav-dropdown-item">Monthly by Agency</a>
+                            <a href="table.html" class="rtci-nav-dropdown-item active">All Agencies YTD</a>
+                        </div>
+                    </div>
+                    <a href="../scorecard/scorecard.html" class="tab-link"><i class="fas fa-clipboard-list"></i> <span>Overview</span></a>
+                    <a href="../map/map.html" class="tab-link"><i class="fas fa-location-dot"></i> <span>Map</span></a>
                 </div>
                 <div id="full-sample-table" class="table-container active">
                     <table>
                         <thead>
                             <tr>
-                                <th>Agency</th>
+                                <th><span class="sortable">Agency</span></th>
+                                <th><span class="sortable">State</span></th> <!-- Add this new column for state -->
+                                <th><span class="sortable"># of Agencies</span></th> <!-- New column -->
+                                <th><span class="sortable">Population Covered</span></th> <!-- New column -->
                                 <th>Crime Type</th>
-                                <th title="January through the most recent month with available data in the current year.">Year to Date</th>
-                                <th title="Identical month range as YTD, one year prior.">Previous YTD</th>
-                                <th>% Change</th>
-                                <th>Months Covered</th>
+                                <th><span class="sortable">YTD</span></th>
+                                <th><span class="sortable">Previous YTD</span></th>
+                                <th><span class="sortable">% Change</span></th>
+                                <th>YTD Range</th>
                             </tr>
-                        </thead>
+                        </thead>                        
                         <tbody id="full-sample-table-body">
                             <!-- Data will be dynamically populated -->
                         </tbody>

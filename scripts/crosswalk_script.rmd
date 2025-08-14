@@ -1,0 +1,151 @@
+---
+title: "linking historical ucr data"
+output: github_document
+---
+libraries
+```{r}
+library(tidyverse)
+library(magrittr)
+library(dplyr)
+library(readr)
+library(stringr)
+library(zoo)
+library(ggplot2)
+library(here)
+library(purrr)
+```
+dynamically find one drive
+```{r}
+# Dynamically locate OneDrive directory
+onedrive_mac <- "~/Library/CloudStorage/OneDrive-ahdatalytics.com"
+onedrive_win <- file.path("C:", "OneDrive", "OneDrive - ahdatalytics.com")
+
+if (dir.exists(onedrive_mac)) {
+  onedrive_dir <- normalizePath(onedrive_mac)
+} else if (dir.exists(onedrive_win)) {
+  onedrive_dir <- normalizePath(onedrive_win)
+} else {
+  stop("OneDrive directory not found.")
+}
+```
+read in fbi participation file
+```{r}
+fbi_participation_2023 <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\FBI Agency Participation Data\\2023 Participation_adapted.csv")
+part_ref_crosswalk <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\FBI Agency Participation Data\\part_ref_crosswalk.csv")
+```
+merge, clean up and pare down df's before fixing place names
+```{r}
+fbi_participation_2023_updated <- fbi_participation_2023 %>%
+  mutate(
+  city_state = paste(pub_agency_name, state_abbr, sep = " ,")) %>%
+  select(ori, pub_agency_name, state_abbr, city_state, region_name, division_name, agency_type_name, population)
+
+# merge 
+#crosswalked_df <- fbi_participation_2023_updated %>%
+  #left_join(part_ref_crosswalk, by = c("city_state" = "fbi_name"))
+
+
+# Replace city_state in fbi_participation_2023 with crosswalk_name where the merge is successful
+#fbi_participation_2023_updated <- cross_walked_df %>%
+  #mutate(city_state = ifelse(!is.na(city_state.y), city_state.y, city_state)) %>%
+  #select(-city_state.y) 
+  
+fbi_participation_2023_updated <- fbi_participation_2023_updated %>% mutate(city_state_id = paste(pub_agency_name, state_abbr, agency_type_name, sep = ","))  # Remove the crosswalk_name column if not needed
+```
+subset to counties with >100k pop
+```{r}
+cities_40k <- fbi_participation_2023_updated %>% 
+  filter(agency_type_name == "City", population > 30000)
+
+counties_100k <- fbi_participation_2023_updated %>% 
+  filter(agency_type_name == "County", population > 100000)
+```
+combine city and county records for merging with final_sourcing 
+```{r}
+cities_counties_ref <- bind_rows(cities_40k, counties_100k)
+cities_counties_ref <- cities_counties_ref  %>% mutate(Agency_Type = agency_type_name) %>% select(-agency_type_name)
+```
+add population figures for nationwide descriptors
+```{r}
+# Define the path to the ref_df file
+#ref_df_path <- file.path("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\Collected Sample Data\\final_sourcing.csv")
+
+# Define the reference data file path relative to the base OneDrive directory
+ref_df_path <- file.path(
+  onedrive_dir,
+  "Clients",
+  "Real Time Crime Index",
+  "Open Source Data",
+  "Collected Sample Data",
+  "final_sourcing.csv"
+)
+
+# Print the reference data file path to confirm
+print(ref_df_path)
+# Read in the ref_df file
+ref_df <- read.csv(ref_df_path)
+
+# Make a city_state column for matching
+ref_df <- ref_df %>% mutate(city_state_id = paste(Agency, State, Agency_Type, sep = ","))
+```
+add region name to final sourcing table
+```{r}
+# Merge with ref_df by "city_state"
+ref_df1 <- merge(ref_df, cities_counties_ref, by = "city_state_id", all.x = TRUE)
+
+# Check if each record in ref_df has the region_name column merged successfully
+check_region <- ref_df1 %>%
+  mutate(successful_merge = !is.na(region_name))
+
+# Print a summary of merge success
+summary_merge <- check_region %>%
+  summarize(
+    total_records = n(),
+    successful_merges = sum(successful_merge),
+    failed_merges = sum(!successful_merge)
+  )
+
+# Display the summary
+print(summary_merge)
+
+# Inspect rows with failed merges, if any
+failed_merges <- check_region %>%
+  filter(!successful_merge)
+
+if (nrow(failed_merges) > 0) {
+  print("The following records failed to merge successfully:")
+  print(failed_merges)
+} else {
+  print("All records were merged successfully.")
+}
+
+#remove excess columns
+#write.csv(failed_merges, "failed_merges.csv", row.names = FALSE)
+```
+create city state field and drop the additional
+```{r}
+ref_df1 <- ref_df1 %>% mutate(city_state = city_state.x) %>% select(-city_state.y, -city_state.x, -Agency_Type.y)
+```
+run above - also check to make sure we have everything we need
+```{r}
+colSums(is.na(ref_df1)
+)
+
+#fix Agency_Type column name and drop Population
+ref_df1<- ref_df1 %>% mutate(Agency_Type = Agency_Type.x) %>% select(-Agency_Type.x, -Population)
+
+#make sure they are the correct types
+str(ref_df1)
+
+colSums(is.na(ref_df1))
+```
+let's investigate population vs. pop23
+```{r}
+ref_df1 <- ref_df1 %>% mutate(pop_diff = pop23 - population)
+#Everett, MA = -1400
+#Dublin, OH = -28
+#Molie, IL = 408
+#Lakewood, OH = 186
+#Euclid, OH = 174
+#York, PA = 25
+```

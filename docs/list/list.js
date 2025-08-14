@@ -4,14 +4,16 @@ document.addEventListener("DOMContentLoaded", function() {
     const agenciesNumBox = document.getElementById("agencies-num-box");
 
     let allData = [];
-    let currentSortColumn = '';
-    let currentSortOrder = 'asc';
+    let currentSortColumn = 'agency_full'; // Set default sort column
+    let currentSortOrder = 'asc'; // Set default sort order
+    let currentHeaderIndex = null; // To track the currently sorted column
 
     // Load data
     d3.csv(dataPath).then(data => {
         allData = data;  // Store all data for filtering
         displayNationalSample();  // Display rows where in_national_sample is TRUE on page load
         updateAgenciesNumBox(allData.filter(row => row.in_national_sample === "TRUE").length);
+        sortTableByColumn(currentSortColumn, 0); // Default sort by "Agency" on load, assuming it's the first column
     }).catch(error => {
         console.error("Error loading the CSV data:", error);
     });
@@ -24,7 +26,9 @@ document.addEventListener("DOMContentLoaded", function() {
     
         // Create the table headers
         const headers = [
-            { label: "Agency", key: "agency_full" },
+            { label: "Agency", key: "agency_name" },  // Now using agency_name
+            { label: "State", key: "state_name" },    // Added state_name
+            { label: "Region", key: "region" }, // Added Region after State
             { label: "Population Covered", key: "population" },
             { label: "Source Type", key: "source_type" },
             { label: "Source Method", key: "source_method" },
@@ -35,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const thead = document.createElement("thead");
         const headerRow = document.createElement("tr");
 
-        headers.forEach(header => {
+        headers.forEach((header, index) => {
             const th = document.createElement("th");
 
             // Wrap the header text in a <span> for better control
@@ -45,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Add click event listener for sorting
             span.addEventListener('click', () => {
-                sortTableByColumn(header.key);
+                sortTableByColumn(header.key, index); // Pass the index as well
             });
 
             th.appendChild(span); // Append the span to the header cell
@@ -72,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 } else {
                     td.textContent = value;
                 }
-                
+
                 tr.appendChild(td);
             });
     
@@ -86,6 +90,8 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to display the National Full Sample
     function displayNationalSample() {
         const filteredData = allData.filter(row => row.in_national_sample === "TRUE");
+        console.log(filteredData);
+        console.log(`Filtered count: ${filteredData.length}`);
         formatAndPopulateTable(filteredData);
         updateAgenciesNumBox(filteredData.length);
     }
@@ -94,8 +100,7 @@ document.addEventListener("DOMContentLoaded", function() {
         agenciesNumBox.innerHTML = `Number of Agencies: <strong>${count}</strong>`;
     }
 
-    // Function to sort the table by a specific column
-    function sortTableByColumn(columnKey) {
+    function sortTableByColumn(columnKey, headerIndex) {
         if (currentSortColumn === columnKey) {
             // Toggle the sort order if the same column is clicked
             currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
@@ -104,29 +109,48 @@ document.addEventListener("DOMContentLoaded", function() {
             currentSortColumn = columnKey;
             currentSortOrder = 'asc';
         }
-
-        const filteredData = allData.filter(row => row.in_national_sample === "TRUE");
-
+    
         // Sort the filtered data
+        const filteredData = allData.filter(row => row.in_national_sample === "TRUE");
         filteredData.sort((a, b) => {
             let aValue = a[columnKey];
             let bValue = b[columnKey];
-
+    
             if (columnKey === 'population') {
-                // Convert population to integers for numerical sorting
                 aValue = parseInt(aValue);
                 bValue = parseInt(bValue);
             } else {
-                // For non-numerical columns, sort by string comparison
                 aValue = aValue.toLowerCase();
                 bValue = bValue.toLowerCase();
             }
-
+    
             if (aValue < bValue) return currentSortOrder === 'asc' ? -1 : 1;
             if (aValue > bValue) return currentSortOrder === 'asc' ? 1 : -1;
             return 0;
         });
-
+    
         formatAndPopulateTable(filteredData);
+        highlightSortedColumn(headerIndex);
+    }
+    
+    // Initial load logic
+    currentSortOrder = 'asc'; // Explicitly set sort order to ascending
+    sortTableByColumn(currentSortColumn, 0); // Apply default sort to "Agency" column
+    
+
+    function highlightSortedColumn(headerIndex) {
+        // Remove the highlight and arrow from all header cells
+        document.querySelectorAll(".table-container th span").forEach(span => {
+            span.classList.remove("sorted");
+            span.innerHTML = span.textContent; // Remove any existing arrows
+        });
+
+        // Highlight the currently sorted column
+        const sortedHeader = document.querySelectorAll(".table-container th span")[headerIndex];
+        sortedHeader.classList.add("sorted");
+
+        // Add the arrow based on the current sort order
+        const arrow = currentSortOrder === 'asc' ? ' ▲' : ' ▼';
+        sortedHeader.innerHTML += arrow;
     }
 });

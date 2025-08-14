@@ -1,0 +1,1310 @@
+---
+title: "ben/jeff collector"
+output: github_document
+started: "07-23-2024"
+updated: "08-09-2024"
+updated: "08-19-2024"
+final version: "08-30-2024"
+last upate: "06-11-2025"
+---
+read in the data
+```{r}
+library(tidyverse)
+library(magrittr)
+library(dplyr)
+library(readr)
+library(stringr)
+library(zoo)
+library(ggplot2)
+library(here)
+library(purrr)
+```
+directory path where the data files are stored
+UPDATE MONTH on LINE 44!
+```{r}
+#directory path where the data files are stored
+# Dynamically locate OneDrive directory
+onedrive_mac <- "~/Library/CloudStorage/OneDrive-ahdatalytics.com"
+onedrive_win <- file.path("C:", "OneDrive", "OneDrive - ahdatalytics.com")
+
+if (dir.exists(onedrive_mac)) {
+  onedrive_dir <- normalizePath(onedrive_mac)
+} else if (dir.exists(onedrive_win)) {
+  onedrive_dir <- normalizePath(onedrive_win)
+} else {
+  stop("OneDrive directory not found.")
+}
+
+# Define the raw data directory with the correct relative path from OneDrive
+data_dir <- file.path(
+  onedrive_dir,
+  "Clients",
+  "Real Time Crime Index",
+  "Open Source Data",
+  "_Ben and Jeff work",
+  "Months",
+  "May 2025",
+  "Cities"
+)
+
+# Check the full path to ensure it's correct
+print(data_dir)
+
+# Get a list of all CSV file paths within the directory
+file_paths <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
+
+# Check the files
+head(file_paths)
+```
+describe all the csv's coming in - just a general snippet to take a look at the raw data format
+```{r}
+# Function to get info on each CSV file
+get_csv_info <- function(file) {
+  df <- read_csv(file)
+  data.frame(
+    file_name = basename(file),
+    num_columns = ncol(df),
+    column_names = paste(names(df), collapse = ", "),
+    column_formats = paste(sapply(df, class), collapse = ", ")
+  )
+}
+
+# Apply the function to each CSV file and combine the results into a single dataframe
+csv_info_df <- map_df(file_paths, get_csv_info)
+
+# Take a quick look
+head(csv_info_df)
+```
+Read all CSV files in and save them as df's in a list
+```{r}
+# Function to read all CSV files in a folder and save them as data frames in a list
+read_csvs <- function(folder_path) {
+  # List all CSV files in the directory
+  file_paths <- list.files(folder_path, pattern = "\\.csv$", full.names = TRUE)
+  
+  # Debug: Check if any files are listed
+  if (length(file_paths) == 0) {
+    stop("No CSV files found in the specified directory.")
+  } else {
+    message("Processing ", length(file_paths), " files.")
+  }
+  
+  # Function to read a single CSV file
+  read_csv_file <- function(file_path) {
+    # Debug: Check the file path
+    message("Reading file: ", file_path)
+    
+    # Attempt to read the CSV file
+    tryCatch({
+      df <- read_csv(file_path, show_col_types = FALSE)
+      return(df)
+    }, error = function(e) {
+      warning("Failed to read: ", file_path, " Error: ", e$message)
+      return(NULL)  # Return NULL if the file cannot be read
+    })
+  }
+  
+  # Read all CSV files and save them as data frames in a list
+  df_list <- lapply(file_paths, read_csv_file)
+  
+  # Name each element in the list with the corresponding file name (without extension)
+  names(df_list) <- tools::file_path_sans_ext(basename(file_paths))
+  
+  return(df_list)
+}
+
+# read'er in
+ldf <- read_csvs(data_dir)
+
+# Take'er look
+head(ldf[1])
+```
+remove PR at this stage and add directly later so it's not included in the estimates
+```{r}
+# Name of the dataframe to remove
+remove_df <- "Puerto_Rico_Aggregated_Since_2017"
+
+# Remove the dataframe by filtering the list based on the name
+ldf <- ldf[!names(ldf) %in% remove_df]
+
+names(ldf)
+```
+let's get the unique number of agencies at the beginning
+```{r}
+# Function to get the count of unique 'Agency Name' in each csv
+get_unique_agency_count <- function(df) {
+  length(unique(df$`Agency Name`))
+}
+
+# Apply the function to each dataframe in the list and store the results
+agency_counts <- map(ldf, get_unique_agency_count)
+total_agency_raw <- sum(unlist(unique_agency_counts))
+head(total_agency_raw)
+##407 for december 2024
+```
+format everything
+```{r}
+# Define the format_cols function
+format_cols <- function(df) {
+  # Remove the Arson column
+  df <- df[, !(names(df) %in% "Arson")]
+  
+  # Convert specified columns to character
+  char_cols <- c("Agency Name", "State")
+  for (col in char_cols) {
+    if (col %in% names(df)) {
+      df[[col]] <- as.character(df[[col]])
+    }
+  }
+  
+  # Convert specified columns to numeric
+  num_cols <- c("Murder", "Rape", "Robbery", "Aggravated Assault", "Burglary",
+                "Theft", "Motor Vehicle Theft", "Month", "Year")
+  for (col in num_cols) {
+    if (col %in% names(df)) {
+      df[[col]] <- as.numeric(df[[col]])
+    }
+  }
+  
+  return(df)
+}
+
+# Apply to all dataframes in the list
+ldf1 <- lapply(ldf, format_cols)
+
+# What do we see
+head(ldf1[1])
+```
+post-formatting check we still have the same number of agencies before binding
+```{r}
+# Apply the function to each dataframe in the list and store the results
+unique_agency_counts1 <- map(ldf1, get_unique_agency_count)
+
+# what is the sum of all those raw counts
+total_agency_raw1 <- sum(unlist(unique_agency_counts1))
+
+# Print the results
+head(total_agency_raw1)
+#matches up - November 2024
+```
+next...standardize the columns across all dataframes in the list
+```{r}
+# Ensure all data frames have the same columns and column types
+all_columns <- Reduce(union, lapply(ldf1, names))
+
+# Function to ensure all data frames have the same columns
+standardize_columns <- function(df, all_columns) {
+  missing_cols <- setdiff(all_columns, names(df))
+  for (col in missing_cols) {
+    df[[col]] <- NA
+  }
+  return(df[all_columns])
+}
+
+# Apply the standardize_columns function to each dataframe in the list
+ldf2 <- lapply(ldf1, standardize_columns, all_columns = all_columns)
+
+#make sure we're good
+head(ldf2[1])
+```
+another check that after formatting we still have the same number of agencies before binding
+```{r}
+# Apply the function to each dataframe in the list and store the results
+unique_agency_counts2 <- map(ldf2, get_unique_agency_count)
+
+# what is the sum of all those raw counts
+total_agency_raw2 <- sum(unlist(unique_agency_counts2))
+
+# Print the results
+head(total_agency_raw2)
+#393 - matches up November
+```
+get rid of the extra blank lgl formatted columns that plague our data
+```{r}
+acceptable_names <- c("Agency Name", "Murder", "Rape", "Robbery", "Aggravated Assault", 
+"Burglary", "Theft", "Motor Vehicle Theft", "Year", "Month", "State")
+
+#remove any columns not in the above list
+ldf3 <- lapply(ldf2, function(df) {
+  df[, (names(df) %in% acceptable_names)]
+})
+
+#take a look
+head(ldf3[1])
+```
+one last check that after formatting & standardizing we still have the same number of agencies before binding
+```{r}
+# Apply the function to each dataframe in the list and store the results
+unique_agency_counts3 <- map(ldf3, get_unique_agency_count)
+
+# what is the sum of all those raw counts
+total_agency_raw3 <- sum(unlist(unique_agency_counts3))
+
+# check it out
+print(total_agency_raw3)
+#393 matches - November
+```
+stop the process if there is a dataframe that does not have each of the acceptable names and print
+```{r}
+# Initialize an empty list to store the names of dataframes with missing columns
+df_missing_columns <- list()
+
+# Function to check if a dataframe has all the acceptable column names
+check_columns <- function(df, df_name, acceptable_names) {
+  missing_cols <- setdiff(acceptable_names, colnames(df))
+  if (length(missing_cols) > 0) {
+    df_missing_columns[[df_name]] <- missing_cols  # Add to the list if columns are missing
+  }
+}
+
+# Loop through the dataframes and check each one
+for (df_name in names(ldf3)) {
+  check_columns(ldf3[[df_name]], df_name, acceptable_names)
+}
+
+# Review the dataframes that are missing columns
+if (length(df_missing_columns) > 0) {
+  print("The following dataframes are missing columns:")
+  print(df_missing_columns)
+} else {
+  print("All dataframes have the required columns.")
+}
+```
+combine and check it out
+```{r}
+# combine everything together 
+combined_df <- bind_rows(ldf3)
+
+# Step 2: Reset row names
+rownames(combined_df) <- NULL
+
+#select out acceptable columns and take a look just to make sure
+combined_df <- combined_df %>% select(acceptable_names)
+head(combined_df)
+#looking good.
+```
+city state column for getting unique number of agencies
+```{r}
+#create the city_state column here for a unique ID
+combined_df <- combined_df %>% mutate(city_state = paste(`Agency Name`, State, sep = ","))
+
+#check that unique agencies checks matches city_state check
+length(unique(combined_df$city_state))
+#393 all set
+length(unique(combined_df$`Agency Name`))
+#380 - springfields galore!
+```
+check names of unique agencies
+```{r}
+library(dplyr)
+
+# Extract unique values and save as a new dataframe
+combined_df1 <- data.frame(city_state1 = unique(combined_df$city_state))
+
+# View the result
+head(combined_df1)
+```
+what's wrong with the allen's of the world
+```{r}
+# Ensure NA's are explicitly marked as NA in designated columns
+cdf <- combined_df %>%
+  mutate(
+    Murder = ifelse(is.na(Murder), NA, Murder),
+    Rape = ifelse(is.na(Rape), NA, Rape),
+    Robbery = ifelse(is.na(Robbery), NA, Robbery),
+    `Aggravated Assault`= ifelse(is.na(`Aggravated Assault`), NA, `Aggravated Assault`),
+    Burglary = ifelse(is.na(Burglary), NA, Burglary),
+    Theft = ifelse(is.na(Theft), NA, Theft),
+    `Motor Vehicle Theft` = ifelse(is.na(`Motor Vehicle Theft`),NA, `Motor Vehicle Theft`),
+    Agency_Type = "City"
+  )
+```
+bring in counties data and bind it to the end of cities data
+```{r}
+cdf_all <- bind_rows(cdf, county_cdf2)
+```
+create variables for audit
+```{r}
+# Get the current date
+update_current_date <- function() {
+  today <- Sys.Date()
+  day_of_month <- as.integer(format(today, "%d"))
+  
+  if (day_of_month >= 10) {
+    current_date <<- today
+  } else {
+    current_date <<- seq(today, length = 2, by = "-1 month")[2]
+  }
+}
+
+# Run the function to set current_date
+update_current_date()
+
+# To demonstrate:
+print(current_date)  # prints the calculated date
+
+# Extract the current year and month
+current_year <- year(current_date)
+current_month <- month(current_date)
+
+# Calculate the previous months
+previous_month_date <- current_date %m-% months(1)
+two_months_previous_date <- current_date %m-% months(2)
+three_months_previous_date <- current_date %m-% months(3)
+
+# Extract the year and month for the previous months
+previous_month_year <- year(previous_month_date)
+previous_month_month <- month(previous_month_date)
+
+two_months_previous_year <- year(two_months_previous_date)
+two_months_previous_month <- month(two_months_previous_date)
+
+three_months_previous_year <- year(three_months_previous_date)
+three_months_previous_month <- month(three_months_previous_date)
+
+# Print the results
+cat("Current Year:", current_year, "Current Month:", current_month, "\n")
+cat("Previous Month - Year:", previous_month_year, "Month:", previous_month_month, "\n")
+cat("Two Months Previous - Year:", two_months_previous_year, "Month:", two_months_previous_month, "\n")
+cat("Three Months Previous - Year:", three_months_previous_year, "Month:", three_months_previous_month, "\n")
+```
+drop everything from current year/month and current year/previous month
+```{r}
+# Filter out observations with the current month and year or previous month and current year
+cdf_recent <- cdf_all %>%
+  filter(
+    !(Year == current_year & Month == current_month) &
+    !(Year == current_year & Month == previous_month_month)
+  )
+```
+make a new unique id
+```{r}
+cdf_recent <- cdf_recent %>%
+  mutate(city_state_id = paste(city_state, Agency_Type, sep = ","))
+```
+take a second and take a look at NA's and column names
+```{r}
+colSums(is.na(cdf_recent))
+#na_agency <- cdf_recent %>% filter(is.na(`Agency Name`))
+```
+new filter for finding non-reporters without current blank records
+```{r}
+## Step 1: Identify the most recent observation for each agency in a dataframe for analysis
+most_recent_obs <- cdf_recent %>%
+  group_by(city_state_id) %>%
+  slice_max(order_by = as.Date(paste(Year, Month, "01", sep = "-")), n = 1) %>% 
+  ungroup()
+
+# Step 2: Filter records where the most recent report was older than the current sample month
+undesirables_recency <- most_recent_obs %>%
+  filter(Month < two_months_previous_month & Year == two_months_previous_year |
+         Month >= two_months_previous_month & Year < two_months_previous_year 
+         )
+
+# Step 3: filter records that are missing current sample murder data
+undesirables_na_current <- most_recent_obs %>%
+  filter(Year == two_months_previous_year & 
+         Month == two_months_previous_month & 
+         is.na(Murder))
+
+# Step 3a: Filter records that are missing historical murder data (could have current)
+# Convert empty/missing numeric values to NA and filter records before the last 3 months
+undesirables_na_historical <- cdf_recent %>%
+  mutate(across(where(is.numeric), ~ ifelse(. == "" | is.nan(.) | is.infinite(.) | is.na(.), NA, .))) %>% 
+  filter(
+    (Year < two_months_previous_year) | 
+    (Year == two_months_previous_year & Month < two_months_previous_month),
+    is.na(Murder)
+  )
+
+# View the result
+print(undesirables_na_historical)
+
+
+# Step 4: Combine the results
+undesirables <- bind_rows(undesirables_recency, undesirables_na_current, undesirables_na_historical)
+
+# Step 5: Remove duplicates by 'city_state' column
+undesirables <- undesirables %>%
+  distinct(city_state_id, .keep_all = TRUE)
+```
+
+
+without non-reporters for 45 day lag month //first month is June
+```{r}
+# Get unique values from city_state unique id to remove same sample calculations table
+remove_agencies <- unique(undesirables[, c("city_state", "Agency_Type")])
+
+#now remove agencies
+cdf_nwcounts <- cdf_recent %>%
+  anti_join(remove_agencies, by = c("city_state", "Agency_Type"))
+```
+remove duplicates - schaumburg and tracy problem
+```{r}
+cdf_nwcounts <- distinct(cdf_nwcounts)
+```
+check the number of agencies
+```{r}
+num_unique_A <- n_distinct(cdf_nwcounts$city_state, cdf_nwcounts$Agency_Type)
+print(num_unique_A)
+```
+vc/pc groupings
+```{r}
+# Add new columns for violent and property crime
+cdf_vcpc <- cdf_nwcounts %>% 
+    mutate(
+    vio_crime = rowSums(select(., Murder, Rape, Robbery, `Aggravated Assault`), na.rm = TRUE),
+    prop_crime = rowSums(select(., Burglary, Theft, `Motor Vehicle Theft`), na.rm = TRUE)
+  )
+
+# save a copy for later calcs
+cdf_vcpc_nats <- cdf_vcpc
+
+# slim it down to the essentials to join back to the main dataframe
+cdf_vcpc <- cdf_vcpc %>% select(city_state, vio_crime, prop_crime, Year, Month, city_state_id, Agency_Type)
+```
+make sure we don't have duplicates before merge
+```{r}
+#cdf_vcpc_nats <- cdf_vcpc_nats %>% distinct(city_state_id, Month, Year)
+
+cdf_vcpc_nats <-  cdf_vcpc_nats %>% filter(!is.na('Agency Name'))
+
+```
+
+join to main dataframe
+```{r}
+#add vc/pc counts back to main df and create a new df var
+cdf1 <- merge(cdf_recent, cdf_vcpc, by = c("city_state_id", "Month", "Year"), all.x = TRUE)
+```
+
+
+
+# Add population and region data merging by city/state col
+```{r}
+cdf_vcpc_nats <- merge(
+  cdf_vcpc_nats, 
+  ref_df1, 
+  by = "city_state_id",
+  all.x = TRUE
+)
+cdf_vcpc_nats1 <- cdf_vcpc_nats %>% mutate(State_ref = State.x, State = State.x) %>%   select(-any_of(c("State.x", "State.y")))
+
+#how many unique agencies do we have?
+library(dplyr)
+
+# Get the number of unique combinations of city_state and agency_type
+unique_combinations <- cdf_vcpc_nats1 %>%
+  distinct(city_state_id) %>%
+  nrow()
+
+# Print the result
+print(unique_combinations)
+
+
+library(dplyr)
+
+# Count unique city_state_id values grouped by Agency_Type
+unique_counts_by_agency_type <- cdf_vcpc_nats_usa %>%
+  group_by(Agency_Type.x) %>%
+  summarise(unique_city_state_id = n_distinct(city_state_id)) %>%
+  ungroup()
+
+# View the result
+print(unique_counts_by_agency_type)
+
+length(unique(cdf_vcpc_nats_usa$city_state_id))
+
+```
+check to make sure the regions are attached
+```{r}
+# Filter records where region_name is NA
+na_region_records <- cdf_vcpc_nats %>%
+  filter(is.na(region_name))
+
+# Display the results
+#print(na_region_records)
+
+
+#hard code pop for now
+cdf_vcpc_nats <- cdf_vcpc_nats %>%
+  mutate(
+    pop23 = case_when(
+      city_state_id == "Montgomery,MD,County" ~ 896963,
+      city_state_id == "St Charles,MO,County" ~ 119730,
+      city_state_id == "St Louis,MO,County" ~ 398969,
+      TRUE ~ population  # Retain existing values for other rows
+    ),
+    population = case_when(
+      city_state_id == "Montgomery,MD,County" ~ 896963,
+      city_state_id == "St Charles,MO,County" ~ 119730,
+      city_state_id == "St Louis,MO,County" ~ 398969,
+      TRUE ~ population  # Retain existing values for other rows
+    ),
+    division_name = case_when(
+      city_state_id == "Montgomery,MD,County" ~ "South Atlantic",
+      city_state_id == "St Charles,MO,County" ~ "West North Central",
+      city_state_id == "St Louis,MO,County" ~ "West North Central",
+      TRUE ~ division_name  # Retain existing values for other rows
+    ),
+    region_name = case_when(
+      city_state_id == "Montgomery,MD,County" ~ "South",
+      city_state_id == "St Charles,MO,County" ~ "Midwest",
+      city_state_id == "St Louis,MO,County" ~ "Midwest",
+      TRUE ~ region_name  # Retain existing values for other rows
+
+    ),
+    State = case_when(
+      city_state_id == "Montgomery,MD,County" ~ "MD",
+      city_state_id == "St Charles,MO,County" ~ "MO",
+      city_state_id == "St Louis,MO,County" ~ "MO",
+      TRUE ~ region_name  # Retain existing values for other rows
+  )
+  )
+
+```
+drop cdf1 extra columns after fixing
+```{r}
+#clean up names and drop old names
+cdf2 <- cdf1 %>%
+  mutate(`Violent Crime` = vio_crime,
+          `Property Crime` = prop_crime, ) %>%
+            select(-vio_crime, -prop_crime)
+
+#same for table used for sample calcs + format pop var and create counter for agency # calc
+cdf_vcpc_nats_usa <- cdf_vcpc_nats %>%
+  mutate(`Violent Crime` = vio_crime,
+          `Property Crime` = prop_crime,
+          Agency_num =1,
+          Population = as.numeric(pop23)) %>%
+           select(-vio_crime, -prop_crime)
+
+cdf_vcpc_nats_regions <- cdf_vcpc_nats %>%
+  mutate(`Violent Crime` = vio_crime,
+          `Property Crime` = prop_crime,
+          Population = as.numeric(pop23),
+          Region = region_name,
+          Agency_num =1) %>%
+           select(-vio_crime, -prop_crime)
+
+           #same for table used for sample calcs + format pop var and create counter for agency # calc
+cdf_vcpc_nats_states <- cdf_vcpc_nats %>%
+  mutate(`Violent Crime` = vio_crime,
+          `Property Crime` = prop_crime,
+          Population = as.numeric(pop23),
+          Agency_num =1) %>%
+           select(-vio_crime, -prop_crime)
+```
+month by month look at agencies
+```{r}
+# Count unique city_state_id's per year-month
+unique_city_counts <- cdf_vcpc_nats_usa %>%
+  group_by(Year, Month) %>%
+  summarise(unique_city_count = n_distinct(city_state_id), .groups = "drop")
+
+# View the result
+print(unique_city_counts)
+
+# Save as a separate dataframe
+unique_city_counts_df <- unique_city_counts
+```
+check population
+```{r}
+library(dplyr)
+
+# Summing population for each unique city_state_id per month/year
+population_totals <- cdf_vcpc_nats_usa %>%
+  group_by(Year, Month) %>%
+  summarise(Populationx = sum(pop23, na.rm = TRUE), .groups = "drop")
+
+# View the result
+print(population_totals)
+
+# Save as a separate dataframe
+population_totals_df <- population_totals
+```
+check na's for all columns
+```{r}
+library(dplyr)
+
+# Create a dataframe with NA counts for each column
+na_counts <- cdf_vcpc_nats_usa %>%
+  summarise(across(everything(), ~ sum(is.na(.)), .names = "NA_count_{.col}"))
+
+# Convert to long format for better readability (optional)
+na_counts_long <- pivot_longer(na_counts, cols = everything(), names_to = "Column", values_to = "NA_Count")
+
+# View the result
+print(na_counts_long)
+
+# Save as a separate dataframe
+na_counts_df <- na_counts_long
+
+library(dplyr)
+
+# Filter rows with any NA values
+na_records <- cdf_vcpc_nats_usa %>%
+  filter(is.na(Population))
+
+# View the result
+head(na_records)
+
+# Save as a separate dataframe
+na_records_df <- na_records
+
+```
+```{r}
+# Summarize data to get crime counts, population totals, and unique agency counts per month
+nationwide_counts <- cdf_vcpc_nats_usa %>%
+  group_by(Year, Month) %>%
+  summarise(
+    Murder = sum(Murder, na.rm = TRUE),
+    Rape = sum(Rape, na.rm = TRUE),
+    Robbery = sum(Robbery, na.rm = TRUE),
+    `Aggravated Assault` = sum(`Aggravated Assault`, na.rm = TRUE),
+    Burglary = sum(Burglary, na.rm = TRUE),
+    Theft = sum(Theft, na.rm = TRUE),
+    `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
+    `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
+    `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
+    `Population Total` = sum(Population, na.rm = TRUE),
+    Agency_num = sum(Agency_num, na.rm = TRUE), # Count unique agencies per month
+    .groups = 'drop'
+  )
+
+# Add values for agency name field to enable binding
+nationwide_counts$`Agency Name` <- "Nationwide Count"
+
+# Add state placeholder for consistency
+nationwide_counts$State <- "All Agencies"
+
+# View first few rows
+head(nationwide_counts)
+```
+who is missing?
+```{r}
+library(dplyr)
+library(tidyr)
+
+# Assuming your dataframe is called `df` and includes these columns:
+# "city_state_id", "Month", "Year"
+
+# Step 1: Count number of records per city_state_id per Month-Year
+city_monthly_counts <- cdf_vcpc_nats_usa %>%
+  group_by(city_state_id, Year, Month) %>%
+  summarise(count = n(), .groups = "drop")
+
+# Step 2: Create a summary of total months each city appears
+city_month_coverage <- city_monthly_counts %>%
+  unite("Month_Year", Year, Month, sep = "-", remove = FALSE) %>%
+  group_by(city_state_id) %>%
+  summarise(
+    total_months_present = n(),
+    years_present = n_distinct(Year),
+    months_by_year = paste(unique(Year), collapse = ", ")
+  ) %>%
+  arrange(desc(total_months_present))
+
+# Step 3 (Optional): Check which cities are present in all available year-month combos
+# First, get total number of distinct month-year combos in dataset
+total_months <- df %>% distinct(Year, Month) %>% nrow()
+
+city_month_coverage <- city_month_coverage %>%
+  mutate(complete_coverage = total_months_present == total_months)
+
+# View output
+head(city_month_coverage)
+
+
+```
+state sums - only agencies included in sample
+```{r}
+# Aggregate crime counts and population at the national level by Year and Month
+region_vars <- cdf_vcpc_nats_regions %>%
+  group_by(Year, Month, Region) %>%
+  summarise(
+    Murder = sum(Murder, na.rm = TRUE),
+    Rape = sum(Rape, na.rm = TRUE),
+    Robbery = sum(Robbery, na.rm = TRUE),
+    `Aggravated Assault` = sum(`Aggravated Assault`, na.rm = TRUE),
+    Burglary = sum(Burglary, na.rm = TRUE),
+    Theft = sum(Theft, na.rm = TRUE),
+    `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
+    `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
+    `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
+    `Population Total` = sum(Population, na.rm = TRUE),
+    Agency_num = sum(Agency_num, na.rm = TRUE),
+    .groups = 'drop'
+  )
+```
+create new values associated with state counts
+```{r}
+# Add values for agency name field so we can bind
+region_vars$`Agency Name` <- "Regional Sample Counts"
+
+region_vars <- region_vars %>% mutate(State = Region)
+```
+region sums - only agencies included in sample
+```{r}
+# Aggregate crime counts and population at the national level by Year and Month
+state_vars <- cdf_vcpc_nats_states %>%
+  group_by(Year, Month, state_abbr) %>%
+  summarise(
+    Murder = sum(Murder, na.rm = TRUE),
+    Rape = sum(Rape, na.rm = TRUE),
+    Robbery = sum(Robbery, na.rm = TRUE),
+    `Aggravated Assault` = sum(`Aggravated Assault`, na.rm = TRUE),
+    Burglary = sum(Burglary, na.rm = TRUE),
+    Theft = sum(Theft, na.rm = TRUE),
+    `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
+    `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
+    `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
+    `Population Total` = sum(Population, na.rm = TRUE),
+    Agency_num = sum(Agency_num, na.rm = TRUE),
+    .groups = 'drop'
+  )
+```
+create new values associated with state counts
+```{r}
+# Add values for agency name field so we can bind
+state_vars$`Agency Name` <- "State Sample Counts"
+```
+create per capita measures for all agencies
+```{r}
+#agency_per_capita <- cdf_vcpc_nats %>%
+ # group_by(Year, Month) %>%
+  #summarise(
+   # Murder_100k = (Murder / Population) * 100000,
+    #Rape_100k = (Rape / Population) * 100000,
+    #Robbery_100k = (Robbery / Population) * 100000,
+    #`Aggravated Assault_100k` = (`Aggravated Assault` / Population) * 100000,
+    #Burglary_100k = (Burglary / Population) * 100000,
+    #Theft_100k = (Theft / Population) * 100000,
+    #`Motor Vehicle Theft_100k` = (`Motor Vehicle Theft` / Population) * 100000,
+    #`Violent Crime_100k` = (`Violent Crime` / Population) * 100000,
+    #`Property Crime_100k` = (`Property Crime` / Population) * 100000,
+    #.groups = 'drop'
+  #)
+
+# Display the aggregate level dataframe
+#head(agency_per_capita)
+```
+nationwide per capita figures
+```{r}
+# Aggregate crime counts and population at the national level by Year and Month
+#nationwide_counts2 <- cdf_vcpc_nats %>%
+  #group_by(Year, Month) %>%
+  #summarise(
+    #Total_Murder = sum(Murder, na.rm = TRUE),
+    #Total_Rape = sum(Rape, na.rm = TRUE),
+    #Total_Robbery = sum(Robbery, na.rm = TRUE),
+    #Total_Aggravated_Assault = sum(`Aggravated Assault`, na.rm = TRUE),
+    #Total_Burglary = sum(Burglary, na.rm = TRUE),
+    #Total_Theft = sum(Theft, na.rm = TRUE),
+    #Total_Motor_Vehicle_Theft = sum(`Motor Vehicle Theft`, na.rm = TRUE),
+    #Total_Violent_Crime = sum(`Violent Crime`, na.rm = TRUE),
+    #Total_Property_Crime = sum(`Property Crime`, na.rm = TRUE),
+    #Total_Population = sum(Population, na.rm = TRUE),
+   # .groups = 'drop'
+  #)##%>%
+  # Calculate per capita rates per 100k population
+ # mutate(
+  #  Murder_100k = (Total_Murder / Total_Population) * 100000,
+   # Rape_100k = (Total_Rape / Total_Population) * 100000,
+    #Robbery_100k = (Total_Robbery / Total_Population) * 100000,
+    #`Aggravated Assault_100k` = (Total_Aggravated_Assault / Total_Population) * 100000,
+    #Burglary_100k = (Total_Burglary / Total_Population) * 100000,
+    #Theft_100k = (Total_Theft / Total_Population) * 100000,
+    #`Motor Vehicle Theft_100k` = (Total_Motor_Vehicle_Theft / Total_Population) * 100000,
+    #`Violent Crime_100k` = (Total_Violent_Crime / Total_Population) * 100000,
+    #`Property Crime_100k` = (Total_Property_Crime / Total_Population) * 100000
+ # )
+
+# Display the aggregated and scaled dataframe
+#head(nationwide_counts2)
+```
+create population groupings and then generate 
+<100k, 100k to 250k, 250-1mi, million +
+pop groupings for within nationwide
+```{r}
+# Separate data into different population groups
+population_groups <- cdf_vcpc_nats_states %>%
+  mutate(Population_Group = case_when(
+    Population < 100000 ~ "<100k",
+    Population >= 100000 & Population < 250000 ~ "100k-250k",
+    Population >= 250000 & Population < 1000000 ~ "250k-1mn",
+    Population >= 1000000 ~ "1mn+"
+  ))
+
+# Summarize by population group, Year, and month
+nationwide_subsets <- population_groups %>%
+  group_by(Year, Month, Population_Group) %>%
+  summarise(
+    Murder = sum(Murder, na.rm = TRUE),
+    Rape = sum(Rape, na.rm = TRUE),
+    Robbery = sum(Robbery, na.rm = TRUE),
+    `Aggravated Assault` = sum(`Aggravated Assault`, na.rm = TRUE),
+    Burglary = sum(Burglary, na.rm = TRUE),
+    Theft = sum(Theft, na.rm = TRUE),
+    `Motor Vehicle Theft` = sum(`Motor Vehicle Theft`, na.rm = TRUE),
+    `Violent Crime` = sum(`Violent Crime`, na.rm = TRUE),
+    `Property Crime` = sum(`Property Crime`, na.rm = TRUE),
+    `Population Total` = sum(Population, na.rm = TRUE),
+    Agency_num = sum(Agency_num, na.rm = TRUE),
+    .groups = 'drop'
+  )
+
+# Separate out each population group if needed
+group_100k <- nationwide_subsets %>% filter(Population_Group == "<100k")
+group_100k_250k <- nationwide_subsets %>% filter(Population_Group == "100k-250k")
+group_250k_1mil <- nationwide_subsets %>% filter(Population_Group == "250k-1mi")
+group_1mil <- nationwide_subsets %>% filter(Population_Group == "1mi+")
+```
+add the nationwide counts to the sample for the viz
+```{r}
+# Add values for agency name field so we can bind
+nationwide_subsets1 <- nationwide_subsets %>%
+                        rename(`Agency Name` = Population_Group)
+
+# also need state values and column
+nationwide_subsets1$State <- "All Agencies in Grouping"
+```
+make sure everyone has the columns we need
+```{r}
+# List of dataframes
+dataframes <- list(
+  cdf2 = cdf2, 
+  nationwide_counts = nationwide_counts, 
+  nationwide_subsets1 = nationwide_subsets1, 
+  region_vars = region_vars, 
+  state_vars = state_vars
+)
+
+# Function to check if 'agency_num' is in a dataframe
+check_agency_num <- function(df_list) {
+  sapply(df_list, function(df) "agency_num" %in% colnames(df))
+}
+
+# Check each dataframe
+agency_num_presence <- check_agency_num(dataframes)
+
+# Print results
+print(agency_num_presence)
+
+```
+
+bind the nationwide counts to the bottom
+```{r}
+cdf2 <- bind_rows(cdf2, nationwide_counts, nationwide_subsets1, region_vars, state_vars)
+head(cdf2)
+```
+#sneak in the PR data and get 12mo mvsums
+add PR data
+fix remaining columns and select out 
+```{r}
+# Define the path to the Puerto Rico data file
+pr_path <- file.path(
+  onedrive_dir,
+  "Clients",
+  "Real Time Crime Index",
+  "Open Source Data",
+  "_Ben and Jeff work",
+  "Months",
+  "April 2025",
+  "Cities",
+  "Puerto_Rico_Aggregated_Since_2017.csv"
+)
+
+# Read CSV
+pr_dat <- read.csv(pr_path, check.names = FALSE)
+
+# Preview the final data
+head(pr_dat)
+```
+last check for PR duplicates
+```{r}
+pr_dupes <- duplicated(pr_dat)
+print(pr_dupes)
+```
+bind to the end
+```{r}
+cdf3 <- bind_rows(cdf2, pr_dat)
+```
+
+
+give city_state_id's to pop groups
+```{r}
+library(dplyr)
+
+cdf3 <- cdf3 %>%
+  mutate(
+    city_state_id = case_when(
+      `Agency Name` == "Regional Sample Counts" & is.na(city_state_id) ~ paste0(`Agency Name`, ",", Region),
+      `Agency Name` == "State Sample Counts" & is.na(city_state_id) ~ paste0(`Agency Name`, ",", state_abbr),
+      is.na(city_state_id) ~ `Agency Name`,
+      TRUE ~ city_state_id
+    )
+  )
+
+```
+
+get mvs_12mo for all crime categories and groupings
+```{r}
+# Function to calculate 12-month cumulative sum 
+mvs_12mo <- function(df) {
+  require(magrittr)
+  df <- df %>%
+    arrange(Year, Month) %>%
+    group_by(city_state_id, State) %>%
+    mutate(across(c(Murder, Burglary, Rape, Robbery, `Aggravated Assault`, `Motor Vehicle Theft`, Theft, `Violent Crime`, `Property Crime`), 
+                  ~rollapply(.x, width = 12, FUN = sum, align = "right", fill = NA, partial = TRUE),
+                  .names = "{col}_mvs_12mo")) %>%
+    ungroup()
+  return(df)
+}
+
+# Apply the function to the single dataframe
+df_mvs_12mo1 <- mvs_12mo(cdf3)
+
+# Print the result to verify
+head(df_mvs_12mo1)
+```
+drop 2017 - just needed it for 12mo MVS to start in 2018
+```{r}
+# we don't have 12 mo mvs for 2017 so it looks weird
+df_mvs_12mo1 <- df_mvs_12mo1 %>% filter(Year != 2017)
+```
+make a new city_state field just to check no agencies were kicked, etc.
+```{r}
+# one last check
+df_mvs_12mo1 <- df_mvs_12mo1 %>% mutate(city_state = paste(`Agency Name`, State, sep = ", "))
+# city state unique id
+length(unique(df_mvs_12mo1$city_state))
+# duplicate agency names
+length(unique(df_mvs_12mo1$`Agency Name`))
+# now with counties
+length(unique(df_mvs_12mo1$city_state_id))
+```
+fix columns issue before merging
+```{r}
+names(df_mvs_12mo1)
+df_mvs_12mo1<- df_mvs_12mo1 %>% select(-Agency_Type.y, -city_state.y) %>% mutate(Agency_Type = Agency_Type.x, city_state = city_state.x) %>% select(-city_state.x, -Agency_Type.x)
+
+#ref_df1 <- ref_df1 %>% mutate(Agency_Type = Agency_Type.x) %>% select(-Agency_Type.x)
+```
+
+
+join ref to sample
+```{r}
+df_w_ref <- merge(
+  df_mvs_12mo1, 
+  ref_df1, 
+  by = "city_state_id",  # Ensure column name is correctly specified
+  all.x = TRUE  # Keep all rows from df_mvs_12mo1 (equivalent to left join)
+)
+
+#
+df_w_ref<-df_w_ref %>% select(-Agency_Type.y, -city_state.y) %>% mutate(Agency_Type = Agency_Type.x, city_state = city_state.x) %>% select(-Agency_Type.x, -city_state.x)
+
+#keep state.x and state_abbr.x
+df_w_ref<-df_w_ref %>% select(-State.y, -state_abbr.y) %>% mutate(State = State.x, state_abbr = state_abbr.x) %>% select(-State.x, -state_abbr.x)
+```
+fix state sample count names
+```{r}
+df_w_ref1 <- df_w_ref %>%
+  mutate(
+    city_state_id = if_else(
+      `Agency Name` == "State Sample Counts",
+      paste0(`Agency Name`, ",", state_abbr),
+      city_state_id
+    ),
+    State = if_else(
+      `Agency Name` == "State Sample Counts" & is.na(State),
+      state_abbr,
+      State
+    )
+  )
+
+```
+remove non-current reporter
+```{r}
+#replace population values with Population values
+colSums(is.na(df_w_ref1))
+df_w_ref1$population <- ifelse(is.na(df_w_ref1$population), df_w_ref1$`Population Total`, df_w_ref1$population)
+colSums(is.na(df_w_ref1))
+
+#fix non-nationwide sample values for viz
+df_w_ref1$Agency_num <- ifelse(is.na(df_w_ref1$Agency_num), 1, df_w_ref1$Agency_num)
+colSums(is.na(df_w_ref1))
+
+#drop population total column after values are transferred to population
+df_w_ref1 <- df_w_ref1 %>% select(-`Population Total`)
+```
+clean up schema for oscar
+```{r}
+#keep in both state fields for eventual auditing purposes (check merge success)
+final_data <- df_w_ref1 %>%
+  mutate(State_ref = state_abbr)
+```
+remove bad month for june if all na
+```{r}
+#this ensure that the YTD figures are apples to apples and not understate %change
+final_data1 <- final_data %>%
+  filter(!(Year == two_months_previous_year & Month == two_months_previous_month & is.na(Murder)))
+```
+remove missing months consecutively from current month
+-scottsdale issue
+-drop months if all everything
+```{r}
+# Need a list of crime type names to check for below
+ctypes <- c("Murder", "Rape", "Robbery", "Aggravated Assault", "Burglary", 
+                "Theft", "Motor Vehicle Theft")
+
+crime_data <- final_data1 %>%
+  mutate(date = as.Date(paste(Year, Month, "01", sep = "-"), format = "%Y-%m-%d"))
+
+# Initialize a dataframe to store removed observations
+removed_observations <- data.frame()
+
+# Get the list of unique agencies
+unique_agencies <- unique(crime_data$`Agency Name`)
+
+# Initialize an empty dataframe to store the cleaned data
+cleaned_data <- data.frame()
+
+# Loop over each agency
+for (agency in unique_agencies) {
+  
+  # Subset data for the current agency
+  agency_data <- subset(crime_data, `Agency Name` == agency)
+  
+  # Sort the data by date in descending order
+  agency_data <- agency_data[order(agency_data$date, decreasing = TRUE), ]
+  
+  # Loop through the data month by month
+  remove_flag <- TRUE
+  i <- 1
+  while (i <= nrow(agency_data)) {
+    
+    # Check if all crime types in the specified columns are NA
+    if (remove_flag && all(is.na(agency_data[i, ctypes]))) {
+      
+      # Add the observation to the removed_observations dataframe
+      removed_observations <- rbind(removed_observations, agency_data[i, ])
+      
+      # Remove the observation from the original data
+      agency_data <- agency_data[-i, ]
+      
+    } else {
+      # Once a non-NA value is found, stop further removals for this agency
+      remove_flag <- FALSE
+      i <- i + 1
+    }
+  }
+  
+  # Restore the original order of the agency_data
+  agency_data <- agency_data[order(agency_data$date, decreasing = FALSE), ]
+  
+  # Append the cleaned data back to the main cleaned_data dataframe
+  cleaned_data <- rbind(cleaned_data, agency_data)
+}
+
+# Restore the original order of the removed_observations
+removed_observations <- removed_observations[order(removed_observations$date, decreasing = FALSE), ]
+
+# Subset to a different dataframe
+subset_removed <- removed_observations
+
+head(subset_removed)
+```
+```{r}
+#hard code pop for now
+cleaned_data <- cleaned_data %>%
+  mutate(
+    pop23 = case_when(
+      city_state_id == "Montgomery,MD,County" ~ 896963,
+      city_state_id == "St Charles,MO,County" ~ 119730,
+      city_state_id == "St Louis,MO,County" ~ 398969,
+      TRUE ~ population  # Retain existing values for other rows
+    ),
+    population = case_when(
+      city_state_id == "Montgomery,MD,County" ~ 896963,
+      city_state_id == "St Charles,MO,County" ~ 119730,
+      city_state_id == "St Louis,MO,County" ~ 398969,
+      TRUE ~ population  # Retain existing values for other rows
+    ),
+    division_name = case_when(
+      city_state_id == "Montgomery,MD,County" ~ "South Atlantic",
+      city_state_id == "St Charles,MO,County" ~ "West North Central",
+      city_state_id == "St Louis,MO,County" ~ "West North Central",
+      TRUE ~ division_name  # Retain existing values for other rows
+    ),
+    region_name = case_when(
+      city_state_id == "Montgomery,MD,County" ~ "South",
+      city_state_id == "St Charles,MO,County" ~ "Midwest",
+      city_state_id == "St Louis,MO,County" ~ "Midwest",
+      TRUE ~ region_name  # Retain existing values for other rows
+
+    ),
+    State = case_when(
+      city_state_id == "Montgomery,MD,County" ~ "MD",
+      city_state_id == "St Charles,MO,County" ~ "MO",
+      city_state_id == "St Louis,MO,County" ~ "MO",
+      TRUE ~ State  # Retain existing values for other rows
+  )
+  )
+
+```
+add a time stamp column & generate a suffix for dynamic write outs
+```{r}
+# For the careful but forgetful few
+cleaned_data$Last.Updated <- Sys.Date()
+
+# Extract the most recent date from the cleaned_data dataframe for suffixes
+latest_date <- max(cleaned_data$date, na.rm = TRUE)
+
+# Format the date as "mon_yy" (e.g., "oct_24")
+month_suffix <- tolower(format(latest_date, "%b_%y"))
+```
+last fixes before publishing
+```{r}
+#cleaned_data <- cleaned_data %>% mutate(city_state = city_state.x) %>% select(-city_state.x, -city_state.y)
+colSums(is.na(cleaned_data))
+```
+
+
+prepare a dataframe of all component agencies into sample for sourcing table
+```{r}
+sample_cities <- cdf_vcpc_nats %>%
+  group_by(city_state_id) %>%
+  slice(1) %>%
+  ungroup()
+```
+write out sample cities for viz and sample comparison
+```{r}
+#transform sample cities for viz
+sample_cities_viz <- sample_cities %>% 
+  mutate(date = month_suffix, State = State.x) %>% 
+  select(city_state_id, city_state.x, `Agency Name`, State, date, Agency_Type.x)
+
+
+names(sample_cities_viz) <- gsub("\\.x$", "", names(sample_cities_viz))
+
+
+#write out sample cities to data folder on github -- "Current Samp in versioner"
+write.csv(sample_cities_viz, "data/sample_cities.csv", row.names = FALSE)
+
+# Sample Cities file for Sourcing table base -- "Previous Samp in versioner"
+sample_cities_viz_archive <- sample_cities_viz %>% select(city_state, date)
+# Write a copy of the sample in the data archive folder as well with suffix
+write.csv(sample_cities_viz_archive,file.path("data/archive", paste0(month_suffix, "_agencies.csv")), row.names = FALSE)
+```
+write out final sample to both sharepoint and github repo
+```{r}
+# Define the folder path relative to OneDrive
+sample_write_path <- file.path(
+  onedrive_dir,
+  "Clients",
+  "Real Time Crime Index",
+  "Open Source Data",
+  "Collected Sample Data"
+)
+
+# Create the full file path for "pre_processed.csv" to store on sharepoint
+samp_file_path <- file.path(sample_write_path, "pre_processed.csv")
+
+# Write the data frame to a .csv file to be stored in sharepoint
+write.csv(cleaned_data, file = samp_file_path, row.names = FALSE)
+
+# Write sample data folder in the GitHub repo
+write.csv(cleaned_data, "data/pre_processed.csv", row.names = FALSE)
+
+# Write a copy of the sample in the data archive folder as well with suffix
+write.csv(cleaned_data,file.path("data/archive", paste0("pre_processed_", month_suffix, ".csv")), row.names = FALSE)
+```
+write out all auditing tables + sample cities *2
+```{r}
+# write out all auditing tables to auditing folder in github
+write.csv(undesirables_na_current, "scripts/auditing/missing_current.csv", row.names = FALSE)
+write.csv(undesirables_na_historical, "scripts/auditing/missing_historical.csv", row.names = FALSE)
+write.csv(undesirables_recency, "scripts/auditing/no_reported_data_past_two_months.csv", row.names = FALSE)
+write.csv(remove_agencies, "scripts/auditing/agencies_removed_from_sample.csv", row.names = FALSE)
+
+#write remaining auditing tables to archive with month_suffix
+write.csv(undesirables_na_current,file.path("scripts/auditing/archive/", paste0("missing_current_", month_suffix, ".csv")),row.names = FALSE)
+write.csv(undesirables_na_historical,file.path("scripts/auditing/archive/", paste0("missing_historical_", month_suffix, ".csv")),row.names = FALSE)
+write.csv(undesirables_recency,file.path("scripts/auditing/archive/", paste0("no_reported_data_past_two_months_", month_suffix, ".csv")),row.names = FALSE)
+write.csv(remove_agencies,file.path("scripts/auditing/archive/", paste0("agencies_removed_from_sample_", month_suffix, ".csv")),row.names = FALSE)
+write.csv(sample_cities,file.path("scripts/auditing/archive/", paste0("sample_cities_", month_suffix, ".csv")), row.names = FALSE)
+```
+run the above
+```{r}
+city_state.x
+city_state.y
+
+Agency_Type.x 
+Agency_Type.y
+
+cd1 <- cleaned_data %>% select(city_state_id, city_state.x, city_state.y, Agency_Type.x, Agency_Type)
+```
+
+
+
+
+
+
+
+##NOT DONE YET##
+new function that will add ORI's back to the base files for future months
+```{r}
+library(tidyverse)
+library(fs)
+
+# Path to reference table containing "Agency Name", "State", "ori"
+# Example: agency_reference <- read_csv("path/to/agency_reference.csv")
+
+add_ori_and_write <- function(folder_path, reference_df, output_base = "next_month") {
+  
+  # Get all CSV file paths recursively
+  file_paths <- list.files(folder_path, pattern = "\\.csv$", full.names = TRUE, recursive = TRUE)
+  
+  if (length(file_paths) == 0) {
+    stop("No CSV files found in the specified directory.")
+  } else {
+    message("Processing ", length(file_paths), " files.")
+  }
+
+  for (file_path in file_paths) {
+    message("Reading file: ", file_path)
+    
+    df <- tryCatch({
+      read_csv(file_path, show_col_types = FALSE)
+    }, error = function(e) {
+      warning("Failed to read: ", file_path, " Error: ", e$message)
+      return(NULL)
+    })
+    
+    if (is.null(df)) next
+    
+    # Add ori column by matching on Agency Name and State
+    df <- df %>%
+      left_join(reference_df, by = c("Agency Name", "State"))  # Add "ori" column
+    
+    # Determine the relative path for output
+    relative_path <- path_rel(file_path, start = folder_path)
+    output_path <- file.path(output_base, relative_path)
+    
+    # Create directory if it doesn't exist
+    dir_create(dirname(output_path))
+    
+    # Write CSV
+    write_csv(df, output_path)
+    message("Saved to: ", output_path)
+  }
+}
+
+# Example call
+# agency_reference <- read_csv("path/to/agency_reference.csv")
+# add_ori_and_write("data_dir", agency_reference)
+
+
+```

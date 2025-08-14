@@ -1,0 +1,178 @@
+---
+title: "pr cleaner"
+output: github_document
+---
+
+#PR Data transformation before sample aggregation - All in Base R#
+directory path where the data files are stored
+```{r}
+# Dynamically locate OneDrive directory
+onedrive_mac <- "~/Library/CloudStorage/OneDrive-ahdatalytics.com"
+onedrive_win <- file.path("C:", "OneDrive", "OneDrive - ahdatalytics.com")
+
+if (dir.exists(onedrive_mac)) {
+  onedrive_dir <- normalizePath(onedrive_mac)
+} else if (dir.exists(onedrive_win)) {
+  onedrive_dir <- normalizePath(onedrive_win)
+} else {
+  stop("OneDrive directory not found.")
+}
+
+# Define the raw data directory with the correct relative path from OneDrive
+data_dir <- file.path(
+  onedrive_dir,
+  "Clients",
+  "Real Time Crime Index",
+  "Open Source Data",
+  "_Ben and Jeff work",
+  "Puerto Rico"
+)
+
+# Check the full path to ensure it's correct
+print(data_dir)
+
+# Get a list of all CSV file paths within the directory
+file_paths <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
+
+# Check the files
+head(file_paths)
+```
+make sure there are files and then choose which one to read in
+```{r}
+# Check if there are CSV files
+if (length(file_paths) == 0) {
+  stop("No CSV files found in the directory:", data_dir)
+}
+
+# Display the list of files for user selection
+cat("Available CSV files:\n")
+for (i in seq_along(file_paths)) {
+  cat(i, ":", basename(file_paths[i]), "\n")
+}
+
+# Prompt the user to select a file based on the month
+file_index <- as.integer(readline(prompt = "Enter the number of the file to load: "))
+```
+validate and read in file
+```{r}
+# Validate the user's input
+if (is.na(file_index) || file_index < 1 || file_index > length(file_paths)) {
+  stop("Invalid selection. Please run the script again and select a valid file.")
+}
+
+# Get the selected file path
+selected_file <- file_paths[file_index]
+
+# Read the selected file into a dataframe
+pr <- read.csv(selected_file)
+
+# Print a success message and preview the data
+cat("Successfully loaded:", basename(selected_file), "\n")
+head(pr)
+```
+#clean up reshape
+```{r}
+# Load necessary libraries
+library(dplyr)
+library(tidyr)
+
+# Group by municipality, year, month, and crime code, then sum the crime counts
+crime_summary <- pr  %>%
+  group_by(Municipalities_Name_1, Date_Date_Year, Date_Date_Month, PBI_CRIMEN_codigo) %>%
+  summarise(Total_Crime_Count = sum(PBI_CRIMEN_Crime_Count, na.rm = TRUE)) %>%
+  ungroup()
+
+# Pivot the table to a wide format, with one column for each crime code
+wide_pr <- crime_summary %>%
+  pivot_wider(names_from = PBI_CRIMEN_codigo, values_from = Total_Crime_Count, values_fill = 0)
+
+# Create new columns for crime counts by combining relevant crime codes
+pr_counts <- wide_pr %>%
+  mutate(
+    Murder = `09A`, 
+    Rape = `11A`, # no B and C reported   
+    Robbery = `120`,
+    `Aggravated Assault` = `13A`,
+    Burglary = `220`,
+    Theft = coalesce(`23A`, 0) + coalesce(`23B`, 0) + coalesce(`23C`, 0) + coalesce(`23D`, 0) +
+            coalesce(`23E`, 0) + coalesce(`23F`, 0) + coalesce(`23G`, 0) + coalesce(`23H`, 0),
+    `Motor Vehicle Theft` = `240`,
+    State = "PR"
+  )
+
+#select and rename columns
+pr_counts <- pr_counts %>% 
+              mutate(`Agency Name` = Municipalities_Name_1,
+                      Year = Date_Date_Year,
+                      Month = Date_Date_Month) %>%
+                      select(`Agency Name`, Murder, Rape, Robbery,
+                      `Aggravated Assault`, Burglary, Theft, `Motor Vehicle Theft`,
+                      Year, Month, State)
+
+#fix month values
+pr_counts$Month <- match(pr_counts$Month, month.name)
+
+
+# Remove months outside the sample period
+pr_counts <- pr_counts %>%
+  filter(
+    !(Year == current_year & Month == current_month)
+  )
+
+# View the resulting dataframe
+head(pr_counts)
+```
+any duplicates?
+```{r}
+# find dupes
+duplicate_rows <- pr_counts[duplicated(pr_counts), ]
+
+print(duplicate_rows)
+#no duplicates! good to go.
+```
+# write out df
+```{r}
+# Dynamically locate OneDrive directory
+onedrive_mac <- "~/Library/CloudStorage/OneDrive-ahdatalytics.com"
+onedrive_win <- file.path("C:", "OneDrive", "OneDrive - ahdatalytics.com")
+
+if (dir.exists(onedrive_mac)) {
+  onedrive_dir <- normalizePath(onedrive_mac)
+} else if (dir.exists(onedrive_win)) {
+  onedrive_dir <- normalizePath(onedrive_win)
+} else {
+  stop("OneDrive directory not found.")
+}
+
+# Define the relative path for the output file
+output_dir <- file.path(
+  onedrive_dir,
+  "Clients",
+  "Real Time Crime Index",
+  "Open Source Data",
+  "_Ben and Jeff work",
+  "Months",
+  "April 2025",
+  "Cities"
+)
+
+# Create the directory if it doesn't exist
+if (!dir.exists(output_dir)) {
+  dir.create(output_dir, recursive = TRUE)
+}
+
+# Define the full output file path
+output_file <- file.path(output_dir, "Puerto_Rico_Aggregated_Since_2017.csv")
+
+# Write the dataframe to the specified file
+write.csv(pr_counts, output_file, row.names = FALSE)
+
+# Print success message
+cat("File successfully written to:", output_file, "\n")
+```
+
+run above
+```{r}
+
+
+```

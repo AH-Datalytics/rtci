@@ -110,7 +110,7 @@ html, body {
 }
 
 .rtci-header {
-    color: #f28106;
+    color: #00333a;
     font-family: 'Roboto Condensed', Arial, sans-serif;
     font-size: 3vw;
     text-align: center;
@@ -185,6 +185,19 @@ html, body {
     padding-right: 0px;
     text-decoration: none;
     display: block;
+}
+
+/* Style for master headings in the dropdown */
+.master-heading {
+    font-size: 1.2em; /* Make the font size bigger */
+    font-weight: 300;
+    padding-top: 0.5em; /* Add some space above */
+    border-bottom: 1px solid #00333a2d; /* Optional: Add a separator line below */
+}
+
+/* Style specifically for the second master heading "Property Crimes" */
+.second-master-heading {
+    margin-top: 0.5em; /* Add more space above */
 }
 
 .dropdown-menu .dropdown-item:hover {
@@ -271,7 +284,7 @@ html, body {
 }
 
 .kpi-box {
-    background-color: #f28106;
+    background-color: #00333a;
     color: white;
     font-family: 'Roboto Condensed', Arial, sans-serif;
     font-size: 2vw;
@@ -299,6 +312,7 @@ html, body {
 
 .kpi-box p strong {
     font-size: 2em;
+    color: #f28106;
 }
 
 .kpi-box:last-child {
@@ -309,7 +323,7 @@ html, body {
     position: absolute;
     text-align: left;
     padding: 5px;
-    background: #f28106;
+    background: white;
     border: 1px solid #ccc;
     border-radius: 4px;
     pointer-events: none;
@@ -402,7 +416,7 @@ html, body {
     }
 
     .rtci-header {
-        font-size: 3vw;
+        font-size: 5vw;
     }
 
     .filters-container {
@@ -463,7 +477,6 @@ html, body {
         padding-bottom: 0.8rem;
         font-size: 2vw;
         text-align: center;
-        background-color: #f28106;
         color: white;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         height: 5%;
@@ -636,4 +649,149 @@ html, body {
     .tab-navigation {
         top: -25px; /* Adjust this value to move tabs closer to the graph */
     }
+}
+
+
+@media (max-width: 600px) {
+    .filters-container {
+        display: flex;
+        flex-wrap: wrap; /* Wrap the content to fit into two lines */
+        justify-content: center;
+        font-size: 3.5vw; /* Keep the font size larger for readability */
+        max-width: 90%; /* Adjust to take up most of the screen width */
+    }
+
+    .filters-container span, .filters-container .dropdown {
+        flex-basis: auto; /* Let elements take their natural width */
+        display: inline-block;
+        text-align: center;
+    }
+
+    /* Ensure the elements wrap into two lines */
+    .filters-container span:nth-child(1),
+    .filters-container .dropdown:nth-child(2),
+    .filters-container span:nth-child(3),
+    .filters-container .dropdown:nth-child(4) {
+        width: auto; /* Allow elements to adjust width dynamically */
+    }
+
+    .filters-container span:nth-child(5),
+    .filters-container .dropdown:nth-child(6),
+    .filters-container span:nth-child(7),
+    .filters-container .dropdown:nth-child(8) {
+        width: auto; /* Allow elements to adjust width dynamically */
+    }
+
+    .dropdown-btn {
+        font-size: 3.5vw; /* Ensure dropdowns are still readable */
+    }
+
+    .dropdown-menu {
+        font-size: 3vw; /* Ensure dropdown items are still readable */
+        min-width: 27vw; /* Adjust width to fit smaller screens */
+        border-radius: 6px;
+    }
+
+    .dropdown-search {
+        width: 22vw;
+        font-size: 3vw;
+        height: 6vw;
+    }   
+
+    .rtci-line-graph {
+        height: 102vh;
+    }
+
+    .kpi-box {
+        height: 7%;
+    }
+
+    .kpi-box h2 {
+        font-size: 1.3em;
+    }
+
+    .kpi-box p {
+        font-size: 1.1em;
+    }
+
+    .kpi-box p strong {
+        font-size: 2em;
+    }
+
+
+    .tab-link, .nav-button {
+        font-size: 3vw; /* Adjust font size for smaller screens */
+        padding: 0.9vw 1.8vw; /* Adjust padding for smaller screens */
+        border-radius: 5px;
+        margin-bottom: 0;
+        margin-right: 3px;
+    }
+
+    .tab-navigation {
+        top: -24px; /* Adjust this value to move tabs closer to the graph */
+    }
+}
+
+@media (max-width: 600px) {
+    .tab-link span {
+        display: none; /* Hide the text */
+    }
+
+    .tab-link i {
+        margin: 0; /* Remove extra margin if any */
+    }
+
+    .tab-link {
+        padding: 0.9vw; /* Adjust padding for smaller space */
+        font-size: 4vw; /* Ensure icons are visible */
+    }
+}
+
+
+/* Dropdown menu under Tables tab */
+.rtci-nav-dropdown-wrapper {
+    position: relative;
+    display: inline-block;
+    font-size: inherit; /* Inherit from .tab-link for consistent font sizing */
+}
+
+.rtci-nav-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    width: max-content;
+    min-width: unset;
+    border: 0.25px solid #e1e1e1;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-size: inherit; /* Ensures items match button font size */
+}
+
+.rtci-nav-dropdown-item {
+    padding: 8px 10px;
+    color: #00333a;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    font-weight: normal;
+    font-size: inherit; /* Explicitly inherit again for clarity */
+}
+
+.rtci-nav-dropdown-item:hover {
+    background-color: #f5f5f5;
+    color: #f28106;
+}
+
+.rtci-nav-dropdown-item.active {
+    font-weight: bold;
+}
+
+/* Show dropdown on hover */
+.rtci-nav-dropdown-wrapper:hover .rtci-nav-dropdown-menu {
+    display: block;
 }

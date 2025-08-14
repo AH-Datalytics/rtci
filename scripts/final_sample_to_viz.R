@@ -9,8 +9,10 @@ library(tidygeocoder)
 library(sf)
 library(readxl)
 
+
 # Get the current date and time
 last_updated <- format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")
+
 
 # Load Data
 final_sample <- read_csv("../data/pre_processed.csv")

@@ -33,6 +33,59 @@ read in fbi participation file
 fbi_participation_2023 <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\FBI Agency Participation Data\\2023 Participation_adapted.csv")
 part_ref_crosswalk <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\FBI Agency Participation Data\\part_ref_crosswalk.csv")
 ```
+let's look at 2024
+```{r}
+# ---- Setup ----
+# Install once if needed:
+# install.packages(c("readxl", "dplyr", "janitor", "purrr", "fs"))
+
+library(readxl)
+library(dplyr)
+library(janitor)
+library(purrr)
+library(fs)
+
+# Windows paths in R work best with double backslashes \\ or forward slashes /.
+xlsx_path <- "C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Open Source Data\\_Ben and Jeff work\\Ben and Jeff working files\\2024 Population File.xlsx"
+
+# ---- 1) Check the file exists ----
+if (!fs::file_exists(xlsx_path)) {
+  stop("File not found. Check the path or that OneDrive is synced locally:\n", xlsx_path)
+}
+
+# ---- 2) List sheet names (helpful when the workbook has multiple tabs) ----
+sheets <- readxl::excel_sheets(xlsx_path)
+message("Sheets found: ", paste(sheets, collapse = " | "))
+
+# ---- 3a) Read a specific sheet (edit 'sheet_to_read' if you know the tab name) ----
+# If you're not sure, look at the message above and set the name or index below.
+sheet_to_read <- sheets[1]   # e.g., "Sheet1" or an index like 1
+
+population_df <- readxl::read_excel(
+  path = xlsx_path,
+  sheet = sheet_to_read,
+  # col_types = "guess"  # uncomment to control types; or supply a vector
+) %>%
+  janitor::clean_names()  # lower_snake_case, removes spaces/symbols
+
+# Quick peek
+print(paste0("Rows: ", nrow(population_df), " | Cols: ", ncol(population_df)))
+glimpse(population_df)
+
+# ---- 3b) (Optional) Read ALL sheets into a named list ----
+# Each element is a tibble for that sheet, with cleaned column names.
+population_lst <- purrr::map(
+  .x = sheets,
+  .f = ~ readxl::read_excel(xlsx_path, sheet = .x) %>% janitor::clean_names()
+)
+names(population_lst) <- sheets
+
+# Example: access a specific tab after loading all
+# population_lst[["SheetName"]]
+
+# ---- 4) (Optional) Save out as CSV for reproducibility ----
+# write.csv(population_df, "C:\\Users\\daveh\\OneDrive\\Desktop\\2024_population_file.csv", row.names = FALSE)
+```
 merge, clean up and pare down df's before fixing place names
 ```{r}
 fbi_participation_2023_updated <- fbi_participation_2023 %>%
@@ -52,12 +105,47 @@ fbi_participation_2023_updated <- fbi_participation_2023 %>%
   
 fbi_participation_2023_updated <- fbi_participation_2023_updated %>% mutate(city_state_id = paste(pub_agency_name, state_abbr, agency_type_name, sep = ","))  # Remove the crosswalk_name column if not needed
 ```
+merge 2024 to 2023 based on ori
+```{r}
+library(dplyr)
+#fix ori columns
+population_df <- population_df %>% select(-ori)
+
+population_df <- population_df %>% rename(ori = ori9)
+
+# Ensure ori column exists in both dataframes and is the same case
+population_df <- population_df %>%
+  mutate(ori = toupper(ori))
+
+fbi_participation_2023_updated <- fbi_participation_2023_updated %>%
+  mutate(ori = toupper(ori))
+
+# ---- LEFT JOIN: Keep all records from fbi_participation_2023_updated ----
+merged_df_left <- fbi_participation_2023_updated %>%
+  left_join(population_df, by = "ori")
+
+# ---- INNER JOIN: Keep only matching ori in both ----
+merged_df_inner <- fbi_participation_2023_updated %>%
+  inner_join(population_df, by = "ori")
+
+# ---- Quick checks ----
+message("Left join rows: ", nrow(merged_df_left))
+message("Inner join rows: ", nrow(merged_df_inner))
+
+# Optional: Preview
+glimpse(merged_df_left)
+```
+look at pop differences
+```{r}
+merged_df_left <- merged_df_left %>% mutate(pop_diff = (population - population_1))
+```
+
 subset to counties with >100k pop
 ```{r}
-cities_40k <- fbi_participation_2023_updated %>% 
+cities_40k <- merged_df_left %>% 
   filter(agency_type_name == "City", population > 30000)
 
-counties_100k <- fbi_participation_2023_updated %>% 
+counties_100k <- merged_df_left %>% 
   filter(agency_type_name == "County", population > 100000)
 ```
 combine city and county records for merging with final_sourcing 

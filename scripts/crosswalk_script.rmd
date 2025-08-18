@@ -138,6 +138,10 @@ glimpse(merged_df_left)
 look at pop differences
 ```{r}
 merged_df_left <- merged_df_left %>% mutate(pop_diff = (population - population_1))
+
+#update population_1 
+merged_df_left <- merged_df_left %>%
+  mutate(population_1 = coalesce(population_1, population))
 ```
 
 subset to counties with >100k pop

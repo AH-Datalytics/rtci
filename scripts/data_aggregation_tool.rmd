@@ -553,7 +553,7 @@ cdf_vcpc_nats <- cdf_vcpc_nats %>%
       city_state_id == "Montgomery,MD,County" ~ 896963,
       city_state_id == "St Charles,MO,County" ~ 119730,
       city_state_id == "St Louis,MO,County" ~ 398969,
-      TRUE ~ population  # Retain existing values for other rows
+      TRUE ~ population_1  # Retain existing values for other rows
     ),
     division_name = case_when(
       city_state_id == "Montgomery,MD,County" ~ "South Atlantic",
@@ -590,13 +590,13 @@ cdf_vcpc_nats_usa <- cdf_vcpc_nats %>%
   mutate(`Violent Crime` = vio_crime,
           `Property Crime` = prop_crime,
           Agency_num =1,
-          Population = as.numeric(pop23)) %>%
+          Population = as.numeric(population_1)) %>%
            select(-vio_crime, -prop_crime)
 
 cdf_vcpc_nats_regions <- cdf_vcpc_nats %>%
   mutate(`Violent Crime` = vio_crime,
           `Property Crime` = prop_crime,
-          Population = as.numeric(pop23),
+          Population = as.numeric(population_1),
           Region = region_name,
           Agency_num =1) %>%
            select(-vio_crime, -prop_crime)
@@ -605,7 +605,7 @@ cdf_vcpc_nats_regions <- cdf_vcpc_nats %>%
 cdf_vcpc_nats_states <- cdf_vcpc_nats %>%
   mutate(`Violent Crime` = vio_crime,
           `Property Crime` = prop_crime,
-          Population = as.numeric(pop23),
+          Population = as.numeric(population_1),
           Agency_num =1) %>%
            select(-vio_crime, -prop_crime)
 ```
@@ -629,7 +629,7 @@ library(dplyr)
 # Summing population for each unique city_state_id per month/year
 population_totals <- cdf_vcpc_nats_usa %>%
   group_by(Year, Month) %>%
-  summarise(Populationx = sum(pop23, na.rm = TRUE), .groups = "drop")
+  summarise(Populationx = sum(population_1, na.rm = TRUE), .groups = "drop")
 
 # View the result
 print(population_totals)
@@ -1133,13 +1133,13 @@ head(subset_removed)
 #hard code pop for now
 cleaned_data <- cleaned_data %>%
   mutate(
-    pop23 = case_when(
+    population_1 = case_when(
       city_state_id == "Montgomery,MD,County" ~ 896963,
       city_state_id == "St Charles,MO,County" ~ 119730,
       city_state_id == "St Louis,MO,County" ~ 398969,
       TRUE ~ population  # Retain existing values for other rows
     ),
-    population = case_when(
+    population_1 = case_when(
       city_state_id == "Montgomery,MD,County" ~ 896963,
       city_state_id == "St Charles,MO,County" ~ 119730,
       city_state_id == "St Louis,MO,County" ~ 398969,

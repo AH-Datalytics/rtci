@@ -43,7 +43,7 @@ data_dir <- file.path(
   "Open Source Data",
   "_Ben and Jeff work",
   "Months",
-  "May 2025",
+  "June 2025",
   "Cities"
 )
 
@@ -296,13 +296,28 @@ length(unique(combined_df$`Agency Name`))
 ```
 check names of unique agencies
 ```{r}
-library(dplyr)
-
 # Extract unique values and save as a new dataframe
 combined_df1 <- data.frame(city_state1 = unique(combined_df$city_state))
 
 # View the result
 head(combined_df1)
+
+library(dplyr)
+
+duplicates <- combined_df %>%
+  group_by(`Agency Name`, State, Year, Month) %>%
+  filter(n() > 1) %>%
+  ungroup()
+
+# View duplicate rows
+head(duplicates)
+
+# Optional: count how many duplicate groups
+dup_counts <- duplicates %>%
+  count(`Agency Name`, State, Year, Month, name = "duplicate_count")
+
+head(dup_counts)
+
 ```
 what's wrong with the allen's of the world
 ```{r}
@@ -538,7 +553,7 @@ cdf_vcpc_nats <- cdf_vcpc_nats %>%
       city_state_id == "Montgomery,MD,County" ~ 896963,
       city_state_id == "St Charles,MO,County" ~ 119730,
       city_state_id == "St Louis,MO,County" ~ 398969,
-      TRUE ~ population  # Retain existing values for other rows
+      TRUE ~ population_1  # Retain existing values for other rows
     ),
     division_name = case_when(
       city_state_id == "Montgomery,MD,County" ~ "South Atlantic",
@@ -575,13 +590,13 @@ cdf_vcpc_nats_usa <- cdf_vcpc_nats %>%
   mutate(`Violent Crime` = vio_crime,
           `Property Crime` = prop_crime,
           Agency_num =1,
-          Population = as.numeric(pop23)) %>%
+          Population = as.numeric(population_1)) %>%
            select(-vio_crime, -prop_crime)
 
 cdf_vcpc_nats_regions <- cdf_vcpc_nats %>%
   mutate(`Violent Crime` = vio_crime,
           `Property Crime` = prop_crime,
-          Population = as.numeric(pop23),
+          Population = as.numeric(population_1),
           Region = region_name,
           Agency_num =1) %>%
            select(-vio_crime, -prop_crime)
@@ -590,7 +605,7 @@ cdf_vcpc_nats_regions <- cdf_vcpc_nats %>%
 cdf_vcpc_nats_states <- cdf_vcpc_nats %>%
   mutate(`Violent Crime` = vio_crime,
           `Property Crime` = prop_crime,
-          Population = as.numeric(pop23),
+          Population = as.numeric(population_1),
           Agency_num =1) %>%
            select(-vio_crime, -prop_crime)
 ```
@@ -614,7 +629,7 @@ library(dplyr)
 # Summing population for each unique city_state_id per month/year
 population_totals <- cdf_vcpc_nats_usa %>%
   group_by(Year, Month) %>%
-  summarise(Populationx = sum(pop23, na.rm = TRUE), .groups = "drop")
+  summarise(Populationx = sum(population_1, na.rm = TRUE), .groups = "drop")
 
 # View the result
 print(population_totals)
@@ -902,39 +917,38 @@ add PR data
 fix remaining columns and select out 
 ```{r}
 # Define the path to the Puerto Rico data file
-pr_path <- file.path(
-  onedrive_dir,
-  "Clients",
-  "Real Time Crime Index",
-  "Open Source Data",
-  "_Ben and Jeff work",
-  "Months",
-  "April 2025",
-  "Cities",
-  "Puerto_Rico_Aggregated_Since_2017.csv"
-)
+#pr_path <- file.path(
+#  onedrive_dir,
+#  "Clients",
+#  "Real Time Crime Index",
+#  "Open Source Data",
+#  "_Ben and Jeff work",
+#  "Months",
+#  "April 2025",
+#  "Cities",
+#  "Puerto_Rico_Aggregated_Since_2017.csv"
+#)
 
 # Read CSV
-pr_dat <- read.csv(pr_path, check.names = FALSE)
+#pr_dat <- read.csv(pr_path, check.names = FALSE)
 
 # Preview the final data
-head(pr_dat)
+#head(pr_dat)
 ```
 last check for PR duplicates
 ```{r}
-pr_dupes <- duplicated(pr_dat)
-print(pr_dupes)
+#pr_dupes <- duplicated(pr_dat)
+#print(pr_dupes)
 ```
 bind to the end
 ```{r}
-cdf3 <- bind_rows(cdf2, pr_dat)
+#cdf3 <- bind_rows(cdf2, pr_dat)
+cdf3 <- cdf2
 ```
 
 
 give city_state_id's to pop groups
 ```{r}
-library(dplyr)
-
 cdf3 <- cdf3 %>%
   mutate(
     city_state_id = case_when(
@@ -944,7 +958,6 @@ cdf3 <- cdf3 %>%
       TRUE ~ city_state_id
     )
   )
-
 ```
 
 get mvs_12mo for all crime categories and groupings
@@ -1120,13 +1133,13 @@ head(subset_removed)
 #hard code pop for now
 cleaned_data <- cleaned_data %>%
   mutate(
-    pop23 = case_when(
+    population_1 = case_when(
       city_state_id == "Montgomery,MD,County" ~ 896963,
       city_state_id == "St Charles,MO,County" ~ 119730,
       city_state_id == "St Louis,MO,County" ~ 398969,
       TRUE ~ population  # Retain existing values for other rows
     ),
-    population = case_when(
+    population_1 = case_when(
       city_state_id == "Montgomery,MD,County" ~ 896963,
       city_state_id == "St Charles,MO,County" ~ 119730,
       city_state_id == "St Louis,MO,County" ~ 398969,
@@ -1238,7 +1251,33 @@ write.csv(sample_cities,file.path("scripts/auditing/archive/", paste0("sample_ci
 ```
 run the above
 ```{r}
+# Load libraries
+library(dplyr)
+library(readr)
+
+# Read in old_data from CSV
+old_data <- read_csv("C:/Users/daveh/Downloads/pre_processed_apr_25.csv", show_col_types = FALSE)
+
+# Ensure cleaned_data is already in your environment
+# cleaned_data <- your existing dataframe
+
+# Compare all columns: Find rows in cleaned_data that are NOT in old_data
+not_in_old <- anti_join(cleaned_data, old_data)
+
+# View or inspect
+print(not_in_old)
+
+duplicate_rows <- cleaned_data %>%
+  group_by(city_state_id, Year, Month) %>%
+  filter(n() > 1) %>%
+  ungroup()
+
+
+
 city_state.x
+duplicates <- cleaned_data[duplicated(cleaned_data[, c("city_state_id", "Year", "Month")]), ]
+head(duplicates)
+
 city_state.y
 
 Agency_Type.x 
@@ -1247,8 +1286,76 @@ Agency_Type.y
 cd1 <- cleaned_data %>% select(city_state_id, city_state.x, city_state.y, Agency_Type.x, Agency_Type)
 ```
 
+searching for extra records
+```{r}
+library(dplyr)
+library(readr)
+
+# Load previous version of the data
+old_data <- read_csv("C:/Users/daveh/Downloads/pre_processed_apr_25.csv", show_col_types = FALSE)
+
+# Compare total rows
+n_old <- nrow(old_data)
+n_new <- nrow(cleaned_data)
+cat("Old Data Rows:", n_old, "\n")
+cat("Cleaned Data Rows:", n_new, "\n")
+cat("Difference in Rows:", n_new - n_old, "\n\n")
+
+# Check exact duplicate rows in cleaned_data
+dups_cleaned <- cleaned_data %>% duplicated() %>% sum()
+cat("Exact duplicate rows in cleaned_data:", dups_cleaned, "\n\n")
+
+# Find new rows in cleaned_data that are not in old_data
+common_cols <- intersect(names(cleaned_data), names(old_data))
+new_rows <- anti_join(cleaned_data[, common_cols], old_data[, common_cols])
+cat("New rows in cleaned_data not in old_data:", nrow(new_rows), "\n\n")
+
+# Group-wise duplicates by city_state_id + Year + Month
+dup_groups <- cleaned_data %>%
+  group_by(city_state_id, Year, Month) %>%
+  filter(n() > 1) %>%
+  ungroup()
+cat("Grouped duplicates by city_state_id + Year + Month:", nrow(dup_groups), "\n\n")
+
+# Compare row counts by group
+old_summary <- old_data %>% count(city_state_id, Year, Month, name = "count_old")
+new_summary <- cleaned_data %>% count(city_state_id, Year, Month, name = "count_new")
+
+comp <- full_join(old_summary, new_summary, by = c("city_state_id", "Year", "Month")) %>%
+  mutate(
+    count_old = replace_na(count_old, 0),
+    count_new = replace_na(count_new, 0),
+    diff = count_new - count_old
+  ) %>%
+  filter(diff != 0)
+
+cat("Number of groups with changed row counts:", nrow(comp), "\n\n")
+
+# Optional: write differences to CSV
+write_csv(new_rows, "new_rows_only_in_cleaned_data.csv")
+write_csv(comp, "record_count_differences_by_group.csv")
 
 
+```
+
+```{r}
+# Filter and count for April 2025 in old_data
+old_apr_2025_count <- old_data %>%
+  filter(Month == 4, Year == 2025) %>%
+  nrow()
+
+# Filter and count for May 2025 in cleaned_data
+new_may_2025_count <- cleaned_data %>%
+  filter(Month == 5, Year == 2025) %>%
+  nrow()
+
+# Print results
+cat("Old Data (April 2025):", old_apr_2025_count, "records\n")
+cat("Cleaned Data (May 2025):", new_may_2025_count, "records\n")
+cat("Difference:", new_may_2025_count - old_apr_2025_count, "records\n")
+
+
+```
 
 
 

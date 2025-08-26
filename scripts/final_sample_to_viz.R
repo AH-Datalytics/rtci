@@ -462,7 +462,7 @@ final_sample_long <- final_sample_long %>%
 
 # REMOVE LOCATION_FULL COLUMN FROM GRAPH DATA SINCE UNUSED AND TOO BIG
 final_sample_long <- final_sample_long %>% 
-  select(-location_full)
+  select(-c(location_full, region, `Last Updated`))
 
 # Write the final_sample_long data frame to viz_data.csv
 write.csv(final_sample_long, "../docs/app_data/viz_data.csv", row.names = FALSE)

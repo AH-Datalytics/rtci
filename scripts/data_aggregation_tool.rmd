@@ -695,6 +695,21 @@ nationwide_counts$State <- "All Agencies"
 # View first few rows
 head(nationwide_counts)
 ```
+why the disconnect
+```{r}
+library(dplyr)
+
+df_summary <- cdf_vcpc_nats_usa %>%
+  group_by(year, month, city_state_d) %>%
+  summarise(total_agency_num = sum(agency_num, na.rm = TRUE), .groups = "drop") %>%
+  arrange(year, month, city_state_d)
+
+# View the summary dataframe
+print(df_summary)
+
+```
+
+
 who is missing?
 ```{r}
 library(dplyr)
@@ -1249,6 +1264,57 @@ write.csv(undesirables_recency,file.path("scripts/auditing/archive/", paste0("no
 write.csv(remove_agencies,file.path("scripts/auditing/archive/", paste0("agencies_removed_from_sample_", month_suffix, ".csv")),row.names = FALSE)
 write.csv(sample_cities,file.path("scripts/auditing/archive/", paste0("sample_cities_", month_suffix, ".csv")), row.names = FALSE)
 ```
+
+look at the new data
+```{r}
+library(dplyr)
+
+# Get all unique ORI values from na_region_records
+unique_oris <- unique(na_region_records$city_state_id)
+
+# View the first few values
+head(unique_oris)
+
+# Check how many unique ORIs exist
+length(unique_oris)
+
+library(readr)
+
+# 1. Read in the CSV file
+df <- read_csv("C:/Users/daveh/Downloads/aggregated (3).csv")
+
+# 2. Get the number of unique ORIs
+num_unique_oris <- df %>%
+  summarise(unique_oris = n_distinct(ori))
+
+print(paste("Number of unique ORIs:", num_unique_oris$unique_oris))
+
+# 3. For each ORI, find the most recent year and month
+df_latest <- df %>%
+  group_by(ori) %>%
+  filter(year == max(year) & month == max(month)) %>%
+  ungroup()
+
+# 4. Count how many ORIs have their latest data in each year-month combo
+df_summary <- df %>%
+  mutate(year_month = paste(year, month, sep = "-")) %>%
+  group_by(year_month) %>%
+  summarise(unique_oris = n_distinct(ori), .groups = "drop") %>%
+  arrange(desc(year_month))
+
+# View the summary dataframe
+print(df_summary)
+
+
+```
+
+
+
+
+
+
+
+
 run the above
 ```{r}
 # Load libraries

@@ -12,4 +12,13 @@
 /.vs
 rtci.code-workspace
 *.iml
-.idea
+.idea/
+.env
+
+# Python and Web files 
+node_modules/
+poetry.lock
+package-lock.json
+__pycache__/
+__pycache__
+

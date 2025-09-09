@@ -1,0 +1,131 @@
+
+@import "tailwindcss";
+
+:root {
+    /* RTCI color scheme */
+    --primary-blue: #1e40af;     /* Darker blue for primary elements */
+    --secondary-blue: #3b82f6;   /* Medium blue for secondary elements */
+    --light-blue: #dbeafe;       /* Light blue for backgrounds */
+    --dark-text: #1e293b;        /* Dark slate for main text */
+    --light-text: #64748b;       /* Light slate for secondary text */
+    --background: #f8fafc;       /* Light background */
+    --white: #ffffff;            /* White */
+    --accent: #ff6400;           /* Orange accent for highlights */
+    --green: #00333a;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--dark-text);
+    background-color: var(--background);
+}
+
+/* Message styling */
+.user-message {
+    background-color: var(--light-blue);
+    border-left: 4px solid var(--secondary-blue);
+    border-radius: 0.375rem;
+}
+
+.bot-message {
+    background-color: var(--white);
+    border-left: 4px solid var(--primary-blue);
+    border-radius: 0.375rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.message-content {
+    overflow-wrap: break-word;
+}
+
+/* Button styling */
+.btn-primary {
+    background-color: var(--accent);
+    color: var(--white);
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #FF6400FF;
+}
+
+.btn-secondary {
+    background-color: #e2e8f0;
+    color: var(--dark-text);
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #cbd5e1;
+}
+
+/* Accent elements */
+.accent {
+    color: var(--accent);
+}
+
+/* Markdown styling */
+.markdown-content h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-blue);
+}
+
+.markdown-content h2 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-blue);
+}
+
+.markdown-content h3 {
+    font-size: 1.125rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-blue);
+}
+
+.markdown-content p {
+    margin-bottom: 0.75rem;
+}
+
+.markdown-content ul, .markdown-content ol {
+    margin-left: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.markdown-content ul {
+    list-style-type: disc;
+}
+
+.markdown-content ol {
+    list-style-type: decimal;
+}
+
+.markdown-content code {
+    background-color: #f1f5f9;
+    padding: 0.1rem 0.25rem;
+    border-radius: 0.25rem;
+    font-family: monospace;
+}
+
+.markdown-content pre {
+    background-color: #f1f5f9;
+    padding: 0.75rem;
+    border-radius: 0.25rem;
+    overflow-x: auto;
+    margin-bottom: 0.75rem;
+}
+
+/* Header and nav styling */
+.rtci-header {
+    background-color: var(--white);
+    border-bottom: 1px solid #e2e8f0;
+}

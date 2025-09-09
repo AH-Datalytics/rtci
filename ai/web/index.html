@@ -1,0 +1,88 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>RTCI Chatbot | Nationwide Crime Data & Trends | AI Chatbot</title>
+    <meta name="description" content="Stay informed with the Real-Time Crime Index. Access up-to-date crime data and visualizations." />
+    <link rel="canonical" href="https://realtimecrimeindex.com/" />
+    <link rel="icon" href="https://realtimecrimeindex.com/wp-content/uploads/2024/06/cropped-RTCI-logo-social-icon-med-32x32.png" sizes="32x32" />
+    <link rel="icon" href="https://realtimecrimeindex.com/wp-content/uploads/2024/06/cropped-RTCI-logo-social-icon-med-192x192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="https://realtimecrimeindex.com/wp-content/uploads/2024/06/cropped-RTCI-logo-social-icon-med-180x180.png" />
+    <link href="/src/style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-50 text-slate-900">
+<header class="rtci-header shadow-sm py-4 mb-6">
+    <div class="container mx-auto px-4 max-w-6xl flex justify-between items-center">
+        <div class="flex items-center">
+            <img src="https://realtimecrimeindex.com/wp-content/uploads/2024/06/cropped-RTCI-logo-social-icon-med-192x192.png"
+                 alt="RTCI Logo"
+                 class="h-10 w-10 mr-3">
+            <div>
+                <h1 class="font-extrabold font-bold text-green text-2xl">Real-Time Crime Index</h1>
+                <p class="text-sm text-slate-500">AI Chatbot for Crime Data & Trends</p>
+            </div>
+        </div>
+        <nav class="hidden md:block">
+            <ul class="flex space-x-6">
+                <li><a href="#" class="text-slate-600 hover:text-primary-blue font-medium">Home</a></li>
+                <li><a href="#" class="text-slate-600 hover:text-primary-blue font-medium">About</a></li>
+                <li><a href="#" class="text-slate-600 hover:text-primary-blue font-medium">Documentation</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div id="app" class="container mx-auto px-4 py-6 max-w-4xl">
+    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 mb-8 shadow-sm">
+        <h2 class="text-2xl font-bold text-green mb-2">Real-Time Crime Index - AI Assistant</h2>
+        <p class="text-slate-600">Ask questions about crime data, trends, and statistics across the United States. Our AI assistant can help you understand current patterns and historical context.</p>
+    </div>
+
+    <div id="chat-container" class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="border-b border-slate-100 px-6 py-4 bg-slate-50">
+            <h3 class="font-semibold text-primary-blue">Chat Session</h3>
+        </div>
+
+        <div id="chat-messages" class="space-y-4 p-6 max-h-[60vh] overflow-y-auto"></div>
+
+        <div class="border-t border-slate-100 p-6 bg-slate-50">
+            <form id="chat-form" class="flex flex-col space-y-4">
+                    <textarea
+                            id="user-input"
+                            class="w-full border border-slate-200 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-primary-blue"
+                            placeholder="Ask a question about crime data or trends..."
+                            rows="3"
+                    ></textarea>
+                <div class="flex justify-between">
+                    <button
+                            type="button"
+                            id="new-chat-btn"
+                            class="btn-secondary px-4 py-2 rounded-md font-medium text-sm"
+                    >
+                        New Chat
+                    </button>
+                    <button
+                            type="submit"
+                            id="submit-btn"
+                            class="btn-primary px-6 py-2 rounded-md font-medium text-sm flex items-center">
+                        <span>Send Message</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="mt-8 text-center text-sm text-slate-500">
+        <p>© 2025 Real-Time Crime Index. All rights reserved.</p>
+        <p class="mt-1">Data sourced from hundreds of local police departments nationwide.</p>
+    </footer>
+</div>
+<script src="/src/main.ts" type="module"></script>
+</body>
+</html>

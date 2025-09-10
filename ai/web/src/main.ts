@@ -19,6 +19,7 @@ class ChatApp {
     private submitBtn: HTMLButtonElement;
     private newChatBtn: HTMLButtonElement;
     private chatForm: HTMLFormElement;
+    private apiEndpoint: HTMLInputElement;
 
     constructor() {
         this.state = {
@@ -32,6 +33,7 @@ class ChatApp {
         this.submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
         this.newChatBtn = document.getElementById('new-chat-btn') as HTMLButtonElement;
         this.chatForm = document.getElementById('chat-form') as HTMLFormElement;
+        this.apiEndpoint = document.getElementById('api-endpoint') as HTMLInputElement;
 
         this.setupEventListeners();
     }
@@ -108,7 +110,7 @@ class ChatApp {
 
     private async sendMessageToServer(message: string): Promise<Response> {
         // Send request to the chatbot server
-        return fetch('http://localhost:8000/stream', {
+        return fetch(this.apiEndpoint.value, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -146,7 +148,6 @@ class ChatApp {
 
         // Get reader from the response body stream
         const reader = response.body.getReader();
-        const decoder = new TextDecoder();
 
         // Get the content element where we'll display the streamed response
         const contentElement = document.getElementById(`content-${messageId}`);
@@ -165,7 +166,7 @@ class ChatApp {
                 }
             } catch (error) {
                 console.error('Error while streaming response:', error);
-                contentElement.innerHTML = DOMPurify.sanitize(marked.parse('Error receiving response from server.'));
+                contentElement.innerHTML = 'Error receiving response from server.';
             }
         }
     }
@@ -189,12 +190,14 @@ class ChatApp {
             if (Array.isArray(chunkContent)) {
                 for (const aiEvent of chunkContent) {
                     if (aiEvent.event === 'data' && aiEvent.data !== undefined) {
-                        if (aiEvent.data.error) {
+                        // @ts-ignore
+                        if (aiEvent.data?.error) {
                             console.error('Error event found in stream:', aiEvent.data);
                             this.displayErrorMessage("There was an error returned by the chatbot. Please try again later.", contentElement)
                             return "";
                         } else {
-                            const content = aiEvent.data.content || aiEvent.data.message || aiEvent.data;
+                            // @ts-ignore
+                            const content = aiEvent.data?.content || aiEvent.data?.message || aiEvent.data;
                             console.log("found content: ", content);
                             if (completeMessage.length <= 0 || completeMessage == '...') {
                                 contentElement.innerHTML = '';
@@ -233,17 +236,20 @@ class ChatApp {
         messageElement.className = role === 'user' ? 'user-message rounded-lg p-4' : 'bot-message rounded-lg p-4';
 
         if (role === 'user') {
+            const safeHtml = DOMPurify.sanitize(content);
             messageElement.innerHTML = `
                 <div class="flex items-start">
                     <div class="font-semibold text-blue-600 mr-2">You:</div>
-                    <div class="message-content">${DOMPurify.sanitize(content)}</div>
+                    <div class="message-content">${safeHtml}</div>
                 </div>
             `;
         } else {
+            // @ts-ignore
+            const safeHtml = DOMPurify.sanitize(marked.parse(content));
             messageElement.innerHTML = `
                 <div class="flex items-start">
                     <div class="font-semibold text-gray-700 mr-2">Bot:</div>
-                    <div class="message-content markdown-content">${DOMPurify.sanitize(marked.parse(content))}</div>
+                    <div class="message-content markdown-content">${safeHtml}</div>
                 </div>
             `;
         }
@@ -300,7 +306,6 @@ const parseChunk = (chunk: string): Array<{
         return [];
     }
 
-    // Extract the line that contains the event name
     const regEx = /(((?<=^)|(?<=\n))event:\s+(\w+))/g;
     const eventStartPositions: number[] = [];
     let match = regEx.exec(chunk);
@@ -324,8 +329,6 @@ const parseChunk = (chunk: string): Array<{
         if (_error instanceof Error) {
             return _error;
         }
-
-        // When no error is thrown, we return empty result
         return [];
     }
 };

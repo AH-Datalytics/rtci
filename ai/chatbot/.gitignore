@@ -1,0 +1,8 @@
+# Python and Web files
+node_modules/
+dist/
+logs/
+log/
+poetry.lock
+__pycache__/
+__pycache__

@@ -38,3 +38,14 @@ services:
     volumes:
       - .:/rtci
       - ~/.gitconfig:/etc/gitconfig
+
+  # to run the FBI CDE API data retrieval process
+  fbi:
+    build:
+      context: .
+      dockerfile: pipeline/dockerfiles/Dockerfile_fbi
+    container_name: Dockerfile_fbi
+    image: fbi
+    volumes:
+      - .:/rtci
+      - ~/.gitconfig:/etc/gitconfig

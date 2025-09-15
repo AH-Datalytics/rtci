@@ -5,7 +5,7 @@ started: "07-23-2024"
 updated: "08-09-2024"
 updated: "08-19-2024"
 final version: "08-30-2024"
-last upate: "06-11-2025"
+last upate: "09-15-2025"
 ---
 read in the data
 ```{r}
@@ -43,7 +43,7 @@ data_dir <- file.path(
   "Open Source Data",
   "_Ben and Jeff work",
   "Months",
-  "June 2025",
+  "July 2025",
   "Cities"
 )
 
@@ -700,9 +700,9 @@ why the disconnect
 library(dplyr)
 
 df_summary <- cdf_vcpc_nats_usa %>%
-  group_by(year, month, city_state_d) %>%
-  summarise(total_agency_num = sum(agency_num, na.rm = TRUE), .groups = "drop") %>%
-  arrange(year, month, city_state_d)
+  group_by(Year, Month, city_state_id) %>%
+  summarise(total_agency_num = sum(Agency_num, na.rm = TRUE), .groups = "drop") %>%
+  arrange(Year, Month, city_state_id)
 
 # View the summary dataframe
 print(df_summary)
@@ -1052,6 +1052,8 @@ df_w_ref1 <- df_w_ref %>%
     )
   )
 
+df_w_ref1 <- df_w_ref1 %>% mutate(population = population.x) %>% select(-population.x, -population.y)
+
 ```
 remove non-current reporter
 ```{r}
@@ -1198,7 +1200,11 @@ last fixes before publishing
 #cleaned_data <- cleaned_data %>% mutate(city_state = city_state.x) %>% select(-city_state.x, -city_state.y)
 colSums(is.na(cleaned_data))
 ```
+final check_columns
+```{r}
+cleaned_data <- cleaned_data %>% select(-count_of_murder, -group, -population_1)
 
+```
 
 prepare a dataframe of all component agencies into sample for sourcing table
 ```{r}

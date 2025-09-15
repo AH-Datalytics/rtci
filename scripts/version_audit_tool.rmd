@@ -1,6 +1,7 @@
 ---
 title: "versioning audit"
 output: github_document
+last Updated: "9.3.2025"
 ---
 
 bring in the previous sample and the current sample - update suffixes to relate to months in question
@@ -35,17 +36,17 @@ previous_samp <- read_csv(previous_samp_path)
 start with agencies - who is new and who is getting removed
 ```{r}
 # Dataframes with unique values of "city_state" from both current and previous data
-unique_current <- data.frame(city_state = unique(current_samp$city_state))
-unique_previous <- data.frame(city_state = unique(previous_samp$city_state))
+unique_current <- data.frame(city_state_id = unique(current_samp$city_state_id))
+unique_previous <- data.frame(city_state_id = unique(previous_samp$city_state_id))
 
 # Not in the current sample but was in the previous sample
-previous_no_current <- setdiff(unique_previous$city_state, unique_current$city_state)
+previous_no_current <- setdiff(unique_previous$city_state_id, unique_current$city_state_id)
 
 # Not in the previous sample but now in the current sample
-current_no_previous <- setdiff(unique_current$city_state, unique_previous$city_state)
+current_no_previous <- setdiff(unique_current$city_state_id, unique_previous$city_state_id)
 
 # Common to both dataframes
-common_to_both <- intersect(unique_current$city_state, unique_previous$city_state)
+common_to_both <- intersect(unique_current$city_state_id, unique_previous$city_state_id)
 
 # Create a summary table
 summary_table <- data.frame(

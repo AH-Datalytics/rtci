@@ -147,10 +147,10 @@ merged_df_left <- merged_df_left %>%
 subset to counties with >100k pop
 ```{r}
 cities_40k <- merged_df_left %>% 
-  filter(agency_type_name == "City", population > 30000)
+  filter(agency_type_name == "City", population.x > 30000)
 
 counties_100k <- merged_df_left %>% 
-  filter(agency_type_name == "County", population > 100000)
+  filter(agency_type_name == "County", population.x > 100000)
 ```
 combine city and county records for merging with final_sourcing 
 ```{r}
@@ -242,3 +242,57 @@ ref_df1 <- ref_df1 %>% mutate(pop_diff = pop23 - population)
 #York, PA = 25
 ```
 missing: hamilton township, NJ; henry, ga, county; st mary's, md county
+
+
+
+updating sample division of labor
+```{r}
+# Packages
+library(readr)
+library(dplyr)
+
+# --- 1) Read files ---
+# Tip: Windows paths work fine with forward slashes
+sample_cities <- read_csv("C:/Users/daveh/Downloads/sample_cities (1).csv", show_col_types = FALSE)
+aggregated     <- read_csv("C:/Users/daveh/Downloads/aggregated (4).csv", show_col_types = FALSE)
+
+# Expectation:
+# - ref_df1 already exists in your environment and has at least: city_state_id, ori (and possibly more)
+# - sample_cities has city_state_id (and possibly more)
+# - aggregated has ori (and possibly more)
+
+# --- 2) Merge sample_cities with ref_df1 on city_state_id; keep only ori and city_state_id ---
+# Using inner_join to keep only matched city_state_id rows present in both data frames
+sample_cities_ref <- sample_cities %>%
+  inner_join(ref_df1, by = "city_state_id") %>%
+  transmute(ori, city_state_id) %>%
+  distinct() %>%
+  filter(!is.na(ori), !is.na(city_state_id))
+
+# --- 3) Build a second df: unique ORIs from aggregated ---
+aggregated_oris <- aggregated %>%
+  select(name, ori) %>%
+  filter(!is.na(ori)) %>%
+  group_by(ori) %>%
+  slice(1) %>%
+  ungroup()
+
+
+# --- 4) Compare and produce the two requested outputs ---
+# (a) All ORIs found in BOTH (keep city_state_id from the sample_cities/ref join)
+oris_in_both <- sample_cities_ref %>%
+  semi_join(aggregated_oris, by = "ori")
+# -> columns: ori, city_state_id (one row per ori-city_state_id present in both)
+
+# (b) All ORIs found SOLELY in the aggregated file’s df
+oris_only_in_aggregated <- aggregated_oris %>%
+  anti_join(sample_cities_ref, by = "ori")
+# -> columns: ori (these appear in aggregated but not in the sample_cities/ref join)
+
+# Optional: quick counts to sanity check
+cat("n(sample_cities_ref): ", nrow(sample_cities_ref), "\n")
+cat("n(unique aggregated ORIs): ", nrow(aggregated_oris), "\n")
+cat("n(ORIs in both): ", n_distinct(oris_in_both$ori), "\n")
+cat("n(ORIs only in aggregated): ", nrow(oris_only_in_aggregated), "\n")
+
+```

@@ -2,6 +2,8 @@ import json
 from datetime import datetime
 from typing import Optional, List, Annotated, Any
 
+import pandasai as pai
+import us
 from langgraph.graph import add_messages
 from pydantic import BaseModel, SecretStr
 from typing_extensions import TypedDict
@@ -47,12 +49,23 @@ class LocationDocument(BaseModel):
         return list
 
     @property
+    def label(self):
+        if self.city_state:
+            return self.city_state
+        if self.reporting_agency:
+            return self.reporting_agency
+        if self.state:
+            state_obj = us.states.lookup(self.state)
+            return state_obj.name if state_obj else self.state
+        return self.id
+
+    @property
     def metadata(self):
-        return {"state": self.state} if self.state else {}
+        return {"id": self.id, "state": self.state}
 
     @property
     def page_content(self):
-        return self.model_dump_json(exclude_none=True, exclude={"id"})
+        return f"{self.city_state}\n{self.reporting_agency}\n{self.state}\n{us.states.lookup(self.state)}".strip()
 
     @property
     def prompt_content(self):
@@ -66,8 +79,22 @@ class LocationDocument(BaseModel):
         return self.model_dump_json(exclude_none=True, exclude={"id"})
 
 
+class CrimeCategory(BaseModel):
+    crime: str
+    category: Optional[str] = None
+
+
 class CrimeData(BaseModel):
     data_frame: dict[str, list[Any]] = []
+
+    @property
+    def size(self):
+        if not self.data_frame:
+            return 0
+        return len(self.data_frame[next(iter(self.data_frame))])
+
+    def to_pandas(self) -> pai.DataFrame:
+        return pai.DataFrame(self.data_frame)
 
     def to_csv(self) -> str:
         import pandas as pd
@@ -83,6 +110,8 @@ class CrimeBotState(TypedDict, total=False):
     locations: List[LocationDocument]
     # Extracted date range from the query
     date_range: Optional[DateRange]
+    # Extracted crime categories the user is discussion
+    crime_categories: Optional[list[CrimeCategory]]
     # Retrieved crime documents
     data_context: Optional[list[dict]]
     # Flag to indicate if data needs to be retrieved
@@ -113,6 +142,6 @@ class Credentials(BaseModel):
 
 class BotException(Exception):
 
-    def __init__(self, status_code: int, detail: str):
+    def __init__(self, detail: str, status_code: int = 500):
         self.status_code = status_code
         self.detail = detail

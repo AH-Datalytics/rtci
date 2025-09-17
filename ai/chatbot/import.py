@@ -55,6 +55,9 @@ def transform_csv_to_s3(csv_content: str,
 
     # process each row and extract only the required columns
     for row in csv_reader:
+        if not filter_full_sample_rows(row, column_indexes):
+            # print(f"Filtered out row: {row}.")
+            continue
         new_row = []
         year = int(row[column_indexes['year']])
         month = int(row[column_indexes['month']])
@@ -79,6 +82,24 @@ def transform_csv_to_s3(csv_content: str,
         Body=filtered_csv_content.encode('utf-8')
     )
     return filtered_csv_content
+
+
+import re
+
+
+def filter_full_sample_rows(row, column_indexes):
+    full_sample_pattern = re.compile(r'full\s*sample', re.IGNORECASE)
+
+    if (column_indexes['reporting_agency'] is not None and
+            full_sample_pattern.search(row[column_indexes['reporting_agency']])):
+        return False
+
+    if (column_indexes['city_state'] is not None and
+            full_sample_pattern.search(row[column_indexes['city_state']])):
+        return False
+
+    # Keep the row if neither condition is met
+    return True
 
 
 def execute_redshift_query(redshift_data,
@@ -252,7 +273,7 @@ async def run_import_async():
         finally:
             delete_s3_bucket(s3_bucket, temp_s3_key)
     finally:
-        await RealTimeCrime.shutdown()
+        RealTimeCrime.shutdown()
 
 
 if __name__ == "__main__":

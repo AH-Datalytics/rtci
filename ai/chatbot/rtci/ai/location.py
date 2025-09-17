@@ -1,6 +1,5 @@
 import csv
 import io
-import os
 import tempfile
 from os import environ
 from pathlib import Path
@@ -64,6 +63,7 @@ class LocationRetriever:
         )
         vector_store = FAISS.from_documents(documents, embeddings)
         return LocationRetriever(
+            documents,
             vector_store.as_retriever(
                 search_type="similarity",
                 search_kwargs={
@@ -73,17 +73,25 @@ class LocationRetriever:
                 }
             ))
 
-    def __init__(self, store: VectorStoreRetriever):
+    def __init__(self, documents: list[LocationDocument], store: VectorStoreRetriever):
+        self.documents = documents
         self.store = store
 
     async def retrieve_locations_for_query(self, query: str) -> List[LocationDocument]:
         documents: Iterable[Document] = await self.store.ainvoke(query)
         locations = []
+        print(documents)
         for doc in documents:
-            json_document = doc.page_content
-            location = LocationDocument.model_validate_json(json_document)
-            locations.append(location)
+            location = self.__find_location_by_id(doc.metadata.get("id"))
+            if location:
+                locations.append(location)
         return locations
+
+    def __find_location_by_id(self, id: str) -> LocationDocument | None:
+        for doc in self.documents:
+            if doc.id == id:
+                return doc
+        return None
 
 
 _location_list: List[LocationDocument] = []
@@ -109,16 +117,12 @@ def build_location_retriever() -> LocationRetriever:
     # store in tempfile cvs
     temp_file = tempfile.NamedTemporaryFile(delete=True, suffix='.csv')
     temp_file_path = temp_file.name
-    try:
-        with open(temp_file_path, 'w', encoding='utf-8') as f:
-            f.write(csv_content)
-        logger().info(f"Creating location retriever from S3 {s3_key_name} ...")
-        ref = LocationRetriever.create(csv_path=temp_file_path)
-        _location_retriever = ref
-        return ref
-    finally:
-        if os.path.exists(temp_file_path):
-            os.unlink(temp_file_path)
+    with open(temp_file_path, 'w', encoding='utf-8') as f:
+        f.write(csv_content)
+    logger().debug(f"Creating location retriever from S3 {s3_key_name} ...")
+    ref = LocationRetriever.create(csv_path=temp_file_path)
+    _location_retriever = ref
+    return ref
 
 
 class LocationResolver:

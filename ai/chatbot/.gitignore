@@ -6,3 +6,5 @@ log/
 poetry.lock
 __pycache__/
 __pycache__
+pandasai.log
+cache/

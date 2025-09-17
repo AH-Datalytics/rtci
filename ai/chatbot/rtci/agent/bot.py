@@ -1,42 +1,18 @@
+from typing import Iterable
+
+import pandasai as pai
 from langchain_core.messages import AIMessage
 from langchain_core.output_parsers import StrOutputParser
-from langgraph.config import get_stream_writer
+from langchain_core.prompt_values import PromptValue
 from langgraph.graph import StateGraph
+from pandasai.core.response import StringResponse, NumberResponse
 
+from rtci.agent.crime import retrieve_crime_data, extract_crime_categories
 from rtci.agent.date import extract_date_range
 from rtci.agent.location import extract_locations
-from rtci.ai.crime import CrimeRetriever
-from rtci.model import QueryRequest, CrimeBotState, CrimeData, LocationDocument, DateRange
+from rtci.model import CrimeBotState, CrimeData, LocationDocument, DateRange
 from rtci.rtci import RealTimeCrime
-from rtci.util.llm import create_llm
-from rtci.util.log import logger
-
-
-# Update the retrieve_crime_data function to preserve the state
-async def retrieve_crime_data(state: CrimeBotState) -> CrimeBotState:
-    """Retrieve crime data based on locations and date range."""
-    query_request = QueryRequest(query=state["query"])
-    retriever = CrimeRetriever.create()
-    writer = get_stream_writer()
-
-    writer("Querying relevant crime statistics ...")
-    try:
-        documents: CrimeData = await retriever.retrieve_crime_data_for_query(
-            question=query_request,
-            locations=state.get("locations", []),
-            date_range=state.get("date_range")
-        )
-        new_state = state.copy()
-        new_state["data_context"] = documents
-        new_state["needs_data"] = False
-        return new_state
-    except Exception as ex:
-        writer({"error": "Unable to determine a response for this query."})
-        logger().warning("Unable to retrieve crime data from knowledge base.", ex)  # ValidationException
-        new_state = state.copy()
-        new_state["data_frame"] = None
-        new_state["data_context"] = False
-        return new_state
+from rtci.util.llm import create_llm, create_lite_llm
 
 
 # Update the process_query function to preserve the state
@@ -59,23 +35,74 @@ async def process_query(state: CrimeBotState) -> CrimeBotState:
         date_text = date_range.prompt_content
 
     # Create the response using an LLM
-    llm = create_llm()
     prompt = RealTimeCrime.prompt_library.find_prompt("assistant_analyze")
-    chain = prompt | llm | StrOutputParser()
+    if data_context and data_context.size > 1:
+        df = data_context.to_pandas()
+        llm = create_lite_llm()
 
-    response = await chain.ainvoke({
-        "query": query,
-        "location_text": location_text,
-        "date_text": date_text,
-        "data_frame": data_context.to_csv() if data_context else None
-    })
+        def pandas_analysis(input):
+            pai.config.set({
+                "llm": llm
+            })
+            if isinstance(input, PromptValue):
+                query_text = input.to_string()
+            elif isinstance(input, (list, set, Iterable)):
+                query_text = "\n".join(map(lambda x: x.text, input))
+            else:
+                query_text = str(input)
+            response = df.chat(query_text)
+            if not response:
+                return "No response generated."
+            if isinstance(response, str):
+                return response.strip()
+            elif isinstance(response, (StringResponse, NumberResponse)):
+                return str(response.value)
+            return str(response)
+
+        chain = (prompt |
+                 pandas_analysis |
+                 StrOutputParser())
+        response = await chain.ainvoke({
+            "context": f'''
+<query>
+{query}
+</query>
+<location>
+{location_text}
+</location>
+<date range>
+{date_text}
+</date range>
+            '''})
+    else:
+        llm = create_llm()
+        chain = (prompt |
+                 llm |
+                 StrOutputParser())
+        data_frame_text = data_context.to_csv() if data_context else None
+        response = await chain.ainvoke({
+            "context": f'''
+<query>
+{query}
+</query>
+<location>
+{location_text}
+</location>
+<date range>
+{date_text}
+</date range>
+<data frame>
+{data_frame_text}
+</data frame>
+            '''})
 
     new_state = state.copy()
     if "messages" not in new_state:
         new_state["messages"] = []
-    new_state["messages"] = new_state["messages"] + [
-        AIMessage(content=response)
-    ]
+    if response:
+        new_state["messages"] = new_state["messages"] + [
+            AIMessage(content=response)
+        ]
     return new_state
 
 
@@ -103,6 +130,7 @@ def build_crime_analysis_graph() -> StateGraph:
     graph.add_node("process_query", process_query)
     graph.add_node("extract_locations", extract_locations)
     graph.add_node("extract_date_range", extract_date_range)
+    graph.add_node("extract_crime_categories", extract_crime_categories)
     graph.add_node("retrieve_crime_data", retrieve_crime_data)
     graph.set_entry_point("entry_node")
 
@@ -114,8 +142,11 @@ def build_crime_analysis_graph() -> StateGraph:
 
     # Define know return/processing edges
     graph.add_edge("entry_node", "extract_locations")
-    graph.add_edge("extract_locations", "extract_date_range")
+    graph.add_edge("entry_node", "extract_date_range")
+    graph.add_edge("entry_node", "extract_crime_categories")
+    graph.add_edge("extract_locations", "validate_data")
     graph.add_edge("extract_date_range", "validate_data")
+    graph.add_edge("extract_crime_categories", "validate_data")
     graph.add_edge("retrieve_crime_data", "process_query")
     return graph
 

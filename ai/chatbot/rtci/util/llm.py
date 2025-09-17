@@ -1,14 +1,16 @@
+import boto3
 from langchain_aws import ChatBedrockConverse
 from langchain_core.language_models import BaseChatModel
+from pandasai_litellm import LiteLLM
 
 from rtci.model import Credentials
 from rtci.util.credentials import create_credentials
 
+model_name = "anthropic.claude-3-haiku-20240307-v1:0"
+
 
 def create_llm() -> BaseChatModel:
     creds: Credentials = create_credentials()
-    # model_name = "anthropic.claude-3-5-sonnet-20240620-v1:0"
-    model_name = "anthropic.claude-3-haiku-20240307-v1:0"
     return ChatBedrockConverse(
         model=model_name,
         aws_access_key_id=creds.aws_access_key_id,
@@ -17,3 +19,14 @@ def create_llm() -> BaseChatModel:
         temperature=0,
         max_tokens=3000
     )
+
+
+def create_lite_llm() -> LiteLLM:
+    creds: Credentials = create_credentials()
+    bedrock_runtime_client = boto3.client(
+        'bedrock-runtime',
+        aws_access_key_id=creds.aws_access_key_id.get_secret_value(),
+        aws_secret_access_key=creds.aws_secret_access_key.get_secret_value(),
+        region_name=creds.aws_region
+    )
+    return LiteLLM(f"bedrock/{model_name}")

@@ -1,5 +1,6 @@
 # main.py
 import json
+import os
 from contextlib import asynccontextmanager
 from datetime import datetime, UTC
 from os import getenv
@@ -22,6 +23,7 @@ from rtci.util.log import logger
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # setup application core
+    os.environ["TOKENIZERS_PARALLELISM"] = "false"
     app_env = getenv("APP_ENV") or getenv("ENV") or getenv("RUN_MODE")
     is_dev = False
     if app_env:
@@ -74,13 +76,14 @@ async def stream_response_with_graph(graph_chain: CompiledStateGraph, user_state
                 if data:
                     if data.get("messages") and data["messages"]:
                         last_message = data["messages"][-1]
-                        event = {"content": last_message.content if isinstance(last_message, AIMessage) else last_message}
+                        content = last_message.content if isinstance(last_message, AIMessage) else last_message
+                        event = {"content": content}
                         yield f"event: data\ndata: {json.dumps(event)}\n"
         elif namespace == "custom":
             if isinstance(chunk, dict):
                 yield f"event: data\ndata: {json.dumps(chunk)}\n"
             else:
-                event = {"message": chunk}
+                event = {"message": f"*{chunk}*"}
                 yield f"event: data\ndata: {json.dumps(event)}\n"
     sleep(1)
     yield f"event: end\n\n"

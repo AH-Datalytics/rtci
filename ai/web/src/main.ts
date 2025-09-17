@@ -19,7 +19,6 @@ class ChatApp {
     private submitBtn: HTMLButtonElement;
     private newChatBtn: HTMLButtonElement;
     private chatForm: HTMLFormElement;
-    private apiEndpoint: HTMLInputElement;
 
     constructor() {
         this.state = {
@@ -33,7 +32,6 @@ class ChatApp {
         this.submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
         this.newChatBtn = document.getElementById('new-chat-btn') as HTMLButtonElement;
         this.chatForm = document.getElementById('chat-form') as HTMLFormElement;
-        this.apiEndpoint = document.getElementById('api-endpoint') as HTMLInputElement;
 
         this.setupEventListeners();
     }
@@ -110,7 +108,7 @@ class ChatApp {
 
     private async sendMessageToServer(message: string): Promise<Response> {
         // Send request to the chatbot server
-        return fetch(this.apiEndpoint.value, {
+        return fetch("http://localhost:8000/stream", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -201,10 +199,14 @@ class ChatApp {
                             console.log("found content: ", content);
                             if (completeMessage.length <= 0 || completeMessage == '...') {
                                 contentElement.innerHTML = '';
-                            } else {
+                            } else {                                
                                 smd.parser_write(parser, "\n");
                             }
-                            smd.parser_write(parser, content);
+                            if (this.containsOnlyNumbers(content)) {
+                                contentElement.innerHTML += content;
+                            } else {
+                                smd.parser_write(parser, content.toString());
+                            }
                             completeMessage += "\n" + content;
                         }
                     } else if (aiEvent.event === 'error') {
@@ -221,6 +223,11 @@ class ChatApp {
                 return "There was an error fetching the response. Please try again later."
             }
         }
+    }
+
+    private containsOnlyNumbers(text: string): boolean {
+        const regex = /^\d+$/;
+        return regex.test(text);
     }
 
     private displayErrorMessage(message: string, contentElement: HTMLElement): void {

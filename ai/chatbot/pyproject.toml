@@ -18,9 +18,10 @@ dependencies = [
     "faiss-cpu (>=1.12.0,<2.0.0)",
     "redshift-connector (>=2.1.8,<3.0.0)",
     "us (>=3.2.0,<4.0.0)",
-    #"pandasai (>=3.0.0b2)",
-    "pandas (>=2.3.2,<3.0.0)",
-    "pandas-stubs (>=2.3.2.250827,<3.0.0.0)"
+    "pandas-stubs (>=2.3.2.250827,<3.0.0.0)",
+    "tabulate (>=0.9.0,<0.10.0)",
+    "pandasai (>=3.0.0b2)",
+    "pandasai-litellm (>=0.0.1,<0.0.2)"
 ]
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

@@ -248,6 +248,7 @@ class PromptLibrary:
                 Body=prompt_text.encode('utf-8'),
                 ContentType='text/plain'
             )
+            logger().debug(f"Stored prompt '{resource.prompt_id}' to S3 bucket '{self.bucket_name}'.")
             return True
         except Exception as e:
             logger().error(f"Error storing prompt '{resource.prompt_id}' to S3", e)
@@ -263,6 +264,7 @@ class PromptLibrary:
 
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.write(prompt_text)
+            logger().debug(f"Stored prompt '{resource.prompt_id}' to local '{file_path}'.")
             return True
         except Exception as e:
             logger().error(f"Error storing prompt '{resource.prompt_id}' to local file", e)

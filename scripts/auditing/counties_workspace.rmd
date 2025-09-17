@@ -43,7 +43,7 @@ data_dir <- file.path(
   "Open Source Data",
   "_Ben and Jeff work",
   "Months",
-  "June 2025",
+  "July 2025",
   "Counties"
 )
 
@@ -291,6 +291,7 @@ city state column for getting unique number of agencies
 #create the city_state column here for a unique ID
 county_combined_df <- county_combined_df %>% mutate(city_state = paste(`Agency Name`, State, sep = ","))
 
+
 #check that unique agencies checks matches city_state check
 length(unique(county_combined_df$city_state))
 #393 all set
@@ -334,22 +335,28 @@ counties_cdf <- county_combined_df %>%
     `Motor Vehicle Theft` = ifelse(is.na(`Motor Vehicle Theft`),NA, `Motor Vehicle Theft`),
     Agency_Type = "County"
   )
+
+#create city_state_id
+counties_cdf <- counties_cdf %>% mutate(city_state_id = paste(`city_state`, `Agency_Type`, sep = ","))
 ```
 let's check for counties that don't connect to ref file
 ```{r}
 # Perform the merge
-counties_cdf_test <- merge(counties_cdf, counties_100k, 
-                           by.x = c("city_state", "Agency_Type"), 
-                           by.y = c("city_state", "agency_type_name"), 
-                           all.x = TRUE)
+counties_cdf_test <- merge(counties_cdf, ref_df1, by = "city_state_id")
 
 # test to find the records that didn't merge propery
 unique_na_region <- counties_cdf_test %>%
   filter(is.na(region_name)) %>%
-  distinct(city_state, .keep_all = TRUE)
+  distinct(city_state_id, .keep_all = TRUE)
 
 # list the agencies that didn't match so we can update crosswalk reference file
-print(unique_na_region)
+#print(unique_na_region)
+
+#clean up columns
+counties_cdf_test <- counties_cdf_test %>% mutate(State = State.x, city_state = city_state.x, Agency_Type = Agency_Type.x) %>%
+select(-State.y, -city_state.y, -Agency_Type.y, -State.x, -city_state.x, -Agency_Type.x)
+
+names(counties_cdf_test)
 ```
 make a new dataframe and look for any last missing records
 ```{r}
@@ -393,7 +400,7 @@ acceptable_names <- c("Agency Name", "Murder", "Rape", "Robbery", "Aggravated As
                       "Burglary", "Theft", "Motor Vehicle Theft", "Year", "Month", "State", "city_state", "Agency_Type")
 
 # Remove "Agency_Type.y"
-county_cdf1 <- county_cdf1 %>% select(-"Agency_Type.y")
+#county_cdf1 <- county_cdf1 %>% select(-"Agency_Type.y")
 
 # Create a dataframe of records that had columns not listed in acceptable_names
 df_extra <- county_cdf1 %>%

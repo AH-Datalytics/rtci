@@ -142,15 +142,26 @@ merged_df_left <- merged_df_left %>% mutate(pop_diff = (population - population_
 #update population_1 
 merged_df_left <- merged_df_left %>%
   mutate(population_1 = coalesce(population_1, population))
+
+#drop city_state.y and population.y
+#rename city_state.x and population.x
+
+merged_df_left <- merged_df_left %>%
+  select(-city_state.y, -population.y) %>%
+  mutate(city_state = city_state.x,
+          population = population.x) %>%
+          select(-city_state.x, -population.x)
+
+names(merged_df_left)
 ```
 
 subset to counties with >100k pop
 ```{r}
 cities_40k <- merged_df_left %>% 
-  filter(agency_type_name == "City", population.x > 30000)
+  filter(agency_type_name == "City", population > 30000)
 
 counties_100k <- merged_df_left %>% 
-  filter(agency_type_name == "County", population.x > 100000)
+  filter(agency_type_name == "County", population > 100000)
 ```
 combine city and county records for merging with final_sourcing 
 ```{r}
@@ -254,7 +265,7 @@ library(dplyr)
 # --- 1) Read files ---
 # Tip: Windows paths work fine with forward slashes
 sample_cities <- read_csv("C:/Users/daveh/Downloads/sample_cities (1).csv", show_col_types = FALSE)
-aggregated     <- read_csv("C:/Users/daveh/Downloads/aggregated (4).csv", show_col_types = FALSE)
+aggregated     <- read_csv("C:/Users/daveh/Downloads/cde_data_since_1985 (1).csv", show_col_types = FALSE)
 
 # Expectation:
 # - ref_df1 already exists in your environment and has at least: city_state_id, ori (and possibly more)
@@ -294,5 +305,14 @@ cat("n(sample_cities_ref): ", nrow(sample_cities_ref), "\n")
 cat("n(unique aggregated ORIs): ", nrow(aggregated_oris), "\n")
 cat("n(ORIs in both): ", n_distinct(oris_in_both$ori), "\n")
 cat("n(ORIs only in aggregated): ", nrow(oris_only_in_aggregated), "\n")
+
+```
+write it out
+```{r}
+# Define file path
+output_path <- "C:/OneDrive/OneDrive - ahdatalytics.com/Clients/Real Time Crime Index/Open Source Data/Collected Sample Data/check_agencies.csv"
+
+# Write to CSV
+write.csv(oris_only_in_aggregated, output_path, row.names = FALSE)
 
 ```

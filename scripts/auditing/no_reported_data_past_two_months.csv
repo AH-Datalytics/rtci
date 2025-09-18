@@ -1,6 +1,5 @@
 "Agency Name","Murder","Rape","Robbery","Aggravated Assault","Burglary","Theft","Motor Vehicle Theft","Year","Month","State","city_state","Agency_Type","city_state_id"
 "Alhambra",0,0,6,4,12,65,6,2025,6,"CA","Alhambra,CA","City","Alhambra,CA,City"
-"Bakersfield",4,9,49,126,110,319,136,2025,6,"CA","Bakersfield,CA","City","Bakersfield,CA,City"
 "Baton Rouge",NA,NA,NA,NA,NA,NA,NA,2025,6,"LA","Baton Rouge,LA","City","Baton Rouge,LA,City"
 "Concord",0,0,17,35,31,215,40,2025,5,"CA","Concord,CA","City","Concord,CA,City"
 "Davidson",NA,NA,NA,NA,NA,NA,NA,2025,6,"NC","Davidson,NC","County","Davidson,NC,County"

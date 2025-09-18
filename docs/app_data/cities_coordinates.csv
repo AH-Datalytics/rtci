@@ -39,7 +39,7 @@
 "Aurora","Colorado",FALSE,"Aurora, Colorado",39.7405111,-104.830994,396976,"State UCR","Open Source","https://coloradocrimestats.state.co.us/public/View/dispview.aspx",TRUE
 "Austin","Texas",FALSE,"Austin, Texas",30.2711286,-97.7436995,978816,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends, rape data for 2023 on from https://app.powerbigov.us/view?r=eyJrIjoiYmYyNTQ4NjgtNjhlMC00YjNiLWE0MDAtZTUwNWU5ZGIwNTk4IiwidCI6IjVjNWUxOWY2LWE2YWItNGI0NS1iMWQwLWJlNDYwOGE5YTY3ZiJ9",TRUE
 "Avondale","Arizona",FALSE,"Avondale, Arizona",33.4355977,-112.349602,92661,"State UCR","Open Source","https://azcrimestatistics.azdps.gov/",TRUE
-"Bakersfield","California",FALSE,"Bakersfield, California",35.3738712,-119.019463,413409,"Agency Aggregated","Provided by Agency","https://www.bakersfieldcity.us/",FALSE
+"Bakersfield","California",FALSE,"Bakersfield, California",35.3738712,-119.019463,413409,"Agency Aggregated","Provided by Agency","https://www.bakersfieldcity.us/",TRUE
 "Baldwin Park","California",FALSE,"Baldwin Park, California",34.0854739,-117.9611761,68230,"Crime Data Explorer","Open Source","https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/explorer/crime/crime-trend",TRUE
 "Baltimore","Maryland",FALSE,"Baltimore, Maryland",39.2908816,-76.610759,565192,"Agency RMS","Open Source","https://data.baltimorecity.gov/datasets/part-1-crime-data/explore",TRUE
 "Baltimore County","Maryland",TRUE,"Baltimore County, Maryland",39.4445243,-76.6483482,845222,"Agency Aggregated","Open Source","https://opendata.baltimorecountymd.gov/pages/dash",TRUE
@@ -215,7 +215,6 @@
 "Fayetteville","North Carolina",FALSE,"Fayetteville, North Carolina",35.0525759,-78.878292,209262,"State UCR","Provided by State UCR Program","From NC",TRUE
 "Fishers","Indiana",FALSE,"Fishers, Indiana",39.9555928,-86.0138729,103247,"Crime Data Explorer","Open Source","https://cde.state.mn.us/",TRUE
 "Flagstaff","Arizona",FALSE,"Flagstaff, Arizona",35.1987522,-111.651822,75343,"State UCR","Open Source","https://azcrimestatistics.azdps.gov/",FALSE
-"Flint","Michigan",FALSE,"Flint, Michigan",43.0161693,-83.6900211,79234,"State UCR","Open Source","https://www.michigan.gov/msp/divisions/cjic/dashboard-portal/crime-dashboard",TRUE
 "Florissant","Missouri",FALSE,"Florissant, Missouri",38.7919683,-90.3227803,51045,"State UCR","Open Source","https://showmecrime.mo.gov/",FALSE
 "Flower Mound","Texas",FALSE,"Flower Mound, Texas",33.0283854,-97.0867203,79513,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
 "Folsom","California",FALSE,"Folsom, California",38.6779591,-121.176058,84559,"Crime Data Explorer","Open Source","https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/explorer/crime/crime-trend",TRUE
@@ -405,7 +404,7 @@
 "Midwest City","Oklahoma",FALSE,"Midwest City, Oklahoma",35.4495097,-97.3967025,57696,"Crime Data Explorer","Open Source","https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/explorer/crime/crime-trend",TRUE
 "Milford","Connecticut",FALSE,"Milford, Connecticut",41.2222218,-73.0570603,53011,"State UCR","Open Source","https://ct.beyond2020.com/ct_public/Dim/dimension.aspx",TRUE
 "Millcreek","Pennsylvania",FALSE,"Millcreek, Pennsylvania",42.1009538,-80.0208339,53119,"State UCR","Open Source","https://www.ucr.pa.gov/PAUCRSPUBLIC/SRSReport/CrimeTrends",TRUE
-"Milpitas","California",FALSE,"Milpitas, California",37.4332273,-121.8989248,76573,"Agency Aggregated","Open Source","https://www.milpitas.gov/1107/Crime-and-Incident-Data",FALSE
+"Milpitas","California",FALSE,"Milpitas, California",37.4332273,-121.8989248,76573,"Agency Aggregated","Open Source","https://www.milpitas.gov/1107/Crime-and-Incident-Data",TRUE
 "Milwaukee","Wisconsin",FALSE,"Milwaukee, Wisconsin",43.0386475,-87.9090751,558698,"Agency RMS","Open Source","https://data.milwaukee.gov/dataset/wibr",TRUE
 "Minneapolis","Minnesota",FALSE,"Minneapolis, Minnesota",44.9772995,-93.2654692,422341,"State UCR","Open Source","https://cde.state.mn.us/",TRUE
 "Minnetonka","Minnesota",FALSE,"Minnetonka, Minnesota",44.9405086,-93.4638936,51791,"State UCR","Open Source","https://cde.state.mn.us/",TRUE

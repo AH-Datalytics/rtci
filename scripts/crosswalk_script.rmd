@@ -316,3 +316,213 @@ output_path <- "C:/OneDrive/OneDrive - ahdatalytics.com/Clients/Real Time Crime 
 write.csv(oris_only_in_aggregated, output_path, row.names = FALSE)
 
 ```
+
+grab data from cde since 1985 to review
+```{r}
+# Load packages
+library(readr)
+library(dplyr)
+library(stringr)
+
+# 1) Read the two files (use forward slashes on Windows to avoid escaping)
+new_cde_agencies <- read_csv(
+  "C:/Users/daveh/Downloads/check_agencies - check_agencies.csv",
+  show_col_types = FALSE
+)
+
+cde_data_all <- read_csv(
+  "C:/Users/daveh/Downloads/cde_data_since_1985 (1).csv",
+  show_col_types = FALSE
+)
+
+# 2) From new_cde_agencies, keep every unique ORI where include_yn == Y/y
+new_cde_oris <- new_cde_agencies %>%
+  mutate(include_yn = str_to_lower(str_trim(include_yn))) %>%
+  filter(include_yn == "y") %>%
+  distinct(ori) %>%                     # keep one row per ORI
+  filter(!is.na(ori) & ori != "")       # drop blanks just in case
+
+# 3) Filter the second df:
+#    - year >= 2017
+#    - ori appears in the Y-list above
+cde_data_filtered <- cde_data_all %>%
+  mutate(year = as.integer(year)) %>%    # coerce year safely
+  filter(year >= 2017) %>%
+  semi_join(new_cde_oris, by = "ori")
+
+# (Optional sanity checks)
+nrow(new_cde_oris)         # how many ORIs flagged Y
+n_distinct(cde_data_filtered$ori)  # how many ORIs remain in filtered data
+
+
+```
+write it out
+```{r}
+# Define output path
+output_path <- "C:/OneDrive/OneDrive - ahdatalytics.com/Clients/Real Time Crime Index/Open Source Data/Collected Sample Data/cde_data_filtered.csv"
+
+# Write out as CSV
+write_csv(cde_data_filtered, output_path)
+
+
+```
+check out the CA agencies and grab the ca doj data from filtered
+```{r}
+library(readr)
+library(dplyr)
+library(stringr)
+
+# 1) Read in the CA DOJ data
+ca_doj_data <- read_csv(
+  "C:/Users/daveh/Downloads/Crimes_and_Clearances_with_Arson-1985-2024_by month.csv",
+  show_col_types = FALSE
+)
+
+# 2) Filter new_cde_agencies to find ORIs starting with "CA"
+ca_agencies_new <- new_cde_agencies %>%
+  filter(str_sub(ori, 1, 2) == "CA")
+
+ca_agencies_new <- ca_agencies_new %>%
+  filter(include_yn == "Y")
+
+# Quick check
+nrow(ca_agencies_new)          # number of CA agencies flagged
+head(ca_agencies_new$ori, 10)  # preview ORIs
+
+```
+use fuzzy matching to find matching name candidates
+```{r}
+# Packages
+library(dplyr)
+library(stringr)
+library(fuzzyjoin)
+library(readr)
+
+#--- assume you already have:
+# ca_agencies_new (with columns: ori, name, etc.)
+# ca_doj_data (with column: NCICCode)
+# If not, read them:
+# ca_agencies_new <- read_csv("...") ; ca_doj_data <- read_csv("...")
+
+# 1) Helper: normalize/clean agency names for better fuzzy matching
+clean_agency <- function(x) {
+  x %>%
+    str_to_upper() %>%
+    str_replace_all("&", " AND ") %>%
+    str_replace_all("[^A-Z0-9 ]", " ") %>%           # drop punctuation
+    str_replace_all("\\s+", " ") %>%                 # collapse spaces
+    # remove common suffixes/words that differ by source
+    str_replace_all("\\b(POLICE|DEPARTMENT|DEPT|DIVISION|BUREAU|OFFICE)\\b", "") %>%
+    str_replace_all("\\b(SHERIFFS?|SHERIFFS OFFICE|SO)\\b", "SHERIFF") %>%
+    str_replace_all("\\b(CITY OF|COUNTY OF|CITY|COUNTY|TOWN OF|TOWN)\\b", "") %>%
+    str_trim()
+}
+
+# 2) Prepare data: keep only the needed columns and de-dup NCIC values
+left_tbl <- ca_agencies_new %>%
+  mutate(name_clean = clean_agency(name)) %>%
+  filter(!is.na(name_clean) & name_clean != "")
+
+right_tbl <- ca_doj_data %>%
+  transmute(NCICCode = as.character(NCICCode)) %>%
+  distinct(NCICCode) %>%
+  mutate(ncic_clean = clean_agency(NCICCode)) %>%
+  filter(!is.na(ncic_clean) & ncic_clean != "")
+
+# 3) Fuzzy match:
+#    - Jaro–Winkler distance (good for short strings, transpositions)
+#    - max_dist controls how far we allow; 0.15–0.20 is a practical starting range
+matches_all <- stringdist_left_join(
+  left_tbl, right_tbl,
+  by = c("name_clean" = "ncic_clean"),
+  method = "jw",
+  max_dist = 0.15,
+  distance_col = "distance"
+) %>%
+  mutate(similarity = 1 - distance) %>%              # convert distance to similarity (1 = perfect)
+  arrange(name, distance)
+
+# 4) Best single match per agency name
+matches_best <- matches_all %>%
+  group_by(ori, name) %>%
+  slice_min(distance, n = 1, with_ties = FALSE) %>%
+  ungroup()
+
+# 5) (Optional) Top 3 candidates per agency for manual review
+matches_top3 <- matches_all %>%
+  group_by(ori, name) %>%
+  slice_min(distance, n = 3, with_ties = FALSE) %>%
+  ungroup()
+
+# Quick peeks
+matches_best %>% select(ori, name, NCICCode, similarity) %>% head(10)
+matches_top3 %>% select(ori, name, NCICCode, similarity) %>% head(10)
+
+
+```
+subset the ca_doj_data df to just records to review from new cde
+```{r}
+# Filter ca_doj_data to keep only NCICCodes that appear in matches_best
+ca_doj_matched <- ca_doj_data %>%
+  semi_join(matches_best, by = "NCICCode")
+
+# Quick check
+nrow(ca_doj_matched)
+length(unique(ca_doj_matched$NCICCode))
+
+
+```
+clean up the CA DOJ data
+```{r}
+library(dplyr)
+library(stringr)
+
+# 1) Filter to Year >= 2017
+ca_doj_matched_sub <- ca_doj_matched %>%
+  filter(Year >= 2017)
+
+# 2) Keep columns only up to "HomicideClr_sum"
+keep_cols <- names(ca_doj_matched_sub)[
+  1:which(names(ca_doj_matched_sub) == "HomicideClr_sum")
+]
+
+ca_doj_matched_sub <- ca_doj_matched_sub %>%
+  select(all_of(keep_cols))
+
+# 3) Remove "_sum" from column names
+names(ca_doj_matched_sub) <- str_remove(names(ca_doj_matched_sub), "_sum$")
+
+# Quick check
+glimpse(ca_doj_matched_sub)
+
+ca_doj_matched_sub <- ca_doj_matched_sub %>% select(-ViolentClr, -HomicideClr)
+
+#add back in name and ori
+# Join ca_doj_matched_sub with matches_best on NCICCode
+ca_doj_matched_sub <- ca_doj_matched_sub %>%
+  left_join(
+    matches_best %>% select(NCICCode, ori, name),
+    by = "NCICCode"
+  )
+
+# Quick check
+glimpse(ca_doj_matched_sub)
+
+# Reorder columns so ori and name come first
+ca_doj_matched_sub <- ca_doj_matched_sub %>%
+  relocate(ori, name, .before = Year)
+
+# Quick check
+glimpse(ca_doj_matched_sub)
+
+
+#subset to 2021
+ca_doj_matched_sub <- ca_doj_matched_sub %>% filter(Year == 2021)
+#write it out
+
+# Define output path
+output_path <- "C:/OneDrive/OneDrive - ahdatalytics.com/Clients/Real Time Crime Index/Open Source Data/Collected Sample Data/ca_doj_2021.csv"
+
+# Write out as CSV
+write_csv(ca_doj_matched_sub, output_path)
+```

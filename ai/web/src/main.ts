@@ -1,6 +1,6 @@
 import DOMPurify from 'dompurify';
 import {marked} from 'marked';
-import * as smd from "streaming-markdown"
+import MarkdownIt from 'markdown-it';
 
 interface Message {
     role: 'user' | 'bot';
@@ -9,6 +9,7 @@ interface Message {
 
 interface ChatState {
     messages: Message[];
+    sessionId?: string;
     isWaitingForResponse: boolean;
 }
 
@@ -89,13 +90,10 @@ class ChatApp {
         try {
             // Create a placeholder for the bot's streaming response
             const botMessageId = this.createBotMessagePlaceholder();
-
             // Send request to server
             const response = await this.sendMessageToServer(userMessage);
-
             // Stream the response
             await this.streamBotResponse(response, botMessageId);
-
         } catch (error) {
             console.error('Error communicating with the server:', error);
             this.addMessage('bot', 'Sorry, there was an error processing your request. Please try again later.');
@@ -108,13 +106,15 @@ class ChatApp {
 
     private async sendMessageToServer(message: string): Promise<Response> {
         // Send request to the chatbot server
+        console.log("Requesting streamed response.", this.state.sessionId);
         return fetch("http://localhost:8000/stream", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                query: message
+                query: message,
+                session_id: this.state.sessionId
             })
         });
     }
@@ -152,12 +152,10 @@ class ChatApp {
         const messageElement = document.getElementById(messageId);
 
         if (contentElement && messageElement) {
-            messageElement.classList.remove('animate-pulse');
-            contentElement.innerHTML = '...'; // Clear the placeholder loading animation
-
+            contentElement.innerHTML = '...';             
             try {
                 // Add the complete message to state
-                const completeMessage: string = await this.streamAndDecodeResponseToElement(reader, contentElement);
+                const completeMessage: string = await this.streamAndDecodeResponseToElement(reader, contentElement, messageElement);
                 if (completeMessage) {
                     this.scrollToBottom();
                     this.state.messages.push({role: 'bot', content: completeMessage});
@@ -165,20 +163,21 @@ class ChatApp {
             } catch (error) {
                 console.error('Error while streaming response:', error);
                 contentElement.innerHTML = 'Error receiving response from server.';
-            }
+            } 
         }
     }
 
     private async streamAndDecodeResponseToElement(
         reader: ReadableStreamDefaultReader,
-        contentElement: HTMLElement): Promise<string> {
+        contentElement: HTMLElement,
+        messageElement: HTMLElement): Promise<string> {
         let completeMessage = '';
-        const decoder = new TextDecoder();
-        const renderer = smd.default_renderer(contentElement)
-        const parser = smd.parser(renderer)
+        const md = new MarkdownIt();
+        const decoder = new TextDecoder();        
         while (true) {
             const {done, value} = await reader.read();
             if (done) {
+                messageElement.classList.remove('animate-pulse');
                 return completeMessage;
             }
 
@@ -187,33 +186,48 @@ class ChatApp {
             const chunkContent = parseChunk(chunk);
             if (Array.isArray(chunkContent)) {
                 for (const aiEvent of chunkContent) {
+                    if (aiEvent.event) {
+                        messageElement.classList.remove('animate-pulse');
+                    }
+                    if (aiEvent.data?.session_id != this.state.sessionId) {
+                        const updatedId = aiEvent.data?.session_id;
+                        if (updatedId) {
+                            console.log("found session: ", updatedId);
+                            this.state.sessionId = updatedId;
+                        }
+                    }
                     if (aiEvent.event === 'data' && aiEvent.data !== undefined) {
-                        // @ts-ignore
                         if (aiEvent.data?.error) {
                             console.error('Error event found in stream:', aiEvent.data);
                             this.displayErrorMessage("There was an error returned by the chatbot. Please try again later.", contentElement)
                             return "";
-                        } else {
-                            // @ts-ignore
+                        } else {                                                    
                             const content = aiEvent.data?.content || aiEvent.data?.message || aiEvent.data;
                             console.log("found content: ", content);
                             if (completeMessage.length <= 0 || completeMessage == '...') {
                                 contentElement.innerHTML = '';
-                            } else {                                
-                                smd.parser_write(parser, "\n");
-                            }
+                            } 
+                            const newElement = document.createElement("div");
                             if (this.containsOnlyNumbers(content)) {
-                                contentElement.innerHTML += content;
+                                newElement.innerHTML = "<p>" + content + "</p>";
                             } else {
-                                smd.parser_write(parser, content.toString());
+                                newElement.innerHTML = md.render(content.toString());
                             }
+                            const messageType = aiEvent.data?.type; 
+                            if (messageType == "update") {
+                                newElement.classList.add('update-item');
+                            } else {
+                                newElement.classList.add('message-item');
+                            }                            
+                            contentElement.appendChild(newElement);
                             completeMessage += "\n" + content;
                         }
                     } else if (aiEvent.event === 'error') {
                         console.error('Error event found in stream:', aiEvent.data);
                         this.displayErrorMessage("There was an error returned by the chatbot. Please try again later.", contentElement)
                         return "";
-                    } else if (aiEvent.event === 'end') {
+                    } else if (aiEvent.event === 'end') {     
+                        console.log("Found end event.", aiEvent);
                         return completeMessage;
                     }
                 }
@@ -271,6 +285,7 @@ class ChatApp {
 
     private startNewChat(): void {
         // Clear chat state
+        this.state.sessionId = undefined;
         this.state.messages = [];
         this.state.isWaitingForResponse = false;
 
@@ -283,7 +298,8 @@ class ChatApp {
 
 const parseStreamedEvent = (event: string): {
     event: 'data' | 'end' | 'error';
-    data: unknown;
+    session_id?: string;
+    data: any;
 } | undefined => {
     const regEx = /^event:\s+(?<event>[\w]+)((\r?)\n(\r?)data: (?<data>(.|\n)*))?/gm;
     const match = regEx.exec(event);
@@ -307,7 +323,8 @@ const parseStreamedEvent = (event: string): {
 
 const parseChunk = (chunk: string): Array<{
     event: 'data' | 'end' | 'error';
-    data: unknown;
+    session_id?: string;
+    data: any;
 }> | Error => {
     if (!chunk) {
         return [];

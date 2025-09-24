@@ -92,10 +92,6 @@ body {
     color: var(--primary-blue);
 }
 
-.markdown-content p {
-    margin-bottom: 0.75rem;
-}
-
 .markdown-content ul, .markdown-content ol {
     margin-left: 1.5rem;
     margin-bottom: 0.75rem;
@@ -121,6 +117,31 @@ body {
     padding: 0.75rem;
     border-radius: 0.25rem;
     overflow-x: auto;
+    margin-bottom: 0.75rem;
+}
+
+.markdown-content table {
+    width: 100%;
+}
+
+.markdown-content th, 
+.markdown-content td {
+    padding-left: 4px;
+    padding-right: 4px; 
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.markdown-content .update-item {
+    font-size: 0.75rem;
+    color: #64748b
+}
+
+.markdown-content .update-item p {
+    margin-bottom: 0.25rem;
+}
+
+.markdown-content .message-item p {
     margin-bottom: 0.75rem;
 }
 

@@ -1,9 +1,0 @@
-<location>
-{location}
-</location>
-<date_range>
-{date_range}
-</date_range>
-<query>
-{query}
-</query>

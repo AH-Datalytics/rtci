@@ -8,3 +8,4 @@ __pycache__/
 __pycache__
 pandasai.log
 cache/
+exports/

@@ -7,29 +7,33 @@ from rtci.ai.location import LocationResolver
 from rtci.model import CrimeBotState, LocationDocument, QueryRequest
 
 
-def should_extract_locations(state: CrimeBotState) -> bool:
-    """Check if locations need to be extracted."""
-    return "locations" not in state or not state.get("locations")
-
-
 async def extract_locations(state: CrimeBotState) -> dict[str, Any]:
     """Extract locations from the query and add them to the state."""
-    if not should_extract_locations(state):
-        return {"locations": state["locations"]}
-
     query_request = QueryRequest(query=state["query"])
     resolver = LocationResolver.create()
     writer = get_stream_writer()
 
-    locations: list[LocationDocument] = await resolver.resolve_locations(query_request)
-    if not locations:
-        return {"locations": state["locations"]}
+    last_locations = state.get("locations", [])
+    extracted_locations: list[LocationDocument] = await resolver.resolve_locations(query_request)
+    if not extracted_locations:
+        return {}
+
+    location_map: dict[str, LocationDocument] = {}
+    if last_locations:
+        for location in last_locations:
+            location_map[location.page_content] = location
+    for location in extracted_locations:
+        location_map[location.page_content] = location
+    locations = list(location_map.values())
     first_location = locations[0]
     if len(locations) > 2:
         writer(f"Looks like you are asking about {first_location.label} and ({len(locations) - 1}) other locations.")
-    if len(locations) == 2:
+    elif len(locations) == 2:
         second_location = locations[1]
         writer(f"Looks like you are asking about {first_location.label} and {second_location.label}.")
     else:
         writer(f"Looks like you are asking about {first_location.label}.")
-    return {"locations": locations}
+    return {
+        "locations": locations,
+        "locations_updated": last_locations != locations
+    }

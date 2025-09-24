@@ -4,8 +4,9 @@ from typing import Optional, List, Annotated, Any
 
 import pandasai as pai
 import us
+from langchain_core.messages import BaseMessage
 from langgraph.graph import add_messages
-from pydantic import BaseModel, SecretStr
+from pydantic import BaseModel, SecretStr, Field
 from typing_extensions import TypedDict
 
 
@@ -13,11 +14,33 @@ class DateRange(BaseModel):
     start_date: datetime
     end_date: datetime
 
+    @staticmethod
+    def create(start: datetime | str, end: datetime | str):
+        start_date = start if isinstance(start, datetime) else datetime.strptime(str(start), "%Y-%m-%d")
+        end_date = start if isinstance(end, datetime) else datetime.strptime(str(end), "%Y-%m-%d")
+        return DateRange(start_date=start_date, end_date=end_date)
+
     @property
     def prompt_content(self):
         format_start = self.start_date.strftime('%Y-%m-%d')
         format_end = self.end_date.strftime('%Y-%m-%d')
         return f"{format_start} to {format_end}"
+
+    def contains(self, other: "DateRange") -> bool:
+        return self.start_date <= other.start_date and self.end_date >= other.end_date
+
+    def intersects(self, other: "DateRange") -> bool:
+        return (self.start_date <= other.end_date) and (self.end_date >= other.start_date)
+
+    def intersection(self, other: "DateRange") -> Optional["DateRange"]:
+        if not self.intersects(other):
+            return None
+        start = max(self.start_date, other.start_date)
+        end = min(self.end_date, other.end_date)
+        return DateRange(start_date=start, end_date=end)
+
+    def strftime(self, strftime_format: str) -> str:
+        return self.start_date.strftime(strftime_format) + " through " + self.end_date.strftime(strftime_format)
 
     def __str__(self):
         return self.model_dump_json()
@@ -84,6 +107,28 @@ class CrimeCategory(BaseModel):
     category: Optional[str] = None
 
 
+class ReportedCrimeRecord(BaseModel):
+    month: int = Field(alias="Month")
+    year: int = Field(alias="Year")
+    date: datetime = Field(alias="Date")
+    agency: str = Field(alias="Agency")
+    state: str = Field(alias="State")
+    region: str = Field(alias="Region")
+    agency_state: str = Field(alias="Agency_State")
+    murder: int = Field(alias="Murder")
+    rape: int = Field(alias="Rape")
+    robbery: int = Field(alias="Robbery")
+    aggravated_assault: int = Field(alias="Aggravated_Assault")
+    burglary: int = Field(alias="Burglary")
+    theft: int = Field(alias="Theft")
+    motor_vehicle_theft: int = Field(alias="Motor_Vehicle_Theft")
+    violent_crime: int = Field(alias="Violent_Crime")
+    property_crime: int = Field(alias="Property_Crime")
+
+    class Config:
+        populate_by_name = True
+
+
 class CrimeData(BaseModel):
     data_frame: dict[str, list[Any]] = []
 
@@ -102,32 +147,42 @@ class CrimeData(BaseModel):
         return df.to_csv(header=True, index=False)
 
 
+class CrimeBotSession(BaseModel):
+    session_id: str
+    locations: Optional[List[LocationDocument]]
+    date_range: Optional[DateRange]
+    crime_categories: Optional[List[CrimeCategory]]
+    data_context: Optional[CrimeData]
+    messages: List[BaseMessage]
+
+
 class CrimeBotState(TypedDict, total=False):
     """State for the crime data assistant graph."""
     # Input query from the user
     query: str
     # Extracted locations from the query
-    locations: List[LocationDocument]
+    locations: Optional[List[LocationDocument]]
+    locations_updated: Optional[bool]
     # Extracted date range from the query
     date_range: Optional[DateRange]
+    date_range_updated: Optional[bool]
     # Extracted crime categories the user is discussion
-    crime_categories: Optional[list[CrimeCategory]]
+    crime_categories: Optional[List[CrimeCategory]]
+    crime_categories_updated: Optional[bool]
     # Retrieved crime documents
-    data_context: Optional[list[dict]]
-    # Flag to indicate if data needs to be retrieved
-    needs_data: Optional[bool]
+    data_context: Optional[CrimeData]
     # Chat history for the conversation
     messages: Annotated[List, add_messages]
 
 
 class QueryRequest(BaseModel):
     query: str
-    temperature: Optional[float] = 0.7
-    max_tokens: Optional[int] = 500
+    session_id: Optional[str] = None
 
 
 class QueryResponse(BaseModel):
     message: str
+    session_id: str
     info: Optional[str] = None
     start_time: Optional[str | datetime] = None
     finish_time: Optional[str | datetime] = None

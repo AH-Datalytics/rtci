@@ -80,7 +80,6 @@ class LocationRetriever:
     async def retrieve_locations_for_query(self, query: str) -> List[LocationDocument]:
         documents: Iterable[Document] = await self.store.ainvoke(query)
         locations = []
-        print(documents)
         for doc in documents:
             location = self.__find_location_by_id(doc.metadata.get("id"))
             if location:

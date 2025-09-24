@@ -1,6 +1,7 @@
 # main.py
 import json
-import os
+import pickle
+import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime, UTC
 from os import getenv
@@ -9,13 +10,14 @@ from typing import AsyncGenerator
 
 from fastapi import FastAPI, Depends
 from langchain.chains import LLMChain
-from langchain_core.messages import AIMessage
+from langchain_core.messages import AIMessage, HumanMessage
 from langgraph.graph.state import CompiledStateGraph
+from starlette.exceptions import HTTPException
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import StreamingResponse
 
 from rtci.agent.bot import build_crime_analysis_graph
-from rtci.model import CrimeBotState, QueryRequest, QueryResponse
+from rtci.model import CrimeBotState, QueryRequest, QueryResponse, CrimeBotSession
 from rtci.rtci import RealTimeCrime
 from rtci.util.log import logger
 
@@ -23,7 +25,6 @@ from rtci.util.log import logger
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # setup application core
-    os.environ["TOKENIZERS_PARALLELISM"] = "false"
     app_env = getenv("APP_ENV") or getenv("ENV") or getenv("RUN_MODE")
     is_dev = False
     if app_env:
@@ -57,35 +58,81 @@ def get_langchain_components() -> CompiledStateGraph:
 
 
 def find_session_state(user_request: QueryRequest) -> CrimeBotState:
-    initial_state: CrimeBotState = {
-        "query": user_request.query,
-        "locations": [],
-        "date_range": None,
-        "data_frame": None,
-        "messages": []
-    }
-    return initial_state
+    if user_request.session_id:
+        picked_data = RealTimeCrime.file_cache.get(key=user_request.session_id)
+        if not picked_data:
+            raise HTTPException(status_code=400, detail="Invalid session.")
+        user_session: CrimeBotSession = pickle.loads(picked_data)
+        if not user_session:
+            raise HTTPException(status_code=400, detail="Invalid session.")
+        logger().info(f"Session [{user_request.session_id}] loaded.")
+        loaded_state: CrimeBotState = {
+            "query": user_request.query,
+            "locations": user_session.locations,
+            "crime_categories": user_session.crime_categories,
+            "date_range": user_session.date_range,
+            "data_context": user_session.data_context,
+            "messages": user_session.messages
+        }
+        return loaded_state
+    else:
+        # create a new session context
+        user_request.session_id = uuid.uuid4().hex
+        logger().info(f"New session created: {user_request.session_id}.")
+        initial_state: CrimeBotState = {
+            "query": user_request.query,
+            "messages": []
+        }
+        return initial_state
 
 
-async def stream_response_with_graph(graph_chain: CompiledStateGraph, user_state: CrimeBotState):
+async def stream_response_with_graph(graph_chain: CompiledStateGraph,
+                                     user_state: CrimeBotState,
+                                     session_id: str):
+    # stream graph response
+    last_state: dict = {}
+    message_list = user_state.get("messages")
+    if not message_list:
+        message_list = []
+    message_list.append(HumanMessage(content=user_state["query"]))
     async for mode, namespace, chunk in graph_chain.astream(user_state,
-                                                            stream_mode=["messages", "updates", "custom"],
+                                                            stream_mode=["messages", "updates", "custom", "values"],
                                                             subgraphs=True):
-        if namespace == "updates":
+        if namespace == "values":
+            if chunk:
+                last_state = chunk
+        elif namespace == "updates":
             for node_or_tool, data in chunk.items():
                 if data:
                     if data.get("messages") and data["messages"]:
                         last_message = data["messages"][-1]
-                        content = last_message.content if isinstance(last_message, AIMessage) else last_message
-                        event = {"content": content}
-                        yield f"event: data\ndata: {json.dumps(event)}\n"
+                        if isinstance(last_message, (AIMessage, HumanMessage)):
+                            if not last_message in message_list:
+                                message_list.append(last_message)
+                                content = last_message.content if isinstance(last_message, AIMessage) else last_message
+                                event = {"content": content, "type": "message", "session_id": session_id}
+                                yield f"event: data\ndata: {json.dumps(event)}\n"
         elif namespace == "custom":
             if isinstance(chunk, dict):
                 yield f"event: data\ndata: {json.dumps(chunk)}\n"
             else:
-                event = {"message": f"*{chunk}*"}
+                event = {"message": f"{chunk}", "type": "update", "session_id": session_id}
                 yield f"event: data\ndata: {json.dumps(event)}\n"
     sleep(1)
+    # save session context
+    session_state = CrimeBotSession(
+        session_id=session_id,
+        locations=last_state.get("locations"),
+        date_range=last_state.get("date_range"),
+        crime_categories=last_state.get("crime_categories"),
+        data_context=last_state.get("data_context"),
+        messages=message_list
+    )
+    ttl_sec = 60 * 30
+    RealTimeCrime.file_cache.set(key=session_id,
+                                 value=pickle.dumps(session_state),
+                                 ttl=ttl_sec)
+    # stream end event
     yield f"event: end\n\n"
 
 
@@ -105,7 +152,7 @@ async def stream_chatbot_response(user_request: QueryRequest,
     user_state = find_session_state(user_request)
     user_state['query'] = user_request.query
     return StreamingResponse(
-        stream_with_errors(stream_response_with_graph(graph_chain, user_state)),
+        stream_with_errors(stream_response_with_graph(graph_chain, user_state, user_request.session_id)),
         media_type="text/event-stream"
     )
 
@@ -122,12 +169,14 @@ async def generate_chatbot_response(user_request: QueryRequest,
         message = result["messages"][-1]
         content = message.content if isinstance(message, AIMessage) else message
         return QueryResponse(
+            session_id=user_request.session_id,
             message=content,
             start_time=start_time,
             finish_time=finish_time,
             success=True
         )
     return QueryResponse(
+        session_id=user_request.session_id,
         start_time=start_time,
         message="No response generated.",
         success=False

@@ -25,7 +25,8 @@ class PromptLibrary:
     @classmethod
     def create(cls,
                prompts_dir: str | Path = os.path.join('rtci', 'prompts'),
-               s3_base_name: str = "prompts"):
+               s3_base_name: str = "prompts",
+               ignore_s3: bool = False):
         s3_bucket = os.environ.get("AWS_S3_BUCKET", "rtci")
         s3_base_name = s3_base_name.rstrip('/\\')
         prompts = []
@@ -38,20 +39,15 @@ class PromptLibrary:
                     s3_bucket_key=f"{s3_base_name}/{filename}",
                     relative_file_path=str(Path(file_path))
                 )
-                logger().info(f"Adding prompt resource: {prompt_resource}.")
+                logger().debug(f"Adding prompt resource: {prompt_resource}.")
                 prompts.append(prompt_resource)
-        return PromptLibrary(prompts, s3_bucket)
+        return PromptLibrary(prompts, s3_bucket, ignore_s3)
 
-    def __init__(self, prompt_resources: List[PromptResource], bucket_name: str):
-        """
-        Initialize the prompt library with a list of prompt resources.
-
-        Args:
-            prompt_resources: List of PromptResource objects
-        """
+    def __init__(self, prompt_resources: List[PromptResource], bucket_name: str, ignore_s3: bool):
         self.prompt_resources = list(prompt_resources)
         self.prompt_cache: Dict[str, str] = {}
         self.bucket_name = bucket_name
+        self.ignore_s3 = ignore_s3
 
     def find_prompt(self, prompt_id: str) -> ChatPromptTemplate:
         prompt_text = self.find_text(prompt_id)
@@ -80,8 +76,10 @@ class PromptLibrary:
         if not resource:
             raise ValueError(f"Prompt with ID '{prompt_id}' not found in configured resources")
 
-        # Try to fetch from S3 first
-        prompt_text = self._fetch_from_s3(resource)
+        prompt_text = None
+        if not self.ignore_s3:
+            # Try to fetch from S3 first
+            prompt_text = self._fetch_from_s3(resource)
 
         # If S3 fetch failed, try local file
         if not prompt_text:
@@ -208,6 +206,7 @@ class PromptLibrary:
     def _fetch_from_s3(self, resource: PromptResource) -> Optional[str]:
         """Fetch a prompt from S3. Returns None if not found or on error."""
         try:
+            logger().info(f"Retrieving prompt from S3 bucket: {self.bucket_name}, key: {resource.s3_bucket_key} ...")
             s3_client = create_s3_client()
             response = s3_client.get_object(
                 Bucket=self.bucket_name,
@@ -248,7 +247,7 @@ class PromptLibrary:
                 Body=prompt_text.encode('utf-8'),
                 ContentType='text/plain'
             )
-            logger().debug(f"Stored prompt '{resource.prompt_id}' to S3 bucket '{self.bucket_name}'.")
+            logger().info(f"Stored prompt '{resource.prompt_id}' to S3 bucket '{self.bucket_name}'.")
             return True
         except Exception as e:
             logger().error(f"Error storing prompt '{resource.prompt_id}' to S3", e)

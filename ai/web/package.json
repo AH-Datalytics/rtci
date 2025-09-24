@@ -9,14 +9,15 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
     "typescript": "~5.8.3",
     "vite": "^7.1.2"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.13",
     "dompurify": "^3.2.6",
+    "markdown-it": "^14.1.0",
     "marked": "^16.2.1",
-    "streaming-markdown": "^0.2.15",
     "tailwindcss": "^4.1.13"
   }
 }

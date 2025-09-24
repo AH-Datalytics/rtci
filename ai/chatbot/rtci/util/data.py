@@ -1,9 +1,11 @@
 import csv
 import io
+import re
 import time
 import uuid
 from datetime import datetime
 from os import environ
+from pathlib import Path
 
 from rtci.rtci import RealTimeCrime
 from rtci.util.collections import get_first_header_index
@@ -89,21 +91,22 @@ def transform_csv_to_file_cache(csv_content: str) -> str:
     return csv_content
 
 
-import re
-
-
 def filter_full_sample_rows(row, column_indexes):
+    # remove full sample rolled-up data
     full_sample_pattern = re.compile(r'full\s*sample', re.IGNORECASE)
-
     if (column_indexes['reporting_agency'] is not None and
             full_sample_pattern.search(row[column_indexes['reporting_agency']])):
         return False
-
     if (column_indexes['city_state'] is not None and
             full_sample_pattern.search(row[column_indexes['city_state']])):
         return False
 
-    # Keep the row if neither condition is met
+    # remove nation-wide data
+    if (column_indexes['state'] is not None and
+            row[column_indexes['state']].lower() == 'nationwide'):
+        return False
+
+    # keep the row if neither condition is met
     return True
 
 
@@ -150,3 +153,31 @@ def map_headers_to_columns(header):
         else:
             definitions.append(f'"{col}" VARCHAR(255) NULL')
     return definitions
+
+
+def cleanup_old_files(target_dir: str | Path,
+                      file_pattern='.*\.png',
+                      hours=24):
+    # Ensure the directory exists
+    if not target_dir.exists() or not target_dir.is_dir():
+        return 0
+
+    pattern = re.compile(file_pattern)
+    current_time = time.time()
+    max_age_seconds = hours * 3600
+    deleted_count = 0
+
+    # Iterate through all files in the directory
+    for item in target_dir.glob('**/*'):
+        if item.is_file():
+            # Check if the filename matches the pattern
+            if pattern.search(item.name):
+                file_age = current_time - item.stat().st_mtime
+                if file_age > max_age_seconds:
+                    try:
+                        item.unlink()
+                        deleted_count += 1
+                        logger().debug(f"Deleted old file: {item}.")
+                    except Exception as e:
+                        logger().error(f"Failed to delete {item}.", e)
+    return deleted_count

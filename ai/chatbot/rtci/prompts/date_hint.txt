@@ -6,6 +6,7 @@ You can assume that the current date is {current_date}.
 
 ## Response Format
 You must use the date format is YYYY-MM-DD.
+If the user query includes only a specific year, you should use the range January 1st to December 31st of that year.
 If you determine the date range for the query, your response should ONLY be a start date and end date (separated by single empty new line).
 If you determine the query does NOT include a reference to dates range or period of time, respond with ONLY the word `None`.
 

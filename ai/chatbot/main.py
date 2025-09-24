@@ -5,7 +5,7 @@ import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime, UTC
 from os import getenv
-from time import sleep
+from pathlib import Path
 from typing import AsyncGenerator
 
 from fastapi import FastAPI, Depends
@@ -19,6 +19,7 @@ from starlette.responses import StreamingResponse
 from rtci.agent.bot import build_crime_analysis_graph
 from rtci.model import CrimeBotState, QueryRequest, QueryResponse, CrimeBotSession
 from rtci.rtci import RealTimeCrime
+from rtci.util.data import cleanup_old_files
 from rtci.util.log import logger
 
 
@@ -30,6 +31,7 @@ async def lifespan(app: FastAPI):
     if app_env:
         is_dev = app_env.lower() == "development" or app_env.lower() == "dev"
     RealTimeCrime.bootstrap(debug_mode=is_dev)
+    cleanup_pandas_files()
     # run application server
     yield
     # cleanup application core
@@ -50,6 +52,10 @@ app.add_middleware(
     allow_methods=["*"],  # Allow all methods
     allow_headers=["*"],  # Allow all headers
 )
+
+
+def cleanup_pandas_files():
+    cleanup_old_files(target_dir=Path('exports/charts'), hours=1)
 
 
 def get_langchain_components() -> CompiledStateGraph:
@@ -118,7 +124,8 @@ async def stream_response_with_graph(graph_chain: CompiledStateGraph,
             else:
                 event = {"message": f"{chunk}", "type": "update", "session_id": session_id}
                 yield f"event: data\ndata: {json.dumps(event)}\n"
-    sleep(1)
+    # delete old temporary files
+    cleanup_pandas_files()
     # save session context
     session_state = CrimeBotSession(
         session_id=session_id,
@@ -201,5 +208,4 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
-
     uvicorn.run(app, host="0.0.0.0", port=8000)

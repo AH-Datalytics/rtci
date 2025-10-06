@@ -5,7 +5,7 @@ from langchain_core.documents import Document
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import Runnable, RunnablePick
 
-from rtci.model import QueryRequest, CrimeData, DateRange, LocationDocument, CrimeCategory, BotException
+from rtci.model import CrimeData, DateRange, LocationDocument, CrimeCategory, BotException
 from rtci.rtci import RealTimeCrime
 from rtci.util.collections import convert_structured_document_to_json
 from rtci.util.data import create_database
@@ -30,9 +30,9 @@ class CrimeCategoryResolver:
     def __init__(self, chain: Runnable):
         self.chain = chain
 
-    async def resolve_categories(self, question: QueryRequest) -> list[CrimeCategory]:
+    async def resolve_categories(self, query: str) -> list[CrimeCategory]:
         category_response = await self.chain.ainvoke({
-            "query": question.query
+            "query": query
         })
         if not category_response:
             return []

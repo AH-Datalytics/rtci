@@ -15,7 +15,7 @@ from langchain_core.vectorstores import VectorStoreRetriever
 from langchain_huggingface import HuggingFaceEmbeddings
 from us.states import State
 
-from rtci.model import QueryRequest, LocationDocument
+from rtci.model import LocationDocument
 from rtci.rtci import RealTimeCrime
 from rtci.util.collections import get_first_value
 from rtci.util.csv import PydanticCSVLoader
@@ -150,11 +150,12 @@ class LocationResolver:
         self.hint_chain = hint_chain
         self.retriever = retriever
 
-    async def resolve_locations(self, question: QueryRequest) -> List[LocationDocument]:
-        location_hint_list = await self.hint_chain.ainvoke({"query": question.query})
+    async def resolve_locations(self, query: str) -> List[LocationDocument]:
+        location_hint_list = await self.hint_chain.ainvoke({"query": query})
         if not location_hint_list:
             return []
-        if location_hint_list.lower() == "none" or location_hint_list.lower() == "empty":
+        location_hint_list = str(location_hint_list).strip()
+        if self.__is_empty_response(location_hint_list):
             return []
         possible_locations: list[LocationDocument] = []
         unknown_locations: list[str] = []
@@ -169,12 +170,13 @@ class LocationResolver:
         if unknown_locations:
             location_docs = await self.retriever.retrieve_locations_for_query("\n".join(unknown_locations))
             city_state_list = await self.tool_chain.ainvoke({
-                "query": question.query,
+                "query": query,
                 "locations": location_docs
             })
             if not city_state_list:
                 return possible_locations
-            if city_state_list.lower() == "none" or city_state_list.lower() == "empty":
+            city_state_list = str(city_state_list).strip()
+            if self.__is_empty_response(city_state_list):
                 return possible_locations
             mapped_locations = {}
             for location_doc in location_docs:
@@ -187,3 +189,6 @@ class LocationResolver:
                 if available_location:
                     possible_locations.append(available_location)
         return possible_locations
+
+    def __is_empty_response(self, response: str) -> bool:
+        return response.lower() == "none" or response.lower() == "empty" or response == "[]"

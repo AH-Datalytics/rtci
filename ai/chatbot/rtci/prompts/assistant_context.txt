@@ -1,0 +1,8 @@
+## Conversation and Analysis Context
+You have determined the context for the user questions and analysis is based on the following factors:
+
+## Location
+{locations}
+
+## Date Range
+{date_range}

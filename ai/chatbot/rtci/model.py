@@ -155,6 +155,26 @@ class CrimeBotSession(BaseModel):
     data_context: Optional[CrimeData]
     messages: List[BaseMessage]
 
+    def to_markdown(self):
+        markdown_txt = ''
+        if self.date_range:
+            markdown_txt += f"## Date Range:\n\n{self.date_range.prompt_content}\n\n"
+        else:
+            markdown_txt += "## All Dates\n\n"
+        if self.locations:
+            markdown_txt += "## Locations:\n\n"
+            for location in self.locations:
+                markdown_txt += f"- {location.label}\n"
+            markdown_txt += "\n"
+        else:
+            markdown_txt += "## All Locations\n\n"
+        if self.crime_categories:
+            markdown_txt += "## Crime Categories:\n\n"
+            for category in self.crime_categories:
+                markdown_txt += f"- {category.category}\n"
+        markdown_txt += "\n"
+        return markdown_txt
+
 
 class CrimeBotState(TypedDict, total=False):
     """State for the crime data assistant graph."""

@@ -1,10 +1,10 @@
 import DOMPurify from 'dompurify';
 import {marked} from 'marked';
-import MarkdownIt from 'markdown-it';
 
 interface Message {
     role: 'user' | 'bot';
     content: string;
+    source?: string; // Optional source information for the message
 }
 
 interface ChatState {
@@ -105,8 +105,7 @@ class ChatApp {
     }
 
     private async sendMessageToServer(message: string): Promise<Response> {
-        // Send request to the chatbot server
-        console.log("Requesting streamed response.", this.state.sessionId);
+        // Send a request to the chatbot server
         return fetch("http://localhost:8000/stream", {
             method: 'POST',
             headers: {
@@ -122,7 +121,7 @@ class ChatApp {
     private createBotMessagePlaceholder(): string {
         const messageId = `msg-${Date.now()}`;
         const messageElement = document.createElement('div');
-        messageElement.id = messageId;
+        messageElement.id = `message-${messageId}`;
         messageElement.className = 'bot-message rounded-lg p-4 animate-pulse';
         messageElement.innerHTML = `
             <div class="flex items-start">
@@ -135,7 +134,6 @@ class ChatApp {
         `;
         this.chatMessages.appendChild(messageElement);
         this.scrollToBottom();
-
         return messageId;
     }
 
@@ -144,41 +142,35 @@ class ChatApp {
             throw new Error(`Server returned ${response.status}: ${response.statusText}`);
         }
 
-        // Get reader from the response body stream
-        const reader = response.body.getReader();
-
-        // Get the content element where we'll display the streamed response
+        const messageElement = document.getElementById(`message-${messageId}`);
         const contentElement = document.getElementById(`content-${messageId}`);
-        const messageElement = document.getElementById(messageId);
-
         if (contentElement && messageElement) {
-            contentElement.innerHTML = '...';             
+            contentElement.innerHTML = '...';
             try {
-                // Add the complete message to state
-                const completeMessage: string = await this.streamAndDecodeResponseToElement(reader, contentElement, messageElement);
+                const reader = response.body.getReader();
+                const completeMessage = await this.streamAndDecodeResponseToElement(reader, contentElement, messageElement);
                 if (completeMessage) {
-                    this.scrollToBottom();
-                    this.state.messages.push({role: 'bot', content: completeMessage});
+                    messageElement.remove();
+                    this.addMessage('bot', completeMessage.message, completeMessage.source);
                 }
             } catch (error) {
                 console.error('Error while streaming response:', error);
                 contentElement.innerHTML = 'Error receiving response from server.';
-            } 
+            }
         }
     }
 
     private async streamAndDecodeResponseToElement(
         reader: ReadableStreamDefaultReader,
         contentElement: HTMLElement,
-        messageElement: HTMLElement): Promise<string> {
+        messageElement: HTMLElement): Promise<{ message: string, source?: string }> {
         let completeMessage = '';
-        const md = new MarkdownIt();
-        const decoder = new TextDecoder();        
+        const decoder = new TextDecoder();
         while (true) {
             const {done, value} = await reader.read();
             if (done) {
                 messageElement.classList.remove('animate-pulse');
-                return completeMessage;
+                return {message: completeMessage};
             }
 
             // Decode the chunk and append to complete message
@@ -192,49 +184,39 @@ class ChatApp {
                     if (aiEvent.data?.session_id != this.state.sessionId) {
                         const updatedId = aiEvent.data?.session_id;
                         if (updatedId) {
-                            console.log("found session: ", updatedId);
                             this.state.sessionId = updatedId;
                         }
                     }
                     if (aiEvent.event === 'data' && aiEvent.data !== undefined) {
+                        if (contentElement.innerHTML == '...') {
+                            contentElement.innerHTML = '';
+                        }
                         if (aiEvent.data?.error) {
                             console.error('Error event found in stream:', aiEvent.data);
                             this.displayErrorMessage("There was an error returned by the chatbot. Please try again later.", contentElement)
-                            return "";
-                        } else {                                                    
-                            const content = aiEvent.data?.content || aiEvent.data?.message || aiEvent.data;
-                            console.log("found content: ", content);
-                            if (completeMessage.length <= 0 || completeMessage == '...') {
-                                contentElement.innerHTML = '';
-                            } 
-                            const newElement = document.createElement("div");
-                            if (this.containsOnlyNumbers(content)) {
-                                newElement.innerHTML = "<p>" + content + "</p>";
-                            } else {
-                                newElement.innerHTML = md.render(content.toString());
-                            }
-                            const messageType = aiEvent.data?.type; 
-                            if (messageType == "update") {
-                                newElement.classList.add('update-item');
-                            } else {
-                                newElement.classList.add('message-item');
-                            }                            
+                            return {message: ""};
+                        }
+                        const content = aiEvent.data?.content || aiEvent.data?.message || aiEvent.data;
+                        const type = aiEvent.data?.type;
+                        const newElement = this.createStreamedContent(content, type);
+                        if (newElement) {
                             contentElement.appendChild(newElement);
-                            completeMessage += "\n" + content;
+                            if (type == "message") {
+                                completeMessage += content;
+                            }
                         }
                     } else if (aiEvent.event === 'error') {
                         console.error('Error event found in stream:', aiEvent.data);
                         this.displayErrorMessage("There was an error returned by the chatbot. Please try again later.", contentElement)
-                        return "";
-                    } else if (aiEvent.event === 'end') {     
-                        console.log("Found end event.", aiEvent);
-                        return completeMessage;
+                        return {message: ""};
+                    } else if (aiEvent.event === 'end') {
+                        return {message: completeMessage, source: aiEvent.data?.source};
                     }
                 }
             }
             if (chunkContent instanceof Error) {
                 console.error('Error fetching stream:', chunkContent);
-                return "There was an error fetching the response. Please try again later."
+                return {message: "There was an error fetching the response. Please try again later."};
             }
         }
     }
@@ -248,14 +230,26 @@ class ChatApp {
         contentElement.innerHTML = "<span color='red'>" + message + "</span>"
     }
 
-    private addMessage(role: 'user' | 'bot', content: string): void {
-        // Add message to state
-        this.state.messages.push({role, content});
+    private createStreamedContent(content: string, type?: string): HTMLElement {
+        const newElement = document.createElement("div");
+        if (this.containsOnlyNumbers(content)) {
+            newElement.innerHTML = "<p>" + content + "</p>";
+        } else {
+            // @ts-ignore
+            newElement.innerHTML = DOMPurify.sanitize(marked.parse(content.toString()));
+        }
+        if (type == "update") {
+            newElement.classList.add('update-item');
+        } else {
+            newElement.classList.add('message-item');
+        }
+        return newElement
+    }
 
-        // Create message element
+    private addMessage(role: 'user' | 'bot', content: string, source?: string): void {
+        this.state.messages.push({role, content, source});
         const messageElement = document.createElement('div');
         messageElement.className = role === 'user' ? 'user-message rounded-lg p-4' : 'bot-message rounded-lg p-4';
-
         if (role === 'user') {
             const safeHtml = DOMPurify.sanitize(content);
             messageElement.innerHTML = `
@@ -271,12 +265,73 @@ class ChatApp {
                 <div class="flex items-start">
                     <div class="font-semibold text-gray-700 mr-2">Bot:</div>
                     <div class="message-content markdown-content">${safeHtml}</div>
+                    <div class="source-icon ml-4 mt-1" title="Crime Sourcing + Details"></div>
                 </div>
             `;
         }
 
         this.chatMessages.appendChild(messageElement);
+        this.updateMessageSource(messageElement, source);
         this.scrollToBottom();
+    }
+
+    private updateMessageSource(messageElement: HTMLElement, source?: string): void {
+        const sourceIcon = messageElement.querySelector('.source-icon');
+        if (!sourceIcon) {
+            return;
+        }
+        if (source) {
+            sourceIcon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.showSourceTooltip(sourceIcon as HTMLElement, source);
+            });
+            sourceIcon.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info cursor-pointer text-gray-500 hover:text-blue-500">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>`
+        } else {
+            sourceIcon.innerHTML = '';
+        }
+    }
+
+    private showSourceTooltip(iconElement: HTMLElement, source: string): void {
+        // Remove any existing tooltips
+        const existingTooltip = document.querySelector('.source-tooltip');
+        if (existingTooltip) {
+            existingTooltip.remove();
+        }
+
+        // Create tooltip element
+        const tooltip = document.createElement('div');
+        // @ts-ignore
+        tooltip.innerHTML = DOMPurify.sanitize(marked.parse(source.toString()));
+        tooltip.className = 'source-tooltip absolute bg-white p-3 rounded shadow-lg z-10 max-w-xs';
+
+        // Position the tooltip near the icon
+        const iconRect = iconElement.getBoundingClientRect();
+        tooltip.style.top = `${iconRect.bottom + window.scrollY + 5}px`;
+        tooltip.style.left = `${iconRect.left + window.scrollX - 100}px`;
+
+        // Add tooltip to the DOM
+        const tooltipContainer = document.getElementById('tooltip-container') as HTMLElement;
+        if (tooltipContainer) {
+            tooltipContainer.appendChild(tooltip);
+        }
+
+        // Close tooltip when clicking outside
+        const closeTooltip = (e: MouseEvent) => {
+            if (!tooltip.contains(e.target as Node) && e.target !== iconElement) {
+                tooltip.remove();
+                document.removeEventListener('click', closeTooltip);
+            }
+        };
+
+        // Add event listener with a slight delay to prevent immediate closing
+        setTimeout(() => {
+            document.addEventListener('click', closeTooltip);
+        }, 100);
     }
 
     private scrollToBottom(): void {

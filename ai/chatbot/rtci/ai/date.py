@@ -25,9 +25,9 @@ class DateResolver:
     def __init__(self, chain: Runnable):
         self.chain = chain
 
-    async def resolve_dates(self, question: QueryRequest) -> DateRange | None:
+    async def resolve_dates(self, query: str) -> DateRange | None:
         daterange_response = await self.chain.ainvoke({
-            "query": question.query,
+            "query": query,
             "current_date": datetime.now().strftime("%Y-%m-%d")
         })
         if not daterange_response:

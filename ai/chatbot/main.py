@@ -140,7 +140,13 @@ async def stream_response_with_graph(graph_chain: CompiledStateGraph,
                                  value=pickle.dumps(session_state),
                                  ttl=ttl_sec)
     # stream end event
-    yield f"event: end\n\n"
+    sourcing_markdown = "\n\n".join([
+        "## Response Context and Criteria:",
+        "-------",
+        session_state.to_markdown()
+    ])
+    final_event = {"session_id": session_id, "source": sourcing_markdown}
+    yield f"event: end\ndata: {json.dumps(final_event)}\n"
 
 
 async def stream_with_errors(generator: AsyncGenerator[str, None]) -> AsyncGenerator[str, None]:
@@ -208,4 +214,5 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)

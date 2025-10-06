@@ -1,5 +1,6 @@
 import glob
 import os
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import List, Dict, Optional
 
@@ -238,9 +239,37 @@ class PromptLibrary:
             return None
 
     def _store_to_s3(self, resource: PromptResource, prompt_text: str) -> bool:
-        """Store a prompt to S3. Returns True if successful, False otherwise."""
+        """Store a prompt to S3. Returns True if successful, False otherwise.
+           Only uploads if the local file is newer than the S3 version."""
         try:
             s3_client = create_s3_client()
+
+            try:
+                # Check if file exists in S3 and get its last modified timestamp
+                s3_object = s3_client.head_object(
+                    Bucket=self.bucket_name,
+                    Key=resource.s3_bucket_key
+                )
+                s3_last_modified = s3_object.get('LastModified')
+
+                # Get local file's last modified time
+                local_file_path = os.path.abspath(resource.relative_file_path)
+                local_last_modified = datetime.fromtimestamp(
+                    os.path.getmtime(local_file_path),
+                    tz=timezone.utc
+                )
+
+                # Only upload if local file is newer than S3 version
+                if s3_last_modified and local_last_modified <= s3_last_modified:
+                    logger().trace(f"Skipping upload for '{resource.prompt_id}' as S3 version is newer.")
+                    return True
+
+            except ClientError as e:
+                # If the object doesn't exist in S3, we should upload it
+                if e.response.get('Error', {}).get('Code') != 'NotFound' and e.response.get('Error', {}).get('Code') != '404':
+                    raise
+
+            # Upload the file to S3
             s3_client.put_object(
                 Bucket=self.bucket_name,
                 Key=resource.s3_bucket_key,

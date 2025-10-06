@@ -2,7 +2,7 @@ FROM python:3.11 AS builder
 LABEL version="1.0"
 
 # Install poetry
-RUN pip install poetry==2.1.3
+RUN pip install poetry==2.1.4
 ENV POETRY_NO_INTERACTION=1 \
     POETRY_VIRTUALENVS_IN_PROJECT=1 \
     POETRY_VIRTUALENVS_CREATE=1 \

@@ -27,5 +27,4 @@ An example of a response is:
 Do NOT include any other information outside the JSON structure.
 If the query does NOT mention any specific crime category or only contains a general crime query, return an empty list (example []):
 
-
 The user query is: {query}

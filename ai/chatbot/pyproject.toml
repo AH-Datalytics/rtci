@@ -9,22 +9,19 @@ dependencies = [
     "fastapi-cli (>=0.0.10,<0.1.0)",
     "langchain[aws] (>=0.3.27,<0.4.0)",
     "langgraph (>=0.6.5,<0.7.0)",
-    "langchain-cli (>=0.0.36,<0.1.0)",
     "langchain-aws (>=0.2.30,<0.3.0)",
-    "python-dotenv (>=1.1.1,<2.0.0)",
     "langchain-community (>=0.3.28,<0.4.0)",
     "langchain-huggingface (>=0.3.1,<0.4.0)",
-    "sentence-transformers (>=5.1.0,<6.0.0)",
+    "sentence-transformers (>=5.1.1,<6.0.0)",
     "faiss-cpu (>=1.12.0,<2.0.0)",
-    "redshift-connector (>=2.1.8,<3.0.0)",
-    "us (>=3.2.0,<4.0.0)",
-    "pandas-stubs (>=2.3.2.250827,<3.0.0.0)",
-    "tabulate (>=0.9.0,<0.10.0)",
     "pandasai (>=3.0.0b2)",
     "pandasai-litellm (>=0.0.1,<0.0.2)",
-    "zodb (>=6.0.1,<7.0.0)",
-    "btrees (>=6.1,<7.0)"
+    "us (>=3.2.0,<4.0.0)",
+    "tabulate (>=0.9.0,<0.10.0)",
+    "zodb (>=6.0.1,<6.1.0)",
+    "btrees (>=6.1,<7.0)",
+    "persistent (>=6.1,<6.2)",
+    "python-deepcompare (>=2.1.0,<3.0.0)",
+    "python-dotenv (>=1.1.1,<2.0.0)",
+    "transformers (==4.56.2)"
 ]
-[build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"

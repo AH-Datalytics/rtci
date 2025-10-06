@@ -150,3 +150,52 @@ body {
     background-color: var(--white);
     border-bottom: 1px solid #e2e8f0;
 }
+
+/* Source icon and tooltip styles */
+.source-icon {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.source-icon:hover {
+    color: #3b82f6; /* Tailwind's blue-500 */
+}
+
+.source-tooltip {
+    background-color: white;
+    border: 1px solid #e5e7eb; /* Tailwind's gray-200 */
+    border-radius: 0.375rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    padding: 0.75rem;
+    position: absolute;
+    z-index: 50;
+    max-width: 20rem;
+    width: auto;
+    font-size: 0.875rem;
+}
+
+.source-tooltip p {
+    font-size: 0.875rem;
+}
+
+.source-tooltip h1, .source-tooltip h2 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.source-tooltip ul, .source-tooltip ol {
+    margin-left: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.source-tooltip ul {
+    list-style-type: disc;
+}
+
+.markdown-content ol {
+    list-style-type: decimal;
+}

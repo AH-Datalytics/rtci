@@ -1,10 +1,11 @@
 from datetime import datetime
 from typing import Any
 
+import deepcompare
 from langgraph.config import get_stream_writer
 
 from rtci.ai.crime import CrimeRetriever, CrimeCategoryResolver
-from rtci.model import CrimeBotState, QueryRequest, CrimeData, CrimeCategory, DateRange
+from rtci.model import CrimeBotState, CrimeData, CrimeCategory, DateRange
 from rtci.util.data import create_database
 from rtci.util.log import logger
 
@@ -12,14 +13,23 @@ from rtci.util.log import logger
 async def extract_crime_categories(state: CrimeBotState) -> dict[str, Any]:
     """Extract any crime categories context and add it to the state."""
 
-    query_request = QueryRequest(query=state["query"])
+    query = state["query"]
     resolver = CrimeCategoryResolver.create()
     writer = get_stream_writer()
 
     last_category_list = state.get("crime_categories", [])
-    crime_categories: list[CrimeCategory] = await resolver.resolve_categories(query_request)
-    if not crime_categories:
-        return {}
+    crime_categories: list[CrimeCategory] = await resolver.resolve_categories(query)
+
+    if not crime_categories and last_category_list:
+        if query.lower().find("crime") < 0:
+            return {}
+        else:
+            writer(f"Expanding query to include all crime categories.")
+            return {
+                "crime_categories": [],
+                "crime_categories_updated": True
+            }
+
     valid_categories: list[str] = list(filter(lambda x: x, map(lambda x: x.category, crime_categories)))
     unknown_categories: list[str] = list(map(lambda x: x.crime, filter(lambda x: x.category is None, crime_categories)))
     if valid_categories:
@@ -28,13 +38,14 @@ async def extract_crime_categories(state: CrimeBotState) -> dict[str, Any]:
         writer(f"I don't know about {', '.join(unknown_categories)}.")
     return {
         "crime_categories": crime_categories,
-        "crime_categories_updated": last_category_list != crime_categories
+        "crime_categories_updated": not deepcompare.compare(last_category_list, crime_categories)
     }
 
 
 async def retrieve_crime_data(state: CrimeBotState) -> CrimeBotState:
     """Retrieve crime data based on locations and date range."""
     locations = state.get("locations", [])
+    crime_categories = state.get("crime_categories", [])
     date_range: DateRange = state.get("date_range")
     database = create_database()
     retriever = CrimeRetriever(database)
@@ -64,8 +75,8 @@ async def retrieve_crime_data(state: CrimeBotState) -> CrimeBotState:
         writer("Querying relevant crime statistics ...")
         documents: CrimeData = await retriever.retrieve_crime_data(
             locations=locations,
-            crime_categories=state.get("crime_categories", []),
-            date_range=date_range
+            date_range=date_range,
+            crime_categories=crime_categories
         )
         new_state = state.copy()
         new_state["data_context"] = documents

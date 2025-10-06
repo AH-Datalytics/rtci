@@ -1,6 +1,7 @@
 # Update the extract_locations function to preserve the state
 from typing import Any
 
+import deepcompare
 from langgraph.config import get_stream_writer
 
 from rtci.ai.location import LocationResolver
@@ -35,5 +36,5 @@ async def extract_locations(state: CrimeBotState) -> dict[str, Any]:
         writer(f"Looks like you are asking about {first_location.label}.")
     return {
         "locations": locations,
-        "locations_updated": last_locations != locations
+        "locations_updated": not deepcompare.compare(last_locations, locations)
     }

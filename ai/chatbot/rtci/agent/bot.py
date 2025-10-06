@@ -1,11 +1,13 @@
-from typing import Iterable
+from typing import Any
 
 import pandas as pd
 import pandasai as pai
 from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompt_values import PromptValue
+from langchain_core.prompts import ChatPromptTemplate
 from langgraph.graph import StateGraph
+from pandasai import Agent
 from pandasai.core.response import StringResponse, NumberResponse, DataFrameResponse, ChartResponse
 
 from rtci.agent.crime import retrieve_crime_data, extract_crime_categories
@@ -14,6 +16,7 @@ from rtci.agent.location import extract_locations
 from rtci.model import CrimeBotState, CrimeData, LocationDocument, DateRange, CrimeCategory
 from rtci.rtci import RealTimeCrime
 from rtci.util.llm import create_llm, create_lite_llm
+from rtci.util.log import logger
 
 
 # Convert a chart to message response format
@@ -40,7 +43,13 @@ def format_dataframe_response(response: DataFrameResponse):
         'month': "Month",
         'reporting_agency': "Location",
         'city_state': "City/State",
-        'state': "State"
+        'state': "State",
+        'murders': "Murders",
+        'num_murders': '# Murders',
+        'robbery': "Robbery",
+        'num_robbery': '# Robbery',
+        'robberies': "Robberies",
+        'num_robberies': '# Robberies',
     }
     df = df.rename(columns=rename_columns)
 
@@ -56,6 +65,7 @@ async def process_query(state: CrimeBotState) -> CrimeBotState:
     crime_categories: list[CrimeCategory] = state.get("crime_categories", [])
     date_range: DateRange = state.get("date_range")
     data_context: CrimeData = state.get("data_context")
+    query_context: dict[str, Any] = {"query": query}
 
     is_valid = (locations or date_range) and data_context
     if crime_categories:
@@ -71,36 +81,51 @@ async def process_query(state: CrimeBotState) -> CrimeBotState:
             AIMessage(content="I'm sorry, I didn't understand your query. Please provide location, date range, and/or potential crime categories you're interested in.")
         ]
         return new_state
+    crime_categories_text = "All crime categories."
+    if crime_categories:
+        crime_categories: list[str] = list(map(lambda x: x.category, crime_categories))
+        crime_categories_text = ", ".join(crime_categories)
+    query_context['crime_categories'] = crime_categories_text
 
     # Format location information for the prompt
     location_text = "All locations."
     if locations:
         location_json = list(map(lambda x: x.prompt_content, locations))
         location_text = "\n".join(location_json)
+    query_context['locations'] = location_text
 
     # Format date range information for the prompt
     date_text = "Any date range."
     if date_range:
         date_text = date_range.prompt_content
+    query_context['date_range'] = date_text
 
     # Create the response using an LLM
-    prompt = RealTimeCrime.prompt_library.find_prompt("assistant_analyze")
+    system_prompt: str = RealTimeCrime.prompt_library.find_text("assistant_profile")
+    context_prompt: ChatPromptTemplate = RealTimeCrime.prompt_library.find_prompt("assistant_context")
+    analyze_prompt: ChatPromptTemplate = RealTimeCrime.prompt_library.find_prompt("assistant_analyze")
     if data_context and data_context.size > 1:
+        logger().trace(f"Using pandasAI agent for data analysis for query \"{query}\".")
         df = data_context.to_pandas()
-        llm = create_lite_llm()
+        message_list = state.get("messages", [])
+        actor = Agent(dfs=df)
+        actor.add_message(message=system_prompt, is_user=True)
+        actor.add_message(message=context_prompt.format(**query_context), is_user=True)
+        if message_list:
+            for message in message_list:
+                is_user = isinstance(message, HumanMessage)
+                if str(message.content).find("![Chart]") < 0:
+                    logger().info(f"Adding message to actor: message={message.content}, is_user={is_user}")
+                    actor.add_message(message=message.content, is_user=is_user)
 
-        def pandas_analysis(input):
-            pai.config.set({
-                "llm": llm,
-                "save_logs": False
-            })
-            if isinstance(input, PromptValue):
-                query_text = input.to_string()
-            elif isinstance(input, (list, set, Iterable)):
-                query_text = "\n".join(map(lambda x: x.text, input))
+        def pandas_analysis(input_dict):
+            if isinstance(input_dict, PromptValue):
+                query_text = input_dict.to_string()
+            elif isinstance(input_dict, dict):
+                query_text = input_dict.get("query")
             else:
-                query_text = str(input)
-            panda_response = df.chat(query_text)
+                query_text = str(input_dict)
+            panda_response = actor.follow_up(query=query_text)
             if not panda_response:
                 return "No response generated."
             if isinstance(panda_response, str):
@@ -113,42 +138,27 @@ async def process_query(state: CrimeBotState) -> CrimeBotState:
                 return format_chart_response(panda_response)
             return str(panda_response)
 
-        chain = (prompt |
-                 pandas_analysis |
+        chain = (pandas_analysis |
                  StrOutputParser())
-        response = await chain.ainvoke({
-            "context": f'''
-<query>
-{query}
-</query>
-<location>
-{location_text}
-</location>
-<date range>
-{date_text}
-</date range>
-            '''})
+        response = await chain.ainvoke(query_context)
     else:
-        llm = create_llm()
-        chain = (prompt |
-                 llm |
+        logger().trace(f"Using LLM for data analysis for query \"{query}\".")
+
+        def combine_prompts(input_dict):
+            return f'''
+{system_prompt}
+##-------------------------------------------
+{context_prompt.format(**input_dict)}
+##-------------------------------------------
+{analyze_prompt.format(**input_dict)}
+'''
+
+        chain = (combine_prompts |
+                 create_llm() |
                  StrOutputParser())
         data_frame_text = data_context.to_csv() if data_context else None
-        response = await chain.ainvoke({
-            "context": f'''
-<query>
-{query}
-</query>
-<location>
-{location_text}
-</location>
-<date range>
-{date_text}
-</date range>
-<data frame>
-{data_frame_text}
-</data frame>
-            '''})
+        query_context['data_frame'] = data_frame_text
+        response = await chain.ainvoke(query_context)
 
     new_state = state.copy()
     if "messages" not in new_state:
@@ -175,6 +185,14 @@ def should_retrieve_crime_data(state: CrimeBotState) -> bool:
 
 # Define the graph with the updated functions
 def build_crime_analysis_graph() -> StateGraph:
+    # setup pandas AI + LLM
+    llm = create_lite_llm()
+    pai.config.set({
+        "llm": llm,
+        "verbose": False,
+        "save_logs": False
+    })
+
     # setup graph state + nodes
     graph = StateGraph(CrimeBotState)
 

@@ -7,11 +7,11 @@ class TestDateApi(TestCommonAdapter):
 
     async def test_date_range_retriever(self):
         bot: DateResolver = DateResolver.create()
-        response = await bot.resolve_dates(QueryRequest(query=f"Which city had the most crime in 2023?"))
+        response = await bot.resolve_dates(f"Which city had the most crime in 2023?")
         self.assertIsNotNone(response)
-        response = await bot.resolve_dates(QueryRequest(query=f"How many murders in New Orleans and Houston in the past year?"))
+        response = await bot.resolve_dates(f"How many murders in New Orleans and Houston in the past year?")
         self.assertIsNotNone(response)
-        response = await bot.resolve_dates(QueryRequest(query=f"How many murders in Kansas City?"))
+        response = await bot.resolve_dates(f"How many murders in Kansas City?")
         self.assertIsNone(response)
-        response = await bot.resolve_dates(QueryRequest(query=f"Compare the murders in New Orleans and Houston."))
+        response = await bot.resolve_dates(f"Compare the murders in New Orleans and Houston.")
         self.assertIsNone(response)

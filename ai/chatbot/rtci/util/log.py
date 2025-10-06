@@ -4,6 +4,7 @@ import sys
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
+import litellm
 from langchain.globals import set_debug
 
 
@@ -22,6 +23,7 @@ class Logger:
             return Logger.__instance
         if debug_mode:
             set_debug(True)
+            litellm._turn_on_debug()
         log_list = [Logger.__configure_app_logger(log_file, debug_mode)]
         Logger.__instance = Logger(log_list, debug_mode)
         return Logger.__instance

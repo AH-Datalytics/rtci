@@ -71,19 +71,12 @@ class CrimeDatabase:
 
         for location in locations:
             location_mask = pd.Series(False, index=filtered_df.index)
-
-            # Filter by state if available
-            if location.state:
-                location_mask |= filtered_df['state'].str.lower() == location.state.lower()
-
-            # Filter by reporting agency if available
-            if location.reporting_agency:
-                location_mask |= filtered_df['reporting_agency'].str.lower() == location.reporting_agency.lower()
-
-            # Filter by city_state if available
             if location.city_state:
                 location_mask |= filtered_df['city_state'].str.lower() == location.city_state.lower()
-
+            elif location.reporting_agency:
+                location_mask |= filtered_df['reporting_agency'].str.lower() == location.reporting_agency.lower()
+            elif location.state:
+                location_mask |= filtered_df['state'].str.lower() == location.state.lower()
             mask |= location_mask
 
         return CrimeDatabase(filtered_df[mask])
@@ -135,7 +128,7 @@ class CrimeDatabase:
         crime_names = [cat.crime.lower().replace(' ', '_') for cat in crime_categories]
 
         # Create a list of columns to keep (always include metadata columns)
-        metadata_columns = ['date', 'reporting_agency', 'state', 'region', 'agency_state', 'month', 'year']
+        metadata_columns = ['date', 'reporting_agency', 'city_state', 'state', 'month', 'year']
         columns_to_keep = [col for col in filtered_df.columns
                            if col.lower() in crime_names or col in metadata_columns]
 

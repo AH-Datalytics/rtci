@@ -115,7 +115,7 @@ async def process_query(state: CrimeBotState) -> CrimeBotState:
             for message in message_list:
                 is_user = isinstance(message, HumanMessage)
                 if str(message.content).find("![Chart]") < 0:
-                    logger().info(f"Adding message to actor: message={message.content}, is_user={is_user}")
+                    logger().debug(f"Adding message to actor: message={message.content}, is_user={is_user}")
                     actor.add_message(message=message.content, is_user=is_user)
 
         def pandas_analysis(input_dict):

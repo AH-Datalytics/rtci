@@ -1,0 +1,8 @@
+## Behavior and Response
+Provide a concise, polite, and informative response.
+
+## Data
+You have the following data available:
+{data_frame}
+
+The user query is: {query}

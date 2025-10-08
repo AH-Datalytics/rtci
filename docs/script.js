@@ -47,21 +47,26 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
     // Helper functions (createDropdownOption, createSearchableDropdown, etc.)
-    function createDropdownOption(value, text, dropdown, button) {
+    function createDropdownOption(value, text, dropdown, button, isMasterHeading = false) {
         const option = document.createElement("div");
         option.className = "dropdown-item";
         option.dataset.value = value;
         option.textContent = text;
-
+    
+        // Apply the special class for master headings
+        if (isMasterHeading) {
+            option.classList.add("master-heading");
+        }
+    
         if (button.dataset.value === value) {
             option.classList.add('selected');
         }
-
+    
         option.addEventListener('click', function() {
             if (button.dataset.value !== value) {
                 filtersChanged = true; // Set the flag to true when a filter is changed
             }
-
+    
             const items = dropdown.querySelectorAll('.dropdown-item');
             items.forEach(item => item.classList.remove('selected'));
             option.classList.add('selected');
@@ -69,13 +74,13 @@ document.addEventListener("DOMContentLoaded", function() {
             button.dataset.value = value;
             button.appendChild(document.createElement('i')).className = "fas fa-caret-down";
             dropdown.classList.remove("show");
-
+    
             if (button === stateBtn) {
                 updateAgencyFilter(allData, value);
             } else {
                 renderChart();
             }
-
+    
             saveFilterValues();
         });
         return option;
@@ -113,7 +118,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Define functions for handling data filtering and rendering
     function updateFilters(data) {
-        const severityOrder = ["Violent Crimes", "Murders", "Rapes", "Robberies", "Aggravated Assaults", "Property Crimes", "Burglaries", "Thefts", "Motor Vehicle Thefts"];
+        const severityOrder = [
+            { value: "Violent Crimes", isMaster: true },
+            { value: "Murders", isMaster: false },
+            { value: "Rapes", isMaster: false },
+            { value: "Robberies", isMaster: false },
+            { value: "Aggravated Assaults", isMaster: false },
+            { value: "Property Crimes", isMaster: true },
+            { value: "Burglaries", isMaster: false },
+            { value: "Thefts", isMaster: false },
+            { value: "Motor Vehicle Thefts", isMaster: false }
+        ];        
         const crimeTypes = severityOrder.filter(crimeType => data.some(d => d.crime_type === crimeType));
     
         let states = [...new Set(data.map(d => d.state_name))];
@@ -134,10 +149,16 @@ document.addEventListener("DOMContentLoaded", function() {
         createSearchableDropdown(stateSelect, stateBtn, states);
     
         crimeTypeSelect.innerHTML = "";
-        crimeTypes.forEach(crimeType => {
-            const option = createDropdownOption(crimeType, crimeType, crimeTypeSelect, crimeTypeBtn);
+        severityOrder.forEach((crimeType, index) => {
+            const option = createDropdownOption(crimeType.value, crimeType.value, crimeTypeSelect, crimeTypeBtn, crimeType.isMaster);
+            
+            // Add a specific class for the second master heading "Property Crimes"
+            if (crimeType.value === "Property Crimes") {
+                option.classList.add("second-master-heading");
+            }
+
             crimeTypeSelect.appendChild(option);
-        });
+    });
     
         const dataTypes = [
             { value: "count", text: "Monthly Totals" },
@@ -163,44 +184,149 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateAgencyFilter(data, selectedState) {
         let agencies = [...new Set(data.filter(d => d.state_name === selectedState).map(d => d.agency_name))];
     
-        // Define the desired sort order for Nationwide agencies
+        // Define the desired order for Nationwide agencies
         const nationwideAgencyOrder = [
             "Full Sample", 
-            "Cities of 1M+", 
-            "Cities of 250K - 1M", 
-            "Cities of 100K - 250K", 
-            "Cities of < 100K"
+            "Agencies of 1M+", 
+            "Agencies of 250K - 1M", 
+            "Agencies of 100K - 250K", 
+            "Agencies of < 100K"
         ];
     
-        // Check if "Full Sample" exists
-        const isNationwide = (selectedState === "Nationwide");
-        if (isNationwide) {
-            // Sort agencies based on the predefined order, keeping others sorted alphabetically
-            agencies = agencies.filter(agency => nationwideAgencyOrder.includes(agency)).sort((a, b) => {
-                return nationwideAgencyOrder.indexOf(a) - nationwideAgencyOrder.indexOf(b);
+        // Define region names
+        const regionNames = ["Midwest", "Northeast", "Other", "South", "West"];
+    
+        // Separate regional agencies from others
+        let regionalAgencies = agencies.filter(agency => regionNames.includes(agency)).sort();
+        agencies = agencies.filter(agency => !regionNames.includes(agency));
+    
+        // Sort agencies based on the custom order
+        agencies.sort((a, b) => {
+            const indexA = nationwideAgencyOrder.indexOf(a);
+            const indexB = nationwideAgencyOrder.indexOf(b);
+    
+            if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+            if (indexA !== -1) return -1;
+            if (indexB !== -1) return 1;
+            return a.localeCompare(b);
+        });
+    
+        // Clear previous options
+        agencySelect.innerHTML = "";
+    
+        // Add search input field
+        const searchInput = document.createElement("input");
+        searchInput.type = "text";
+        searchInput.placeholder = "Search...";
+        searchInput.className = "dropdown-search";
+        agencySelect.appendChild(searchInput);
+    
+        searchInput.addEventListener("input", function() {
+            const filter = searchInput.value.toLowerCase();
+            const items = agencySelect.querySelectorAll(".dropdown-item");
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(filter) ? "" : "none";
+            });
+        });
+    
+        // Append agencies and add "Population Groups" sublabel after "Full Sample"
+        if (selectedState === "Nationwide") {
+            // Keep existing Nationwide logic
+            agencies.forEach(agency => {
+                const dropdownOption = createDropdownOption(agency, agency, agencySelect, agencyBtn);
+                agencySelect.appendChild(dropdownOption);
+        
+                if (agency === "Full Sample") {
+                    const populationGroupLabel = document.createElement("div");
+                    populationGroupLabel.textContent = "Population Groups";
+                    populationGroupLabel.classList.add("master-heading");
+                    populationGroupLabel.style.pointerEvents = "none";
+                    agencySelect.appendChild(populationGroupLabel);
+                }
             });
         } else {
-            agencies.sort(); // Alphabetically sort agencies for other states
+            // For state-specific (not Nationwide)
+            // Handle "Full Sample" first if present
+            const fullSampleIndex = agencies.indexOf("Full Sample");
+            if (fullSampleIndex !== -1) {
+                const fullSampleOption = createDropdownOption("Full Sample", "Full Sample", agencySelect, agencyBtn);
+                agencySelect.appendChild(fullSampleOption);
+                agencies.splice(fullSampleIndex, 1); // Remove "Full Sample" from agencies list
+            }
+        
+            // Separate cities and counties
+            const cities = agencies.filter(a => !a.includes("County") && !a.includes("Parish")).sort((a, b) => a.localeCompare(b));
+            const counties = agencies.filter(a => a.includes("County") || a.includes("Parish")).sort((a, b) => a.localeCompare(b));
+        
+            // Add "Cities" subheader if there are cities
+            if (cities.length > 0) {
+                const citiesLabel = document.createElement("div");
+                citiesLabel.textContent = "Cities";
+                citiesLabel.classList.add("master-heading");
+                citiesLabel.style.pointerEvents = "none";
+                agencySelect.appendChild(citiesLabel);
+        
+                cities.forEach(city => {
+                    const cityOption = createDropdownOption(city, city, agencySelect, agencyBtn);
+                    agencySelect.appendChild(cityOption);
+                });
+            }
+        
+            // Add "Counties" subheader if there are counties
+            if (counties.length > 0) {
+                const countiesLabel = document.createElement("div");
+                countiesLabel.textContent = "Counties";
+                countiesLabel.classList.add("master-heading");
+                countiesLabel.style.pointerEvents = "none";
+                agencySelect.appendChild(countiesLabel);
+        
+                counties.forEach(county => {
+                    const countyOption = createDropdownOption(county, county, agencySelect, agencyBtn);
+                    agencySelect.appendChild(countyOption);
+                });
+            }
         }
+        
     
-        createSearchableDropdown(agencySelect, agencyBtn, agencies);
+        // If Nationwide, add "Regions" heading and append regional agencies
+        if (selectedState === "Nationwide" && regionalAgencies.length > 0) {
+            const regionsLabel = document.createElement("div");
+            regionsLabel.textContent = "Regions";
+            regionsLabel.classList.add("master-heading");
+            regionsLabel.style.pointerEvents = "none"; // Prevent interactions
+            agencySelect.appendChild(regionsLabel);
+    
+            regionalAgencies.forEach(region => {
+                const dropdownOption = createDropdownOption(region, region, agencySelect, agencyBtn);
+                agencySelect.appendChild(dropdownOption);
+            });
+        }
     
         const savedFilters = JSON.parse(sessionStorage.getItem('rtciFilters')) || {};
         const savedAgency = savedFilters.agency;
-    
-        if (agencies.includes(savedAgency)) {
+
+        // Ensure that the saved agency selection works for both population groups and regions
+        if ([...agencies, ...regionalAgencies].includes(savedAgency)) {
             agencyBtn.textContent = savedAgency;
             agencyBtn.dataset.value = savedAgency;
-        } else if (agencies.length > 0) {
+        } else if (agencySelect.querySelector('[data-value="Full Sample"]')) {  // ✅ If Full Sample exists, select it
+            agencyBtn.textContent = "Full Sample";
+            agencyBtn.dataset.value = "Full Sample";
+        } else if (agencies.length > 0) {  // Otherwise fallback to first agency
             agencyBtn.textContent = agencies[0];
             agencyBtn.dataset.value = agencies[0];
         }
-    
+
+
+        // Find the matching dropdown option and mark it as selected
         const defaultAgencyOption = agencySelect.querySelector(`[data-value="${agencyBtn.dataset.value}"]`);
         if (defaultAgencyOption) defaultAgencyOption.classList.add('selected');
+
     
         renderChart();
     }
+    
     
 
     function filterData(data) {
@@ -707,88 +833,102 @@ document.addEventListener("DOMContentLoaded", function() {
     function appendSourceAndCaption(svg, width, height, filteredData, margin) {
         const agencyFull = filteredData[0].agency_full;
         const stateUcrLink = filteredData[0].state_ucr_link;
-        let sourceText;
-
-        if (agencyFull.endsWith("s")) {
-            sourceText = `${agencyFull}' primary`;
-        } else {
-            sourceText = `${agencyFull}'s primary`;
+        let sourceText, linkText;
+    
+        // Function to handle the apostrophe logic
+        function getApostropheText(name) {
+            if (name.endsWith('s')) {
+                return `${name}'`;  // Use single apostrophe if name ends with 's'
+            } else {
+                return `${name}'s`; // Otherwise, use 's for names not ending in 's'
+            }
         }
-
+    
+        // Check if state is "Nationwide" or agency is "Full Sample"
+        if (filteredData[0].state_name === "Nationwide" || filteredData[0].agency_name === "Full Sample") {
+            sourceText = `${getApostropheText(agencyFull)} composite`;  // Apostrophe logic for "composite agencies"
+            linkText = "agencies";  // Use "agencies" as the hyperlink text
+        } else {
+            // Default text when it's not "Nationwide" or "Full Sample"
+            sourceText = `${getApostropheText(agencyFull)} primary`;  // Apostrophe logic for "primary source"
+            linkText = "source";  // Use "source" as the hyperlink text
+        }
+    
         const sourceGroup = svg.append("g")
             .attr("transform", `translate(${width}, ${height + margin.bottom - 10})`)
             .attr("text-anchor", "end");
-
+    
         const sourceTextElement = sourceGroup.append("text")
             .attr("class", "source-link")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a");
-
+    
+        // Append the first part of the source text
         sourceTextElement.append("tspan")
-            .text(sourceText)
+            .text(sourceText)  // No space added here
             .style("cursor", "text");
-
+    
+        // Append the hyperlinked text (either "agencies" or "source")
         sourceTextElement.append("tspan")
             .attr("text-anchor", "start")
-            .attr("dx", "0.2em")
+            .attr("dx", "0.2em")  // Adds a slight space between the two words
             .attr("class", "source-link")
             .style("cursor", "pointer")
             .on("click", function() { window.open(stateUcrLink, "_blank"); })
-            .text("source.");
-
+            .text(linkText + ".");  // Append the period here
+    
         const population = abbreviateNumberForCaption(filteredData[0].population);
         const agencyCount = filteredData[0].number_of_agencies || "N/A";
-
+    
         const captionGroup = svg.append("g")
             .attr("transform", `translate(0, ${height + margin.bottom - 10})`)
             .attr("text-anchor", "start")
             .attr("class", "caption-group");
-
+    
         const captionTextElement = captionGroup.append("text")
             .style("font-family", "'Roboto Condensed', Arial, sans-serif")
             .style("fill", "#00333a");
-
+    
         captionTextElement.append("tspan")
             .text("Population Covered: ")
             .attr("x", 0);
-
+    
         captionTextElement.append("tspan")
             .text(population)
             .attr("dx", "0em")
             .style("fill", "#f28106")
             .style("font-weight", "bold");
-
+    
         captionTextElement.append("tspan")
             .text("Number of Agencies: ")
             .attr("dx", "1.5em");
-
+    
         captionTextElement.append("tspan")
             .text(agencyCount)
             .attr("dx", "0em")
             .style("fill", "#f28106")
             .style("font-weight", "bold");
-
-        // Function to adjust caption position based on screen size
+    
+        // Adjust caption for mobile
         function adjustCaptionForMobile() {
             const isMobile = window.innerWidth <= 600; // Adjust for screens 600px or less
-
+    
             if (isMobile) {
-                // For mobile view, adjust the translate value
                 captionGroup.attr("transform", `translate(-60, ${height + margin.bottom - 10})`);
                 sourceGroup.attr("transform", `translate(${width + 20}, ${height + margin.bottom - 10})`);
             } else {
-                // For non-mobile view, use the standard translate value
                 captionGroup.attr("transform", `translate(0, ${height + margin.bottom - 10})`);
                 sourceGroup.attr("transform", `translate(${width}, ${height + margin.bottom - 10})`);
             }
         }
-
-        // Initial adjustment
+    
         adjustCaptionForMobile();
-
-        // Adjust on window resize
         window.addEventListener('resize', adjustCaptionForMobile);
     }
+    
+    
+    
+    
 
     function downloadFilteredData(filteredData) {
         const selectedDataType = dataTypeBtn.dataset.value;

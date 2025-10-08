@@ -1,35 +1,63 @@
 ---
 title: "versioning audit"
 output: github_document
+last Updated: "9.3.2025"
 ---
 
-bring in the previous sample and the current sample
+bring in the previous sample and the current sample - update suffixes to relate to months in question
 ```{r}
-#current locations of sample files for June and July 2024
-previous_samp <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation\\sample_cities_2024_06.csv")
-current_samp <- read.csv("C:\\OneDrive\\OneDrive - ahdatalytics.com\\Clients\\Real Time Crime Index\\Data Auditing and Validation\\sample_cities_2024_07.csv")
+library(tidyverse)
+library(lubridate)
+
+# Read the current sample file
+current_samp <- read_csv("data/sample_cities.csv")
+
+# Extract the single unique date from the "date" column
+current_date <- unique(current_samp$date)
+
+# Convert the current date into a proper date format
+current_date_parsed <- as.Date(paste0("01-", current_date), format = "%d-%b_%y")
+
+# Subtract one month to get the previous date
+previous_date_parsed <- current_date_parsed %m-% months(1)
+
+# Format the previous date as "mon_yy" (e.g., "sep_24")
+formatted_previous_date <- tolower(format(previous_date_parsed, "%b_%y"))
+
+# Construct the file path dynamically for the previous sample
+previous_samp_path <- file.path(
+  "data/archive",
+  paste0(formatted_previous_date, "_agencies.csv")
+)
+
+# Read the previous sample file
+previous_samp <- read_csv(previous_samp_path)
 ```
 start with agencies - who is new and who is getting removed
 ```{r}
 # Dataframes with unique values of "city_state" from both current and previous data
-unique_current <- data.frame(city_state = unique(current_samp$city_state))
-unique_previous <- data.frame(city_state = unique(previous_samp$city_state))
+unique_current <- data.frame(city_state_id = unique(current_samp$city_state_id))
+unique_previous <- data.frame(city_state_id = unique(previous_samp$city_state_id))
 
 # Not in the current sample but was in the previous sample
-previous_no_current <- setdiff(unique_previous$city_state, unique_current$city_state)
+previous_no_current <- setdiff(unique_previous$city_state_id, unique_current$city_state_id)
 
 # Not in the previous sample but now in the current sample
-current_no_previous <- setdiff(unique_current$city_state, unique_previous$city_state)
+current_no_previous <- setdiff(unique_current$city_state_id, unique_previous$city_state_id)
 
 # Common to both dataframes
-common_to_both <- intersect(unique_current$city_state, unique_previous$city_state)
+common_to_both <- intersect(unique_current$city_state_id, unique_previous$city_state_id)
 
 # Create a summary table
 summary_table <- data.frame(
-  Category = c("Unique to Current", "Unique to Previous", "Common to Both"),
+  Category = c("Current No Previous", "Previous No Current", "Common to Both"),
   Count = c(length(current_no_previous), length(previous_no_current), length(common_to_both))
 )
 
 # View the summary table
-summary_table
+print(summary_table)
+```
+
+
+```{r}
 ```

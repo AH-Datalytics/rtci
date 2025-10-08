@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-
     const crimeTypeSelect = document.getElementById("crime-type-dropdown");
     const crimeTypeBtn = document.getElementById("crime-type-btn");
 
@@ -13,28 +12,55 @@ document.addEventListener("DOMContentLoaded", function() {
             d.PrevYTD = +d.PrevYTD;
             d.Percent_Change = +d.Percent_Change;
             d.population = +d.population; // Add population parsing
+            d.number_of_agencies = +d.number_of_agencies; // Add population parsing
         });
 
         allData = data;
 
-        const severityOrder = ["Violent Crimes", "Murders", "Rapes", "Robberies", "Aggravated Assaults", "Property Crimes", "Burglaries", "Thefts", "Motor Vehicle Thefts"];
-        const crimeTypes = severityOrder.filter(crimeType => data.some(d => d.crime_type === crimeType));
+        // Define crime types with master heading indicators
+        const severityOrder = [
+            { value: "Violent Crimes", isMaster: true },
+            { value: "Murders", isMaster: false },
+            { value: "Rapes", isMaster: false },
+            { value: "Robberies", isMaster: false },
+            { value: "Aggravated Assaults", isMaster: false },
+            { value: "Property Crimes", isMaster: true },
+            { value: "Burglaries", isMaster: false },
+            { value: "Thefts", isMaster: false },
+            { value: "Motor Vehicle Thefts", isMaster: false }
+        ];
 
-        crimeTypes.forEach(crimeType => {
+        // Populate the dropdown with the crime types
+        severityOrder.forEach(crimeTypeObj => {
             const option = document.createElement("div");
             option.className = "dropdown-item";
-            option.dataset.value = crimeType;
-            option.textContent = crimeType;
-            if (crimeType === crimeTypeBtn.dataset.value) {
+
+            // Add specific styling class for master headings
+            if (crimeTypeObj.isMaster) {
+                option.classList.add("master-heading");
+                // Specifically add a different class for "Property Crimes"
+                if (crimeTypeObj.value === "Property Crimes") {
+                    option.classList.add("second-master-heading");
+                }
+            }
+
+            option.dataset.value = crimeTypeObj.value;
+            option.textContent = crimeTypeObj.value;
+
+            // Pre-select the default crime type
+            if (crimeTypeObj.value === crimeTypeBtn.dataset.value) {
                 option.classList.add("selected");
             }
+
+            // Add click event listener for the dropdown item
             option.addEventListener('click', function() {
-                crimeTypeBtn.textContent = crimeType;
-                crimeTypeBtn.dataset.value = crimeType;
+                crimeTypeBtn.textContent = crimeTypeObj.value;
+                crimeTypeBtn.dataset.value = crimeTypeObj.value;
                 crimeTypeSelect.classList.remove("show");
                 populateFullSampleTable();
-                setSelectedClass(crimeTypeSelect, crimeType);
+                setSelectedClass(crimeTypeSelect, crimeTypeObj.value);
             });
+
             crimeTypeSelect.appendChild(option);
         });
 
@@ -47,60 +73,76 @@ document.addEventListener("DOMContentLoaded", function() {
         console.error("Error loading the CSV file:", error);
     });
 
-    function populateFullSampleTable() {
-        const crimeType = crimeTypeBtn.dataset.value || "Murders";
-        let filteredData = allData.filter(d => d.crime_type === crimeType);
-    
-        filteredData = sortTable(filteredData);
-    
-        const tableBody = document.getElementById("full-sample-table-body");
-        tableBody.innerHTML = "";
-    
-        const formatNumber = d3.format(","); // Formatter for numbers with commas
-    
-        filteredData.forEach(d => {
-            const row = tableBody.insertRow();
-            
-            const cell0 = row.insertCell(0);
-            cell0.textContent = d.agency_full;
-            
-            const cell1 = row.insertCell(1); // Add Population column
-            cell1.textContent = formatNumber(d.population);
-            
-            const cell2 = row.insertCell(2);
-            cell2.textContent = d.crime_type;
-            
-            const cell3 = row.insertCell(3);
-            cell3.textContent = formatNumber(d.YTD);
-            
-            const cell4 = row.insertCell(4);
-            cell4.textContent = formatNumber(d.PrevYTD);
-            
-            const cell5 = row.insertCell(5);
-            if (isNaN(d.Percent_Change) || d.Percent_Change === "Undefined") {  
-                cell5.textContent = "Undefined";
-                cell5.style.color = '#f28106';  // Use orange color for undefined indicating a positive situation
-            } else {
-                cell5.textContent = d.Percent_Change.toFixed(1) + '%';
-                if (d.Percent_Change > 0) {
-                    cell5.style.color = '#f28106';  // Positive change
-                } else if (d.Percent_Change < 0) {
-                    cell5.style.color = '#2d5ef9';  // Negative change
-                } else {
-                    cell5.style.color = '#00333a';  // No change
-                }
-            }
-    
-            const cell6 = row.insertCell(6);
+    // Agency Type Dropdown Setup
+    const agencyTypeSelect = document.getElementById("agency-type-dropdown");
+    const agencyTypeBtn = document.getElementById("agency-type-btn");
 
-            const startMonth = "January"; // Replace with the actual start month if it's not fixed
-            const endMonth = d.Month_Through;
-            const dateThrough = new Date(d.Date_Through); // Parse the date string
-            const year = dateThrough.getFullYear(); // Extract the year from the date
+    const agencyTypeOrder = ["Individual Agencies", "National Samples", "State Samples"];
 
-            cell6.textContent = `${abbreviateMonth(startMonth)} - ${abbreviateMonth(endMonth)}`;
+    // Populate agency type dropdown
+    agencyTypeOrder.forEach(type => {
+        const option = document.createElement("div");
+        option.className = "dropdown-item";
+        option.dataset.value = type;
+        option.textContent = type;
+
+        if (type === agencyTypeBtn.dataset.value || type === "Individual Agencies") {
+            option.classList.add("selected");  // Default selection
+            agencyTypeBtn.textContent = type;
+            agencyTypeBtn.dataset.value = type;
+        }
+
+        option.addEventListener('click', () => {
+            agencyTypeBtn.textContent = type;
+            agencyTypeBtn.dataset.value = type;
+            agencyTypeSelect.classList.remove("show");
+            populateFullSampleTable();  // Update table based on filters
+            setSelectedClass(agencyTypeSelect, type);
         });
-    }
+
+        agencyTypeSelect.appendChild(option);
+    });
+
+    // Ensure dropdown toggles
+    toggleDropdown(agencyTypeBtn, agencyTypeSelect);
+
+
+function populateFullSampleTable() {
+    const crimeType = crimeTypeBtn.dataset.value || "Murders";
+    const agencyType = agencyTypeBtn.dataset.value || "Individual Agencies";
+
+    let filteredData = allData.filter(d =>
+        d.crime_type === crimeType && d.type === agencyType
+    );
+
+    filteredData = sortTable(filteredData);
+
+    const tableBody = document.getElementById("full-sample-table-body");
+    tableBody.innerHTML = "";
+
+    const formatNumber = d3.format(",");
+
+    filteredData.forEach(d => {
+        const row = tableBody.insertRow();
+
+        const [agency_name, state_name] = d.agency_full.split(", ").map(s => s.trim());
+
+        row.insertCell(0).textContent = agency_name;
+        row.insertCell(1).textContent = state_name;
+        row.insertCell(2).textContent = isNaN(d.number_of_agencies) ? "Unknown" : formatNumber(d.number_of_agencies);
+        row.insertCell(3).textContent = isNaN(d.population) ? "Unknown" : formatNumber(d.population);
+        row.insertCell(4).textContent = d.crime_type;
+        row.insertCell(5).textContent = formatNumber(d.YTD);
+        row.insertCell(6).textContent = formatNumber(d.PrevYTD);
+
+        const percentChangeCell = row.insertCell(7);
+        percentChangeCell.textContent = isNaN(d.Percent_Change) ? "Undefined" : d.Percent_Change.toFixed(1) + '%';
+        percentChangeCell.style.color = d.Percent_Change > 0 ? '#f28106' : (d.Percent_Change < 0 ? '#2d5ef9' : '#00333a');
+
+        row.insertCell(8).textContent = `Jan - ${abbreviateMonth(d.Month_Through)}`;
+    });
+}
+
 
     // Function to abbreviate month names
     function abbreviateMonth(month) {
@@ -126,10 +168,32 @@ document.addEventListener("DOMContentLoaded", function() {
             let aValue = a[currentSortKey];
             let bValue = b[currentSortKey];
     
+            // Handle sorting for state_name by splitting agency_full
+        if (currentSortKey === "state_name") {
+            const aState = a.agency_full.split(", ")[1]?.trim();
+            const bState = b.agency_full.split(", ")[1]?.trim();
+            return currentSortOrder === "asc" ? aState.localeCompare(bState) : bState.localeCompare(aState);
+        }
+
             if (currentSortKey === "Percent_Change") {
                 if (aValue === "Undefined" || isNaN(aValue)) return 1; // "Undefined" or NaN always at the bottom
                 if (bValue === "Undefined" || isNaN(bValue)) return -1; // "Undefined" or NaN always at the bottom
                 if ((aValue === "Undefined" || isNaN(aValue)) && (bValue === "Undefined" || isNaN(bValue))) return 0;
+            }
+
+            if (currentSortKey === "population") {
+                if (aValue === "Unknown" || isNaN(aValue)) return 1; // "Unknown" or NaN always at the bottom
+                if (bValue === "Unknown" || isNaN(bValue)) return -1; // "Unknown" or NaN always at the bottom
+                if ((aValue === "Unknown" || isNaN(aValue)) && (bValue === "Unknown" || isNaN(bValue))) return 0;
+                return currentSortOrder === "asc" ? aValue - bValue : bValue - aValue;
+            }
+
+            // Handle sorting for number_of_agencies, placing "Unknown" or NaN at the bottom
+            if (currentSortKey === "number_of_agencies") {
+                if (aValue === "Unknown" || isNaN(aValue)) return 1; 
+                if (bValue === "Unknown" || isNaN(bValue)) return -1; 
+                if ((aValue === "Unknown" || isNaN(aValue)) && (bValue === "Unknown" || isNaN(bValue))) return 0;
+                return currentSortOrder === "asc" ? aValue - bValue : bValue - aValue;
             }
     
             if (currentSortKey === "YTD" || currentSortKey === "PrevYTD" || currentSortKey === "Percent_Change" || currentSortKey === "population") { // Add population sorting
@@ -144,6 +208,8 @@ document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll('th span.sortable').forEach((span) => {
             const keyMapping = {
                 "Agency": "agency_full",
+                "State": "state_name",   // Add the new state_name mapping
+                "# of Agencies": "number_of_agencies",
                 "Population Covered": "population", // Add population mapping
                 "YTD": "YTD",
                 "Previous YTD": "PrevYTD",
@@ -224,12 +290,13 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        const headers = ["agency_full", "population", "crime_type", "YTD", "PrevYTD", "Percent_Change", "YTD_Range", "Last Updated"];
+        const headers = ["agency_full", "#_of_agencies", "population", "crime_type", "YTD", "PrevYTD", "Percent_Change", "YTD_Range", "Last Updated"];
         const csvData = [headers.join(",")];
 
         data.forEach(row => {
             const values = [
                 `"${row.agency_full}"`,
+                `${row.number_of_agencies}`, // Add population to download
                 `${row.population}`, // Add population to download
                 `"${row.crime_type}"`,
                 `${row.YTD}`,
@@ -253,10 +320,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("table-download").addEventListener("click", function() {
         const crimeType = crimeTypeBtn.dataset.value || "Murders";
-        let filteredData = allData.filter(d => d.crime_type === crimeType);
+        const agencyType = agencyTypeBtn.dataset.value || "Individual Agencies";
+    
+        let filteredData = allData.filter(d => 
+            d.crime_type === crimeType && d.type === agencyType
+        );
+    
         filteredData = sortTable(filteredData);
-        downloadCSV(filteredData, `${crimeType}_YTD_Report.csv`);
+        downloadCSV(filteredData, `${crimeType}_${agencyType}_YTD_Report.csv`);
     });
+    
+
 
     document.getElementById("by-agency-btn").addEventListener('click', function() {
         navigateTo('by-agency.html');

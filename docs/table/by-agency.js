@@ -148,46 +148,105 @@ document.addEventListener("DOMContentLoaded", function() {
         let agencies = [...new Set(allData.filter(row => row.state_name === state).map(row => row.agency_name))];
     
         if (state === "Nationwide") {
-            // Define the desired sort order for Nationwide agencies
+            // Define the desired sort order for Nationwide population groups
             const nationwideAgencyOrder = [
                 "Full Sample", 
-                "Cities of 1M+", 
-                "Cities of 250K - 1M", 
-                "Cities of 100K - 250K", 
-                "Cities of < 100K"
+                "Agencies of 1M+", 
+                "Agencies of 250K - 1M", 
+                "Agencies of 100K - 250K", 
+                "Agencies of < 100K"
             ];
     
-            // Filter and sort agencies based on the predefined order
+            // Define regional group names
+            const regionNames = ["Midwest", "Northeast", "Other", "South", "West"];
+    
+            // Separate regional agencies from others
+            let regionalAgencies = agencies.filter(agency => regionNames.includes(agency)).sort();
+            agencies = agencies.filter(agency => !regionNames.includes(agency));
+    
+            // Sort agencies based on the custom order
             agencies = agencies.filter(agency => nationwideAgencyOrder.includes(agency))
                                .sort((a, b) => nationwideAgencyOrder.indexOf(a) - nationwideAgencyOrder.indexOf(b));
+    
+            // Insert "Population Groups" after "Full Sample"
+            agencies = agencies.flatMap(agency => 
+                agency === "Full Sample" ? [agency, "Population Groups"] : agency
+            );
+    
+            // If regional agencies exist, insert "Regions" and list them
+            if (regionalAgencies.length > 0) {
+                agencies.push("Regions", ...regionalAgencies);
+            }
+    
         } else {
-            // Sort agencies alphabetically for other states
-            agencies.sort();
+            // For states (not Nationwide)
+    
+            // Handle "Full Sample" first if present
+            const fullSampleIndex = agencies.indexOf("Full Sample");
+            if (fullSampleIndex !== -1) {
+                agencies.splice(fullSampleIndex, 1); // Remove from list to handle first
+            }
+    
+            // Separate cities and counties
+            const cities = agencies.filter(a => !a.includes("County") && !a.includes("Parish")).sort((a, b) => a.localeCompare(b));
+            const counties = agencies.filter(a => a.includes("County") || a.includes("Parish")).sort((a, b) => a.localeCompare(b));
+    
+            // Start fresh and reassemble with subheadings
+            agencies = [];
+    
+            // Add "Full Sample" at the top if it exists
+            if (fullSampleIndex !== -1) {
+                agencies.push("Full Sample");
+            }
+    
+            // Add "Cities" subheading and cities
+            if (cities.length > 0) {
+                agencies.push("Cities", ...cities);
+            }
+    
+            // Add "Counties" subheading and counties
+            if (counties.length > 0) {
+                agencies.push("Counties", ...counties);
+            }
         }
     
+        // Now create the dropdown using the assembled list
         createSearchableDropdown(agencyDropdown, agencyBtn, agencies);
     
         const savedFilters = JSON.parse(sessionStorage.getItem('byAgencyTableFilters'));
         const savedAgency = savedFilters ? savedFilters.agency : null;
     
-        // Default to "Full Sample" if available, otherwise saved agency or first agency
+        // Default to "Full Sample" if available, otherwise saved agency or first available agency
         if (agencies.includes(savedAgency)) {
             agencyBtn.textContent = savedAgency;
         } else if (agencies.length > 0) {
-            agencyBtn.textContent = agencies[0];
+            agencyBtn.textContent = agencies.find(a => !["Population Groups", "Regions", "Cities", "Counties"].includes(a)); // First real option
         } else {
             agencyBtn.textContent = "Agency";
         }
     
-        // Automatically filter the table after setting the agency
+        // Auto-filter after setting agency
         filterData();
     
-        // Ensure only the saved agency is bolded
+        // Ensure only the saved agency is marked as selected
         const items = agencyDropdown.querySelectorAll('.dropdown-item');
         items.forEach(item => item.classList.remove('selected'));
+    
         const agencyOption = agencyDropdown.querySelector(`[data-value="${agencyBtn.textContent}"]`);
         if (agencyOption) agencyOption.classList.add('selected');
+    
+        // Add master-heading class to subheaders and make them non-clickable
+        ["Population Groups", "Regions", "Cities", "Counties"].forEach(subheaderText => {
+            const subheader = agencyDropdown.querySelector(`[data-value="${subheaderText}"]`);
+            if (subheader) {
+                subheader.classList.add('master-heading');
+                subheader.style.pointerEvents = "none";
+            }
+        });
     }
+    
+    
+    
     
 
     function filterData() {

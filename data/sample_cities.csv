@@ -1,296 +1,564 @@
-"city_state","Agency Name","Murder","Rape","Robbery","Aggravated Assault","Burglary","Theft","Motor Vehicle Theft","Year","Month","State","Population","Violent Crime","Property Crime","agency_num"
-"Abilene, TX","Abilene",0,9,1,30,37,127,20,2024,1,"TX",125186,40,184,1
-"Abington, PA","Abington",0,0,1,3,0,58,6,2024,3,"PA",58432,4,64,1
-"Akron, OH","Akron",2,14,11,77,62,355,61,2024,2,"OH",188534,104,478,1
-"Albany, GA","Albany",2,2,16,44,103,192,10,2017,1,"GA",68613,64,305,1
-"Alexandria, VA","Alexandria",0,1,8,11,12,248,25,2024,1,"VA",150957,20,285,1
-"Allen, TX","Allen",0,0,1,2,9,103,4,2017,2,"TX",108135,3,116,1
-"Allentown, PA","Allentown",1,2,7,16,29,165,22,2021,1,"PA",125917,26,216,1
-"Antioch, CA","Antioch",1,4,30,25,56,160,80,2017,1,"CA",114338,60,296,1
-"Apple Valley, MN","Apple Valley",0,2,2,2,10,81,3,2017,10,"MN",55145,6,94,1
-"Arlington, TX","Arlington",0,34,16,144,66,595,152,2024,5,"TX",391591,194,813,1
-"Arvada, CO","Arvada",0,4,11,7,20,203,47,2024,1,"CO",122403,22,270,1
-"Asheville, NC","Asheville",2,NA,13,23,52,171,23,2017,1,"NC",93729,38,246,1
-"Atlanta, GA","Atlanta",12,NA,130,145,317,1224,267,2017,1,"GA",495707,287,1808,1
-"Aurora, CO","Aurora",2,23,43,220,115,686,393,2024,1,"CO",392134,288,1194,1
-"Austin, TX","Austin",2,47,81,171,342,2410,205,2019,1,"TX",965234,301,2957,1
-"Avondale, AZ","Avondale",0,2,4,11,19,152,26,2024,1,"AZ",91467,17,197,1
-"Baltimore, MD","Baltimore",32,31,586,580,736,1453,498,2017,1,"MD",570546,1229,2687,1
-"Baytown, TX","Baytown",3,4,1,29,19,151,33,2024,5,"TX",81477,37,203,1
-"Beaumont, TX","Beaumont",1,8,30,61,71,177,29,2018,2,"TX",110898,100,277,1
-"Bellevue, NE","Bellevue",0,5,2,3,7,56,13,2022,7,"NE",63178,10,76,1
-"Bellingham, WA","Bellingham",0,NA,7,NA,NA,273,17,2017,1,"WA",93014,7,290,1
-"Bend, OR","Bend",0,2,3,5,14,108,7,2024,1,"OR",104649,10,129,1
-"Bensalem, PA","Bensalem",0,0,3,2,7,152,15,2023,2,"PA",62782,5,174,1
-"Bethlehem, PA","Bethlehem",0,6,2,3,13,87,6,2022,1,"PA",75619,11,106,1
-"Blaine, MN","Blaine",0,1,1,5,13,124,3,2017,1,"MN",71368,7,140,1
-"Bloomington, MN","Bloomington",0,10,11,7,18,221,12,2019,5,"MN",88745,28,251,1
-"Blue Springs, MO","Blue Springs",1,2,0,5,10,68,12,2021,2,"MO",60093,8,90,1
-"Boise, ID","Boise",0,14,2,31,18,176,25,2024,1,"ID",239074,47,219,1
-"Bolingbrook, IL","Bolingbrook",0,6,1,1,10,32,8,2024,1,"IL",73364,8,50,1
-"Boston, MA","Boston",7,30,77,248,173,893,109,2021,8,"MA",638925,362,1175,1
-"Boulder, CO","Boulder",0,7,5,14,23,201,17,2019,1,"CO",103099,26,241,1
-"Bridgeport, CT","Bridgeport",0,5,20,32,23,91,39,2024,1,"CT",148395,57,153,1
-"Bristol, CT","Bristol",0,0,2,1,11,62,3,2017,4,"CT",60657,3,76,1
-"Brookline, MA","Brookline",0,0,0,1,6,45,2,2018,2,"MA",62825,1,53,1
-"Brooklyn Park, MN","Brooklyn Park",0,2,7,14,38,201,34,2021,12,"MN",82682,23,273,1
-"Broomfield, CO","Broomfield",0,5,6,3,23,183,26,2021,2,"CO",76137,14,232,1
-"Buckeye, AZ","Buckeye",0,5,2,4,7,64,7,2024,4,"AZ",110002,11,78,1
-"Buffalo, NY","Buffalo",8,15,75,94,165,496,63,2017,1,"NY",275710,192,724,1
-"Burbank, CA","Burbank",0,0,7,13,33,247,27,2017,1,"CA",103516,20,307,1
-"Burleson, TX","Burleson",0,1,1,1,7,52,6,2023,4,"TX",55356,3,65,1
-"Burnsville, MN","Burnsville",0,1,6,10,10,132,9,2020,11,"MN",63361,17,151,1
-"Cambridge, MA","Cambridge",0,2,10,17,22,118,9,2022,2,"MA",117044,29,149,1
-"Canton, OH","Canton",1,12,9,66,49,187,30,2021,1,"OH",70070,88,266,1
-"Carlsbad, CA","Carlsbad",1,2,1,16,24,150,16,2019,3,"CA",115531,20,190,1
-"Casa Grande, AZ","Casa Grande",1,3,3,26,14,103,10,2022,7,"AZ",61271,33,127,1
-"Casper, WY","Casper",0,NA,NA,NA,NA,NA,NA,2017,1,"WY",58543,0,0,1
-"Castle Rock, CO","Castle Rock",0,0,1,0,9,75,4,2023,11,"CO",79102,1,88,1
-"Cedar Park, TX","Cedar Park",0,1,1,7,11,60,4,2018,1,"TX",79353,9,75,1
-"Centennial, CO","Centennial",0,4,5,15,25,183,31,2018,7,"CO",105849,24,239,1
-"Champaign, IL","Champaign",0,7,5,23,38,135,8,2017,2,"IL",89815,35,181,1
-"Chandler, AZ","Chandler",1,10,4,19,31,286,33,2023,2,"AZ",281373,34,350,1
-"Charlotte, NC","Charlotte",9,35,190,182,577,2055,268,2017,1,"NC",955466,416,2900,1
-"Chattanooga, TN","Chattanooga",1,9,47,86,139,584,80,2017,1,"TN",182603,143,803,1
-"Chesapeake, VA","Chesapeake",1,1,5,66,31,244,20,2024,2,"VA",253745,73,295,1
-"Cheyenne, WY","Cheyenne",0,NA,2,NA,19,135,NA,2017,1,"WY",64610,2,154,1
-"Chicago, IL","Chicago",54,226,1075,953,1274,4957,1173,2017,1,"IL",2652124,2308,7404,1
-"Chicopee, MA","Chicopee",1,3,2,14,7,57,9,2024,4,"MA",55265,20,73,1
-"Chula Vista, CA","Chula Vista",0,5,28,46,42,196,58,2019,4,"CA",277976,79,296,1
-"Cincinnati, OH","Cincinnati",7,12,75,144,183,609,125,2020,3,"OH",307761,238,917,1
-"Cleveland, OH","Cleveland",13,33,145,280,258,779,546,2022,11,"OH",363764,471,1583,1
-"Coeur D Alene, ID","Coeur D Alene",0,3,2,4,6,21,3,2022,11,"ID",57061,9,30,1
-"Colerain Township, OH","Colerain Township",0,0,0,1,3,60,8,2021,3,"OH",58548,1,71,1
-"College Station, TX","College Station",0,7,7,7,23,185,8,2018,1,"TX",121618,21,216,1
-"Colorado Springs, CO","Colorado Springs",1,36,51,162,255,662,161,2018,6,"CO",487728,250,1078,1
-"Columbia, MO","Columbia",0,5,9,47,36,255,44,2022,7,"MO",127862,61,335,1
-"Columbus, OH","Columbus",6,NA,NA,NA,NA,NA,NA,2017,1,"OH",907196,6,0,1
-"Commerce City, CO","Commerce City",3,8,5,21,25,134,70,2020,9,"CO",65817,37,229,1
-"Concord, CA","Concord",0,5,9,21,41,250,81,2017,1,"CA",122982,35,372,1
-"Conroe, TX","Conroe",0,4,6,8,17,153,17,2023,12,"TX",98623,18,187,1
-"Coon Rapids, MN","Coon Rapids",0,1,2,15,12,88,4,2019,11,"MN",63181,18,104,1
-"Corpus Christi, TX","Corpus Christi",3,17,40,114,131,740,49,2017,2,"TX",317694,174,920,1
-"Dallas, TX","Dallas",17,39,186,647,552,2293,821,2021,4,"TX",1286121,889,3666,1
-"Danbury, CT","Danbury",0,1,5,5,6,92,7,2017,2,"CT",87164,11,105,1
-"Dayton, OH","Dayton",2,21,20,60,90,214,75,2022,1,"OH",137084,103,379,1
-"Decatur, IL","Decatur",1,0,2,13,24,74,9,2018,1,"IL",68789,16,107,1
-"Denver, CO","Denver",7,40,114,403,446,2086,1266,2023,1,"CO",705264,564,3798,1
-"Desoto, TX","Desoto",0,1,6,8,6,49,20,2024,3,"TX",55956,15,75,1
-"Detroit, MI","Detroit",22,65,229,557,772,1059,739,2017,1,"MI",626757,873,2570,1
-"Dublin, OH","Dublin",0,1,1,0,2,40,0,2017,2,"OH",48799,2,42,1
-"Duluth, MN","Duluth",0,1,5,14,46,239,18,2018,6,"MN",86144,20,303,1
-"Dunwoody, GA","Dunwoody",0,1,0,3,9,138,14,2017,1,"GA",50271,4,161,1
-"Durham, NC","Durham",2,6,111,165,216,562,71,2017,1,"NC",286377,284,849,1
-"Eagan, MN","Eagan",0,0,0,3,2,82,5,2021,4,"MN",68518,3,89,1
-"East Hartford, CT","East Hartford",0,0,0,0,2,11,3,2024,6,"CT",50579,0,16,1
-"Eden Prairie, MN","Eden Prairie",0,0,0,2,8,52,8,2022,7,"MN",62008,2,68,1
-"Edina, MN","Edina",0,1,0,1,13,84,15,2022,6,"MN",53206,2,112,1
-"Edinburg, TX","Edinburg",2,8,7,18,31,208,4,2018,4,"TX",104987,35,243,1
-"El Cajon, CA","El Cajon",0,3,11,34,22,89,23,2023,5,"CA",104693,48,134,1
-"Elyria, OH","Elyria",1,0,3,3,8,34,4,2023,11,"OH",52902,7,46,1
-"Erie, PA","Erie",1,2,7,31,29,135,8,2022,1,"PA",93363,41,172,1
-"Escondido, CA","Escondido",0,1,11,20,13,117,40,2021,4,"CA",150072,32,170,1
-"Euclid, OH","Euclid",0,3,2,8,4,58,33,2024,4,"OH",48344,13,95,1
-"Eugene, OR","Eugene",1,11,19,31,62,362,33,2018,6,"OR",175390,62,457,1
-"Euless, TX","Euless",0,4,2,5,19,84,10,2024,4,"TX",59901,11,113,1
-"Evanston, IL","Evanston",0,0,4,9,28,105,7,2018,3,"IL",76259,13,140,1
-"Fairfield, CT","Fairfield",0,0,0,1,7,76,4,2020,3,"CT",62270,1,87,1
-"Fayetteville, NC","Fayetteville",2,NA,26,79,177,550,32,2017,1,"NC",208980,107,759,1
-"Flower Mound, TX","Flower Mound",0,1,1,2,4,55,3,2019,1,"TX",78167,4,62,1
-"Fort Collins, CO","Fort Collins",0,3,6,35,35,265,38,2023,1,"CO",168045,44,338,1
-"Fort Wayne, IN","Fort Wayne",3,8,30,24,141,534,38,2017,1,"IN",267791,65,713,1
-"Fort Worth, TX","Fort Worth",5,55,104,224,490,1835,247,2017,10,"TX",948605,388,2572,1
-"Frisco, TX","Frisco",1,2,1,8,35,204,10,2017,6,"TX",218962,12,249,1
-"Galveston, TX","Galveston",0,9,7,13,11,88,12,2024,5,"TX",52920,29,111,1
-"Garland, TX","Garland",4,9,27,19,94,299,66,2018,1,"TX",241095,59,459,1
-"Georgetown, TX","Georgetown",0,2,0,6,9,48,3,2019,1,"TX",83371,8,60,1
-"Gilbert, AZ","Gilbert",0,4,1,19,26,212,17,2022,7,"AZ",277123,24,255,1
-"Glendale, AZ","Glendale",0,7,17,97,70,438,99,2023,3,"AZ",250466,121,607,1
-"Glendale, CA","Glendale",0,2,9,18,61,208,32,2017,1,"CA",188599,29,301,1
-"Goodyear, AZ","Goodyear",0,1,5,15,30,118,12,2022,3,"AZ",107212,21,160,1
-"Grand Island, NE","Grand Island",0,0,0,10,5,44,5,2021,1,"NE",51733,10,54,1
-"Grand Junction, CO","Grand Junction",0,6,2,24,30,186,11,2017,1,"CO",68126,32,227,1
-"Grand Prairie, TX","Grand Prairie",4,6,17,18,40,221,35,2019,2,"TX",199663,45,296,1
-"Grand Rapids, MI","Grand Rapids",1,11,16,89,41,289,82,2017,1,"MI",196662,117,412,1
-"Grapevine, TX","Grapevine",0,2,0,2,14,114,11,2022,5,"TX",50988,4,139,1
-"Green Township, OH","Green Township",0,0,3,0,3,42,0,2021,4,"OH",59568,3,45,1
-"Greensboro, NC","Greensboro",2,6,43,112,192,571,47,2017,1,"NC",298719,163,810,1
-"Gresham, OR","Gresham",0,7,10,24,72,229,127,2018,1,"OR",111590,41,428,1
-"Hampton, VA","Hampton",2,2,6,12,22,294,27,2022,8,"VA",138843,22,343,1
-"Harlingen, TX","Harlingen",0,5,3,10,18,134,9,2018,1,"TX",72047,18,161,1
-"Harrisburg, PA","Harrisburg",2,3,4,19,7,38,18,2024,2,"PA",50201,28,63,1
-"Harrisonburg, VA","Harrisonburg",0,3,1,3,6,81,7,2023,4,"VA",51363,7,94,1
-"Haverhill, MA","Haverhill",0,1,0,19,10,39,5,2019,1,"MA",67359,20,54,1
-"Henderson, NV","Henderson",0,8,21,55,90,375,68,2022,7,"NV",325332,84,533,1
-"Hillsboro, OR","Hillsboro",1,4,2,14,28,182,52,2022,1,"OR",106345,21,262,1
-"Honolulu, HI","Honolulu",4,NA,78,82,252,1782,332,2017,1,"HI",994799,164,2366,1
-"Houston, TX","Houston",27,111,683,1496,1175,5387,1052,2020,3,"TX",2276533,2317,7614,1
-"Idaho Falls, ID","Idaho Falls",0,5,0,14,24,51,14,2023,4,"ID",68162,19,89,1
-"Independence, MO","Independence",0,16,10,54,53,307,106,2022,6,"MO",121255,80,466,1
-"Indianapolis, IN","Indianapolis",13,66,117,357,361,1626,625,2023,11,"IN",886455,553,2612,1
-"Irving, TX","Irving",0,9,17,21,34,411,86,2020,12,"TX",254141,47,531,1
-"Jackson, MI","Jackson",0,3,1,18,23,65,7,2017,3,"MI",31206,22,95,1
-"Joplin, MO","Joplin",0,6,3,18,20,181,29,2024,6,"MO",51989,27,230,1
-"Kansas City, MO","Kansas City",7,33,83,505,236,1286,525,2022,6,"MO",508856,628,2047,1
-"Killeen, TX","Killeen",1,13,9,76,39,148,37,2022,1,"TX",159546,99,224,1
-"Knoxville, TN","Knoxville",2,15,26,96,77,510,111,2020,11,"TN",194724,139,698,1
-"Kyle, TX","Kyle",0,1,1,6,7,43,11,2022,2,"TX",57724,8,61,1
-"La Mesa, CA","La Mesa",1,2,5,2,16,70,18,2021,9,"CA",60333,10,104,1
-"Lake Havasu City, AZ","Lake Havasu City",1,1,0,5,12,41,1,2019,8,"AZ",59166,7,54,1
-"Lakeville, MN","Lakeville",0,2,0,1,2,36,3,2021,1,"MN",75548,3,41,1
-"Lancaster, PA","Lancaster",0,0,5,16,7,54,8,2022,1,"PA",57295,21,69,1
-"Laredo, TX","Laredo",0,9,15,37,31,270,34,2022,1,"TX",256973,61,335,1
-"Las Vegas, NV","Las Vegas",9,NA,106,465,761,2162,663,2020,12,"NV",1667961,580,3586,1
-"League City, TX","League City",0,2,1,3,12,78,12,2018,2,"TX",116511,6,102,1
-"Leander, TX","Leander",0,0,1,1,3,47,1,2018,1,"TX",73905,2,51,1
-"Lee's Summit, MO","Lee's Summit",2,2,0,21,19,192,33,2022,6,"MO",103976,25,244,1
-"Lewisville, TX","Lewisville",0,2,1,7,29,167,15,2018,3,"TX",113568,10,211,1
-"Lexington, KY","Lexington",0,14,22,25,72,526,113,2023,11,"KY",320983,61,711,1
-"Lincoln, NE","Lincoln",1,17,15,46,50,574,77,2023,8,"NE",293937,79,701,1
-"Little Elm, TX","Little Elm",1,5,1,10,2,14,3,2023,2,"TX",55340,17,19,1
-"Little Rock, AR","Little Rock",7,15,29,235,170,822,93,2017,3,"AR",201513,286,1085,1
-"Long Beach, CA","Long Beach",2,29,59,131,181,671,270,2020,11,"CA",447528,221,1122,1
-"Longmont, CO","Longmont",0,8,2,16,28,130,28,2020,2,"CO",101159,26,186,1
-"Longview, TX","Longview",0,2,12,10,33,161,27,2017,6,"TX",81811,24,221,1
-"Lorain, OH","Lorain",0,0,1,22,12,56,10,2023,2,"OH",65536,23,78,1
-"Los Angeles, CA","Los Angeles",39,NA,NA,NA,NA,NA,NA,2020,12,"CA",3809182,39,0,1
-"Louisville, KY","Louisville",9,19,106,274,291,1201,553,2023,12,"KY",677554,408,2045,1
-"Lower Merion, PA","Lower Merion",0,0,3,0,4,79,11,2023,9,"PA",64642,3,94,1
-"Lower Paxton, PA","Lower Paxton",0,3,0,5,4,44,2,2019,1,"PA",54552,8,50,1
-"Lubbock, TX","Lubbock",1,17,33,184,162,715,73,2020,2,"TX",264142,235,950,1
-"Lynchburg, VA","Lynchburg",0,3,0,15,11,94,18,2023,8,"VA",79421,18,123,1
-"Lynn, MA","Lynn",0,9,5,37,21,74,9,2024,1,"MA",101056,51,104,1
-"Manchester, NH","Manchester",0,4,19,41,43,243,10,2017,6,"NH",114650,64,296,1
-"Mansfield, TX","Mansfield",0,0,1,2,12,43,4,2017,1,"TX",75993,3,59,1
-"Maple Grove, MN","Maple Grove",0,3,2,3,7,95,1,2021,6,"MN",70935,8,103,1
-"Marana, AZ","Marana",0,1,0,2,9,75,5,2020,9,"AZ",57119,3,89,1
-"McAllen, TX","McAllen",0,3,1,13,5,199,3,2021,3,"TX",145510,17,207,1
-"Mckinney, TX","Mckinney",2,6,4,12,20,144,17,2021,1,"TX",208415,24,181,1
-"Memphis, TN","Memphis",16,28,149,1015,353,1851,358,2021,3,"TN",624944,1208,2562,1
-"Meridian, ID","Meridian",0,1,0,14,5,47,9,2021,8,"ID",132522,15,61,1
-"Mesa, AZ","Mesa",3,26,22,110,110,728,95,2022,3,"AZ",513116,161,933,1
-"Mesquite, TX","Mesquite",0,5,13,25,31,210,57,2021,2,"TX",147226,43,298,1
-"Miami Beach, FL","Miami Beach",0,2,10,18,52,369,51,2023,11,"FL",89017,30,472,1
-"Middletown, OH","Middletown",1,1,1,7,15,88,14,2021,2,"OH",50970,10,117,1
-"Midland, TX","Midland",0,3,3,21,18,140,18,2018,2,"TX",129945,27,176,1
-"Milford, CT","Milford",0,0,2,1,5,46,2,2017,4,"CT",52694,3,53,1
-"Milwaukee, WI","Milwaukee",15,NA,NA,NA,NA,NA,NA,2017,6,"WI",561743,15,0,1
-"Minneapolis, MN","Minneapolis",4,26,122,220,181,855,566,2024,1,"MN",421690,372,1602,1
-"Minnetonka, MN","Minnetonka",0,0,0,0,9,65,4,2021,3,"MN",52309,0,78,1
-"Mission, TX","Mission",0,2,2,2,9,124,2,2018,2,"TX",86577,6,135,1
-"Missouri City, TX","Missouri City",0,1,2,4,10,27,3,2019,1,"TX",75323,7,40,1
-"Moline, IL","Moline",1,1,0,11,18,48,14,2024,2,"IL",42009,13,80,1
-"Mount Vernon, NY","Mount Vernon",0,2,9,21,11,102,7,2017,10,"NY",71690,32,120,1
-"Nashville, TN","Nashville",12,NA,116,572,270,1645,239,2020,6,"TN",679562,700,2154,1
-"National City, CA","National City",0,2,6,27,17,74,31,2021,4,"CA",55676,35,122,1
-"New Bedford, MA","New Bedford",1,11,7,34,22,79,34,2023,6,"MA",101402,53,135,1
-"New Braunfels, TX","New Braunfels",0,0,3,21,15,50,6,2019,1,"TX",107017,24,71,1
-"New Orleans, LA","New Orleans",22,34,49,116,126,832,563,2023,11,"LA",370128,221,1521,1
-"New York City, NY","New York City",43,119,973,2038,1826,2366,701,2020,6,"NY",8236567,3173,4893,1
-"Newark, NJ","Newark",3,11,39,66,41,171,179,2024,2,"NJ",304311,119,391,1
-"Newark, OH","Newark",0,3,2,9,16,66,6,2023,2,"OH",50818,14,88,1
-"Newport News, VA","Newport News",5,5,24,119,37,321,65,2023,6,"VA",183903,153,423,1
-"Norfolk, VA","Norfolk",1,12,23,90,45,620,133,2023,3,"VA",233419,126,798,1
-"Normal, IL","Normal",1,2,1,7,10,84,1,2017,5,"IL",53613,11,95,1
-"North Bergen Township, NJ","North Bergen Township",0,0,4,3,4,19,5,2017,11,"NJ",58378,7,28,1
-"North Las Vegas, NV","North Las Vegas",5,6,29,42,43,199,113,2021,1,"NV",284422,82,355,1
-"North Richland Hills, TX","North Richland Hills",0,0,1,3,15,83,8,2018,1,"TX",70108,4,106,1
-"O'Fallon, MO","O'Fallon",0,2,0,2,12,58,5,2019,2,"MO",95689,4,75,1
-"Oak Lawn, IL","Oak Lawn",0,2,1,0,5,50,9,2021,10,"IL",55957,3,64,1
-"Oceanside, CA","Oceanside",1,4,12,67,38,195,45,2022,12,"CA",171844,84,278,1
-"Odessa, TX","Odessa",1,3,5,37,25,143,30,2022,8,"TX",110163,46,198,1
-"Omaha, NE","Omaha",1,23,25,115,97,805,283,2023,2,"NE",483462,164,1185,1
-"Parker, CO","Parker",0,1,0,1,21,101,12,2023,3,"CO",61865,2,134,1
-"Pasadena, TX","Pasadena",3,9,11,57,48,230,49,2022,8,"TX",145954,80,327,1
-"Pawtucket, RI","Pawtucket",1,4,9,21,38,68,25,2017,11,"RI",74967,35,131,1
-"Pearland, TX","Pearland",1,3,1,9,26,158,8,2017,1,"TX",125894,14,192,1
-"Pflugerville, TX","Pflugerville",0,4,2,5,10,79,2,2017,1,"TX",67817,11,91,1
-"Pharr, TX","Pharr",0,5,2,10,11,83,6,2022,4,"TX",79558,17,100,1
-"Philadelphia, PA","Philadelphia",40,81,395,790,503,3568,859,2022,3,"PA",1555812,1306,4930,1
-"Phoenix, AZ","Phoenix",7,76,159,547,397,2347,525,2024,3,"AZ",1637902,789,3269,1
-"Pittsburgh, PA","Pittsburgh",6,NA,NA,NA,NA,NA,NA,2024,6,"PA",303137,6,0,1
-"Plano, TX","Plano",0,9,17,28,74,318,46,2018,1,"TX",289847,54,438,1
-"Plymouth, MN","Plymouth",0,1,0,0,32,64,6,2018,7,"MN",78585,1,102,1
-"Pocatello, ID","Pocatello",0,0,0,4,9,92,18,2021,2,"ID",57914,4,119,1
-"Port Arthur, TX","Port Arthur",0,4,2,12,31,54,14,2019,1,"TX",55899,18,99,1
-"Portland, OR","Portland",1,14,100,120,332,1645,660,2017,2,"OR",630129,235,2637,1
-"Pueblo, CO","Pueblo",1,1,33,91,87,409,134,2022,3,"CO",112618,126,630,1
-"Quincy, MA","Quincy",0,6,11,16,28,112,9,2017,1,"MA",101434,33,149,1
-"Raleigh, NC","Raleigh",1,16,48,85,101,671,90,2020,11,"NC",470829,150,862,1
-"Reading, PA","Reading",2,5,9,26,17,53,7,2021,2,"PA",97698,42,77,1
-"Redlands, CA","Redlands",0,0,5,12,13,127,26,2024,3,"CA",73554,17,166,1
-"Reno, NV","Reno",4,23,43,94,103,488,131,2023,8,"NV",273671,164,722,1
-"Revere, MA","Revere",0,0,3,10,12,48,4,2017,2,"MA",56961,13,64,1
-"Richardson, TX","Richardson",0,2,6,6,22,118,30,2019,2,"TX",115771,14,170,1
-"Richmond, CA","Richmond",1,3,24,63,26,127,115,2020,11,"CA",115043,91,268,1
-"Richmond, VA","Richmond",3,5,24,35,54,550,147,2024,3,"VA",227323,67,751,1
-"Riverside, CA","Riverside",0,NA,30,93,90,488,110,2024,6,"CA",319889,123,688,1
-"Roanoke, VA","Roanoke",0,6,10,30,27,217,25,2024,4,"VA",98204,46,269,1
-"Rochester, MN","Rochester",0,4,2,11,26,138,12,2021,5,"MN",121534,17,176,1
-"Rochester, NY","Rochester",1,NA,43,43,94,NA,43,2017,3,"NY",210270,87,137,1
-"Rockford, IL","Rockford",0,11,33,137,117,342,41,2018,6,"IL",146710,181,500,1
-"Rockwall, TX","Rockwall",0,2,1,3,6,41,4,2019,3,"TX",51724,6,51,1
-"Round Rock, TX","Round Rock",0,3,8,10,20,180,5,2019,1,"TX",127349,21,205,1
-"Rowlett, TX","Rowlett",0,2,0,5,3,53,6,2024,2,"TX",65196,7,62,1
-"Salem, OR","Salem",0,0,10,42,68,436,101,2020,12,"OR",179661,52,605,1
-"Salt Lake City, UT","Salt Lake City",4,25,47,101,147,1000,249,2020,11,"UT",201373,177,1396,1
-"San Angelo, TX","San Angelo",0,2,3,12,22,139,6,2024,3,"TX",99243,17,167,1
-"San Antonio, TX","San Antonio",8,NA,153,521,871,3835,491,2018,1,"TX",1465608,682,5197,1
-"San Diego, CA","San Diego",1,32,91,290,250,1404,536,2022,12,"CA",1377838,414,2190,1
-"San Francisco, CA","San Francisco",3,11,166,215,536,1441,557,2024,7,"CA",764693,395,2534,1
-"San Marcos, TX","San Marcos",0,7,0,14,33,87,9,2018,3,"TX",69470,21,129,1
-"Schaumburg, IL","Schaumburg",0,3,3,5,13,132,11,2024,7,"IL",75745,11,156,1
-"Scottsdale, AZ","Scottsdale",1,6,2,21,50,359,20,2023,1,"AZ",243576,30,429,1
-"Scranton, PA","Scranton",0,3,4,8,15,42,7,2021,2,"PA",75798,15,64,1
-"Seattle, WA","Seattle",2,33,114,181,673,2312,310,2017,1,"WA",729691,330,3295,1
-"Skokie, IL","Skokie",0,1,4,10,20,127,6,2018,8,"IL",65185,15,153,1
-"South Bend, IN","South Bend",0,5,42,29,126,248,52,2017,1,"IN",103179,76,426,1
-"Southaven, MS","Southaven",3,2,4,2,22,126,3,2017,1,"MS",56092,11,151,1
-"Sparks, NV","Sparks",0,10,5,20,21,118,35,2023,2,"NV",110475,35,174,1
-"Springfield, IL","Springfield",1,8,15,48,91,304,29,2019,4,"IL",112549,72,424,1
-"Springfield, MA","Springfield",0,2,17,82,44,174,34,2021,1,"MA",155046,101,252,1
-"Springfield, MO","Springfield",1,22,35,191,117,617,135,2021,6,"MO",169822,249,869,1
-"Springfield, OH","Springfield",1,5,8,49,55,166,25,2022,3,"OH",58725,63,246,1
-"Springfield, OR","Springfield",1,3,3,6,34,164,12,2018,1,"OR",62217,13,210,1
-"St Charles, MO","St Charles",0,3,2,20,9,75,8,2020,2,"MO",71079,25,92,1
-"St Joseph, MO","St Joseph",0,7,4,25,41,209,46,2021,9,"MO",70918,36,296,1
-"St Louis, MO","St Louis",11,19,65,243,145,1024,725,2023,1,"MO",286053,338,1894,1
-"St Peters, MO","St Peters",0,1,0,8,2,71,5,2023,1,"MO",58584,9,78,1
-"St. Cloud, MN","St. Cloud",0,4,5,11,21,227,19,2022,8,"MN",68925,20,267,1
-"St. Paul, MN","St. Paul",4,15,23,110,111,537,212,2022,12,"MN",277533,152,860,1
-"Stamford, CT","Stamford",0,0,5,15,22,120,18,2017,2,"CT",136936,20,160,1
-"State College, PA","State College",0,3,0,4,2,34,0,2022,2,"PA",55998,7,36,1
-"Stockton, CA","Stockton",0,7,73,222,201,622,192,2017,1,"CA",323501,302,1015,1
-"Stratford, CT","Stratford",0,1,1,2,19,60,10,2018,12,"CT",52320,4,89,1
-"Suffolk, VA","Suffolk",1,4,8,29,8,124,13,2023,6,"VA",98065,42,145,1
-"Sugar Land, TX","Sugar Land",0,0,3,1,24,136,4,2019,1,"TX",107989,4,164,1
-"Surprise, AZ","Surprise",0,4,1,6,13,119,11,2021,2,"AZ",154128,11,143,1
-"Tacoma, WA","Tacoma",3,NA,30,87,169,799,210,2017,1,"WA",219027,120,1178,1
-"Taunton, MA","Taunton",0,1,1,7,7,8,1,2021,1,"MA",60062,9,16,1
-"Tempe, AZ","Tempe",1,18,28,53,64,484,56,2021,3,"AZ",187473,100,604,1
-"Temple, TX","Temple",0,4,5,2,17,134,22,2017,3,"TX",88484,11,173,1
-"Texas City, TX","Texas City",1,7,6,13,20,75,8,2018,5,"TX",56311,27,103,1
-"Thornton, CO","Thornton",0,6,7,14,22,330,133,2022,2,"CO",143055,27,485,1
-"Tigard, OR","Tigard",0,4,5,0,19,127,8,2018,3,"OR",56550,9,154,1
-"Tinley Park, IL","Tinley Park",0,4,5,0,2,46,5,2021,7,"IL",53973,9,53,1
-"Tracy, CA","Tracy",0,2,7,8,31,166,34,2017,1,"CA",97219,17,231,1
-"Tucson, AZ","Tucson",3,48,124,185,399,1671,141,2017,1,"AZ",544629,360,2211,1
-"Twin Falls, ID","Twin Falls",0,4,3,10,7,92,1,2023,8,"ID",54648,17,100,1
-"Tyler, TX","Tyler",0,11,5,17,21,139,14,2024,6,"TX",108422,33,174,1
-"Upper Darby, PA","Upper Darby",2,3,13,5,15,129,23,2023,1,"PA",84407,23,167,1
-"Vallejo, CA","Vallejo",1,9,33,45,213,100,95,2017,1,"CA",123940,88,408,1
-"Victoria, TX","Victoria",0,3,7,16,29,134,7,2021,1,"TX",65165,26,170,1
-"Virginia Beach, VA","Virginia Beach",0,3,14,11,29,583,46,2023,5,"VA",457556,28,658,1
-"Waco, TX","Waco",0,8,15,43,69,281,38,2021,1,"TX",140911,66,388,1
-"Waltham, MA","Waltham",0,0,0,4,5,36,4,2020,1,"MA",63525,4,45,1
-"Warwick, RI","Warwick",0,0,0,2,3,65,4,2024,2,"RI",82966,2,72,1
-"Washington, DC","Washington",8,22,212,184,153,2273,169,2017,1,"DC",671803,426,2595,1
-"Waterbury, CT","Waterbury",0,1,11,13,15,143,46,2021,2,"CT",113464,25,204,1
-"West Hartford, CT","West Hartford",0,0,1,0,13,105,2,2022,3,"CT",63934,1,120,1
-"West Haven, CT","West Haven",0,3,4,1,14,84,10,2018,12,"CT",55133,8,108,1
-"Westminster, CO","Westminster",3,2,6,10,32,191,55,2024,6,"CO",112844,21,278,1
-"Weymouth, MA","Weymouth",0,2,1,12,2,36,2,2018,1,"MA",58231,15,40,1
-"Woodbury, MN","Woodbury",0,2,0,0,10,97,3,2019,3,"MN",78531,2,110,1
-"Wylie, TX","Wylie",0,1,0,1,2,17,1,2021,1,"TX",60910,2,20,1
-"York, PA","York",0,2,6,21,9,59,20,2023,1,"PA",44901,29,88,1
-"Yuma, AZ","Yuma",0,0,3,29,42,71,21,2023,3,"AZ",98164,32,134,1
+"city_state_id","city_state","Agency Name","State","date","Agency_Type"
+"Abington,PA,City","Abington,PA","Abington","PA","jul_25","City"
+"Ada,ID,County","Ada,ID","Ada","ID","jul_25","County"
+"Aiken,SC,County","Aiken,SC","Aiken","SC","jul_25","County"
+"Alameda,CA,City","Alameda,CA","Alameda","CA","jul_25","City"
+"Alameda,CA,County","Alameda,CA","Alameda","CA","jul_25","County"
+"Albany,GA,City","Albany,GA","Albany","GA","jul_25","City"
+"Albany,NY,City","Albany,NY","Albany","NY","jul_25","City"
+"Albemarle,VA,County","Albemarle,VA","Albemarle","VA","jul_25","County"
+"Albuquerque,NM,City","Albuquerque,NM","Albuquerque","NM","jul_25","City"
+"Aliso Viejo,CA,City","Aliso Viejo,CA","Aliso Viejo","CA","jul_25","City"
+"Allen,TX,City","Allen,TX","Allen","TX","jul_25","City"
+"Allentown,PA,City","Allentown,PA","Allentown","PA","jul_25","City"
+"Amarillo,TX,City","Amarillo,TX","Amarillo","TX","jul_25","City"
+"Ames,IA,City","Ames,IA","Ames","IA","jul_25","City"
+"Anaheim,CA,City","Anaheim,CA","Anaheim","CA","jul_25","City"
+"Ankeny,IA,City","Ankeny,IA","Ankeny","IA","jul_25","City"
+"Ann Arbor,MI,City","Ann Arbor,MI","Ann Arbor","MI","jul_25","City"
+"Antioch,CA,City","Antioch,CA","Antioch","CA","jul_25","City"
+"Apple Valley,MN,City","Apple Valley,MN","Apple Valley","MN","jul_25","City"
+"Arapahoe,CO,County","Arapahoe,CO","Arapahoe","CO","jul_25","County"
+"Arcadia,CA,City","Arcadia,CA","Arcadia","CA","jul_25","City"
+"Arlington Heights,IL,City","Arlington Heights,IL","Arlington Heights","IL","jul_25","City"
+"Arlington,TX,City","Arlington,TX","Arlington","TX","jul_25","City"
+"Arlington,VA,County","Arlington,VA","Arlington","VA","jul_25","County"
+"Arvada,CO,City","Arvada,CO","Arvada","CO","jul_25","City"
+"Asheville,NC,City","Asheville,NC","Asheville","NC","jul_25","City"
+"Atlanta,GA,City","Atlanta,GA","Atlanta","GA","jul_25","City"
+"Aurora,CO,City","Aurora,CO","Aurora","CO","jul_25","City"
+"Austin,TX,City","Austin,TX","Austin","TX","jul_25","City"
+"Avondale,AZ,City","Avondale,AZ","Avondale","AZ","jul_25","City"
+"Bakersfield,CA,City","Bakersfield,CA","Bakersfield","CA","jul_25","City"
+"Baldwin Park,CA,City","Baldwin Park,CA","Baldwin Park","CA","jul_25","City"
+"Baltimore,MD,City","Baltimore,MD","Baltimore","MD","jul_25","City"
+"Baltimore,MD,County","Baltimore,MD","Baltimore","MD","jul_25","County"
+"Bartlett,TN,City","Bartlett,TN","Bartlett","TN","jul_25","City"
+"Battle Creek,MI,City","Battle Creek,MI","Battle Creek","MI","jul_25","City"
+"Baytown,TX,City","Baytown,TX","Baytown","TX","jul_25","City"
+"Beaumont,CA,City","Beaumont,CA","Beaumont","CA","jul_25","City"
+"Beaumont,TX,City","Beaumont,TX","Beaumont","TX","jul_25","City"
+"Beaverton,OR,City","Beaverton,OR","Beaverton","OR","jul_25","City"
+"Bellevue,NE,City","Bellevue,NE","Bellevue","NE","jul_25","City"
+"Bellingham,WA,City","Bellingham,WA","Bellingham","WA","jul_25","City"
+"Bend,OR,City","Bend,OR","Bend","OR","jul_25","City"
+"Bentonville,AR,City","Bentonville,AR","Bentonville","AR","jul_25","City"
+"Berkeley,CA,City","Berkeley,CA","Berkeley","CA","jul_25","City"
+"Berkeley,SC,County","Berkeley,SC","Berkeley","SC","jul_25","County"
+"Birmingham,AL,City","Birmingham,AL","Birmingham","AL","jul_25","City"
+"Bismarck,ND,City","Bismarck,ND","Bismarck","ND","jul_25","City"
+"Blaine,MN,City","Blaine,MN","Blaine","MN","jul_25","City"
+"Bloomfield,NJ,City","Bloomfield,NJ","Bloomfield","NJ","jul_25","City"
+"Bloomington,MN,City","Bloomington,MN","Bloomington","MN","jul_25","City"
+"Blue Springs,MO,City","Blue Springs,MO","Blue Springs","MO","jul_25","City"
+"Bolingbrook,IL,City","Bolingbrook,IL","Bolingbrook","IL","jul_25","City"
+"Boone,KY,County","Boone,KY","Boone","KY","jul_25","County"
+"Bossier City,LA,City","Bossier City,LA","Bossier City","LA","jul_25","City"
+"Boston,MA,City","Boston,MA","Boston","MA","jul_25","City"
+"Boulder,CO,City","Boulder,CO","Boulder","CO","jul_25","City"
+"Bowie,MD,City","Bowie,MD","Bowie","MD","jul_25","City"
+"Bowling Green,KY,City","Bowling Green,KY","Bowling Green","KY","jul_25","City"
+"Brazoria,TX,County","Brazoria,TX","Brazoria","TX","jul_25","County"
+"Brentwood,CA,City","Brentwood,CA","Brentwood","CA","jul_25","City"
+"Bridgeport,CT,City","Bridgeport,CT","Bridgeport","CT","jul_25","City"
+"Bristol,CT,City","Bristol,CT","Bristol","CT","jul_25","City"
+"Brockton,MA,City","Brockton,MA","Brockton","MA","jul_25","City"
+"Broken Arrow,OK,City","Broken Arrow,OK","Broken Arrow","OK","jul_25","City"
+"Brooklyn Park,MN,City","Brooklyn Park,MN","Brooklyn Park","MN","jul_25","City"
+"Broomfield,CO,City","Broomfield,CO","Broomfield","CO","jul_25","City"
+"Brownsville,TX,City","Brownsville,TX","Brownsville","TX","jul_25","City"
+"Buckeye,AZ,City","Buckeye,AZ","Buckeye","AZ","jul_25","City"
+"Buena Park,CA,City","Buena Park,CA","Buena Park","CA","jul_25","City"
+"Buffalo,NY,City","Buffalo,NY","Buffalo","NY","jul_25","City"
+"Buncombe,NC,County","Buncombe,NC","Buncombe","NC","jul_25","County"
+"Burbank,CA,City","Burbank,CA","Burbank","CA","jul_25","City"
+"Burleson,TX,City","Burleson,TX","Burleson","TX","jul_25","City"
+"Burlington,NC,City","Burlington,NC","Burlington","NC","jul_25","City"
+"Burlington,VT,City","Burlington,VT","Burlington","VT","jul_25","City"
+"Burnsville,MN,City","Burnsville,MN","Burnsville","MN","jul_25","City"
+"Camarillo,CA,City","Camarillo,CA","Camarillo","CA","jul_25","City"
+"Cambridge,MA,City","Cambridge,MA","Cambridge","MA","jul_25","City"
+"Canton Township,MI,City","Canton Township,MI","Canton Township","MI","jul_25","City"
+"Canton,OH,City","Canton,OH","Canton","OH","jul_25","City"
+"Carlsbad,CA,City","Carlsbad,CA","Carlsbad","CA","jul_25","City"
+"Carmel,IN,City","Carmel,IN","Carmel","IN","jul_25","City"
+"Carrollton,TX,City","Carrollton,TX","Carrollton","TX","jul_25","City"
+"Cary,NC,City","Cary,NC","Cary","NC","jul_25","City"
+"Casa Grande,AZ,City","Casa Grande,AZ","Casa Grande","AZ","jul_25","City"
+"Castle Rock,CO,City","Castle Rock,CO","Castle Rock","CO","jul_25","City"
+"Cedar Park,TX,City","Cedar Park,TX","Cedar Park","TX","jul_25","City"
+"Cedar Rapids,IA,City","Cedar Rapids,IA","Cedar Rapids","IA","jul_25","City"
+"Centennial,CO,City","Centennial,CO","Centennial","CO","jul_25","City"
+"Champaign,IL,City","Champaign,IL","Champaign","IL","jul_25","City"
+"Chapel Hill,NC,City","Chapel Hill,NC","Chapel Hill","NC","jul_25","City"
+"Charleston,SC,City","Charleston,SC","Charleston","SC","jul_25","City"
+"Charlotte,NC,City","Charlotte,NC","Charlotte","NC","jul_25","City"
+"Chattanooga,TN,City","Chattanooga,TN","Chattanooga","TN","jul_25","City"
+"Cherry Hill Township,NJ,City","Cherry Hill Township,NJ","Cherry Hill Township","NJ","jul_25","City"
+"Chesapeake,VA,City","Chesapeake,VA","Chesapeake","VA","jul_25","City"
+"Chesterfield,VA,County","Chesterfield,VA","Chesterfield","VA","jul_25","County"
+"Cheyenne,WY,City","Cheyenne,WY","Cheyenne","WY","jul_25","City"
+"Chicago,IL,City","Chicago,IL","Chicago","IL","jul_25","City"
+"Chico,CA,City","Chico,CA","Chico","CA","jul_25","City"
+"Chicopee,MA,City","Chicopee,MA","Chicopee","MA","jul_25","City"
+"Chino,CA,City","Chino,CA","Chino","CA","jul_25","City"
+"Chula Vista,CA,City","Chula Vista,CA","Chula Vista","CA","jul_25","City"
+"Cincinnati,OH,City","Cincinnati,OH","Cincinnati","OH","jul_25","City"
+"Citrus Heights,CA,City","Citrus Heights,CA","Citrus Heights","CA","jul_25","City"
+"Cleveland,OH,City","Cleveland,OH","Cleveland","OH","jul_25","City"
+"Clifton,NJ,City","Clifton,NJ","Clifton","NJ","jul_25","City"
+"Clovis,CA,City","Clovis,CA","Clovis","CA","jul_25","City"
+"Coeur D Alene,ID,City","Coeur D Alene,ID","Coeur D Alene","ID","jul_25","City"
+"Colerain Township,OH,City","Colerain Township,OH","Colerain Township","OH","jul_25","City"
+"College Station,TX,City","College Station,TX","College Station","TX","jul_25","City"
+"Collierville,TN,City","Collierville,TN","Collierville","TN","jul_25","City"
+"Colorado Springs,CO,City","Colorado Springs,CO","Colorado Springs","CO","jul_25","City"
+"Columbia,MO,City","Columbia,MO","Columbia","MO","jul_25","City"
+"Columbus,OH,City","Columbus,OH","Columbus","OH","jul_25","City"
+"Commerce City,CO,City","Commerce City,CO","Commerce City","CO","jul_25","City"
+"Concord,NC,City","Concord,NC","Concord","NC","jul_25","City"
+"Conroe,TX,City","Conroe,TX","Conroe","TX","jul_25","City"
+"Conway,AR,City","Conway,AR","Conway","AR","jul_25","City"
+"Coon Rapids,MN,City","Coon Rapids,MN","Coon Rapids","MN","jul_25","City"
+"Corona,CA,City","Corona,CA","Corona","CA","jul_25","City"
+"Corpus Christi,TX,City","Corpus Christi,TX","Corpus Christi","TX","jul_25","City"
+"Council Bluffs,IA,City","Council Bluffs,IA","Council Bluffs","IA","jul_25","City"
+"Cranston,RI,City","Cranston,RI","Cranston","RI","jul_25","City"
+"Dallas,TX,City","Dallas,TX","Dallas","TX","jul_25","City"
+"Daly City,CA,City","Daly City,CA","Daly City","CA","jul_25","City"
+"Danbury,CT,City","Danbury,CT","Danbury","CT","jul_25","City"
+"Davenport,IA,City","Davenport,IA","Davenport","IA","jul_25","City"
+"Davis,CA,City","Davis,CA","Davis","CA","jul_25","City"
+"Dayton,OH,City","Dayton,OH","Dayton","OH","jul_25","City"
+"Dearborn Heights,MI,City","Dearborn Heights,MI","Dearborn Heights","MI","jul_25","City"
+"Dearborn,MI,City","Dearborn,MI","Dearborn","MI","jul_25","City"
+"Decatur,IL,City","Decatur,IL","Decatur","IL","jul_25","City"
+"Delaware,OH,County","Delaware,OH","Delaware","OH","jul_25","County"
+"Denton,TX,City","Denton,TX","Denton","TX","jul_25","City"
+"Denton,TX,County","Denton,TX","Denton","TX","jul_25","County"
+"Denver,CO,City","Denver,CO","Denver","CO","jul_25","City"
+"Des Moines,IA,City","Des Moines,IA","Des Moines","IA","jul_25","City"
+"Desoto,TX,City","Desoto,TX","Desoto","TX","jul_25","City"
+"Detroit,MI,City","Detroit,MI","Detroit","MI","jul_25","City"
+"Douglas,CO,County","Douglas,CO","Douglas","CO","jul_25","County"
+"Draper,UT,City","Draper,UT","Draper","UT","jul_25","City"
+"Dublin,OH,City","Dublin,OH","Dublin","OH","jul_25","City"
+"Dubuque,IA,City","Dubuque,IA","Dubuque","IA","jul_25","City"
+"Duluth,MN,City","Duluth,MN","Duluth","MN","jul_25","City"
+"Dunwoody,GA,City","Dunwoody,GA","Dunwoody","GA","jul_25","City"
+"Durham,NC,City","Durham,NC","Durham","NC","jul_25","City"
+"Eagan,MN,City","Eagan,MN","Eagan","MN","jul_25","City"
+"East Baton Rouge,LA,County","East Baton Rouge,LA","East Baton Rouge","LA","jul_25","County"
+"East Hartford,CT,City","East Hartford,CT","East Hartford","CT","jul_25","City"
+"Eau Claire,WI,City","Eau Claire,WI","Eau Claire","WI","jul_25","City"
+"Eden Prairie,MN,City","Eden Prairie,MN","Eden Prairie","MN","jul_25","City"
+"Edina,MN,City","Edina,MN","Edina","MN","jul_25","City"
+"Edinburg,TX,City","Edinburg,TX","Edinburg","TX","jul_25","City"
+"El Cajon,CA,City","El Cajon,CA","El Cajon","CA","jul_25","City"
+"El Dorado,CA,County","El Dorado,CA","El Dorado","CA","jul_25","County"
+"El Monte,CA,City","El Monte,CA","El Monte","CA","jul_25","City"
+"El Paso,CO,County","El Paso,CO","El Paso","CO","jul_25","County"
+"El Paso,TX,City","El Paso,TX","El Paso","TX","jul_25","City"
+"El Paso,TX,County","El Paso,TX","El Paso","TX","jul_25","County"
+"Elizabeth,NJ,City","Elizabeth,NJ","Elizabeth","NJ","jul_25","City"
+"Elk Grove,CA,City","Elk Grove,CA","Elk Grove","CA","jul_25","City"
+"Elyria,OH,City","Elyria,OH","Elyria","OH","jul_25","City"
+"Enid,OK,City","Enid,OK","Enid","OK","jul_25","City"
+"Erie,PA,City","Erie,PA","Erie","PA","jul_25","City"
+"Escondido,CA,City","Escondido,CA","Escondido","CA","jul_25","City"
+"Euclid,OH,City","Euclid,OH","Euclid","OH","jul_25","City"
+"Eugene,OR,City","Eugene,OR","Eugene","OR","jul_25","City"
+"Euless,TX,City","Euless,TX","Euless","TX","jul_25","City"
+"Everett,MA,City","Everett,MA","Everett","MA","jul_25","City"
+"Fairfield,CA,City","Fairfield,CA","Fairfield","CA","jul_25","City"
+"Fairfield,CT,City","Fairfield,CT","Fairfield","CT","jul_25","City"
+"Fargo,ND,City","Fargo,ND","Fargo","ND","jul_25","City"
+"Farmington Hills,MI,City","Farmington Hills,MI","Farmington Hills","MI","jul_25","City"
+"Fayetteville,NC,City","Fayetteville,NC","Fayetteville","NC","jul_25","City"
+"Fishers,IN,City","Fishers,IN","Fishers","IN","jul_25","City"
+"Flower Mound,TX,City","Flower Mound,TX","Flower Mound","TX","jul_25","City"
+"Folsom,CA,City","Folsom,CA","Folsom","CA","jul_25","City"
+"Fontana,CA,City","Fontana,CA","Fontana","CA","jul_25","City"
+"Forsyth,NC,County","Forsyth,NC","Forsyth","NC","jul_25","County"
+"Fort Bend,TX,County","Fort Bend,TX","Fort Bend","TX","jul_25","County"
+"Fort Collins,CO,City","Fort Collins,CO","Fort Collins","CO","jul_25","City"
+"Fort Smith,AR,City","Fort Smith,AR","Fort Smith","AR","jul_25","City"
+"Fort Wayne,IN,City","Fort Wayne,IN","Fort Wayne","IN","jul_25","City"
+"Fort Worth,TX,City","Fort Worth,TX","Fort Worth","TX","jul_25","City"
+"Fountain Valley,CA,City","Fountain Valley,CA","Fountain Valley","CA","jul_25","City"
+"Franklin,TN,City","Franklin,TN","Franklin","TN","jul_25","City"
+"Fresno,CA,City","Fresno,CA","Fresno","CA","jul_25","City"
+"Frisco,TX,City","Frisco,TX","Frisco","TX","jul_25","City"
+"Fullerton,CA,City","Fullerton,CA","Fullerton","CA","jul_25","City"
+"Galveston,TX,City","Galveston,TX","Galveston","TX","jul_25","City"
+"Gardena,CA,City","Gardena,CA","Gardena","CA","jul_25","City"
+"Garland,TX,City","Garland,TX","Garland","TX","jul_25","City"
+"Gastonia,NC,City","Gastonia,NC","Gastonia","NC","jul_25","City"
+"Georgetown,TX,City","Georgetown,TX","Georgetown","TX","jul_25","City"
+"Gilbert,AZ,City","Gilbert,AZ","Gilbert","AZ","jul_25","City"
+"Gilroy,CA,City","Gilroy,CA","Gilroy","CA","jul_25","City"
+"Glendale,CA,City","Glendale,CA","Glendale","CA","jul_25","City"
+"Goodyear,AZ,City","Goodyear,AZ","Goodyear","AZ","jul_25","City"
+"Grand Forks,ND,City","Grand Forks,ND","Grand Forks","ND","jul_25","City"
+"Grand Island,NE,City","Grand Island,NE","Grand Island","NE","jul_25","City"
+"Grand Junction,CO,City","Grand Junction,CO","Grand Junction","CO","jul_25","City"
+"Grand Prairie,TX,City","Grand Prairie,TX","Grand Prairie","TX","jul_25","City"
+"Grand Rapids,MI,City","Grand Rapids,MI","Grand Rapids","MI","jul_25","City"
+"Grapevine,TX,City","Grapevine,TX","Grapevine","TX","jul_25","City"
+"Great Falls,MT,City","Great Falls,MT","Great Falls","MT","jul_25","City"
+"Greeley,CO,City","Greeley,CO","Greeley","CO","jul_25","City"
+"Green Bay,WI,City","Green Bay,WI","Green Bay","WI","jul_25","City"
+"Green Township,OH,City","Green Township,OH","Green Township","OH","jul_25","City"
+"Greensboro,NC,City","Greensboro,NC","Greensboro","NC","jul_25","City"
+"Greenville,NC,City","Greenville,NC","Greenville","NC","jul_25","City"
+"Greenville,SC,City","Greenville,SC","Greenville","SC","jul_25","City"
+"Greenwood,IN,City","Greenwood,IN","Greenwood","IN","jul_25","City"
+"Guilford,NC,County","Guilford,NC","Guilford","NC","jul_25","County"
+"Hall,GA,County","Hall,GA","Hall","GA","jul_25","County"
+"Hamilton Township,NJ,City","Hamilton Township,NJ","Hamilton Township","NJ","jul_25","City"
+"Hamilton,NJ,City","Hamilton,NJ","Hamilton","NJ","jul_25","City"
+"Hamilton,OH,County","Hamilton,OH","Hamilton","OH","jul_25","County"
+"Hamilton,TN,County","Hamilton,TN","Hamilton","TN","jul_25","County"
+"Hampton,VA,City","Hampton,VA","Hampton","VA","jul_25","City"
+"Hanover,VA,County","Hanover,VA","Hanover","VA","jul_25","County"
+"Harlingen,TX,City","Harlingen,TX","Harlingen","TX","jul_25","City"
+"Harris,TX,County","Harris,TX","Harris","TX","jul_25","County"
+"Harrisburg,PA,City","Harrisburg,PA","Harrisburg","PA","jul_25","City"
+"Harrisonburg,VA,City","Harrisonburg,VA","Harrisonburg","VA","jul_25","City"
+"Hartford,CT,City","Hartford,CT","Hartford","CT","jul_25","City"
+"Haverhill,MA,City","Haverhill,MA","Haverhill","MA","jul_25","City"
+"Hays,TX,County","Hays,TX","Hays","TX","jul_25","County"
+"Hayward,CA,City","Hayward,CA","Hayward","CA","jul_25","City"
+"Hempstead Village,NY,City","Hempstead Village,NY","Hempstead Village","NY","jul_25","City"
+"Henderson,NV,City","Henderson,NV","Henderson","NV","jul_25","City"
+"Hendersonville,TN,City","Hendersonville,TN","Hendersonville","TN","jul_25","City"
+"Hidalgo,TX,County","Hidalgo,TX","Hidalgo","TX","jul_25","County"
+"High Point,NC,City","High Point,NC","High Point","NC","jul_25","City"
+"Hillsboro,OR,City","Hillsboro,OR","Hillsboro","OR","jul_25","City"
+"Hoboken,NJ,City","Hoboken,NJ","Hoboken","NJ","jul_25","City"
+"Honolulu,HI,City","Honolulu,HI","Honolulu","HI","jul_25","City"
+"Houston,TX,City","Houston,TX","Houston","TX","jul_25","City"
+"Huntersville,NC,City","Huntersville,NC","Huntersville","NC","jul_25","City"
+"Idaho Falls,ID,City","Idaho Falls,ID","Idaho Falls","ID","jul_25","City"
+"Independence,MO,City","Independence,MO","Independence","MO","jul_25","City"
+"Indianapolis,IN,City","Indianapolis,IN","Indianapolis","IN","jul_25","City"
+"Iowa City,IA,City","Iowa City,IA","Iowa City","IA","jul_25","City"
+"Iredell,NC,County","Iredell,NC","Iredell","NC","jul_25","County"
+"Irvine,CA,City","Irvine,CA","Irvine","CA","jul_25","City"
+"Irving,TX,City","Irving,TX","Irving","TX","jul_25","City"
+"Jackson,TN,City","Jackson,TN","Jackson","TN","jul_25","City"
+"Jacksonville,FL,City","Jacksonville,FL","Jacksonville","FL","jul_25","City"
+"Janesville,WI,City","Janesville,WI","Janesville","WI","jul_25","City"
+"Jefferson,CO,County","Jefferson,CO","Jefferson","CO","jul_25","County"
+"Jefferson,LA,County","Jefferson,LA","Jefferson","LA","jul_25","County"
+"Jefferson,MO,County","Jefferson,MO","Jefferson","MO","jul_25","County"
+"Jersey City,NJ,City","Jersey City,NJ","Jersey City","NJ","jul_25","City"
+"Johnson City,TN,City","Johnson City,TN","Johnson City","TN","jul_25","City"
+"Johnston,NC,County","Johnston,NC","Johnston","NC","jul_25","County"
+"Jonesboro,AR,City","Jonesboro,AR","Jonesboro","AR","jul_25","City"
+"Joplin,MO,City","Joplin,MO","Joplin","MO","jul_25","City"
+"Kannapolis,NC,City","Kannapolis,NC","Kannapolis","NC","jul_25","City"
+"Kansas City,MO,City","Kansas City,MO","Kansas City","MO","jul_25","City"
+"Kaufman,TX,County","Kaufman,TX","Kaufman","TX","jul_25","County"
+"Kenosha,WI,City","Kenosha,WI","Kenosha","WI","jul_25","City"
+"Kent,MI,County","Kent,MI","Kent","MI","jul_25","County"
+"Killeen,TX,City","Killeen,TX","Killeen","TX","jul_25","City"
+"Kingsport,TN,City","Kingsport,TN","Kingsport","TN","jul_25","City"
+"Knox,TN,County","Knox,TN","Knox","TN","jul_25","County"
+"Knoxville,TN,City","Knoxville,TN","Knoxville","TN","jul_25","City"
+"Kyle,TX,City","Kyle,TX","Kyle","TX","jul_25","City"
+"La Crosse,WI,City","La Crosse,WI","La Crosse","WI","jul_25","City"
+"La Mesa,CA,City","La Mesa,CA","La Mesa","CA","jul_25","City"
+"Laguna Niguel,CA,City","Laguna Niguel,CA","Laguna Niguel","CA","jul_25","City"
+"Lake Charles,LA,City","Lake Charles,LA","Lake Charles","LA","jul_25","City"
+"Lake Havasu City,AZ,City","Lake Havasu City,AZ","Lake Havasu City","AZ","jul_25","City"
+"Lakeville,MN,City","Lakeville,MN","Lakeville","MN","jul_25","City"
+"Lancaster,PA,City","Lancaster,PA","Lancaster","PA","jul_25","City"
+"Lancaster,SC,County","Lancaster,SC","Lancaster","SC","jul_25","County"
+"Laredo,TX,City","Laredo,TX","Laredo","TX","jul_25","City"
+"Las Vegas,NV,City","Las Vegas,NV","Las Vegas","NV","jul_25","City"
+"Lawrence,MA,City","Lawrence,MA","Lawrence","MA","jul_25","City"
+"Layton,UT,City","Layton,UT","Layton","UT","jul_25","City"
+"League City,TX,City","League City,TX","League City","TX","jul_25","City"
+"Leander,TX,City","Leander,TX","Leander","TX","jul_25","City"
+"Lee's Summit,MO,City","Lee's Summit,MO","Lee's Summit","MO","jul_25","City"
+"Lenexa,KS,City","Lenexa,KS","Lenexa","KS","jul_25","City"
+"Lewisville,TX,City","Lewisville,TX","Lewisville","TX","jul_25","City"
+"Lexington,KY,City","Lexington,KY","Lexington","KY","jul_25","City"
+"Lexington,SC,County","Lexington,SC","Lexington","SC","jul_25","County"
+"Lincoln,CA,City","Lincoln,CA","Lincoln","CA","jul_25","City"
+"Lincoln,NE,City","Lincoln,NE","Lincoln","NE","jul_25","City"
+"Little Elm,TX,City","Little Elm,TX","Little Elm","TX","jul_25","City"
+"Little Rock,AR,City","Little Rock,AR","Little Rock","AR","jul_25","City"
+"Livermore,CA,City","Livermore,CA","Livermore","CA","jul_25","City"
+"Livingston,LA,County","Livingston,LA","Livingston","LA","jul_25","County"
+"Livingston,MI,County","Livingston,MI","Livingston","MI","jul_25","County"
+"Livonia,MI,City","Livonia,MI","Livonia","MI","jul_25","City"
+"Logan,UT,City","Logan,UT","Logan","UT","jul_25","City"
+"Long Beach,CA,City","Long Beach,CA","Long Beach","CA","jul_25","City"
+"Longview,TX,City","Longview,TX","Longview","TX","jul_25","City"
+"Lorain,OH,City","Lorain,OH","Lorain","OH","jul_25","City"
+"Los Angeles,CA,City","Los Angeles,CA","Los Angeles","CA","jul_25","City"
+"Los Angeles,CA,County","Los Angeles,CA","Los Angeles","CA","jul_25","County"
+"Louisville,KY,City","Louisville,KY","Louisville","KY","jul_25","City"
+"Lower Merion,PA,City","Lower Merion,PA","Lower Merion","PA","jul_25","City"
+"Lower Paxton,PA,City","Lower Paxton,PA","Lower Paxton","PA","jul_25","City"
+"Lynchburg,VA,City","Lynchburg,VA","Lynchburg","VA","jul_25","City"
+"Lynn,MA,City","Lynn,MA","Lynn","MA","jul_25","City"
+"Madera,CA,City","Madera,CA","Madera","CA","jul_25","City"
+"Manchester,CT,City","Manchester,CT","Manchester","CT","jul_25","City"
+"Manchester,NH,City","Manchester,NH","Manchester","NH","jul_25","City"
+"Mansfield,TX,City","Mansfield,TX","Mansfield","TX","jul_25","City"
+"Maple Grove,MN,City","Maple Grove,MN","Maple Grove","MN","jul_25","City"
+"McAllen,TX,City","McAllen,TX","McAllen","TX","jul_25","City"
+"Mckinney,TX,City","Mckinney,TX","Mckinney","TX","jul_25","City"
+"Memphis,TN,City","Memphis,TN","Memphis","TN","jul_25","City"
+"Merced,CA,City","Merced,CA","Merced","CA","jul_25","City"
+"Meriden,CT,City","Meriden,CT","Meriden","CT","jul_25","City"
+"Meridian,ID,City","Meridian,ID","Meridian","ID","jul_25","City"
+"Mesa,AZ,City","Mesa,AZ","Mesa","AZ","jul_25","City"
+"Miami Beach,FL,City","Miami Beach,FL","Miami Beach","FL","jul_25","City"
+"Miami,FL,City","Miami,FL","Miami","FL","jul_25","City"
+"Middletown,OH,City","Middletown,OH","Middletown","OH","jul_25","City"
+"Midwest City,OK,City","Midwest City,OK","Midwest City","OK","jul_25","City"
+"Milford,CT,City","Milford,CT","Milford","CT","jul_25","City"
+"Millcreek,PA,City","Millcreek,PA","Millcreek","PA","jul_25","City"
+"Milpitas,CA,City","Milpitas,CA","Milpitas","CA","jul_25","City"
+"Milwaukee,WI,City","Milwaukee,WI","Milwaukee","WI","jul_25","City"
+"Minneapolis,MN,City","Minneapolis,MN","Minneapolis","MN","jul_25","City"
+"Minnetonka,MN,City","Minnetonka,MN","Minnetonka","MN","jul_25","City"
+"Mission Viejo,CA,City","Mission Viejo,CA","Mission Viejo","CA","jul_25","City"
+"Missoula,MT,City","Missoula,MT","Missoula","MT","jul_25","City"
+"Missouri City,TX,City","Missouri City,TX","Missouri City","TX","jul_25","City"
+"Mobile,AL,City","Mobile,AL","Mobile","AL","jul_25","City"
+"Monterey Park,CA,City","Monterey Park,CA","Monterey Park","CA","jul_25","City"
+"Monterey,CA,County","Monterey,CA","Monterey","CA","jul_25","County"
+"Montgomery,MD,County","Montgomery,MD","Montgomery","MD","jul_25","County"
+"Montgomery,TX,County","Montgomery,TX","Montgomery","TX","jul_25","County"
+"Moore,OK,City","Moore,OK","Moore","OK","jul_25","City"
+"Mooresville,NC,City","Mooresville,NC","Mooresville","NC","jul_25","City"
+"Mount Pleasant,SC,City","Mount Pleasant,SC","Mount Pleasant","SC","jul_25","City"
+"Mount Vernon,NY,City","Mount Vernon,NY","Mount Vernon","NY","jul_25","City"
+"Mountain View,CA,City","Mountain View,CA","Mountain View","CA","jul_25","City"
+"Murfreesboro,TN,City","Murfreesboro,TN","Murfreesboro","TN","jul_25","City"
+"Murrieta,CA,City","Murrieta,CA","Murrieta","CA","jul_25","City"
+"Napa,CA,City","Napa,CA","Napa","CA","jul_25","City"
+"Nashville,TN,City","Nashville,TN","Nashville","TN","jul_25","City"
+"National City,CA,City","National City,CA","National City","CA","jul_25","City"
+"New Bedford,MA,City","New Bedford,MA","New Bedford","MA","jul_25","City"
+"New Braunfels,TX,City","New Braunfels,TX","New Braunfels","TX","jul_25","City"
+"New Britain,CT,City","New Britain,CT","New Britain","CT","jul_25","City"
+"New Hanover,NC,County","New Hanover,NC","New Hanover","NC","jul_25","County"
+"New Orleans,LA,City","New Orleans,LA","New Orleans","LA","jul_25","City"
+"New Rochelle,NY,City","New Rochelle,NY","New Rochelle","NY","jul_25","City"
+"New York City,NY,City","New York City,NY","New York City","NY","jul_25","City"
+"Newark,NJ,City","Newark,NJ","Newark","NJ","jul_25","City"
+"Newark,OH,City","Newark,OH","Newark","OH","jul_25","City"
+"Newport Beach,CA,City","Newport Beach,CA","Newport Beach","CA","jul_25","City"
+"Noblesville,IN,City","Noblesville,IN","Noblesville","IN","jul_25","City"
+"Norfolk,VA,City","Norfolk,VA","Norfolk","VA","jul_25","City"
+"North Bergen Township,NJ,City","North Bergen Township,NJ","North Bergen Township","NJ","jul_25","City"
+"North Charleston,SC,City","North Charleston,SC","North Charleston","SC","jul_25","City"
+"North Little Rock,AR,City","North Little Rock,AR","North Little Rock","AR","jul_25","City"
+"North Richland Hills,TX,City","North Richland Hills,TX","North Richland Hills","TX","jul_25","City"
+"Novi,MI,City","Novi,MI","Novi","MI","jul_25","City"
+"O'Fallon,MO,City","O'Fallon,MO","O'Fallon","MO","jul_25","City"
+"Oak Lawn,IL,City","Oak Lawn,IL","Oak Lawn","IL","jul_25","City"
+"Oceanside,CA,City","Oceanside,CA","Oceanside","CA","jul_25","City"
+"Odessa,TX,City","Odessa,TX","Odessa","TX","jul_25","City"
+"Ogden,UT,City","Ogden,UT","Ogden","UT","jul_25","City"
+"Oklahoma City,OK,City","Oklahoma City,OK","Oklahoma City","OK","jul_25","City"
+"Omaha,NE,City","Omaha,NE","Omaha","NE","jul_25","City"
+"Onslow,NC,County","Onslow,NC","Onslow","NC","jul_25","County"
+"Orem,UT,City","Orem,UT","Orem","UT","jul_25","City"
+"Oshkosh,WI,City","Oshkosh,WI","Oshkosh","WI","jul_25","City"
+"Owensboro,KY,City","Owensboro,KY","Owensboro","KY","jul_25","City"
+"Oxnard,CA,City","Oxnard,CA","Oxnard","CA","jul_25","City"
+"Palatine,IL,City","Palatine,IL","Palatine","IL","jul_25","City"
+"Palo Alto,CA,City","Palo Alto,CA","Palo Alto","CA","jul_25","City"
+"Parker,CO,City","Parker,CO","Parker","CO","jul_25","City"
+"Parker,TX,County","Parker,TX","Parker","TX","jul_25","County"
+"Parma,OH,City","Parma,OH","Parma","OH","jul_25","City"
+"Pasadena,CA,City","Pasadena,CA","Pasadena","CA","jul_25","City"
+"Paterson,NJ,City","Paterson,NJ","Paterson","NJ","jul_25","City"
+"Pawtucket,RI,City","Pawtucket,RI","Pawtucket","RI","jul_25","City"
+"Pearland,TX,City","Pearland,TX","Pearland","TX","jul_25","City"
+"Petaluma,CA,City","Petaluma,CA","Petaluma","CA","jul_25","City"
+"Pflugerville,TX,City","Pflugerville,TX","Pflugerville","TX","jul_25","City"
+"Pharr,TX,City","Pharr,TX","Pharr","TX","jul_25","City"
+"Philadelphia,PA,City","Philadelphia,PA","Philadelphia","PA","jul_25","City"
+"Phoenix,AZ,City","Phoenix,AZ","Phoenix","AZ","jul_25","City"
+"Pima,AZ,County","Pima,AZ","Pima","AZ","jul_25","County"
+"Pinal,AZ,County","Pinal,AZ","Pinal","AZ","jul_25","County"
+"Pittsburgh,PA,City","Pittsburgh,PA","Pittsburgh","PA","jul_25","City"
+"Pittsfield,MA,City","Pittsfield,MA","Pittsfield","MA","jul_25","City"
+"Placer,CA,County","Placer,CA","Placer","CA","jul_25","County"
+"Plano,TX,City","Plano,TX","Plano","TX","jul_25","City"
+"Pleasanton,CA,City","Pleasanton,CA","Pleasanton","CA","jul_25","City"
+"Plymouth,MN,City","Plymouth,MN","Plymouth","MN","jul_25","City"
+"Pocatello,ID,City","Pocatello,ID","Pocatello","ID","jul_25","City"
+"Pomona,CA,City","Pomona,CA","Pomona","CA","jul_25","City"
+"Pontiac,MI,City","Pontiac,MI","Pontiac","MI","jul_25","City"
+"Port Arthur,TX,City","Port Arthur,TX","Port Arthur","TX","jul_25","City"
+"Porterville,CA,City","Porterville,CA","Porterville","CA","jul_25","City"
+"Portland,OR,City","Portland,OR","Portland","OR","jul_25","City"
+"Portsmouth,VA,City","Portsmouth,VA","Portsmouth","VA","jul_25","City"
+"Prescott Valley,AZ,City","Prescott Valley,AZ","Prescott Valley","AZ","jul_25","City"
+"Prince George's,MD,County","Prince George's,MD","Prince George's","MD","jul_25","County"
+"Quincy,MA,City","Quincy,MA","Quincy","MA","jul_25","City"
+"Raleigh,NC,City","Raleigh,NC","Raleigh","NC","jul_25","City"
+"Reading,PA,City","Reading,PA","Reading","PA","jul_25","City"
+"Redlands,CA,City","Redlands,CA","Redlands","CA","jul_25","City"
+"Redmond,WA,City","Redmond,WA","Redmond","WA","jul_25","City"
+"Redondo Beach,CA,City","Redondo Beach,CA","Redondo Beach","CA","jul_25","City"
+"Redwood City,CA,City","Redwood City,CA","Redwood City","CA","jul_25","City"
+"Revere,MA,City","Revere,MA","Revere","MA","jul_25","City"
+"Richardson,TX,City","Richardson,TX","Richardson","TX","jul_25","City"
+"Richland,WA,City","Richland,WA","Richland","WA","jul_25","City"
+"Richmond,CA,City","Richmond,CA","Richmond","CA","jul_25","City"
+"Richmond,VA,City","Richmond,VA","Richmond","VA","jul_25","City"
+"Riverside,CA,City","Riverside,CA","Riverside","CA","jul_25","City"
+"Rochester,MI,City","Rochester,MI","Rochester","MI","jul_25","City"
+"Rochester,NY,City","Rochester,NY","Rochester","NY","jul_25","City"
+"Rock Hill,SC,City","Rock Hill,SC","Rock Hill","SC","jul_25","City"
+"Rockford,IL,City","Rockford,IL","Rockford","IL","jul_25","City"
+"Rocklin,CA,City","Rocklin,CA","Rocklin","CA","jul_25","City"
+"Rockwall,TX,City","Rockwall,TX","Rockwall","TX","jul_25","City"
+"Roseville,CA,City","Roseville,CA","Roseville","CA","jul_25","City"
+"Roswell,GA,City","Roswell,GA","Roswell","GA","jul_25","City"
+"Round Rock,TX,City","Round Rock,TX","Round Rock","TX","jul_25","City"
+"Rowlett,TX,City","Rowlett,TX","Rowlett","TX","jul_25","City"
+"Royal Oak,MI,City","Royal Oak,MI","Royal Oak","MI","jul_25","City"
+"Rutherford,TN,County","Rutherford,TN","Rutherford","TN","jul_25","County"
+"Sacramento,CA,City","Sacramento,CA","Sacramento","CA","jul_25","City"
+"Sacramento,CA,County","Sacramento,CA","Sacramento","CA","jul_25","County"
+"Salt Lake City,UT,City","Salt Lake City,UT","Salt Lake City","UT","jul_25","City"
+"San Angelo,TX,City","San Angelo,TX","San Angelo","TX","jul_25","City"
+"San Antonio,TX,City","San Antonio,TX","San Antonio","TX","jul_25","City"
+"San Diego,CA,City","San Diego,CA","San Diego","CA","jul_25","City"
+"San Diego,CA,County","San Diego,CA","San Diego","CA","jul_25","County"
+"San Francisco,CA,City","San Francisco,CA","San Francisco","CA","jul_25","City"
+"San Jose,CA,City","San Jose,CA","San Jose","CA","jul_25","City"
+"San Marcos,TX,City","San Marcos,TX","San Marcos","TX","jul_25","City"
+"San Mateo,CA,City","San Mateo,CA","San Mateo","CA","jul_25","City"
+"San Mateo,CA,County","San Mateo,CA","San Mateo","CA","jul_25","County"
+"San Rafael,CA,City","San Rafael,CA","San Rafael","CA","jul_25","City"
+"Santa Clara,CA,City","Santa Clara,CA","Santa Clara","CA","jul_25","City"
+"Santa Cruz,CA,City","Santa Cruz,CA","Santa Cruz","CA","jul_25","City"
+"Santa Cruz,CA,County","Santa Cruz,CA","Santa Cruz","CA","jul_25","County"
+"Santa Fe,NM,City","Santa Fe,NM","Santa Fe","NM","jul_25","City"
+"Santa Maria,CA,City","Santa Maria,CA","Santa Maria","CA","jul_25","City"
+"Santa Rosa,CA,City","Santa Rosa,CA","Santa Rosa","CA","jul_25","City"
+"Sarasota,FL,County","Sarasota,FL","Sarasota","FL","jul_25","County"
+"Saratoga Springs,UT,City","Saratoga Springs,UT","Saratoga Springs","UT","jul_25","City"
+"Saratoga,NY,County","Saratoga,NY","Saratoga","NY","jul_25","County"
+"Schaumburg,IL,City","Schaumburg,IL","Schaumburg","IL","jul_25","City"
+"Scottsdale,AZ,City","Scottsdale,AZ","Scottsdale","AZ","jul_25","City"
+"Scranton,PA,City","Scranton,PA","Scranton","PA","jul_25","City"
+"Seattle,WA,City","Seattle,WA","Seattle","WA","jul_25","City"
+"Shawnee,KS,City","Shawnee,KS","Shawnee","KS","jul_25","City"
+"Shelby Township,MI,City","Shelby Township,MI","Shelby Township","MI","jul_25","City"
+"Shelby,TN,County","Shelby,TN","Shelby","TN","jul_25","County"
+"Simi Valley,CA,City","Simi Valley,CA","Simi Valley","CA","jul_25","City"
+"Sioux City,IA,City","Sioux City,IA","Sioux City","IA","jul_25","City"
+"Sioux Falls,SD,City","Sioux Falls,SD","Sioux Falls","SD","jul_25","City"
+"Skokie,IL,City","Skokie,IL","Skokie","IL","jul_25","City"
+"Smith,TX,County","Smith,TX","Smith","TX","jul_25","County"
+"Smyrna,TN,City","Smyrna,TN","Smyrna","TN","jul_25","City"
+"Somerville,MA,City","Somerville,MA","Somerville","MA","jul_25","City"
+"Sonoma,CA,County","Sonoma,CA","Sonoma","CA","jul_25","County"
+"South Bend,IN,City","South Bend,IN","South Bend","IN","jul_25","City"
+"South Jordan,UT,City","South Jordan,UT","South Jordan","UT","jul_25","City"
+"South San Francisco,CA,City","South San Francisco,CA","South San Francisco","CA","jul_25","City"
+"Southaven,MS,City","Southaven,MS","Southaven","MS","jul_25","City"
+"Southfield,MI,City","Southfield,MI","Southfield","MI","jul_25","City"
+"Spokane Valley,WA,City","Spokane Valley,WA","Spokane Valley","WA","jul_25","City"
+"Spokane,WA,City","Spokane,WA","Spokane","WA","jul_25","City"
+"Spotsylvania,VA,County","Spotsylvania,VA","Spotsylvania","VA","jul_25","County"
+"Spring Hill,TN,City","Spring Hill,TN","Spring Hill","TN","jul_25","City"
+"Springfield,MA,City","Springfield,MA","Springfield","MA","jul_25","City"
+"Springfield,OH,City","Springfield,OH","Springfield","OH","jul_25","City"
+"St Charles,MO,City","St Charles,MO","St Charles","MO","jul_25","City"
+"St Joseph,MO,City","St Joseph,MO","St Joseph","MO","jul_25","City"
+"St Louis,MO,City","St Louis,MO","St Louis","MO","jul_25","City"
+"St Louis,MO,County","St Louis,MO","St Louis","MO","jul_25","County"
+"St Mary's,MD,County","St Mary's,MD","St Mary's","MD","jul_25","County"
+"St Peters,MO,City","St Peters,MO","St Peters","MO","jul_25","City"
+"St. Clair Shores,MI,City","St. Clair Shores,MI","St. Clair Shores","MI","jul_25","City"
+"St. Cloud,MN,City","St. Cloud,MN","St. Cloud","MN","jul_25","City"
+"St. Paul,MN,City","St. Paul,MN","St. Paul","MN","jul_25","City"
+"Stamford,CT,City","Stamford,CT","Stamford","CT","jul_25","City"
+"State College,PA,City","State College,PA","State College","PA","jul_25","City"
+"Sterling Heights,MI,City","Sterling Heights,MI","Sterling Heights","MI","jul_25","City"
+"Stockton,CA,City","Stockton,CA","Stockton","CA","jul_25","City"
+"Stratford,CT,City","Stratford,CT","Stratford","CT","jul_25","City"
+"Suffolk,VA,City","Suffolk,VA","Suffolk","VA","jul_25","City"
+"Sugar Land,TX,City","Sugar Land,TX","Sugar Land","TX","jul_25","City"
+"Sunnyvale,CA,City","Sunnyvale,CA","Sunnyvale","CA","jul_25","City"
+"Surprise,AZ,City","Surprise,AZ","Surprise","AZ","jul_25","City"
+"Tacoma,WA,City","Tacoma,WA","Tacoma","WA","jul_25","City"
+"Taunton,MA,City","Taunton,MA","Taunton","MA","jul_25","City"
+"Taylor,MI,City","Taylor,MI","Taylor","MI","jul_25","City"
+"Tempe,AZ,City","Tempe,AZ","Tempe","AZ","jul_25","City"
+"Thornton,CO,City","Thornton,CO","Thornton","CO","jul_25","City"
+"Thousand Oaks,CA,City","Thousand Oaks,CA","Thousand Oaks","CA","jul_25","City"
+"Thurston,WA,County","Thurston,WA","Thurston","WA","jul_25","County"
+"Tinley Park,IL,City","Tinley Park,IL","Tinley Park","IL","jul_25","City"
+"Torrance,CA,City","Torrance,CA","Torrance","CA","jul_25","City"
+"Tracy,CA,City","Tracy,CA","Tracy","CA","jul_25","City"
+"Travis,TX,County","Travis,TX","Travis","TX","jul_25","County"
+"Troy,MI,City","Troy,MI","Troy","MI","jul_25","City"
+"Tucson,AZ,City","Tucson,AZ","Tucson","AZ","jul_25","City"
+"Tulare,CA,City","Tulare,CA","Tulare","CA","jul_25","City"
+"Tulare,CA,County","Tulare,CA","Tulare","CA","jul_25","County"
+"Tulsa,OK,City","Tulsa,OK","Tulsa","OK","jul_25","City"
+"Twin Falls,ID,City","Twin Falls,ID","Twin Falls","ID","jul_25","City"
+"Tyler,TX,City","Tyler,TX","Tyler","TX","jul_25","City"
+"Upper Darby,PA,City","Upper Darby,PA","Upper Darby","PA","jul_25","City"
+"Utica,NY,City","Utica,NY","Utica","NY","jul_25","City"
+"Vacaville,CA,City","Vacaville,CA","Vacaville","CA","jul_25","City"
+"Vallejo,CA,City","Vallejo,CA","Vallejo","CA","jul_25","City"
+"Ventura,CA,City","Ventura,CA","Ventura","CA","jul_25","City"
+"Victoria,TX,City","Victoria,TX","Victoria","TX","jul_25","City"
+"Virginia Beach,VA,City","Virginia Beach,VA","Virginia Beach","VA","jul_25","City"
+"Visalia,CA,City","Visalia,CA","Visalia","CA","jul_25","City"
+"Waco,TX,City","Waco,TX","Waco","TX","jul_25","City"
+"Wake Forest,NC,City","Wake Forest,NC","Wake Forest","NC","jul_25","City"
+"Wake,NC,County","Wake,NC","Wake","NC","jul_25","County"
+"Walnut Creek,CA,City","Walnut Creek,CA","Walnut Creek","CA","jul_25","City"
+"Waltham,MA,City","Waltham,MA","Waltham","MA","jul_25","City"
+"Warren,MI,City","Warren,MI","Warren","MI","jul_25","City"
+"Warren,OH,County","Warren,OH","Warren","OH","jul_25","County"
+"Washington,DC,City","Washington,DC","Washington","DC","jul_25","City"
+"Washington,MD,County","Washington,MD","Washington","MD","jul_25","County"
+"Washington,OR,County","Washington,OR","Washington","OR","jul_25","County"
+"Washtenaw,MI,County","Washtenaw,MI","Washtenaw","MI","jul_25","County"
+"Waterbury,CT,City","Waterbury,CT","Waterbury","CT","jul_25","City"
+"Waterford Township,MI,City","Waterford Township,MI","Waterford Township","MI","jul_25","City"
+"Waterloo,IA,City","Waterloo,IA","Waterloo","IA","jul_25","City"
+"Waukesha,WI,City","Waukesha,WI","Waukesha","WI","jul_25","City"
+"Wayne Township,NJ,City","Wayne Township,NJ","Wayne Township","NJ","jul_25","City"
+"West Allis,WI,City","West Allis,WI","West Allis","WI","jul_25","City"
+"West Bloomfield Township,MI,City","West Bloomfield Township,MI","West Bloomfield Township","MI","jul_25","City"
+"West Chester Township,OH,City","West Chester Township,OH","West Chester Township","OH","jul_25","City"
+"West Covina,CA,City","West Covina,CA","West Covina","CA","jul_25","City"
+"West Des Moines,IA,City","West Des Moines,IA","West Des Moines","IA","jul_25","City"
+"West Hartford,CT,City","West Hartford,CT","West Hartford","CT","jul_25","City"
+"West Jordan,UT,City","West Jordan,UT","West Jordan","UT","jul_25","City"
+"West New York,NJ,City","West New York,NJ","West New York","NJ","jul_25","City"
+"West Valley,UT,City","West Valley,UT","West Valley","UT","jul_25","City"
+"Westfield,IN,City","Westfield,IN","Westfield","IN","jul_25","City"
+"Westland,MI,City","Westland,MI","Westland","MI","jul_25","City"
+"Westminster,CO,City","Westminster,CO","Westminster","CO","jul_25","City"
+"Weymouth,MA,City","Weymouth,MA","Weymouth","MA","jul_25","City"
+"Wichita Falls,TX,City","Wichita Falls,TX","Wichita Falls","TX","jul_25","City"
+"Will,IL,County","Will,IL","Will","IL","jul_25","County"
+"Williamson,TX,County","Williamson,TX","Williamson","TX","jul_25","County"
+"Wilmington,NC,City","Wilmington,NC","Wilmington","NC","jul_25","City"
+"Woodbury,MN,City","Woodbury,MN","Woodbury","MN","jul_25","City"
+"Wright,MN,County","Wright,MN","Wright","MN","jul_25","County"
+"Wylie,TX,City","Wylie,TX","Wylie","TX","jul_25","City"
+"Wyoming,MI,City","Wyoming,MI","Wyoming","MI","jul_25","City"
+"Yakima,WA,City","Yakima,WA","Yakima","WA","jul_25","City"
+"Yorba Linda,CA,City","Yorba Linda,CA","Yorba Linda","CA","jul_25","City"
+"Yuma,AZ,City","Yuma,AZ","Yuma","AZ","jul_25","City"

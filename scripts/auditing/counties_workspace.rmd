@@ -1,0 +1,463 @@
+---
+title: "county exploration and formatting for merge"
+output: github_document
+---
+initial libraries
+```{r}
+#read in the data
+library(tidyverse)
+library(magrittr)
+library(dplyr)
+library(readr)
+library(stringr)
+library(zoo)
+library(ggplot2)
+library(here)
+library(readxl)
+library(tools)
+library(readxl)
+library(dplyr)
+library(purrr)
+```
+directory path where the data files are stored
+UPDATE MONTH on LINE 44!
+```{r}
+#directory path where the data files are stored
+# Dynamically locate OneDrive directory
+onedrive_mac <- "~/Library/CloudStorage/OneDrive-ahdatalytics.com"
+onedrive_win <- file.path("C:", "OneDrive", "OneDrive - ahdatalytics.com")
+
+if (dir.exists(onedrive_mac)) {
+  onedrive_dir <- normalizePath(onedrive_mac)
+} else if (dir.exists(onedrive_win)) {
+  onedrive_dir <- normalizePath(onedrive_win)
+} else {
+  stop("OneDrive directory not found.")
+}
+
+# Define the raw data directory with the correct relative path from OneDrive
+data_dir <- file.path(
+  onedrive_dir,
+  "Clients",
+  "Real Time Crime Index",
+  "Open Source Data",
+  "_Ben and Jeff work",
+  "Months",
+  "July 2025",
+  "Counties"
+)
+
+# Check the full path to ensure it's correct
+print(data_dir)
+
+# Get a list of all CSV file paths within the directory
+file_paths <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
+
+# Check the files
+head(file_paths)
+```
+describe all the csv's coming in - just a general snippet to take a look at the raw data format
+```{r}
+# Function to get info on each CSV file
+get_csv_info <- function(file) {
+  df <- read_csv(file)
+  data.frame(
+    file_name = basename(file),
+    num_columns = ncol(df),
+    column_names = paste(names(df), collapse = ", "),
+    column_formats = paste(sapply(df, class), collapse = ", ")
+  )
+}
+
+# Apply the function to each CSV file and combine the results into a single dataframe
+csv_info_df <- map_df(file_paths, get_csv_info)
+
+# Take a quick look
+head(csv_info_df)
+```
+Read all CSV files in and save them as df's in a list
+```{r}
+# Function to read all CSV files in a folder and save them as data frames in a list
+read_csvs <- function(folder_path) {
+  # List all CSV files in the directory
+  file_paths <- list.files(folder_path, pattern = "\\.csv$", full.names = TRUE)
+  
+  # Debug: Check if any files are listed
+  if (length(file_paths) == 0) {
+    stop("No CSV files found in the specified directory.")
+  } else {
+    message("Processing ", length(file_paths), " files.")
+  }
+  
+  # Function to read a single CSV file
+  read_csv_file <- function(file_path) {
+    # Debug: Check the file path
+    message("Reading file: ", file_path)
+    
+    # Attempt to read the CSV file
+    tryCatch({
+      df <- read_csv(file_path, show_col_types = FALSE)
+      return(df)
+    }, error = function(e) {
+      warning("Failed to read: ", file_path, " Error: ", e$message)
+      return(NULL)  # Return NULL if the file cannot be read
+    })
+  }
+  
+  # Read all CSV files and save them as data frames in a list
+  df_list <- lapply(file_paths, read_csv_file)
+  
+  # Name each element in the list with the corresponding file name (without extension)
+  names(df_list) <- tools::file_path_sans_ext(basename(file_paths))
+  
+  return(df_list)
+}
+
+# read'er in
+county_ldf <- read_csvs(data_dir)
+
+# Take'er look
+head(county_ldf[1])
+```
+let's get the unique number of agencies at the beginning
+```{r}
+# Function to get the count of unique 'Agency Name' in each csv
+get_unique_agency_count <- function(df) {
+  length(unique(df$`Agency Name`))
+}
+
+# Apply the function to each dataframe in the list and store the results
+unique_agency_counts <- map(county_ldf, get_unique_agency_count)
+total_agency_raw <- sum(unlist(unique_agency_counts))
+head(total_agency_raw)
+##46 for Jan 2025
+
+#save a copy
+county_ldf_extra <- county_ldf
+```
+find the na's
+```{r}
+# Compute the number of NA records for each column in each dataframe
+na_counts_df <- map_df(county_ldf_extra, ~ summarise_all(.x, ~ sum(is.na(.))), .id = "dataframe")
+
+# View the result
+print(na_counts_df)
+
+```
+format everything
+```{r}
+# Define the format_cols function
+format_cols <- function(df) {
+  # Remove the Arson column
+  df <- df[, !(names(df) %in% "Arson")]
+  
+  # Convert specified columns to character
+  char_cols <- c("Agency Name", "State")
+  for (col in char_cols) {
+    if (col %in% names(df)) {
+      df[[col]] <- as.character(df[[col]])
+    }
+  }
+  
+  # Convert specified columns to numeric
+  num_cols <- c("Murder", "Rape", "Robbery", "Aggravated Assault", "Burglary",
+                "Theft", "Motor Vehicle Theft", "Month", "Year")
+  for (col in num_cols) {
+    if (col %in% names(df)) {
+      df[[col]] <- as.numeric(df[[col]])
+    }
+  }
+  
+  return(df)
+}
+
+# Apply to all dataframes in the list
+county_ldf1 <- lapply(county_ldf, format_cols)
+
+# What do we see
+head(county_ldf1[1])
+```
+post-formatting check we still have the same number of agencies before binding
+```{r}
+# Apply the function to each dataframe in the list and store the results
+unique_agency_counts1 <- map(county_ldf1, get_unique_agency_count)
+
+# what is the sum of all those raw counts
+total_agency_raw1 <- sum(unlist(unique_agency_counts1))
+
+# Print the results
+head(total_agency_raw1)
+#matches up - November 2024
+```
+next...standardize the columns across all dataframes in the list
+```{r}
+# Ensure all data frames have the same columns and column types
+all_columns <- Reduce(union, lapply(county_ldf1, names))
+
+# Function to ensure all data frames have the same columns
+standardize_columns <- function(df, all_columns) {
+  missing_cols <- setdiff(all_columns, names(df))
+  for (col in missing_cols) {
+    df[[col]] <- NA
+  }
+  return(df[all_columns])
+}
+
+# Apply the standardize_columns function to each dataframe in the list
+county_ldf2 <- lapply(county_ldf1, standardize_columns, all_columns = all_columns)
+
+#make sure we're good
+head(county_ldf2[1])
+```
+another check that after formatting we still have the same number of agencies before binding
+```{r}
+# Apply the function to each dataframe in the list and store the results
+unique_agency_counts2 <- map(county_ldf2, get_unique_agency_count)
+
+# what is the sum of all those raw counts
+total_agency_raw2 <- sum(unlist(unique_agency_counts2))
+
+# Print the results
+head(total_agency_raw2)
+#393 - matches up November
+```
+get rid of the extra blank lgl formatted columns that plague our data
+```{r}
+acceptable_names <- c("Agency Name", "Murder", "Rape", "Robbery", "Aggravated Assault", 
+"Burglary", "Theft", "Motor Vehicle Theft", "Year", "Month", "State")
+
+#remove any columns not in the above list
+county_ldf3 <- lapply(county_ldf2, function(df) {
+  df[, (names(df) %in% acceptable_names)]
+})
+
+#take a look
+head(county_ldf3[1])
+```
+one last check that after formatting & standardizing we still have the same number of agencies before binding
+```{r}
+# Apply the function to each dataframe in the list and store the results
+unique_agency_counts3 <- map(county_ldf3, get_unique_agency_count)
+
+# what is the sum of all those raw counts
+total_agency_raw3 <- sum(unlist(unique_agency_counts3))
+
+# check it out
+print(total_agency_raw3)
+#393 matches - November
+```
+stop the process if there is a dataframe that does not have each of the acceptable names and print
+```{r}
+# Initialize an empty list to store the names of dataframes with missing columns
+df_missing_columns <- list()
+
+# Function to check if a dataframe has all the acceptable column names
+check_columns <- function(df, df_name, acceptable_names) {
+  missing_cols <- setdiff(acceptable_names, colnames(df))
+  if (length(missing_cols) > 0) {
+    df_missing_columns[[df_name]] <- missing_cols  # Add to the list if columns are missing
+  }
+}
+
+# Loop through the dataframes and check each one
+for (df_name in names(county_ldf3)) {
+  check_columns(county_ldf3[[df_name]], df_name, acceptable_names)
+}
+
+# Review the dataframes that are missing columns
+if (length(df_missing_columns) > 0) {
+  print("The following dataframes are missing columns:")
+  print(df_missing_columns)
+} else {
+  print("All dataframes have the required columns.")
+}
+```
+combine and check it out
+```{r}
+# combine everything together 
+county_combined_df <- bind_rows(county_ldf3)
+
+# Step 2: Reset row names
+rownames(county_combined_df) <- NULL
+
+#select out acceptable columns and take a look just to make sure
+county_combined_df <- county_combined_df %>% select(acceptable_names)
+head(county_combined_df)
+#looking good.
+```
+###TEST FOR REFERENCE DATA MERGE###
+city state column for getting unique number of agencies
+```{r}
+#create the city_state column here for a unique ID
+county_combined_df <- county_combined_df %>% mutate(city_state = paste(`Agency Name`, State, sep = ","))
+
+
+#check that unique agencies checks matches city_state check
+length(unique(county_combined_df$city_state))
+#393 all set
+length(unique(county_combined_df$`Agency Name`))
+#380 - springfields galore!
+```
+investigate naming for agencies
+```{r}
+# Extract unique agency names
+all_agency_names <- county_combined_df %>%
+  distinct(`Agency Name`) %>%
+  rename(Unique_Agency_Name = `Agency Name`)
+
+# View the result
+print(all_agency_names)
+```
+check out city_state by state for a quick numbers check
+```{r}
+cty_agency_by_state <- county_combined_df %>%
+  group_by(State) %>%
+  summarise(unique_city_state_count = n_distinct(city_state))
+
+cty_na_city_states <- county_combined_df %>%
+  filter(is.na(State)) %>%
+  select(city_state)
+
+# View the result
+print(cty_na_city_states)
+```
+final count issues ID'ed before sent along to be merged with base dataset
+```{r}
+# Ensure NA's are explicitly marked as NA in designated columns
+counties_cdf <- county_combined_df %>%
+  mutate(
+    Murder = ifelse(is.na(Murder), NA, Murder),
+    Rape = ifelse(is.na(Rape), NA, Rape),
+    Robbery = ifelse(is.na(Robbery), NA, Robbery),
+    `Aggravated Assault`= ifelse(is.na(`Aggravated Assault`), NA, `Aggravated Assault`),
+    Burglary = ifelse(is.na(Burglary), NA, Burglary),
+    Theft = ifelse(is.na(Theft), NA, Theft),
+    `Motor Vehicle Theft` = ifelse(is.na(`Motor Vehicle Theft`),NA, `Motor Vehicle Theft`),
+    Agency_Type = "County"
+  )
+
+#create city_state_id
+counties_cdf <- counties_cdf %>% mutate(city_state_id = paste(`city_state`, `Agency_Type`, sep = ","))
+```
+let's check for counties that don't connect to ref file
+```{r}
+# Perform the merge
+counties_cdf_test <- merge(counties_cdf, ref_df1, by = "city_state_id")
+
+# test to find the records that didn't merge propery
+unique_na_region <- counties_cdf_test %>%
+  filter(is.na(region_name)) %>%
+  distinct(city_state_id, .keep_all = TRUE)
+
+# list the agencies that didn't match so we can update crosswalk reference file
+#print(unique_na_region)
+
+#clean up columns
+counties_cdf_test <- counties_cdf_test %>% mutate(State = State.x, city_state = city_state.x, Agency_Type = Agency_Type.x) %>%
+select(-State.y, -city_state.y, -Agency_Type.y, -State.x, -city_state.x, -Agency_Type.x)
+
+names(counties_cdf_test)
+```
+make a new dataframe and look for any last missing records
+```{r}
+county_cdf1 <-counties_cdf_test
+df_list <- counties_cdf_test
+
+# Initialize an empty dataframe to store results
+missing_agency_records <- data.frame()
+
+# Loop through each dataframe in the list
+for (df_name in names(df_list)) {
+  df <- df_list[[df_name]]  # Extract the dataframe
+  
+  # Filter for rows where `Agency Name` is NA
+  missing_rows <- df[is.na(df$`Agency Name`), ]
+  
+  # If there are missing rows, add a column to indicate the dataframe name
+  if (nrow(missing_rows) > 0) {
+    missing_rows$source_dataframe <- df_name
+    missing_agency_records <- rbind(missing_agency_records, missing_rows)
+  }
+}
+
+# Display the results
+if (nrow(missing_agency_records) > 0) {
+  print(missing_agency_records)
+} else {
+  print("No missing `Agency Name` values found in any dataframe.")
+}
+
+```
+confirm that all counties have matching reference columns
+```{r}
+head(county_cdf1)
+#rename columns
+```
+one last column check and ready to bind to cities
+```{r}
+# Define acceptable column names
+acceptable_names <- c("Agency Name", "Murder", "Rape", "Robbery", "Aggravated Assault",  
+                      "Burglary", "Theft", "Motor Vehicle Theft", "Year", "Month", "State", "city_state", "Agency_Type")
+
+# Remove "Agency_Type.y"
+#county_cdf1 <- county_cdf1 %>% select(-"Agency_Type.y")
+
+# Create a dataframe of records that had columns not listed in acceptable_names
+df_extra <- county_cdf1 %>%
+  select(-all_of(acceptable_names)) %>%
+  filter(rowSums(!is.na(.)) > 0) # Ensures only rows with extra columns are kept
+
+# Keep only the acceptable columns in the main dataframe
+county_cdf2 <- county_cdf1 %>% select(all_of(acceptable_names))
+
+# Ensure all records in county_cdf1 have "County" as their "Agency_Type"
+county_cdf2 <- county_cdf2 %>% filter(Agency_Type == "County")
+
+# Print results
+head(county_cdf2)
+```
+where are all the NA records coming from?
+```{r}
+# Function to filter records with NA in both columns
+find_na_records <- function(df) {
+  df %>% 
+    filter(is.na(`Agency Name`) & is.na(Murder))
+}
+
+# Apply to each dataframe in the list and name the output
+na_records_list <- lapply(county_ldf, find_na_records)
+
+# Optionally name the elements of the list (if original names exist)
+#names(na_records_list) <- names(ldf)
+
+# View summary of how many NA records were found in each
+sapply(na_records_list, nrow)
+
+```
+run the above 
+```{r}
+head(county_cdf2)
+
+county_cdf2 <- county_cdf2 %>%
+  filter(!is.na(`Agency Name`))
+
+county_cdf2 <- county_cdf2 %>% distinct(city_state, Month, Year, .keep_all = TRUE)
+
+```
+check the numbers
+```{r}
+library(dplyr)
+
+# Get the number of unique combinations of city_state and agency_type
+unique_combinations <- county_cdf2 %>%
+  distinct(city_state, Agency_Type) %>%
+  nrow()
+
+# Print the result
+print(unique_combinations)
+
+undesirables_na_historical_county <- county_cdf2 %>%
+  filter(Year <= two_months_previous_year &
+         Month < two_months_previous_month &
+         is.na(Murder))
+```

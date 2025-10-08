@@ -26,7 +26,9 @@ document.addEventListener("DOMContentLoaded", function() {
     
         // Create the table headers
         const headers = [
-            { label: "Agency", key: "agency_full" },
+            { label: "Agency", key: "agency_name" },  // Now using agency_name
+            { label: "State", key: "state_name" },    // Added state_name
+            { label: "Region", key: "region" }, // Added Region after State
             { label: "Population Covered", key: "population" },
             { label: "Source Type", key: "source_type" },
             { label: "Source Method", key: "source_method" },
@@ -88,6 +90,8 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to display the National Full Sample
     function displayNationalSample() {
         const filteredData = allData.filter(row => row.in_national_sample === "TRUE");
+        console.log(filteredData);
+        console.log(`Filtered count: ${filteredData.length}`);
         formatAndPopulateTable(filteredData);
         updateAgenciesNumBox(filteredData.length);
     }

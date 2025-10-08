@@ -87,7 +87,12 @@ th:last-child {
     border-top-right-radius: 8px;
 }
 
-td:first-child {
+th:nth-child(2) {
+    text-align: left;
+}
+
+td:first-child,
+td:nth-child(2) {
     text-align: left;
 }
 
@@ -357,4 +362,9 @@ th span.sortable.sorted {
     .tab-navigation {
         top: -24px; /* Adjust this value to move tabs closer to the graph */
     }
+}
+
+
+.master-heading {
+    margin-top: 0.3em; /* Add additional space above the subheader */
 }

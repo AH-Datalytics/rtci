@@ -12,6 +12,7 @@ pipeline/gc_serv.json
 *__pycache__*
 
 # Common directories and files to ignore
+*.iml
 .Rapp.history
 .RData
 .Rhistory

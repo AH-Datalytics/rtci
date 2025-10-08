@@ -22,9 +22,9 @@ data <- cleaned_data %>%
 
 # narrow it down further
 data <- data %>% 
-          select(Month, Year, city_state,
+          select(Month, Year,
                   Murder, Agg.Assault, Rape,
-                   Burglary, Robbery, MVT, Theft)
+                   Burglary, Robbery, MVT, Theft, city_state_id)
 
 #drop row names
 row.names(data) <- NULL
@@ -145,7 +145,7 @@ clean_crime_data <- function(data, crime_columns) {
 
 data <- clean_crime_data(data, count_fields)
 
-metrics_allpd <- function(data, agency = 'city_state', cf = count_fields, month = 'Month', year = 'Year', flagp = 0.001) {
+metrics_allpd <- function(data, agency = 'city_state_id', cf = count_fields, month = 'Month', year = 'Year', flagp = 0.001) {
   # Drop rows with NA in any of the specified fields
   data <- data %>% 
     filter(!is.na(!!sym(agency)) & !is.na(!!sym(month)) & !is.na(!!sym(year)) & rowSums(is.na(data[cf])) == 0)

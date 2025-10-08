@@ -1,11 +1,12 @@
 import calendar
-import glob
-import os
 import pandas as pd
 import requests
 import sys
 
+from bs4 import BeautifulSoup as bS
+from datetime import datetime as dt
 from pathlib import Path
+from selenium.common.exceptions import TimeoutException
 from time import sleep
 
 sys.path.append("../../utils")
@@ -15,36 +16,35 @@ from selenium_actions import (
     click_element_by_index,
     click_element_next,
     click_element_previous,
+    click_select_element_value,
     drag_element,
     hide_element,
+    wait_for_element,
 )
-from selenium_configs import firefox_driver
+from selenium_configs import chrome_driver
 from super import Scraper
 
 
-from selenium.webdriver.support.ui import Select
-
-
-class Colorado(Scraper):
+class Nebraska(Scraper):
     def __init__(self):
         super().__init__()
         self.url = "https://crimestats.ne.gov/public/View/RSReport.aspx?ReportId=1082"
         self.download_dir = f"{Path.cwd()}"
-        self.driver = firefox_driver(self)
+        self.driver = chrome_driver(self)
         self.years = list(range(self.first.year, self.last.year + 1))
-        # self.batch_size = 13
-        # self.records = list()
-        self.exclude_oris = []
+        self.map = {}
+        self.records = list()
+        self.exclude_oris = ["NB0280200"]
         self.agencies = self.get_agencies(self.exclude_oris)
         self.oris = list(self.agencies.values())
         self.map = {
-            "Murder and Nonnegligent Manslaughter": "murder",
-            "Forcible Rape Total": "rape",
-            "Robbery Total": "robbery",
+            "a. Murder and Nonnegligent Homicide": "murder",
+            "2. Forcible Rape Total": "rape",
+            "3. Robbery Total": "robbery",
             "Aggravated Assault Total": "aggravated_assault",
-            "Burglary Total": "burglary",
-            "Larceny - Theft Total": "theft",
-            "Motor Vehicle Theft Total": "motor_vehicle_theft",
+            "5. Burglary Total": "burglary",
+            "6. Larceny - Theft Total": "theft",
+            "7. Motor Vehicle Theft Total": "motor_vehicle_theft",
         }
 
     def scrape(self):
@@ -55,167 +55,210 @@ class Colorado(Scraper):
             self.driver.quit()
             r = requests.get(self.url)
             raise Exception(f"bad response ({r.status_code})")
+        sleep(3)
 
-        for year in self.years:
-            for month in list(calendar.month_abbr)[1:]:
-                s = f"{month}&nbsp;{year}"
-                ss = f"{month} {year}"
+        # get list of year, month and agency values from site
+        soup = bS(self.driver.page_source, "lxml")
+        months = [
+            s.text
+            for s in soup.find(
+                "select", {"name": "ctl00$MainContent$RptViewer$ctl08$ctl05$ddValue"}
+            ).find_all("option")
+            if len(s.text) == 8
+            and self.first
+            <= dt.strptime(s.text.strip().replace("\xa0", " "), "%b %Y")
+            <= self.last
+        ]
+        agencies = [
+            s.text
+            for s in soup.find(
+                "select", {"name": "ctl00$MainContent$RptViewer$ctl08$ctl03$ddValue"}
+            ).find_all("option")
+            if s.text.strip().replace("\xa0", " ").rsplit(" - ", 1)[-1] in self.oris
+        ]
 
-                from selenium import webdriver
-                from selenium.webdriver.common.by import By
-                from selenium.webdriver.support.ui import WebDriverWait
-                from selenium.webdriver.support import expected_conditions as EC
+        # run through agencies and year-months to generate reports and parse them
+        for agency in agencies:
+            self.select_agency(agency)
+            for month in months:
+                self.select_month(agency, month)
+                self.click_report(agency, month)
+                soup = bS(self.driver.page_source, "lxml")
+                self.process_soup(soup, agency, month)
+                sleep(1)
 
-                wait = WebDriverWait(self.driver, 20)
-                select_id = "ctl00_MainContent_RptViewer_ctl08_ctl05_ddValue"
+        # process and return records
+        return self.process_records()
 
-                break
-            break
-
-        # # get to report config page
-        # click_element(self, "img", "title", "Expand all")
-        # click_element(self, "a", "text", "Crime Rates by Individual Jurisdictions")
-        #
-        # # config measures
-        # click_element(self, "a", "text", "Measures")
-        # click_element(self, "img", "title", "Clear all members")
-        # hide_element(self, "//div[@id='HighLightDiv']")
-        # click_element_previous(self, "span", "text", "Number of Crimes", "input", 1)
-        # click_element(self, "span", "id", "H_9_ClearSelection")
-        #
-        # # config jurisdictions
-        # click_element(self, "a", "text", "Jurisdiction by Type")
-        # click_element_next(self, "span", "text", "Local Police Department", "input", 1)
-        #
-        # # config months
-        # click_element(self, "a", "text", "Incident Month")
-        # click_element_next(self, "span", "text", "All Incident Months", "input", 1)
-        #
-        # # config offenses
-        # click_element(self, "a", "text", "Offense Type")
-        # click_element_next(self, "span", "text", "All Offense Types", "input", 1)
-        # click_element_next(self, "span", "text", "All Offense Types", "input", 2)
-        # click_element_previous(
-        #     self, "span", "text", "Murder and Nonnegligent Manslaughter", "input", 1
-        # )
-        # click_element_previous(self, "span", "text", "All Rape", "input", 1)
-        # click_element_previous(self, "span", "text", "Aggravated Assault", "input", 1)
-        # click_element_previous(
-        #     self, "span", "text", "Burglary/Breaking & Entering", "input", 1
-        # )
-        # click_element_previous(self, "span", "text", "Robbery", "input", 1)
-        # click_element_previous(self, "span", "text", "Pocket-picking", "input", 1)
-        # click_element_previous(self, "span", "text", "Purse-snatching", "input", 1)
-        # click_element_previous(self, "span", "text", "Shoplifting", "input", 1)
-        # click_element_previous(self, "span", "text", "Theft From Building", "input", 1)
-        # click_element_previous(
-        #     self,
-        #     "span",
-        #     "text",
-        #     "Theft From Coin Operated Machine or Device",
-        #     "input",
-        #     1,
-        # )
-        # click_element_previous(
-        #     self, "span", "text", "Theft From Motor Vehicle", "input", 1
-        # )
-        # click_element_previous(
-        #     self, "span", "text", "Theft of Motor Vehicle Parts/Accessories", "input", 1
-        # )
-        # click_element_previous(self, "span", "text", "All Other Larceny", "input", 1)
-        # click_element_previous(self, "span", "text", "Motor Vehicle Theft", "input", 1)
-        #
-        # # config years
-        # for year in self.years:
-        #     click_element(self, "a", "text", "Incident Date")
-        #     click_element(
-        #         self,
-        #         "input",
-        #         "title",
-        #         "Clear group and all members below it in hierarchy",
-        #     )
-        #     if check_for_element(self, "span", "text", str(year)):
-        #         click_element_previous(self, "span", "text", year, "input", 1)
-        #
-        #     # gen report
-        #     click_element(self, "input", "name", "ShowUpdatedReportButton")
-        #
-        #     # remove any existing csvs in local dir
-        #     for fn in glob.glob(self.download_dir + "/" + "*.csv"):
-        #         os.remove(fn)
-        #
-        #     # download report
-        #     click_element(self, "img", "title", "Download report data")
-        #     click_element(self, "input", "name", "DownloadReportGo")
-        #
-        #     # check for downloaded csv and load into df
-        #     while len(glob.glob(self.download_dir + "/" + "*.csv")) == 0:
-        #         sleep(1)
-        #     sleep(3)
-        #
-        #     fns = glob.glob(self.download_dir + "/" + "*.csv")
-        #     assert len(fns) == 1
-        #     df = pd.read_csv(fns[0], index_col=0, skiprows=4, thousands=",")
-        #     idx = df.columns.get_loc("January")
-        #     dfs = self.split_dataframe_into_batches(df, batch_size=idx)[1:]
-        #
-        #     for df in dfs:
-        #         self.records.extend(self.format_one_month(df, year))
-        #
-        #     # remove any existing csvs in local dir
-        #     for fn in glob.glob(self.download_dir + "/" + "*.csv"):
-        #         os.remove(fn)
-        #
-        # self.records = pd.DataFrame(self.records)
-        # self.records = self.records[self.records["ori"].isin(self.agencies)]
-        # self.records["ori"] = self.records["ori"].map(self.agencies)
-        #
-        # # wait, quit driver and return
-        # sleep(5)
-        # self.driver.quit()
-        # return self.records.to_dict("records")
-
-    @staticmethod
-    def split_dataframe_into_batches(df, batch_size):
-        batches = list()
-        num_columns = df.shape[1]
-        for i in range(0, num_columns, batch_size):
-            batch = df.iloc[:, i : i + batch_size]
-            batches.append(batch)
-        return batches
-
-    def format_one_month(self, df, year):
-        month = list(df.columns)[0]
-        df = df.rename(columns=df.iloc[0])
-
-        out = list()
-        dfs = self.split_dataframe_into_batches(df, batch_size=14)[1:]
-        for df in dfs:
-            agency = list(df.columns)[0].replace(" Police Department", "")
-            agency = agency.replace(" Department of Public Safety", "")
-            df.columns = df.iloc[1]
-            df = df.rename_axis(None, axis=1).T
-            df = df.reset_index()[["Offense Type", str(year)]].rename_axis(None, axis=1)
-            df = df.rename(columns={str(year): "count", "Offense Type": "crime"})
-            df["crime"] = df["crime"].map(self.map)
-            df["count"] = df["count"].apply(lambda s: self.check_for_comma(s))
-            df = df.groupby("crime")["count"].sum().reset_index()
-            df["year"] = year
-            df["month"] = month
-            df["month"] = pd.to_datetime(df["month"], format="%B").dt.month
-            df["ori"] = agency
-            out.extend(
-                df.pivot(
-                    index=["year", "month", "ori"],
-                    columns="crime",
-                    values="count",
-                )
-                .reset_index()
-                .rename_axis(None, axis=1)
-                .to_dict("records")
+    def select_agency(self, agency):
+        self.logger.info(f"attempting {agency}...")
+        sleep(3)
+        try:
+            click_select_element_value(
+                self,
+                "select",
+                "id",
+                "ctl00_MainContent_RptViewer_ctl08_ctl03_ddValue",
+                agency,
+            )
+        except (NotImplementedError, TimeoutException):
+            self.logger.warning("retrying...")
+            self.driver.quit()
+            sleep(5)
+            self.driver = chrome_driver(self)
+            self.driver.get(self.url)
+            click_select_element_value(
+                self,
+                "select",
+                "id",
+                "ctl00_MainContent_RptViewer_ctl08_ctl03_ddValue",
+                agency,
             )
 
-        return out
+    def select_month(self, agency, month):
+        self.logger.info(f"attempting {month}...")
+        sleep(3)
+        try:
+            click_select_element_value(
+                self,
+                "select",
+                "id",
+                "ctl00_MainContent_RptViewer_ctl08_ctl05_ddValue",
+                month,
+            )
+        except (NotImplementedError, TimeoutException):
+            self.logger.warning("retrying...")
+            self.driver.quit()
+            sleep(5)
+            self.driver = chrome_driver(self)
+            self.driver.get(self.url)
+            self.select_agency(agency)
+            click_select_element_value(
+                self,
+                "select",
+                "id",
+                "ctl00_MainContent_RptViewer_ctl08_ctl05_ddValue",
+                month,
+            )
+
+    def click_report(self, agency, month):
+        sleep(3)
+        try:
+            click_element(
+                self,
+                "input",
+                "id",
+                "ctl00_MainContent_RptViewer_ctl08_ctl00",
+            )
+            wait_for_element(
+                self,
+                "div",
+                "id",
+                "VisibleReportContentctl00_MainContent_RptViewer_ctl13",
+                30,
+            )
+            wait_for_element(self, "div", "text", "Grand Total", 30)
+        except TimeoutException:
+            self.logger.warning("retrying...")
+            self.driver.quit()
+            sleep(15)
+            self.driver = chrome_driver(self)
+            self.driver.get(self.url)
+            self.select_agency(agency)
+            self.select_month(agency, month)
+            sleep(3)
+            click_element(
+                self,
+                "input",
+                "id",
+                "ctl00_MainContent_RptViewer_ctl08_ctl00",
+            )
+            wait_for_element(
+                self,
+                "div",
+                "id",
+                "VisibleReportContentctl00_MainContent_RptViewer_ctl13",
+                30,
+            )
+            wait_for_element(self, "div", "text", "Grand Total", 30)
+
+    def process_soup(self, soup, agency, month):
+        month, year = month.split("\xa0")
+        for field in self.map:
+            tds = soup.find_all("td", string=field)
+            assert len(tds) == 1
+            td = tds[0]
+            reported = td.find_next_sibling("td").text.strip()
+            if reported == "":
+                reported = 0
+            else:
+                reported = int(reported)
+            cleared = (
+                td.find_next_sibling("td")
+                .find_next_sibling("td")
+                .find_next_sibling("td")
+                .find_next_sibling("td")
+                .text.strip()
+            )
+            if cleared == "":
+                cleared = 0
+            else:
+                cleared = int(cleared)
+            datum = {
+                "field": field,
+                "reported": reported,
+                "cleared": cleared,
+            }
+            tmp = {"ori": agency, "year": int(year), "month": dt.strptime(month, "%b")}
+            tmp.update(datum)
+            tmp["ori"] = tmp["ori"].replace("\xa0", " ").rsplit(" - ", 1)[-1]
+            self.records.append(tmp)
+
+    def process_records(self):
+        # relabel field names and sum components
+        self.records = pd.DataFrame(self.records)
+        self.records["field"] = self.records["field"].map(self.map)
+        self.records = (
+            self.records.groupby(["ori", "year", "month", "field"]).sum().reset_index()
+        )
+
+        # handle crime counts vs. clearances
+        records = self.records.pivot(
+            index=["ori", "year", "month"],
+            columns="field",
+            values="reported",
+        ).reset_index()
+
+        clearances = (
+            self.records.pivot(
+                index=["ori", "year", "month"],
+                columns="field",
+                values="cleared",
+            )
+            .reset_index()
+            .add_suffix("_cleared")
+            .rename(
+                columns={
+                    "ori_cleared": "ori",
+                    "year_cleared": "year",
+                    "month_cleared": "month",
+                }
+            )
+        )
+        self.records = pd.merge(
+            records,
+            clearances,
+            on=["ori", "year", "month"],
+        )
+
+        # reformat month
+        self.records["month"] = pd.to_datetime(
+            self.records["month"], format="%b"
+        ).dt.month
+
+        # return results
+        self.driver.quit()
+        return self.records.to_dict("records")
 
 
-Colorado().run()
+Nebraska().run()

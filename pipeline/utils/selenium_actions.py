@@ -2,7 +2,9 @@
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
+
 from time import sleep
 
 
@@ -69,6 +71,28 @@ def check_for_element(self, tag, feature, value):
         self.logger.info(f"found {xpath}")
         return True
     return False
+
+
+def wait_for_element(self, tag, feature, value, wait=20):
+    self.wait = WebDriverWait(self.driver, wait)
+    xpath = f"//{tag}[@{feature}='{value}']"
+    if feature == "text":
+        xpath = f"//{tag}[{feature}()='{value}']"
+    self.wait.until(ec.visibility_of_element_located((By.XPATH, xpath)))
+    sleep(1)
+    self.logger.info(f"found {xpath}")
+
+
+def click_select_element_value(self, tag, feature, value, option):
+    wait_for_element(self, tag, feature, value)
+    xpath = f"//{tag}[@{feature}='{value}']"
+    if feature == "text":
+        xpath = f"//{tag}[{feature}()='{value}']"
+    element = self.driver.find_element(By.XPATH, xpath)
+    select = Select(element)
+    select.select_by_visible_text(option)
+    sleep(1)
+    self.logger.info(f"selected option {xpath}")
 
 
 def hide_element(self, xpath):

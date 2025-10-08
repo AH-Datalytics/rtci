@@ -1,18 +1,24 @@
 # macOS specific files
 .DS_Store
 
+# IDE configs
+*.idea*
+
+# Privacy and security
+.env
+pipeline/gc_serv.json
+
+# Packages
+*__pycache__*
+
 # Common directories and files to ignore
-.Rproj.user/
-.Rhistory
-.RData
-.Ruserdata
-.Rprofile
+*.iml
 .Rapp.history
+.RData
+.Rhistory
+.Rprofile
+.Rproj.user/
+.Ruserdata
 .vscode/
 /.vs
 rtci.code-workspace
-*.iml
-.idea/
-.env
-
-

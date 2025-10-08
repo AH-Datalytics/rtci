@@ -3,9 +3,11 @@ name: server-repo-update
 on:
   push:
     branches:
+      - main
+      - cw_update
+      - pre-production
       - scrape-dev
-      - development
-      - production
+      - ytd-map
 
 jobs:
   run_pull:

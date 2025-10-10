@@ -1,9 +1,16 @@
 import json
+from datetime import datetime
 from typing import Self, Any
 
+import pandas as pd
 from langchain_core.documents import Document
+from langchain_core.messages import BaseMessage, HumanMessage, AIMessage
 from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompt_values import PromptValue
+from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import Runnable, RunnablePick
+from pandasai import Agent
+from pandasai.core.response import StringResponse, NumberResponse, DataFrameResponse, ErrorResponse, ChartResponse
 
 from rtci.model import CrimeData, DateRange, LocationDocument, CrimeCategory, BotException
 from rtci.rtci import RealTimeCrime
@@ -11,6 +18,7 @@ from rtci.util.collections import convert_structured_document_to_json
 from rtci.util.data import create_database
 from rtci.util.database import CrimeDatabase
 from rtci.util.llm import create_llm
+from rtci.util.log import logger
 
 
 class CrimeCategoryResolver:
@@ -56,8 +64,9 @@ class CrimeCategoryResolver:
         if not category_list:
             return []
         for crime_category in category_list:
-            if crime_category.category is None or crime_category.category.lower() in ["none", "null", "empty"]:
-                crime_category.category = None
+            if not crime_category.crime.lower() in ['crime', 'none']:
+                if crime_category.category is None or crime_category.category.lower() in ["none", "null", "empty"]:
+                    crime_category.category = None
         return list(category_list)
 
 
@@ -110,3 +119,232 @@ class CrimeRetriever:
                 df_items["start_date"] = start_row_list
                 df_items["end_date"] = end_row_list
         return CrimeData(data_frame=df_items)
+
+
+async def summarize_query(query: str,
+                          messages: list[BaseMessage] = None,
+                          locations: list[LocationDocument] = None,
+                          crime_categories: list[CrimeCategory] = None,
+                          date_range: DateRange = None) -> str:
+    # Prepare context elements for summarization
+    location_context = ""
+    if locations:
+        location_names = [loc.label for loc in locations]
+        location_context = f"locations: {', '.join(location_names)}"
+    if not location_context:
+        location_context = "any location"
+
+    date_context = ""
+    if date_range:
+        date_context = f"date range: {date_range.prompt_content}"
+    if not date_context:
+        date_context = "any date range"
+
+    category_context = ""
+    if crime_categories:
+        categories = [cat.category for cat in crime_categories if cat.category]
+        if categories:
+            category_context = f"crime categories: {', '.join(categories)}"
+    if not category_context:
+        category_context = "any category"
+
+    conversation_context = ""
+    if messages:
+        # Only include the last few messages to keep the context manageable
+        num_messages = 10
+        recent_messages = messages[-num_messages:] if len(messages) > num_messages else messages
+        for msg in recent_messages:
+            if isinstance(msg, HumanMessage):
+                conversation_context += f"User: {msg.content}\n"
+            elif isinstance(msg, AIMessage):
+                content = msg.content[:100] + "..." if len(msg.content) > 100 else msg.content
+                conversation_context += f"Assistant: {content}\n"
+
+    # Create a prompt for the LLM to summarize
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", RealTimeCrime.prompt_library.find_text("assistant_profile")),
+        ("human", RealTimeCrime.prompt_library.find_text("assistant_summarize")),
+    ])
+
+    # Call the LLM to generate a summarized query
+    chain = (prompt_template |
+             create_llm() |
+             StrOutputParser())
+    return await chain.ainvoke({
+        "original_query": query,
+        "location_context": location_context,
+        "date_context": date_context,
+        "category_context": category_context,
+        "conversation_context": conversation_context,
+        "current_date": datetime.now().strftime("%Y-%m-%d")
+    })
+
+
+async def assist_query(query: str) -> str:
+    # Determine available data
+    database = create_database()
+    date_range = database.determine_availability()
+
+    # Create a prompt for the LLM to provide assistance
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", RealTimeCrime.prompt_library.find_text("assistant_profile")),
+        ("human", RealTimeCrime.prompt_library.find_text("assistant_help")),
+    ])
+
+    # Call the LLM to generate assistance
+    chain = (prompt_template |
+             create_llm() |
+             StrOutputParser())
+    return await chain.ainvoke({
+        "query": query,
+        "date_range_info": date_range.prompt_content if date_range else "None",
+        "current_date": datetime.now().strftime("%Y-%m-%d")
+    })
+
+
+async def chat_query(query: str,
+                     data_context: CrimeData,
+                     locations: list[LocationDocument] = None,
+                     crime_categories: list[CrimeCategory] = None,
+                     date_range: DateRange = None) -> str:
+    query_context: dict[str, Any] = {
+        "query": query,
+        "current_date": datetime.now().strftime("%Y-%m-%d")
+    }
+
+    crime_categories_text = "All crime categories."
+    if crime_categories:
+        crime_categories: list[str] = list(map(lambda x: x.category, crime_categories))
+        crime_categories_text = ", ".join(crime_categories)
+    query_context['crime_categories'] = crime_categories_text
+
+    # Format location information for the prompt
+    location_text = "All locations."
+    if locations:
+        location_json = list(map(lambda x: x.prompt_content, locations))
+        location_text = "\n".join(location_json)
+    query_context['locations'] = location_text
+
+    # Format date range information for the prompt
+    date_text = "Any date range."
+    if date_range:
+        date_text = date_range.prompt_content
+    query_context['date_range'] = date_text
+
+    # Create the response using an LLM
+    system_prompt: str = RealTimeCrime.prompt_library.find_text("assistant_profile")
+    analyze_prompt: ChatPromptTemplate = RealTimeCrime.prompt_library.find_prompt("assistant_analyze")
+    if data_context and data_context.size > 1:
+        logger().trace(f"Using pandasAI agent for data analysis for query \"{query}\".")
+        df = data_context.to_pandas()
+        actor = Agent(dfs=df)
+        actor.add_message(message=system_prompt, is_user=True)
+        actor.add_message(message=analyze_prompt.format(**query_context), is_user=True)
+
+        async def pandas_analysis(input_dict):
+            if isinstance(input_dict, PromptValue):
+                query_text = input_dict.to_string()
+            elif isinstance(input_dict, dict):
+                query_text = input_dict.get("query")
+            else:
+                query_text = str(input_dict)
+            panda_response = actor.follow_up(query=query_text)
+            if not panda_response:
+                return "No response generated."
+            if isinstance(panda_response, str):
+                return panda_response.strip()
+            elif isinstance(panda_response, StringResponse):
+                return str(panda_response.value)
+            elif isinstance(panda_response, NumberResponse):
+                return f"{panda_response.value:,.0f}"
+            elif isinstance(panda_response, DataFrameResponse):
+                return await format_dataframe_response(panda_response)
+            elif isinstance(panda_response, ChartResponse):
+                return await format_chart_response(panda_response)
+            elif isinstance(panda_response, ErrorResponse):
+                logger().error(f"Error response: {panda_response.value}.", panda_response.error)
+                if panda_response.value:
+                    return panda_response.value
+                else:
+                    return "An error occurred."
+            logger().warning(f"Unexpected response type: {type(panda_response)}.")
+            return "Unexpected response type."
+
+        chain = (pandas_analysis |
+                 StrOutputParser())
+        return await chain.ainvoke(query_context)
+    else:
+        logger().trace(f"Using LLM for data analysis for query \"{query}\".")
+
+        def combine_prompts(input_dict):
+            return f'''
+{system_prompt}
+##-------------------------------------------
+{analyze_prompt.format(**input_dict)}
+'''
+
+        chain = (combine_prompts |
+                 create_llm() |
+                 StrOutputParser())
+        data_frame_text = data_context.to_csv() if data_context else None
+        query_context['data_frame'] = data_frame_text
+        return await chain.ainvoke(query_context)
+
+
+# Convert a chart to message response format
+async def format_chart_response(response: ChartResponse):
+    if response.value is None:
+        return None
+    image_data = response.get_base64_image()
+    if not image_data:
+        return None
+    return f"![Chart](data:image/png;base64,{image_data})"
+
+
+# Convert a data frame to a markdown table
+async def format_dataframe_response(response: DataFrameResponse):
+    if response.value is None:
+        return None
+    df = pd.DataFrame(response.value)
+
+    # If the dataframe has 1 or fewer rows, use the LLM to summarize it as CSV
+    if len(df) <= 1:
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", RealTimeCrime.prompt_library.find_text("assistant_profile")),
+            ("human", RealTimeCrime.prompt_library.find_text("assistant_csv")),
+        ])
+        chain = (prompt | create_llm() | StrOutputParser())
+        return await chain.ainvoke({"csv_data": df.to_csv(index=False)})
+
+    # Format date columns if specified
+    for col in ['date', 'datetime', 'last_modified', 'last_updated']:
+        if col in df.columns:
+            df[col] = df[col].dt.strftime('%B %Y')
+
+    # Rename columns if specified
+    rename_columns = {
+        'date': "Date",
+        'year': "Year",
+        'month': "Month",
+        'reporting_agency': "Location",
+        'city_state': "City/State",
+        'state': "State",
+        'murders': "Murders",
+        'num_murders': '# Murders',
+        'robbery': "Robbery",
+        'num_robbery': '# Robbery',
+        'robberies': "Robbery",
+        'num_robberies': '# Robbery',
+        'total_murder': '# Murder',
+        'total_rape': '# Rape',
+        'total_robbery': '# Robbery',
+        'total_aggravated_assault': '# Agg. Assault',
+        'total_burglary': '# Burglary',
+        'total_theft': '# Theft',
+        'total_motor_vehicle_theft': '# Motor Vehicle Theft',
+        'total_property_crime': '# Property Crime'
+    }
+    df = df.rename(columns=rename_columns)
+
+    # Convert the DataFrame to Markdown table format
+    return df.to_markdown(index=False)

@@ -16,15 +16,13 @@ async def extract_locations(state: CrimeBotState) -> dict[str, Any]:
 
     last_locations = state.get("locations", [])
     extracted_locations: list[LocationDocument] = await resolver.resolve_locations(query_request)
-    if not extracted_locations:
-        return {}
 
     location_map: dict[str, LocationDocument] = {}
-    if last_locations:
-        for location in last_locations:
-            location_map[location.page_content] = location
     for location in extracted_locations:
         location_map[location.page_content] = location
+    if not location_map:
+        return {}
+
     locations = list(location_map.values())
     first_location = locations[0]
     if len(locations) > 2:

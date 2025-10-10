@@ -10,7 +10,7 @@ from typing import AsyncGenerator
 
 from fastapi import FastAPI, Depends
 from langchain.chains import LLMChain
-from langchain_core.messages import AIMessage, HumanMessage
+from langchain_core.messages import AIMessage, HumanMessage, BaseMessage
 from langgraph.graph.state import CompiledStateGraph
 from starlette.exceptions import HTTPException
 from starlette.middleware.cors import CORSMiddleware
@@ -22,14 +22,16 @@ from rtci.rtci import RealTimeCrime
 from rtci.util.data import cleanup_old_files
 from rtci.util.log import logger
 
+# check for debug mode
+app_env = getenv("APP_ENV") or getenv("ENV") or getenv("RUN_MODE")
+is_dev = False
+if app_env:
+    is_dev = app_env.lower() == "development" or app_env.lower() == "dev"
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # setup application core
-    app_env = getenv("APP_ENV") or getenv("ENV") or getenv("RUN_MODE")
-    is_dev = False
-    if app_env:
-        is_dev = app_env.lower() == "development" or app_env.lower() == "dev"
     RealTimeCrime.bootstrap(debug_mode=is_dev)
     cleanup_pandas_files()
     # run application server
@@ -59,7 +61,7 @@ def cleanup_pandas_files():
 
 
 def get_langchain_components() -> CompiledStateGraph:
-    graph = build_crime_analysis_graph()
+    graph = build_crime_analysis_graph(debug_mode=is_dev)
     return graph.compile()
 
 
@@ -100,7 +102,11 @@ async def stream_response_with_graph(graph_chain: CompiledStateGraph,
     message_list = user_state.get("messages")
     if not message_list:
         message_list = []
-    message_list.append(HumanMessage(content=user_state["query"]))
+    user_query = user_state.get("original_query")
+    if not user_query:
+        user_query = user_state.get("query")
+    message_list.append(HumanMessage(content=user_query))
+    example = False
     async for mode, namespace, chunk in graph_chain.astream(user_state,
                                                             stream_mode=["messages", "updates", "custom", "values"],
                                                             subgraphs=True):
@@ -109,15 +115,21 @@ async def stream_response_with_graph(graph_chain: CompiledStateGraph,
                 last_state = chunk
         elif namespace == "updates":
             for node_or_tool, data in chunk.items():
-                if data:
-                    if data.get("messages") and data["messages"]:
-                        last_message = data["messages"][-1]
-                        if isinstance(last_message, (AIMessage, HumanMessage)):
-                            if not last_message in message_list:
-                                message_list.append(last_message)
-                                content = last_message.content if isinstance(last_message, AIMessage) else last_message
-                                event = {"content": content, "type": "message", "session_id": session_id}
-                                yield f"event: data\ndata: {json.dumps(event)}\n"
+                if data and data.get("messages") and data["messages"]:
+                    last_message = data["messages"][-1]
+                    if isinstance(last_message, BaseMessage):
+                        if not last_message in message_list:
+                            message_list.append(last_message)
+                            content = last_message.content
+                            if isinstance(last_message, AIMessage):
+                                if last_message.example:
+                                    example = True
+                            event = {"content": content, "type": "message", "session_id": session_id}
+                            yield f"event: data\ndata: {json.dumps(event)}\n"
+                    else:
+                        event = {"message": "An unexpected message type was received.", "session_id": session_id}
+                        yield f"event: error\ndata: {json.dumps(event)}\n"
+
         elif namespace == "custom":
             if isinstance(chunk, dict):
                 yield f"event: data\ndata: {json.dumps(chunk)}\n"
@@ -140,12 +152,16 @@ async def stream_response_with_graph(graph_chain: CompiledStateGraph,
                                  value=pickle.dumps(session_state),
                                  ttl=ttl_sec)
     # stream end event
+    summarized_query = last_state.get("summarized_query")
+    if not summarized_query:
+        summarized_query = last_state.get("query")
     sourcing_markdown = "\n\n".join([
-        "## Response Context and Criteria:",
+        "## Query",
+        summarized_query,
         "-------",
         session_state.to_markdown()
     ])
-    final_event = {"session_id": session_id, "source": sourcing_markdown}
+    final_event = {"session_id": session_id, "example": example, "source": sourcing_markdown}
     yield f"event: end\ndata: {json.dumps(final_event)}\n"
 
 
@@ -155,7 +171,7 @@ async def stream_with_errors(generator: AsyncGenerator[str, None]) -> AsyncGener
             yield chunk
     except Exception as ex:
         logger().error(f"An error occurred during streaming.", ex)
-        event = {"message": "An error occurred and our developers were notified."}
+        event = {"message": "An error occurred during streaming of response."}
         yield f"event: error\ndata: {json.dumps(event)}\n"
 
 

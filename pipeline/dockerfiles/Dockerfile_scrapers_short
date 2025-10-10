@@ -33,4 +33,4 @@ ENV PYTHONPATH "${PYTHONPATH}:/rtci:/rtci/pipeline:/rtci/pipeline/utils:/rtci/pi
 
 # move into the correct directory and run the main scrape execution script
 WORKDIR /rtci/pipeline/ops
-CMD ["python3", "exec_scrapes.py", "-rf", "-a", "-d", "-x", "MN", "ND", "NE", "NY0303000"]
+CMD ["python3", "exec_scrapes.py", "-rf", "-a", "-d", "-x", "MN", "MS", "ND", "NE", "NY0303000", "WY"]

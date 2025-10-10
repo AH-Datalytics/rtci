@@ -33,6 +33,7 @@ COPY rtci ./rtci
 COPY main.py ./
 RUN mkdir -p ./log/
 RUN mkdir -p ./cache/
+RUN mkdir -p ./exports/
 
 # Copy start scripts
 COPY docker/docker-entrypoint.sh /usr/local/bin/

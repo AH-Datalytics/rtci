@@ -10,13 +10,20 @@ Your response should ONLY use references available within the user query. Do NOT
  5) If the query is only referencing a generic city in a specific state, respond with ONLY the state name.
  6) If the query includes one or more locations or states, respond with a list of extracted locations separated by a single line break.
 
-## Example Input:
-"Show me crime statistics for Chicago, New York City, and the state of California from 2020 to 2022"
+## Example Queries and Expected Responses
+Below are example of a query and expected responses.
 
-## Example Output:
-Chicago
-New York City
-California
+Example 1:
+The query is: "Show me crime statistics for Chicago, New York City, and the state of California from 2020 to 2022"
+The expected response is: Chicago\nNew York City\nCalifornia
+
+Example 2:
+The query is: "How many murders in New Orleans, LA in 2023?"
+The expected response is: New Orleans,LA
+
+Example 3:
+The query is: "How many murders in New Orleans and Houston in 2023?"
+The expected response is: New Orleans\nHouston
 
 ## Input:
 The user query is: {query}

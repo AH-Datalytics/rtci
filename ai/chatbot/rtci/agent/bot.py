@@ -29,7 +29,7 @@ async def process_query(state: CrimeBotState) -> CrimeBotState:
     elif query == 'inappropriate':
         return {'messages': [AIMessage(content="I'm sorry, I am not able to answer that question.  I'm focused on crime data and analysis.", example=True)]}
     elif query == 'not-crime' or query == 'invalid':
-        return {'messages': [AIMessage(content="I'm sorry, I am only able to answer questions related to crime statistics available to me.\n\nYou may want to review the types of data available and learn about this effort at our site [RTCI](https://realtimecrimeindex.com/data/#glossary).", example=True)]}
+        return {'messages': [AIMessage(content="I'm sorry, I am only able to answer questions related to crime statistics which are available to me.\n\nYou may want to review the types of data available and learn about this effort at our site [RTCI](https://realtimecrimeindex.com/data/#glossary).", example=True)]}
 
     is_valid = (locations or date_range) and data_context
     if crime_categories:

@@ -4,7 +4,7 @@ from typing import Self, Any
 
 import pandas as pd
 from langchain_core.documents import Document
-from langchain_core.messages import BaseMessage, HumanMessage, AIMessage
+from langchain_core.messages import BaseMessage, HumanMessage
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompt_values import PromptValue
 from langchain_core.prompts import ChatPromptTemplate
@@ -156,9 +156,6 @@ async def summarize_query(query: str,
         for msg in recent_messages:
             if isinstance(msg, HumanMessage):
                 conversation_context += f"User: {msg.content}\n"
-            elif isinstance(msg, AIMessage):
-                content = msg.content[:100] + "..." if len(msg.content) > 100 else msg.content
-                conversation_context += f"Assistant: {content}\n"
 
     # Create a prompt for the LLM to summarize
     prompt_template = ChatPromptTemplate.from_messages([

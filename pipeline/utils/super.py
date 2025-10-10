@@ -59,7 +59,10 @@ class Scraper:
         self.crimes = rtci_to_nibrs
         self.crosswalks = crosswalks
         self.state = str(Path.cwd()).split("/")[-1]
-        self.state_full_name = us.states.lookup(self.state).name
+        if self.state == "DC":
+            self.state_full_name = "Washington, D.C."
+        else:
+            self.state_full_name = us.states.lookup(self.state).name
         self.oris = []
         self.first = self.set_first()
         self.last = dt.now().replace(

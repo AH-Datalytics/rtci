@@ -24,16 +24,16 @@ from selenium_configs import chrome_driver
 from super import Scraper
 
 
-class Nebraska(Scraper):
+class Massachusetts(Scraper):
     def __init__(self):
         super().__init__()
-        self.url = "https://crimestats.ne.gov/public/View/RSReport.aspx?ReportId=1082"
+        self.url = "https://ma.beyond2020.com/ma_public/View/RSReport.aspx?ReportId=584"
         self.download_dir = f"{Path.cwd()}"
         self.driver = chrome_driver(self)
         self.years = list(range(self.first.year, self.last.year + 1))
         self.map = {}
         self.records = list()
-        self.exclude_oris = ["NB0280200"]
+        self.exclude_oris = []
         self.agencies = self.get_agencies(self.exclude_oris)
         self.oris = list(self.agencies.values())
         self.map = {
@@ -54,7 +54,7 @@ class Nebraska(Scraper):
             self.driver.quit()
             r = requests.get(self.url)
             raise Exception(f"bad response ({r.status_code})")
-        sleep(3)
+        sleep(7)
 
         # get list of year, month and agency values from site
         soup = bS(self.driver.page_source, "lxml")
@@ -84,14 +84,14 @@ class Nebraska(Scraper):
                 self.click_report(agency, month)
                 soup = bS(self.driver.page_source, "lxml")
                 self.process_soup(soup, agency, month)
-                sleep(1)
+                sleep(2)
 
         # process and return records
         return self.process_records()
 
     def select_agency(self, agency):
         self.logger.info(f"attempting {agency}...")
-        sleep(3)
+        sleep(5)
         try:
             click_select_element_value(
                 self,
@@ -116,7 +116,7 @@ class Nebraska(Scraper):
 
     def select_month(self, agency, month):
         self.logger.info(f"attempting {month}...")
-        sleep(3)
+        sleep(5)
         try:
             click_select_element_value(
                 self,
@@ -141,7 +141,7 @@ class Nebraska(Scraper):
             )
 
     def click_report(self, agency, month):
-        sleep(3)
+        sleep(5)
         try:
             click_element(
                 self,
@@ -165,7 +165,7 @@ class Nebraska(Scraper):
             self.driver.get(self.url)
             self.select_agency(agency)
             self.select_month(agency, month)
-            sleep(3)
+            sleep(5)
             click_element(
                 self,
                 "input",
@@ -260,4 +260,4 @@ class Nebraska(Scraper):
         return self.records.to_dict("records")
 
 
-Nebraska().run()
+Massachusetts().run()

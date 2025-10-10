@@ -14,10 +14,8 @@ class CA0070100(Scraper):
     def __init__(self):
         super().__init__()
         self.oris = ["CA0070100"]
-        self.url = "https://www.antiochca.gov/police/crime-statistics/"
-        self.hist_url = (
-            "https://www.antiochca.gov/police/crime-statistics/crime-statistics/"
-        )
+        self.url = "https://www.antiochca.gov/446/Crime-Statistics"
+        self.hist_url = "https://www.antiochca.gov/Archive.aspx?AMID=44"
         self.legacy_map = {
             "HOMI": "murder",
             "RAPE": "rape",
@@ -47,7 +45,7 @@ class CA0070100(Scraper):
         match = int(
             (
                 soup.find(
-                    "h3", string=re.compile(r"City of Antioch \d{4} Crime Statistics")
+                    "span", string=re.compile(r"City of Antioch \d{4} Crime Statistics")
                 )
                 .text.strip()
                 .split(" ")
@@ -55,20 +53,20 @@ class CA0070100(Scraper):
         )
         assert match == self.last.year
         table = soup.find("table")
-        headers = [td.text.strip() for td in table.find("tr").find_all("td")]
+        headers = [th.text.strip() for th in table.find("tr").find_all("th")]
         rows = [
             [td.text.strip() for td in tr.find_all("td")]
             for tr in table.find_all("tr")[1:]
         ]
         df = pd.DataFrame(rows, columns=headers)
-        df = df[df["GROUP A CRIMES"].isin(self.nibrs_map)]
-        df["GROUP A CRIMES"] = df["GROUP A CRIMES"].map(self.nibrs_map)
+        df = df[df["Group A Crimes"].isin(self.nibrs_map)]
+        df["Group A Crimes"] = df["Group A Crimes"].map(self.nibrs_map)
         df = (
-            df.set_index("GROUP A CRIMES")
+            df.set_index("Group A Crimes")
             .T.reset_index()
             .rename(columns={"index": "month"})
         )
-        df = df[df["month"] != "TOTAL"]
+        df = df[df["month"] != "Total"]
         df["month"] = df["month"].apply(lambda s: s.capitalize())
         df["month"] = pd.to_datetime(df["month"], format="%b").dt.month
         df["year"] = self.last.year
@@ -77,17 +75,24 @@ class CA0070100(Scraper):
         # get urls of pdfs of previous years' data
         r = requests.get(self.hist_url)
         soup = bS(r.text, "lxml")
-        pdfs = [
-            a["href"]
-            for a in soup.find_all("a", string=re.compile(r"Year \d{4}"))
-            if self.first.year <= int(a.text.strip().split(" ")[-1]) <= self.last.year
-        ]
+        pdfs = {
+            int(a.find("span").text.strip().split()[0]): "https://www.antiochca.gov/"
+            + a["href"]
+            for a in [
+                span.find_parent("a")
+                for span in soup.find_all(
+                    "span", string=re.compile(r".*\d{4} Crime Statistics.*")
+                )
+            ]
+            if self.first.year
+            <= int(a.find("span").text.strip().split()[0])
+            <= self.last.year
+        }
 
         # run through historical pdfs
-        for pdf in pdfs:
-            self.logger.info(f"collecting: {pdf}")
-            year = int(pdf.split("/")[-1].split("-")[-1].split(".")[0])
-            if "nbrs-" in pdf:
+        for year, pdf in pdfs.items():
+            self.logger.info(f"collecting: {year}")
+            if year >= 2022:
                 data.extend(self.get_yearly_pdf(pdf, year))
             else:
                 data.extend(self.get_yearly_pdf(pdf, year, nibrs=False))

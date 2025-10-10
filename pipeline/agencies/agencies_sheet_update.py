@@ -114,7 +114,7 @@ class AgenciesSheetUpdate:
 
             not_in_cde = set()
 
-        # raise an error if there are still records in the google sheet that are not in the fbi cde data
+        # raise an error if there are still records in the Google sheet that are not in the fbi cde data
         if not_in_cde:
             raise ValueError(
                 f"rows were identified in the google sheet `agencies.sample` that are not present in the "

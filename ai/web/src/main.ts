@@ -1,5 +1,10 @@
-import DOMPurify from 'dompurify';
-import {marked} from 'marked';
+import tippy from 'tippy.js'
+//import 'tippy.js/themes/light.css'
+import 'tippy.js/themes/light-border.css'
+//import 'tippy.js/themes/google.css'
+//import 'tippy.js/themes/translucent.css'
+import DOMPurify from 'dompurify'
+import {marked} from 'marked'
 
 interface Message {
     role: 'user' | 'bot';
@@ -54,6 +59,18 @@ class ChatApp {
             this.submitBtn.disabled = this.userInput.value.trim() === '' || this.state.isWaitingForResponse;
         });
 
+        // Update new chat button state when waiting for response
+        const updateButtonStates = () => {
+            if (this.state.isWaitingForResponse) {
+                this.newChatBtn.disabled = true;
+            } else {
+                this.newChatBtn.disabled = false;
+            }
+        };
+
+        // Initial button state
+        updateButtonStates();
+
         // Handle Enter key press to submit the form
         this.userInput.addEventListener('keydown', (e) => {
             // Check if the key pressed is Enter and no modifier keys are pressed
@@ -62,7 +79,6 @@ class ChatApp {
                 this.submitForm();
             }
         });
-
     }
 
     private submitForm(): void {
@@ -79,13 +95,12 @@ class ChatApp {
         const userMessage = this.userInput.value.trim();
         if (userMessage === '' || this.state.isWaitingForResponse) return;
 
-        // Add user message to chat
+        // Add user message to chat, reset UI controls
+        this.state.isWaitingForResponse = true;
         this.addMessage('user', userMessage);
         this.userInput.value = '';
-
-        // Set loading state
-        this.state.isWaitingForResponse = true;
         this.submitBtn.disabled = true;
+        this.newChatBtn.disabled = true;
 
         try {
             // Create a placeholder for the bot's streaming response
@@ -101,12 +116,14 @@ class ChatApp {
             // Reset state
             this.state.isWaitingForResponse = false;
             this.submitBtn.disabled = false;
+            this.newChatBtn.disabled = false;
         }
     }
 
     private async sendMessageToServer(message: string): Promise<Response> {
         // Send a request to the chatbot server
-        return fetch("http://localhost:8000/stream", {
+        const serverUrl = import.meta.env.VITE_SERVER_URL || 'http://localhost:8000';
+        return fetch(`${serverUrl}/stream`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -151,7 +168,8 @@ class ChatApp {
                 const completeMessage = await this.streamAndDecodeResponseToElement(reader, contentElement, messageElement);
                 if (completeMessage) {
                     messageElement.remove();
-                    this.addMessage('bot', completeMessage.message, completeMessage.source);
+                    const sourcingDetails = completeMessage?.example ? undefined : completeMessage.source;
+                    this.addMessage('bot', completeMessage.message, sourcingDetails);
                 }
             } catch (error) {
                 console.error('Error while streaming response:', error);
@@ -163,7 +181,7 @@ class ChatApp {
     private async streamAndDecodeResponseToElement(
         reader: ReadableStreamDefaultReader,
         contentElement: HTMLElement,
-        messageElement: HTMLElement): Promise<{ message: string, source?: string }> {
+        messageElement: HTMLElement): Promise<{ message: string, source?: string, example?: boolean }> {
         let completeMessage = '';
         const decoder = new TextDecoder();
         while (true) {
@@ -193,8 +211,9 @@ class ChatApp {
                         }
                         if (aiEvent.data?.error) {
                             console.error('Error event found in stream:', aiEvent.data);
-                            this.displayErrorMessage("There was an error returned by the chatbot. Please try again later.", contentElement)
-                            return {message: ""};
+                            const errorMessage = "There was an error returned by the chatbot. Please try again later.";
+                            this.displayErrorMessage(errorMessage, contentElement)
+                            return {message: errorMessage, example: true};
                         }
                         const content = aiEvent.data?.content || aiEvent.data?.message || aiEvent.data;
                         const type = aiEvent.data?.type;
@@ -207,16 +226,17 @@ class ChatApp {
                         }
                     } else if (aiEvent.event === 'error') {
                         console.error('Error event found in stream:', aiEvent.data);
-                        this.displayErrorMessage("There was an error returned by the chatbot. Please try again later.", contentElement)
-                        return {message: ""};
+                        const errorMessage = "There was an error returned by the chatbot. Please try again later.";
+                        this.displayErrorMessage(errorMessage, contentElement)
+                        return {message: errorMessage, example: true};
                     } else if (aiEvent.event === 'end') {
-                        return {message: completeMessage, source: aiEvent.data?.source};
+                        return {message: completeMessage, source: aiEvent.data?.source, example: aiEvent.data?.example};
                     }
                 }
             }
             if (chunkContent instanceof Error) {
                 console.error('Error fetching stream:', chunkContent);
-                return {message: "There was an error fetching the response. Please try again later."};
+                return {message: "There was an error fetching the response. Please try again later.", example: true};
             }
         }
     }
@@ -248,10 +268,14 @@ class ChatApp {
 
     private addMessage(role: 'user' | 'bot', content: string, source?: string): void {
         this.state.messages.push({role, content, source});
+        if (!content || content.toString().trim().length == 0) {
+            content = "Oops, I did not receive a response from the chatbot. Please try again.";
+        }
+        // @ts-ignore
+        const safeHtml = DOMPurify.sanitize(marked.parse(content));
         const messageElement = document.createElement('div');
         messageElement.className = role === 'user' ? 'user-message rounded-lg p-4' : 'bot-message rounded-lg p-4';
         if (role === 'user') {
-            const safeHtml = DOMPurify.sanitize(content);
             messageElement.innerHTML = `
                 <div class="flex items-start">
                     <div class="font-semibold text-blue-600 mr-2">You:</div>
@@ -259,13 +283,13 @@ class ChatApp {
                 </div>
             `;
         } else {
-            // @ts-ignore
-            const safeHtml = DOMPurify.sanitize(marked.parse(content));
             messageElement.innerHTML = `
                 <div class="flex items-start">
                     <div class="font-semibold text-gray-700 mr-2">Bot:</div>
-                    <div class="message-content markdown-content">${safeHtml}</div>
-                    <div class="source-icon ml-4 mt-1" title="Crime Sourcing + Details"></div>
+                    <div class="flex-1 message-content markdown-content">
+                        ${safeHtml}
+                        <div class="source-icon mt-2 items-end text-nowrap"></div>
+                    </div>                    
                 </div>
             `;
         }
@@ -281,57 +305,33 @@ class ChatApp {
             return;
         }
         if (source) {
-            sourceIcon.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.showSourceTooltip(sourceIcon as HTMLElement, source);
+            // @ts-ignore
+            const sourceHtml = DOMPurify.sanitize(marked.parse(source.toString()));
+            tippy(sourceIcon, {
+                delay: [50, 100],
+                arrow: true,
+                theme: 'light-border',
+                trigger: 'click', // or 'focus'
+                allowHTML: true,
+                animation: 'fade',
+                appendTo: "parent",
+                content: `<div class="source-tooltip">${sourceHtml}</div>`
             });
             sourceIcon.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info cursor-pointer text-gray-500 hover:text-blue-500">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="16" x2="12" y2="12"></line>
-                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                </svg>`
+                <a href="#" class="flex flex-nowrap text-nowrap items-end text-xs text-gray-500 hover:text-blue-500" title="Crime Sourcing + Details">
+                    <span>
+                        Tell me how you came up with this
+                    </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2 feather feather-info cursor-pointer">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                </a>
+            `
         } else {
             sourceIcon.innerHTML = '';
         }
-    }
-
-    private showSourceTooltip(iconElement: HTMLElement, source: string): void {
-        // Remove any existing tooltips
-        const existingTooltip = document.querySelector('.source-tooltip');
-        if (existingTooltip) {
-            existingTooltip.remove();
-        }
-
-        // Create tooltip element
-        const tooltip = document.createElement('div');
-        // @ts-ignore
-        tooltip.innerHTML = DOMPurify.sanitize(marked.parse(source.toString()));
-        tooltip.className = 'source-tooltip absolute bg-white p-3 rounded shadow-lg z-10 max-w-xs';
-
-        // Position the tooltip near the icon
-        const iconRect = iconElement.getBoundingClientRect();
-        tooltip.style.top = `${iconRect.bottom + window.scrollY + 5}px`;
-        tooltip.style.left = `${iconRect.left + window.scrollX - 100}px`;
-
-        // Add tooltip to the DOM
-        const tooltipContainer = document.getElementById('tooltip-container') as HTMLElement;
-        if (tooltipContainer) {
-            tooltipContainer.appendChild(tooltip);
-        }
-
-        // Close tooltip when clicking outside
-        const closeTooltip = (e: MouseEvent) => {
-            if (!tooltip.contains(e.target as Node) && e.target !== iconElement) {
-                tooltip.remove();
-                document.removeEventListener('click', closeTooltip);
-            }
-        };
-
-        // Add event listener with a slight delay to prevent immediate closing
-        setTimeout(() => {
-            document.addEventListener('click', closeTooltip);
-        }, 100);
     }
 
     private scrollToBottom(): void {
@@ -347,7 +347,7 @@ class ChatApp {
         // Clear UI
         this.chatMessages.innerHTML = '';
         this.userInput.value = '';
-        this.submitBtn.disabled = false;
+        this.submitBtn.disabled = true;
     }
 }
 

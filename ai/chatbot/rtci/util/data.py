@@ -58,6 +58,22 @@ def transform_csv_to_file_cache(csv_content: str) -> str:
     column_indexes['motor_vehicle_theft'] = get_first_header_index(header, ['Motor Vehicle Theft', 'motor_vehicle_theft'])
     column_indexes['property_crime'] = get_first_header_index(header, ['Property Crime', 'property_crime'])
 
+    # Define month names mapping
+    month_names = {
+        1: "January",
+        2: "February",
+        3: "March",
+        4: "April",
+        5: "May",
+        6: "June",
+        7: "July",
+        8: "August",
+        9: "September",
+        10: "October",
+        11: "November",
+        12: "December"
+    }
+
     # create a new CSV in memory with only the required columns
     output = io.StringIO()
     csv_writer = csv.writer(output)
@@ -66,7 +82,6 @@ def transform_csv_to_file_cache(csv_content: str) -> str:
     # process each row and extract only the required columns
     for row in csv_reader:
         if not filter_full_sample_rows(row, column_indexes):
-            # print(f"Filtered out row: {row}.")
             continue
         new_row = []
         year = int(row[column_indexes['year']])
@@ -74,12 +89,16 @@ def transform_csv_to_file_cache(csv_content: str) -> str:
         for col_name, col_index in column_indexes.items():
             if col_name == "date":
                 new_row.append(datetime(year=year, month=month, day=1).strftime("%Y-%m-%d"))
+            elif col_name == "month":
+                month_name = month_names.get(month, str(month))
+                new_row.append(month_name)
             elif col_index is not None:
                 value = row[col_index]
                 if value == 'NA' or value == '' or value == 'N/A' or value == 'NONE':
-                    new_row.append(None)
-                else:
-                    new_row.append(row[col_index])
+                    value = None
+                if value is None:
+                    value = 0
+                new_row.append(value)
         csv_writer.writerow(new_row)
 
     # prepare filtered CSV content and write to file store

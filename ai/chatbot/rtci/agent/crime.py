@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import Any
 
 import deepcompare
@@ -20,6 +19,8 @@ async def extract_crime_categories(state: CrimeBotState) -> dict[str, Any]:
     last_category_list = state.get("crime_categories", [])
     crime_categories: list[CrimeCategory] = await resolver.resolve_categories(query)
 
+    if crime_categories is None:
+        crime_categories = []
     if not crime_categories and last_category_list:
         if query.lower().find("crime") < 0:
             return {}
@@ -30,7 +31,7 @@ async def extract_crime_categories(state: CrimeBotState) -> dict[str, Any]:
                 "crime_categories_updated": True
             }
 
-    valid_categories: list[str] = list(filter(lambda x: x, map(lambda x: x.category, crime_categories)))
+    valid_categories: list[str] = list(filter(lambda x: x, map(lambda x: x.crime, crime_categories)))
     unknown_categories: list[str] = list(map(lambda x: x.crime, filter(lambda x: x.category is None, crime_categories)))
     if valid_categories:
         writer(f"Looks like you are asking about reporting on {', '.join(valid_categories)}.")
@@ -53,13 +54,8 @@ async def retrieve_crime_data(state: CrimeBotState) -> CrimeBotState:
 
     # Bound the user date range query to available data
     if date_range is None:
-        today_date = datetime.now()
-        first_of_the_year = datetime.strptime(f"{today_date.year}-01-01", '%Y-%m-%d')
-        available_dates = database.determine_availability()
-        date_range = DateRange(start_date=first_of_the_year, end_date=today_date)
-        if available_dates:
-            date_range = date_range.intersection(available_dates)
-        writer(f"I don't see any information about what date range you are interested in.  I'll default to what data I have for the current year - {date_range.strftime('%B %Y')}.")
+        date_range = database.determine_availability()
+        writer(f"I don't see any information about what date range you are interested in.  I'll default to what data I have available - {date_range.strftime('%B %Y')}.")
     else:
         available_dates = database.determine_availability_by_location(locations) if locations else database.determine_availability()
         if available_dates:

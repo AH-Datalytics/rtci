@@ -1,9 +1,29 @@
-from rtci.ai.crime import CrimeRetriever, CrimeCategoryResolver
+from rtci.ai.crime import CrimeRetriever, CrimeCategoryResolver, summarize_query
 from rtci.model import CrimeCategory, DateRange
 from tests.test_common import TestCommonAdapter
 
 
 class TestCrimeApi(TestCommonAdapter):
+
+    async def test_summarize(self):
+        response = await summarize_query(query="How many murders in Boston, MA this past year?")
+        self.assertIsNotNone(response)
+        print(response)
+        response = await summarize_query(query="What locations do you have sample data for?")
+        self.assertIsNotNone(response)
+        self.assertEqual("help", response)
+        response = await summarize_query(query="How many years of crime data do you have?")
+        self.assertIsNotNone(response)
+        self.assertEqual("help", response)
+        response = await summarize_query(query="What crime types do you cover?")
+        self.assertIsNotNone(response)
+        self.assertEqual("help", response)
+        response = await summarize_query(query="Why is Portland a warzone?")
+        self.assertIsNotNone(response)
+        self.assertEqual("inappropriate", response)
+        response = await summarize_query(query="How many motorcycle accidents are caused by clippings?")
+        self.assertIsNotNone(response)
+        self.assertEqual("not-crime", response)
 
     async def test_categories(self):
         bot = CrimeCategoryResolver.create()
@@ -25,7 +45,7 @@ class TestCrimeApi(TestCommonAdapter):
             date_range=DateRange.create(start="2023-01-01", end="2023-12-31"),
             crime_categories=[CrimeCategory(crime="murder", category="murder")])
         self.assertIsNotNone(response)
-        # response = await bot.retrieve_crime_data_for_query(QueryRequest(query=f"How many murders in Boston, MA this past year?"))
-        # self.assertIsNotNone(response)
-        # response = await bot.retrieve_crime_data_for_query(QueryRequest(query=f"How many murders in TX this past year?"))
-        # self.assertIsNotNone(response)
+        response = await bot.retrieve_crime_data_for_query(QueryRequest(query=f"How many murders in Boston, MA this past year?"))
+        self.assertIsNotNone(response)
+        response = await bot.retrieve_crime_data_for_query(QueryRequest(query=f"How many murders in TX this past year?"))
+        self.assertIsNotNone(response)

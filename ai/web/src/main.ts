@@ -197,12 +197,14 @@ class ChatApp {
             const parts: string[] = buffer.split("\n");
             buffer = '';
             while (parts.length > 0 && (!parts[parts.length - 1].startsWith('payload:') || !parts[parts.length - 1].endsWith('}'))) {
-                if (buffer.length > 0) {
-                    buffer += "\n";
-                }
                 const extra = parts.pop();
-                buffer += extra;
+                if (buffer.length > 0) {
+                    buffer = extra + "\n" + buffer;
+                } else if (extra) {
+                    buffer = extra;
+                }
             }
+            console.log("streamAndDecodeResponseToElement", parts, buffer);
             const parsedEvents = parseChunk(parts.join("\n"));
             if (Array.isArray(parsedEvents)) {
                 for (const aiEvent of parsedEvents) {

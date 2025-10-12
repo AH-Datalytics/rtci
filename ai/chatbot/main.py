@@ -125,17 +125,17 @@ async def stream_response_with_graph(graph_chain: CompiledStateGraph,
                                 if last_message.example:
                                     example = True
                             event = {"content": content, "type": "message", "session_id": session_id}
-                            yield f"event: data\ndata: {json.dumps(event)}\n"
+                            yield f"event: data\npayload: {json.dumps(event)}\n"
                     else:
                         event = {"message": "An unexpected message type was received.", "session_id": session_id}
-                        yield f"event: error\ndata: {json.dumps(event)}\n"
+                        yield f"event: error\npayload: {json.dumps(event)}\n"
 
         elif namespace == "custom":
             if isinstance(chunk, dict):
-                yield f"event: data\ndata: {json.dumps(chunk)}\n"
+                yield f"event: data\npayload: {json.dumps(chunk)}\n"
             else:
                 event = {"message": f"{chunk}", "type": "update", "session_id": session_id}
-                yield f"event: data\ndata: {json.dumps(event)}\n"
+                yield f"event: data\npayload: {json.dumps(event)}\n"
     # delete old temporary files
     cleanup_pandas_files()
     # save session context
@@ -162,7 +162,7 @@ async def stream_response_with_graph(graph_chain: CompiledStateGraph,
         session_state.to_markdown()
     ])
     final_event = {"session_id": session_id, "example": example, "source": sourcing_markdown}
-    yield f"event: end\ndata: {json.dumps(final_event)}\n"
+    yield f"event: end\npayload: {json.dumps(final_event)}\n"
 
 
 async def stream_with_errors(generator: AsyncGenerator[str, None]) -> AsyncGenerator[str, None]:
@@ -172,7 +172,7 @@ async def stream_with_errors(generator: AsyncGenerator[str, None]) -> AsyncGener
     except Exception as ex:
         logger().error(f"An error occurred during streaming.", ex)
         event = {"message": "An error occurred during streaming of response."}
-        yield f"event: error\ndata: {json.dumps(event)}\n"
+        yield f"event: error\npayload: {json.dumps(event)}\n"
 
 
 @app.post("/stream")
@@ -224,7 +224,7 @@ async def health_check():
 async def root():
     return {
         "message": "Welcome to the AH Datalytics Real Time Crime Index (RTCI) chat-bot service.",
-        "documentation": "/docs"
+        "documentation": "https://realtimecrimeindex.com/data"
     }
 
 

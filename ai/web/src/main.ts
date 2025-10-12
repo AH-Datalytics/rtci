@@ -182,7 +182,8 @@ class ChatApp {
         reader: ReadableStreamDefaultReader,
         contentElement: HTMLElement,
         messageElement: HTMLElement): Promise<{ message: string, source?: string, example?: boolean }> {
-        let completeMessage = '';
+        let completeMessage: string = '';
+        let buffer: string = '';
         const decoder = new TextDecoder();
         while (true) {
             const {done, value} = await reader.read();
@@ -191,11 +192,22 @@ class ChatApp {
                 return {message: completeMessage};
             }
 
-            // Decode the chunk and append to complete message
-            const chunk = decoder.decode(value);
-            const chunkContent = parseChunk(chunk);
-            if (Array.isArray(chunkContent)) {
-                for (const aiEvent of chunkContent) {
+            // Decode the streamed chunk and append to complete message
+            buffer += decoder.decode(value, {stream: true});
+            const parts: string[] = buffer.split("\n");
+            buffer = '';
+            while (parts.length > 0 && (!parts[parts.length - 1].startsWith('payload:') || !parts[parts.length - 1].endsWith('}'))) {
+                const extra = parts.pop();
+                if (buffer.length > 0) {
+                    buffer = extra + "\n" + buffer;
+                } else if (extra) {
+                    buffer = extra;
+                }
+            }
+            console.log("streamAndDecodeResponseToElement", parts, buffer);
+            const parsedEvents = parseChunk(parts.join("\n"));
+            if (Array.isArray(parsedEvents)) {
+                for (const aiEvent of parsedEvents) {
                     if (aiEvent.event) {
                         messageElement.classList.remove('animate-pulse');
                     }
@@ -234,8 +246,8 @@ class ChatApp {
                     }
                 }
             }
-            if (chunkContent instanceof Error) {
-                console.error('Error fetching stream:', chunkContent);
+            if (parsedEvents instanceof Error) {
+                console.error('Error fetching stream:', parsedEvents);
                 return {message: "There was an error fetching the response. Please try again later.", example: true};
             }
         }
@@ -356,7 +368,7 @@ const parseStreamedEvent = (event: string): {
     session_id?: string;
     data: any;
 } | undefined => {
-    const regEx = /^event:\s+(?<event>[\w]+)((\r?)\n(\r?)data: (?<data>(.|\n)*))?/gm;
+    const regEx = /^event:\s+(?<event>[\w]+)((\r?)\n(\r?)payload: (?<data>(.|\n)*))?/gm;
     const match = regEx.exec(event);
     if (!match) {
         return undefined;

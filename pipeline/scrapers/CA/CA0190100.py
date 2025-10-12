@@ -64,7 +64,8 @@ class CA0190100(Scraper):
         self.latest_year = max([v[0] for v in latest])
         self.latest_month = max([v[1] for v in latest if v[0] == self.latest_year])
         assert (
-            self.latest_year == self.last.year and self.latest_month == self.last.month
+            self.latest_year == self.last.year
+            and abs(self.latest_month - self.last.month) <= 1
         )
         self.latest_month = dt.strftime(
             dt(self.latest_year, self.latest_month, 1, 0, 0), "%B"

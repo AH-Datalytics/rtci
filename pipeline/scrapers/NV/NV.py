@@ -39,7 +39,7 @@ class Nevada(Scraper):
         }
         self.batch_size = 13
         self.records = list()
-        self.exclude_oris = []
+        self.exclude_oris = ["NV0020100"]
         self.agencies = self.get_agencies(self.exclude_oris)
         self.oris = list(self.agencies.values())
 

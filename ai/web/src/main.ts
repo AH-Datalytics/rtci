@@ -204,7 +204,6 @@ class ChatApp {
                     buffer = extra;
                 }
             }
-            console.log("streamAndDecodeResponseToElement", parts, buffer);
             const parsedEvents = parseChunk(parts.join("\n"));
             if (Array.isArray(parsedEvents)) {
                 for (const aiEvent of parsedEvents) {

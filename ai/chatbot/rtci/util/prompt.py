@@ -77,10 +77,8 @@ class PromptLibrary:
         if not resource:
             raise ValueError(f"Prompt with ID '{prompt_id}' not found in configured resources")
 
-        prompt_text = None
-        if not self.ignore_s3:
-            # Try to fetch from S3 first
-            prompt_text = self._fetch_from_s3(resource)
+        # Try to fetch from S3 first
+        prompt_text = self._fetch_from_s3(resource)
 
         # If S3 fetch failed, try local file
         if not prompt_text:
@@ -206,6 +204,8 @@ class PromptLibrary:
 
     def _fetch_from_s3(self, resource: PromptResource) -> Optional[str]:
         """Fetch a prompt from S3. Returns None if not found or on error."""
+        if self.ignore_s3:
+            return None
         try:
             logger().info(f"Retrieving prompt from S3 bucket: {self.bucket_name}, key: {resource.s3_bucket_key} ...")
             s3_client = create_s3_client()
@@ -241,6 +241,8 @@ class PromptLibrary:
     def _store_to_s3(self, resource: PromptResource, prompt_text: str) -> bool:
         """Store a prompt to S3. Returns True if successful, False otherwise.
            Only uploads if the local file is newer than the S3 version."""
+        if self.ignore_s3:
+            return False
         try:
             s3_client = create_s3_client()
 

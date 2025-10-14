@@ -9,13 +9,14 @@ import us
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document
-from langchain_core.output_parsers import StrOutputParser
+from langchain_core.exceptions import OutputParserException
+from langchain_core.output_parsers import PydanticOutputParser, StrOutputParser
 from langchain_core.runnables import RunnablePick, Runnable
 from langchain_core.vectorstores import VectorStoreRetriever
 from langchain_huggingface import HuggingFaceEmbeddings
 from us.states import State
 
-from rtci.model import LocationDocument
+from rtci.model import LocationDocument, LocationResponse, Location
 from rtci.rtci import RealTimeCrime
 from rtci.util.collections import get_first_value
 from rtci.util.csv import PydanticCSVLoader
@@ -97,6 +98,23 @@ _location_list: List[LocationDocument] = []
 _location_retriever: LocationRetriever = None
 
 
+def get_location_list() -> list[LocationDocument]:
+    global _location_list
+    build_location_retriever()  # ensure data is loaded
+    return _location_list
+
+
+def find_location_by_name(city_or_agency: str) -> LocationDocument | None:
+    global _location_list
+    safe_name: str = str(city_or_agency).strip().lower()
+    for loc in _location_list:
+        if loc.city_state.lower() == safe_name:
+            return loc
+        elif loc.reporting_agency.lower() == safe_name:
+            return loc
+    return None
+
+
 def build_location_retriever() -> LocationRetriever:
     global _location_list
     global _location_retriever
@@ -128,67 +146,92 @@ class LocationResolver:
 
     @classmethod
     def create(cls):
+        parser = PydanticOutputParser(pydantic_object=LocationResponse)
         hint_prompt = RealTimeCrime.prompt_library.find_prompt("location_hint")
         tool_prompt = RealTimeCrime.prompt_library.find_prompt("location_retrieve")
         llm = create_llm()
         tool_chain = create_stuff_documents_chain(
             llm=llm,
+            output_parser=parser,
             prompt=tool_prompt,
-            document_separator="\n",
             document_variable_name="locations")
         hint_chain = (
-                RunnablePick(["query", "question"])
+                RunnablePick(["query", "question", "format_instructions"])
                 | hint_prompt
                 | llm
                 | StrOutputParser()
         )
         retriever = build_location_retriever()
-        return LocationResolver(tool_chain, hint_chain, retriever)
+        return LocationResolver(tool_chain, hint_chain, retriever, parser)
 
-    def __init__(self, tool_chain: Runnable, hint_chain: Runnable, retriever: LocationRetriever):
+    def __init__(self, tool_chain: Runnable, hint_chain: Runnable, retriever: LocationRetriever, parser: PydanticOutputParser):
         self.tool_chain = tool_chain
         self.hint_chain = hint_chain
         self.retriever = retriever
+        self.parser = parser
 
-    async def resolve_locations(self, query: str) -> List[LocationDocument]:
-        location_hint_list = await self.hint_chain.ainvoke({"query": query})
+    async def resolve_locations(self, query: str) -> List[Location]:
+        location_hint_list = await self.hint_chain.ainvoke({
+            "query": query,
+        })
         if not location_hint_list:
             return []
         location_hint_list = str(location_hint_list).strip()
         if self.__is_empty_response(location_hint_list):
             return []
-        possible_locations: list[LocationDocument] = []
+        state_locations: list[Location] = []
         unknown_locations: list[str] = []
         for location_hint in location_hint_list.split("\n"):
             location_hint = location_hint.strip()
             if location_hint:
                 state: State = us.states.lookup(location_hint)
                 if state:
-                    possible_locations.append(LocationDocument(state=state.abbr))
+                    state_locations.append(Location(
+                        location_name=location_hint,
+                        matching_state=state.abbr))
                 else:
                     unknown_locations.append(location_hint)
-        if unknown_locations:
-            location_docs = await self.retriever.retrieve_locations_for_query("\n".join(unknown_locations))
-            city_state_list = await self.tool_chain.ainvoke({
+        if not unknown_locations:
+            return state_locations
+        location_docs: list[LocationDocument] = []
+        for unknown_location in unknown_locations:
+            docs = await self.retriever.retrieve_locations_for_query(unknown_location)
+            if docs:
+                location_docs.extend(docs)
+        try:
+            location_response: LocationResponse = await self.tool_chain.ainvoke({
                 "query": query,
-                "locations": location_docs
+                "locations": location_docs,
+                "format_instructions": self.parser.get_format_instructions()
             })
-            if not city_state_list:
-                return possible_locations
-            city_state_list = str(city_state_list).strip()
-            if self.__is_empty_response(city_state_list):
-                return possible_locations
-            mapped_locations = {}
-            for location_doc in location_docs:
-                if location_doc.id:
-                    mapped_locations[location_doc.id] = location_doc
-                if location_doc.city_state:
-                    mapped_locations[location_doc.city_state] = location_doc
-            for city_state in city_state_list.split("\n"):
-                available_location = mapped_locations.get(city_state)
-                if available_location:
-                    possible_locations.append(available_location)
-        return possible_locations
+            if not location_response or not location_response.location_list:
+                return self.__sort_location_documents(state_locations)
+            else:
+                return self.__sort_location_documents(state_locations + location_response.location_list)
+        except OutputParserException as ex:
+            logger().error(f"Error parsing location response: {query}.", ex)
+            return []
 
     def __is_empty_response(self, response: str) -> bool:
         return response.lower() == "none" or response.lower() == "empty" or response == "[]"
+
+    def __sort_location_documents(self, locations: list[Location]) -> list[Location]:
+        if not locations:
+            return []
+        # first validate list response
+        for loc in locations:
+            if loc.matching_city_state and not find_location_by_name(loc.matching_city_state):
+                loc.matching_city_state = None
+            if loc.matching_reporting_agency and not find_location_by_name(loc.matching_reporting_agency):
+                loc.matching_reporting_agency = None
+        # next build a unique list of locations and sort
+        unique_locations = {}
+        for loc in locations:
+            key = loc.label
+            existing_loc = unique_locations.get(key)
+            if existing_loc:
+                if not existing_loc.matching_city_state:
+                    unique_locations[key] = loc
+            else:
+                unique_locations[key] = loc
+        return sorted(unique_locations.values(), key=lambda x: x.page_content)

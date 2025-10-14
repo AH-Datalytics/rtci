@@ -31,8 +31,8 @@ async def extract_crime_categories(state: CrimeBotState) -> dict[str, Any]:
                 "crime_categories_updated": True
             }
 
-    valid_categories: list[str] = list(filter(lambda x: x, map(lambda x: x.crime, crime_categories)))
-    unknown_categories: list[str] = list(map(lambda x: x.crime, filter(lambda x: x.category is None, crime_categories)))
+    valid_categories: list[str] = list(filter(lambda x: x, map(lambda x: x.matched_category, crime_categories)))
+    unknown_categories: list[str] = list(map(lambda x: x.crime_name, filter(lambda x: x.matched_category is None, crime_categories)))
     if valid_categories:
         writer(f"Looks like you are asking about reporting on {', '.join(valid_categories)}.")
     if unknown_categories:

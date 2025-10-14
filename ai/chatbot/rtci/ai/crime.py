@@ -1,18 +1,21 @@
-import json
+import csv
+import io
 from datetime import datetime
 from typing import Self, Any
 
 import pandas as pd
 from langchain_core.documents import Document
+from langchain_core.exceptions import OutputParserException
 from langchain_core.messages import BaseMessage, HumanMessage
-from langchain_core.output_parsers import StrOutputParser
+from langchain_core.output_parsers import StrOutputParser, PydanticOutputParser
 from langchain_core.prompt_values import PromptValue
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import Runnable, RunnablePick
 from pandasai import Agent
 from pandasai.core.response import StringResponse, NumberResponse, DataFrameResponse, ErrorResponse, ChartResponse
 
-from rtci.model import CrimeData, DateRange, LocationDocument, CrimeCategory, BotException
+from rtci.ai.location import get_location_list
+from rtci.model import CrimeData, DateRange, LocationDocument, CrimeCategory, CrimeCategoryResponse, Location
 from rtci.rtci import RealTimeCrime
 from rtci.util.collections import convert_structured_document_to_json
 from rtci.util.data import create_database
@@ -25,49 +28,45 @@ class CrimeCategoryResolver:
 
     @classmethod
     def create(cls):
+        parser = PydanticOutputParser(pydantic_object=CrimeCategoryResponse)
         tool_prompt = RealTimeCrime.prompt_library.find_prompt("crime_hint")
         llm = create_llm()
         chain = (
-                RunnablePick(["query", "question"])
+                RunnablePick(["query", "question", "format_instructions"])
                 | tool_prompt
                 | llm
-                | StrOutputParser()
+                | parser
         )
-        return CrimeCategoryResolver(chain)
+        return CrimeCategoryResolver(chain, parser)
 
-    def __init__(self, chain: Runnable):
+    def __init__(self, chain: Runnable, parser: PydanticOutputParser):
         self.chain = chain
+        self.parser = parser
 
     async def resolve_categories(self, query: str) -> list[CrimeCategory]:
-        category_response = await self.chain.ainvoke({
-            "query": query
-        })
-        if not category_response:
+        try:
+            category_response: CrimeCategoryResponse = await self.chain.ainvoke({
+                "query": query,
+                "format_instructions": self.parser.get_format_instructions()
+            })
+            if not category_response:
+                return []
+            return self.__filter_categories(category_response.crime_list)
+        except OutputParserException as ex:
+            logger().error(f"Error parsing category response: {query}.", ex)
             return []
-        if category_response.lower() == "none" or category_response.lower() == "empty" or category_response.lower() == "null":
-            return []
-        while "\n\n" in category_response:
-            category_response = category_response.replace("\n\n", "\n", 1)
-        if category_response.startswith("["):
-            category_list = []
-            for item in json.loads(category_response):
-                if item:
-                    category_list.append(CrimeCategory.model_validate(item))
-            return self.__filter_categories(category_list)
-        elif category_response.startswith("{"):
-            single_category = CrimeCategory.model_validate_json(category_response)
-            return self.__filter_categories([single_category])
-        else:
-            raise BotException(f"Unable to parse category response: {category_response}.")
 
     def __filter_categories(self, category_list: list[CrimeCategory]):
         if not category_list:
             return []
         for crime_category in category_list:
-            if not crime_category.crime.lower() in ['crime', 'none']:
-                if crime_category.category is None or crime_category.category.lower() in ["none", "null", "empty"]:
-                    crime_category.category = None
-        return list(category_list)
+            if not crime_category.crime_name.lower() in ['crime', 'none']:
+                if crime_category.matched_category is None or crime_category.matched_category.lower() in ["none", "null", "empty"]:
+                    crime_category.matched_category = None
+        return sorted(
+            category_list,
+            key=lambda x: (x.crime_name, x.matched_category or "unknown")
+        )
 
 
 class CrimeRetriever:
@@ -123,28 +122,28 @@ class CrimeRetriever:
 
 async def summarize_query(query: str,
                           messages: list[BaseMessage] = None,
-                          locations: list[LocationDocument] = None,
+                          locations: list[Location] = None,
                           crime_categories: list[CrimeCategory] = None,
                           date_range: DateRange = None) -> str:
     # Prepare context elements for summarization
     location_context = ""
     if locations:
-        location_names = [loc.label for loc in locations]
-        location_context = f"locations: {', '.join(location_names)}"
+        location_names = [loc.page_content for loc in locations]
+        location_context = "\n".join(location_names)
     if not location_context:
         location_context = "any location"
 
     date_context = ""
     if date_range:
-        date_context = f"date range: {date_range.prompt_content}"
+        date_context = date_range.prompt_content
     if not date_context:
         date_context = "any date range"
 
     category_context = ""
     if crime_categories:
-        categories = [cat.category for cat in crime_categories if cat.category]
+        categories = [cat.matched_category for cat in crime_categories if cat.matched_category]
         if categories:
-            category_context = f"crime categories: {', '.join(categories)}"
+            category_context = "\n".join(categories)
     if not category_context:
         category_context = "any category"
 
@@ -188,6 +187,21 @@ async def assist_query(query: str) -> str:
         ("human", RealTimeCrime.prompt_library.find_text("assistant_help")),
     ])
 
+    # Build list of all locations
+    all_locations = get_location_list()
+    csv_buffer = io.StringIO()
+    fieldnames = ['city_state', 'reporting_agency', 'state']
+    writer = csv.DictWriter(csv_buffer, fieldnames=fieldnames)
+    writer.writeheader()
+    for location in all_locations:
+        writer.writerow({
+            'city_state': location.city_state,
+            'reporting_agency': location.reporting_agency,
+            'state': location.state
+        })
+    csv_string = csv_buffer.getvalue()
+    csv_buffer.close()
+
     # Call the LLM to generate assistance
     chain = (prompt_template |
              create_llm() |
@@ -195,13 +209,15 @@ async def assist_query(query: str) -> str:
     return await chain.ainvoke({
         "query": query,
         "date_range_info": date_range.prompt_content if date_range else "None",
+        "num_locations": len(all_locations),
+        "available_locations": csv_string,
         "current_date": datetime.now().strftime("%Y-%m-%d")
     })
 
 
 async def chat_query(query: str,
                      data_context: CrimeData,
-                     locations: list[LocationDocument] = None,
+                     locations: list[Location] = None,
                      crime_categories: list[CrimeCategory] = None,
                      date_range: DateRange = None) -> str:
     query_context: dict[str, Any] = {
@@ -211,7 +227,7 @@ async def chat_query(query: str,
 
     crime_categories_text = "All crime categories."
     if crime_categories:
-        crime_categories: list[str] = list(map(lambda x: x.category, crime_categories))
+        crime_categories: list[str] = list(map(lambda x: x.matched_category, crime_categories))
         crime_categories_text = ", ".join(crime_categories)
     query_context['crime_categories'] = crime_categories_text
 
@@ -298,7 +314,7 @@ async def format_chart_response(response: ChartResponse):
     return f"![Chart](data:image/png;base64,{image_data})"
 
 
-# Convert a data frame to a markdown table
+# Convert a data frame to a Markdown table
 async def format_dataframe_response(response: DataFrameResponse):
     if response.value is None:
         return None
@@ -313,12 +329,20 @@ async def format_dataframe_response(response: DataFrameResponse):
         chain = (prompt | create_llm() | StrOutputParser())
         return await chain.ainvoke({"csv_data": df.to_csv(index=False)})
 
+    # Replace NaN values with empty strings
+    df = df.fillna('')
+
+    # Format numeric columns to 2 decimal places
+    numeric_cols = df.select_dtypes(include=['float']).columns
+    for col in numeric_cols:
+        df[col] = df[col].apply(lambda x: f"{float(x):,.2f}" if pd.notnull(x) else '')
+
     # Format date columns if specified
     for col in ['date', 'datetime', 'last_modified', 'last_updated']:
         if col in df.columns:
             df[col] = df[col].dt.strftime('%B %Y')
 
-    # Rename columns if specified
+    # Rename hard-coded columns if specified
     rename_columns = {
         'date': "Date",
         'year': "Year",
@@ -326,21 +350,29 @@ async def format_dataframe_response(response: DataFrameResponse):
         'reporting_agency': "Location",
         'city_state': "City/State",
         'state': "State",
+        'murder': "Murders",
         'murders': "Murders",
-        'num_murders': '# Murders',
+        'rape': 'Rape',
         'robbery': "Robbery",
-        'num_robbery': '# Robbery',
         'robberies': "Robbery",
-        'num_robberies': '# Robbery',
-        'total_murder': '# Murder',
-        'total_rape': '# Rape',
-        'total_robbery': '# Robbery',
-        'total_aggravated_assault': '# Agg. Assault',
-        'total_burglary': '# Burglary',
-        'total_theft': '# Theft',
-        'total_motor_vehicle_theft': '# Motor Vehicle Theft',
-        'total_property_crime': '# Property Crime'
+        'aggravated_assault': 'Agg. Assault',
+        'burglary': 'Burglary',
+        'burglaries': 'Burglary',
+        'theft': 'Theft',
+        'thefts': 'Theft',
+        'motor_vehicle_theft': 'Motor Vehicle Theft'
     }
+
+    # Convert all column names from snake_case to Title Case With Spaces
+    for col in df.columns:
+        if col not in rename_columns:
+            words = col.split('_')
+            if words[0].lower() in ['num', 'number', 'total', 'tot']:
+                words = 'Num.'
+            title_case = ' '.join(word.capitalize() for word in words)
+            rename_columns[col] = title_case
+
+    # Rename the columns using the coded dictionary
     df = df.rename(columns=rename_columns)
 
     # Convert the DataFrame to Markdown table format

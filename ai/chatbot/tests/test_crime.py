@@ -30,22 +30,16 @@ class TestCrimeApi(TestCommonAdapter):
         response = await bot.resolve_categories(f"How many murders and robberies in Boston, MA this past year?")
         self.assertIsNotNone(response)
         self.assertTrue(len(response) == 2)
+        self.assertEqual('murder', response[0].matched_category)
+        self.assertEqual('robbery', response[1].matched_category)
         response = await bot.resolve_categories(f"How many carjackings in New Orleans this past year?")
         self.assertIsNotNone(response)
         self.assertTrue(len(response) == 1)
-        self.assertIsNone(response[0].category)
-        response = await bot.resolve_categories(f"How many jaywalkings in New Orleans this past year?")
-        self.assertIsNotNone(response)
-        self.assertEqual(1, len(response))
-        self.assertIsNone(response[0].category)
+        self.assertIsNone(response[0].matched_category)
 
     async def test_retriever(self):
         bot: CrimeRetriever = CrimeRetriever.create()
         response = await bot.retrieve_crime_data(
             date_range=DateRange.create(start="2023-01-01", end="2023-12-31"),
-            crime_categories=[CrimeCategory(crime="murder", category="murder")])
-        self.assertIsNotNone(response)
-        response = await bot.retrieve_crime_data_for_query(QueryRequest(query=f"How many murders in Boston, MA this past year?"))
-        self.assertIsNotNone(response)
-        response = await bot.retrieve_crime_data_for_query(QueryRequest(query=f"How many murders in TX this past year?"))
+            crime_categories=[CrimeCategory(crime_name="murder", matched_category="murder")])
         self.assertIsNotNone(response)

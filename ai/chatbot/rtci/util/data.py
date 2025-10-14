@@ -17,6 +17,7 @@ database_key = f"database-{str(uuid.uuid4())}"
 
 
 def create_database() -> CrimeDatabase:
+    global database_key
     csv_content = RealTimeCrime.file_cache.get(key=database_key)
     if not csv_content:
         s3_bucket = environ.get("AWS_S3_BUCKET", "rtci")
@@ -39,6 +40,8 @@ def load_csv_to_memory(s3_bucket_name: str,
 
 
 def transform_csv_to_file_cache(csv_content: str) -> str:
+    global database_key
+
     # prase CSV content and map columns to indexes
     csv_reader = csv.reader(io.StringIO(csv_content))
     header = next(csv_reader)

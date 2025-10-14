@@ -3,20 +3,22 @@ import pandasai as pai
 from langchain.globals import set_debug
 from langchain_core.messages import AIMessage
 from langgraph.graph import StateGraph
+from pandasai.exceptions import NoCodeFoundError
 
 from rtci.agent.crime import retrieve_crime_data, extract_crime_categories
 from rtci.agent.date import extract_date_range
 from rtci.agent.location import extract_locations
 from rtci.ai.crime import chat_query, summarize_query, assist_query
-from rtci.model import CrimeBotState, CrimeData, LocationDocument, DateRange, CrimeCategory
+from rtci.model import CrimeBotState, CrimeData, DateRange, CrimeCategory, Location
 from rtci.util.llm import create_lite_llm
+from rtci.util.log import logger
 
 
 # Update the process_query function to preserve the state
 async def process_query(state: CrimeBotState) -> CrimeBotState:
     """Process the user query with retrieved documents and generate a response."""
     query = state["query"]
-    locations: list[LocationDocument] = state.get("locations", [])
+    locations: list[Location] = state.get("locations", [])
     crime_categories: list[CrimeCategory] = state.get("crime_categories", [])
     date_range: DateRange = state.get("date_range")
     data_context: CrimeData = state.get("data_context")
@@ -31,21 +33,35 @@ async def process_query(state: CrimeBotState) -> CrimeBotState:
     elif query == 'not-crime' or query == 'invalid':
         return {'messages': [AIMessage(content="I'm sorry, I am only able to answer questions related to crime statistics which are available to me.\n\nYou may want to review the types of data available and learn about this effort at our site [RTCI](https://realtimecrimeindex.com/data/#glossary).", example=True)]}
 
-    is_valid = (locations or date_range) and data_context
     if crime_categories:
         for crime_category in crime_categories:
-            if not crime_category.category:
-                is_valid = False
-                break
-    if not is_valid:
-        return {'messages': [AIMessage(content="I'm sorry, I didn't understand your query. Please provide location, date range, and/or potential crime categories you're interested in.\n\nFor more information on the categories of crime data available, review our site [RTCI](https://realtimecrimeindex.com/data/#glossary)", example=True)]}
+            if not crime_category.matched_category:
+                return {'messages': [AIMessage(content=f"I'm sorry, I didn't have data on '{crime_category.crime_name}.'\n\nFor more information on the categories of crime data available, review our site [RTCI](https://realtimecrimeindex.com/data/#glossary)", example=True)]}
 
-    query_response = await chat_query(query=query, locations=locations, crime_categories=crime_categories, date_range=date_range, data_context=data_context)
-    if not query_response:
-        return {}
-    return {
-        "messages": [AIMessage(content=query_response)]
-    }
+    valid_locations: list[Location] = []
+    if locations:
+        for location in locations:
+            if location.matching_city_state or location.matching_reporting_agency or location.matching_state:
+                valid_locations.append(location)
+            else:
+                return {'messages': [AIMessage(content=f"I'm sorry, I didn't have data reported from '{location.location_name}.'\n\nFor more information on locations we have reported data, review our site [RTCI](https://realtimecrimeindex.com/data/#glossary)", example=True)]}
+
+    try:
+        query_response = await chat_query(query=query,
+                                          locations=valid_locations,
+                                          crime_categories=crime_categories,
+                                          date_range=date_range,
+                                          data_context=data_context)
+        if not query_response:
+            return {}
+        return {
+            "messages": [AIMessage(content=query_response)]
+        }
+    except NoCodeFoundError as ex:
+        logger().error(f"Error in pandasAI agent: {query}.", ex)
+        return {
+            "messages": [AIMessage(content="I was unable to process this query. Please try again or rephrase your question.")]
+        }
 
 
 async def summarize_and_sanitize_conversation(state: CrimeBotState) -> CrimeBotState:
@@ -53,7 +69,7 @@ async def summarize_and_sanitize_conversation(state: CrimeBotState) -> CrimeBotS
     Summarize the conversation context from CrimeBotState into a single comprehensive query.
     This node combines user query, locations, date range, and crime categories.
     """
-    # Get existing information from state
+    # Get existing information from context
     messages = state.get("messages", [])
     original_query = state.get("query", "")
     locations = state.get("locations", [])

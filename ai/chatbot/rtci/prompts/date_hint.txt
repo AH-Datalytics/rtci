@@ -6,8 +6,8 @@ You can assume that the current date is {current_date}.
 You should follow the following rules when extracting the referenced date range:
  1) If the query does not reference a date or period of time return only the word 'None'.
  2) If the query includes multiple dates, return the earliest and latest date.
- 3) If the query references only the current year (or 'YTD'), return the range January 1st to December 31st of the current year.
- 4) If the query references only the last year, return the range January 1st to December 31st of the previous year.
+ 3) If the query mentions data for the current year (or 'YTD'), return the range January 1st to December 31st of the current year.
+ 4) If the query mentions data for the last year, return the range January 1st to December 31st of the previous year.
  5) Else if the query is asking about a percent change for a single year, return the range January 1st of the previous year to December 31st of the specified year.
 
 ## Response and Formatting

@@ -2,7 +2,6 @@ import pandas as pd
 import requests
 import sys
 
-from datetime import datetime as dt
 from io import StringIO
 
 sys.path.append("../../utils")

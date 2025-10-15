@@ -3,7 +3,7 @@ from typing import List, Optional
 
 import pandas as pd
 
-from rtci.model import LocationDocument, DateRange, CrimeData, CrimeCategory
+from rtci.model import LocationDocument, DateRange, CrimeData, CrimeCategory, Location
 
 
 class CrimeDatabase:
@@ -37,7 +37,7 @@ class CrimeDatabase:
         else:
             return None
 
-    def determine_availability_by_location(self, locations: List[LocationDocument]) -> Optional[DateRange]:
+    def determine_availability_by_location(self, locations: List[LocationDocument | Location]) -> Optional[DateRange]:
         # Filter database by location
         filtered_db = self.filter_by_locations(locations)
         if filtered_db.size == 0 or 'date' not in filtered_db._data_frame.columns:
@@ -52,7 +52,7 @@ class CrimeDatabase:
         else:
             return None
 
-    def filter_by_locations(self, locations: List[LocationDocument]) -> "CrimeDatabase":
+    def filter_by_locations(self, locations: List[LocationDocument | Location]) -> "CrimeDatabase":
         """
         Filter crime data by a set of LocationDocument items.
 
@@ -71,12 +71,20 @@ class CrimeDatabase:
 
         for location in locations:
             location_mask = pd.Series(False, index=filtered_df.index)
-            if location.city_state:
-                location_mask |= filtered_df['city_state'].str.lower() == location.city_state.lower()
-            elif location.reporting_agency:
-                location_mask |= filtered_df['reporting_agency'].str.lower() == location.reporting_agency.lower()
-            elif location.state:
-                location_mask |= filtered_df['state'].str.lower() == location.state.lower()
+            if isinstance(location, Location):
+                if location.matching_city_state:
+                    location_mask |= filtered_df['city_state'].str.lower() == location.matching_city_state.lower()
+                elif location.matching_reporting_agency:
+                    location_mask |= filtered_df['reporting_agency'].str.lower() == location.matching_reporting_agency.lower()
+                elif location.matching_state:
+                    location_mask |= filtered_df['state'].str.lower() == location.matching_state.lower()
+            elif isinstance(location, LocationDocument):
+                if location.city_state:
+                    location_mask |= filtered_df['city_state'].str.lower() == location.city_state.lower()
+                elif location.reporting_agency:
+                    location_mask |= filtered_df['reporting_agency'].str.lower() == location.reporting_agency.lower()
+                elif location.state:
+                    location_mask |= filtered_df['state'].str.lower() == location.state.lower()
             mask |= location_mask
 
         return CrimeDatabase(filtered_df[mask])
@@ -120,17 +128,21 @@ class CrimeDatabase:
         if not crime_categories or self._data_frame.empty:
             return self
 
+        # First, create a list of crime names in lowercase for case-insensitive matching
+        valid_categories: list[str] = []
+        for cat in crime_categories:
+            if cat.matched_category:
+                valid_categories.append(cat.matched_category.lower().replace(' ', '_'))
+        if not valid_categories:
+            return self
+
         # Create a copy of the DataFrame
         filtered_df = self._data_frame.copy()
-
-        # Get the list of crime column names to keep
-        # First, create a list of crime names in lowercase for case-insensitive matching
-        crime_names = [cat.crime.lower().replace(' ', '_') for cat in crime_categories]
 
         # Create a list of columns to keep (always include metadata columns)
         metadata_columns = ['date', 'reporting_agency', 'city_state', 'state', 'month', 'year']
         columns_to_keep = [col for col in filtered_df.columns
-                           if col.lower() in crime_names or col in metadata_columns]
+                           if col.lower() in valid_categories or col in metadata_columns]
 
         # Filter the DataFrame to include only the specified columns
         result_df = filtered_df[columns_to_keep]

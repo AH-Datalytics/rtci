@@ -14,17 +14,23 @@ The database contains records with the following categories:
 
 ## Task and Response
 Your task is to extracted a list of crimes or criminal offenses referenced in the query.
- 1) For each item you should determine which category it belongs to.  It MUST be one of the categories listed above.
- 2) If you do not know the category, do not guess or provide invalid matched item.
-Your response should be in a valid JSON format containing a list of objects corresponding to each crime or criminal offense extracted from the query.
- - Each object should have a `crime` attribute. This should be one of the crimes or offenses extracted from the query.
- - Each object should have a `category` attribute. This must match one of the predefined categories listed above else use "None".
-
-## Example Response
-An example of a response is:
-[{{ "crime": "murder", "category": "murder"}}, {{"crime": "carjacking", "category": null"}}]
-
+Your response MUST be in a valid JSON format.
 Do NOT include any other information outside the JSON structure.
-If the query does NOT mention any specific crime category or only contains a general crime query, return an empty list (example []):
+ 1) For each item you should determine which category it belongs to.  It MUST be one of the categories listed above.
+ 2) If you do not have a match for a category, set `matched_category` to 'None'.
+ 3) If the query does NOT mention any specific crime category or only contains a general crime query, return an empty list (example []).
+{format_instructions}
 
+## Examples
+Here are some examples of how you might respond to a user query:
+
+Example 1:
+ - Query: How many carjackings in New Orleans this past year?
+ - Response: {{'crime_list': [{{'crime': 'carjackings', 'matched_category': None}}]}}
+
+Example 2:
+ - Query: How many thefts are reported for New Orleans in 2023?
+ - Response: {{'crime_list': [{{'crime': 'thefts', 'matched_category': 'theft'}}]}}
+
+## User Query
 The user query is: {query}

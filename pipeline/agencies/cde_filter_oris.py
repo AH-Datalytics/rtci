@@ -7,6 +7,7 @@ import sys
 from datetime import datetime as dt
 from datetime import timedelta as td
 from dotenv import load_dotenv
+from time import sleep
 
 sys.path.append("../utils")
 from aws import snapshot_df
@@ -51,6 +52,7 @@ class CdeGetFilterOris:
         self.overrides = [
             "MA0022200",  # Pittsfield, MA [agency requested we include them]
             "UT0180000",  # Salt Lake County, UT [shows up with 0 pop in API]
+            "VT0040100",  # Burlington, VT [Jeff requested we include them]
         ]
 
     def scrape(self):
@@ -122,7 +124,7 @@ class CdeGetFilterOris:
         """
         for a given ORI, retrieves most recently reported population
         """
-        pop = json.loads(
+        j = json.loads(
             requests.get(
                 f"https://api.usa.gov/crime/fbi/cde/nibrs/agency/{query['ori']}/all?type=counts"
                 f"&from={self.last}"
@@ -130,9 +132,19 @@ class CdeGetFilterOris:
                 f"&ori={query['ori']}"
                 f"&API_KEY={self.api_key}"
             ).text
-        )["populations"]["population"][query["name"]][self.last]
-        query.update({"pop": pop})
-        return query
+        )
+        try:
+            pop = j["populations"]["population"][query["name"]][self.last]
+            query.update({"pop": pop})
+            return query
+        except KeyError:
+            if j["error"]["code"] == "OVER_RATE_LIMIT":
+                self.logger.warning(f"retrying {query}...")
+                sleep(5)
+            else:
+                self.filter_oris(query)
+                self.logger.error(query)
+                self.logger.error(j)
 
 
 if __name__ == "__main__":

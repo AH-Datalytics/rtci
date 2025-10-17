@@ -831,7 +831,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function appendSourceAndCaption(svg, width, height, filteredData, margin) {
-        const agencyFull = filteredData[0].agency_full;
+        const agencyAbbr = filteredData[0].agency_abbr;
         const stateUcrLink = filteredData[0].state_ucr_link;
         let sourceText, linkText;
     
@@ -846,11 +846,11 @@ document.addEventListener("DOMContentLoaded", function() {
     
         // Check if state is "Nationwide" or agency is "Full Sample"
         if (filteredData[0].state_name === "Nationwide" || filteredData[0].agency_name === "Full Sample") {
-            sourceText = `${getApostropheText(agencyFull)} composite`;  // Apostrophe logic for "composite agencies"
+            sourceText = `${getApostropheText(agencyAbbr)} composite`;  // Apostrophe logic for "composite agencies"
             linkText = "agencies";  // Use "agencies" as the hyperlink text
         } else {
             // Default text when it's not "Nationwide" or "Full Sample"
-            sourceText = `${getApostropheText(agencyFull)} primary`;  // Apostrophe logic for "primary source"
+            sourceText = `${getApostropheText(agencyAbbr)} primary`;  // Apostrophe logic for "primary source"
             linkText = "source";  // Use "source" as the hyperlink text
         }
     

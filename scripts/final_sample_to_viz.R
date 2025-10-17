@@ -464,8 +464,11 @@ final_sample_long <- final_sample_long %>%
 final_sample_long <- final_sample_long %>% 
   select(-c(location_full, region, `Last Updated`))
 
+slim_viz <- final_sample_long %>% 
+  select(-agency_full)
+
 # Write the final_sample_long data frame to viz_data.csv
-write.csv(final_sample_long, "../docs/app_data/viz_data.csv", row.names = FALSE)
+write.csv(slim_viz, "../docs/app_data/viz_data.csv", row.names = FALSE)
 
 
 

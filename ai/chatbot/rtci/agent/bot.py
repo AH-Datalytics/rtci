@@ -3,7 +3,7 @@ import pandasai as pai
 from langchain.globals import set_debug
 from langchain_core.messages import AIMessage
 from langgraph.graph import StateGraph
-from pandasai.exceptions import NoCodeFoundError
+from pandasai.exceptions import NoCodeFoundError, InvalidOutputValueMismatch
 
 from rtci.agent.crime import retrieve_crime_data, extract_crime_categories
 from rtci.agent.date import extract_date_range
@@ -28,9 +28,9 @@ async def process_query(state: CrimeBotState) -> CrimeBotState:
         helpful_response: str = await assist_query(query=original_query)
         if helpful_response:
             return {'messages': [AIMessage(content=helpful_response, example=True)]}
-    elif query == 'inappropriate':
+    elif query.lower() in ['inappropriate', 'political']:
         return {'messages': [AIMessage(content="I'm sorry, I am not able to answer that question.  I'm focused on crime data and analysis.", example=True)]}
-    elif query == 'not-crime' or query == 'invalid':
+    elif query.lower() in ['not-crime', 'invalid']:
         return {'messages': [AIMessage(content="I'm sorry, I am only able to answer questions related to crime statistics which are available to me.\n\nYou may want to review the types of data available and learn about this effort at our site [RTCI](https://realtimecrimeindex.com/data/#glossary).", example=True)]}
 
     if crime_categories:
@@ -57,7 +57,7 @@ async def process_query(state: CrimeBotState) -> CrimeBotState:
         return {
             "messages": [AIMessage(content=query_response)]
         }
-    except NoCodeFoundError as ex:
+    except (InvalidOutputValueMismatch, NoCodeFoundError) as ex:
         logger().error(f"Error in pandasAI agent: {query}.", ex)
         return {
             "messages": [AIMessage(content="I was unable to process this query. Please try again or rephrase your question.")]
@@ -145,7 +145,7 @@ def build_crime_analysis_graph(debug_mode: bool = False) -> StateGraph:
         })
     graph.add_conditional_edges(
         "summarize_and_sanitize_conversation",
-        lambda state: state.get("query") in ['help', 'inappropriate', 'not-crime', 'invalid'],
+        lambda state: state.get("query") in ['help', 'inappropriate', 'not-crime', 'political', 'invalid'],
         {
             True: "process_query",
             False: "fork_queries"

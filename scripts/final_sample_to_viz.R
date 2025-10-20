@@ -131,14 +131,14 @@ final_sample <- final_sample %>%
                         "PR",
                         State))
 
-# Fix Jefferson Parish
-final_sample <- final_sample %>% 
-  mutate(`Agency Name` = ifelse(State == "LA" & `Agency Name` == "Jefferson County",
-                                "Jefferson Parish", 
-                                `Agency Name`),
-         `Agency Name` = ifelse(State == "LA" & `Agency Name` == "East Baton Rouge County",
-                                "East Baton Rouge Parish", 
-                                `Agency Name`))
+# Generalize all Louisiana "County" names to "Parish"
+final_sample <- final_sample %>%
+  mutate(`Agency Name` = if_else(
+    State == "LA" & str_detect(`Agency Name`, "County$"),
+    str_replace(`Agency Name`, "County$", "Parish"),
+    `Agency Name`
+  ))
+
 
 
 
@@ -970,6 +970,8 @@ write.csv(unique_cities_coords, "../docs/app_data/unique_cities_coords.csv", row
 unique_cities_coords <- read_csv("../docs/app_data/unique_cities_coords.csv")
 
 
+ref_data <- read_csv("../docs/app_data/sources.csv")
+
 # Rename columns in sample_cities to match those in unique_cities_coords and map
 sample_cities <- sample_cities %>%
   rename(agency_name = `Agency Name`, state_name = `state_name`) %>%
@@ -977,13 +979,158 @@ sample_cities <- sample_cities %>%
   select(agency_name, state_name, national_sample)
 
 
-ref_data <- read_csv("../docs/app_data/sources.csv")
+### Audit Map ----
+# 1) One row per agency from viz_data
+viz_agencies <- readr::read_csv("../docs/app_data/viz_data.csv") %>%
+  dplyr::filter(state_name != "Nationwide", agency_name != "Full Sample") %>%
+  dplyr::select(agency_name, state_name, population) %>%
+  dplyr::distinct(agency_name, state_name, .keep_all = TRUE)
+
+# 2) De-dupe sample_cities too (defensive)
+sample_flag <- sample_cities %>%
+  dplyr::select(agency_name, state_name, national_sample) %>%
+  dplyr::distinct()
+
+# 3) What the MAP legend is effectively counting
+map_included <- viz_agencies %>%
+  dplyr::left_join(sample_flag, by = c("agency_name","state_name")) %>%
+  dplyr::mutate(national_sample = dplyr::if_else(is.na(national_sample), FALSE, national_sample))
+
+map_count <- sum(map_included$national_sample, na.rm = TRUE)
+map_pop   <- sum(map_included$population[map_included$national_sample], na.rm = TRUE)
+message("MAP legend → included agencies: ", map_count, " ; pop: ", round(map_pop/1e6, 2), "M")
+
+
+# One row per agency from viz_data
+viz_agencies <- readr::read_csv("../docs/app_data/viz_data.csv") %>%
+  dplyr::filter(state_name != "Nationwide", agency_name != "Full Sample") %>%
+  dplyr::select(agency_name, state_name, population) %>%
+  dplyr::distinct(agency_name, state_name, .keep_all = TRUE)
+
+# App’s expected included set
+app_expected <- readr::read_csv("../docs/app_data/sources.csv") %>%
+  dplyr::filter(in_national_sample == TRUE,
+                state_name != "Nationwide",
+                agency_name != "Full Sample") %>%
+  dplyr::select(agency_name, state_name) %>%
+  dplyr::distinct() %>%
+  dplyr::left_join(viz_agencies, by = c("agency_name","state_name"))
+
+app_count <- nrow(app_expected)
+app_pop   <- sum(app_expected$population, na.rm = TRUE)
+message("APP expected → included agencies: ", app_count, " ; pop: ", round(app_pop/1e6, 2), "M")
+
+# De-dupe your existing sample_cities flag (as built in your script)
+sample_flag <- sample_cities %>%
+  dplyr::select(agency_name, state_name, national_sample) %>%
+  dplyr::distinct()
+
+# A) In APP but not included on MAP (likely the off-by-one)
+missing_on_map <- app_expected %>%
+  dplyr::anti_join(sample_flag %>% dplyr::filter(national_sample == TRUE),
+                   by = c("agency_name","state_name"))
+
+# B) Included on MAP but not in APP (stale or stray)
+extra_on_map <- sample_flag %>%
+  dplyr::filter(national_sample == TRUE) %>%
+  dplyr::anti_join(app_expected, by = c("agency_name","state_name"))
+
+missing_on_map
+extra_on_map
+
+# Quick pop check for the missing agency/agencies
+missing_pop <- if (nrow(missing_on_map) == 0) {
+  dplyr::tibble(delta_pop = 0)
+} else {
+  missing_on_map %>%
+    dplyr::left_join(
+      viz_agencies %>% dplyr::select(agency_name, state_name, population),
+      by = c("agency_name","state_name")
+    ) %>%
+    dplyr::summarise(delta_pop = sum(as.numeric(population), na.rm = TRUE))
+}
+
+missing_pop
+
+
+cc <- readr::read_csv("../docs/app_data/cities_coordinates.csv") %>%
+  dplyr::select(agency_name, state_name, lat, long)
+
+missing_coords <- missing_on_map %>%
+  dplyr::left_join(cc, by = c("agency_name","state_name")) %>%
+  dplyr::mutate(has_coords = !is.na(lat) & !is.na(long))
+
+missing_coords
+
+# De-duped base of what the app uses
+app_pop_by_agency <- readr::read_csv("../docs/app_data/sources.csv", show_col_types = FALSE) %>%
+  dplyr::filter(in_national_sample == TRUE,
+                state_name != "Nationwide",
+                agency_name != "Full Sample") %>%
+  dplyr::select(agency_name, state_name, population_app = population) %>%
+  dplyr::distinct()
+
+# What the map is summing (from viz_data)
+map_pop_by_agency <- readr::read_csv("../docs/app_data/viz_data.csv", show_col_types = FALSE) %>%
+  dplyr::filter(state_name != "Nationwide", agency_name != "Full Sample") %>%
+  dplyr::distinct(agency_name, state_name, .keep_all = TRUE) %>%
+  dplyr::select(agency_name, state_name, population_map = population)
+
+# Compare the two
+pop_diff <- dplyr::full_join(app_pop_by_agency, map_pop_by_agency,
+                             by = c("agency_name","state_name")) %>%
+  dplyr::mutate(diff = population_map - population_app) %>%
+  dplyr::filter(!is.na(diff) & diff != 0)
+
+pop_diff %>%
+  dplyr::arrange(desc(abs(diff))) %>%
+  print(n = 20)
+
+# 1) Base included set (one row per agency, from sources)
+app_pop_by_agency <- read_csv("../docs/app_data/sources.csv", show_col_types = FALSE) %>%
+  filter(in_national_sample == TRUE,
+         state_name != "Nationwide",
+         agency_name != "Full Sample") %>%
+  select(agency_name, state_name, population) %>%
+  distinct()
+
+# 2) Agencies that have any rows in the most recent year (from viz_data)
+viz <- read_csv("../docs/app_data/viz_data.csv", show_col_types = FALSE)
+current_year <- year(max(viz$date, na.rm = TRUE))
+
+agencies_with_current_year <- viz %>%
+  filter(state_name != "Nationwide", agency_name != "Full Sample",
+         year(date) == current_year) %>%
+  distinct(agency_name, state_name)
+
+# 3) Totals to compare
+sum_all_included <- summarise(app_pop_by_agency, pop = sum(population, na.rm = TRUE))$pop
+sum_only_current <- app_pop_by_agency %>%
+  semi_join(agencies_with_current_year, by = c("agency_name","state_name")) %>%
+  summarise(pop = sum(population, na.rm = TRUE)) %>% pull(pop)
+
+delta <- sum_all_included - sum_only_current
+
+message("All included pop: ", round(sum_all_included/1e6, 2), "M")
+message("Included w/ current-year data: ", round(sum_only_current/1e6, 2), "M")
+message("Excluded due to no current-year data: ", round(delta/1e6, 2), "M")
+
+# 4) Name the agencies excluded by a current-year filter
+excluded_agencies <- app_pop_by_agency %>%
+  anti_join(agencies_with_current_year, by = c("agency_name","state_name")) %>%
+  arrange(desc(population))
+
+excluded_agencies
+
+
+
+
 
 # Perform a left join to add the source_type and source_method columns
 map <- map %>%
   left_join(
-    ref_data %>% select(agency_full, source_type, source_method),
-    by = "agency_full" # Match on "agency_full"
+    ref_data %>% select(agency_abbr, source_type, source_method),
+    by = "agency_abbr" # Match on "agency_full"
   )
 
 

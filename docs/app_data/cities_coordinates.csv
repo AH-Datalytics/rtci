@@ -206,7 +206,7 @@
 "Euclid","Ohio",FALSE,"Euclid, Ohio",41.5931049,-81.5267873,48170,"State UCR","Provided by State UCR Program","https://ocjs.ohio.gov/",TRUE
 "Eugene","Oregon",FALSE,"Eugene, Oregon",44.0505054,-123.0950506,178191,"State UCR","Open Source","https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",TRUE
 "Euless","Texas",FALSE,"Euless, Texas",32.8370727,-97.0819541,59722,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
-"Evanston","Illinois",FALSE,"Evanston, Illinois",42.0470043,-87.6846053,74413,"State UCR","Open Source","https://ilucr.nibrs.com/AdvancedSearch/AdvancedSearch",FALSE
+"Evanston","Illinois",FALSE,"Evanston, Illinois",42.0693991,-87.682932,74413,"State UCR","Open Source","https://ilucr.nibrs.com/AdvancedSearch/AdvancedSearch",FALSE
 "Evansville","Indiana",FALSE,"Evansville, Indiana",37.970495,-87.5715641,114950,"Crime Data Explorer","Open Source","https://cde.state.mn.us/",FALSE
 "Everett","Massachusetts",FALSE,"Everett, Massachusetts",42.4085897,-71.0542002,49740,"State UCR","Provided by State UCR Program","https://www.mass.gov/crime-statistics",TRUE
 "Fairfax County","Virginia",TRUE,"Fairfax County, Virginia",38.8156356,-77.2836849,1094031,"State UCR","Provided by State UCR Program","From VA",FALSE
@@ -293,7 +293,7 @@
 "Hillsboro","Oregon",FALSE,"Hillsboro, Oregon",45.5228939,-122.989827,107459,"State UCR","Open Source","https://www.oregon.gov/osp/pages/uniform-crime-reporting-data.aspx",TRUE
 "Hoboken","New Jersey",FALSE,"Hoboken, New Jersey",40.7433066,-74.0323752,56832,"Crime Data Explorer","Open Source","https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/explorer/crime/crime-trend",TRUE
 "Honolulu","Hawaii",FALSE,"Honolulu, Hawaii",21.304547,-157.855676,987546,"Agency Aggregated","Open Source","https://www.honolulupd.org/dashboard/crime-by-category/",TRUE
-"Horry County","South Carolina",TRUE,"Horry County, South Carolina",33.9204504,-78.9578973,NA,"Crime Data Explorer","Open Source","https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/explorer/crime/crime-trend",TRUE
+"Horry County","South Carolina",TRUE,"Horry County, South Carolina",33.9204504,-78.9578973,302018,"Crime Data Explorer","Open Source","https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/explorer/crime/crime-trend",TRUE
 "Houston","Texas",FALSE,"Houston, Texas",29.7589382,-95.3676974,2304406,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
 "Howard County","Maryland",TRUE,"Howard County, Maryland",39.2305289,-76.9166241,337780,"Agency Aggregated","Open Source","https://app.powerbigov.us/view?r=eyJrIjoiODhkYzI0OGUtYzUwZi00OWYzLThmNmYtMDhjNTQwMDJiOTc5IiwidCI6IjA1MzgxMzA4LTAzNjYtNGJiNy1hOTViLTk1MzA0YmQxMWE1OCJ9",FALSE
 "Huntersville","North Carolina",FALSE,"Huntersville, North Carolina",35.4108278,-80.8429304,63781,"State UCR","Provided by State UCR Program","From NC",TRUE
@@ -316,7 +316,7 @@
 "Johns Creek","Georgia",FALSE,"Johns Creek, Georgia",34.0181557,-84.190196,82646,"Crime Data Explorer","Open Source","https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/explorer/crime/crime-trend",TRUE
 "Johnson City","Tennessee",FALSE,"Johnson City, Tennessee",36.3167671,-82.352903,73225,"State UCR","Open Source","https://crimeinsight.tbi.tn.gov/public/View/dispview.aspx",TRUE
 "Johnston County","North Carolina",TRUE,"Johnston County, North Carolina",35.5285816,-78.3768021,177923,"State UCR","Provided by State UCR Program","From NC",TRUE
-"Jonesboro","Arkansas",FALSE,"Jonesboro, Arkansas",35.8348088,-90.7045297,NA,NA,NA,NA,FALSE
+"Jonesboro","Arkansas",FALSE,"Jonesboro, Arkansas",35.8348088,-90.7045297,80395,"Crime Data Explorer","Open Source","https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/explorer/crime/crime-trend",FALSE
 "Joplin","Missouri",FALSE,"Joplin, Missouri",37.0841838,-94.5133385,52881,"State UCR","Open Source","https://showmecrime.mo.gov/",TRUE
 "Kalamazoo","Michigan",FALSE,"Kalamazoo, Michigan",42.291707,-85.5872286,72565,"State UCR","Open Source","https://www.michigan.gov/msp/divisions/cjic/dashboard-portal/crime-dashboard",FALSE
 "Kalamazoo County","Michigan",TRUE,"Kalamazoo County, Michigan",42.2494968,-85.5372797,108458,"State UCR","Open Source","https://www.michigan.gov/msp/divisions/cjic/dashboard-portal/crime-dashboard",FALSE
@@ -614,8 +614,8 @@
 "St Peters","Missouri",FALSE,"St Peters, Missouri",38.791612,-90.5958468,58937,"State UCR","Open Source","https://showmecrime.mo.gov/",TRUE
 "St. Clair Shores","Michigan",FALSE,"St. Clair Shores, Michigan",42.4969652,-82.8890965,57257,"State UCR","Open Source","https://www.michigan.gov/msp/divisions/cjic/dashboard-portal/crime-dashboard",TRUE
 "St. Cloud","Minnesota",FALSE,"St. Cloud, Minnesota",45.5616075,-94.1642004,69922,"State UCR","Open Source","https://cde.state.mn.us/",TRUE
-"St. George","Utah",FALSE,"St. George, Utah",37.104153,-113.584131,NA,"State UCR","Open Source","https://bci.utah.gov/crime-in-utah-dashboards/",TRUE
-"St. Mary's County","Maryland",TRUE,"St. Mary's County, Maryland",38.206621,-76.5389973,NA,"Crime Data Explorer","Open Source","https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/explorer/crime/crime-trend",FALSE
+"St. George","Utah",FALSE,"St. George, Utah",37.104153,-113.584131,105930,"State UCR","Open Source","https://bci.utah.gov/crime-in-utah-dashboards/",TRUE
+"St. Mary's County","Maryland",TRUE,"St. Mary's County, Maryland",38.206621,-76.5389973,115684,"Crime Data Explorer","Open Source","https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/explorer/crime/crime-trend",FALSE
 "St. Paul","Minnesota",FALSE,"St. Paul, Minnesota",44.9497487,-93.0931028,300368,"State UCR","Open Source","https://cde.state.mn.us/",FALSE
 "Stafford County","Virginia",TRUE,"Stafford County, Virginia",38.4167265,-77.4579783,166413,"State UCR","Provided by State UCR Program","From VA",FALSE
 "Stamford","Connecticut",FALSE,"Stamford, Connecticut",41.0534302,-73.5387341,136512,"State UCR","Open Source","https://ct.beyond2020.com/ct_public/Dim/dimension.aspx",TRUE

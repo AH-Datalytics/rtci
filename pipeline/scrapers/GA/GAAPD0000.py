@@ -18,8 +18,8 @@ class GAAPD0000(Scraper):
             "/OpenDataWebsite_Crime_view/FeatureServer/createReplica"
         )
         self.url_2009 = (
-            "https://services3.arcgis.com/Et5Qfajgiyosiw4d/arcgis/rest/services/2009_2020CrimeData"
-            "/FeatureServer/createReplica"
+            "https://services3.arcgis.com/Et5Qfajgiyosiw4d/arcgis/rest/services"
+            "/2009_2020CrimeData/FeatureServer/createReplica"
         )
         self.headers = {
             "Accept": "*/*",
@@ -54,15 +54,14 @@ class GAAPD0000(Scraper):
 
     def scrape(self):
         # collect data from source for 2021-01-01 to present (NIBRS)
-        end = "2025-10-14"
         data = (
             "f=json"
             "&layers=0"
             "&layerQueries=%7B%220%22%3A%7B%22where%22%3A%22("
             f"ReportDate%20"
             f"BETWEEN%20timestamp%20'2021-01-01%2005%3A00%3A00'%20"
-            f"AND%20timestamp%20'{end}%2004%3A00%3A00')%20"
-            f"AND%20ReportDate%20%3C%3E%20timestamp%20'{end}%20"
+            f"AND%20timestamp%20'{self.last.date()}%2004%3A00%3A00')%20"
+            f"AND%20ReportDate%20%3C%3E%20timestamp%20'{self.last.date()}%20"
             f"04%3A00%3A00'%22%2C"
             "%22useGeometry%22%3Afalse%2C"
             "%22queryOption%22%3A%22useFilter%22%2C"

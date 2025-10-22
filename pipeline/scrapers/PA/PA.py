@@ -10,6 +10,7 @@ class Pennsylvania(Optimum):
         self.agency_list_url = "https://www.ucr.pa.gov/PAUCRSPublic/SRSReport/GetReportByValues?ReportType=Agency"
         self.data_url = "https://www.ucr.pa.gov/PAUCRSPublic/SRSReport/GetCrimeTrends?"
         self.srs = True
+        self.exclude_oris = ["PAPPD0000"]
         self.threader = False
 
 

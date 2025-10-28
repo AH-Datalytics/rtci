@@ -83,7 +83,10 @@ class MD0172100(Scraper):
             ).reset_index()
             self.records.extend(df.to_dict("records"))
 
-        return self.records
+        # sum over duplication that may occur around 07-2023
+        df = pd.DataFrame(self.records)
+        df = df.groupby(["year", "month"]).sum().reset_index()
+        return df.to_dict("records")
 
 
 MD0172100().run()

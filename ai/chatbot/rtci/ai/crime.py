@@ -1,12 +1,13 @@
 import csv
 import io
 from datetime import datetime
+from decimal import Decimal
 from typing import Self, Any
 
 import pandas as pd
 from langchain_core.documents import Document
 from langchain_core.exceptions import OutputParserException
-from langchain_core.messages import BaseMessage, HumanMessage
+from langchain_core.messages import BaseMessage, HumanMessage, ChatMessage
 from langchain_core.output_parsers import StrOutputParser, PydanticOutputParser
 from langchain_core.prompt_values import PromptValue
 from langchain_core.prompts import ChatPromptTemplate
@@ -18,7 +19,7 @@ from rtci.ai.location import get_location_list
 from rtci.model import CrimeData, DateRange, LocationDocument, CrimeCategory, CrimeCategoryResponse, Location
 from rtci.rtci import RealTimeCrime
 from rtci.util.collections import convert_structured_document_to_json
-from rtci.util.data import create_database
+from rtci.util.data import create_database, database_date_range, remove_trailing_decimals
 from rtci.util.database import CrimeDatabase
 from rtci.util.llm import create_llm
 from rtci.util.log import logger
@@ -59,12 +60,23 @@ class CrimeCategoryResolver:
     def __filter_categories(self, category_list: list[CrimeCategory]):
         if not category_list:
             return []
+        # flatten list to handle use case for crime types with grouped categories
+        flattened_list = []
         for crime_category in category_list:
             if not crime_category.crime_name.lower() in ['crime', 'none']:
-                if crime_category.matched_category is None or crime_category.matched_category.lower() in ["none", "null", "empty"]:
-                    crime_category.matched_category = None
+                if isinstance(crime_category.matched_category, (list, set)):
+                    for item in crime_category.matched_category:
+                        flattened_list.append(CrimeCategory(
+                            crime_name=crime_category.crime_name,
+                            matched_category=item))
+                else:
+                    flattened_list.append(crime_category)
+        # cleanup list to remove none/na/empty categories
+        for crime_category in flattened_list:
+            if crime_category.matched_category is None or crime_category.matched_category.lower() in ["none", "null", "empty"]:
+                crime_category.matched_category = None
         return sorted(
-            category_list,
+            flattened_list,
             key=lambda x: (x.crime_name, x.matched_category or "unknown")
         )
 
@@ -120,12 +132,39 @@ class CrimeRetriever:
         return CrimeData(data_frame=df_items)
 
 
-async def summarize_query(query: str,
-                          messages: list[BaseMessage] = None,
-                          locations: list[Location] = None,
-                          crime_categories: list[CrimeCategory] = None,
-                          date_range: DateRange = None) -> str:
-    # Prepare context elements for summarization
+async def validate_query(query: str,
+                         messages: list[BaseMessage] = None) -> str:
+    conversation_context = ""
+    if messages:
+        # Only include the last few messages to keep the context manageable
+        num_messages = 10
+        recent_messages = messages[-num_messages:] if len(messages) > num_messages else messages
+        for msg in recent_messages:
+            if isinstance(msg, HumanMessage):
+                conversation_context += f"User: {msg.content}\n"
+            elif isinstance(msg, ChatMessage):
+                conversation_context += f"{msg.role}: {msg.content}\n"
+
+    # create a prompt for the LLM to validate
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", RealTimeCrime.prompt_library.find_text("assistant_profile")),
+        ("human", RealTimeCrime.prompt_library.find_text("assistant_validate")),
+    ])
+    chain = (prompt_template |
+             create_llm() |
+             StrOutputParser())
+    return await chain.ainvoke({
+        "original_query": query,
+        "conversation_context": conversation_context,
+        "current_date": datetime.now().strftime("%Y-%m-%d")
+    })
+
+
+async def summarize_query_and_conversation(query: str,
+                                           messages: list[BaseMessage] = None,
+                                           locations: list[Location] = None,
+                                           crime_categories: list[CrimeCategory] = None,
+                                           date_range: DateRange = None) -> str:
     location_context = ""
     if locations:
         location_names = [loc.page_content for loc in locations]
@@ -137,7 +176,11 @@ async def summarize_query(query: str,
     if date_range:
         date_context = date_range.prompt_content
     if not date_context:
-        date_context = "any date range"
+        all_dates = database_date_range()
+        if all_dates:
+            date_context = f"data available {all_dates.prompt_content}"
+        else:
+            date_context = "any date range"
 
     category_context = ""
     if crime_categories:
@@ -149,28 +192,28 @@ async def summarize_query(query: str,
 
     conversation_context = ""
     if messages:
-        # Only include the last few messages to keep the context manageable
+        # only include the last few messages to keep the context manageable
         num_messages = 10
         recent_messages = messages[-num_messages:] if len(messages) > num_messages else messages
         for msg in recent_messages:
             if isinstance(msg, HumanMessage):
                 conversation_context += f"User: {msg.content}\n"
+            elif isinstance(msg, ChatMessage):
+                conversation_context += f"{msg.role}: {msg.content}\n"
 
-    # Create a prompt for the LLM to summarize
+        # create a prompt for the LLM to summarize
     prompt_template = ChatPromptTemplate.from_messages([
         ("system", RealTimeCrime.prompt_library.find_text("assistant_profile")),
         ("human", RealTimeCrime.prompt_library.find_text("assistant_summarize")),
     ])
-
-    # Call the LLM to generate a summarized query
     chain = (prompt_template |
              create_llm() |
              StrOutputParser())
     return await chain.ainvoke({
         "original_query": query,
-        "location_context": location_context,
-        "date_context": date_context,
-        "category_context": category_context,
+        "locations": location_context,
+        "date_range": date_context,
+        "crime_categories": category_context,
         "conversation_context": conversation_context,
         "current_date": datetime.now().strftime("%Y-%m-%d")
     })
@@ -251,8 +294,8 @@ async def chat_query(query: str,
         logger().trace(f"Using pandasAI agent for data analysis for query \"{query}\".")
         df = data_context.to_pandas()
         actor = Agent(dfs=df)
-        actor.add_message(message=system_prompt, is_user=True)
-        actor.add_message(message=analyze_prompt.format(**query_context), is_user=True)
+        actor.add_message(message=system_prompt, is_user=False)
+        actor.add_message(message=analyze_prompt.format(**query_context), is_user=False)
 
         async def pandas_analysis(input_dict):
             if isinstance(input_dict, PromptValue):
@@ -265,11 +308,19 @@ async def chat_query(query: str,
             if not panda_response:
                 return "No response generated."
             if isinstance(panda_response, str):
-                return panda_response.strip()
+                return remove_trailing_decimals(panda_response.strip())
             elif isinstance(panda_response, StringResponse):
-                return str(panda_response.value)
+                if panda_response.value is None:
+                    return None
+                return remove_trailing_decimals(str(panda_response.value))
             elif isinstance(panda_response, NumberResponse):
-                return f"{panda_response.value:,.0f}"
+                if panda_response.value is None:
+                    return None
+                decimal_value = Decimal(panda_response.value)
+                if decimal_value.is_nan() or decimal_value.is_infinite():
+                    return "I do not have data to determine the answer."
+                else:
+                    return f"{float(panda_response.value):,.1f}".replace(".0", "")
             elif isinstance(panda_response, DataFrameResponse):
                 return await format_dataframe_response(panda_response)
             elif isinstance(panda_response, ChartResponse):
@@ -335,7 +386,7 @@ async def format_dataframe_response(response: DataFrameResponse):
     # Format numeric columns to 2 decimal places
     numeric_cols = df.select_dtypes(include=['float']).columns
     for col in numeric_cols:
-        df[col] = df[col].apply(lambda x: f"{float(x):,.2f}" if pd.notnull(x) else '')
+        df[col] = df[col].apply(lambda x: f"{float(x):,.1f}".replace(".0", "") if pd.notnull(x) else '')
 
     # Format date columns if specified
     for col in ['date', 'datetime', 'last_modified', 'last_updated']:
@@ -368,7 +419,7 @@ async def format_dataframe_response(response: DataFrameResponse):
         if col not in rename_columns:
             words = col.split('_')
             if words[0].lower() in ['num', 'number', 'total', 'tot']:
-                words = 'Num.'
+                words[0] = 'Num.'
             title_case = ' '.join(word.capitalize() for word in words)
             rename_columns[col] = title_case
 

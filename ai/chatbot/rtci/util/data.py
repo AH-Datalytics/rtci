@@ -7,6 +7,7 @@ from datetime import datetime
 from os import environ
 from pathlib import Path
 
+from rtci.model import DateRange
 from rtci.rtci import RealTimeCrime
 from rtci.util.collections import get_first_header_index
 from rtci.util.database import CrimeDatabase
@@ -14,6 +15,7 @@ from rtci.util.log import logger
 from rtci.util.s3 import create_s3_client
 
 database_key = f"database-{str(uuid.uuid4())}"
+database_date_range_cache: DateRange | None = None
 
 
 def create_database() -> CrimeDatabase:
@@ -21,10 +23,20 @@ def create_database() -> CrimeDatabase:
     csv_content = RealTimeCrime.file_cache.get(key=database_key)
     if not csv_content:
         s3_bucket = environ.get("AWS_S3_BUCKET", "rtci")
-        s3_key_name = environ.get("AWS_S3_DATASET_KEY", "rtci/final_sample.csv")
+        s3_key_name = environ.get("AWS_S3_DATASET_KEY", "data/final_sample.csv")
         csv_content = load_csv_to_memory(s3_bucket, s3_key_name)
         csv_content = transform_csv_to_file_cache(csv_content)
     return CrimeDatabase.from_csv(csv_content)
+
+
+def database_date_range() -> DateRange:
+    global database_date_range_cache
+    if database_date_range_cache:
+        return database_date_range_cache
+    database = create_database()
+    date_range = database.determine_availability()
+    database_date_range_cache = date_range
+    return date_range
 
 
 def load_csv_to_memory(s3_bucket_name: str,
@@ -203,3 +215,16 @@ def cleanup_old_files(target_dir: str | Path,
                     except Exception as e:
                         logger().error(f"Failed to delete {item}.", e)
     return deleted_count
+
+
+def remove_trailing_decimals(text: str):
+    if not text:
+        return ''
+    zero_char = '0'
+    num_zeros = 6
+    while num_zeros > 0:
+        needle: str = f".{zero_char * num_zeros}"
+        if needle in text:
+            text = text.replace(needle, '')
+        num_zeros -= 1
+    return text

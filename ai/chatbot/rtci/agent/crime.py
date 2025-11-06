@@ -9,6 +9,13 @@ from rtci.util.data import create_database
 from rtci.util.log import logger
 
 
+def all_crime_categories() -> list[CrimeCategory]:
+    items = [
+        'murder', 'rape', 'robbery', 'aggravated_assault', 'burglary', 'theft', 'motor_vehicle_theft'
+    ]
+    return list(map(lambda x: CrimeCategory(crime_name=x, matched_category=x), items))
+
+
 async def extract_crime_categories(state: CrimeBotState) -> dict[str, Any]:
     """Extract any crime categories context and add it to the state."""
 
@@ -18,20 +25,18 @@ async def extract_crime_categories(state: CrimeBotState) -> dict[str, Any]:
 
     last_category_list = state.get("crime_categories", [])
     crime_categories: list[CrimeCategory] = await resolver.resolve_categories(query)
-
     if crime_categories is None:
         crime_categories = []
     if not crime_categories and last_category_list:
-        if query.lower().find("crime") < 0:
-            return {}
-        else:
-            writer(f"Expanding query to include all crime categories.")
-            return {
-                "crime_categories": [],
-                "crime_categories_updated": True
-            }
+        writer(f"Expanding query to include all crime categories.")
+        return {
+            "crime_categories": [],
+            "crime_categories_updated": True
+        }
+    if deepcompare.compare(last_category_list, crime_categories):
+        return {}
 
-    valid_categories: list[str] = list(filter(lambda x: x, map(lambda x: x.matched_category, crime_categories)))
+    valid_categories: list[str] = list(map(lambda x: x.label, filter(lambda x: x.matched_category, crime_categories)))
     unknown_categories: list[str] = list(map(lambda x: x.crime_name, filter(lambda x: x.matched_category is None, crime_categories)))
     if valid_categories:
         writer(f"Looks like you are asking about reporting on {', '.join(valid_categories)}.")
@@ -39,7 +44,7 @@ async def extract_crime_categories(state: CrimeBotState) -> dict[str, Any]:
         writer(f"I don't know about {', '.join(unknown_categories)}.")
     return {
         "crime_categories": crime_categories,
-        "crime_categories_updated": not deepcompare.compare(last_category_list, crime_categories)
+        "crime_categories_updated": True
     }
 
 

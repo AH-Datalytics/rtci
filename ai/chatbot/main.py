@@ -73,20 +73,21 @@ def find_session_state(user_request: QueryRequest) -> CrimeBotState:
         user_session: CrimeBotSession = pickle.loads(picked_data)
         if not user_session:
             raise HTTPException(status_code=400, detail="Invalid session.")
-        logger().info(f"Session [{user_request.session_id}] loaded.")
+        logger().debug(f"Session [{user_request.session_id}] loaded.")
         loaded_state: CrimeBotState = {
             "query": user_request.query,
             "locations": user_session.locations,
             "crime_categories": user_session.crime_categories,
             "date_range": user_session.date_range,
             "data_context": user_session.data_context,
-            "messages": user_session.messages
+            "messages": user_session.messages,
+            "summarized_query": user_session.summarized_query
         }
         return loaded_state
     else:
         # create a new session context
         user_request.session_id = uuid.uuid4().hex
-        logger().info(f"New session created: {user_request.session_id}.")
+        logger().debug(f"New session created: {user_request.session_id}.")
         initial_state: CrimeBotState = {
             "query": user_request.query,
             "messages": []
@@ -99,9 +100,7 @@ async def stream_response_with_graph(graph_chain: CompiledStateGraph,
                                      session_id: str):
     # stream graph response
     last_state: dict = {}
-    message_list = user_state.get("messages")
-    if not message_list:
-        message_list = []
+    message_list = list(user_state.get("messages", []))
     user_query = user_state.get("original_query")
     if not user_query:
         user_query = user_state.get("query")
@@ -145,7 +144,8 @@ async def stream_response_with_graph(graph_chain: CompiledStateGraph,
         date_range=last_state.get("date_range"),
         crime_categories=last_state.get("crime_categories"),
         data_context=last_state.get("data_context"),
-        messages=message_list
+        messages=message_list,
+        summarized_query=last_state.get("summarized_query")
     )
     ttl_sec = 60 * 30
     RealTimeCrime.file_cache.set(key=session_id,

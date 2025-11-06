@@ -123,7 +123,7 @@ def build_location_retriever() -> LocationRetriever:
     # read locations from s3 file
     s3_client = create_s3_client()
     s3_bucket = environ.get("AWS_S3_BUCKET", "rtci")
-    s3_key_name = environ.get("AWS_S3_LOCATIONS_KEY", "rtci/sample_cities.csv")
+    s3_key_name = environ.get("AWS_S3_LOCATIONS_KEY", "data/sample_cities.csv")
     s3_response = s3_client.get_object(Bucket=s3_bucket, Key=s3_key_name)
     csv_content = s3_response['Body'].read().decode('utf-8')
     if not csv_content:

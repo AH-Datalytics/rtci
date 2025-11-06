@@ -28,10 +28,12 @@ class DateRange(BaseModel):
         return f"{format_start} to {format_end}"
 
     def contains(self, other: "DateRange") -> bool:
-        return self.start_date <= other.start_date and self.end_date >= other.end_date
+        # Compare only date components (year, month, day) ignoring time components
+        return self.start_date.date() <= other.start_date.date() and self.end_date.date() >= other.end_date.date()
 
     def intersects(self, other: "DateRange") -> bool:
-        return (self.start_date <= other.end_date) and (self.end_date >= other.start_date)
+        # Compare only date components (year, month, day) ignoring time components
+        return (self.start_date.date() < other.end_date.date()) and (self.end_date.date() > other.start_date.date())
 
     def intersection(self, other: "DateRange") -> Optional["DateRange"]:
         if not self.intersects(other):
@@ -150,7 +152,14 @@ class LocationResponse(BaseModel):
 
 class CrimeCategory(BaseModel):
     crime_name: str = Field(description="The crime or criminal offense extracted from the query.")
-    matched_category: Optional[str] = Field(description="The matching crime category, if any.", default=None)
+    matched_category: Optional[str | list[str]] = Field(description="The matching crime category, if any.", default=None)
+
+    @property
+    def label(self):
+        if not self.matched_category:
+            return self.crime_name
+        words = str(self.matched_category).split('_')
+        return ' '.join(word.capitalize() for word in words)
 
 
 class CrimeCategoryResponse(BaseModel):
@@ -230,6 +239,7 @@ class CrimeBotSession(BaseModel):
     crime_categories: Optional[List[CrimeCategory]]
     data_context: Optional[CrimeData]
     messages: List[BaseMessage]
+    summarized_query: Optional[str]
 
     def to_markdown(self):
         markdown_txt = ''
@@ -251,7 +261,7 @@ class CrimeBotSession(BaseModel):
             markdown_txt += "## Crime Categories\n\n"
             for crime in self.crime_categories:
                 if crime.matched_category:
-                    markdown_txt += f"- {crime.matched_category}\n"
+                    markdown_txt += f"- {crime.label}\n"
                 else:
                     markdown_txt += f"- {crime.crime_name} (unknown)\n"
         markdown_txt += "\n"
@@ -263,7 +273,8 @@ class CrimeBotState(TypedDict, total=False):
     # Input query from the user
     query: str
     original_query: str
-    summarized_query: str
+    summarized_query: Optional[str]
+    validated_state: str
     # Extracted locations from the query
     locations: Optional[List[Location]]
     locations_updated: Optional[bool]

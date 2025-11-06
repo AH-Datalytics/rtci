@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from rtci.model import LocationDocument, DateRange
-from rtci.util.data import create_database
+from rtci.util.data import create_database, remove_trailing_decimals
 from tests.test_common import TestCommonAdapter
 
 
@@ -21,3 +21,7 @@ class TestCrimeDatabase(TestCommonAdapter):
                               ))
         self.assertIsNotNone(data)
         self.assertTrue(data.size > 0)
+
+    async def test_utils(self):
+        text = remove_trailing_decimals('The answer to your question is 1234.000.')
+        self.assertEqual(text, 'The answer to your question is 1234.')

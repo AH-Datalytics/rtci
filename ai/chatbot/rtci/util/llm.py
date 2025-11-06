@@ -1,3 +1,5 @@
+import os
+
 import boto3
 from langchain_aws import ChatBedrockConverse
 from langchain_core.language_models import BaseChatModel
@@ -6,7 +8,7 @@ from pandasai_litellm import LiteLLM
 from rtci.model import Credentials
 from rtci.util.credentials import create_credentials
 
-model_name = "anthropic.claude-3-haiku-20240307-v1:0"  # "anthropic.claude-3-5-haiku-20241022-v1:0"
+model_name = os.environ.get("AWS_BEDROCK_MODEL", "anthropic.claude-3-haiku-20240307-v1:0")
 
 
 def create_llm() -> BaseChatModel:

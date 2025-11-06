@@ -4,7 +4,7 @@ from langgraph.config import get_stream_writer
 
 from rtci.ai.date import DateResolver
 from rtci.model import CrimeBotState
-from rtci.util.data import create_database
+from rtci.util.data import database_date_range
 
 
 async def extract_date_range(state: CrimeBotState) -> dict[str, Any]:
@@ -17,13 +17,16 @@ async def extract_date_range(state: CrimeBotState) -> dict[str, Any]:
     extracted_date_range = await resolver.resolve_dates(query)
     if not extracted_date_range and not last_date_range:
         return {}
-    all_dates = create_database().determine_availability()
     if not extracted_date_range:
-        extracted_date_range = all_dates
+        extracted_date_range = database_date_range()
+    dates_updated = False
     if not last_date_range:
-        last_date_range = all_dates
-
-    dates_updated = last_date_range.start_date != extracted_date_range.start_date or last_date_range.end_date != extracted_date_range.end_date
+        dates_updated = True
+    else:
+        # compare only date components (year, month, day) ignoring time components
+        start_date_changed = last_date_range.start_date.date() != extracted_date_range.start_date.date()
+        end_date_changed = last_date_range.end_date.date() != extracted_date_range.end_date.date()
+        dates_updated = start_date_changed or end_date_changed
     if not dates_updated:
         return {}
 

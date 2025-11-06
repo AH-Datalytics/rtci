@@ -1,12 +1,21 @@
-from rtci.agent.bot import run_crime_analysis
+from rtci.agent.bot import run_crime_analysis, build_crime_analysis_graph
 from tests.test_common import TestCommonAdapter
 
 
 class TestBotLogic(TestCommonAdapter):
 
+    async def test_draw_graph(self):
+        graph = build_crime_analysis_graph()
+        png_bytes = graph.compile().get_graph().draw_mermaid_png()
+        self.assertIsNotNone(png_bytes)
+        graph.compile().get_graph().draw_mermaid_png(output_file_path='chatbot.png')
+
     async def test_simple_query(self):
-        query: str = "How many murders in New Orleans and Houston this past year?"
-        response = await run_crime_analysis(query)
-        self.assertIsNotNone(response)
-        #query: str = "How many thefts in Texas in May 2024?"
-        #await run_crime_analysis(query)
+        queries = [
+            "How much crime was there in New Orleans?",
+            "What were the murders for Boston in 2023?"
+        ]
+        for query in queries:
+            response = await run_crime_analysis(query)
+            self.assertIsNotNone(response)
+            print(f"{query} => {response}")

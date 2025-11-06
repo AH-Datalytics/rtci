@@ -1,3 +1,5 @@
+import calendar
+from datetime import datetime
 from io import StringIO
 from typing import List, Optional
 
@@ -32,22 +34,22 @@ class CrimeDatabase:
         date_series = pd.to_datetime(filtered_df['date'])
         min_date = date_series.min()
         max_date = date_series.max()
-        if min_date and max_date:
-            return DateRange(start_date=min_date, end_date=max_date)
-        else:
-            return None
+        return self.__create_date_range(min_date, max_date)
 
     def determine_availability_by_location(self, locations: List[LocationDocument | Location]) -> Optional[DateRange]:
-        # Filter database by location
         filtered_db = self.filter_by_locations(locations)
         if filtered_db.size == 0 or 'date' not in filtered_db._data_frame.columns:
             return None
-
-        # Ensure date column is in datetime format
         date_series = pd.to_datetime(filtered_db._data_frame['date'])
         min_date = date_series.min()
         max_date = date_series.max()
+        return self.__create_date_range(min_date, max_date)
+
+    def __create_date_range(self, min_date, max_date):
         if min_date and max_date:
+            # use a new datetime with the last day of the month
+            last_day = calendar.monthrange(max_date.year, max_date.month)[1]
+            max_date = datetime(max_date.year, max_date.month, last_day)
             return DateRange(start_date=min_date, end_date=max_date)
         else:
             return None

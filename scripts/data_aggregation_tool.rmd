@@ -43,7 +43,7 @@ data_dir <- file.path(
   "Open Source Data",
   "_Ben and Jeff work",
   "Months",
-  "August 2025",
+  "September 2025",
   "Cities"
 )
 
@@ -502,7 +502,7 @@ cdf_vcpc_nats <- merge(
   by = "city_state_id",
   all.x = TRUE
 )
-cdf_vcpc_nats1 <- cdf_vcpc_nats %>% mutate(State_ref = State.x, State = State.x) %>%   select(-any_of(c("State.x", "State.y")))
+cdf_vcpc_nats <- cdf_vcpc_nats %>% mutate(State_ref = State.x, State = State.x) %>%   select(-any_of(c("State.x", "State.y")))
 
 #how many unique agencies do we have?
 library(dplyr)
@@ -532,48 +532,61 @@ length(unique(cdf_vcpc_nats_usa$city_state_id))
 ```
 check to make sure the regions are attached
 ```{r}
-# Filter records where region_name is NA
+library(dplyr)
+
+# Rows where region_name is NA (optional check)
 na_region_records <- cdf_vcpc_nats %>%
   filter(is.na(region_name))
 
-# Display the results
-#print(na_region_records)
-
-
-#hard code pop for now
+# Hard-code specific fixes
 cdf_vcpc_nats <- cdf_vcpc_nats %>%
   mutate(
+    # keep existing values unless we match a city_state_id
     pop23 = case_when(
       city_state_id == "Montgomery,MD,County" ~ 896963,
       city_state_id == "St Charles,MO,County" ~ 119730,
-      city_state_id == "St Louis,MO,County" ~ 398969,
-      TRUE ~ population  # Retain existing values for other rows
+      city_state_id == "St Louis,MO,County"   ~ 398969,
+      city_state_id == "Horry,SC,County"      ~ 302018,
+      city_state_id == "St. George,UT,City"   ~ 105930,
+      TRUE ~ pop23 %||% population  # keep current pop23 if present, else population
     ),
     population = case_when(
       city_state_id == "Montgomery,MD,County" ~ 896963,
       city_state_id == "St Charles,MO,County" ~ 119730,
-      city_state_id == "St Louis,MO,County" ~ 398969,
-      TRUE ~ population_1  # Retain existing values for other rows
+      city_state_id == "St Louis,MO,County"   ~ 398969,
+      city_state_id == "Horry,SC,County"      ~ 302018,
+      city_state_id == "St. George,UT,City"   ~ 105930,
+      TRUE ~ coalesce(population, population_1)  # keep existing; fall back to population_1 if needed
     ),
     division_name = case_when(
       city_state_id == "Montgomery,MD,County" ~ "South Atlantic",
       city_state_id == "St Charles,MO,County" ~ "West North Central",
-      city_state_id == "St Louis,MO,County" ~ "West North Central",
-      TRUE ~ division_name  # Retain existing values for other rows
+      city_state_id == "St Louis,MO,County"   ~ "West North Central",
+      city_state_id == "Horry,SC,County"      ~ "South Atlantic",
+      city_state_id == "St. George,UT,City"   ~ "Mountain",
+      TRUE ~ division_name
     ),
     region_name = case_when(
       city_state_id == "Montgomery,MD,County" ~ "South",
       city_state_id == "St Charles,MO,County" ~ "Midwest",
-      city_state_id == "St Louis,MO,County" ~ "Midwest",
-      TRUE ~ region_name  # Retain existing values for other rows
-
+      city_state_id == "St Louis,MO,County"   ~ "Midwest",
+      city_state_id == "Horry,SC,County"      ~ "South",
+      city_state_id == "St. George,UT,City"   ~ "West",
+      TRUE ~ region_name
+    ),
+    state_abbr = case_when(
+      city_state_id == "Horry,SC,County"      ~ "SC",
+      city_state_id == "St. George,UT,City"   ~ "UT",
+    
     ),
     State = case_when(
       city_state_id == "Montgomery,MD,County" ~ "MD",
       city_state_id == "St Charles,MO,County" ~ "MO",
-      city_state_id == "St Louis,MO,County" ~ "MO",
-      TRUE ~ region_name  # Retain existing values for other rows
-  )
+      city_state_id == "St Louis,MO,County"   ~ "MO",
+      city_state_id == "Horry,SC,County"      ~ "SC",
+      city_state_id == "St. George,UT,City"   ~ "UT",
+      TRUE ~ State
+    )
   )
 
 ```
@@ -608,6 +621,10 @@ cdf_vcpc_nats_states <- cdf_vcpc_nats %>%
           Population = as.numeric(population_1),
           Agency_num =1) %>%
            select(-vio_crime, -prop_crime)
+```
+find na state
+```{r}
+na_state2 <- cdf_vcpc_nats %>% filter(is.na(State))
 ```
 month by month look at agencies
 ```{r}
@@ -777,7 +794,7 @@ region sums - only agencies included in sample
 ```{r}
 # Aggregate crime counts and population at the national level by Year and Month
 state_vars <- cdf_vcpc_nats_states %>%
-  group_by(Year, Month, state_abbr) %>%
+  group_by(Year, Month, State) %>%
   summarise(
     Murder = sum(Murder, na.rm = TRUE),
     Rape = sum(Rape, na.rm = TRUE),
@@ -792,6 +809,11 @@ state_vars <- cdf_vcpc_nats_states %>%
     Agency_num = sum(Agency_num, na.rm = TRUE),
     .groups = 'drop'
   )
+```
+na state?
+```{r}
+
+
 ```
 create new values associated with state counts
 ```{r}
@@ -968,7 +990,7 @@ cdf3 <- cdf3 %>%
   mutate(
     city_state_id = case_when(
       `Agency Name` == "Regional Sample Counts" & is.na(city_state_id) ~ paste0(`Agency Name`, ",", Region),
-      `Agency Name` == "State Sample Counts" & is.na(city_state_id) ~ paste0(`Agency Name`, ",", state_abbr),
+      `Agency Name` == "State Sample Counts" & is.na(city_state_id) ~ paste0(`Agency Name`, ",", State),
       is.na(city_state_id) ~ `Agency Name`,
       TRUE ~ city_state_id
     )
@@ -982,7 +1004,7 @@ mvs_12mo <- function(df) {
   require(magrittr)
   df <- df %>%
     arrange(Year, Month) %>%
-    group_by(city_state_id, State) %>%
+    group_by(city_state_id) %>%
     mutate(across(c(Murder, Burglary, Rape, Robbery, `Aggravated Assault`, `Motor Vehicle Theft`, Theft, `Violent Crime`, `Property Crime`), 
                   ~rollapply(.x, width = 12, FUN = sum, align = "right", fill = NA, partial = TRUE),
                   .names = "{col}_mvs_12mo")) %>%
@@ -1034,7 +1056,7 @@ df_w_ref <- merge(
 df_w_ref<-df_w_ref %>% select(-Agency_Type.y, -city_state.y) %>% mutate(Agency_Type = Agency_Type.x, city_state = city_state.x) %>% select(-Agency_Type.x, -city_state.x)
 
 #keep state.x and state_abbr.x
-df_w_ref<-df_w_ref %>% select(-State.y, -state_abbr.y) %>% mutate(State = State.x, state_abbr = state_abbr.x) %>% select(-State.x, -state_abbr.x)
+df_w_ref<-df_w_ref %>% select(-State.y) %>% mutate(State = State.x, state_abb) %>% select(-State.x)
 ```
 fix state sample count names
 ```{r}
@@ -1042,7 +1064,7 @@ df_w_ref1 <- df_w_ref %>%
   mutate(
     city_state_id = if_else(
       `Agency Name` == "State Sample Counts",
-      paste0(`Agency Name`, ",", state_abbr),
+      paste0(`Agency Name`, ",", State),
       city_state_id
     ),
     State = if_else(
@@ -1203,7 +1225,8 @@ colSums(is.na(cleaned_data))
 final check_columns
 ```{r}
 cleaned_data <- cleaned_data %>% select(-count_of_murder, -group, -population_1)
-
+#na looks
+state_na <- cleaned_data %>% filter(is.na(State))
 ```
 
 prepare a dataframe of all component agencies into sample for sourcing table
@@ -1217,7 +1240,7 @@ write out sample cities for viz and sample comparison
 ```{r}
 #transform sample cities for viz
 sample_cities_viz <- sample_cities %>% 
-  mutate(date = month_suffix, State = State.x) %>% 
+  mutate(date = month_suffix, State = State) %>% 
   select(city_state_id, city_state.x, `Agency Name`, State, date, Agency_Type.x)
 
 
@@ -1270,6 +1293,12 @@ write.csv(undesirables_recency,file.path("scripts/auditing/archive/", paste0("no
 write.csv(remove_agencies,file.path("scripts/auditing/archive/", paste0("agencies_removed_from_sample_", month_suffix, ".csv")),row.names = FALSE)
 write.csv(sample_cities,file.path("scripts/auditing/archive/", paste0("sample_cities_", month_suffix, ".csv")), row.names = FALSE)
 ```
+```{r}
+#find na records and fix
+na_state <- cleaned_data %>% filter(is.na(stat))
+
+```
+
 
 look at the new data
 ```{r}

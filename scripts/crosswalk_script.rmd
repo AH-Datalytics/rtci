@@ -161,7 +161,7 @@ cities_40k <- merged_df_left %>%
   filter(agency_type_name == "City", population > 30000)
 
 counties_100k <- merged_df_left %>% 
-  filter(agency_type_name == "County", population > 100000)
+  filter(agency_type_name == "County", population > 90000)
 ```
 combine city and county records for merging with final_sourcing 
 ```{r}
@@ -244,15 +244,50 @@ colSums(is.na(ref_df1))
 ```
 let's investigate population vs. pop23
 ```{r}
-ref_df1 <- ref_df1 %>% mutate(pop_diff = pop23 - population)
-#Everett, MA = -1400
-#Dublin, OH = -28
-#Molie, IL = 408
-#Lakewood, OH = 186
-#Euclid, OH = 174
-#York, PA = 25
+ref_df1_na <- ref_df1 %>% filter(is.na(population))
+
+library(dplyr)
+
+ref_df1 <- ref_df1 %>%
+  mutate(population = if_else(is.na(population), pop23, population))
+
 ```
-missing: hamilton township, NJ; henry, ga, county; st mary's, md county
+missing population_1 and region
+aliso viejo, ca; 
+brookhaven, ga
+st charles MO
+pontiac, mi
+green township, oh
+laguna niguel, ca
+mission viejo, ca
+
+what if i compared all with the cde to get pop?
+or just one big spreadsheet with pop, group, etc.
+
+
+fix population_1 for all 
+```{r}
+#population == population_1 to replace missing pop_1 values
+library(dplyr)
+
+ref_df1 <- ref_df1 %>%
+  mutate(
+    population_1 = if_else(
+      is.na(population_1),
+      population,
+      population_1
+    )
+  )
+
+```
+fix linkage to fbi participation
+```{r}
+#need pub_agency, state_abbr, region, ori
+
+```
+
+
+
 
 
 
@@ -416,17 +451,6 @@ ca_doj_data <- read_csv(
   "C:/Users/daveh/Downloads/Crimes_and_Clearances_with_Arson-1985-2024_by month.csv",
   show_col_types = FALSE
 )
-
-# 2) Filter new_cde_agencies to find ORIs starting with "CA"
-ca_agencies_new <- new_cde_agencies %>%
-  filter(str_sub(ori, 1, 2) == "CA")
-
-ca_agencies_new <- ca_agencies_new %>%
-  filter(include_yn == "Y")
-
-# Quick check
-nrow(ca_agencies_new)          # number of CA agencies flagged
-head(ca_agencies_new$ori, 10)  # preview ORIs
 
 ```
 use fuzzy matching to find matching name candidates

@@ -74,7 +74,7 @@
 "Bolingbrook","Illinois",FALSE,"Bolingbrook, Illinois",41.7003302,-88.0717708
 "Boone County","Kentucky",TRUE,"Boone County, Kentucky",38.9589235,-84.7160121
 "Bossier City","Louisiana",FALSE,"Bossier City, Louisiana",32.515887,-93.7336536
-"Boston","Massachusetts",FALSE,"Boston, Massachusetts",42.3554334,-71.060511
+"Boston","Massachusetts",FALSE,"Boston, Massachusetts",42.3588336,-71.0578303
 "Boulder","Colorado",FALSE,"Boulder, Colorado",40.0149856,-105.270545
 "Bowie","Maryland",FALSE,"Bowie, Maryland",38.9424464,-76.7301718
 "Bowling Green","Kentucky",FALSE,"Bowling Green, Kentucky",36.9929203,-86.4428677
@@ -560,7 +560,7 @@
 "San Bernardino","California",FALSE,"San Bernardino, California",34.8253019,-116.0833144
 "San Diego","California",FALSE,"San Diego, California",32.7174202,-117.162772
 "San Diego County","California",TRUE,"San Diego County, California",32.9637838,-116.7706277
-"San Francisco","California",FALSE,"San Francisco, California",37.7792588,-122.4193286
+"San Francisco","California",FALSE,"San Francisco, California",37.7932754,-122.3963589
 "San Jose","California",FALSE,"San Jose, California",37.3361663,-121.890591
 "San Marcos","Texas",FALSE,"San Marcos, Texas",29.8826436,-97.9405828
 "San Mateo","California",FALSE,"San Mateo, California",37.496904,-122.3330573
@@ -714,4 +714,4 @@
 "Yavapai County","Arizona",TRUE,"Yavapai County, Arizona",34.5668857,-112.5515965
 "Yorba Linda","California",FALSE,"Yorba Linda, California",33.8901096,-117.8249705
 "Youngstown","Ohio",FALSE,"Youngstown, Ohio",41.1035786,-80.6520161
-"Yuma","Arizona",FALSE,"Yuma, Arizona",32.7241467,-114.6180601
+"Yuma","Arizona",FALSE,"Yuma, Arizona",32.7252215,-114.6165741

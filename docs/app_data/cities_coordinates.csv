@@ -74,7 +74,7 @@
 "Bolingbrook","Illinois",FALSE,"Bolingbrook, Illinois",41.7003302,-88.0717708,74138,"State UCR","Open Source","https://ilucr.nibrs.com/AdvancedSearch/AdvancedSearch",TRUE
 "Boone County","Kentucky",TRUE,"Boone County, Kentucky",38.9589235,-84.7160121,107867,"Crime Data Explorer","Open Source","https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/explorer/crime/crime-trend",TRUE
 "Bossier City","Louisiana",FALSE,"Bossier City, Louisiana",32.515887,-93.7336536,62602,"Crime Data Explorer","Open Source","https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/explorer/crime/crime-trend",FALSE
-"Boston","Massachusetts",FALSE,"Boston, Massachusetts",42.3554334,-71.060511,642823,"State UCR","Provided by State UCR Program","https://www.mass.gov/crime-statistics",TRUE
+"Boston","Massachusetts",FALSE,"Boston, Massachusetts",42.3588336,-71.0578303,642823,"State UCR","Provided by State UCR Program","https://www.mass.gov/crime-statistics",TRUE
 "Boulder","Colorado",FALSE,"Boulder, Colorado",40.0149856,-105.270545,104232,"State UCR","Open Source","https://coloradocrimestats.state.co.us/public/View/dispview.aspx",FALSE
 "Bowie","Maryland",FALSE,"Bowie, Maryland",38.9424464,-76.7301718,56678,"Agency Aggregated","Open Source","https://www.mwcog.org/public-safety-and-homeland-security/data-and-tools/crime-dashboard/",TRUE
 "Bowling Green","Kentucky",FALSE,"Bowling Green, Kentucky",36.9929203,-86.4428677,76194,"Crime Data Explorer","Open Source","https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/explorer/crime/crime-trend",TRUE
@@ -560,7 +560,7 @@
 "San Bernardino","California",FALSE,"San Bernardino, California",34.8253019,-116.0833144,219483,"Agency Aggregated","Open Source","https://www.sbcity.org/city_hall/police_department/crime_statistics/about_ucr_statistics/crime_statistics",FALSE
 "San Diego","California",FALSE,"San Diego, California",32.7174202,-117.162772,1378349,"Agency Aggregated","Open Source","https://crimestats.arjis.org/default.aspx",TRUE
 "San Diego County","California",TRUE,"San Diego County, California",32.9637838,-116.7706277,519218,"Agency Aggregated","Open Source","https://crimestats.arjis.org/default.aspx",TRUE
-"San Francisco","California",FALSE,"San Francisco, California",37.7792588,-122.4193286,782846,"Agency Aggregated","Open Source","https://www.sanfranciscopolice.org/stay-safe/crime-data/crime-dashboard",TRUE
+"San Francisco","California",FALSE,"San Francisco, California",37.7932754,-122.3963589,782846,"Agency Aggregated","Open Source","https://www.sanfranciscopolice.org/stay-safe/crime-data/crime-dashboard",TRUE
 "San Jose","California",FALSE,"San Jose, California",37.3361663,-121.890591,952530,"Crime Data Explorer","Open Source","https://cde.state.mn.us/",TRUE
 "San Marcos","Texas",FALSE,"San Marcos, Texas",29.8826436,-97.9405828,71413,"State UCR","Open Source","https://txucr.nibrs.com/SRSReport/CrimeTrends",TRUE
 "San Mateo","California",FALSE,"San Mateo, California",37.496904,-122.3330573,98883,"Crime Data Explorer","Open Source","https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/explorer/crime/crime-trend",FALSE
@@ -714,4 +714,4 @@
 "Yavapai County","Arizona",TRUE,"Yavapai County, Arizona",34.5668857,-112.5515965,97526,"State UCR","Agency Aggregated","https://azcrimestatistics.azdps.gov/",TRUE
 "Yorba Linda","California",FALSE,"Yorba Linda, California",33.8901096,-117.8249705,66477,"Crime Data Explorer","Open Source","https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/explorer/crime/crime-trend",TRUE
 "Youngstown","Ohio",FALSE,"Youngstown, Ohio",41.1035786,-80.6520161,58773,"State UCR","Provided by State UCR Program","https://ocjs.ohio.gov/",FALSE
-"Yuma","Arizona",FALSE,"Yuma, Arizona",32.7241467,-114.6180601,99610,"State UCR","Open Source","https://azcrimestatistics.azdps.gov/",FALSE
+"Yuma","Arizona",FALSE,"Yuma, Arizona",32.7252215,-114.6165741,99610,"State UCR","Open Source","https://azcrimestatistics.azdps.gov/",FALSE

@@ -261,8 +261,6 @@ green township, oh
 laguna niguel, ca
 mission viejo, ca
 
-what if i compared all with the cde to get pop?
-or just one big spreadsheet with pop, group, etc.
 
 
 fix population_1 for all 

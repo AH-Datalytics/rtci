@@ -13,7 +13,7 @@ class CA0331300(Scraper):
         super().__init__()
         self.oris = ["CA0331300"]
         self.url = (
-            "https://www.riversideca.gov/transparency/data/dataset/csv/27/Crime_Reports"
+            "https://www.riversideca.gov/transparency/data/dataset/csv/50/Crime_Reports"
         )
         self.mapping = {
             # murder

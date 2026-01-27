@@ -4,6 +4,7 @@ import sys
 
 from datetime import datetime as dt
 from datetime import timedelta as td
+from time import sleep
 
 sys.path.append("../utils")
 from aws import list_directories, list_files, snapshot_df
@@ -55,6 +56,7 @@ class Aggregator:
         fns = self.get_files()
 
         for fn in fns:
+            sleep(1.1)
             self.logger.info(f"reading {fn}...")
             df = pd.read_json(self.bucket_url + fn)
             assert df["year"].dtype == "int"

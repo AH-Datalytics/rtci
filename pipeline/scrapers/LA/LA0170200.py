@@ -6,6 +6,7 @@ import sys
 from datetime import datetime as dt
 
 sys.path.append("../../utils")
+from crimes import rtci_to_nibrs
 from super import Scraper
 
 
@@ -15,6 +16,14 @@ class LA0170200(Scraper):
         self.oris = ["LA0170200"]
         self.stem = "https://data.brla.gov/resource/pbin-pcm7.json?$query="
         self.limit = 1_000_000
+        self.map = {
+            k: v
+            for e in [
+                {d["Offense Code"]: crime for d in rtci_to_nibrs[crime]}
+                for crime in rtci_to_nibrs
+            ]
+            for k, v in e.items()
+        }
 
     def scrape(self):
         r = requests.get(
@@ -56,10 +65,26 @@ class LA0170200(Scraper):
         df = pd.DataFrame(j)
 
         df["report_date"] = pd.to_datetime(df["report_date"])
+        df["year"] = df["report_date"].dt.year
+        df["month"] = df["report_date"].dt.month
+        del df["report_date"]
 
-        print(df)
-        print(df["report_date"].min())
-        print(df["report_date"].max())
+        df = df[df["nibrs_code"].isin(self.map)]
+        df["nibrs_code"] = df["nibrs_code"].map(self.map)
+        df = (
+            df.groupby(["year", "month", "nibrs_code"])
+            .size()
+            .reset_index()
+            .rename(columns={0: "count"})
+        )
+        df = (
+            df.groupby(["year", "month", "nibrs_code"])["count"]
+            .sum()
+            .reset_index()
+            .pivot(index=["year", "month"], columns="nibrs_code", values="count")
+        ).reset_index()
+
+        return df.to_dict("records")
 
 
 LA0170200().run()

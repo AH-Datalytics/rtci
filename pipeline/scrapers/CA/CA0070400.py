@@ -15,7 +15,7 @@ class CA0070400(Scraper):
         super().__init__()
         self.oris = ["CA0070400"]
         self.stem = "https://cityofconcord.org"
-        self.url = self.stem + "/1063/Crime-Statistics"
+        self.url = self.stem + "/1281/2025-Crime-Statistics"
         self.mapping = {
             "Aggravated Assault": "aggravated_assault",
             "Burglary/Breaking & Entering": "burglary",
@@ -59,7 +59,7 @@ class CA0070400(Scraper):
 
             r = requests.get(year[1])
             soup = bS(r.text, "lxml")
-            table = soup.find("table", {"id": "isPasted"})
+            table = soup.find("table")
             headers = [
                 td.text.strip().upper() for td in table.find("tr").find_all("td")
             ]

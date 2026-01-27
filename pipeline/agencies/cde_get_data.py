@@ -153,7 +153,7 @@ if __name__ == "__main__":
         "--first",
         type=str,
         default="01-1985",
-        help="""Specify a start month/year in the format MM-YYYY (e.g., default "01-1985)""",
+        help="""Specify a start month/year in the format MM-YYYY (e.g., default "01-1985")""",
     )
     args = parser.parse_args()
 

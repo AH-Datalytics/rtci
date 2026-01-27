@@ -23,7 +23,7 @@ class AR0600200(Scraper):
             "Larceny": "theft",
             "Stolen Vehicle": "motor_vehicle_theft",
         }
-        self.url = "https://www.littlerock.gov/residents/police-department/crime-stats/"
+        self.url = "https://littlerock.gov/government/mayors-office/initiatives/crime-reduction-strategy/crime-stats/"
         self.headers = [
             "OFFENSE",
             "Jan",
@@ -45,10 +45,9 @@ class AR0600200(Scraper):
         # find most recent pdf
         r = requests.get(self.url)
         soup = bS(r.text, "lxml")
-        href = (
-            "https://www.littlerock.gov"
-            + soup.find("a", href=re.compile(r".*/part-i-offenses-by-month-.*"))["href"]
-        )
+        href = soup.find("a", href=re.compile(r".*/part-i-offenses-by-month-.*"))[
+            "href"
+        ]
         self.logger.info(f"located url: {href}")
 
         # send pdf parse job to aws textract

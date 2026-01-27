@@ -16,6 +16,7 @@ class CA0194100(Scraper):
         super().__init__()
         self.oris = ["CA0194100"]
         self.url = "https://www.longbeach.gov/police/crime-info/crime-statistics/"
+        self.url = "https://www.longbeach.gov/police/crime-info/crime-statistics/crime-statistics-archive/"
         self.nibrs_mapping = {
             "Murder": "murder",
             "Rape / Sexual Assault": "rape",
@@ -62,12 +63,8 @@ class CA0194100(Scraper):
 
         # get pre-2023 ucr pdfs
         ucr = soup.find("h3", string=re.compile(r"PREVIOUS YEAR TO CURRENT YEAR"))
-        ucr = self.href_extract(ucr, ["div"], "hr")
-        ucr = [
-            u
-            for u in ucr
-            if int(re.match(r".*((?!3010)\d{4}).*", u).group(1)) >= self.first.year
-        ]
+        ucr = self.href_extract(ucr, ["p", "div"], "hr")
+        ucr = [u for u in ucr if "2016" not in u]
 
         data = list()
         for pdf in nibrs:

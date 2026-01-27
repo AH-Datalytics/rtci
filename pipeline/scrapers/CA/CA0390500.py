@@ -17,7 +17,7 @@ class CA0390500(Scraper):
         self.oris = ["CA0390500"]
         self.url = (
             "https://www.stocktonca.gov/services/police_department/police_news___information"
-            "/statistical_reports.php#outer-637"
+            "/statistical_reports.php#outer-629"
         )
         self.mapping = {
             "homicide": "murder",
@@ -32,6 +32,10 @@ class CA0390500(Scraper):
         }
         self.max_year, self.max_month = None, None
         self.alt = False
+        self.date_pattern = (
+            r"(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug("
+            r"?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)[_ ](\d{4})"
+        )
 
     def scrape(self):
         # get all pdf urls
@@ -46,9 +50,12 @@ class CA0390500(Scraper):
         self.max_year = max(
             [int(re.match(r".*(\d{4}).*\.pdf", pdf).group(1)) for pdf in pdfs]
         )
+
         self.max_month = max(
             [
-                self.extract_month(pdf.split()[-2]).month
+                self.extract_month(
+                    re.search(self.date_pattern, pdf, re.IGNORECASE).group(1)
+                ).month
                 for pdf in pdfs
                 if str(self.max_year) in pdf
             ]

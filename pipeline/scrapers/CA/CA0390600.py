@@ -33,7 +33,7 @@ class CA0390600(Scraper):
         soup = bS(r.text, "lxml")
         pdfs = [
             a["href"]
-            for a in soup.find("table", {"id": "dlp_ea1e8a2f8f07d5d0_1"}).find_all(
+            for a in soup.find("table", {"id": "dlp_b11a4c56b3f768c0_1"}).find_all(
                 "a", href=re.compile(r".*\.pdf")
             )
             if dt.strptime(a["href"].split("uploads/")[1].rsplit("/", 1)[0], "%Y/%m")

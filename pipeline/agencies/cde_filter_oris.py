@@ -66,6 +66,9 @@ class CdeGetFilterOris:
             "FL0160000": "City",
             "UT0180000": "City",
         }
+        self.geographies = pd.read_csv(
+            "https://rtci.s3.us-east-1.amazonaws.com/fbi/geographies.csv"
+        )
 
     def scrape(self):
         """
@@ -97,6 +100,8 @@ class CdeGetFilterOris:
                             "ori": agency["ori"],
                             "name": agency["agency_name"],
                             "type": agency["agency_type_name"],
+                            "latitude": agency["latitude"],
+                            "longitude": agency["longitude"],
                         }
                         for agency in counties[county]
                     ]
@@ -115,6 +120,29 @@ class CdeGetFilterOris:
             self.logger.info(f"[{n}/{len(all_oris)}] attempting {ori}...")
             filtered_oris.append(self.filter_oris(ori))
 
+        # save the extended dataset of oris for the website geographies data table
+        df = pd.DataFrame(filtered_oris)
+        df["state_abbr"] = df["state"].str.lower()
+        del df["state"]
+        df = pd.merge(
+            df,
+            self.geographies,
+            how="left",
+            on="state_abbr",
+        ).sort_values(by=["state", "ori"])
+        df["type"] = np.where(
+            df["type"].isna(), df["ori"].map(self.agency_type_overrides), df["type"]
+        )
+        self.logger.info(f"sample record: {df.to_dict('records')[0]}")
+        if not self.args.test:
+            snapshot_df(
+                logger=self.logger,
+                df=df,
+                path="fbi/",
+                filename=f"cde_oris",
+            )
+
+        # filter oris on population criteria
         filtered_oris = [
             ori
             for ori in filtered_oris

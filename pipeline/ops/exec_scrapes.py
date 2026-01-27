@@ -10,7 +10,6 @@ sys.path.append("../utils")
 from aggregator import Aggregator
 from google_configs import gc_files, pull_sheet, update_sheet
 from logger import create_logger
-from parallelize import thread
 
 
 """

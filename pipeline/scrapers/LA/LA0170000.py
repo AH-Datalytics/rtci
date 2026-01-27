@@ -4,7 +4,6 @@ import requests
 import sys
 
 from bs4 import BeautifulSoup as bS
-from datetime import datetime as dt
 
 sys.path.append("../../utils")
 from crimes import rtci_to_nibrs

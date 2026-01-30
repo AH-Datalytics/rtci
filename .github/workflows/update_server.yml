@@ -16,7 +16,25 @@ jobs:
 
     steps:
       - name: remove existing .gitconfig directory
-        run: rm -rf ~/.gitconfig
+#        run: rm -rf ~/.gitconfig
+        run: |
+          # Check if .gitconfig exists and remove if it's a directory
+          if [ -d "$HOME/.gitconfig" ]; then
+          echo "Removing existing .gitconfig directory..."
+          rm -rf "$HOME/.gitconfig"
+          # Check if .gitconfig exists and remove if it's a file
+          elif [ -f "$HOME/.gitconfig" ]; then
+          echo "Removing existing .gitconfig file..."
+          rm "$HOME/.gitconfig"
+          else
+          echo ".gitconfig does not exist, skipping removal."
+          fi
+        
+          # Create a new .gitconfig file with desired content
+          echo "Creating new .gitconfig file..."
+          echo "[user]" > "$HOME/.gitconfig"
+          echo "    name = GitHub Actions Bot" >> "$HOME/.gitconfig"
+          echo "    email = actions@github.com" >> "$HOME/.gitconfig"
         continue-on-error: true
       - name: install ssh keys
         # check this thread to understand why this is necessary:

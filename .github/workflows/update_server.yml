@@ -22,26 +22,12 @@ jobs:
           install -m 600 -D /dev/null ~/.ssh/id_rsa
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
-      - name: remove existing .gitconfig directory
+      - name: fix gitconfig issue
         run: |
-          # Check if .gitconfig exists and remove if it's a directory
-          if [ -d "$HOME/.gitconfig" ]; then
-          echo "Removing existing .gitconfig directory..."
-          rm -rf "$HOME/.gitconfig"
-          # Check if .gitconfig exists and remove if it's a file
-          elif [ -f "$HOME/.gitconfig" ]; then
-          echo "Removing existing .gitconfig file..."
-          rm "$HOME/.gitconfig"
-          else
-          echo ".gitconfig does not exist, skipping removal."
+          if [ -d "~/.gitconfig" ]; then
+            rm -rf ~/.gitconfig
           fi
-
-          # Create a new .gitconfig file with desired content
-          echo "Creating new .gitconfig file..."
-          echo "[user]" > "$HOME/.gitconfig"
-          echo "    name = GitHub Actions Bot" >> "$HOME/.gitconfig"
-          echo "    email = actions@github.com" >> "$HOME/.gitconfig"
-        continue-on-error: true
+          touch ~/.gitconfig
       - name: connect and pull
         run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull"
       - name: cleanup

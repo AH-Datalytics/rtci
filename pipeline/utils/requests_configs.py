@@ -2,7 +2,21 @@ import requests
 import ssl
 import urllib3
 
+import curl_cffi
 from requests.adapters import HTTPAdapter, Retry
+
+
+def tls_mimic(url, method="get", impersonate="chrome110"):
+    """
+    method for handling akamai/edge-suite server blocks based on tls fingerprinting
+    """
+    if method == "get":
+        response = curl_cffi.requests.get(url, impersonate=impersonate)
+    elif method == "post":
+        response = curl_cffi.requests.post(url, impersonate=impersonate)
+    else:
+        raise ValueError(f"unidentified http request method: {method}")
+    return response
 
 
 def mount_session():

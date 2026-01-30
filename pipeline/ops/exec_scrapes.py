@@ -12,6 +12,9 @@ from google_configs import gc_files, pull_sheet, update_sheet
 from logger import create_logger
 
 
+# TODO: --log and --debug args seem not to be functioning potentially
+
+
 """
 The ScrapeRunner class below determines which scrapers are available to run
 based on the presence of Python scripts for them and their exclusion/inclusion

@@ -6,12 +6,16 @@ from PyPDF2 import PdfReader, PdfWriter
 from time import sleep
 
 from aws import BUCKET, get_s3_client, snapshot_pdf
+from requests_configs import tls_mimic
 
 
-def parse_pdf(self, url, verify=False, proxy=None, pages=None):
+def parse_pdf(self, url, verify=False, proxy=None, pages=None, mimic=False):
     # download file locally
     filename = "tmp.pdf"
-    download_file(url, filename=filename, verify=verify, proxy=proxy)
+    if mimic:
+        download_file(url, filename=filename, verify=verify, proxy=proxy, mimic=True)
+    else:
+        download_file(url, filename=filename, verify=verify, proxy=proxy)
 
     # handle page limits
     if pages:
@@ -57,7 +61,7 @@ def parse_pdf(self, url, verify=False, proxy=None, pages=None):
         return document
 
 
-def download_file(url, filename, verify=False, proxy=None):
+def download_file(url, filename, verify=False, proxy=None, mimic=False):
     headers = {
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
@@ -68,7 +72,10 @@ def download_file(url, filename, verify=False, proxy=None):
         "Sec-GPC": "1",
         "Cache-Control": "max-age=0",
     }
-    response = requests.get(url, headers=headers, verify=verify, proxies=proxy)
+    if mimic:
+        response = tls_mimic(url)
+    else:
+        response = requests.get(url, headers=headers, verify=verify, proxies=proxy)
     assert (
         "pdf" in response.headers["Content-Type"]
     ), f"wrong filetype identified ({response.headers['Content-Type']})"

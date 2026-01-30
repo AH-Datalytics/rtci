@@ -15,6 +15,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: remove existing .gitconfig directory
+        run: rm -rf ~/.gitconfig
+        continue-on-error: true
       - name: install ssh keys
         # check this thread to understand why this is necessary:
         # https://stackoverflow.com/a/70447517

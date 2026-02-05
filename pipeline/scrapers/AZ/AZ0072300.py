@@ -35,8 +35,8 @@ class AZ0072300(Scraper):
         ]
 
         # handle year/month extraction (two potential column sources)
-        df["OCCURRED ON"] = pd.to_datetime(df["OCCURRED ON"])
-        df["OCCURRED TO"] = pd.to_datetime(df["OCCURRED TO"])
+        df["OCCURRED ON"] = pd.to_datetime(df["OCCURRED ON"], format="mixed")
+        df["OCCURRED TO"] = pd.to_datetime(df["OCCURRED TO"], format="mixed")
         df["year"] = df["OCCURRED ON"].dt.year
         df["month"] = df["OCCURRED ON"].dt.month
         df["year"] = np.where(df["year"].isna(), df["OCCURRED TO"].dt.year, df["year"])

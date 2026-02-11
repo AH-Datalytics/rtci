@@ -2,16 +2,19 @@ import json
 import pandas as pd
 import requests
 import sys
+import urllib3
 
 from collections import defaultdict
 from datetime import datetime as dt
 from datetime import timedelta as td
 from time import time
+from urllib3.exceptions import InsecureRequestWarning
 
 sys.path.append("../utils")
 from aws import snapshot_df
 from logger import create_logger
 from parallelize import thread
+from requests_configs import mount_session
 
 
 """
@@ -47,6 +50,10 @@ class CdeGetData:
             "MVT": "motor_vehicle_theft",
         }
         self.url = "https://cde.ucr.cjis.gov/LATEST/summarized/agency/{}/{}?from={}&to={}&type=counts"
+        self.session = mount_session()
+
+        # Suppress the specific InsecureRequestWarning
+        urllib3.disable_warnings(InsecureRequestWarning)
 
     def scrape(self):
         """
@@ -91,7 +98,9 @@ class CdeGetData:
         for a given ORI, crime and date range, retrieves monthly counts and clearances
         """
         url = self.url.format(q["ori"], q["crime"], self.args.first, self.last)
-        data = json.loads(requests.get(url).text)["offenses"]["actuals"]
+        data = json.loads(self.session.get(url, verify=False).text)["offenses"][
+            "actuals"
+        ]
         assert len(data.keys()) == 2
 
         # retrieve and format crime counts and clearances

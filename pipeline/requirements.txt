@@ -5,6 +5,7 @@ boto3==1.35.42
 botocore==1.35.42
 certifi==2025.6.15
 charset-normalizer==3.4.0
+curl-cffi==0.14.0
 et-xmlfile==1.1.0
 geographiclib==2.0
 geopy==2.4.1

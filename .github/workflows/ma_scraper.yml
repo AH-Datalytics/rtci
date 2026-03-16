@@ -1,0 +1,38 @@
+name: MA SRS Scraper
+
+on:
+  schedule:
+    # Run on the 14th, 15th, 16th, and 17th of each month at 8am UTC
+    - cron: '0 8 14-17 * *'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install playwright python-dateutil
+          playwright install chromium
+          playwright install-deps chromium
+
+      - name: Run MA scraper
+        run: |
+          cd pipeline/scrapers/MA
+          python MA.py
+
+      - name: Commit and push data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pipeline/scrapers/MA/data/latest.json
+          git diff --cached --quiet || git commit -m "Update MA crime data $(date +%Y-%m-%d)"
+          git push

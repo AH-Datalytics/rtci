@@ -1,263 +1,316 @@
-import pandas as pd
-import requests
+"""
+Massachusetts SRS Offenses Known to Police scraper.
+Standalone Playwright scraper — no Scraper base class needed.
+Scrapes Beyond2020 SSRS report for 28 agencies x 12 months,
+outputs CSV in the cross-tab format the Crime Data Pipeline expects.
+
+Usage:
+    python MA.py                    # last 12 months, all 28 agencies
+    python MA.py --first 2025-10    # from Oct 2025 to now
+    python MA.py --output ~/Downloads/mass_data.csv
+
+Runs on GitHub Actions on the 14th-17th of each month.
+Requires: pip install playwright && playwright install chromium
+"""
+
+import argparse
+import csv
+import logging
+import re
 import sys
 
-from bs4 import BeautifulSoup as bS
+from collections import defaultdict
 from datetime import datetime as dt
+from dateutil.relativedelta import relativedelta
 from pathlib import Path
-from selenium.common.exceptions import TimeoutException
-from time import sleep
+from time import sleep, time
 
-sys.path.append("../../utils")
-from selenium_actions import (
-    check_for_element,
-    click_element,
-    click_element_by_index,
-    click_element_next,
-    click_element_previous,
-    click_select_element_value,
-    drag_element,
-    hide_element,
-    wait_for_element,
+from playwright.sync_api import sync_playwright
+
+URL = "https://ma.beyond2020.com/ma_public/View/RSReport.aspx?ReportId=584"
+
+# Target agencies: name -> ORI code
+TARGETS = {
+    "Barnstable": "MA0010100",
+    "Boston": "MA0130100",
+    "Brockton": "MA0120300",
+    "Brookline": "MA0110400",
+    "Cambridge": "MA0091100",
+    "Chicopee": "MA0070500",
+    "Everett": "MA0091700",
+    "Fall River": "MA0030800",
+    "Framingham": "MA0091800",
+    "Haverhill": "MA0051100",
+    "Lawrence": "MA0051300",
+    "Lowell": "MA0092600",
+    "Lynn": "MA0051400",
+    "Malden": "MA0092700",
+    "Medford": "MA0093000",
+    "Methuen": "MA0051900",
+    "New Bedford": "MA0031100",
+    "Newton": "MA0093300",
+    "Peabody": "MA0052500",
+    "Plymouth": "MA0122000",
+    "Quincy": "MA0112000",
+    "Revere": "MA0130400",
+    "Somerville": "MA0093900",
+    "Springfield": "MA0071800",
+    "Taunton": "MA0031900",
+    "Waltham": "MA0094700",
+    "Weymouth": "MA0112700",
+    "Worcester": "MA0146000",
+}
+
+# Map SSRS row labels to pipeline offense names
+CRIME_MAP = {
+    "a. Murder and Nonnegligent Homicide": "Criminal Homicide",
+    "2. Forcible Rape Total": "Forcible Rape Total",
+    "3. Robbery Total": "Robbery Total",
+    "Aggravated Assault Total": "Aggravated Assault Total",
+    "5. Burglary Total": "Burglary Total",
+    "6. Larceny - Theft Total": "Larceny - Theft Total",
+    "7. Motor Vehicle Theft Total": "Motor Vehicle Theft Total",
+}
+
+OFFENSE_ORDER = [
+    "Criminal Homicide",
+    "Forcible Rape Total",
+    "Robbery Total",
+    "Aggravated Assault Total",
+    "Burglary Total",
+    "Larceny - Theft Total",
+    "Motor Vehicle Theft Total",
+]
+
+ORI_SELECT = "select[name='ctl00$MainContent$RptViewer$ctl08$ctl03$ddValue']"
+PERIOD_SELECT = "select[name='ctl00$MainContent$RptViewer$ctl08$ctl05$ddValue']"
+VIEW_BUTTON = "input[id='ctl00_MainContent_RptViewer_ctl08_ctl00']"
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="[%(levelname)s %(funcName)s:%(lineno)d] %(message)s",
 )
-from selenium_configs import chrome_driver
-from super import Scraper
+log = logging.getLogger(__name__)
 
 
-class Massachusetts(Scraper):
-    def __init__(self):
-        super().__init__()
-        self.url = "https://ma.beyond2020.com/ma_public/View/RSReport.aspx?ReportId=584"
-        self.download_dir = f"{Path.cwd()}"
-        self.driver = chrome_driver(self)
-        self.years = list(range(self.first.year, self.last.year + 1))
-        self.map = {}
-        self.records = list()
-        self.exclude_oris = []
-        self.agencies = self.get_agencies(self.exclude_oris)
-        self.oris = list(self.agencies.values())
-        self.map = {
-            "a. Murder and Nonnegligent Homicide": "murder",
-            "2. Forcible Rape Total": "rape",
-            "3. Robbery Total": "robbery",
-            "Aggravated Assault Total": "aggravated_assault",
-            "5. Burglary Total": "burglary",
-            "6. Larceny - Theft Total": "theft",
-            "7. Motor Vehicle Theft Total": "motor_vehicle_theft",
-        }
+def parse_args():
+    parser = argparse.ArgumentParser(description="MA SRS scraper")
+    parser.add_argument(
+        "--first", type=str, default=None,
+        help="Start month (YYYY-MM). Default: 6 months ago.",
+    )
+    parser.add_argument(
+        "--output", type=str, default=None,
+        help="Output CSV path. Default: ~/Downloads/mass_data.csv",
+    )
+    return parser.parse_args()
 
-    def scrape(self):
-        self.driver.get(self.url)
 
-        # quit driver in case of server errors
-        if "Welcome" not in self.driver.page_source:
-            self.driver.quit()
-            r = requests.get(self.url)
-            raise Exception(f"bad response ({r.status_code})")
-        sleep(7)
+def scrape_all(first_date, last_date):
+    """Scrape all agencies x months. Returns dict keyed by (agency_name, month_label) -> {offense: count}."""
+    data = {}  # (agency_name, month_label) -> {offense_name: reported_count}
 
-        # get list of year, month and agency values from site
-        soup = bS(self.driver.page_source, "lxml")
-        months = [
-            s.text
-            for s in soup.find(
-                "select", {"name": "ctl00$MainContent$RptViewer$ctl08$ctl05$ddValue"}
-            ).find_all("option")
-            if len(s.text) == 8
-            and self.first
-            <= dt.strptime(s.text.strip().replace("\xa0", " "), "%b %Y")
-            <= self.last
-        ]
-        agencies = [
-            s.text
-            for s in soup.find(
-                "select", {"name": "ctl00$MainContent$RptViewer$ctl08$ctl03$ddValue"}
-            ).find_all("option")
-            if s.text.strip().replace("\xa0", " ").rsplit(" - ", 1)[-1] in self.oris
-        ]
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_context().new_page()
 
-        # run through agencies and year-months to generate reports and parse them
-        for agency in agencies:
-            self.select_agency(agency)
-            for month in months:
-                self.select_month(agency, month)
-                self.click_report(agency, month)
-                soup = bS(self.driver.page_source, "lxml")
-                self.process_soup(soup, agency, month)
-                sleep(2)
+        log.info("loading page...")
+        page.goto(URL, timeout=60000)
+        page.wait_for_selector(ORI_SELECT, timeout=15000)
 
-        # process and return records
-        return self.process_records()
+        # Build ORI option value map
+        ori_value_map = {}
+        for opt in page.query_selector_all(f"{ORI_SELECT} option"):
+            text = opt.inner_text().strip()
+            val = opt.get_attribute("value")
+            for name, ori in TARGETS.items():
+                if ori in text:
+                    ori_value_map[name] = {"value": val, "ori": ori, "label": text}
+                    break
 
-    def select_agency(self, agency):
-        self.logger.info(f"attempting {agency}...")
-        sleep(5)
+        log.info(f"matched {len(ori_value_map)} agencies in dropdown")
+
+        # Build period option value map
+        period_value_map = {}
+        for opt in page.query_selector_all(f"{PERIOD_SELECT} option"):
+            text = opt.inner_text().strip().replace("\xa0", " ")
+            val = opt.get_attribute("value")
+            try:
+                opt_date = dt.strptime(text, "%b %Y")
+                if first_date <= opt_date <= last_date:
+                    period_value_map[text] = val
+            except ValueError:
+                continue
+
+        log.info(f"target months: {list(period_value_map.keys())}")
+        log.info(f"scraping {len(ori_value_map)} agencies x {len(period_value_map)} months")
+
+        for agency_name, info in ori_value_map.items():
+            for month_label, month_val in period_value_map.items():
+                log.info(f"  {agency_name} ({info['ori']}) - {month_label}")
+                try:
+                    record = scrape_one(page, info["value"], month_val, month_label)
+                    if record:
+                        data[(agency_name, month_label)] = record
+                except Exception as e:
+                    log.warning(f"    error: {e}")
+                    try:
+                        page.goto(URL, timeout=60000)
+                        page.wait_for_selector(ORI_SELECT, timeout=15000)
+                    except Exception:
+                        pass
+
+        browser.close()
+
+    return data, list(period_value_map.keys())
+
+
+def scrape_one(page, agency_val, month_val, month_label):
+    """Scrape one agency + month. Returns {offense_name: count} or None."""
+    page.select_option(ORI_SELECT, agency_val)
+    sleep(0.5)
+    page.select_option(PERIOD_SELECT, month_val)
+    sleep(0.5)
+
+    # Click View Report and wait for refresh
+    if page.query_selector("text=Grand Total"):
+        page.click(VIEW_BUTTON)
         try:
-            click_select_element_value(
-                self,
-                "select",
-                "id",
-                "ctl00_MainContent_RptViewer_ctl08_ctl03_ddValue",
-                agency,
-            )
-        except (NotImplementedError, TimeoutException):
-            self.logger.warning("retrying...")
-            self.driver.quit()
-            sleep(5)
-            self.driver = chrome_driver(self)
-            self.driver.get(self.url)
-            click_select_element_value(
-                self,
-                "select",
-                "id",
-                "ctl00_MainContent_RptViewer_ctl08_ctl03_ddValue",
-                agency,
-            )
-
-    def select_month(self, agency, month):
-        self.logger.info(f"attempting {month}...")
-        sleep(5)
+            page.wait_for_selector("text=Grand Total", state="hidden", timeout=10000)
+        except Exception:
+            pass
         try:
-            click_select_element_value(
-                self,
-                "select",
-                "id",
-                "ctl00_MainContent_RptViewer_ctl08_ctl05_ddValue",
-                month,
-            )
-        except (NotImplementedError, TimeoutException):
-            self.logger.warning("retrying...")
-            self.driver.quit()
-            sleep(5)
-            self.driver = chrome_driver(self)
-            self.driver.get(self.url)
-            self.select_agency(agency)
-            click_select_element_value(
-                self,
-                "select",
-                "id",
-                "ctl00_MainContent_RptViewer_ctl08_ctl05_ddValue",
-                month,
-            )
-
-    def click_report(self, agency, month):
-        sleep(5)
+            page.wait_for_selector("text=Grand Total", timeout=30000)
+        except Exception:
+            log.warning("    report didn't render after refresh, skipping")
+            return None
+    else:
+        page.click(VIEW_BUTTON)
         try:
-            click_element(
-                self,
-                "input",
-                "id",
-                "ctl00_MainContent_RptViewer_ctl08_ctl00",
-            )
-            wait_for_element(
-                self,
-                "div",
-                "id",
-                "VisibleReportContentctl00_MainContent_RptViewer_ctl13",
-                30,
-            )
-            wait_for_element(self, "div", "text", "Grand Total", 30)
-        except TimeoutException:
-            self.logger.warning("retrying...")
-            self.driver.quit()
-            sleep(15)
-            self.driver = chrome_driver(self)
-            self.driver.get(self.url)
-            self.select_agency(agency)
-            self.select_month(agency, month)
-            sleep(5)
-            click_element(
-                self,
-                "input",
-                "id",
-                "ctl00_MainContent_RptViewer_ctl08_ctl00",
-            )
-            wait_for_element(
-                self,
-                "div",
-                "id",
-                "VisibleReportContentctl00_MainContent_RptViewer_ctl13",
-                30,
-            )
-            wait_for_element(self, "div", "text", "Grand Total", 30)
+            page.wait_for_selector("text=Grand Total", timeout=30000)
+        except Exception:
+            log.warning("    report didn't render, skipping")
+            return None
 
-    def process_soup(self, soup, agency, month):
-        month, year = month.split("\xa0")
-        for field in self.map:
-            tds = soup.find_all("td", string=field)
-            assert len(tds) == 1
-            td = tds[0]
-            reported = td.find_next_sibling("td").text.strip()
-            if reported == "":
-                reported = 0
-            else:
-                reported = int(reported)
-            cleared = (
-                td.find_next_sibling("td")
-                .find_next_sibling("td")
-                .find_next_sibling("td")
-                .find_next_sibling("td")
-                .text.strip()
-            )
-            if cleared == "":
-                cleared = 0
-            else:
-                cleared = int(cleared)
-            datum = {
-                "field": field,
-                "reported": reported,
-                "cleared": cleared,
-            }
-            tmp = {"ori": agency, "year": int(year), "month": dt.strptime(month, "%b")}
-            tmp.update(datum)
-            tmp["ori"] = tmp["ori"].replace("\xa0", " ").rsplit(" - ", 1)[-1]
-            self.records.append(tmp)
+    sleep(1)
 
-    def process_records(self):
-        # relabel field names and sum components
-        self.records = pd.DataFrame(self.records)
-        self.records["field"] = self.records["field"].map(self.map)
-        self.records = (
-            self.records.groupby(["ori", "year", "month", "field"]).sum().reset_index()
-        )
+    report_text = page.evaluate("""() => {
+        const node = document.evaluate(
+            "//text()[contains(.,'Grand Total')]",
+            document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null
+        ).singleNodeValue;
+        if (!node) return null;
+        let el = node.parentElement;
+        for (let i = 0; i < 5; i++) { if (el.parentElement) el = el.parentElement; }
+        return el.innerText;
+    }""")
 
-        # handle crime counts vs. clearances
-        records = self.records.pivot(
-            index=["ori", "year", "month"],
-            columns="field",
-            values="reported",
-        ).reset_index()
+    if not report_text:
+        log.warning("    no report text found")
+        return None
 
-        clearances = (
-            self.records.pivot(
-                index=["ori", "year", "month"],
-                columns="field",
-                values="cleared",
-            )
-            .reset_index()
-            .add_suffix("_cleared")
-            .rename(
-                columns={
-                    "ori_cleared": "ori",
-                    "year_cleared": "year",
-                    "month_cleared": "month",
-                }
-            )
-        )
-        self.records = pd.merge(
-            records,
-            clearances,
-            on=["ori", "year", "month"],
-        )
-
-        # reformat month
-        self.records["month"] = pd.to_datetime(
-            self.records["month"], format="%b"
-        ).dt.month
-
-        # return results
-        self.driver.quit()
-        return self.records.to_dict("records")
+    return parse_report_text(report_text)
 
 
-Massachusetts().run()
+def parse_report_text(report_text):
+    """Parse SSRS report text into {offense_name: reported_count}."""
+    text = report_text.replace("\r", "")
+    text = re.sub(r"\n\t", "\t", text)
+    text = re.sub(r"\t\n", "\t", text)
+    text = re.sub(r"\t+", "\t", text)
+
+    record = {}
+    for line in text.split("\n"):
+        line = line.strip()
+        if not line:
+            continue
+        for label, offense_name in CRIME_MAP.items():
+            if line.startswith(label):
+                rest = line[len(label):]
+                parts = [p for p in rest.split("\t") if p != ""]
+                reported = clean_num(parts[0] if parts else "")
+                record[offense_name] = reported
+                break
+
+    return record
+
+
+def clean_num(val):
+    s = str(val).replace("\xa0", "").strip() if val is not None else ""
+    if s == "":
+        return 0
+    return int(s.replace(",", ""))
+
+
+def write_pipeline_json(data, month_labels, output_path):
+    """Write JSON in the {agency, year, month, offense, count} format
+    that the Crime Data Pipeline fetches from GitHub."""
+    import json
+
+    # Map our offense names to pipeline offense names
+    OFFENSE_TO_PIPELINE = {
+        "Criminal Homicide": "Murder",
+        "Forcible Rape Total": "Rape",
+        "Robbery Total": "Robbery",
+        "Aggravated Assault Total": "Aggravated Assault",
+        "Burglary Total": "Burglary",
+        "Larceny - Theft Total": "Theft",
+        "Motor Vehicle Theft Total": "Motor Vehicle Theft",
+    }
+
+    records = []
+    for (agency_name, month_label), offenses in data.items():
+        month_dt = dt.strptime(month_label, "%b %Y")
+        year = month_dt.year
+        month = month_dt.month
+
+        for offense_name, count in offenses.items():
+            pipeline_offense = OFFENSE_TO_PIPELINE.get(offense_name)
+            if pipeline_offense and count > 0:
+                records.append({
+                    "agency": agency_name,
+                    "year": year,
+                    "month": month,
+                    "offense": pipeline_offense,
+                    "count": count,
+                })
+
+    records.sort(key=lambda r: (r["agency"], r["year"], r["month"], r["offense"]))
+
+    with open(output_path, "w") as f:
+        json.dump(records, f, indent=2)
+
+    log.info(f"wrote {output_path} ({len(records)} records from {len(TARGETS)} agencies x {len(month_labels)} months)")
+
+
+def main():
+    args = parse_args()
+
+    # Date range
+    now = dt.now()
+    last_date = now.replace(day=1) - relativedelta(days=1)  # last day of previous month
+    if args.first:
+        first_date = dt.strptime(args.first, "%Y-%m")
+    else:
+        first_date = now - relativedelta(months=12)
+        first_date = first_date.replace(day=1)
+
+    log.info(f"date range: {first_date:%Y-%m} to {last_date:%Y-%m}")
+
+    # Output path
+    if args.output:
+        output_path = Path(args.output)
+    else:
+        output_path = Path(__file__).parent / "data" / "latest.json"
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    t0 = time()
+    data, month_labels = scrape_all(first_date, last_date)
+    write_pipeline_json(data, month_labels, output_path)
+
+    elapsed = time() - t0
+    log.info(f"done in {elapsed / 60:.1f} min")
+
+
+if __name__ == "__main__":
+    main()

@@ -34,7 +34,10 @@ parser.add_argument(
     nargs="?",
     const="2017-01",
     default=None,
-    help="Start date from which to collect monthly data (defaults to 2017-01, format YYYY-MM).",
+    help="""
+    Start date from which to collect monthly data 
+    (defaults to '2017-01' in format '%Y-%m').
+    """,
 )
 parser.add_argument(
     "-v",
@@ -55,7 +58,7 @@ class Scraper:
         self.run_time = int(time())
         self.crimes = rtci_to_nibrs
         self.crosswalks = crosswalks
-        self.state = Path.cwd().name
+        self.state = str(Path.cwd()).split("/")[-1]
         if self.state == "DC":
             self.state_full_name = "Washington, D.C."
         else:
@@ -189,9 +192,6 @@ class Scraper:
         if not self.args.test:
             self.logger.info("exporting to aws s3 and google sheets...")
             self.export(processed)
-        else:
-            # Save locally in test mode
-            self._export_local(processed)
 
         # this logging is parsed by `ops/exec_scrapers.py` so it shouldn't be altered
         self.logger.info(f"earliest data: {self.collected_earliest}")
@@ -208,16 +208,3 @@ class Scraper:
                 path=f"scrapes/{self.state}/{ori}/",
                 timestamp=self.run_time,
             )
-
-    def _export_local(self, processed):
-        """Save processed data as JSON files locally (test mode)."""
-        import json
-        local_dir = Path.home() / "Downloads" / "scrape_output" / self.state
-        local_dir.mkdir(parents=True, exist_ok=True)
-        for ori in self.oris:
-            agency_data = [d for d in processed if d["ori"] == ori]
-            if agency_data:
-                out_path = local_dir / f"{ori}.json"
-                with open(out_path, "w") as f:
-                    json.dump(agency_data, f)
-                self.logger.info(f"saved {len(agency_data)} records to {out_path}")

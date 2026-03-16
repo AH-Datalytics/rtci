@@ -4,5746 +4,7388 @@
     "year": 2025,
     "month": 4,
     "offense": "Aggravated Assault",
-    "count": 11
+    "count": 11,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 4,
     "offense": "Burglary",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 4,
     "offense": "Motor Vehicle Theft",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 4,
     "offense": "Rape",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 4,
     "offense": "Robbery",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 4,
     "offense": "Theft",
-    "count": 21
+    "count": 21,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 5,
     "offense": "Aggravated Assault",
-    "count": 11
+    "count": 11,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 5,
     "offense": "Burglary",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 5,
     "offense": "Motor Vehicle Theft",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 5,
     "offense": "Rape",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 5,
     "offense": "Theft",
-    "count": 30
+    "count": 30,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 6,
     "offense": "Aggravated Assault",
-    "count": 14
+    "count": 14,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 6,
     "offense": "Burglary",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 6,
     "offense": "Motor Vehicle Theft",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 6,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 6,
     "offense": "Robbery",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 6,
     "offense": "Theft",
-    "count": 24
+    "count": 24,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 8,
     "offense": "Aggravated Assault",
-    "count": 17
+    "count": 17,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 8,
     "offense": "Burglary",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 8,
     "offense": "Motor Vehicle Theft",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 8,
     "offense": "Theft",
-    "count": 39
+    "count": 39,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 9,
     "offense": "Aggravated Assault",
-    "count": 10
+    "count": 10,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 9,
     "offense": "Burglary",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 9,
     "offense": "Motor Vehicle Theft",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 9,
     "offense": "Rape",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 9,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 9,
     "offense": "Theft",
-    "count": 30
+    "count": 30,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 10,
     "offense": "Aggravated Assault",
-    "count": 14
+    "count": 14,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 10,
     "offense": "Burglary",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 10,
     "offense": "Motor Vehicle Theft",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 10,
     "offense": "Rape",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 10,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 10,
     "offense": "Theft",
-    "count": 26
+    "count": 26,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 11,
     "offense": "Aggravated Assault",
-    "count": 12
+    "count": 12,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 11,
     "offense": "Burglary",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 11,
     "offense": "Motor Vehicle Theft",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 11,
     "offense": "Rape",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 11,
     "offense": "Theft",
-    "count": 17
+    "count": 17,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 12,
     "offense": "Aggravated Assault",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 12,
     "offense": "Burglary",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 12,
     "offense": "Motor Vehicle Theft",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 12,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 12,
     "offense": "Robbery",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Barnstable",
     "year": 2025,
     "month": 12,
     "offense": "Theft",
-    "count": 26
+    "count": 26,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 4,
     "offense": "Aggravated Assault",
-    "count": 231
+    "count": 231,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 4,
     "offense": "Burglary",
-    "count": 79
+    "count": 79,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 4,
     "offense": "Motor Vehicle Theft",
-    "count": 78
+    "count": 78,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 4,
     "offense": "Murder",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 4,
     "offense": "Rape",
-    "count": 14
+    "count": 14,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 4,
     "offense": "Robbery",
-    "count": 55
+    "count": 55,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 4,
     "offense": "Theft",
-    "count": 840
+    "count": 840,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 5,
     "offense": "Aggravated Assault",
-    "count": 260
+    "count": 260,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 5,
     "offense": "Burglary",
-    "count": 104
+    "count": 104,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 5,
     "offense": "Motor Vehicle Theft",
-    "count": 62
+    "count": 62,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 5,
     "offense": "Murder",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 5,
     "offense": "Rape",
-    "count": 17
+    "count": 17,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 5,
     "offense": "Robbery",
-    "count": 88
+    "count": 88,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 5,
     "offense": "Theft",
-    "count": 974
+    "count": 974,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 6,
     "offense": "Aggravated Assault",
-    "count": 271
+    "count": 271,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 6,
     "offense": "Burglary",
-    "count": 92
+    "count": 92,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 6,
     "offense": "Motor Vehicle Theft",
-    "count": 79
+    "count": 79,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 6,
     "offense": "Murder",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 6,
     "offense": "Rape",
-    "count": 17
+    "count": 17,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 6,
     "offense": "Robbery",
-    "count": 48
+    "count": 48,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 6,
     "offense": "Theft",
-    "count": 933
+    "count": 933,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 7,
     "offense": "Aggravated Assault",
-    "count": 323
+    "count": 323,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 7,
     "offense": "Burglary",
-    "count": 100
+    "count": 100,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 7,
     "offense": "Motor Vehicle Theft",
-    "count": 75
+    "count": 75,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 7,
     "offense": "Murder",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 7,
     "offense": "Rape",
-    "count": 18
+    "count": 18,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 7,
     "offense": "Robbery",
-    "count": 70
+    "count": 70,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 7,
     "offense": "Theft",
-    "count": 982
+    "count": 982,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 8,
     "offense": "Aggravated Assault",
-    "count": 290
+    "count": 290,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 8,
     "offense": "Burglary",
-    "count": 112
+    "count": 112,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 8,
     "offense": "Motor Vehicle Theft",
-    "count": 49
+    "count": 49,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 8,
     "offense": "Murder",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 8,
     "offense": "Rape",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 8,
     "offense": "Robbery",
-    "count": 77
+    "count": 77,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 8,
     "offense": "Theft",
-    "count": 1016
+    "count": 1016,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 9,
     "offense": "Aggravated Assault",
-    "count": 279
+    "count": 279,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 9,
     "offense": "Burglary",
-    "count": 95
+    "count": 95,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 9,
     "offense": "Motor Vehicle Theft",
-    "count": 25
+    "count": 25,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 9,
     "offense": "Rape",
-    "count": 12
+    "count": 12,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 9,
     "offense": "Robbery",
-    "count": 81
+    "count": 81,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 9,
     "offense": "Theft",
-    "count": 1058
+    "count": 1058,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 10,
     "offense": "Aggravated Assault",
-    "count": 267
+    "count": 267,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 10,
     "offense": "Burglary",
-    "count": 92
+    "count": 92,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 10,
     "offense": "Motor Vehicle Theft",
-    "count": 23
+    "count": 23,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 10,
     "offense": "Murder",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 10,
     "offense": "Rape",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 10,
     "offense": "Robbery",
-    "count": 79
+    "count": 79,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 10,
     "offense": "Theft",
-    "count": 1040
+    "count": 1040,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 12,
     "offense": "Aggravated Assault",
-    "count": 174
+    "count": 174,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 12,
     "offense": "Burglary",
-    "count": 80
+    "count": 80,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 12,
     "offense": "Motor Vehicle Theft",
-    "count": 13
+    "count": 13,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 12,
     "offense": "Murder",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 12,
     "offense": "Rape",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 12,
     "offense": "Robbery",
-    "count": 39
+    "count": 39,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2025,
     "month": 12,
     "offense": "Theft",
-    "count": 865
+    "count": 865,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2026,
     "month": 2,
     "offense": "Aggravated Assault",
-    "count": 134
+    "count": 134,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2026,
     "month": 2,
     "offense": "Burglary",
-    "count": 62
+    "count": 62,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2026,
     "month": 2,
     "offense": "Rape",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2026,
     "month": 2,
     "offense": "Robbery",
-    "count": 29
+    "count": 29,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Boston",
     "year": 2026,
     "month": 2,
     "offense": "Theft",
-    "count": 625
+    "count": 625,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 4,
     "offense": "Aggravated Assault",
-    "count": 38
+    "count": 38,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 4,
     "offense": "Burglary",
-    "count": 19
+    "count": 19,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 4,
     "offense": "Motor Vehicle Theft",
-    "count": 25
+    "count": 25,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 4,
     "offense": "Rape",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 4,
     "offense": "Robbery",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 4,
     "offense": "Theft",
-    "count": 63
+    "count": 63,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 5,
     "offense": "Aggravated Assault",
-    "count": 46
+    "count": 46,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 5,
     "offense": "Burglary",
-    "count": 20
+    "count": 20,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 5,
     "offense": "Motor Vehicle Theft",
-    "count": 24
+    "count": 24,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 5,
     "offense": "Rape",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 5,
     "offense": "Robbery",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 5,
     "offense": "Theft",
-    "count": 59
+    "count": 59,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 6,
     "offense": "Aggravated Assault",
-    "count": 36
+    "count": 36,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 6,
     "offense": "Burglary",
-    "count": 28
+    "count": 28,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 6,
     "offense": "Motor Vehicle Theft",
-    "count": 34
+    "count": 34,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 6,
     "offense": "Murder",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 6,
     "offense": "Rape",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 6,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 6,
     "offense": "Theft",
-    "count": 66
+    "count": 66,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 7,
     "offense": "Aggravated Assault",
-    "count": 47
+    "count": 47,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 7,
     "offense": "Burglary",
-    "count": 53
+    "count": 53,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 7,
     "offense": "Motor Vehicle Theft",
-    "count": 50
+    "count": 50,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 7,
     "offense": "Murder",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 7,
     "offense": "Rape",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 7,
     "offense": "Robbery",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 7,
     "offense": "Theft",
-    "count": 73
+    "count": 73,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 8,
     "offense": "Aggravated Assault",
-    "count": 29
+    "count": 29,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 8,
     "offense": "Burglary",
-    "count": 71
+    "count": 71,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 8,
     "offense": "Motor Vehicle Theft",
-    "count": 50
+    "count": 50,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 8,
     "offense": "Rape",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 8,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 8,
     "offense": "Theft",
-    "count": 93
+    "count": 93,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 9,
     "offense": "Aggravated Assault",
-    "count": 51
+    "count": 51,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 9,
     "offense": "Burglary",
-    "count": 30
+    "count": 30,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 9,
     "offense": "Motor Vehicle Theft",
-    "count": 44
+    "count": 44,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 9,
     "offense": "Murder",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 9,
     "offense": "Rape",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 9,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 9,
     "offense": "Theft",
-    "count": 85
+    "count": 85,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 10,
     "offense": "Aggravated Assault",
-    "count": 27
+    "count": 27,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 10,
     "offense": "Burglary",
-    "count": 21
+    "count": 21,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 10,
     "offense": "Motor Vehicle Theft",
-    "count": 24
+    "count": 24,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 10,
     "offense": "Murder",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 10,
     "offense": "Rape",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 10,
     "offense": "Robbery",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 10,
     "offense": "Theft",
-    "count": 64
+    "count": 64,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 11,
     "offense": "Aggravated Assault",
-    "count": 37
+    "count": 37,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 11,
     "offense": "Burglary",
-    "count": 16
+    "count": 16,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 11,
     "offense": "Motor Vehicle Theft",
-    "count": 24
+    "count": 24,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 11,
     "offense": "Rape",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 11,
     "offense": "Robbery",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 11,
     "offense": "Theft",
-    "count": 76
+    "count": 76,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 12,
     "offense": "Aggravated Assault",
-    "count": 36
+    "count": 36,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 12,
     "offense": "Burglary",
-    "count": 22
+    "count": 22,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 12,
     "offense": "Motor Vehicle Theft",
-    "count": 16
+    "count": 16,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 12,
     "offense": "Rape",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 12,
     "offense": "Robbery",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2025,
     "month": 12,
     "offense": "Theft",
-    "count": 51
+    "count": 51,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2026,
     "month": 1,
     "offense": "Aggravated Assault",
-    "count": 25
+    "count": 25,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2026,
     "month": 1,
     "offense": "Burglary",
-    "count": 24
+    "count": 24,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2026,
     "month": 1,
     "offense": "Motor Vehicle Theft",
-    "count": 13
+    "count": 13,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2026,
     "month": 1,
     "offense": "Rape",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2026,
     "month": 1,
     "offense": "Robbery",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brockton",
     "year": 2026,
     "month": 1,
     "offense": "Theft",
-    "count": 60
+    "count": 60,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 4,
     "offense": "Aggravated Assault",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 4,
     "offense": "Burglary",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 4,
     "offense": "Motor Vehicle Theft",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 4,
     "offense": "Robbery",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 4,
     "offense": "Theft",
-    "count": 33
+    "count": 33,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 5,
     "offense": "Aggravated Assault",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 5,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 5,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 5,
     "offense": "Theft",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 6,
     "offense": "Aggravated Assault",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 6,
     "offense": "Burglary",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 6,
     "offense": "Motor Vehicle Theft",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 6,
     "offense": "Theft",
-    "count": 46
+    "count": 46,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 7,
     "offense": "Aggravated Assault",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 7,
     "offense": "Burglary",
-    "count": 10
+    "count": 10,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 7,
     "offense": "Motor Vehicle Theft",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 7,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 7,
     "offense": "Theft",
-    "count": 34
+    "count": 34,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 8,
     "offense": "Aggravated Assault",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 8,
     "offense": "Burglary",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 8,
     "offense": "Motor Vehicle Theft",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 8,
     "offense": "Theft",
-    "count": 40
+    "count": 40,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 9,
     "offense": "Aggravated Assault",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 9,
     "offense": "Burglary",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 9,
     "offense": "Motor Vehicle Theft",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 9,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Brookline",
     "year": 2025,
     "month": 9,
     "offense": "Theft",
-    "count": 36
+    "count": 36,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 4,
     "offense": "Aggravated Assault",
-    "count": 33
+    "count": 33,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 4,
     "offense": "Burglary",
-    "count": 16
+    "count": 16,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 4,
     "offense": "Motor Vehicle Theft",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 4,
     "offense": "Rape",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 4,
     "offense": "Robbery",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 4,
     "offense": "Theft",
-    "count": 204
+    "count": 204,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 5,
     "offense": "Aggravated Assault",
-    "count": 31
+    "count": 31,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 5,
     "offense": "Burglary",
-    "count": 20
+    "count": 20,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 5,
     "offense": "Motor Vehicle Theft",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 5,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 5,
     "offense": "Robbery",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 5,
     "offense": "Theft",
-    "count": 231
+    "count": 231,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 6,
     "offense": "Aggravated Assault",
-    "count": 33
+    "count": 33,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 6,
     "offense": "Burglary",
-    "count": 16
+    "count": 16,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 6,
     "offense": "Motor Vehicle Theft",
-    "count": 12
+    "count": 12,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 6,
     "offense": "Rape",
-    "count": 10
+    "count": 10,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 6,
     "offense": "Robbery",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 6,
     "offense": "Theft",
-    "count": 246
+    "count": 246,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 7,
     "offense": "Aggravated Assault",
-    "count": 48
+    "count": 48,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 7,
     "offense": "Burglary",
-    "count": 15
+    "count": 15,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 7,
     "offense": "Motor Vehicle Theft",
-    "count": 11
+    "count": 11,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 7,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 7,
     "offense": "Robbery",
-    "count": 12
+    "count": 12,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 7,
     "offense": "Theft",
-    "count": 251
+    "count": 251,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 8,
     "offense": "Aggravated Assault",
-    "count": 37
+    "count": 37,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 8,
     "offense": "Burglary",
-    "count": 22
+    "count": 22,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 8,
     "offense": "Motor Vehicle Theft",
-    "count": 15
+    "count": 15,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 8,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 8,
     "offense": "Robbery",
-    "count": 21
+    "count": 21,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 8,
     "offense": "Theft",
-    "count": 286
+    "count": 286,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 9,
     "offense": "Aggravated Assault",
-    "count": 32
+    "count": 32,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 9,
     "offense": "Burglary",
-    "count": 21
+    "count": 21,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 9,
     "offense": "Motor Vehicle Theft",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 9,
     "offense": "Rape",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 9,
     "offense": "Robbery",
-    "count": 13
+    "count": 13,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 9,
     "offense": "Theft",
-    "count": 251
+    "count": 251,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 10,
     "offense": "Aggravated Assault",
-    "count": 25
+    "count": 25,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 10,
     "offense": "Burglary",
-    "count": 26
+    "count": 26,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 10,
     "offense": "Motor Vehicle Theft",
-    "count": 10
+    "count": 10,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 10,
     "offense": "Rape",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 10,
     "offense": "Robbery",
-    "count": 13
+    "count": 13,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 10,
     "offense": "Theft",
-    "count": 283
+    "count": 283,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 11,
     "offense": "Aggravated Assault",
-    "count": 31
+    "count": 31,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 11,
     "offense": "Burglary",
-    "count": 21
+    "count": 21,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 11,
     "offense": "Motor Vehicle Theft",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 11,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 11,
     "offense": "Robbery",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 11,
     "offense": "Theft",
-    "count": 235
+    "count": 235,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 12,
     "offense": "Aggravated Assault",
-    "count": 25
+    "count": 25,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 12,
     "offense": "Burglary",
-    "count": 18
+    "count": 18,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 12,
     "offense": "Motor Vehicle Theft",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 12,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 12,
     "offense": "Robbery",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2025,
     "month": 12,
     "offense": "Theft",
-    "count": 198
+    "count": 198,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2026,
     "month": 1,
     "offense": "Aggravated Assault",
-    "count": 40
+    "count": 40,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2026,
     "month": 1,
     "offense": "Burglary",
-    "count": 14
+    "count": 14,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2026,
     "month": 1,
     "offense": "Motor Vehicle Theft",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2026,
     "month": 1,
     "offense": "Rape",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2026,
     "month": 1,
     "offense": "Robbery",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Cambridge",
     "year": 2026,
     "month": 1,
     "offense": "Theft",
-    "count": 158
+    "count": 158,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 4,
     "offense": "Aggravated Assault",
-    "count": 17
+    "count": 17,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 4,
     "offense": "Burglary",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 4,
     "offense": "Motor Vehicle Theft",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 4,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 4,
     "offense": "Robbery",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 4,
     "offense": "Theft",
-    "count": 46
+    "count": 46,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 5,
     "offense": "Aggravated Assault",
-    "count": 15
+    "count": 15,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 5,
     "offense": "Burglary",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 5,
     "offense": "Motor Vehicle Theft",
-    "count": 10
+    "count": 10,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 5,
     "offense": "Murder",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 5,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 5,
     "offense": "Robbery",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 5,
     "offense": "Theft",
-    "count": 50
+    "count": 50,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 6,
     "offense": "Aggravated Assault",
-    "count": 28
+    "count": 28,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 6,
     "offense": "Burglary",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 6,
     "offense": "Motor Vehicle Theft",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 6,
     "offense": "Rape",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 6,
     "offense": "Robbery",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 6,
     "offense": "Theft",
-    "count": 59
+    "count": 59,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 7,
     "offense": "Aggravated Assault",
-    "count": 41
+    "count": 41,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 7,
     "offense": "Burglary",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 7,
     "offense": "Motor Vehicle Theft",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 7,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 7,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 7,
     "offense": "Theft",
-    "count": 53
+    "count": 53,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 8,
     "offense": "Aggravated Assault",
-    "count": 13
+    "count": 13,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 8,
     "offense": "Burglary",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 8,
     "offense": "Motor Vehicle Theft",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 8,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 8,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 8,
     "offense": "Theft",
-    "count": 70
+    "count": 70,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 9,
     "offense": "Aggravated Assault",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 9,
     "offense": "Burglary",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 9,
     "offense": "Motor Vehicle Theft",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 9,
     "offense": "Murder",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 9,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 9,
     "offense": "Theft",
-    "count": 59
+    "count": 59,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 10,
     "offense": "Aggravated Assault",
-    "count": 13
+    "count": 13,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 10,
     "offense": "Burglary",
-    "count": 10
+    "count": 10,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 10,
     "offense": "Motor Vehicle Theft",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 10,
     "offense": "Rape",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 10,
     "offense": "Robbery",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 10,
     "offense": "Theft",
-    "count": 65
+    "count": 65,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 11,
     "offense": "Aggravated Assault",
-    "count": 17
+    "count": 17,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 11,
     "offense": "Burglary",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 11,
     "offense": "Motor Vehicle Theft",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 11,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 11,
     "offense": "Theft",
-    "count": 53
+    "count": 53,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 12,
     "offense": "Aggravated Assault",
-    "count": 22
+    "count": 22,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 12,
     "offense": "Burglary",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 12,
     "offense": "Motor Vehicle Theft",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 12,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 12,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2025,
     "month": 12,
     "offense": "Theft",
-    "count": 51
+    "count": 51,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2026,
     "month": 1,
     "offense": "Aggravated Assault",
-    "count": 20
+    "count": 20,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2026,
     "month": 1,
     "offense": "Burglary",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2026,
     "month": 1,
     "offense": "Motor Vehicle Theft",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2026,
     "month": 1,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2026,
     "month": 1,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2026,
     "month": 1,
     "offense": "Theft",
-    "count": 57
+    "count": 57,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2026,
     "month": 2,
     "offense": "Aggravated Assault",
-    "count": 20
+    "count": 20,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2026,
     "month": 2,
     "offense": "Burglary",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2026,
     "month": 2,
     "offense": "Motor Vehicle Theft",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2026,
     "month": 2,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2026,
     "month": 2,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Chicopee",
     "year": 2026,
     "month": 2,
     "offense": "Theft",
-    "count": 49
+    "count": 49,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 4,
     "offense": "Aggravated Assault",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 4,
     "offense": "Burglary",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 4,
     "offense": "Motor Vehicle Theft",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 4,
     "offense": "Robbery",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 4,
     "offense": "Theft",
-    "count": 59
+    "count": 59,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 5,
     "offense": "Aggravated Assault",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 5,
     "offense": "Burglary",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 5,
     "offense": "Motor Vehicle Theft",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 5,
     "offense": "Rape",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 5,
     "offense": "Robbery",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 5,
     "offense": "Theft",
-    "count": 55
+    "count": 55,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 6,
     "offense": "Aggravated Assault",
-    "count": 16
+    "count": 16,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 6,
     "offense": "Burglary",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 6,
     "offense": "Motor Vehicle Theft",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 6,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 6,
     "offense": "Theft",
-    "count": 49
+    "count": 49,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 7,
     "offense": "Aggravated Assault",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 7,
     "offense": "Burglary",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 7,
     "offense": "Motor Vehicle Theft",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 7,
     "offense": "Rape",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 7,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 7,
     "offense": "Theft",
-    "count": 36
+    "count": 36,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 8,
     "offense": "Aggravated Assault",
-    "count": 13
+    "count": 13,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 8,
     "offense": "Burglary",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 8,
     "offense": "Motor Vehicle Theft",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 8,
     "offense": "Theft",
-    "count": 53
+    "count": 53,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 9,
     "offense": "Aggravated Assault",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 9,
     "offense": "Burglary",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 9,
     "offense": "Motor Vehicle Theft",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 9,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 9,
     "offense": "Theft",
-    "count": 32
+    "count": 32,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 10,
     "offense": "Aggravated Assault",
-    "count": 14
+    "count": 14,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 10,
     "offense": "Burglary",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 10,
     "offense": "Motor Vehicle Theft",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 10,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 10,
     "offense": "Theft",
-    "count": 42
+    "count": 42,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 11,
     "offense": "Aggravated Assault",
-    "count": 15
+    "count": 15,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 11,
     "offense": "Burglary",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 11,
     "offense": "Motor Vehicle Theft",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 11,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 11,
     "offense": "Theft",
-    "count": 40
+    "count": 40,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 12,
     "offense": "Aggravated Assault",
-    "count": 11
+    "count": 11,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 12,
     "offense": "Burglary",
-    "count": 11
+    "count": 11,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 12,
     "offense": "Motor Vehicle Theft",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 12,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 12,
     "offense": "Robbery",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Everett",
     "year": 2025,
     "month": 12,
     "offense": "Theft",
-    "count": 51
+    "count": 51,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 5,
     "offense": "Aggravated Assault",
-    "count": 56
+    "count": 56,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 5,
     "offense": "Burglary",
-    "count": 18
+    "count": 18,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 5,
     "offense": "Motor Vehicle Theft",
-    "count": 10
+    "count": 10,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 5,
     "offense": "Rape",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 5,
     "offense": "Robbery",
-    "count": 13
+    "count": 13,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 5,
     "offense": "Theft",
-    "count": 106
+    "count": 106,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 6,
     "offense": "Aggravated Assault",
-    "count": 58
+    "count": 58,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 6,
     "offense": "Burglary",
-    "count": 16
+    "count": 16,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 6,
     "offense": "Motor Vehicle Theft",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 6,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 6,
     "offense": "Robbery",
-    "count": 13
+    "count": 13,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 6,
     "offense": "Theft",
-    "count": 102
+    "count": 102,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 7,
     "offense": "Aggravated Assault",
-    "count": 44
+    "count": 44,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 7,
     "offense": "Burglary",
-    "count": 20
+    "count": 20,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 7,
     "offense": "Motor Vehicle Theft",
-    "count": 15
+    "count": 15,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 7,
     "offense": "Rape",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 7,
     "offense": "Robbery",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 7,
     "offense": "Theft",
-    "count": 105
+    "count": 105,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 8,
     "offense": "Aggravated Assault",
-    "count": 44
+    "count": 44,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 8,
     "offense": "Burglary",
-    "count": 18
+    "count": 18,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 8,
     "offense": "Motor Vehicle Theft",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 8,
     "offense": "Rape",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 8,
     "offense": "Robbery",
-    "count": 15
+    "count": 15,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 8,
     "offense": "Theft",
-    "count": 127
+    "count": 127,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 9,
     "offense": "Aggravated Assault",
-    "count": 55
+    "count": 55,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 9,
     "offense": "Burglary",
-    "count": 19
+    "count": 19,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 9,
     "offense": "Motor Vehicle Theft",
-    "count": 18
+    "count": 18,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 9,
     "offense": "Rape",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 9,
     "offense": "Robbery",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 9,
     "offense": "Theft",
-    "count": 113
+    "count": 113,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 11,
     "offense": "Aggravated Assault",
-    "count": 64
+    "count": 64,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 11,
     "offense": "Burglary",
-    "count": 10
+    "count": 10,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 11,
     "offense": "Motor Vehicle Theft",
-    "count": 13
+    "count": 13,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 11,
     "offense": "Rape",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 11,
     "offense": "Robbery",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 11,
     "offense": "Theft",
-    "count": 62
+    "count": 62,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 12,
     "offense": "Aggravated Assault",
-    "count": 53
+    "count": 53,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 12,
     "offense": "Burglary",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 12,
     "offense": "Motor Vehicle Theft",
-    "count": 10
+    "count": 10,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 12,
     "offense": "Rape",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 12,
     "offense": "Robbery",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Fall River",
     "year": 2025,
     "month": 12,
     "offense": "Theft",
-    "count": 84
+    "count": 84,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 4,
     "offense": "Aggravated Assault",
-    "count": 15
+    "count": 15,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 4,
     "offense": "Burglary",
-    "count": 15
+    "count": 15,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 4,
     "offense": "Motor Vehicle Theft",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 4,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 4,
     "offense": "Theft",
-    "count": 23
+    "count": 23,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 5,
     "offense": "Aggravated Assault",
-    "count": 14
+    "count": 14,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 5,
     "offense": "Burglary",
-    "count": 17
+    "count": 17,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 5,
     "offense": "Motor Vehicle Theft",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 5,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 5,
     "offense": "Robbery",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 5,
     "offense": "Theft",
-    "count": 29
+    "count": 29,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 6,
     "offense": "Aggravated Assault",
-    "count": 14
+    "count": 14,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 6,
     "offense": "Burglary",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 6,
     "offense": "Motor Vehicle Theft",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 6,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 6,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 6,
     "offense": "Theft",
-    "count": 33
+    "count": 33,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 7,
     "offense": "Aggravated Assault",
-    "count": 15
+    "count": 15,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 7,
     "offense": "Burglary",
-    "count": 16
+    "count": 16,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 7,
     "offense": "Motor Vehicle Theft",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 7,
     "offense": "Robbery",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 7,
     "offense": "Theft",
-    "count": 42
+    "count": 42,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 8,
     "offense": "Aggravated Assault",
-    "count": 27
+    "count": 27,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 8,
     "offense": "Burglary",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 8,
     "offense": "Motor Vehicle Theft",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 8,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 8,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 8,
     "offense": "Theft",
-    "count": 31
+    "count": 31,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 9,
     "offense": "Aggravated Assault",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 9,
     "offense": "Burglary",
-    "count": 12
+    "count": 12,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 9,
     "offense": "Motor Vehicle Theft",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 9,
     "offense": "Theft",
-    "count": 33
+    "count": 33,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 10,
     "offense": "Aggravated Assault",
-    "count": 15
+    "count": 15,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 10,
     "offense": "Burglary",
-    "count": 32
+    "count": 32,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 10,
     "offense": "Motor Vehicle Theft",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 10,
     "offense": "Robbery",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 10,
     "offense": "Theft",
-    "count": 29
+    "count": 29,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 11,
     "offense": "Aggravated Assault",
-    "count": 14
+    "count": 14,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 11,
     "offense": "Burglary",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 11,
     "offense": "Motor Vehicle Theft",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 11,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 11,
     "offense": "Robbery",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 11,
     "offense": "Theft",
-    "count": 30
+    "count": 30,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 12,
     "offense": "Aggravated Assault",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 12,
     "offense": "Burglary",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 12,
     "offense": "Motor Vehicle Theft",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Framingham",
     "year": 2025,
     "month": 12,
     "offense": "Theft",
-    "count": 30
+    "count": 30,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 4,
     "offense": "Aggravated Assault",
-    "count": 23
+    "count": 23,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 4,
     "offense": "Motor Vehicle Theft",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 4,
     "offense": "Theft",
-    "count": 38
+    "count": 38,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 5,
     "offense": "Aggravated Assault",
-    "count": 13
+    "count": 13,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 5,
     "offense": "Burglary",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 5,
     "offense": "Motor Vehicle Theft",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 5,
     "offense": "Theft",
-    "count": 31
+    "count": 31,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 6,
     "offense": "Aggravated Assault",
-    "count": 14
+    "count": 14,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 6,
     "offense": "Burglary",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 6,
     "offense": "Motor Vehicle Theft",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 6,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 6,
     "offense": "Theft",
-    "count": 40
+    "count": 40,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 7,
     "offense": "Aggravated Assault",
-    "count": 23
+    "count": 23,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 7,
     "offense": "Burglary",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 7,
     "offense": "Motor Vehicle Theft",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 7,
     "offense": "Theft",
-    "count": 37
+    "count": 37,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 8,
     "offense": "Aggravated Assault",
-    "count": 25
+    "count": 25,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 8,
     "offense": "Burglary",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 8,
     "offense": "Motor Vehicle Theft",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 8,
     "offense": "Theft",
-    "count": 37
+    "count": 37,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 9,
     "offense": "Aggravated Assault",
-    "count": 20
+    "count": 20,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 9,
     "offense": "Burglary",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 9,
     "offense": "Motor Vehicle Theft",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 9,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 9,
     "offense": "Theft",
-    "count": 39
+    "count": 39,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 10,
     "offense": "Aggravated Assault",
-    "count": 16
+    "count": 16,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 10,
     "offense": "Burglary",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 10,
     "offense": "Motor Vehicle Theft",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 10,
     "offense": "Robbery",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 10,
     "offense": "Theft",
-    "count": 28
+    "count": 28,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 11,
     "offense": "Aggravated Assault",
-    "count": 17
+    "count": 17,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 11,
     "offense": "Motor Vehicle Theft",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 11,
     "offense": "Robbery",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 11,
     "offense": "Theft",
-    "count": 28
+    "count": 28,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 12,
     "offense": "Aggravated Assault",
-    "count": 15
+    "count": 15,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 12,
     "offense": "Burglary",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 12,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2025,
     "month": 12,
     "offense": "Theft",
-    "count": 22
+    "count": 22,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2026,
     "month": 1,
     "offense": "Aggravated Assault",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2026,
     "month": 1,
     "offense": "Burglary",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2026,
     "month": 1,
     "offense": "Motor Vehicle Theft",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2026,
     "month": 1,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Haverhill",
     "year": 2026,
     "month": 1,
     "offense": "Theft",
-    "count": 32
+    "count": 32,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 4,
     "offense": "Aggravated Assault",
-    "count": 18
+    "count": 18,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 4,
     "offense": "Burglary",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 4,
     "offense": "Motor Vehicle Theft",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 4,
     "offense": "Theft",
-    "count": 51
+    "count": 51,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 5,
     "offense": "Aggravated Assault",
-    "count": 20
+    "count": 20,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 5,
     "offense": "Burglary",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 5,
     "offense": "Motor Vehicle Theft",
-    "count": 14
+    "count": 14,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 5,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 5,
     "offense": "Robbery",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 5,
     "offense": "Theft",
-    "count": 61
+    "count": 61,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 6,
     "offense": "Aggravated Assault",
-    "count": 15
+    "count": 15,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 6,
     "offense": "Burglary",
-    "count": 14
+    "count": 14,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 6,
     "offense": "Motor Vehicle Theft",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 6,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 6,
     "offense": "Robbery",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 6,
     "offense": "Theft",
-    "count": 47
+    "count": 47,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 7,
     "offense": "Aggravated Assault",
-    "count": 19
+    "count": 19,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 7,
     "offense": "Burglary",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 7,
     "offense": "Motor Vehicle Theft",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 7,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 7,
     "offense": "Robbery",
-    "count": 10
+    "count": 10,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 7,
     "offense": "Theft",
-    "count": 68
+    "count": 68,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 8,
     "offense": "Aggravated Assault",
-    "count": 28
+    "count": 28,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 8,
     "offense": "Burglary",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 8,
     "offense": "Motor Vehicle Theft",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 8,
     "offense": "Rape",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 8,
     "offense": "Robbery",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 8,
     "offense": "Theft",
-    "count": 65
+    "count": 65,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 9,
     "offense": "Aggravated Assault",
-    "count": 23
+    "count": 23,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 9,
     "offense": "Burglary",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 9,
     "offense": "Motor Vehicle Theft",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 9,
     "offense": "Murder",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 9,
     "offense": "Robbery",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 9,
     "offense": "Theft",
-    "count": 56
+    "count": 56,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 11,
     "offense": "Aggravated Assault",
-    "count": 21
+    "count": 21,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 11,
     "offense": "Burglary",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 11,
     "offense": "Motor Vehicle Theft",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 11,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 11,
     "offense": "Robbery",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 11,
     "offense": "Theft",
-    "count": 58
+    "count": 58,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 12,
     "offense": "Aggravated Assault",
-    "count": 27
+    "count": 27,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 12,
     "offense": "Burglary",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 12,
     "offense": "Motor Vehicle Theft",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 12,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 12,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2025,
     "month": 12,
     "offense": "Theft",
-    "count": 34
+    "count": 34,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2026,
     "month": 1,
     "offense": "Aggravated Assault",
-    "count": 19
+    "count": 19,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2026,
     "month": 1,
     "offense": "Burglary",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2026,
     "month": 1,
     "offense": "Motor Vehicle Theft",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2026,
     "month": 1,
     "offense": "Murder",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2026,
     "month": 1,
     "offense": "Robbery",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lawrence",
     "year": 2026,
     "month": 1,
     "offense": "Theft",
-    "count": 32
+    "count": 32,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 4,
     "offense": "Aggravated Assault",
-    "count": 27
+    "count": 27,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 4,
     "offense": "Burglary",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 4,
     "offense": "Motor Vehicle Theft",
-    "count": 14
+    "count": 14,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 4,
     "offense": "Murder",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 4,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 4,
     "offense": "Robbery",
-    "count": 10
+    "count": 10,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 4,
     "offense": "Theft",
-    "count": 104
+    "count": 104,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 5,
     "offense": "Aggravated Assault",
-    "count": 40
+    "count": 40,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 5,
     "offense": "Burglary",
-    "count": 12
+    "count": 12,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 5,
     "offense": "Motor Vehicle Theft",
-    "count": 18
+    "count": 18,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 5,
     "offense": "Rape",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 5,
     "offense": "Robbery",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 5,
     "offense": "Theft",
-    "count": 110
+    "count": 110,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 6,
     "offense": "Aggravated Assault",
-    "count": 50
+    "count": 50,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 6,
     "offense": "Burglary",
-    "count": 13
+    "count": 13,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 6,
     "offense": "Motor Vehicle Theft",
-    "count": 24
+    "count": 24,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 6,
     "offense": "Robbery",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 6,
     "offense": "Theft",
-    "count": 99
+    "count": 99,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 7,
     "offense": "Aggravated Assault",
-    "count": 44
+    "count": 44,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 7,
     "offense": "Burglary",
-    "count": 20
+    "count": 20,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 7,
     "offense": "Motor Vehicle Theft",
-    "count": 26
+    "count": 26,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 7,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 7,
     "offense": "Robbery",
-    "count": 10
+    "count": 10,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 7,
     "offense": "Theft",
-    "count": 98
+    "count": 98,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 8,
     "offense": "Aggravated Assault",
-    "count": 32
+    "count": 32,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 8,
     "offense": "Burglary",
-    "count": 14
+    "count": 14,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 8,
     "offense": "Motor Vehicle Theft",
-    "count": 27
+    "count": 27,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 8,
     "offense": "Murder",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 8,
     "offense": "Robbery",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 8,
     "offense": "Theft",
-    "count": 102
+    "count": 102,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 9,
     "offense": "Aggravated Assault",
-    "count": 46
+    "count": 46,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 9,
     "offense": "Burglary",
-    "count": 13
+    "count": 13,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 9,
     "offense": "Motor Vehicle Theft",
-    "count": 23
+    "count": 23,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 9,
     "offense": "Robbery",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 9,
     "offense": "Theft",
-    "count": 95
+    "count": 95,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 10,
     "offense": "Aggravated Assault",
-    "count": 60
+    "count": 60,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 10,
     "offense": "Burglary",
-    "count": 16
+    "count": 16,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 10,
     "offense": "Motor Vehicle Theft",
-    "count": 22
+    "count": 22,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 10,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 10,
     "offense": "Robbery",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 10,
     "offense": "Theft",
-    "count": 104
+    "count": 104,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 11,
     "offense": "Aggravated Assault",
-    "count": 33
+    "count": 33,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 11,
     "offense": "Burglary",
-    "count": 15
+    "count": 15,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 11,
     "offense": "Motor Vehicle Theft",
-    "count": 16
+    "count": 16,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 11,
     "offense": "Robbery",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 11,
     "offense": "Theft",
-    "count": 76
+    "count": 76,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 12,
     "offense": "Aggravated Assault",
-    "count": 43
+    "count": 43,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 12,
     "offense": "Burglary",
-    "count": 13
+    "count": 13,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 12,
     "offense": "Motor Vehicle Theft",
-    "count": 15
+    "count": 15,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 12,
     "offense": "Robbery",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lowell",
     "year": 2025,
     "month": 12,
     "offense": "Theft",
-    "count": 89
+    "count": 89,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lynn",
     "year": 2025,
     "month": 4,
     "offense": "Aggravated Assault",
-    "count": 39
+    "count": 39,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lynn",
     "year": 2025,
     "month": 4,
     "offense": "Burglary",
-    "count": 13
+    "count": 13,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lynn",
     "year": 2025,
     "month": 4,
     "offense": "Motor Vehicle Theft",
-    "count": 17
+    "count": 17,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lynn",
     "year": 2025,
     "month": 4,
     "offense": "Murder",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lynn",
     "year": 2025,
     "month": 4,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lynn",
     "year": 2025,
     "month": 4,
     "offense": "Robbery",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lynn",
     "year": 2025,
     "month": 4,
     "offense": "Theft",
-    "count": 68
+    "count": 68,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lynn",
     "year": 2025,
     "month": 6,
     "offense": "Aggravated Assault",
-    "count": 38
+    "count": 38,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lynn",
     "year": 2025,
     "month": 6,
     "offense": "Burglary",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lynn",
     "year": 2025,
     "month": 6,
     "offense": "Motor Vehicle Theft",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lynn",
     "year": 2025,
     "month": 6,
     "offense": "Rape",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lynn",
     "year": 2025,
     "month": 6,
     "offense": "Robbery",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Lynn",
     "year": 2025,
     "month": 6,
     "offense": "Theft",
-    "count": 81
+    "count": 81,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 4,
     "offense": "Aggravated Assault",
-    "count": 10
+    "count": 10,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 4,
     "offense": "Burglary",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 4,
     "offense": "Motor Vehicle Theft",
-    "count": 14
+    "count": 14,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 4,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 4,
     "offense": "Robbery",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 4,
     "offense": "Theft",
-    "count": 85
+    "count": 85,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 5,
     "offense": "Aggravated Assault",
-    "count": 15
+    "count": 15,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 5,
     "offense": "Burglary",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 5,
     "offense": "Motor Vehicle Theft",
-    "count": 19
+    "count": 19,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 5,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 5,
     "offense": "Robbery",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 5,
     "offense": "Theft",
-    "count": 62
+    "count": 62,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 7,
     "offense": "Aggravated Assault",
-    "count": 12
+    "count": 12,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 7,
     "offense": "Burglary",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 7,
     "offense": "Motor Vehicle Theft",
-    "count": 11
+    "count": 11,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 7,
     "offense": "Robbery",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 7,
     "offense": "Theft",
-    "count": 64
+    "count": 64,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 8,
     "offense": "Aggravated Assault",
-    "count": 10
+    "count": 10,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 8,
     "offense": "Burglary",
-    "count": 10
+    "count": 10,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 8,
     "offense": "Motor Vehicle Theft",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 8,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 8,
     "offense": "Theft",
-    "count": 36
+    "count": 36,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 9,
     "offense": "Aggravated Assault",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 9,
     "offense": "Burglary",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 9,
     "offense": "Motor Vehicle Theft",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 9,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 9,
     "offense": "Theft",
-    "count": 39
+    "count": 39,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 10,
     "offense": "Aggravated Assault",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 10,
     "offense": "Burglary",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 10,
     "offense": "Motor Vehicle Theft",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 10,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Malden",
     "year": 2025,
     "month": 10,
     "offense": "Theft",
-    "count": 38
+    "count": 38,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Medford",
     "year": 2025,
     "month": 4,
     "offense": "Aggravated Assault",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Medford",
     "year": 2025,
     "month": 4,
     "offense": "Burglary",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Medford",
     "year": 2025,
     "month": 4,
     "offense": "Motor Vehicle Theft",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Medford",
     "year": 2025,
     "month": 4,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Medford",
     "year": 2025,
     "month": 4,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Medford",
     "year": 2025,
     "month": 4,
     "offense": "Theft",
-    "count": 37
+    "count": 37,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Medford",
     "year": 2025,
     "month": 5,
     "offense": "Aggravated Assault",
-    "count": 13
+    "count": 13,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Medford",
     "year": 2025,
     "month": 5,
     "offense": "Burglary",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Medford",
     "year": 2025,
     "month": 5,
     "offense": "Motor Vehicle Theft",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Medford",
     "year": 2025,
     "month": 5,
     "offense": "Rape",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Medford",
     "year": 2025,
     "month": 5,
     "offense": "Theft",
-    "count": 41
+    "count": 41,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Medford",
     "year": 2025,
     "month": 6,
     "offense": "Aggravated Assault",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Medford",
     "year": 2025,
     "month": 6,
     "offense": "Burglary",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Medford",
     "year": 2025,
     "month": 6,
     "offense": "Motor Vehicle Theft",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Medford",
     "year": 2025,
     "month": 6,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Medford",
     "year": 2025,
     "month": 6,
     "offense": "Theft",
-    "count": 40
+    "count": 40,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 4,
     "offense": "Theft",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 5,
     "offense": "Aggravated Assault",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 5,
     "offense": "Motor Vehicle Theft",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 5,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 5,
     "offense": "Theft",
-    "count": 25
+    "count": 25,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 6,
     "offense": "Burglary",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 6,
     "offense": "Theft",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 7,
     "offense": "Aggravated Assault",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 7,
     "offense": "Burglary",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 7,
     "offense": "Motor Vehicle Theft",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 7,
     "offense": "Theft",
-    "count": 36
+    "count": 36,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 8,
     "offense": "Aggravated Assault",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 8,
     "offense": "Motor Vehicle Theft",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 8,
     "offense": "Theft",
-    "count": 35
+    "count": 35,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 9,
     "offense": "Aggravated Assault",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 9,
     "offense": "Burglary",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 9,
     "offense": "Motor Vehicle Theft",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 9,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 9,
     "offense": "Theft",
-    "count": 33
+    "count": 33,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 10,
     "offense": "Aggravated Assault",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 10,
     "offense": "Burglary",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 10,
     "offense": "Theft",
-    "count": 39
+    "count": 39,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 11,
     "offense": "Aggravated Assault",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 11,
     "offense": "Burglary",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 11,
     "offense": "Robbery",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 11,
     "offense": "Theft",
-    "count": 22
+    "count": 22,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 12,
     "offense": "Aggravated Assault",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 12,
     "offense": "Burglary",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 12,
     "offense": "Motor Vehicle Theft",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 12,
     "offense": "Murder",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2025,
     "month": 12,
     "offense": "Theft",
-    "count": 28
+    "count": 28,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2026,
     "month": 1,
     "offense": "Aggravated Assault",
-    "count": 11
+    "count": 11,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2026,
     "month": 1,
     "offense": "Burglary",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2026,
     "month": 1,
     "offense": "Motor Vehicle Theft",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2026,
     "month": 1,
     "offense": "Theft",
-    "count": 26
+    "count": 26,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2026,
     "month": 2,
     "offense": "Aggravated Assault",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2026,
     "month": 2,
     "offense": "Burglary",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Methuen",
     "year": 2026,
     "month": 2,
     "offense": "Theft",
-    "count": 28
+    "count": 28,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 4,
     "offense": "Aggravated Assault",
-    "count": 18
+    "count": 18,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 4,
     "offense": "Burglary",
-    "count": 16
+    "count": 16,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 4,
     "offense": "Motor Vehicle Theft",
-    "count": 26
+    "count": 26,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 4,
     "offense": "Murder",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 4,
     "offense": "Rape",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 4,
     "offense": "Robbery",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 4,
     "offense": "Theft",
-    "count": 110
+    "count": 110,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 5,
     "offense": "Aggravated Assault",
-    "count": 24
+    "count": 24,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 5,
     "offense": "Burglary",
-    "count": 20
+    "count": 20,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 5,
     "offense": "Motor Vehicle Theft",
-    "count": 22
+    "count": 22,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 5,
     "offense": "Murder",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 5,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 5,
     "offense": "Robbery",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 5,
     "offense": "Theft",
-    "count": 130
+    "count": 130,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 6,
     "offense": "Aggravated Assault",
-    "count": 33
+    "count": 33,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 6,
     "offense": "Burglary",
-    "count": 18
+    "count": 18,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 6,
     "offense": "Motor Vehicle Theft",
-    "count": 30
+    "count": 30,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 6,
     "offense": "Rape",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 6,
     "offense": "Robbery",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 6,
     "offense": "Theft",
-    "count": 99
+    "count": 99,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 7,
     "offense": "Aggravated Assault",
-    "count": 25
+    "count": 25,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 7,
     "offense": "Burglary",
-    "count": 23
+    "count": 23,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 7,
     "offense": "Motor Vehicle Theft",
-    "count": 34
+    "count": 34,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 7,
     "offense": "Rape",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 7,
     "offense": "Robbery",
-    "count": 10
+    "count": 10,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 7,
     "offense": "Theft",
-    "count": 93
+    "count": 93,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 8,
     "offense": "Aggravated Assault",
-    "count": 17
+    "count": 17,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 8,
     "offense": "Burglary",
-    "count": 17
+    "count": 17,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 8,
     "offense": "Motor Vehicle Theft",
-    "count": 20
+    "count": 20,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 8,
     "offense": "Rape",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 8,
     "offense": "Robbery",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 8,
     "offense": "Theft",
-    "count": 91
+    "count": 91,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 9,
     "offense": "Aggravated Assault",
-    "count": 14
+    "count": 14,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 9,
     "offense": "Burglary",
-    "count": 19
+    "count": 19,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 9,
     "offense": "Motor Vehicle Theft",
-    "count": 26
+    "count": 26,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 9,
     "offense": "Rape",
-    "count": 11
+    "count": 11,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 9,
     "offense": "Robbery",
-    "count": 10
+    "count": 10,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 9,
     "offense": "Theft",
-    "count": 80
+    "count": 80,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 10,
     "offense": "Aggravated Assault",
-    "count": 19
+    "count": 19,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 10,
     "offense": "Burglary",
-    "count": 12
+    "count": 12,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 10,
     "offense": "Motor Vehicle Theft",
-    "count": 24
+    "count": 24,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 10,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 10,
     "offense": "Robbery",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 10,
     "offense": "Theft",
-    "count": 99
+    "count": 99,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 11,
     "offense": "Aggravated Assault",
-    "count": 22
+    "count": 22,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 11,
     "offense": "Burglary",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 11,
     "offense": "Motor Vehicle Theft",
-    "count": 18
+    "count": 18,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 11,
     "offense": "Rape",
-    "count": 5
+    "count": 5,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 11,
     "offense": "Robbery",
-    "count": 7
+    "count": 7,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 11,
     "offense": "Theft",
-    "count": 69
+    "count": 69,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 12,
     "offense": "Aggravated Assault",
-    "count": 16
+    "count": 16,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 12,
     "offense": "Burglary",
-    "count": 15
+    "count": 15,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 12,
     "offense": "Motor Vehicle Theft",
-    "count": 11
+    "count": 11,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 12,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 12,
     "offense": "Robbery",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2025,
     "month": 12,
     "offense": "Theft",
-    "count": 82
+    "count": 82,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2026,
     "month": 1,
     "offense": "Aggravated Assault",
-    "count": 19
+    "count": 19,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2026,
     "month": 1,
     "offense": "Burglary",
-    "count": 17
+    "count": 17,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2026,
     "month": 1,
     "offense": "Motor Vehicle Theft",
-    "count": 10
+    "count": 10,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2026,
     "month": 1,
     "offense": "Rape",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2026,
     "month": 1,
     "offense": "Robbery",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2026,
     "month": 1,
     "offense": "Theft",
-    "count": 67
+    "count": 67,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2026,
     "month": 2,
     "offense": "Aggravated Assault",
-    "count": 19
+    "count": 19,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2026,
     "month": 2,
     "offense": "Burglary",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2026,
     "month": 2,
     "offense": "Motor Vehicle Theft",
-    "count": 12
+    "count": 12,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2026,
     "month": 2,
     "offense": "Robbery",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "New Bedford",
     "year": 2026,
     "month": 2,
     "offense": "Theft",
-    "count": 68
+    "count": 68,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 4,
     "offense": "Aggravated Assault",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 4,
     "offense": "Burglary",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 4,
     "offense": "Motor Vehicle Theft",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 4,
     "offense": "Rape",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 4,
     "offense": "Theft",
-    "count": 15
+    "count": 15,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 5,
     "offense": "Aggravated Assault",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 5,
     "offense": "Burglary",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 5,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 5,
     "offense": "Theft",
-    "count": 48
+    "count": 48,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 6,
     "offense": "Aggravated Assault",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 6,
     "offense": "Burglary",
-    "count": 8
+    "count": 8,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 6,
     "offense": "Motor Vehicle Theft",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 6,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 6,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 6,
     "offense": "Theft",
-    "count": 40
+    "count": 40,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 7,
     "offense": "Aggravated Assault",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 7,
     "offense": "Burglary",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 7,
     "offense": "Motor Vehicle Theft",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 7,
     "offense": "Theft",
-    "count": 52
+    "count": 52,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 8,
     "offense": "Aggravated Assault",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 8,
     "offense": "Burglary",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 8,
     "offense": "Motor Vehicle Theft",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 8,
     "offense": "Theft",
-    "count": 35
+    "count": 35,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 9,
     "offense": "Aggravated Assault",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 9,
     "offense": "Burglary",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 9,
     "offense": "Motor Vehicle Theft",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 9,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 9,
     "offense": "Theft",
-    "count": 32
+    "count": 32,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 10,
     "offense": "Aggravated Assault",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 10,
     "offense": "Burglary",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 10,
     "offense": "Motor Vehicle Theft",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 10,
     "offense": "Theft",
-    "count": 37
+    "count": 37,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 11,
     "offense": "Aggravated Assault",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 11,
     "offense": "Burglary",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 11,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 11,
     "offense": "Theft",
-    "count": 34
+    "count": 34,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 12,
     "offense": "Aggravated Assault",
-    "count": 3
+    "count": 3,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 12,
     "offense": "Burglary",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 12,
     "offense": "Motor Vehicle Theft",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 12,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Newton",
     "year": 2025,
     "month": 12,
     "offense": "Theft",
-    "count": 25
+    "count": 25,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Peabody",
     "year": 2025,
     "month": 4,
     "offense": "Aggravated Assault",
-    "count": 9
+    "count": 9,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Peabody",
     "year": 2025,
     "month": 4,
     "offense": "Burglary",
-    "count": 4
+    "count": 4,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Peabody",
     "year": 2025,
     "month": 4,
     "offense": "Motor Vehicle Theft",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Peabody",
     "year": 2025,
     "month": 4,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Peabody",
     "year": 2025,
     "month": 4,
     "offense": "Robbery",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Peabody",
     "year": 2025,
     "month": 4,
     "offense": "Theft",
-    "count": 29
+    "count": 29,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Peabody",
     "year": 2025,
     "month": 5,
     "offense": "Aggravated Assault",
-    "count": 6
+    "count": 6,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Peabody",
     "year": 2025,
     "month": 5,
     "offense": "Burglary",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Peabody",
     "year": 2025,
     "month": 5,
     "offense": "Motor Vehicle Theft",
-    "count": 2
+    "count": 2,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Peabody",
     "year": 2025,
     "month": 5,
     "offense": "Rape",
-    "count": 1
+    "count": 1,
+    "state": "MA",
+    "type": "City"
   },
   {
     "agency": "Peabody",
     "year": 2025,
     "month": 5,
     "offense": "Theft",
-    "count": 26
+    "count": 26,
+    "state": "MA",
+    "type": "City"
   }
 ]

@@ -36,6 +36,7 @@ class KY0568000(Scraper):
                 (2023, "crime_data_2023", "occurred"),
                 (2024, "crimedata2024", "occurred"),
                 (2025, "crime_data_2025", "occurred"),
+                (2026, "crime_data_2026", "occurred"),
             ]
         ]
         self.years = [year for year in self.years if year[0] >= self.first.year]

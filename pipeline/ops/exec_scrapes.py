@@ -7,6 +7,7 @@ import threading
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime as dt
+from time import sleep
 
 sys.path.append("../utils")
 from aggregator import Aggregator
@@ -118,7 +119,7 @@ class ScrapeRunner:
             return
 
         # run scrapers in parallel with a thread pool
-        max_workers = self.args.workers if hasattr(self.args, "workers") and self.args.workers else 4
+        max_workers = self.args.workers if hasattr(self.args, "workers") and self.args.workers else 2
         self.logger.info(f"running scrapers with {max_workers} parallel workers")
 
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -259,61 +260,74 @@ class ScrapeRunner:
         """
         thread-safe update of the `agencies.scraping` sheet for one scraper's results.
         pulls the current sheet, upserts the new rows, and pushes it back.
+        retries with exponential backoff on rate limit errors.
         """
-        with self.sheet_lock:
-            try:
-                scraping_sheet = pull_sheet(sheet="scraping", url=gc_files["agencies"])
-                if len(scraping_sheet) == 0:
-                    scraping_sheet = pd.DataFrame(columns=self.scraping_sheet_cols)
+        max_retries = 5
+        for attempt in range(max_retries):
+            with self.sheet_lock:
+                try:
+                    scraping_sheet = pull_sheet(sheet="scraping", url=gc_files["agencies"])
+                    if len(scraping_sheet) == 0:
+                        scraping_sheet = pd.DataFrame(columns=self.scraping_sheet_cols)
 
-                for row in results:
-                    ori = row["ori"]
-                    if ori in scraping_sheet["ori"].values:
-                        idx = scraping_sheet.index[scraping_sheet["ori"] == ori][0]
-                        existing = scraping_sheet.loc[idx]
+                    for row in results:
+                        ori = row["ori"]
+                        if ori in scraping_sheet["ori"].values:
+                            idx = scraping_sheet.index[scraping_sheet["ori"] == ori][0]
+                            existing = scraping_sheet.loc[idx]
 
-                        # always update last_attempt, duration, status
-                        scraping_sheet.loc[idx, "last_attempt"] = row["last_attempt"]
-                        scraping_sheet.loc[idx, "duration"] = row["duration"]
-                        scraping_sheet.loc[idx, "status"] = row["status"]
-                        scraping_sheet.loc[idx, "scraper"] = row["scraper"]
+                            # always update last_attempt, duration, status
+                            scraping_sheet.loc[idx, "last_attempt"] = row["last_attempt"]
+                            scraping_sheet.loc[idx, "duration"] = row["duration"]
+                            scraping_sheet.loc[idx, "status"] = row["status"]
+                            scraping_sheet.loc[idx, "scraper"] = row["scraper"]
 
-                        if row["status"] == "good":
-                            scraping_sheet.loc[idx, "last_success"] = row["last_success"]
-                            scraping_sheet.loc[idx, "data_from"] = row["data_from"]
-                            scraping_sheet.loc[idx, "data_to"] = row["data_to"]
-                            # preserve overall_from if it already exists
-                            if existing["overall_from"] == "" or pd.isna(existing["overall_from"]):
-                                scraping_sheet.loc[idx, "overall_from"] = row["data_from"]
-                        # on failure, preserve existing last_success, data_from, data_to, overall_from
-                    else:
-                        # new ori — insert row
-                        new_row = {
-                            "ori": ori,
-                            "scraper": row["scraper"],
-                            "last_attempt": row["last_attempt"],
-                            "last_success": row.get("last_success", ""),
-                            "duration": row["duration"],
-                            "overall_from": row.get("data_from", ""),
-                            "data_from": row.get("data_from", ""),
-                            "data_to": row.get("data_to", ""),
-                            "status": row["status"],
-                        }
-                        scraping_sheet = pd.concat(
-                            [scraping_sheet, pd.DataFrame([new_row])],
-                            ignore_index=True,
+                            if row["status"] == "good":
+                                scraping_sheet.loc[idx, "last_success"] = row["last_success"]
+                                scraping_sheet.loc[idx, "data_from"] = row["data_from"]
+                                scraping_sheet.loc[idx, "data_to"] = row["data_to"]
+                                # preserve overall_from if it already exists
+                                if existing["overall_from"] == "" or pd.isna(existing["overall_from"]):
+                                    scraping_sheet.loc[idx, "overall_from"] = row["data_from"]
+                            # on failure, preserve existing last_success, data_from, data_to, overall_from
+                        else:
+                            # new ori — insert row
+                            new_row = {
+                                "ori": ori,
+                                "scraper": row["scraper"],
+                                "last_attempt": row["last_attempt"],
+                                "last_success": row.get("last_success", ""),
+                                "duration": row["duration"],
+                                "overall_from": row.get("data_from", ""),
+                                "data_from": row.get("data_from", ""),
+                                "data_to": row.get("data_to", ""),
+                                "status": row["status"],
+                            }
+                            scraping_sheet = pd.concat(
+                                [scraping_sheet, pd.DataFrame([new_row])],
+                                ignore_index=True,
+                            )
+
+                    update_sheet(
+                        sheet="scraping",
+                        df=scraping_sheet.sort_values(by="ori"),
+                        url=gc_files["agencies"],
+                    )
+                    self.logger.info(
+                        f"updated sheet for {results[0]['scraper']} ({results[0]['status']})"
+                    )
+                    return
+                except Exception as e:
+                    if "429" in str(e) and attempt < max_retries - 1:
+                        wait = 2 ** (attempt + 1)
+                        self.logger.info(
+                            f"rate limited updating {results[0]['scraper']}, retrying in {wait}s..."
                         )
-
-                update_sheet(
-                    sheet="scraping",
-                    df=scraping_sheet.sort_values(by="ori"),
-                    url=gc_files["agencies"],
-                )
-                self.logger.info(
-                    f"updated sheet for {results[0]['scraper']} ({results[0]['status']})"
-                )
-            except Exception as e:
-                self.logger.warning(f"failed to update sheet for {results[0]['scraper']}: {e}")
+                    else:
+                        self.logger.warning(f"failed to update sheet for {results[0]['scraper']}: {e}")
+                        return
+            # sleep outside the lock so other threads can proceed
+            sleep(wait)
 
 
 if __name__ == "__main__":
@@ -374,8 +388,8 @@ if __name__ == "__main__":
         "-w",
         "--workers",
         type=int,
-        default=4,
-        help="""Number of parallel workers (default: 4).""",
+        default=2,
+        help="""Number of parallel workers (default: 2).""",
     )
     args = parser.parse_args()
 

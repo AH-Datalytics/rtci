@@ -48,7 +48,7 @@ services:
       dockerfile: pipeline/dockerfiles/Dockerfile_fbi
     container_name: Dockerfile_fbi
     image: fbi
-    mem_limit: 4g
+    mem_limit: 2g
     volumes:
       - .:/rtci
       - ~/.gitconfig:/etc/gitconfig

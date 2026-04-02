@@ -13,6 +13,7 @@ services:
       dockerfile: pipeline/dockerfiles/Dockerfile_scrapers_short
     container_name: scrapers_short
     image: scrapers_short
+    mem_limit: 3g
     volumes:
       - .:/rtci
       - ~/.gitconfig:/etc/gitconfig
@@ -24,6 +25,7 @@ services:
       dockerfile: pipeline/dockerfiles/Dockerfile_scrapers_long
     container_name: scrapers_long
     image: scrapers_long
+    mem_limit: 3g
     volumes:
       - .:/rtci
       - ~/.gitconfig:/etc/gitconfig

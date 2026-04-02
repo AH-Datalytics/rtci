@@ -183,20 +183,28 @@ class Scraper:
         return df.to_dict("records")
 
     def run(self):
-        # collect and process data
-        data = self.scrape()
-        processed = self.process(data)
-        self.logger.info(f"sample record: {processed[0]}")
+        try:
+            # collect and process data
+            data = self.scrape()
+            processed = self.process(data)
+            self.logger.info(f"sample record: {processed[0]}")
 
-        # export data
-        if not self.args.test:
-            self.logger.info("exporting to aws s3 and google sheets...")
-            self.export(processed)
+            # export data
+            if not self.args.test:
+                self.logger.info("exporting to aws s3 and google sheets...")
+                self.export(processed)
 
-        # this logging is parsed by `ops/exec_scrapers.py` so it shouldn't be altered
-        self.logger.info(f"earliest data: {self.collected_earliest}")
-        self.logger.info(f"latest data: {self.collected_latest}")
-        self.logger.info(f"completed oris: {self.oris}")
+            # this logging is parsed by `ops/exec_scrapers.py` so it shouldn't be altered
+            self.logger.info(f"earliest data: {self.collected_earliest}")
+            self.logger.info(f"latest data: {self.collected_latest}")
+            self.logger.info(f"completed oris: {self.oris}")
+        finally:
+            # ensure any selenium driver is cleaned up to prevent zombie Chrome processes
+            if hasattr(self, "driver"):
+                try:
+                    self.driver.quit()
+                except Exception:
+                    pass
 
     def export(self, processed):
         for ori in self.oris:

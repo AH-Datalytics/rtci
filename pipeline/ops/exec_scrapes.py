@@ -3,7 +3,9 @@ import pandas as pd
 import re
 import subprocess
 import sys
+import threading
 
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime as dt
 
 sys.path.append("../utils")
@@ -12,16 +14,13 @@ from google_configs import gc_files, pull_sheet, update_sheet
 from logger import create_logger
 
 
-# TODO: --log and --debug args seem not to be functioning potentially
-
-
 """
 The ScrapeRunner class below determines which scrapers are available to run
 based on the presence of Python scripts for them and their exclusion/inclusion
 in the Google Sheet `agencies.sample`.
 
-It executes their Python scripts, collects the results of their runs as good/bad,
-and updates the locked Google Sheet `agencies.scraping` based on the results.
+It executes their Python scripts in parallel, and each scraper updates its own
+row in the Google Sheet `agencies.scraping` immediately upon completion.
 """
 
 
@@ -42,13 +41,13 @@ class ScrapeRunner:
             "status",
         ]
         self.sheet = None
-        self.scraping_sheet = None
+        self.sheet_lock = threading.Lock()
 
     def run(self):
         """
         primary method, determines list of scrapers to run, links them to oris,
         verifies with the `agencies.sample` sheet and threads through them,
-        taking results and running upsert to the `agencies.scraping` tracker sheet
+        updating the `agencies.scraping` tracker sheet after each scraper completes
         """
         # retrieve list of all scraper filenames from the `rtci/scrapers/` directory
         scrapers = list()
@@ -87,11 +86,6 @@ class ScrapeRunner:
         self.logger.info(f"identified {len(self.sheet)} oris for inclusion in scraping")
         self.logger.info(f"identified {len(scrapers)} scrapers")
 
-        # pull the scraping results sheet `agencies.scraping`
-        self.scraping_sheet = pull_sheet(sheet="scraping", url=gc_files["agencies"])
-        if len(self.scraping_sheet) == 0:
-            self.scraping_sheet = pd.DataFrame(columns=self.scraping_sheet_cols)
-
         # check that all scraper filenames (by state or ori) match up with the `agencies.sample` sheet
         assert all(
             [
@@ -112,21 +106,34 @@ class ScrapeRunner:
 
         # if specified, only rerun scrapes for which last_success was too long ago
         if self.args.run_from:
-            good = self.scraping_sheet[
-                self.scraping_sheet["last_success"] >= self.args.run_from
-            ]["scraper"].unique()
-            scrapers = [d for d in scrapers if d["scraper"][:-3] not in good]
+            scraping_sheet = pull_sheet(sheet="scraping", url=gc_files["agencies"])
+            if len(scraping_sheet) > 0:
+                good = scraping_sheet[
+                    scraping_sheet["last_success"] >= self.args.run_from
+                ]["scraper"].unique()
+                scrapers = [d for d in scrapers if d["scraper"][:-3] not in good]
 
         self.logger.info(f"identified {len(scrapers)} scrapers that need to be rerun")
         if not scrapers:
             return
 
-        # scrape execution (thread subprocesses to run all scrapes)
-        # results = thread(self.scrape_one, scrapers)
-        results = list()
-        for scraper in scrapers:
-            results.extend(self.scrape_one(scraper))
-        results = pd.DataFrame(results)
+        # run scrapers in parallel with a thread pool
+        max_workers = self.args.workers if hasattr(self.args, "workers") and self.args.workers else 4
+        self.logger.info(f"running scrapers with {max_workers} parallel workers")
+
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            futures = {
+                executor.submit(self.scrape_one, scraper): scraper
+                for scraper in scrapers
+            }
+            for future in as_completed(futures):
+                scraper = futures[future]
+                try:
+                    future.result()
+                except Exception as e:
+                    self.logger.warning(
+                        f"unexpected error in {scraper['scraper']}: {e}"
+                    )
 
         # remove any hanging pdfs or csvs from failed scrape attempts
         for state in states:
@@ -135,36 +142,10 @@ class ScrapeRunner:
                     self.logger.info(f"removing hanging file: ../scrapers/{state}/{f}")
                     os.remove(f"../scrapers/{state}/{f}")
 
-        # "upsert" (via update and then concat for new results) scrape results into `agencies.scraping`
-        self.scraping_sheet.set_index("ori", inplace=True)
-        results.set_index("ori", inplace=True)
-        self.scraping_sheet.update(results)
-        self.scraping_sheet = self.scraping_sheet.reset_index()
-        results = results.reset_index()
-        out = pd.concat(
-            [
-                self.scraping_sheet,
-                results[~results["ori"].isin(self.scraping_sheet["ori"].unique())],
-            ]
-        )
-
-        # update `agencies.scraping` sheet
-        self.logger.info(
-            f"sample record: {out[out['scraper'].isin(results['scraper'].unique())].to_dict('records')[0]}"
-        )
-        if not self.args.test:
-            update_sheet(
-                sheet="scraping",
-                df=out.sort_values(by="ori"),
-                url=gc_files["agencies"],
-            )
-
     def scrape_one(self, scrape):
         """
-        runs one scraper and returns a list of operational metadata results per-ori
+        runs one scraper, updates the Google Sheet immediately with results
         """
-        output = list()
-
         # confirms which oris are being attempted based on the
         # (manually specified) `scraper` col in `agencies.sample`
         attempted_oris = self.sheet[self.sheet["scraper"] == scrape["scraper"][:-3]][
@@ -195,6 +176,8 @@ class ScrapeRunner:
         )
         end_time = dt.now()
         duration = end_time - start_time
+
+        output = list()
 
         # if scrape succeeds, ensure oris line up and return good status
         if result.returncode == 0:
@@ -236,28 +219,6 @@ class ScrapeRunner:
             data_to = data_to[0]
 
             for ori in attempted_oris:
-                # if scrape has been attempted before, leave it's existing overall_from
-                if ori in self.scraping_sheet["ori"].unique():
-                    assert len(
-                        self.scraping_sheet[self.scraping_sheet["ori"] == ori] == 1
-                    )
-                    if (
-                        self.scraping_sheet[self.scraping_sheet["ori"] == ori].iloc[0][
-                            "overall_from"
-                        ]
-                        != ""
-                    ):
-                        overall_from = self.scraping_sheet[
-                            self.scraping_sheet["ori"] == ori
-                        ].iloc[0]["overall_from"]
-                    else:
-                        overall_from = data_from
-
-                # if scrape hasn't been tried before according to `agencies.scraping_sheet`,
-                # put in a blank last_success
-                else:
-                    overall_from = data_from
-
                 output.append(
                     {
                         "ori": ori,
@@ -265,7 +226,6 @@ class ScrapeRunner:
                         "last_attempt": dt.strftime(end_time.date(), "%Y-%m-%d"),
                         "last_success": dt.strftime(end_time.date(), "%Y-%m-%d"),
                         "duration": duration.seconds,
-                        "overall_from": overall_from,
                         "data_from": data_from,
                         "data_to": data_to,
                         "status": "good",
@@ -281,47 +241,79 @@ class ScrapeRunner:
                 self.logger.warning(result.stderr)
 
             for ori in attempted_oris:
-                # if scrape has been attempted before, leave it's existing last_success
-                if ori in self.scraping_sheet["ori"].unique():
-                    assert len(
-                        self.scraping_sheet[self.scraping_sheet["ori"] == ori] == 1
-                    )
-                    last_success = self.scraping_sheet[
-                        self.scraping_sheet["ori"] == ori
-                    ].iloc[0]["last_success"]
-                    data_from = self.scraping_sheet[
-                        self.scraping_sheet["ori"] == ori
-                    ].iloc[0]["data_from"]
-                    data_to = self.scraping_sheet[
-                        self.scraping_sheet["ori"] == ori
-                    ].iloc[0]["data_to"]
-                    overall_from = self.scraping_sheet[
-                        self.scraping_sheet["ori"] == ori
-                    ].iloc[0]["overall_from"]
-
-                # if scrape hasn't been tried before according to `agencies.scraping_sheet`,
-                # put in a blank last_success
-                else:
-                    last_success = ""
-                    data_from = ""
-                    data_to = ""
-                    overall_from = ""
-
                 output.append(
                     {
                         "ori": ori,
                         "scraper": scrape["scraper"][:-3],
                         "last_attempt": dt.strftime(end_time.date(), "%Y-%m-%d"),
-                        "last_success": last_success,
                         "duration": duration.seconds,
-                        "overall_from": overall_from,
-                        "data_from": data_from,
-                        "data_to": data_to,
                         "status": "bad",
                     }
                 )
 
-        return output
+        # immediately update the Google Sheet for this scraper's results
+        if not self.args.test:
+            self._update_sheet_for_scraper(output)
+
+    def _update_sheet_for_scraper(self, results):
+        """
+        thread-safe update of the `agencies.scraping` sheet for one scraper's results.
+        pulls the current sheet, upserts the new rows, and pushes it back.
+        """
+        with self.sheet_lock:
+            try:
+                scraping_sheet = pull_sheet(sheet="scraping", url=gc_files["agencies"])
+                if len(scraping_sheet) == 0:
+                    scraping_sheet = pd.DataFrame(columns=self.scraping_sheet_cols)
+
+                for row in results:
+                    ori = row["ori"]
+                    if ori in scraping_sheet["ori"].values:
+                        idx = scraping_sheet.index[scraping_sheet["ori"] == ori][0]
+                        existing = scraping_sheet.loc[idx]
+
+                        # always update last_attempt, duration, status
+                        scraping_sheet.loc[idx, "last_attempt"] = row["last_attempt"]
+                        scraping_sheet.loc[idx, "duration"] = row["duration"]
+                        scraping_sheet.loc[idx, "status"] = row["status"]
+                        scraping_sheet.loc[idx, "scraper"] = row["scraper"]
+
+                        if row["status"] == "good":
+                            scraping_sheet.loc[idx, "last_success"] = row["last_success"]
+                            scraping_sheet.loc[idx, "data_from"] = row["data_from"]
+                            scraping_sheet.loc[idx, "data_to"] = row["data_to"]
+                            # preserve overall_from if it already exists
+                            if existing["overall_from"] == "" or pd.isna(existing["overall_from"]):
+                                scraping_sheet.loc[idx, "overall_from"] = row["data_from"]
+                        # on failure, preserve existing last_success, data_from, data_to, overall_from
+                    else:
+                        # new ori — insert row
+                        new_row = {
+                            "ori": ori,
+                            "scraper": row["scraper"],
+                            "last_attempt": row["last_attempt"],
+                            "last_success": row.get("last_success", ""),
+                            "duration": row["duration"],
+                            "overall_from": row.get("data_from", ""),
+                            "data_from": row.get("data_from", ""),
+                            "data_to": row.get("data_to", ""),
+                            "status": row["status"],
+                        }
+                        scraping_sheet = pd.concat(
+                            [scraping_sheet, pd.DataFrame([new_row])],
+                            ignore_index=True,
+                        )
+
+                update_sheet(
+                    sheet="scraping",
+                    df=scraping_sheet.sort_values(by="ori"),
+                    url=gc_files["agencies"],
+                )
+                self.logger.info(
+                    f"updated sheet for {results[0]['scraper']} ({results[0]['status']})"
+                )
+            except Exception as e:
+                self.logger.warning(f"failed to update sheet for {results[0]['scraper']}: {e}")
 
 
 if __name__ == "__main__":
@@ -377,6 +369,13 @@ if __name__ == "__main__":
         "--exclude",
         nargs="*",
         help="""If specified, will exclude the provided list of scrapers from execution.""",
+    )
+    parser.add_argument(
+        "-w",
+        "--workers",
+        type=int,
+        default=4,
+        help="""Number of parallel workers (default: 4).""",
     )
     args = parser.parse_args()
 

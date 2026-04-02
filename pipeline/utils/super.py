@@ -74,13 +74,24 @@ class Scraper:
         self.collected_earliest = None
         self.collected_latest = None
 
+    @staticmethod
+    def _load_sheet(sheet_name):
+        """
+        load a sheet from the local cache (written by exec_scrapes.py) if available,
+        otherwise fall back to pulling from the Google Sheets API.
+        """
+        cache_path = f"/tmp/rtci_sheet_cache/{sheet_name}.csv"
+        if os.path.exists(cache_path):
+            return pd.read_csv(cache_path)
+        return pull_sheet(sheet=sheet_name, url=gc_files["agencies"])
+
     def set_first(self):
         if self.args.first:
             return dt.strptime(self.args.first, "%Y-%m")
 
         # if no specified first date arg, retrieve the most recent ledger of
         # earliest and latest collected data dates
-        scraping_sheet = pull_sheet(sheet="scraping", url=gc_files["agencies"])
+        scraping_sheet = self._load_sheet("scraping")
 
         # get the name of the file from which the scrape is running
         child_class = type(self)
@@ -104,7 +115,7 @@ class Scraper:
         return dt(2017, 1, 1, 0, 0)
 
     def get_agencies(self, exclude_oris):
-        agencies = pull_sheet(sheet="sample", url=gc_files["agencies"])
+        agencies = self._load_sheet("sample")
         agencies = agencies[
             (agencies["state"] == self.state)
             & ((agencies["exclude"] == "No") | (agencies["clearance_exclude"] == "No"))

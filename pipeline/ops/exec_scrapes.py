@@ -87,6 +87,17 @@ class ScrapeRunner:
         self.logger.info(f"identified {len(self.sheet)} oris for inclusion in scraping")
         self.logger.info(f"identified {len(scrapers)} scrapers")
 
+        # pull scraping sheet (needed for run_from filter and cached for subprocesses)
+        scraping_sheet = pull_sheet(sheet="scraping", url=gc_files["agencies"])
+
+        # cache both sheets as CSVs so scraper subprocesses don't hit the Sheets API
+        cache_dir = "/tmp/rtci_sheet_cache"
+        os.makedirs(cache_dir, exist_ok=True)
+        sample_sheet_full = pull_sheet(sheet="sample", url=gc_files["agencies"])
+        sample_sheet_full.to_csv(f"{cache_dir}/sample.csv", index=False)
+        scraping_sheet.to_csv(f"{cache_dir}/scraping.csv", index=False)
+        self.logger.info("cached sheets for scraper subprocesses")
+
         # check that all scraper filenames (by state or ori) match up with the `agencies.sample` sheet
         assert all(
             [
@@ -107,7 +118,6 @@ class ScrapeRunner:
 
         # if specified, only rerun scrapes for which last_success was too long ago
         if self.args.run_from:
-            scraping_sheet = pull_sheet(sheet="scraping", url=gc_files["agencies"])
             if len(scraping_sheet) > 0:
                 good = scraping_sheet[
                     scraping_sheet["last_success"] >= self.args.run_from

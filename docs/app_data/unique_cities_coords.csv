@@ -1,6 +1,6 @@
 "agency_name","state_name","is_county","address","lat","long"
 "Abilene","Texas",FALSE,"Abilene, Texas",32.44645,-99.7475905
-"Abington","Pennsylvania",FALSE,"Abington, Pennsylvania",40.1206656,-75.1179512
+"Abington","Pennsylvania",FALSE,"Abington, Pennsylvania",40.1145785,-75.1218107
 "Ada County","Idaho",TRUE,"Ada County, Idaho",43.4136539,-116.2367421
 "Adams County","Colorado",TRUE,"Adams County, Colorado",39.8714085,-104.2701374
 "Aiken County","South Carolina",TRUE,"Aiken County, South Carolina",33.5723191,-81.6182086
@@ -381,7 +381,7 @@
 "Loveland","Colorado",FALSE,"Loveland, Colorado",40.3977612,-105.07498
 "Lowell","Massachusetts",FALSE,"Lowell, Massachusetts",42.6414437,-71.3085329
 "Lower Merion","Pennsylvania",FALSE,"Lower Merion, Pennsylvania",40.0175214,-75.3191145
-"Lower Paxton","Pennsylvania",FALSE,"Lower Paxton, Pennsylvania",40.3423765,-76.7969999
+"Lower Paxton","Pennsylvania",FALSE,"Lower Paxton, Pennsylvania",40.3416431,-76.7967992
 "Lubbock","Texas",FALSE,"Lubbock, Texas",33.5855677,-101.8470215
 "Lynchburg","Virginia",FALSE,"Lynchburg, Virginia",37.4137536,-79.1422464
 "Lynn","Massachusetts",FALSE,"Lynn, Massachusetts",42.466763,-70.9494939
@@ -414,7 +414,7 @@
 "Midland","Texas",FALSE,"Midland, Texas",31.83688,-102.0103767
 "Midwest City","Oklahoma",FALSE,"Midwest City, Oklahoma",35.4495097,-97.3967025
 "Milford","Connecticut",FALSE,"Milford, Connecticut",41.2222218,-73.0570603
-"Millcreek","Pennsylvania",FALSE,"Millcreek, Pennsylvania",42.1009538,-80.0208339
+"Millcreek","Pennsylvania",FALSE,"Millcreek, Pennsylvania",42.1009734,-80.020827
 "Milpitas","California",FALSE,"Milpitas, California",37.4332273,-121.8989248
 "Milwaukee","Wisconsin",FALSE,"Milwaukee, Wisconsin",43.0386475,-87.9090751
 "Minneapolis","Minnesota",FALSE,"Minneapolis, Minnesota",44.9772995,-93.2654692
@@ -695,7 +695,7 @@
 "West Haven","Connecticut",FALSE,"West Haven, Connecticut",41.2706527,-72.9470471
 "West Jordan","Utah",FALSE,"West Jordan, Utah",40.6061337,-111.9395211
 "West New York","New Jersey",FALSE,"West New York, New Jersey",40.7856117,-74.0093129
-"West Valley","Utah",FALSE,"West Valley, Utah",37.0337622,-112.9722567
+"West Valley","Utah",FALSE,"West Valley, Utah",36.5403117,-114.4443529
 "Westfield","Indiana",FALSE,"Westfield, Indiana",40.0428151,-86.1274888
 "Westland","Michigan",FALSE,"Westland, Michigan",42.3238056,-83.4005321
 "Westminster","California",FALSE,"Westminster, California",33.7578725,-117.9859054

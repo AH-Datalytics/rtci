@@ -795,6 +795,21 @@ nw_pop_val <- unique(nationwide_counts$`Population Total`)[1]
 message("=== Applying nationwide pop override: ", nw_pop_val)
 df_w_ref1$population[df_w_ref1$`Agency Name` == "Nationwide Count"] <- nw_pop_val
 
+# Use CDE population_1 for individual agency rows so map covered population
+# matches the nationwide total
+aggregate_names <- c("Nationwide Count", "Regional Sample Counts",
+                     "State Sample Counts", "<100k", "100k-250k", "250k-1mn", "1mn+")
+df_w_ref1 <- df_w_ref1 %>%
+  mutate(population = if_else(
+    !`Agency Name` %in% aggregate_names & !is.na(population_1),
+    as.numeric(population_1),
+    as.numeric(population)
+  ))
+message("=== Individual agency pop sum (CDE): ",
+        sum(df_w_ref1$population[!df_w_ref1$`Agency Name` %in% aggregate_names], na.rm = TRUE) /
+        length(unique(paste(df_w_ref1$Year[!df_w_ref1$`Agency Name` %in% aggregate_names],
+                            df_w_ref1$Month[!df_w_ref1$`Agency Name` %in% aggregate_names]))))
+
 #fix non-nationwide sample values for viz
 df_w_ref1$Agency_num <- ifelse(is.na(df_w_ref1$Agency_num), 1, df_w_ref1$Agency_num)
 colSums(is.na(df_w_ref1))

@@ -143,7 +143,7 @@
 "College Station","Texas",FALSE,"College Station, Texas",30.6183939,-96.3455991
 "Collierville","Tennessee",FALSE,"Collierville, Tennessee",35.042036,-89.6645266
 "Collin County","Texas",TRUE,"Collin County, Texas",33.1609629,-96.6060984
-"Colonie Town","New York",FALSE,"Colonie Town, New York",42.7023613,-73.8135492
+"Colonie Town","New York",FALSE,"Colonie Town, New York",42.7136195,-73.815468
 "Colorado Springs","Colorado",FALSE,"Colorado Springs, Colorado",38.8339578,-104.825348
 "Columbia","Missouri",FALSE,"Columbia, Missouri",38.951883,-92.3337366
 "Columbus","Ohio",FALSE,"Columbus, Ohio",39.9622601,-83.0007065
@@ -163,7 +163,7 @@
 "Dallas","Texas",FALSE,"Dallas, Texas",32.7762719,-96.7968559
 "Daly City","California",FALSE,"Daly City, California",37.6904826,-122.47267
 "Danbury","Connecticut",FALSE,"Danbury, Connecticut",41.394817,-73.4540111
-"Davenport","Iowa",FALSE,"Davenport, Iowa",41.5235808,-90.5770967
+"Davenport","Iowa",FALSE,"Davenport, Iowa",41.5224692,-90.5756401
 "Davidson County","North Carolina",TRUE,"Davidson County, North Carolina",35.7902384,-80.2115053
 "Davis","California",FALSE,"Davis, California",38.5435526,-121.739005
 "Dayton","Ohio",FALSE,"Dayton, Ohio",39.7589478,-84.1916069
@@ -268,7 +268,7 @@
 "Greenville County","South Carolina",TRUE,"Greenville County, South Carolina",34.8550021,-82.3356457
 "Greenwich","Connecticut",FALSE,"Greenwich, Connecticut",41.0264862,-73.6284598
 "Greenwood","Indiana",FALSE,"Greenwood, Indiana",39.6136987,-86.1095429
-"Gresham","Oregon",FALSE,"Gresham, Oregon",45.4978563,-122.4329626
+"Gresham","Oregon",FALSE,"Gresham, Oregon",45.4978623,-122.4329883
 "Guilford County","North Carolina",TRUE,"Guilford County, North Carolina",36.0875688,-79.7888515
 "Hall County","Georgia",TRUE,"Hall County, Georgia",34.2905901,-83.8194028
 "Hamden","Connecticut",FALSE,"Hamden, Connecticut",41.3836233,-72.9020069
@@ -484,7 +484,7 @@
 "Palatine","Illinois",FALSE,"Palatine, Illinois",42.1105502,-88.0434304
 "Palo Alto","California",FALSE,"Palo Alto, California",37.4443293,-122.1598465
 "Parker","Colorado",FALSE,"Parker, Colorado",39.5184514,-104.7612638
-"Parker County","Texas",TRUE,"Parker County, Texas",32.7772597,-97.8045599
+"Parker County","Texas",TRUE,"Parker County, Texas",32.7772598,-97.8045599
 "Parma","Ohio",FALSE,"Parma, Ohio",41.3822398,-81.7355692
 "Pasadena","California",FALSE,"Pasadena, California",34.1476507,-118.144155
 "Pasadena","Texas",FALSE,"Pasadena, Texas",29.6910753,-95.2092076
@@ -512,6 +512,7 @@
 "Pomona","California",FALSE,"Pomona, California",34.0553813,-117.7517496
 "Pontiac","Michigan",FALSE,"Pontiac, Michigan",42.6389216,-83.2910468
 "Port Arthur","Texas",FALSE,"Port Arthur, Texas",29.8716577,-93.9332302
+"Port St Lucie","Florida",FALSE,"Port St Lucie, Florida",27.2939333,-80.3503283
 "Porterville","California",FALSE,"Porterville, California",36.06523,-119.0167679
 "Portland","Oregon",FALSE,"Portland, Oregon",45.5202471,-122.674194
 "Portsmouth","Virginia",FALSE,"Portsmouth, Virginia",36.8320081,-76.297699
@@ -568,8 +569,8 @@
 "San Mateo County","California",TRUE,"San Mateo County, California",37.496904,-122.3330573
 "San Rafael","California",FALSE,"San Rafael, California",37.9747795,-122.5316686
 "Sandy","Utah",FALSE,"Sandy, Utah",40.5710454,-111.8953815
-"Santa Clara","California",FALSE,"Santa Clara, California",37.3541132,-121.955174
-"Santa Cruz","California",FALSE,"Santa Cruz, California",36.9743626,-122.0294673
+"Santa Clara","California",FALSE,"Santa Clara, California",37.2333253,-121.6846349
+"Santa Cruz","California",FALSE,"Santa Cruz, California",37.050096,-121.99059
 "Santa Cruz County","California",TRUE,"Santa Cruz County, California",37.050096,-121.99059
 "Santa Fe","New Mexico",FALSE,"Santa Fe, New Mexico",35.6876096,-105.938456
 "Santa Maria","California",FALSE,"Santa Maria, California",34.9531295,-120.435857
@@ -681,7 +682,7 @@
 "Washington County","Oregon",TRUE,"Washington County, Oregon",45.5601883,-123.0587907
 "Washoe County","Nevada",TRUE,"Washoe County, Nevada",40.5849048,-119.6131606
 "Washtenaw County","Michigan",TRUE,"Washtenaw County, Michigan",42.2582044,-83.8440853
-"Waterbury","Connecticut",FALSE,"Waterbury, Connecticut",41.5538091,-73.0438362
+"Waterbury","Connecticut",FALSE,"Waterbury, Connecticut",41.5539066,-73.0438067
 "Waterford Township","Michigan",FALSE,"Waterford Township, Michigan",42.6706391,-83.3896241
 "Waterloo","Iowa",FALSE,"Waterloo, Iowa",42.498275,-92.3328743
 "Waukesha","Wisconsin",FALSE,"Waukesha, Wisconsin",43.0622536,-88.3123889

@@ -247,7 +247,7 @@ cde_pop_direct <- read.csv("https://raw.githubusercontent.com/AH-Datalytics/cde-
 
 cdf_vcpc_nats <- cdf_vcpc_nats %>%
   left_join(cde_pop_direct, by = c("ori.x" = "ori")) %>%
-  mutate(population_1 = coalesce(as.numeric(population_1), as.numeric(cde_pop_direct))) %>%
+  mutate(population_1 = coalesce(as.numeric(cde_pop_direct), as.numeric(population_1))) %>%
   select(-cde_pop_direct)
 
 # Hard-code specific fixes

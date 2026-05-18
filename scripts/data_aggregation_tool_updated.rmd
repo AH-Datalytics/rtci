@@ -22,7 +22,7 @@ library(purrr)
 read in the combined agencies data from December 2025
 ```{r}
 # Read in the combined CSV file directly
-cdf_all <- read_csv("C:/OneDrive/OneDrive - ahdatalytics.com/Clients/Real Time Crime Index/Open Source Data/_Ben and Jeff work/Months/2026/February 2026 Final.csv",
+cdf_all <- read_csv("C:/OneDrive/OneDrive - ahdatalytics.com/Clients/Real Time Crime Index/Open Source Data/_Ben and Jeff work/Months/2026/March 2026 Final.csv",
                     show_col_types = FALSE)
 
 # Check the data
@@ -236,20 +236,6 @@ library(dplyr)
 na_region_records <- cdf_vcpc_nats %>%
   filter(is.na(region_name))
 
-# Fill any remaining NA population_1 values via direct ORI -> CDE lookup.
-# Agencies whose city_state_id doesn't resolve cleanly through ref_df1 arrive
-# here with population_1 = NA and would otherwise contribute nothing to
-# nationwide_counts. This join uses ori.x (the crime-data ORI) as the key.
-cde_pop_direct <- read.csv("https://raw.githubusercontent.com/AH-Datalytics/cde-population/master/cde_populations.csv") %>%
-  mutate(ori = toupper(ori)) %>%
-  rename(cde_pop_direct = population) %>%
-  select(ori, cde_pop_direct)
-
-cdf_vcpc_nats <- cdf_vcpc_nats %>%
-  left_join(cde_pop_direct, by = c("ori.x" = "ori")) %>%
-  mutate(population_1 = coalesce(as.numeric(cde_pop_direct), as.numeric(population_1))) %>%
-  select(-cde_pop_direct)
-
 # Hard-code specific fixes
 cdf_vcpc_nats <- cdf_vcpc_nats %>%
   mutate(
@@ -420,6 +406,9 @@ nationwide_counts$`Agency Name` <- "Nationwide Count"
 
 # Add state placeholder for consistency
 nationwide_counts$State <- "All Agencies"
+
+message("=== nationwide_counts Population Total (sample 3 months): ")
+print(head(nationwide_counts[, c("Year", "Month", "Population Total")], 3))
 
 # View first few rows
 head(nationwide_counts)
@@ -786,6 +775,11 @@ df_w_ref1 <- df_w_ref %>%
     )
   )
 
+message("=== df_w_ref1 columns containing 'population' (before line 775): ",
+        paste(grep("population", names(df_w_ref1), ignore.case=TRUE, value=TRUE), collapse=", "))
+message("=== df_w_ref1 'Population Total' for Nationwide Count rows: ",
+        unique(df_w_ref1$`Population Total`[df_w_ref1$`Agency Name` == "Nationwide Count"]))
+
 df_w_ref1 <- df_w_ref1 %>% mutate(population = population.x) %>% select(-population.x, -population.y)
 
 ```
@@ -795,6 +789,11 @@ remove non-current reporter
 colSums(is.na(df_w_ref1))
 df_w_ref1$population <- ifelse(is.na(df_w_ref1$population), df_w_ref1$`Population Total`, df_w_ref1$population)
 colSums(is.na(df_w_ref1))
+
+# Direct fix: use confirmed-correct nationwide_counts value for Nationwide Count rows
+nw_pop_val <- unique(nationwide_counts$`Population Total`)[1]
+message("=== Applying nationwide pop override: ", nw_pop_val)
+df_w_ref1$population[df_w_ref1$`Agency Name` == "Nationwide Count"] <- nw_pop_val
 
 #fix non-nationwide sample values for viz
 df_w_ref1$Agency_num <- ifelse(is.na(df_w_ref1$Agency_num), 1, df_w_ref1$Agency_num)
@@ -939,22 +938,6 @@ final check_columns
 cleaned_data <- cleaned_data %>% select(-count_of_murder, -group, -population_1)
 #na looks
 state_na <- cleaned_data %>% filter(is.na(State))
-```
-override nationwide population from cde population_1
-```{r}
-# Compute CDE-based nationwide population: sum of distinct agency CDE populations
-cde_national_pop <- cdf_vcpc_nats %>%
-  group_by(city_state_id) %>%
-  slice(1) %>%
-  ungroup() %>%
-  summarise(total = sum(as.numeric(population_1), na.rm = TRUE)) %>%
-  pull(total)
-
-message("CDE national population total: ", cde_national_pop)
-
-# Apply directly to all Nationwide Count rows in the output
-cleaned_data <- cleaned_data %>%
-  mutate(population = if_else(`Agency Name` == "Nationwide Count", cde_national_pop, population))
 ```
 
 prepare a dataframe of all component agencies into sample for sourcing table

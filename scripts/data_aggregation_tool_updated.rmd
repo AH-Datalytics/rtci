@@ -236,6 +236,20 @@ library(dplyr)
 na_region_records <- cdf_vcpc_nats %>%
   filter(is.na(region_name))
 
+# Fill any remaining NA population_1 values via direct ORI -> CDE lookup.
+# Agencies whose city_state_id doesn't resolve cleanly through ref_df1 arrive
+# here with population_1 = NA and would otherwise contribute nothing to
+# nationwide_counts. This join uses ori.x (the crime-data ORI) as the key.
+cde_pop_direct <- read.csv("https://raw.githubusercontent.com/AH-Datalytics/cde-population/master/cde_populations.csv") %>%
+  mutate(ori = toupper(ori)) %>%
+  rename(cde_pop_direct = population) %>%
+  select(ori, cde_pop_direct)
+
+cdf_vcpc_nats <- cdf_vcpc_nats %>%
+  left_join(cde_pop_direct, by = c("ori.x" = "ori")) %>%
+  mutate(population_1 = coalesce(as.numeric(population_1), as.numeric(cde_pop_direct))) %>%
+  select(-cde_pop_direct)
+
 # Hard-code specific fixes
 cdf_vcpc_nats <- cdf_vcpc_nats %>%
   mutate(

@@ -940,6 +940,22 @@ cleaned_data <- cleaned_data %>% select(-count_of_murder, -group, -population_1)
 #na looks
 state_na <- cleaned_data %>% filter(is.na(State))
 ```
+override nationwide population from cde population_1
+```{r}
+# Compute CDE-based nationwide population: sum of distinct agency CDE populations
+cde_national_pop <- cdf_vcpc_nats %>%
+  group_by(city_state_id) %>%
+  slice(1) %>%
+  ungroup() %>%
+  summarise(total = sum(as.numeric(population_1), na.rm = TRUE)) %>%
+  pull(total)
+
+message("CDE national population total: ", cde_national_pop)
+
+# Apply directly to all Nationwide Count rows in the output
+cleaned_data <- cleaned_data %>%
+  mutate(population = if_else(`Agency Name` == "Nationwide Count", cde_national_pop, population))
+```
 
 prepare a dataframe of all component agencies into sample for sourcing table
 ```{r}

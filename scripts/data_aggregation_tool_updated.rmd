@@ -790,11 +790,6 @@ colSums(is.na(df_w_ref1))
 df_w_ref1$population <- ifelse(is.na(df_w_ref1$population), df_w_ref1$`Population Total`, df_w_ref1$population)
 colSums(is.na(df_w_ref1))
 
-# Direct fix: use confirmed-correct nationwide_counts value for Nationwide Count rows
-nw_pop_val <- unique(nationwide_counts$`Population Total`)[1]
-message("=== Applying nationwide pop override: ", nw_pop_val)
-df_w_ref1$population[df_w_ref1$`Agency Name` == "Nationwide Count"] <- nw_pop_val
-
 # Use CDE population_1 for individual agency rows so map covered population
 # matches the nationwide total
 aggregate_names <- c("Nationwide Count", "Regional Sample Counts",
@@ -805,10 +800,19 @@ df_w_ref1 <- df_w_ref1 %>%
     as.numeric(population_1),
     as.numeric(population)
   ))
-message("=== Individual agency pop sum (CDE): ",
-        sum(df_w_ref1$population[!df_w_ref1$`Agency Name` %in% aggregate_names], na.rm = TRUE) /
-        length(unique(paste(df_w_ref1$Year[!df_w_ref1$`Agency Name` %in% aggregate_names],
-                            df_w_ref1$Month[!df_w_ref1$`Agency Name` %in% aggregate_names]))))
+
+# Compute nationwide population from sample agencies only.
+# nationwide_counts$`Population Total` includes non-sample agencies that pass
+# the completeness filter; this recomputes from sample_cities.csv to match the map.
+sample_city_ids_sc <- read_csv("../data/sample_cities.csv", show_col_types = FALSE) %>%
+  pull(city_state_id)
+nw_pop_val <- df_w_ref1 %>%
+  filter(city_state_id %in% sample_city_ids_sc, !`Agency Name` %in% aggregate_names) %>%
+  distinct(city_state_id, population) %>%
+  summarise(total = sum(population, na.rm = TRUE)) %>%
+  pull(total)
+message("=== Nationwide pop (sample agencies only): ", nw_pop_val)
+df_w_ref1$population[df_w_ref1$`Agency Name` == "Nationwide Count"] <- nw_pop_val
 
 #fix non-nationwide sample values for viz
 df_w_ref1$Agency_num <- ifelse(is.na(df_w_ref1$Agency_num), 1, df_w_ref1$Agency_num)

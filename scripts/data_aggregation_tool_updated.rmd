@@ -757,7 +757,7 @@ df_w_ref <- merge(
 df_w_ref<-df_w_ref %>% select(-Agency_Type.y, -city_state.y) %>% mutate(Agency_Type = Agency_Type.x, city_state = city_state.x) %>% select(-Agency_Type.x, -city_state.x)
 
 #keep state.x and state_abbr.x
-df_w_ref<-df_w_ref %>% select(-State.y) %>% mutate(State = State.x, state_abb) %>% select(-State.x)
+df_w_ref<-df_w_ref %>% select(-State.y) %>% mutate(State = State.x) %>% select(-State.x)
 ```
 fix state sample count names
 ```{r}

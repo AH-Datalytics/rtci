@@ -58,7 +58,14 @@ fbi_participation_2023_updated <- fbi_participation_2023 %>%
   #mutate(city_state = ifelse(!is.na(city_state.y), city_state.y, city_state)) %>%
   #select(-city_state.y) 
   
-fbi_participation_2023_updated <- fbi_participation_2023_updated %>% mutate(city_state_id = paste(pub_agency_name, state_abbr, agency_type_name, sep = ","))  # Remove the crosswalk_name column if not needed
+fbi_participation_2023_updated <- fbi_participation_2023_updated %>%
+  mutate(
+    pub_agency_name = case_when(
+      pub_agency_name == "Port St. Lucie" ~ "Port St Lucie",
+      TRUE ~ pub_agency_name
+    ),
+    city_state_id = paste(pub_agency_name, state_abbr, agency_type_name, sep = ",")
+  )
 ```
 merge cde population to fbi participation based on ori
 ```{r}

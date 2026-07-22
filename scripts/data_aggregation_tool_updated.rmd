@@ -22,7 +22,7 @@ library(purrr)
 read in the combined agencies data from December 2025
 ```{r}
 # Read in the combined CSV file directly
-cdf_all <- read_csv("C:/OneDrive/OneDrive - ahdatalytics.com/Clients/Real Time Crime Index/Open Source Data/_Ben and Jeff work/Months/2026/March 2026 Final.csv",
+cdf_all <- read_csv("C:/OneDrive/OneDrive - ahdatalytics.com/Clients/Real Time Crime Index/Open Source Data/_Ben and Jeff work/Months/2026/042026 - Final.csv",
                     show_col_types = FALSE)
 
 # Check the data
@@ -757,7 +757,7 @@ df_w_ref <- merge(
 df_w_ref<-df_w_ref %>% select(-Agency_Type.y, -city_state.y) %>% mutate(Agency_Type = Agency_Type.x, city_state = city_state.x) %>% select(-Agency_Type.x, -city_state.x)
 
 #keep state.x and state_abbr.x
-df_w_ref<-df_w_ref %>% select(-State.y) %>% mutate(State = State.x) %>% select(-State.x)
+df_w_ref<-df_w_ref %>% select(-State.y) %>% mutate(State = State.x, state_abbr) %>% select(-State.x)
 ```
 fix state sample count names
 ```{r}
@@ -804,7 +804,7 @@ df_w_ref1 <- df_w_ref1 %>%
 # Compute nationwide population from sample agencies only.
 # nationwide_counts$`Population Total` includes non-sample agencies that pass
 # the completeness filter; this recomputes from sample_cities.csv to match the map.
-sample_city_ids_sc <- read_csv("../data/sample_cities.csv", show_col_types = FALSE) %>%
+sample_city_ids_sc <- read_csv("../data/deprecated/sample_cities.csv", show_col_types = FALSE) %>%
   pull(city_state_id)
 nw_pop_val <- df_w_ref1 %>%
   filter(city_state_id %in% sample_city_ids_sc, !`Agency Name` %in% aggregate_names) %>%
@@ -978,7 +978,7 @@ names(sample_cities_viz) <- gsub("\\.x$", "", names(sample_cities_viz))
 
 
 #write out sample cities to data folder on github -- "Current Samp in versioner"
-write.csv(sample_cities_viz, "data/sample_cities.csv", row.names = FALSE)
+write.csv(sample_cities_viz, "data/deprecated/sample_cities.csv", row.names = FALSE)
 
 # Sample Cities file for Sourcing table base -- "Previous Samp in versioner"
 sample_cities_viz_archive <- sample_cities_viz %>% select(city_state, date)
@@ -1003,7 +1003,7 @@ samp_file_path <- file.path(sample_write_path, "pre_processed.csv")
 write.csv(cleaned_data, file = samp_file_path, row.names = FALSE)
 
 # Write sample data folder in the GitHub repo
-write.csv(cleaned_data, "data/pre_processed.csv", row.names = FALSE)
+write.csv(cleaned_data, "data/deprecated/pre_processed.csv", row.names = FALSE)
 
 # Write a copy of the sample in the data archive folder as well with suffix
 write.csv(cleaned_data,file.path("data/archive", paste0("pre_processed_", month_suffix, ".csv")), row.names = FALSE)
